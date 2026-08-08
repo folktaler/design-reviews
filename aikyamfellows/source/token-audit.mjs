@@ -182,9 +182,36 @@ const allReferenced = new Set(Object.values(perPage).flatMap(p => p.referenced))
 const findings = {
   undefinedTokens: [...allReferenced].filter(t => !(t in first.declared)),
   unusedTokens: allDeclared.filter(t => !allReferenced.has(t)),
+  /* ⛔ SPLIT BY LAYER, BECAUSE THE FLAT LIST WAS A TRAP. A semantic name
+     resolving to the same value as the raw swatch it aliases is the ARCHITECTURE
+     WORKING — `--af-text-link` is meant to equal `--af-ink`, and that it does is
+     the proof the indirection is wired, not evidence of duplication. The only
+     duplication worth a reviewer's attention is two names in the SAME layer
+     holding one value, because then one of them is redundant. A reviewer read
+     the old flat list and reported the split itself as a defect; that was the
+     report's fault. */
   duplicateValues: Object.entries(
     allDeclared.reduce((a,t) => { const v = first.declared[t]; if(v) (a[v] ||= []).push(t); return a; }, {})
-  ).filter(([,ts]) => ts.length > 1).map(([v,ts]) => ({ value: v, tokens: ts })),
+  ).filter(([,ts]) => ts.length > 1).map(([v,ts]) => {
+    const raw = ts.filter(t => first.layer[t] === 'raw');
+    const sem = ts.filter(t => first.layer[t] !== 'raw');
+    return {
+      value: v, tokens: ts, raw, semantic: sem,
+      /* aliasing: exactly one raw swatch, N semantic roles pointing at it */
+      /* ⚠️ AND ONE MORE CUT, OR THE REPORT LIES AGAIN. `--af-type-small` and
+         `--af-space-4` are both 1rem. They are not redundant — they are a type
+         step and a spacing step that COINCIDE at one value, and a reader who
+         "removed the duplicate" would couple the type ladder to the spacing
+         scale so that changing either drags the other. Only two tokens on the
+         SAME SCALE sharing a value are genuinely one token too many. */
+      kind: raw.length <= 1 && sem.length >= 1 ? 'aliasing (intended)'
+          : raw.length > 1
+            ? (new Set(raw.map(t => t.replace(/^(--af-[a-z]+(?:-[a-z]+)?)-.*$/, '$1'))).size > 1
+                ? 'cross-scale coincidence (do NOT merge)'
+                : 'SAME-SCALE COLLISION — one token too many')
+          : 'semantic-only collision',
+    };
+  }),
   driftBetweenPages: allDeclared.filter(t => {
     const vals = new Set(PAGES.map(p => perPage[p].declared[t]));
     return vals.size > 1;
@@ -233,7 +260,15 @@ const line = (label, arr, fmt = x => JSON.stringify(x)) => {
 };
 line('tokens used but never declared', findings.undefinedTokens, t => t);
 line('tokens declared but never used', findings.unusedTokens, t => `${t} = ${first.declared[t]}`);
-line('same value under more than one name', findings.duplicateValues, d => `${d.value} → ${d.tokens.join(', ')}`);
+const benign = d => d.kind === 'aliasing (intended)' || d.kind === 'cross-scale coincidence (do NOT merge)';
+const realDupes = findings.duplicateValues.filter(d => !benign(d));
+line('two tokens on ONE SCALE holding one value', realDupes,
+  d => `${d.value} [${d.kind}] raw: ${d.raw.join(', ') || '—'} | semantic: ${d.semantic.join(', ') || '—'}`);
+const alias = findings.duplicateValues.filter(d => d.kind === 'aliasing (intended)').length;
+const cross = findings.duplicateValues.filter(d => d.kind.startsWith('cross-scale')).length;
+console.log(`  ⭐ ${alias} are one raw swatch aliased by semantic roles — the indirection working.`);
+console.log(`  ⭐ ${cross} are separate scales that coincide at a value — merging them would`);
+console.log('     couple the scales, which is a defect, not a cleanup.');
 line('tokens whose value differs BETWEEN pages', findings.driftBetweenPages, d => d.token);
 line('rendered text/background pairs below WCAG AA', findings.contrastFailures,
   f => `${f.ratio}:1 (needs ${f.need}) ${f.tag} "${f.sample}" — ${f.pair}`);

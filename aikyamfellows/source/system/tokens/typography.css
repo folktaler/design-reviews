@@ -165,8 +165,28 @@
   /* ⛔ 1.2, NOT 1.4 — corrected 8 Aug 2026. MEASURED on the Guardian across 20
      article pages: 20px on a 23px line = 1.15, unanimous. A standfirst set at
      body leading reads as a large paragraph; set tight it reads as a block,
-     which is what it is. 1.2 rather than their 1.15 because Noticia's larger
-     x-height needs marginally more room than Guardian Headline. */
+     which is what it is.
+
+     ⚠️ THE REASON FOR 1.2 RATHER THAN THEIR 1.15 NO LONGER STANDS AS WRITTEN.
+     It read "because Noticia's larger x-height needs marginally more room than
+     Guardian Headline" — and Noticia was cut from this system hours later, so
+     that sentence justified the value by a face that does not ship. Re-measured
+     8 Aug against the faces that DO, as x-height over cap-height:
+
+         Georgia 0.695 · Charter 0.717 · Palatino 0.679
+
+     Georgia leads the stack and is roomier than a Times-class face, so the
+     direction of the original argument survives the face change even though its
+     subject does not. ⛔ But the SIZE of the bump was never derived from a
+     measurement of anything — 1.2 is a round number that looked right, and it
+     still does at 24px on a 28.8px line. Treat it as observed, not derived.
+
+     ⭐ 1.2 HERE AND 1.2 ON --af-leading-heading IS A COINCIDENCE, NOT A
+     DUPLICATE, and the token audit flagged it as the one same-scale collision
+     in the system. They answer different questions — a heading is one or two
+     lines of display type, a standfirst is a paragraph pretending not to be —
+     and were arrived at separately. Merging them would mean a future change to
+     heading leading silently retypesets every standfirst on the site. */
   --af-leading-standfirst: 1.2;
   --af-leading-quote: 1.35;
 
