@@ -1,0 +1,255 @@
+/* aikyamfellows.org — typography
+ *
+ * ========================================================================
+ * THE FOUR DECISIONS IN THIS FILE, BEFORE ANY NUMBER
+ *
+ *   1. NOTICIA TEXT STAYS.        Re-decided, not inherited. See below.
+ *   2. TWO FAMILIES, BY ROLE.     Serif is READ. Sans is LABELLED.
+ *   3. THE MEASURE WIDENS.        512px → 592px, from a table measured in
+ *                                 Noticia rather than inherited from a sans.
+ *   4. TWO WEIGHTS EXIST. TWO.    400 and 700. Nothing else is real.
+ * ========================================================================
+ */
+
+:root {
+  /* ═══════════════════════════════════════════════════════════════════════
+   * 1. THE FACE — re-decided on 7 Aug 2026, and the answer did not change
+   *
+   * The handover asked for the "82%-Android weighting" to be re-decided,
+   * because that number is what justified buying a webfont at all. On
+   * catsofkochi the argument was: Android's system serif is Noto Serif, iOS
+   * has Georgia and New York, and with 82% of readers on Android a system
+   * serif stack means most readers get the worst of the three. Indoors on a
+   * laptop that argument weakens a lot — macOS and Windows both have Georgia,
+   * and a system stack costs zero bytes.
+   *
+   * ⭐ THE WEBFONT SURVIVES ANYWAY, FOR A DIFFERENT REASON, and it is a reason
+   * that belongs to a reading site rather than to a device split:
+   *
+   *     A FACE CHANGE IS A MEASURE CHANGE.
+   *
+   * A system stack is not one face, it is three or four, and they have
+   * different widths. `--measure` is a length; characters-per-line is what
+   * the reader experiences; the conversion between them is a property of the
+   * face. Ship a system stack and the column that holds 59 characters on a Mac
+   * holds a different number on Android — and there is no single value of
+   * `--measure` that is correct for all of them. On a site whose entire job is
+   * reading 2,000-word profiles, that is the thing you least want to make
+   * per-visitor. 61 KB buys one predictable answer.
+   *
+   * ⛔ WHAT WOULD FALSIFY IT: if analytics show the audience is majority
+   * mobile-on-Indian-mobile-data after all (check analytics.aikyamhq.com — the
+   * self-hosted Plausible), then the 61 KB is being paid by the reader least
+   * able to afford it, and the right move is `font-display: optional` so a
+   * slow connection simply gets the fallback and never a reflow. That is a
+   * one-word change in fonts.css, not a redesign.
+   *
+   * ⚠️ AND THE HONEST PART: Noticia is also the only face I could actually
+   * ship. Buying a different one needs a shell to download and subset woff2,
+   * which this session does not have. The constraint and the merit agree here,
+   * but they are two different things and only one of them is an argument.
+   *
+   * The original selection, preserved so it is not re-argued: Noticia Text,
+   * SIL OFL, chosen over PT Serif, Zilla Slab, Roboto Slab, Bitter, Noto Serif
+   * and Source Serif 4 — largest x-height of the set (0.802 x/cap) and lining
+   * numerals. Georgia was rejected for old-style numerals.
+   * ═══════════════════════════════════════════════════════════════════════ */
+
+  /* ⭐ 2. TWO FAMILIES, SPLIT BY ROLE, NOT BY TASTE.
+     The serif is what a reader READS: headline, standfirst, body, pull-quote.
+     The sans is what a reader is TOLD: topic tag, byline, date, buttons,
+     captions, credits. The split is the Guardian's and it is inherited
+     deliberately — it means a piece of metadata can never be mistaken for the
+     writing, at any size, in any theme. */
+  --af-font-text: 'Noticia Text', 'Noticia Fallback', Georgia, 'Noto Serif', serif;
+  --af-font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+
+  /* ═══════════════════════════════════════════════════════════════════════
+   * ⛔ 4. THERE ARE TWO WEIGHTS. NOT SIX.
+   *
+   * Noticia Text ships THREE STATIC FILES — 400, 700, and 400 italic. It is
+   * not a variable font. `font-weight: 500` and `font-weight: 600` do not
+   * exist: the browser rounds to 400 or synthesises a fake bold by smearing
+   * the strokes, which is visibly worse than either real weight and is
+   * invisible in a source review.
+   *
+   * ⚠️ THIS IS THE SINGLE EASIEST MISTAKE TO IMPORT from the sibling system.
+   * The Airbnb-era catsofkochi tokens define --weight-medium: 500 and
+   * --weight-semibold: 600 and use 600 for every heading, because Figtree is
+   * variable and carries 300–900. Copying a heading rule across from there
+   * gives you a synthesised weight on every h2 on the site.
+   *
+   * ⭐ SO EMPHASIS IS MADE OF SPACE, SIZE AND SLOPE HERE, NOT OF WEIGHT.
+   * That is a serif discipline and it is why the ladder below separates its
+   * steps by more size than the sans system does.
+   * ═══════════════════════════════════════════════════════════════════════ */
+  --af-weight-regular: 400;
+  --af-weight-bold: 700;
+  /* ⛔ Do not add --weight-medium or --weight-semibold. They would be lies. */
+
+  /* ═══════════════════════════════════════════════════════════════════════
+   * THE LADDER — and what each step is FOR
+   *
+   *   token               phone   desktop   family  weight   job
+   *   ---------------------------------------------------------------------
+   *   --af-type-micro          14        14     sans     400     credits, dates,
+   *                                                           the tag label
+   *   --af-type-small          16        16     sans     400     byline, caption
+   *   --af-type-ui             17        17     sans     400     buttons, controls
+   *   --af-type-body           19        20     serif    400     the writing. FLOOR.
+   *   --af-type-standfirst     21        24     serif    400     one per page
+   *   --af-type-subheading     20        24     serif    700     H3
+   *   --af-type-heading        24        28     serif    700     H2
+   *   --af-type-quote          24        30     serif    400i    the pull-quote
+   *   --af-type-display        28        42     serif  ⭐400     H1, once per page
+   *   ---------------------------------------------------------------------
+   *
+   * ⚠️ --type-standfirst (21/400) and --type-subheading (20/700) are one pixel
+   * apart on a phone and identical in size on desktop. That is deliberate and
+   * it is safe, because they are told apart by WEIGHT and by there being
+   * exactly one standfirst per page, directly under the H1. If you are ever
+   * choosing between them by how they look, you have the wrong element.
+   * ═══════════════════════════════════════════════════════════════════════ */
+
+  /* ⭐⭐ THE BODY SIZE AND THE MEASURE ARE COUPLED, AND THE COUPLING IS DERIVED
+   * RATHER THAN GUESSED. This is the one arithmetic in this file that a future
+   * reader should be able to check in a browser in thirty seconds.
+   *
+   * `--af-measure` (37rem = 592px, see spacing.css) only starts to bind once the
+   * viewport is wide enough to contain it plus two gutters:
+   *
+   *     592 + 24 + 24 = 640px
+   *
+   * So 640px is the viewport at which the text column stops being set by the
+   * screen and starts being set by the token. The body size is interpolated to
+   * arrive at exactly 20px at exactly that width:
+   *
+   *     19px at 375px viewport  →  20px at 640px viewport
+   *     slope = (20 − 19) / (640 − 375) = 1/265 px per px = 0.37736vw
+   *     base  = 19 − 0.0037736 × 375 = 17.5849px = 1.0991rem
+   *
+   * ⚠️ RE-DERIVED when the measure moved 576 → 592px. The two are not
+   * independent; changing either alone silently breaks the character count.
+   *
+   * ⭐ WHY IT MATTERS: it means the widest the column ever gets is also the
+   * moment the type is largest, so characters-per-line lands on ONE number
+   * rather than drifting. MEASURED in Chrome, 7 Aug 2026, Noticia Text, by
+   * counting rendered line boxes character by character:
+   *
+   *     592px column @ 20px Noticia  →  57-62 median across three corpora
+   *
+   * ⛔ FALSIFIABLE, and here is the test: at a 640px viewport,
+   * `getComputedStyle(document.body).fontSize` must read exactly "20px". If it
+   * reads 19.9 or 20.1 the interpolation above has been edited and the
+   * character count no longer holds. */
+  --af-type-body: clamp(1.1875rem, 1.0991rem + 0.37736vw, 1.25rem); /* 19 → 20px */
+  --af-leading-body: 1.55;
+
+  /* The H1 carries a two-part headline — "Sentinaro Shiu | A Heart that
+     Listens" — so it is longer than a normal headline and wraps to two or
+     three lines on a phone. 28px is chosen so three lines still fit above the
+     fold on a 375px screen; 42px is where it stops looking timid on a laptop.
+     See components/editorial/Headline for why the pipe is not a character. */
+  --af-type-display: clamp(1.75rem, 1.4rem + 1.49vw, 2.625rem); /* 28 → 42px  H1 */
+  --af-type-heading: clamp(1.5rem, 1.4rem + 0.43vw, 1.75rem); /* 24 → 28px  H2 */
+  --af-type-subheading: clamp(1.25rem, 1.15rem + 0.43vw, 1.5rem); /* 20 → 24  H3 */
+  --af-type-standfirst: clamp(1.3125rem, 1.2rem + 0.51vw, 1.5rem); /* 21 → 24px */
+  --af-type-quote: clamp(1.5rem, 1.35rem + 0.64vw, 1.875rem); /* 24 → 30px */
+
+  --af-leading-display: 1.12;
+  --af-leading-heading: 1.2;
+  /* ⛔ 1.2, NOT 1.4 — corrected 8 Aug 2026. MEASURED on the Guardian across 20
+     article pages: 20px on a 23px line = 1.15, unanimous. A standfirst set at
+     body leading reads as a large paragraph; set tight it reads as a block,
+     which is what it is. 1.2 rather than their 1.15 because Noticia's larger
+     x-height needs marginally more room than Guardian Headline. */
+  --af-leading-standfirst: 1.2;
+  --af-leading-quote: 1.35;
+
+  /* The three sans steps. ⛔ FIXED, not fluid: they label things whose size
+     does not change with the viewport, and a byline that grows on desktop
+     starts competing with the writing it belongs to. */
+  --af-type-ui: 1.0625rem; /* 17px — buttons and controls */
+  --af-type-small: 1rem; /* 16px — byline, caption */
+  --af-type-micro: 0.875rem; /* 14px — credit, date, topic tag label */
+  --af-leading-ui: 1.3;
+  --af-leading-tight: 1.4;
+
+  /* ⛔ 14px IS THE FLOOR AND NOTHING GOES BELOW IT. The Guardian-era kits used
+     13px for --micro. That is not restored: 13px was never justified, and the
+     one place it appeared — a photo credit — is exactly the text this site
+     most needs people to actually read. See guidelines/photographs.md. */
+
+  /* --- Paragraph rhythm -------------------------------------------------- */
+  /* Half the line height, in em so it tracks the leading rather than drifting
+     away from it. Taken from the Guardian (12px gap on a 23.8px line). */
+  --af-paragraph-gap: 0.75em;
+
+  /* --- Tracking --------------------------------------------------------- */
+  --af-tracking-display: -0.012em; /* optical correction at 42px, serif */
+  --af-tracking-micro: 0.05em; /* the only place uppercase is allowed */
+  /* ⭐ The dark-theme lever, and the only one available (see colors.css: there
+     is no weight below 400 in this face). A serif on a dark ground gains
+     apparent weight and its counters close up; a hair of tracking reopens
+     them. 0.01em at 20px is 0.2px — deliberately small, because the visible
+     alternative is worse than the problem. Applied to body only, in the dark
+     block at the foot of this file. */
+
+  /* --- Figures ---------------------------------------------------------- */
+  /* ⭐ Noticia has LINING numerals by default — that is one of the two reasons
+     it was chosen over Georgia, whose old-style figures hop above and below
+     the baseline. So a date in a byline sits correctly with no declaration.
+     ⛔ AND THERE IS NO TABULAR-FIGURES RULE HERE, which is a REMOVAL, stated
+     so it reads as a decision rather than an omission. catsofkochi gated
+     `tabular-nums` on every facts surface, because it printed columns of
+     departure times where a drifting "1" made a schedule look like an
+     estimate. This site has no columns of numbers. It has dates in bylines —
+     one per page, with no neighbour to align with — and tabular figures there
+     open a visible gap around a "1" and make a date read like a spreadsheet
+     cell. The rule was always "tabular figures matter where numbers stack
+     vertically". Nothing here stacks. */
+}
+
+/* ---------------------------------------------------------------------------
+ * ⛔ WHAT THIS SYSTEM WILL NOT DO WITH TYPE
+ *
+ * 1. NO CENTRED BODY TEXT, and no centred headline. A two-part headline
+ *    centred over three ragged lines is unreadable on a phone.
+ *
+ * 2. NO THIRD FAMILY. The live site loads Poppins for headings and declares
+ *    twelve faces of Lora that it never loads. Both go.
+ *
+ * 3. NO ITALIC FOR EMPHASIS INSIDE A PULL-QUOTE. The pull-quote is already
+ *    italic; emphasis inside it has nowhere to go. Rewrite the sentence.
+ *
+ * 4. NO TYPE SIZE AS A CATEGORY SIGNAL. Words encode. See colors.css.
+ *
+ * 5. ⭐ NO SMALL TYPE FOR LONG TEXT. The same column holds 59 characters at
+ *    20px Noticia and far more at 14px. If a 14px block is long enough to need
+ *    its own measure, it is set too small — raise the type, do not narrow the
+ *    column. Both times this rule was broken on the sibling project, the block
+ *    in question was the one the publisher most needed people to read.
+ * ------------------------------------------------------------------------- */
+
+/* ⛔ ORDER MATTERS AND IT BIT ME WHILE WRITING THIS FILE. These two rules have
+   IDENTICAL specificity, so the later one wins outright. Written the other way
+   round — the media query first, the default after — the default silently
+   overrides the dark value and `--letter-spacing-body` is 0 in every theme,
+   while the source still reads as though a dark-mode tracking step exists.
+   Default first. Override second. Always. */
+/* ⛔ ONE VALUE, DEFINED ONCE. There used to be a dark-theme override here that
+   added a hair of tracking, because a serif on a dark ground gains apparent
+   weight and its counters close up. The dark theme is gone (colors.css), so the
+   override is too — but the TOKEN stays rather than being deleted, because
+   `styles.css` sets `letter-spacing` on `body` from it and a `var()` pointing
+   at nothing is invalid at computed-value time. That is the exact class of bug
+   this system spent a day on. */
+:root {
+  --af-letter-spacing-body: 0;
+}
+/* ⛔ The dark-theme override is gone with the dark theme — see colors.css. The
+   token stays at 0 rather than being deleted, because `styles.css` sets
+   `letter-spacing` on `body` from it and a missing custom property there would
+   be invalid at computed-value time, which is the exact class of bug this
+   system spent a day on. One value, defined once. */

@@ -1,0 +1,191 @@
+/* aikyamfellows.org — palette
+ *
+ * Inherited from the Guardian system built for catsofkochi (tag
+ * `guardian-design-system-v1`) and RE-DECIDED here, because the brand and the
+ * reader both changed. Nothing below is carried over on trust.
+ *
+ * ⚠️ PROVENANCE, because the recovery was not clean. This session had no Bash,
+ * so the tag could not be checked out. The catsofkochi WORKING TREE was used
+ * instead, and it is Airbnb-era, not Guardian-era — `venue` was rebuilt on
+ * 6 Aug at 21:16, fourteen hours after the tag, and central files may have
+ * drifted with it. So:
+ *   · The type ladder came from `ui_kits/told_page/index.html`, a Guardian-era
+ *     kit that was NOT rebuilt and carries its tokens inline. Low drift risk.
+ *   · NOTHING in this file was copied from the working tree's `tokens/`.
+ *     Every value is newly decided and every ratio newly measured in Chrome.
+ *   · Where a rule is inherited rather than measured, it says so in its own
+ *     comment.
+ *
+ * Every ratio here was COMPUTED IN A BROWSER from the hex values in this file
+ * on 7 Aug 2026, not from arithmetic in my head — three of my own hand-computed
+ * figures were wrong by up to 0.4 and were corrected from the measurement. If
+ * you change a value, recompute; do not trust this file's arithmetic afterwards.
+ *
+ * ════════════════════════════════════════════════════════════════════════════
+ * ⭐ WHERE THE BRAND COLOUR CAME FROM, AND THE THING IT CHANGES
+ *
+ * MEASURED off the live aikyamfellows.org (Ghost, Maali theme), 7 Aug 2026, by
+ * reading the computed custom property in the browser:
+ *
+ *     --ghost-accent-color   #24164F     hsl(255 56% 20%)
+ *
+ * ⚠️ IT IS EASY TO CONCLUDE THIS DOES NOT EXIST. A sibling designer looked for
+ * an accent on the same site and reported "no accent custom property and no
+ * inline hex, so there was nothing to read off", and shipped a green
+ * placeholder against it. It is not in the stylesheet text as a literal — it
+ * is injected by Ghost at runtime, so it only appears in
+ * `getComputedStyle(document.documentElement).getPropertyValue(...)`.
+ * ⭐ Read the COMPUTED value, not the source. Same lesson as everything else
+ * here: the file that documents is not the file that renders.
+ *
+ * ⭐⭐ AND THE COLOUR IS 15.72:1 ON THIS PAPER — dark enough to be body text.
+ * It is not an accent in the sense catsofkochi's amber was an accent. The
+ * whole colour system follows from that one fact:
+ *
+ *   · catsofkochi's amber (#ffa700) is a LIGHT colour. It could only be a fill
+ *     with dark text on it, or an underline. It could never be a word.
+ *   · #24164F is a DARK colour. It can be a word, a fill carrying white, and
+ *     an outline. What it CANNOT be is a link colour, because at 15.72:1
+ *     against ink's 17.15:1 nobody can see the difference.
+ *
+ * ⛔ SO THE LINK RULE SURVIVES THE BRAND CHANGE UNCHANGED, for a new reason:
+ * links are INK, underlined in the accent. On catsofkochi that was because
+ * amber was too pale to be text. Here it is because indigo is too dark to be
+ * distinguishable AS text. Same pattern, opposite cause. Written down so
+ * nobody "simplifies" it by making links indigo and wonders why the page looks
+ * like it has no links at all.
+ *
+ * ⚠️ ON THE NAME `--af-accent`. It is the wrong word for what this colour is,
+ * and it is used anyway: two sibling designers had already written page kits
+ * against `var(--af-accent, …)` before this file existed, and one shared
+ * vocabulary is worth more than one accurate noun. The paragraph above is the
+ * correction.
+ * ════════════════════════════════════════════════════════════════════════════
+ */
+
+:root {
+  /* --- The brand -------------------------------------------------------- */
+  /* LIVE, computed. ⭐ ITS ONE JOB: the topic tag, and the newsletter button's
+     fill. Not a link, not a heading, not a byline, not a rule. Two appearances
+     on a profile page is the intended count. */
+  --af-accent: #24164f;
+
+
+  /* ═══════════════════════════════════════════════════════════════════════
+   * ⭐ THE BAND ACCENT — ADDED 8 Aug 2026, and it exists for one reason:
+   * THE GUARDIAN'S HEADER IS A DARK BAND WITH A BRIGHT ACCENT ON IT.
+   *
+   * MEASURED on theguardian.com, 8 Aug 2026: their masthead ground is
+   * #052962 and the accent on it (the CTA pill, the active-pillar bar) is a
+   * yellow at **12.64:1** against that ground. That ratio is not a detail —
+   * it is what makes their header read as a masthead rather than as a
+   * coloured strip. The pop IS the component.
+   *
+   * ⛔ THE OBVIOUS MOVE — reuse `--af-accent-lift` — WAS MEASURED AND
+   * REJECTED. Computed in a browser, this palette against #24164f:
+   *
+   *     --af-accent-lift  #ae9aea   6.61:1 on indigo · ink on it 7.21:1
+   *   ⭐ --af-accent-bright #d9c9ff  10.55:1 on indigo · ink on it 11.51:1
+   *     (Guardian yellow  #ffe500   12.64:1 — the target, not adopted)
+   *
+   * 6.61 clears AA and looks flat: it is a lift for DARK-MODE BODY TEXT,
+   * where its job is to recede politely. On a masthead its job is the
+   * opposite. 10.55 is the closest this hue gets to the Guardian's ratio
+   * without leaving the brand.
+   *
+   * ⛔⛔ AND IT IS INVISIBLE ON PAPER — 1.49:1. That is a FEATURE and it is
+   * stated so nobody "fixes" it: this colour may only ever appear on the
+   * inverted band. Used on the page it does not read as subtle, it reads as
+   * missing. The measurement is the guardrail.
+   *
+   * ⚠️ NOT A YELLOW, and the departure is named. The Guardian's yellow is a
+   * pillar colour from a system this project explicitly does not adopt (see
+   * REUSE-BEFORE-BUILD.md — the pillar colours were cut by name). A yellow
+   * here would be borrowing their brand rather than their arrangement. This
+   * is the brand's own hue at the brand's own saturation, taken bright.
+   * ═══════════════════════════════════════════════════════════════════════ */
+  --af-accent-bright: #d9c9ff;
+
+  /* --- Paper and ink ---------------------------------------------------- */
+  /* ⚠️ COOL, NOT WARM — the one token that changed purely because of the
+     brand. catsofkochi's paper was #fdfcf9, a warm off-white chosen to sit
+     under amber. Under indigo the same warmth reads as a stain. */
+  --af-paper: #fcfcfd;
+  --af-paper-sunk: #f3f2f7; /* panel fill: quiet blocks, the newsletter card.
+                               ink on it = 15.79:1, ink-quiet = 6.75:1 */
+
+  /* ⭐ TWO TEXT GREYS. NOT THREE. Inherited as a rule, and the reason it was a
+     rule there holds here: a third tier is always the one that fails. If
+     something needs to recede further than --af-ink-quiet it needs fewer words
+     or more space, not a paler grey. */
+  --af-ink: #1a1726; /* 17.15:1 on paper */
+  --af-ink-quiet: #565266; /*  7.33:1 on paper */
+
+  /* Hairline dividers. 1.28:1 on paper — decoration, not structure.
+     ⛔ It may never be the ONLY thing separating two kinds of content: at
+     1.28:1 it is invisible to some readers, so a heading must always say in
+     words what the rule says in ink. */
+  --af-rule: #e2e0e8;
+
+  /* --- Focus ------------------------------------------------------------ */
+  /* ⭐ THE FOCUS RING IS THE ACCENT, a deliberate departure from catsofkochi,
+     where focus had to be a third colour so it could not be confused with the
+     amber "we checked this" highlight. There is no such highlight here. The
+     accent appears as TEXT (a topic tag) and as a FILL (one button); an
+     OUTLINE in that colour is a shape neither of those uses, so it is
+     unambiguous. It clears the 3:1 required of a non-text indicator five times
+     over — 15.72:1 light, 7.53:1 dark.
+     ⛔ A gold ring was tried and rejected BY MEASUREMENT: #e0a800 on this
+     paper is 2.10:1 and FAILS 3:1. It only works in the GOV.UK form, which is
+     a gold bar plus a black bar — two colours to solve a problem one solves. */
+  --af-focus: var(--af-accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * ⛔⛔ THERE IS NO DARK THEME. LIGHT ONLY. — OWNER DECISION, 8 Aug 2026:
+ * *"We need not do dark mode. The site will be light mode only. It's not a
+ * daily use site."*
+ *
+ * ⭐ THAT LAST CLAUSE IS THE ARGUMENT AND IT IS A GOOD ONE. A dark theme earns
+ * its keep on software someone opens every day, at night, out of habit. This is
+ * a publication a reader arrives at from a link, reads once, and leaves. The
+ * cost was never the palette — it was a stored preference, a blocking script
+ * before first paint, a control in the header on every page, and a second set
+ * of contrast pairs to re-measure on every change. All of that, permanently,
+ * for a visit that happens once.
+ *
+ * ⚠️ THIS IS THE THIRD DECISION ON THIS QUESTION AND THE HISTORY MATTERS,
+ * because the obvious "improvement" is to put one of the earlier two back:
+ *
+ *   5 Aug  catsofkochi refused dark — *a phone on scheduled dark mode would
+ *          serve the dark palette outdoors, in sun, at exactly the wrong moment*
+ *   7 Aug  this system shipped dark via `prefers-color-scheme`, no toggle —
+ *          the reader was indoors on a laptop, so that premise was gone
+ *   8 Aug  owner: a toggle instead, defaulting to light — following the Mac
+ *          made the site's own appearance unownable
+ *   8 Aug  owner: no dark mode at all — ⭐ CURRENT
+ *
+ * ⛔ WHAT WAS DELETED, so nobody looks for it: `system/theme-toggle.js`, the
+ * `[data-theme-toggle]` control, the blocking head script, the `no-js` class,
+ * the `--af-accent-lift` derivation and every `:root[data-theme='dark']` block.
+ * The measured dark values are preserved in git history at commit `be408e2`
+ * if this is ever reversed a fourth time.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ---------------------------------------------------------------------------
+ * ⛔ WHAT IS DELIBERATELY ABSENT, so nobody adds it back thinking it was missed
+ *
+ *  · No success green, no warning orange, no error red — with ONE exception
+ *    that is not a colour: see components/editorial/Correction. A correction is
+ *    announced in words and by position, never by a red box.
+ *  · NO COLOUR PER TOPIC. The site has seven topics — Art & Culture, Education,
+ *    Design, Access to Justice, Livelihood, Aftercare, Mental Health — and the
+ *    obvious move is seven colours. It is wrong for two reasons and the second
+ *    is the real one: seven hues cannot all clear 4.5:1 on one paper without
+ *    becoming seven near-identical darks; and colour does not encode. A reader
+ *    who cannot tell Aftercare from Livelihood by hue is every reader, on the
+ *    first visit. WORDS ENCODE. The topic tag says the topic.
+ *  · No gradient.
+ *  · No third grey. Said twice on purpose.
+ *  · No shadow. See spacing.css.
+ * ------------------------------------------------------------------------- */

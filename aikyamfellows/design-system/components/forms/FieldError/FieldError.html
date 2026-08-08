@@ -1,0 +1,21 @@
+<!-- @dsCard group="Forms" -->
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FieldError — aikyam fellows</title>
+<link rel="stylesheet" href="../../../styles.css">
+<style>
+  body { margin: 0; padding: 2rem 0; }
+  .ds-note { font-family: var(--af-font-ui); font-size: var(--af-type-small);
+             color: var(--af-text-quiet); margin: 0 0 1.5rem; }
+</style>
+<main id="main" class="wrap">
+  <p class="ds-note">A field that failed validation. This palette has NO red, and the pattern works without one.</p>
+  <div data-field data-invalid>
+    <label for="e2">Your email address</label>
+    <p data-field-error id="er"><span class="visually-hidden">Error:</span>
+      Enter an email address in the format name@example.com</p>
+    <input id="e2" type="email" aria-invalid="true" aria-describedby="er">
+  </div>
+</main>

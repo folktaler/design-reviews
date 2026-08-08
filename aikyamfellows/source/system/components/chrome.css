@@ -1,0 +1,977 @@
+/* aikyamfellows.org — site chrome
+ *
+ * The masthead, the wordmark, the primary nav, the breadcrumb, the pagination
+ * and the footer. ⭐ EVERY PAGE TYPE HAS THESE. That is the whole reason this
+ * file exists and the reason its absence was the most expensive gap in the
+ * system.
+ *
+ * ══ BEGIN SYSTEM CHROME ══════════════════════════════════════════════════════
+ *
+ * ════════════════════════════════════════════════════════════════════════════
+ * ⛔⛔ WHY THIS FILE IS NEW WHEN THE CODE IN IT IS NOT — 8 Aug 2026
+ *
+ * All of this already existed, in `institutional/institutional.css`, as 89
+ * rules of `.inst-*` classes with their own `:root` block. It was written for
+ * five specific pages and it worked. It was ALSO, without anyone deciding it, a
+ * SECOND DESIGN SYSTEM sharing the first one's prefix.
+ *
+ * ⚠️ MEASURED, 8 Aug 2026, by reading both `:root` blocks side by side — 21
+ * token declarations in `institutional.css`, and these disagree with the system
+ * tokens of the same name or role:
+ *
+ *     institutional.css              system/tokens/                verdict
+ *     ------------------------------------------------------------------------
+ *     --af-s5: 24px                  --af-space-5: 20px            ⛔ COLLIDES
+ *     --af-s6: 32px                  --af-space-6: 24px            ⛔ COLLIDES
+ *     --af-s7: 48px                  --af-space-7: 32px            ⛔ COLLIDES
+ *     --af-s8: 72px                  --af-space-8: 40px            ⛔ COLLIDES
+ *     --af-type-display  30→42px     --af-type-display  28→42px    ⛔ DIFFERS
+ *     --af-type-heading  23→26px     --af-type-heading  24→28px    ⛔ DIFFERS
+ *     --af-type-sub      20px fixed  --af-type-subheading 20→24px  ⛔ DIFFERS
+ *     --af-serif                     --af-font-text                different name
+ *     --af-sans                      --af-font-ui                  different name
+ *
+ * ⭐⭐ THE `--af-s*` COLLISIONS ARE THE DANGEROUS ONES AND NOT THE TYPE ONES.
+ * Two different type ladders produce a page that looks slightly off, which a
+ * designer notices. `--af-s5` and `--af-space-5` are two DIFFERENT NUMBERS
+ * under two names that a reader of either file would assume are the same index
+ * of the same scale. Anyone porting a rule between the two files — which is
+ * exactly what building a new page type means — silently changes 20px to 24px
+ * and has no way to see it.
+ *
+ * ⛔ AND IT IS NOT THEORETICAL. `institutional.css:235` records a defect where
+ * a gutter change from 20px to 24px, made for consistency with the foundation,
+ * silently undid a measured masthead fix in a different file and put the nav
+ * back onto two rows. The note ends: *"A token edit in one place can break a
+ * fix in another."* That is the fork stated as a lesson without being named as
+ * a fork.
+ *
+ * ⭐ SO THIS FILE IS THE SAME COMPONENTS, RE-EXPRESSED AGAINST ONE VOCABULARY:
+ * `data-*` landmarks like every other component here, semantic colour names,
+ * the system's spacing scale, the system's type ladder. Every MEASUREMENT from
+ * the original is carried across verbatim and credited — those were made in a
+ * browser and re-deriving them would be re-doing settled work.
+ *
+ * ⚠️ WHAT THIS DOES **NOT** DO: it does not edit the five institutional page
+ * kits. They still load `institutional.css` and they still render. This file
+ * is what the NEXT page is built from, and the old one is superseded rather
+ * than deleted — see the note at the foot of this file.
+ * ════════════════════════════════════════════════════════════════════════════
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * TOP BAR  —  [data-topbar]
+ *
+ * ⭐ THE STRIP ABOVE THE MASTHEAD. Left: one thing the publication is asking
+ * for, with a CTA. Right: utility links divided by hairlines.
+ *
+ * MEASURED on theguardian.com, 8 Aug 2026 — the structure taken, the colours
+ * re-decided to this brand (see `--af-band-accent` in colors.css for why the
+ * yellow is not borrowed).
+ *
+ * ⛔ ONE ASK, AND IT IS NOT A BANNER. `[data-banner]` in blocks.css is a
+ * temporary notice that can be dismissed. This is permanent furniture: the
+ * standing request the publication makes of every reader on every page. On the
+ * Guardian that is money. On a fellowship it is more likely *"know someone who
+ * should be a fellow?"* — and if there is no standing ask, the left half is
+ * omitted rather than filled with something.
+ *
+ * ⚠️ AND IT IS THE FIRST THING IN THE TAB ORDER, above the masthead, which is
+ * why the skip link must come before it in the DOM. A reader who tabs into a
+ * fundraising ask before reaching the navigation has been made to decline
+ * something before they can move. */
+[data-topbar] {
+  background: var(--af-band);
+  color: var(--af-band-text);
+  font-family: var(--af-font-ui);
+}
+[data-topbar-inner] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--af-space-4);
+  /* ⛔ NO VERTICAL PADDING. The links carry a 52px tap floor of their own, and
+     padding on top of that made a 68px strip for two words. The floor IS the
+     height. */
+  padding-block: 0;
+}
+[data-topbar-ask] {
+  margin-inline-end: auto;
+  max-width: var(--af-measure-small);
+}
+[data-topbar-ask] b {
+  display: block;
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-subheading);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+}
+[data-topbar-ask] span {
+  display: block;
+  font-size: var(--af-type-small);
+}
+
+/* ⭐ THE PILL CTA. Bright accent, DARK text — 11.51:1 measured. ⛔ Not the
+   brand fill with light text: on a band that is already the brand colour, a
+   brand-filled button is invisible. The one control on the page that must be
+   seen before anything else is read gets the one colour that only works here. */
+[data-topbar] [data-button] {
+  min-height: var(--af-tap-comfortable);
+  background: var(--af-band-accent);
+  border-color: var(--af-band-accent);
+  color: var(--af-text-on-band-accent);
+  border-radius: var(--af-radius-pill);
+  font-weight: var(--af-weight-bold);
+  flex: 0 0 auto;
+}
+
+/* ⭐ THE DIVIDED UTILITY LINKS. The hairline BETWEEN items, never after the
+   last — `li + li` rather than a border on every item, so no trailing rule
+   hangs off the end of the row. */
+[data-topbar-links] {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-topbar-links] li {
+  margin-block-start: 0;
+}
+[data-topbar-links] li + li {
+  border-inline-start: 1px solid var(--af-band-rule);
+}
+[data-topbar-links] a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--af-tap-comfortable);
+  padding-inline: var(--af-space-4);
+  color: var(--af-band-text);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+  text-decoration: none;
+}
+[data-topbar-links] a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * MASTHEAD  —  [data-masthead]
+ *
+ * ⛔ MEASURED DEFECT, 7 Aug 2026, carried across from institutional.css — at
+ * 375px the four nav links wrapped onto a SECOND row, orphaning "Contact", and
+ * the masthead ate 197px before any content: 30% of a 667px phone screen. The
+ * links were 12px-padded, totalling 359.9px against 335px of available column
+ * — 25px over.
+ *
+ * ⚠️ AND THE FIX WAS UNDONE ONCE BY AN UNRELATED-LOOKING EDIT. When
+ * `--af-gutter` went 20px → 24px to match the foundation, the phone column
+ * dropped 335 → 327px, the four links needed 327.9px, and the nav went back to
+ * two rows with the masthead at 193px. The re-tightened numbers below are the
+ * second fix: 6px padding + 2px gap totals 305.9px in 327px (21px spare) and
+ * the narrowest link is 68.5px, still 1.56× the 44px gate.
+ *
+ * ⭐⭐ THE GENERAL RULE THAT CAME OUT OF IT, and it is the most reusable
+ * sentence in this system: A TOKEN EDIT IN ONE PLACE CAN BREAK A FIX IN
+ * ANOTHER. Re-measure after every token change, not only after the change you
+ * think is relevant.
+ *
+ * ⛔ AND THE NUMBERS ABOVE ARE A PROPERTY OF FOUR SPECIFIC WORDS. They are not
+ * a layout law and they are not promoted to a breakpoint token — see the note
+ * at the foot of `tokens/breakpoints.css`. Rename a nav item and this must be
+ * re-measured, because "Get involved" is wider than "Contact".
+ * ═══════════════════════════════════════════════════════════════════════════ */
+/* ⭐⭐ REBUILT 8 Aug 2026 AS A BAND, and this is the change that answers
+ * *"pages don't look Guardian faithful."* The masthead was a thin white strip
+ * with a small wordmark and a hairline under it — correct, quiet, and
+ * indistinguishable from any other well-set site. The Guardian's is a solid
+ * dark band carrying an oversized wordmark and a serif pillar nav, and the
+ * band is doing most of the work: it says *publication* before a word is read.
+ *
+ * MEASURED on theguardian.com, 8 Aug 2026, at 1300px:
+ *   ground #052962 · pillar item 24px/700 SERIF, white, 52px tall,
+ *   padding 0 8px 0 6px · vertical hairlines between pillars ·
+ *   active pillar carries a thick coloured bar beneath it ·
+ *   wordmark block 324 × 111px, top right · sub-nav 15px sans, white
+ *
+ * ⭐ THE PILLAR NAV IS SERIF AND IT IS BIG. That is the least obvious and most
+ * important of those numbers. Every instinct says navigation is small sans;
+ * the Guardian sets it at 24px in the headline face, the same size as an H2 —
+ * so the nav reads as part of the publication's voice rather than as chrome
+ * bolted above it. Setting it in the UI sans was what made the old masthead
+ * look like a web app's header. */
+[data-masthead] {
+  background: var(--af-band);
+  color: var(--af-band-text);
+}
+/* ⭐ THE BAND IS TALL, AND THE HEIGHT IS THE COMPONENT. Owner, 8 Aug 2026:
+   *"the blue header can be taller — same as Guardian. Gives more breathing
+   space."* Measured on theguardian.com: their wordmark block alone is 111px on
+   a 1300px page, before the pillar row and the sub-nav.
+   ⛔ A dark band that is only as tall as its contents reads as a toolbar. The
+   air above and below the wordmark is what makes it read as a masthead — it is
+   the one place in this system where empty space is doing the most work. */
+[data-masthead-inner] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--af-space-3);
+  padding-block: var(--af-space-8) 0;
+}
+
+/* ⚠️ NOT STICKY, AND THAT IS A DECISION. A sticky masthead costs 137px of every
+   screen for the whole of a 2,000-word article — on a 667px phone that is 20%
+   of the reading area, permanently, to keep a nav visible that a reader of a
+   profile does not need until they have finished. The Guardian's own article
+   pages do not stick their masthead either.
+   ⛔ If it is ever made sticky, `:target { scroll-margin-block-start }` in
+   styles.css must be re-checked: it is set to clear a masthead that is not
+   currently overlapping anything. */
+
+/* ── WORDMARK ── [data-wordmark] ─────────────────────────────────────────────
+ * ⛔ NOT AN IMAGE. The wordmark is the site's name set in the site's own face,
+ * which means it inherits the dark theme, scales with the reader's font size,
+ * is selectable, and is announced correctly by a screen reader without an alt
+ * attribute anyone has to remember to write. A logo file does none of those. */
+/* ⭐ THE WORDMARK IS OVERSIZED AND SITS ON THE RIGHT. Both are deliberate and
+   both are Guardian-faithful. Oversized, because on a band the wordmark is the
+   masthead — measured at 324 × 111px against a 1300px page, which is a quarter
+   of the width. Right, because the pillar nav reads left-to-right from the
+   corner where the eye starts, and the wordmark anchors the end of the line.
+   ⛔ `order: 1` puts it last in the visual row while leaving it FIRST in the
+   DOM, so it is still the first thing a screen reader meets and still the
+   first tab stop — which is what a masthead link should be. */
+[data-wordmark] {
+  order: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--af-tap-comfortable);
+  margin-inline-start: auto;
+  font-family: var(--af-font-text);
+  font-size: clamp(1.75rem, 1rem + 3.2vw, 4rem); /* 28 → 64px */
+  font-weight: var(--af-weight-bold);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--af-band-text);
+  text-decoration: none;
+}
+
+/* ── PRIMARY NAV ── [data-nav] ───────────────────────────────────────────────
+ * ⛔ BOTH TAP AXES. `min-inline-size` is the one that is always forgotten, and
+ * on the sibling project the word "Places" measured 42.5px wide across eleven
+ * kits while the height was correct and signed off. See spacing.css, defect 4.
+ *
+ * ⛔ AND `text-decoration`, NEVER `border-block-end`. A 52px tap floor would
+ * float a border 18px below the word it belongs to. See spacing.css.
+ *
+ * ⭐ THE CURRENT PAGE IS MARKED BY `aria-current="page"`, which is both the
+ * accessibility contract and the styling hook — one attribute, so they cannot
+ * disagree. A page that styles the current item with a class and forgets the
+ * attribute looks right and announces nothing. */
+[data-nav] {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* ⭐ THE VERTICAL HAIRLINE BETWEEN ITEMS — Guardian-faithful, and the thing
+   that makes a row of words read as a NAVIGATION RANK rather than as a
+   sentence with big gaps. ⛔ `+` so no rule hangs off the last item, and the
+   rule is `--af-band-rule` not `--af-line`: the hairline token is tuned for
+   paper at 1.28:1 and is invisible on indigo. */
+[data-nav] > * + * {
+  border-inline-start: 1px solid var(--af-band-rule);
+}
+[data-nav] a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--af-tap-comfortable);
+  min-inline-size: var(--af-tap-comfortable);
+  padding: 0 var(--af-space-4) var(--af-space-3) var(--af-space-3);
+  /* ⛔ SERIF, AND AT HEADING SIZE. Measured at 24px/700 on the Guardian. The
+     UI sans is what made the old masthead read as an app header. */
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-subheading);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+  color: var(--af-band-text);
+  text-decoration: none;
+}
+
+/* ⭐ THE FIRST ITEM SITS FLUSH TO THE COLUMN EDGE. Every other item is bounded
+   on its left by a hairline; the first has none, so without this it floats 12px
+   inside a boundary that is not drawn — which is exactly what "Fellows seems
+   offset" was. Flush, the container edge becomes its boundary and its text
+   lines up with the first topic in the strip below. Guardian-faithful: their
+   first pillar sits on the page edge for the same reason.
+   ⚠️ The tap target does NOT shrink — `min-inline-size` still holds.
+   ⛔⛔ AND THIS RULE MUST STAY ITS OWN BLOCK. Adding it by splitting the rule
+   above left every declaration after the split belonging to `:first-child`
+   only — so "Fellows" kept the serif and the white, and Partners, About and
+   Contact fell back to underlined ink links on an indigo band. It looked like a
+   broken nav and it was one line of punctuation. */
+[data-nav] > li:first-child a {
+  padding-inline-start: 0;
+}
+[data-nav] a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* ⭐⭐ THE ACTIVE PILLAR CARRIES A BAR, NOT AN UNDERLINE. Measured on the
+   Guardian: a thick coloured rule sitting at the very bottom of the band,
+   flush with its edge, in the section's own colour.
+   ⛔ It is drawn with `::after` rather than `border-block-end` for the reason
+   spacing.css gives at length: a border tracks the BOX, and this box is a 52px
+   tap target, so a border would sit correctly — but an underline would float
+   under the words. `::after` pinned to `inset-inline: 0; bottom: 0` puts the
+   bar on the band's edge where the Guardian puts it, independent of the text.
+   ⛔ AND IT IS NOT THE ONLY SIGNAL. The bar is decoration; `aria-current` is
+   the fact, and the weight change is what a reader sees in greyscale. */
+[data-nav] a[aria-current]::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 4px;
+  background: var(--af-band-accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * SUB-NAV  —  [data-subnav]
+ *
+ * The thin row of topics beneath the pillar nav. Measured on the Guardian at
+ * 15px sans, white, 6px vertical padding, inside the same band.
+ *
+ * ⭐ IT IS THE SEVEN TOPICS, and putting them here rather than in the page is
+ * what turns them from a filter into a structure: every page carries the whole
+ * map of the site, so a reader who arrives on one profile from a search engine
+ * can see the other six subjects without going anywhere.
+ * ⛔ THE 44px GATE DOES NOT APPLY and that is a stated exception, not an
+ * oversight — same shape as the breadcrumb's. These are a dense horizontal row
+ * of short words directly under a nav that already carries 52px targets;
+ * giving each its own 52px floor would add a third full-height rank to the
+ * header. The row's padding gives ~32px. The primary nav above is the
+ * touch-sized route to the same places. */
+[data-subnav] {
+  border-block-start: 1px solid var(--af-band-rule);
+}
+/* ⛔⛔ `margin: 0` HERE BROKE THE WHOLE HEADER'S ALIGNMENT, and it took a
+   measurement to see what a screenshot only hinted at.
+   This `<ul>` carries `class="wrap wrap--wide"`, whose entire job is
+   `max-width` + `margin-inline: auto` — and the shorthand `margin: 0` overrode
+   the `auto`. MEASURED 8 Aug: the masthead's content started at x=154 and the
+   topic strip's at x=0, **130px apart**, in a header whose two rows are
+   supposed to be one grid.
+   ⭐ AND IT EXPLAINS THE OTHER SYMPTOM. With nothing to align to, the first nav
+   item had no left boundary while every other item sat between two hairlines —
+   which reads as "Fellows is offset" even though its padding was identical.
+   One misalignment, two symptoms.
+   ⚠️ `margin-block: 0`, never `margin: 0`, on anything carrying `.wrap`. */
+[data-subnav] ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--af-space-4);
+  list-style: none;
+  margin-block: 0;
+  padding-block: var(--af-space-2);
+}
+[data-subnav] li {
+  margin-block-start: 0;
+}
+/* ⭐ 14px, DOWN FROM 16px — owner, 8 Aug: *"the menu items (topics) can be
+   smaller?"* Yes, and measurement agrees: the Guardian's sub-nav is 15px
+   against a 24px pillar row, a ratio of 0.63. At 16px against our 24px nav the
+   topics were 0.67 and competing with the navigation above them for the same
+   attention. `--af-type-micro` puts the ratio at 0.58.
+   ⛔ AND 14px IS THE FLOOR — `typography.css` states it and states why: the one
+   place 13px appeared was a photo credit, which is the text this site most
+   needs read. These are one- to three-word labels, which is what the floor is
+   for; nothing longer may go here. */
+[data-subnav] a {
+  display: inline-block;
+  padding-block: var(--af-space-2);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-micro);
+  color: var(--af-band-text);
+  text-decoration: none;
+}
+[data-subnav] a:hover,
+[data-subnav] a[aria-current='page'] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* ⚠️ 430px IS A COMPONENT THRESHOLD, NOT A SYSTEM BREAKPOINT — the width at
+   which four specific nav words stop fitting. It stays local to this component
+   and stays commented, and it is the ONE `max-width` query in the system.
+   See tokens/breakpoints.css.
+ *
+ * ⛔⛔ 6px WAS NOT ENOUGH AND THE ERROR WAS IN WHERE IT WAS MEASURED.
+ * MEASURED IN CHROMIUM, 8 Aug 2026, at the FLOOR rather than at the reference
+ * phone — which is the check `tokens/breakpoints.css` says to run and which had
+ * never been run on this component:
+ *
+ *     320px viewport · 272px available to the nav · four links + three gaps
+ *
+ *     padding   links total   + gaps   rows   masthead
+ *     6px          275.0        281      2      191px   ⛔ the inherited fix
+ *     5px          267.0        273      2      191px   ⛔ still over by 1px
+ *   ⭐ 4px          259.0        265      1      137px   ✅ 7px spare
+ *     3px          251.1        251      1      137px   narrowest hits the floor
+ *
+ * ⭐ THE INHERITED FIX WAS MEASURED AT 375px AND IT WORKS AT 375px. At 320px it
+ * was one pixel from fitting and gave up a whole extra row — 191px of masthead
+ * on a 568px screen, which is 34% of the display before a word of content. It
+ * had never been wrong at the width anyone tested.
+ *
+ * ⚠️ 7px OF SPARE IS NOT MUCH, AND IT IS A PROPERTY OF FOUR SPECIFIC WORDS —
+ * "Fellows About Partners Contact". Rename one and re-measure at 320, not at
+ * 375. At 3px padding the narrowest link lands exactly on `--af-tap-comfortable`
+ * (52.0px), which is the floor doing the work rather than the padding, so 4px
+ * is the last honest step: there is no fifth row in that table.
+ *
+ * ⭐ The narrowest link at 4px is 53.9px — 1.22× the 44px gate. The space is
+ * bought from padding, not from the tap-target margin. */
+/* ═══════════════════════════════════════════════════════════════════════════
+ * ⛔⛔ THE HEADER COLLAPSES BELOW 640px, AND THIS BLOCK IS NOT OPTIONAL.
+ *
+ * MEASURED 8 Aug 2026, immediately after the band masthead was built — the
+ * desktop header was right and the phone header was a disaster nobody would
+ * have caught by looking at a laptop:
+ *
+ *     width   top bar   masthead   TOTAL CHROME   nav rows
+ *     320px    258px      419px      ⛔ 677px         3
+ *     375px    258px      299px      ⛔ 557px         2
+ *     430px    258px      247px         505px         2
+ *
+ * ⭐ 557px OF HEADER ON A 667px PHONE IS THE WHOLE SCREEN. A reader on the
+ * reference phone would have seen no content at all before scrolling — on a
+ * site whose entire job is reading. The previous, plainer masthead was 137px.
+ * Building the Guardian's desktop header made the phone eleven times worse.
+ *
+ * ⚠️ AND IT WAS INVISIBLE IN EVERY EARLIER CHECK. Token resolution, tap
+ * targets, overflow and contrast all still passed — nothing overflowed, nothing
+ * was too small, no colour failed. The page was simply unusable. **No
+ * automated gate in this system measures "how much of the screen is chrome",
+ * and that is the gap this table exists to close.**
+ *
+ * Three things collapse, in order of how much each buys back:
+ *   1. the ask text goes (‑170px) — the CTA pill stays, so the route survives
+ *   2. the nav drops to UI size (‑80px at 320) — still serif, still 52px taps
+ *   3. the sub-nav scrolls instead of wrapping (‑60px at 320)
+ *
+ * ⛔ STILL NO HAMBURGER. Four items at UI size fit two rows inside 320px and
+ * every one is visible and tappable. A hamburger would trade that for a focus
+ * trap, an escape handler, an aria-expanded state and a control that hides
+ * navigation behind a press — see the foot of this file. The moment a fifth
+ * nav item arrives, re-measure before assuming that still holds. */
+@media (max-width: 40rem) {
+  /* --af-bp-wide */
+  /* ⛔ The ASK is hidden, not the CTA. A reader on a phone still gets the
+     route; they just do not get two lines of explanation above the fold on a
+     screen that has no room for the story itself. */
+  [data-topbar-ask] {
+    display: none;
+  }
+  [data-topbar-inner] {
+    gap: var(--af-space-2);
+    padding-block: var(--af-space-2);
+  }
+  [data-topbar] [data-button] {
+    margin-inline-end: auto;
+    font-size: var(--af-type-small);
+  }
+  /* ⛔ THE UTILITY LINKS GO. MEASURED: the CTA pill (192px) and the links
+     (179px) cannot share a 327px row, so they stacked and the top bar cost
+     128px instead of 68px — for two links that appear again in the footer of
+     every page. Removing a duplicated route is free; removing the CTA would
+     not be, which is why it is the CTA that stays. */
+  /* ⛔ THE LINKS STAY ON A PHONE NOW. They were hidden when this strip carried
+     a CTA pill they could not share a row with; the pill is gone, so two short
+     links fit. ⚠️ And they must stay: they are the only route to Support and
+     to the compliance page outside the footer. */
+  [data-topbar-links] a {
+    padding-inline: var(--af-space-3);
+    font-size: var(--af-type-micro);
+  }
+
+  /* ⭐⭐ THE ROW ORDER INVERTS ON A PHONE, and this was the single biggest win:
+     318px → measured below. On a wide screen the wordmark is pushed to the
+     RIGHT of the nav (`order: 1`, `margin-inline-start: auto`), which is
+     Guardian-faithful. On a narrow one that same rule forces the wordmark onto
+     a row of its own, the nav onto another, and the toggle onto a third —
+     three full-height rows to show four links.
+     ⛔ So on a phone the wordmark goes back to first, shares its row with the
+     toggle, and the nav takes the full width beneath. Two rows instead of
+     three, and the wordmark is where a reader expects it on a phone anyway. */
+  [data-wordmark] {
+    order: 0;
+    margin-inline-start: 0;
+    margin-inline-end: auto;
+  }
+  [data-masthead-inner] {
+    gap: var(--af-space-2);
+    /* ⛔ The desktop band's breathing space does not survive a phone: 40px of
+       air above a wordmark on a 568px screen is 7% of the display spent on
+       nothing. The band is tall where there is room and compact where there
+       is not. */
+    padding-block: var(--af-space-3) 0;
+  }
+  /* ⛔ `order: 3` PUTS THE NAV AFTER THE TOGGLE, which is what gets the toggle
+     onto the wordmark's row instead of a third row of its own. MEASURED before:
+     wordmark 52 + nav 60 + toggle 52 = three rows, 188px of masthead inner.
+     After: wordmark and toggle share row one, nav takes row two. */
+  /* ⛔⛔ THE ORDER GOES ON THE `<nav>`, NOT ON `[data-nav]`. The flex children
+     of `[data-masthead-inner]` are the wordmark, the `<nav>` WRAPPER and the
+     toggle — `[data-nav]` is the `<ul>` INSIDE that wrapper, so `order` on it
+     is applied to an element whose parent is not the flex container and does
+     nothing at all. Measured: the toggle stayed on a third row and the
+     masthead stayed at 188px through two attempted fixes.
+     ⭐ `order` and `flex` only ever affect DIRECT children of the flex box.
+     The wrapper exists because `display: contents` was rejected for dropping
+     the nav's accessible name — see the partial. */
+  [data-masthead-inner] > nav {
+    order: 3;
+    flex: 1 1 100%;
+  }
+  /* ⛔ Serif and 52px tall are kept — those are the identity and the tap gate.
+     Only the SIZE drops, which is what was costing rows. */
+  [data-nav] a {
+    padding-inline: var(--af-space-2);
+    font-size: var(--af-type-ui);
+    min-height: var(--af-tap-comfortable);
+  }
+  [data-nav] a[aria-current]::after {
+    bottom: -1px;
+  }
+
+  /* ⭐ ONE SCROLLING ROW, NOT SEVEN WRAPPED ONES. Seven topic names wrap to
+     three rows at 320px and cost ~60px of a screen that has none to spare.
+     ⚠️ A horizontally scrolling row hides its overflow, so it must never be
+     the ONLY route to those pages — every topic is also linked from the
+     fellows index, which is what makes hiding them here acceptable. */
+  [data-subnav] ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: var(--af-space-4);
+    scrollbar-width: none;
+    padding-block: 0;
+  }
+  [data-subnav] a {
+    padding-block: var(--af-space-3);
+  }
+  [data-subnav] li {
+    flex: 0 0 auto;
+  }
+}
+
+/* ⛔ THE LIVE NAV'S EMOJI ARE NOT REPRODUCED — 🌳 🤝🏼 🫂 ✉️. Two reasons and the
+   second is the one that decides it: 🫂 does not decode in several fonts and
+   renders as a replacement box, and every one of them is READ ALOUD by a screen
+   reader before the link text ("tree, About"). A nav label is the shortest
+   piece of text on the site and the least able to carry decoration. */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * BREADCRUMB  —  [data-breadcrumb]
+ *
+ * ⭐ NEW. Nothing in the inherited system had one, because catsofkochi was flat
+ * and this site's five institutional pages were flat too. It arrives now
+ * because the reading pages are NOT flat — a profile sits under a topic, and a
+ * topic sits under the index — and because a reader who lands on a profile from
+ * a search engine has no other way to discover that structure exists.
+ *
+ * ⛔ IT IS A `<nav>` WITH AN `aria-label`, AND THE SEPARATOR IS NOT TEXT. A `/`
+ * typed between the links is announced as "slash" on every hop. It is drawn
+ * with `::after` on the `<li>`, which screen readers skip, and it is marked
+ * `aria-hidden` in the markup for the engines that do not.
+ *
+ * ⛔ THE LAST CRUMB IS NOT A LINK. It is the page the reader is already on;
+ * making it a link is offering to go where they are. It carries
+ * `aria-current="page"`. */
+[data-breadcrumb] {
+  margin-block-end: var(--af-space-5);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+}
+[data-breadcrumb] ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--af-space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-breadcrumb] li + li::before {
+  content: '›';
+  margin-inline-end: var(--af-space-2);
+  color: var(--af-text-quiet);
+}
+[data-breadcrumb] a {
+  /* ⚠️ NO TAP FLOOR HERE, and it is a stated exception rather than an
+     oversight. A breadcrumb is a horizontal row of short words directly under
+     the masthead; 52px floors on each would push the page content down by the
+     height of a second masthead. The floor belongs to controls that stand
+     alone. The row's own padding gives ~34px, which is under the gate and is
+     accepted for the same reason inline prose links are. See styles.css. */
+  padding-block: var(--af-space-2);
+}
+[data-breadcrumb] [aria-current='page'] {
+  color: var(--af-text);
+  font-weight: var(--af-weight-bold);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * PAGINATION  —  [data-pagination]
+ *
+ * ⭐ NEW, AND THE SHAPE IS A DECISION. The live site's index is Ghost's
+ * `/latest/`, which paginates. Three shapes were available:
+ *
+ *   1. Numbered pages (1 2 3 … 7)
+ *   2. Previous / Next only
+ *   3. "Load more" / infinite scroll
+ *
+ * ⛔ (3) IS REFUSED, and not on taste. Infinite scroll destroys the footer —
+ * the reader can never reach it, because more content arrives faster than they
+ * can scroll past it — and this site's footer carries the funding disclosure
+ * and the policy links. It also breaks the back button: a reader who opens a
+ * profile and returns lands at the top of an empty list. And it needs
+ * JavaScript, on a system that ships almost none.
+ *
+ * ⭐ (1) SHIPS, WITH THE COUNT VISIBLE. "Page 2 of 7" tells a reader how much
+ * there is, which on a site with 13 stories is a reassuring number rather than
+ * a daunting one. Prev/Next alone hides it.
+ *
+ * ⛔ EVERY TARGET CARRIES BOTH FLOORS. A pagination row is the densest cluster
+ * of small tap targets on any page in this system — the exact place the width
+ * axis gets forgotten, and a "3" is the narrowest label on the site. */
+[data-pagination] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--af-space-2);
+  margin-block-start: var(--af-space-9);
+  padding-block-start: var(--af-space-6);
+  border-block-start: var(--af-rule-hairline) solid var(--af-line);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+}
+[data-pagination] a,
+[data-pagination] [aria-current='page'] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--af-tap-comfortable);
+  min-inline-size: var(--af-tap-comfortable);
+  padding-inline: var(--af-space-3);
+  text-decoration: none;
+}
+[data-pagination] [aria-current='page'] {
+  font-weight: var(--af-weight-bold);
+  border-block-end: 3px solid var(--af-line-strong);
+}
+/* ⛔ A DISABLED PREV/NEXT IS REMOVED FROM THE MARKUP, NOT GREYED OUT. A greyed
+   control still receives focus, still announces itself, and still invites a tap
+   that does nothing — and greying it needs a third text colour, which this
+   palette does not have. On page 1 there is no "Previous". */
+[data-pagination-count] {
+  margin-inline-start: auto;
+  color: var(--af-text-quiet);
+  font-size: var(--af-type-small);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * FOOTER  —  [data-footer]
+ *
+ * ⭐ INVERTED, AND IT IS THE ONLY INVERTED SURFACE IN THE SYSTEM. It marks the
+ * end of the document — not importance. See `--af-surface-inverse` in
+ * theme.css, and note that it inverts again in the dark theme, which is
+ * correct: an inverted footer stays inverted relative to its page.
+ *
+ * ⛔⛔ THE LINK RULE IS DIFFERENT HERE AND IT HAS TO BE. Everywhere else a link
+ * is ink underlined in the brand. On an ink ground the brand underline is
+ * indigo on near-black, which is invisible, and the ink text colour would be
+ * invisible too. So footer links are `--af-text-on-inverse` and their underline
+ * is `currentColor`.
+ * ⚠️ THIS IS THE PLACE A SEMANTIC LAYER EARNS ITS KEEP: without one, somebody
+ * "fixes" the footer by hardcoding white, and the day the palette changes the
+ * footer is the one block that does not follow. */
+/* ⭐⭐ REBUILT 8 Aug 2026 AGAINST THE MEASURED GUARDIAN FOOTER.
+ *
+ * MEASURED on theguardian.com, 8 Aug 2026 — the footer is not a legal strip,
+ * it is a second front page:
+ *
+ *   ground #052962, the SAME band as the masthead · the pillar nav REPEATS at
+ *   the top of it, serif, with the active bar · four link columns divided by
+ *   VERTICAL HAIRLINES, links 17px sans / 22.1px line / white, columns 150px ·
+ *   a newsletter block in the first column with an OUTLINED pill and an arrow ·
+ *   an ask block on the right in accent type with a FILLED pill · a bottom bar
+ *   with copyright left and a circular "back to top" right
+ *
+ * ⭐ THE NAV REPEATING IS THE PART MOST PEOPLE LEAVE OUT, and it is the most
+ * useful: a reader who has just finished a 2,000-word article is at the bottom
+ * of the page with no header in sight. Making them scroll back up to go
+ * anywhere is the commonest failure of a long reading page. The footer carries
+ * the same four routes as the masthead — one component, used twice.
+ *
+ * ⛔ IT IS THE BAND COLOUR NOW, NOT INK. The old footer used
+ * `--af-surface-inverse` (ink) — correct when the masthead was white, and wrong
+ * the moment the masthead became an indigo band: the page ended in a different
+ * dark from the one it started with, which reads as two different sites.
+ * ⚠️ `--af-surface-inverse` is still the right name for a one-off inverted
+ * block inside a page. It is simply not what the footer is any more. */
+[data-footer] {
+  margin-block-start: var(--af-space-10);
+  background: var(--af-band);
+  color: var(--af-band-text);
+  font-family: var(--af-font-ui);
+}
+[data-footer] a {
+  color: var(--af-band-text);
+  text-decoration: none;
+}
+[data-footer] a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* The nav repeat sits on its own rule, flush to the top of the footer. */
+[data-footer-nav] {
+  border-block-end: 1px solid var(--af-band-rule);
+}
+
+/* ⭐ THE VERTICAL HAIRLINES ARE THE COMPONENT. Four lists of links with no
+   rules read as one long list that happens to be in columns; ruled, each is a
+   separate place to look. Measured at 1px on the Guardian, in the same
+   band-rule white-at-30% this system uses everywhere on the band.
+   ⛔ The rule is on `li`-level columns via `+`, never on every column, so no
+   line hangs off the outer edge. */
+[data-footer-cols] {
+  display: grid;
+  gap: 0;
+  grid-template-columns: 1fr;
+  padding-block: var(--af-space-6);
+}
+/* ⛔ EXPLICIT COLUMNS HERE, NOT `auto-fit` — the one place in this system that
+   rule is broken, and the reason is worth stating because `auto-fit` is the
+   right default everywhere else.
+   MEASURED by looking, 8 Aug 2026: with `auto-fit` the browser chose four
+   equal columns, so the ask — which needs roughly two columns to set its
+   sentence — was pushed onto a row of its own and left half the footer empty.
+   `auto-fit` decides the column COUNT from available width; it cannot know
+   that one child is a paragraph and four are lists of labels.
+   ⭐ Four label columns and one wider ask is a fact about this content, so it
+   is written down rather than inferred. */
+@media (min-width: 48rem) {
+  [data-footer-cols] {
+    grid-template-columns: repeat(4, 1fr) 1.5fr;
+  }
+  [data-footer-col] + [data-footer-col] {
+    border-inline-start: 1px solid var(--af-band-rule);
+  }
+}
+@media (min-width: 40rem) and (max-width: 47.99rem) {
+  /* --af-bp-wide → the tablet step: two columns, ask full width beneath. */
+  [data-footer-cols] {
+    grid-template-columns: 1fr 1fr;
+  }
+  [data-footer-ask] {
+    grid-column: 1 / -1;
+    border-block-start: 1px solid var(--af-band-rule);
+  }
+}
+[data-footer-col] {
+  padding: var(--af-space-3) var(--af-space-5);
+}
+[data-footer-col] + [data-footer-col] {
+  border-block-start: 1px solid var(--af-band-rule);
+}
+@media (min-width: 40rem) {
+  [data-footer-col] + [data-footer-col] {
+    border-block-start: 0;
+  }
+}
+/* The ask keeps a leading rule at every width — it is the one block in the
+   footer that is not a list, and the rule is what says so. */
+
+/* ⛔ 17px, NOT the 16px "small" step — measured. A footer link is a NAVIGATION
+   TARGET, not caption text, and this system's floor rule applies: the
+   publisher needs these read. `--af-type-ui` is the control size and is
+   exactly the Guardian's 17px. */
+[data-footer] ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-footer] li {
+  margin-block-start: 0;
+}
+[data-footer] li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--af-tap-comfortable);
+  /* ⛔ Both axes — footer links were measured at 29.8px wide with a correct
+     52px height on 8 Aug. The width axis, missed for the third time across two
+     projects. */
+  min-inline-size: var(--af-tap-comfortable);
+  font-size: var(--af-type-ui);
+  line-height: 1.3;
+}
+
+/* A column heading. ⛔ NOT uppercase micro any more: at 14px tracked capitals
+   it competed with the 17px links beneath it for attention and lost, so the
+   column read as five links with a sixth odd one on top. Bold, same size,
+   plain case — which is what the Guardian does. */
+[data-footer] h2 {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  font-weight: var(--af-weight-bold);
+  margin: 0 0 var(--af-space-2);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* ── THE ASK ── [data-footer-ask] ────────────────────────────────────────────
+ * ⭐ The Guardian's is "Support the Guardian" in yellow at display size with a
+ * filled pill. It is the loudest thing in the footer, deliberately.
+ * ⚠️ WHAT THIS SITE ASKS FOR IS NOT MONEY, and that changes the component
+ * rather than just its words. A fellowship's standing ask is for PEOPLE — a
+ * fellow, an introduction, a skill. Money has a payment page; a person has a
+ * conversation, so the CTA goes to contact rather than to a form. */
+[data-footer-ask] {
+  padding: var(--af-space-3) var(--af-space-5);
+}
+/* ⛔ THE ASK NEEDS TWO COLUMNS' WIDTH. Measured by looking, 8 Aug 2026: in an
+   equal five-column grid its heading wrapped to five lines — "Know / someone /
+   who / should be / a fellow?" — which reads as a ransom note and buries the
+   one thing in the footer that asks the reader for something. A link column is
+   a stack of short labels; a sentence is not. */
+
+[data-footer-ask] h2 {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-heading);
+  line-height: var(--af-leading-heading);
+  color: var(--af-band-accent);
+  margin-block-end: var(--af-space-3);
+}
+[data-footer-ask] p {
+  margin: 0 0 var(--af-space-4);
+  font-size: var(--af-type-small);
+  max-width: var(--af-measure-small);
+}
+[data-footer] [data-button] {
+  background: var(--af-band-accent);
+  border-color: var(--af-band-accent);
+  color: var(--af-text-on-band-accent);
+  border-radius: var(--af-radius-pill);
+  font-weight: var(--af-weight-bold);
+}
+/* The outlined variant — the newsletter sign-up. One filled pill per footer;
+   a second would compete with the ask, which is the one that matters. */
+[data-footer] [data-button='quiet'] {
+  background: none;
+  border-color: var(--af-band-text);
+  color: var(--af-band-text);
+}
+
+/* ── BOTTOM BAR ── [data-footer-legal] ───────────────────────────────────── */
+[data-footer-legal] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--af-space-4);
+  padding-block: var(--af-space-5);
+  border-block-start: 1px solid var(--af-band-rule);
+  font-size: var(--af-type-micro);
+}
+[data-footer-legal] p {
+  margin: 0;
+  margin-inline-end: auto;
+  max-width: none;
+}
+
+/* ⭐ BACK TO TOP. On a 2,000-word profile the reader is a very long way from
+   the masthead, and this is the cheapest possible fix — a same-page anchor,
+   no JavaScript, no scroll listener, no sticky element eating the screen.
+   ⛔ It is a LINK to `#main`, not a button that scripts a scroll: a link works
+   with JavaScript off, is keyboard-reachable for free, and moves FOCUS as well
+   as the viewport — a scripted scroll moves only the viewport, leaving a
+   keyboard user's focus stranded at the bottom of the page. */
+[data-footer-top] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--af-space-2);
+  min-height: var(--af-tap-comfortable);
+  min-inline-size: var(--af-tap-comfortable);
+  padding-inline: var(--af-space-4);
+  border: 1px solid var(--af-band-rule);
+  border-radius: var(--af-radius-pill);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+}
+
+/* ---------------------------------------------------------------------------
+ * ⛔ WHAT IS DELIBERATELY ABSENT FROM THIS FILE
+ *
+ * · NO HAMBURGER MENU. Four nav items fit on one row at 320px — MEASURED at
+ *   the floor on 8 Aug 2026: 265px of links and gaps in 272px available, 7px
+ *   spare. (⚠️ The figure previously quoted here, "305.9 in 327px", was
+ *   measured at 375px and was silently doing duty for a claim about 320px. It
+ *   is the reference phone, not the floor.) A hamburger hides a four-item nav
+ *   behind a control that needs JavaScript, a focus trap, an escape handler and
+ *   an aria-expanded state — every one of which is a thing that can be got
+ *   wrong. It becomes worth building at the nav item that does not fit, and not
+ *   before. ⭐ On this measurement, that is roughly the fifth item.
+ * · NO SEARCH IN THE MASTHEAD. Search is a component (see forms.css); putting
+ *   it in the chrome asserts that finding is the reader's main task on every
+ *   page, which on a 2,000-word profile it is not.
+ * · NO SOCIAL ICON ROW. An icon set is a vocabulary of the nouns a product
+ *   names; see REMOVED.md, which ships none deliberately until a screen needs
+ *   one.
+ * · NO COOKIE BANNER. This system sets no cookies. If analytics arrive, the
+ *   self-hosted Plausible at analytics.aikyamhq.com is cookieless by design and
+ *   still needs none.
+ *
+ * ⚠️ AND ONE THING THAT IS ABSENT AND SHOULD NOT BE PERMANENT:
+ * ⛔ `institutional/institutional.css` IS NOW SUPERSEDED BUT NOT DELETED. The
+ * five institutional page kits still load it and still render from it, so
+ * deleting it would break five working pages to fix a duplication nobody is
+ * currently hitting. It carries its own `:root` with the four `--af-s*`
+ * collisions listed at the head of this file.
+ * ⭐ THE MIGRATION IS ONE PAGE AT A TIME AND IT IS NOT URGENT — but until it is
+ * done, DO NOT COPY A RULE OUT OF THAT FILE INTO A NEW PAGE. It is written
+ * against a different spacing scale and a different type ladder, and the
+ * failure mode is a page that looks nearly right.
+ * ------------------------------------------------------------------------- */
+
+/* ⛔ ONE MORE STEP AT THE FLOOR. MEASURED 8 Aug 2026: at 320px the four serif
+ * nav links still wrapped to THREE rows, putting the chrome at 366px — 64% of a
+ * 568px screen. At 375px the same rules give two rows and 246px, which is why
+ * testing only at the reference phone would have passed this.
+ * ⭐ `tokens/breakpoints.css` says it in one line: every overflow and layout
+ * check starts at the FLOOR, not at 375. This block is the third defect this
+ * week found by obeying that and not the previous one. */
+@media (max-width: 23.5rem) {
+  /* --af-bp-phone */
+  [data-nav] a {
+    padding-inline: var(--af-space-1);
+    font-size: var(--af-type-small);
+  }
+  [data-subnav] a {
+    font-size: var(--af-type-micro);
+  }
+  [data-topbar] [data-button] {
+    font-size: var(--af-type-micro);
+    padding-inline: var(--af-space-4);
+  }
+}

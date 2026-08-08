@@ -1,0 +1,1246 @@
+/* aikyamfellows.org — page blocks
+ *
+ * The patterns that are not editorial furniture and not chrome: the things a
+ * page type is ASSEMBLED from. A note, a wrapped table, a contents list, an
+ * empty state, an error page, an embed, a grid, a figure, a disclosure, and the
+ * four institutional blocks that were stranded outside the system.
+ *
+ * ══ BEGIN SYSTEM BLOCKS ══════════════════════════════════════════════════════
+ *
+ * ⭐ THE TEST EVERY BLOCK IN HERE HAD TO PASS, and it is the same one
+ * `REMOVED.md` applied to the inherited components: does this exist because
+ * READING needs it, or because a product surface needs it? Nothing below is a
+ * card with a shadow, a tab bar, a modal or a carousel — those are the grammar
+ * of an app, and a reader of a 2,000-word profile is not operating an app.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * KICKER  —  [data-kicker]
+ *
+ * ⭐⭐ THE SINGLE STRONGEST GUARDIAN SIGNATURE, AND THIS SYSTEM SHIPPED WITHOUT
+ * IT. An inverted block of small, tracked, uppercase sans, sitting above a
+ * headline and naming what KIND of thing follows: `INDEX · EVERYWHERE WE HAVE
+ * WRITTEN ABOUT`, `THIS IS ABOUT A PLACE`, `MORE FROM GINGER`.
+ *
+ * ⚠️ IT WAS MISSING BECAUSE IT IS NOT A "COMPONENT" IN THE OBVIOUS SENSE. It
+ * carries no data, does nothing on click and could be deleted without losing a
+ * fact — so a component inventory built by listing the site's nouns never turns
+ * it up. It is the thing that makes a page look like the Guardian rather than
+ * like a well-set document, which is precisely what was reported: *"pages don't
+ * look Guardian faithful."*
+ *
+ * ⭐ WHY IT WORKS: a page of serif prose has one voice. The kicker is the
+ * publication speaking rather than the writer — a different family, a different
+ * case, a different ground — and that contrast is what gives an editorial page
+ * its structure at a glance, before a word is read.
+ *
+ * ⛔ UPPERCASE IS ALLOWED HERE AND ALMOST NOWHERE ELSE. It is two or three
+ * words, never a sentence. Uppercase running text is measurably slower to read
+ * because word-shape is a cue and capitals delete it — see typography.css,
+ * where `--af-tracking-micro` exists for exactly this and one other use.
+ *
+ * ⛔ AND IT IS NOT A HEADING. It labels the heading below it, so it must not be
+ * an `<h2>` — that would put a second, shouting entry in the document outline
+ * for every section on the page. A `<p>` or a `<span>`. */
+[data-kicker] {
+  display: inline-block;
+  margin: 0 0 var(--af-space-3);
+  padding: var(--af-space-1) var(--af-space-3);
+  background: var(--af-surface-inverse);
+  color: var(--af-text-on-inverse);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-micro);
+  font-weight: var(--af-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--af-tracking-micro);
+  line-height: var(--af-leading-ui);
+}
+/* The quiet variant — same job, no fill. For the second and third label on a
+   page, where three black blocks would compete with each other and with the
+   headline they are supposed to be introducing. */
+[data-kicker='quiet'] {
+  padding-inline: 0;
+  background: none;
+  color: var(--af-text-quiet);
+  font-weight: var(--af-weight-regular);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * HIGHLIGHTS STRIP  —  [data-highlights]
+ *
+ * The row of two or three cards directly beneath the top bar: a name, a short
+ * headline, a circular portrait, divided by vertical hairlines.
+ *
+ * ⭐ ON THE GUARDIAN THIS CARRIES COLUMNISTS, and that is exactly the shape
+ * this site needs and does not have: **a way to put the FELLOW's face and name
+ * above the fold on every page.** The whole site is profiles of people, and
+ * until now a reader landing anywhere saw no person until they clicked.
+ *
+ * ⛔ THE PORTRAIT IS A CIRCLE AND IT IS THE ONLY CIRCLE IN THE SYSTEM. Stated
+ * in spacing.css as the rule that governs all shape here: *square is
+ * structure, round is a person.* A circular thumbnail on anything that is not
+ * a human face breaks the one shape convention this design has.
+ *
+ * ⛔ AND IT IS NOT A CAROUSEL. The Guardian's has an arrow and rotates; this
+ * one does not, because a rotating strip needs JavaScript, hides content behind
+ * a control most readers never press, and moves — and `motion.css` ships no
+ * duration for anything that moves on its own. Two or three cards, all visible,
+ * no arrow. If there are more than three, the strip is the wrong component and
+ * the answer is the index page.
+ *
+ * ⚠️ THE VERTICAL RULES ARE THE POINT, not the tint. Three cards side by side
+ * with no rules read as one paragraph in three pieces; ruled, they read as
+ * three separate things — which is the Guardian's whole grid grammar in
+ * miniature. */
+[data-highlights] {
+  background: var(--af-surface-sunk);
+}
+[data-highlights] ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* ⭐ `auto-fit`/`minmax` again, so the strip stacks on a phone with no media
+   query. ⛔ The vertical rule must NOT be drawn when the cards are stacked —
+   `+ li` inherits the inline-start border in a single column, which renders as
+   a stray vertical line down the left of the whole strip. The border is
+   therefore applied only inside the multi-column query. */
+@media (min-width: 40rem) {
+  /* --af-bp-wide */
+  [data-highlights] ul {
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+  [data-highlights] li + li {
+    border-inline-start: 1px solid var(--af-line);
+  }
+}
+[data-highlights] li {
+  margin-block-start: 0;
+  padding: var(--af-space-4) var(--af-space-5);
+}
+
+/* ⛔⛔ ON A PHONE THE BAND SCROLLS SIDEWAYS INSTEAD OF STACKING, and this is the
+ * third time today the same defect has been caught by measuring at 320px.
+ *
+ * MEASURED 8 Aug 2026, stacked: the band was **314px** on a phone and pushed
+ * the first line of the story to **561px** — the whole screen, on a reading
+ * site. Three faces before a word of the article is the exact opposite of what
+ * the band is for.
+ *
+ * ⭐ THE BAND'S JOB IS "a face above the fold", and one face visible with two
+ * more a swipe away does that in 96px. Hiding it entirely was the other option
+ * and it is worse: a phone reader is the one most likely to have arrived from a
+ * link and to have no idea this site is about people.
+ *
+ * ⚠️ A HORIZONTALLY SCROLLING ROW HIDES ITS OVERFLOW, so it must never be the
+ * only route to what is in it — every fellow here is also on the index, which
+ * is what makes it acceptable. See the sub-nav, which does the same thing for
+ * the same reason. */
+@media (max-width: 40rem) {
+  [data-highlights] ul {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+  [data-highlights] li {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+    padding-block: var(--af-space-3);
+  }
+  [data-highlights] li + li {
+    border-inline-start: 1px solid var(--af-line);
+  }
+  [data-highlight-face] {
+    inline-size: 3rem;
+    block-size: 3rem;
+  }
+}
+[data-highlight-inner] {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--af-space-4);
+}
+[data-highlight-text] {
+  flex: 1 1 auto;
+}
+/* The person's name, above the headline, in the brand. ⭐ This is the one
+   sanctioned use of the brand as a WORD, and it survives the rule in
+   colors.css because it is a label on a tinted panel rather than running text
+   competing with ink around it — the same licence the topic tag has. */
+[data-highlight-name] {
+  display: block;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+  color: var(--af-brand);
+  /* ⛔ NO UNDERLINE. The whole card is one destination — the name and the title
+     go to the same profile — so two underlined links stacked read as two
+     different places to go. The title carries the underline on hover and the
+     name does not, which is what the Guardian does with a contributor name. */
+  text-decoration: none;
+}
+[data-highlights] li:hover [data-highlight-name] {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+[data-highlight-title] {
+  margin: var(--af-space-1) 0 0;
+  font-size: var(--af-type-ui);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+}
+[data-highlight-title] a {
+  text-decoration: none;
+}
+[data-highlight-title] a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* ⛔ FIXED SIZE, NOT A PERCENTAGE. A percentage-sized circle changes diameter
+   with the card's width, so the three portraits come out at three sizes in a
+   ragged grid — and a face is the one thing a reader compares across cards. */
+[data-highlight-face] {
+  flex: 0 0 auto;
+  inline-size: 4.5rem;
+  block-size: 4.5rem;
+  border-radius: var(--af-radius-round);
+  object-fit: cover;
+  background: var(--af-line);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * SECTION  —  [data-section]
+ *
+ * ⭐ THE HEAVY RULE. A 3px black line across the column, with the section's
+ * label directly beneath it. Guardian section fronts are built out of these and
+ * almost nothing else: they are what turns one long scroll into a page with
+ * parts.
+ *
+ * ⛔ 3px, NOT the hairline. `--af-rule-hairline` is 1.28:1 — decoration, and
+ * explicitly *"may never be the ONLY thing separating two kinds of content."*
+ * This rule IS structure, so it is ink, and it is thick enough that a reader
+ * scanning at speed registers it as a boundary rather than as a ruled line. */
+[data-section] {
+  margin-block-start: var(--af-space-10);
+  padding-block-start: var(--af-space-4);
+  border-block-start: 3px solid var(--af-line-strong);
+}
+[data-section]:first-child {
+  margin-block-start: var(--af-space-6);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * HERO  —  [data-hero]
+ *
+ * ⭐ THE INVERTED OPENING. Measured on the Guardian's About and contribution
+ * pages, 8 Aug 2026: both open on the full navy with the statement at display
+ * size in light type, and nothing else in the band.
+ *
+ * ⛔ IT IS FOR PAGES THAT ASK, NOT PAGES THAT ARE READ. A profile opens on
+ * paper because the reader came to read; a support page opens on the band
+ * because it is asking for something and should say so before it says anything
+ * else. ⚠️ Putting this on a reading page would be the single fastest way to
+ * make this site look like a marketing site.
+ *
+ * ⛔ AT MOST ONE PER PAGE, and it replaces the H1's normal position — the
+ * headline lives INSIDE the band, it does not sit above or below it. */
+[data-hero] {
+  background: var(--af-band);
+  color: var(--af-band-text);
+  padding-block: var(--af-space-9) var(--af-space-10);
+}
+[data-hero] h1 {
+  max-width: 22ch;
+  color: var(--af-band-text);
+}
+/* ⭐ The kicker inverts on the band: its normal fill is ink, which on indigo is
+   1.09:1 — invisible. On the band it is the bright accent with dark text, the
+   same pair the CTA pill uses (11.51:1 measured). */
+[data-hero] [data-kicker] {
+  background: var(--af-band-accent);
+  color: var(--af-text-on-band-accent);
+}
+[data-hero-lede] {
+  margin-block-start: var(--af-space-5);
+  max-width: var(--af-measure);
+  font-size: var(--af-type-standfirst);
+  line-height: var(--af-leading-standfirst);
+}
+/* ⛔ `main` carries a top padding for every other page; the hero must sit flush
+   against the masthead or there is a stripe of paper between two bands. */
+main:has(> [data-hero]:first-child) {
+  padding-block-start: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * OPENING  —  [data-opening]
+ *
+ * ⭐ THE HOME PAGE'S FIRST SCREEN: the strapline on one side, a fellow's face
+ * and their words on the other, divided by the system's hairline.
+ *
+ * ⚠️ IT EXISTS BECAUSE OF A LAYOUT MISMATCH THAT WAS VISIBLE AND UNEXPLAINED.
+ * The strapline sat in `.wrap` — the 592px READING column — while everything
+ * below it used `.wrap--wide`. So the most important sentence on the site was
+ * set in a narrow column with a third of the screen empty either side, and the
+ * emptiness read as a mistake rather than as margin.
+ *
+ * ⭐ THE FIX IS NOT "WIDEN THE STRAPLINE". A strapline set to 1040px would be
+ * ~100 characters a line and unreadable — `--af-measure` is a property of the
+ * face and the size, and it does not change because there is room. The column
+ * is right; what was missing was **something to put beside it.**
+ *
+ * ⭐⭐ AND WHAT GOES BESIDE IT IS A PERSON, WHICH IS THE WHOLE ARGUMENT OF THE
+ * SITE. "aikyam fellows inspire actions on important & urgent needs" is a
+ * claim. A named person's face, and one sentence someone else said about them,
+ * is the evidence — put directly next to the claim, above the fold, before a
+ * reader has scrolled anywhere.
+ *
+ * ⛔ THE QUOTE MUST BE ATTRIBUTED AND THE ATTRIBUTION MUST BE HONEST. The
+ * strongest line available is a STUDENT speaking about a fellow, not the fellow
+ * speaking about herself — and unattributed it would read as the second thing.
+ * That is the rule `[data-pullquote-source]` was built for and it applies here
+ * with more force, because this one is on the front page. */
+[data-opening] {
+  display: grid;
+  gap: var(--af-space-7);
+  padding-block-end: var(--af-space-8);
+}
+@media (min-width: 48rem) {
+  [data-opening] {
+    /* ⛔ The reading column keeps its measured width and the quote takes what
+       is left — NOT `1fr 1fr`, which would widen the strapline past its
+       measure the moment the screen grew. */
+    grid-template-columns: minmax(0, 37rem) 1fr;
+    gap: var(--af-space-9);
+    align-items: start;
+  }
+  [data-opening-aside] {
+    padding-inline-start: var(--af-space-9);
+    border-inline-start: var(--af-rule-hairline) solid var(--af-line);
+  }
+}
+[data-opening] h1 {
+  max-width: 14ch;
+}
+[data-opening] [data-standfirst] {
+  margin-block-start: var(--af-space-5);
+}
+
+/* ⭐ THE PORTRAIT IS LARGER HERE THAN ANYWHERE ELSE ON THE SITE — 7rem against
+   the 3.75rem of an index card. It is the only face on the page that is not
+   competing with nineteen others, and it is carrying the site's central claim.
+   ⛔ Still a circle. The one shape rule: square is structure, round is a
+   person. */
+[data-opening-face] {
+  inline-size: 7rem;
+  block-size: 7rem;
+  border-radius: var(--af-radius-round);
+  object-fit: cover;
+  background: var(--af-surface-sunk);
+  margin-block-end: var(--af-space-5);
+}
+/* ⛔ NOT `[data-pullquote]`. That component is 30px italic with a 4px rule and
+   is tuned to interrupt a column of running prose — here there is no prose to
+   interrupt, and at 30px beside a 42px headline the two would fight. This is
+   quieter than the headline on purpose: the headline is the claim and the quote
+   is the evidence, and evidence does not shout. */
+/* ⛔ THE BASE `blockquote` RULE HAS TO BE RESET HERE. `styles.css` gives every
+   blockquote a hairline on its inline start, which is correct in running prose
+   and wrong inside an aside that already has one — the two drew a double rule
+   ~50px apart, which reads as a mistake because it is one. ⭐ The aside owns the
+   rule; the quote inside it owns none. */
+[data-opening-quote] {
+  margin: 0;
+  padding-inline-start: 0;
+  border-inline-start: 0;
+  font-size: var(--af-type-standfirst);
+  font-style: italic;
+  line-height: var(--af-leading-standfirst);
+  max-width: 26ch;
+}
+[data-opening-source] {
+  display: block;
+  margin-block-start: var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-style: normal;
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * RAIL  —  [data-rail] / [data-rail-label] / [data-rail-body]
+ *
+ * ⭐⭐ THE GUARDIAN'S INDEX STRUCTURE, AND THE LAST BIG THING THIS SYSTEM WAS
+ * MISSING. The section's name sits in its own LEFT COLUMN and the content grid
+ * runs beside it — "Columnists" against a grid of columnists.
+ *
+ * MEASURED on theguardian.com/index/contributors, 8 Aug 2026:
+ *   label 28px / 700 / headline serif, in a 220px column starting at x=20 ·
+ *   content grid beside it · vertical rules 1px #dcdcdc · section rules 2px #333
+ *
+ * ⭐ WHY IT MATTERS MORE THAN IT LOOKS. A heading ABOVE a list is consumed and
+ * forgotten — by the fourth row the reader no longer knows what they are
+ * inside. A heading BESIDE the list stays on screen for the whole of it, so
+ * every row is read in the context of its section. That is why a newspaper
+ * front can run six sections down one page and never confuse anybody, and why
+ * a stacked page of the same content reads as one undifferentiated list.
+ *
+ * ⛔ THE RAIL COLLAPSES TO A NORMAL HEADING BELOW THE WIDE BREAKPOINT. A 220px
+ * column beside content inside a 327px phone leaves 107px for the grid. There
+ * is no clever version of this on a phone; the label goes back on top, which is
+ * what the Guardian does too. */
+[data-rail] {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--af-space-3);
+  margin-block-start: var(--af-space-8);
+  padding-block-start: var(--af-space-4);
+  /* ⛔ 2px ink, measured. This is `--af-line-strong`, not the hairline: the
+     boundary between two sections is structure, and the hairline token is
+     explicitly *decoration, never the only thing separating two kinds of
+     content.* */
+  border-block-start: 2px solid var(--af-line-strong);
+}
+@media (min-width: 48rem) {
+  [data-rail] {
+    grid-template-columns: 13.75rem 1fr; /* 220px, measured */
+    gap: var(--af-space-6);
+  }
+}
+[data-rail-label] {
+  margin: 0;
+  font-size: var(--af-type-heading);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+  /* ⭐ It stays put while the grid beside it scrolls — that is the whole
+     mechanism, and it is one property. ⛔ Only above the breakpoint: a sticky
+     heading on a phone is a heading that covers the content. */
+  align-self: start;
+}
+@media (min-width: 48rem) {
+  [data-rail-label] {
+    position: sticky;
+    top: var(--af-space-4);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * RULED CARD GRID  —  [data-cards] / [data-card]
+ *
+ * ⭐⭐ RULES IN BOTH DIRECTIONS. This is the Guardian's defining grammar and
+ * the thing whose absence made every index page here read as a document rather
+ * than as a publication: horizontal rules between rows, VERTICAL rules between
+ * columns.
+ *
+ * ⭐ THE RULES ARE DRAWN BY THE GAP, NOT BY BORDERS, and the trick is worth
+ * understanding because it is what makes this work at any column count:
+ *
+ *     the grid gets `gap: 1px` and the RULE COLOUR as its background;
+ *     each cell paints the PAGE colour over it.
+ *
+ * The 1px gaps are the only places the container shows through, so they become
+ * the rules — automatically, in both directions, with no `nth-child` arithmetic
+ * that has to be rewritten every time the column count changes.
+ * ⛔ BORDERS WOULD NEED THAT ARITHMETIC. `border-inline-start` on every cell
+ * draws a stray rule down the outer edge; removing it on the first of each row
+ * needs an `nth-child(3n+1)` that silently becomes wrong the moment `auto-fit`
+ * picks a different number of columns at a different width. This has no such
+ * failure mode.
+ * ⚠️ THE ONE THING IT COSTS: a cell may not have its own background — any cell
+ * that does will cover the gaps around it and lose its rules. If a highlighted
+ * card is ever needed, it takes an outline, not a fill. */
+[data-cards] {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 40rem) {
+  /* --af-bp-wide */
+  [data-cards] {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+}
+/* ⛔ THE RULES ARE A `box-shadow` ON EACH CELL, NOT THE CONTAINER'S BACKGROUND
+   SHOWING THROUGH THE GAPS — corrected 8 Aug 2026 after looking at it.
+   The gap-background trick is elegant and has one failure this content hits
+   constantly: **a row that is not full**. Three cards in a two-column grid
+   leaves an empty track, and the container's rule colour paints it as a solid
+   grey block. Measured by looking at the Art & Culture section on the home
+   page, which has exactly three stories.
+   ⭐ `box-shadow: 0 0 0 1px` draws each cell's own outline instead. It takes no
+   space, so adjacent cells' shadows land on the same pixel and stay 1px rather
+   than doubling — and an empty track has no cell, so it draws nothing. */
+[data-card] {
+  margin-block-start: 0;
+  padding: var(--af-space-5);
+  background: var(--af-surface-page);
+  box-shadow: 0 0 0 1px var(--af-line);
+}
+[data-card-inner] {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--af-space-4);
+}
+[data-card-text] {
+  flex: 1 1 auto;
+}
+/* The person's name above the headline. ⭐ On the Guardian this is the pillar
+   colour; here it is the brand, which is the same job — it says *who* before it
+   says *what*, which is the right order on a site whose subject is people. */
+[data-card-name] {
+  display: block;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+  color: var(--af-brand);
+  text-decoration: none;
+}
+/* ⛔ 20px / 400, measured on the Guardian's index cards — NOT the bold of an
+   in-page heading. A card title is one of twenty on the screen; setting them
+   all bold makes a wall and none of them wins. */
+[data-card-title] {
+  margin: var(--af-space-1) 0 0;
+  font-size: var(--af-type-subheading);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-heading);
+}
+[data-card-title] a {
+  text-decoration: none;
+}
+[data-card]:hover [data-card-title] a {
+  text-decoration: underline;
+  text-decoration-color: var(--af-line-link);
+  text-underline-offset: 3px;
+}
+[data-card-meta] {
+  margin: var(--af-space-2) 0 0;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-micro);
+  color: var(--af-text-quiet);
+}
+[data-card-face] {
+  flex: 0 0 auto;
+  inline-size: 3.75rem;
+  block-size: 3.75rem;
+  border-radius: var(--af-radius-round);
+  object-fit: cover;
+  background: var(--af-surface-sunk);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * DOCUMENT INDEX  —  [data-docs] / [data-doc]
+ *
+ * ⭐⭐ A PAGE TYPE THIS SYSTEM HAD NO CONCEPT FOR, and the reader is not the
+ * one everything else here was designed for. Every other page serves someone
+ * who arrived to read a story. This one serves **a compliance officer at a
+ * funding organisation who has been asked to verify that this body is what it
+ * says it is** — and who is working through a checklist, not browsing.
+ *
+ * ⛔ THAT CHANGES WHAT "GOOD" MEANS. They are not to be delighted, engaged or
+ * persuaded. They need to find one named document, confirm it is the right one,
+ * and leave. Everything below follows from that:
+ *
+ *   · the file's OWN NAME is the link text, verbatim, including the extension
+ *     and the awkward capitalisation. ⛔ A tidied "Certificate of
+ *     Incorporation" does not match the "Certificate OF Incorporation T4G.pdf"
+ *     on their checklist, and matching is the entire task.
+ *   · the format is announced IN THE LINK, not implied by an icon. A reader on
+ *     a phone on metered data, and every screen-reader user, needs to know it
+ *     is a PDF before they open it.
+ *   · groups are headed by what a checklist calls them — "12A & 80G", not
+ *     "Tax".
+ *
+ * ⚠️ FILE SIZES ARE NOT SHOWN, and they should be. A size is the other thing
+ * that reader wants before tapping a PDF. It is omitted because nobody has
+ * measured them, and an invented size on a compliance page is the same class of
+ * error as an invented registration number. Add them from the real files.
+ *
+ * ⛔ NO CARD, NO SHADOW, NO ICON SET. This is a list of files. */
+[data-docs] {
+  list-style: none;
+  margin: var(--af-space-4) 0 0;
+  padding: 0;
+  max-width: var(--af-measure);
+}
+[data-doc] {
+  margin-block-start: 0;
+  border-block-end: var(--af-rule-hairline) solid var(--af-line);
+}
+[data-doc] a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--af-space-2);
+  min-height: var(--af-tap-comfortable);
+  padding-block: var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  /* ⛔ `break-all` is wrong and `anywhere` is right: these names contain
+     underscores and no spaces ("T4G_Annual_Activity_Report_FY2025-26"), so a
+     narrow column either overflows or breaks mid-word at an arbitrary point.
+     `anywhere` breaks only when there is no other option. */
+  overflow-wrap: anywhere;
+}
+/* The format tag. ⛔ It is TEXT, not a background image or an ::after content
+   string — generated content is skipped by some screen readers, and this is one
+   of the few labels on the site that a reader needs BEFORE they act. */
+[data-doc-type] {
+  flex: 0 0 auto;
+  font-size: var(--af-type-micro);
+  font-weight: var(--af-weight-bold);
+  letter-spacing: var(--af-tracking-micro);
+  color: var(--af-text-quiet);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * NOTE  —  [data-note]
+ *
+ * An aside that is the publisher speaking about the piece rather than the
+ * author writing it: "This profile was updated after Sentinaro moved to
+ * Kohima", "Names have been changed at the family's request".
+ *
+ * ⛔ IT IS NOT A CORRECTION AND THE DIFFERENCE IS NOT DECORATIVE. A Correction
+ * says *we published something untrue about a named living person*; it sits at
+ * the FOOT of the piece, carries a date, and states what changed. A Note is
+ * context. Styling them alike would let a correction be mistaken for a
+ * footnote, on a site where the cost of being wrong lands on the person written
+ * about. See `[data-correction]` in components.css.
+ *
+ * ⭐ SUNK PAPER, NO BORDER, NO ICON. Ink on sunk is 15.79:1 and quiet ink is
+ * 6.75:1, so the block is fully legible; the surface change alone says "this is
+ * beside the writing". An icon would need an icon set, and this system ships
+ * none deliberately — see REMOVED.md. */
+[data-note] {
+  margin-block: var(--af-space-6);
+  padding: var(--af-space-5);
+  max-width: var(--af-measure);
+  background: var(--af-surface-sunk);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-tight);
+}
+[data-note] p {
+  margin: 0;
+  max-width: none;
+}
+[data-note] p + p {
+  margin-block-start: var(--af-space-3);
+}
+/* The label is the only thing that says what kind of note this is, so it is in
+   the markup as text and never implied by colour. */
+[data-note-label] {
+  display: block;
+  margin-block-end: var(--af-space-2);
+  font-weight: var(--af-weight-bold);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * TABLE WRAPPER  —  [data-table]
+ *
+ * ⛔⛔ A TABLE WITHOUT THIS WRAPPER IS A SITE-WIDE PHONE BUG. A four-column
+ * table cannot fit a 327px column, so it pushes the whole DOCUMENT sideways —
+ * one table in one article gives every reader on that page a horizontal
+ * scrollbar over the entire site chrome. `styles.css` styles `table` so legacy
+ * content is at least legible; it cannot fix the overflow, because the fix is a
+ * wrapping element the table does not have.
+ *
+ * ⛔ AND THE WRAPPER IS NOT ENOUGH ON ITS OWN. A scrollable region must be
+ * reachable by keyboard, which means `tabindex="0"`, and a focusable region
+ * must have an accessible name, which means `role="region"` and
+ * `aria-labelledby` pointing at the caption. Three attributes; without them the
+ * table is scrollable with a mouse and unreachable without one.
+ *
+ * ⚠️ THE SCROLL IS SILENT AND THAT IS THE REMAINING WEAKNESS. There is no
+ * shadow or fade at the edge to say "there is more to the right", because this
+ * system ships no shadow (spacing.css: "there is none, and that is the
+ * decision"). ⭐ The honest fix is editorial rather than visual: a table that
+ * needs four columns on a phone is usually a table that should be a list. */
+[data-table] {
+  overflow-x: auto;
+  margin-block: var(--af-space-6);
+  /* ⛔ `overflow-x: auto` clips a focus ring drawn on a cell inside it. The
+     padding gives the 3px outline + 2px offset somewhere to be drawn. */
+  padding-block-end: var(--af-space-1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * TABLE OF CONTENTS  —  [data-toc]
+ *
+ * ⭐ EARNS ITS PLACE ONLY ON LONG PAGES, and "long" has a number: this site's
+ * profiles run ~1,800–2,000 words. Below roughly 1,200 a contents list is
+ * furniture that delays the first sentence.
+ *
+ * ⛔ NOT STICKY, AND NOT A SIDEBAR. A sticky rail needs a column this layout
+ * does not have — running prose stays at `--af-measure` at every width, and the
+ * space either side is margin doing a job (see breakpoints.css). A sticky
+ * element on a phone eats reading area permanently.
+ *
+ * ⭐ SO IT IS A `<details>` AT THE TOP OF THE ARTICLE, OPEN ON WIDE SCREENS AND
+ * CLOSED ON A PHONE — which is one attribute in the markup and no JavaScript.
+ * ⚠️ AND `:target` SCROLL-MARGIN IS WHAT MAKES IT WORK: without the rule in
+ * styles.css, every jump lands the heading at the exact top of the viewport
+ * with nothing above it, and the reader cannot tell they moved. */
+[data-toc] {
+  margin-block: var(--af-space-7);
+  padding: var(--af-space-4) var(--af-space-5);
+  max-width: var(--af-measure);
+  background: var(--af-surface-sunk);
+}
+[data-toc] ol {
+  list-style: none;
+  margin: var(--af-space-3) 0 0;
+  padding: 0;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+}
+[data-toc] li + li {
+  margin-block-start: 0;
+}
+[data-toc] a {
+  display: flex;
+  align-items: center;
+  min-height: var(--af-tap-comfortable);
+}
+/* A second-level entry is indented and NOT set smaller — depth is position, not
+   size. See typography.css: no small type for long text. */
+[data-toc] ol ol {
+  margin: 0;
+  padding-inline-start: var(--af-space-5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * EMPTY STATE  —  [data-empty]
+ *
+ * ⭐⭐ THE MOST NEGLECTED SCREEN IN ANY SYSTEM, AND ON THIS SITE IT IS COMMON
+ * RATHER THAN RARE. With 13 stories across 7 topics, a topic page can legally
+ * hold ONE story or NONE, and most searches return nothing. This is not an edge
+ * case here; it is a normal Tuesday.
+ *
+ * ⛔ "No results" IS NOT A PAGE. It is a dead end that tells the reader the site
+ * failed and gives them no move. An empty state on this site must do three
+ * things, in this order:
+ *   1. say plainly what was looked for and that it found nothing
+ *   2. say WHY, if the reason is knowable ("Aftercare has one story so far")
+ *   3. offer the seven topics — which on a 13-story site is the whole map
+ *
+ * ⭐ (2) IS THE ONE THAT ONLY WORKS ON A SITE THIS SIZE, and it is worth
+ * spending a sentence on: "one story so far" is honest, is not a failure, and
+ * tells a reader something true about a young fellowship. A generic "nothing
+ * found" throws that away and reads like a bug. */
+[data-empty] {
+  margin-block: var(--af-space-9);
+  padding-block: var(--af-space-7);
+  max-width: var(--af-measure);
+  border-block-start: var(--af-rule-leading) solid var(--af-line-strong);
+}
+[data-empty] h2 {
+  font-size: var(--af-type-subheading);
+}
+[data-empty] p {
+  margin: var(--af-space-4) 0 0;
+  max-width: var(--af-measure);
+}
+[data-empty] [data-topics] {
+  margin-block-start: var(--af-space-6);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * ERROR PAGE  —  [data-error-page]
+ *
+ * The 404, the 500, and the Ghost theme's own error template.
+ *
+ * ⛔ NO APOLOGY THEATRE, NO ILLUSTRATION, NO "OOPS". A reader who followed a
+ * link that no longer works has lost something specific — usually a profile —
+ * and the useful response is a route back, not a mood. The tone rule is in
+ * `guidelines/voice.md`: *a refusal needs a sentence and the sentence ends with
+ * what to do next.*
+ *
+ * ⭐ AND THE 404 IS A REAL RISK ON THIS SITE SPECIFICALLY. `REMOVED.md` records
+ * that `/tag/arts-culture/` and `/tag/art-and-culture/` are both live, and that
+ * mental health is `/tag/mental-health-2/`. Slug duplicates get consolidated
+ * eventually, and every consolidation retires a URL somebody has bookmarked or
+ * linked. This page is where those readers land.
+ *
+ * ⛔ IT IS THE SAME LAYOUT AS ANY OTHER PAGE — masthead, `--af-measure`,
+ * footer. An error page that drops the chrome strands the reader on an island
+ * with no nav, which is the opposite of the one thing it is for. */
+[data-error-page] {
+  padding-block: var(--af-space-9) var(--af-space-10);
+  max-width: var(--af-measure);
+}
+/* ⚠️ THE STATUS NUMBER IS SMALL, NOT ENORMOUS. A 120px "404" is the convention
+   and it is decoration: the number means nothing to most readers, and setting
+   it at display size makes it the most prominent thing on a page whose job is
+   to point elsewhere. It is a label above the sentence that matters. */
+[data-error-code] {
+  display: block;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--af-tracking-micro);
+  color: var(--af-text-quiet);
+  margin-block-end: var(--af-space-3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * EMBED  —  [data-embed]
+ *
+ * A video, a map, a form from another service.
+ *
+ * ⛔ `aspect-ratio` ON THE WRAPPER, NOT A HEIGHT ON THE IFRAME. A fixed height
+ * letterboxes on a phone and crops on a laptop, and it is the single most
+ * common way an embedded video breaks a responsive page.
+ *
+ * ⚠️ AND AN EMBED IS A THIRD PARTY ON THE PAGE. It ships its own fonts, its own
+ * colours, its own dark-mode behaviour and usually its own cookies — none of
+ * which this system controls, and the last of which turns a site that sets no
+ * cookies into one that does. ⭐ A LINK TO THE VIDEO IS OFTEN THE RIGHT ANSWER
+ * on a reading site, and it costs the reader one tap. */
+[data-embed] {
+  margin-block: var(--af-space-7);
+  aspect-ratio: 16 / 9;
+}
+[data-embed] > * {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * GRID  —  [data-grid]
+ *
+ * The fellow index, a topic's story list, the partner list. One column on a
+ * phone, more when there is room.
+ *
+ * ⭐ `auto-fit` + `minmax`, NOT A MEDIA QUERY, and the reason is the one that
+ * makes this system's whole layout approach consistent: the number of columns
+ * should be decided by WHETHER THE CONTENT FITS, not by a viewport width that
+ * happens to correlate with it. A grid inside a narrow container gets one
+ * column at 1280px, correctly, with no rule written for that case.
+ *
+ * ⛔ `18rem` IS THE MINIMUM AND IT IS NOT ARBITRARY — a fellow card carries a
+ * name at heading size and an italic phrase, and below roughly 18rem the name
+ * starts wrapping mid-word. Unmeasured; re-measure if the card gains a
+ * photograph.
+ *
+ * ⚠️ THE GRID DOES NOT CAP AT `--af-measure` AND MUST NOT. That token is a
+ * statement about a LINE OF PROSE. A list of names is scanned, not read
+ * left-to-right, and capping it would waste the width that lets a reader see
+ * six fellows at once — which is the entire value of an index page. It caps at
+ * `--af-measure-wide` via `.wrap--wide`. */
+[data-grid] {
+  display: grid;
+  gap: var(--af-space-6);
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-grid] > li {
+  margin-block-start: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * FIGURE — A NUMBER THE READER CAN CHECK  —  [data-figure]
+ *
+ * ⭐⭐ THE MOST OPINIONATED COMPONENT IN THE SYSTEM, and the opinion is
+ * enforced by the CSS rather than stated in a comment:
+ *
+ *     THE VALUE IS AN `<a>`. NOT A `<span>`.
+ *
+ * A figure with no destination CANNOT BE BUILT with this component. "6 fellows"
+ * links to the six; "13 stories" links to the thirteen. If a number has nowhere
+ * to point, the site cannot show it — which is the check, and it is structural
+ * rather than editorial.
+ *
+ * ⛔ THIS REPLACED A TRAFFIC DASHBOARD. The live impact page embeds Plausible
+ * showing "live activity of our site". Website traffic standing in for a
+ * fellowship's impact — and *a rising line reads as achievement without ever
+ * claiming to be one*. The replacement is figures that each link to the list
+ * they count, plus a section headed "What we cannot show yet".
+ *
+ * ⚠️ AND THE NUMBERS THEMSELVES ARE STILL UNVERIFIED. "6 fellows" and "13
+ * stories" were COUNTED OFF THE LIVE SITE and must be checked against the
+ * organisation's own records before this page ships — *the impact page must not
+ * be where a discrepancy first appears*. See STATE.md.
+ *
+ * ⭐ `[data-figure-asof]` IS PART OF THE COMPONENT, NOT AN OPTION. A count is
+ * true on a date. Without one, a figure that was right in August is silently
+ * wrong in November and nothing on the page admits it. */
+[data-figures] {
+  display: grid;
+  gap: var(--af-space-6);
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-figure] {
+  margin-block-start: 0;
+  padding-block-start: var(--af-space-3);
+  /* The load-bearing rule: this one is read as a heading, not as spacing. */
+  border-block-start: 3px solid var(--af-line-strong);
+}
+[data-figure-value] {
+  display: block;
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-heading);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+}
+[data-figure-label] {
+  display: block;
+  margin-block-start: var(--af-space-1);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+}
+[data-figure-asof] {
+  display: block;
+  margin-block-start: var(--af-space-2);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-micro);
+  color: var(--af-text-quiet);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * DISCLOSURE GROUP  —  [data-faq]
+ *
+ * A stack of `<details>`: an FAQ, "what partnership includes", "what we cannot
+ * show yet".
+ *
+ * ⛔ NO `name` ATTRIBUTE — DO NOT MAKE IT AN ACCORDION. Modern browsers support
+ * exclusive `<details name="x">`, where opening one closes the others. That is
+ * wrong for reference content: a reader comparing two answers has to hold one
+ * in their head, and a reader who has opened four and scrolled cannot see any
+ * of them. Exclusivity is for a control panel where only one thing can be
+ * configured at a time.
+ *
+ * ⚠️ AND A `<details>` IS INVISIBLE TO IN-PAGE SEARCH WHEN CLOSED in most
+ * engines — Ctrl-F does not find text inside a collapsed disclosure. Anything a
+ * reader might arrive looking for should not be hidden in one. */
+[data-faq] {
+  max-width: var(--af-measure);
+  border-block-start: var(--af-rule-hairline) solid var(--af-line);
+}
+[data-faq] > details {
+  border-block-end: var(--af-rule-hairline) solid var(--af-line);
+}
+[data-faq] > details > div {
+  padding-block-end: var(--af-space-5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * BANNER  —  [data-banner]
+ *
+ * One site-wide notice, above the masthead: a funding appeal, an event, a
+ * publishing pause.
+ *
+ * ⛔ ONE AT A TIME, AND NEVER A POPUP. This system has no modal and is not
+ * getting one. A dialog over an article interrupts the one thing the reader
+ * came for, has to be dismissed, needs a focus trap and an escape handler, and
+ * on a phone covers the whole screen.
+ *
+ * ⛔ AND NO AUTOMATIC DISMISSAL AND NO REAPPEARANCE. If it is dismissible, the
+ * dismissal is permanent for that reader. A banner that comes back is an
+ * advertisement wearing an announcement's clothes. */
+[data-banner] {
+  padding-block: var(--af-space-3);
+  background: var(--af-surface-sunk);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  text-align: center;
+}
+[data-banner] p {
+  margin: 0;
+  max-width: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * UNFILLED SLOT  —  [data-slot]
+ *
+ * ⭐⭐ THE MOST IMPORTANT COMPONENT IN THE SYSTEM AND IT IS NOT A DESIGN
+ * ELEMENT. It marks a place where only the owner can supply the answer: an
+ * email address that does not exist yet, a sentence about what partnership
+ * includes that is the organisation's to write and not design's.
+ *
+ * ⚠️ IT USED TO BE DELIBERATELY UGLY — a dashed red box, on the argument that a
+ * tasteful placeholder gets shipped. **OWNER DECISION, 8 Aug 2026: use
+ * placeholder content instead.** The red boxes were louder than the design and
+ * made every page unreviewable: you could not judge the typography, the rhythm
+ * or the colour of a page with three alarms on it, which is what the page was
+ * being opened to judge.
+ *
+ * ⭐ SO IT IS NOW QUIET — sunk paper, a leading rule, caption-grey text. It
+ * reads as *"this is coming"* rather than *"this is broken"*.
+ * ⛔ AND THE TRACKING MOVED RATHER THAN DISAPPEARING. The page no longer
+ * shouts about what is missing, so **`STATE.md` is now the only record of it**.
+ * A quiet marker plus no list is how a placeholder ships to production. Grep
+ * `data-slot` across `pages/` for the live count before calling anything
+ * finished.
+ *
+ * ⭐ THE RULE IT ENFORCES: **A PAGE CARRYING ONE IS NOT READY.** The designer
+ * who built the contact page refused to invent `hello@` plus the domain
+ * because *"it would have made the kit look finished and shipped a fabricated
+ * address into production."* This component is what makes refusing cheap —
+ * without it, the only alternatives are inventing something or leaving a
+ * confusing gap.
+ *
+ * ⚠️ THIS IS THE ONE PLACE THE PALETTE'S "no error red" RULE IS SET ASIDE, and
+ * it is consistent rather than an exception: that rule governs what a READER
+ * sees. Nothing carrying a slot is shown to a reader. These colours are for the
+ * owner and the reviewer, they never reach production, and the day the last
+ * slot is filled they disappear from the site entirely. */
+[data-slot] {
+  display: block;
+  margin-block: var(--af-space-4);
+  padding: var(--af-space-4);
+  max-width: var(--af-measure);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-tight);
+  color: var(--af-text-quiet);
+  background: var(--af-surface-sunk);
+  border: 0;
+  border-inline-start: var(--af-rule-leading) solid var(--af-line);
+  border-radius: var(--af-radius-none);
+}
+
+/* ⭐ THE MEDIA PLACEHOLDER — a grey block at the shape the real photograph
+   will be, with a quiet label. It is what a reader sees where an image is
+   coming, and it is what a REVIEWER sees when judging the page's rhythm.
+   ⛔ ITS ASPECT RATIO IS THE POINT. A missing image rendered as a one-line
+   note collapses the page's vertical rhythm, so every judgement made about
+   spacing above and below it is made against a layout that will not ship. A
+   block of the right shape keeps the page honest about its own height.
+   ⚠️ 3/2 is the portrait default and it is a GUESS — the archive has no image
+   files to measure. Set it per instance once real photographs exist. */
+[data-placeholder-media] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 3 / 2;
+  inline-size: 100%;
+  background: var(--af-surface-sunk);
+  color: var(--af-text-quiet);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  text-align: center;
+  padding: var(--af-space-5);
+}
+[data-placeholder-media][data-shape='round'] {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--af-radius-round);
+  max-inline-size: 12rem;
+}
+
+[data-slot] b,
+[data-slot] strong {
+  display: block;
+  margin-block-end: var(--af-space-1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * THE FOUR INSTITUTIONAL BLOCKS
+ *
+ * ⚠️ THESE WERE STRANDED. All four existed only in
+ * `institutional/institutional.css` as `.inst-*` classes, written against that
+ * file's own token scale — which disagrees with this system's on four spacing
+ * steps and three type steps. See the head of `chrome.css` for the table. They
+ * are re-expressed here against one vocabulary; the decisions are unchanged and
+ * are credited to the institutional designer who made them.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── FUNDING DISCLOSURE ── [data-funding] ────────────────────────────────────
+ * ⭐ "Proudly Not for Profit" IS NOT A PAGE, IT IS THIS BLOCK, and the
+ * re-decision is the whole point: a page saying a organisation is not for
+ * profit is a claim. A block headed "How this is paid for", sitting BESIDE THE
+ * ACTUAL MONEY, is a disclosure. One is marketing and one is accountability,
+ * and they are one editorial decision apart. */
+[data-funding] {
+  margin-block: var(--af-space-9);
+  padding: var(--af-space-7) var(--af-space-6);
+  background: var(--af-surface-sunk);
+}
+[data-funding-inner] {
+  max-width: var(--af-measure);
+  margin-inline: auto;
+}
+[data-funding] dt {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+  color: var(--af-text-quiet);
+}
+
+/* ── PARTNER ── [data-partner] ───────────────────────────────────────────────
+ * ⚠️⚠️ LOGOS ADDED 8 Aug 2026 — OWNER DECISION, AND IT REVERSES THE STATED
+ * DESIGN DECISION OF THIS PAGE. The reversal is recorded rather than quietly
+ * applied, because the three original reasons were good ones and whoever reads
+ * this next deserves to weigh them:
+ *
+ *   1. *A logo wall is the visual grammar of sponsorship.* A grid of marks is
+ *      what a conference backdrop looks like, and it reads as "these brands
+ *      paid to be seen here."
+ *   2. *A logo says nothing about the relationship.* It tells a reader the
+ *      organisation exists, not what it funds.
+ *   3. *Logos wreck a restrained palette.* Four marks arrive at four unrelated
+ *      weights, colours and aspect ratios.
+ *
+ * ⭐ WHAT THE OWNER IS RIGHT ABOUT, and it outweighs all three: **a funder
+ * expects to be visible.** Philanthropies list their grantees and their
+ * grantees list them; a partners page with no marks and no links is unusual
+ * enough that it reads as an omission rather than as restraint. And the live
+ * page links to none of the four — measured 8 Aug — so a reader who wants to
+ * check who Rainmatter is has to leave and search.
+ *
+ * ⭐ SO REASON 1 IS ANSWERED BY LAYOUT AND REASON 2 BY KEEPING THE SENTENCE:
+ * the logo sits BESIDE the description, not instead of it, and every partner
+ * gets the same box at the same size in the same order. ⛔ NO SIZE TIERING,
+ * still — tiering by contribution is the one move that turns a partner page
+ * into a sponsor board, and once one mark is larger every funder negotiates.
+ *
+ * ⛔ REASON 3 IS THE ONE THAT NEEDS ENFORCING IN CSS, because it is true and no
+ * decision makes it untrue. Four logos in four aspect ratios will not line up
+ * on their own. The box is a FIXED HEIGHT with `object-fit: contain`, so a wide
+ * mark and a square mark occupy the same vertical space and the row stays even
+ * whatever arrives. */
+[data-partner] {
+  display: grid;
+  gap: var(--af-space-4);
+  padding-block: var(--af-space-6);
+  border-block-end: var(--af-rule-hairline) solid var(--af-line);
+  max-width: var(--af-measure-wide);
+}
+@media (min-width: 40rem) {
+  /* --af-bp-wide — the mark in a fixed column, the words beside it. */
+  [data-partner] {
+    grid-template-columns: 12rem 1fr;
+    gap: var(--af-space-6);
+    align-items: start;
+  }
+}
+[data-partner-name] {
+  font-size: var(--af-type-subheading);
+  font-weight: var(--af-weight-bold);
+}
+[data-partner-what] {
+  margin: var(--af-space-2) 0 0;
+  max-width: var(--af-measure);
+}
+
+/* ⛔ FIXED HEIGHT, `contain`, AND A QUIET GROUND. The height is what keeps four
+   unrelated marks on one line; `contain` is what stops a wide logo being
+   cropped or a square one being stretched; the sunk ground is what stops a
+   white-on-transparent mark disappearing into the page — which is how most
+   organisations ship their primary logo. */
+[data-partner-logo] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 5rem;
+  padding: var(--af-space-3);
+  background: var(--af-surface-sunk);
+}
+[data-partner-logo] img {
+  max-block-size: 100%;
+  max-inline-size: 100%;
+  object-fit: contain;
+}
+/* ⭐ THE NAME IS THE FALLBACK AND IT IS NOT A PLACEHOLDER — it is what a reader
+   sees if the image 404s, if it is blocked, or if it has not been supplied yet.
+   A partner page that degrades to the partner's NAME is still a correct partner
+   page; one that degrades to a broken-image icon is not. */
+[data-partner-logo] span {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+  color: var(--af-text-quiet);
+  text-align: center;
+}
+/* ⚠️ The whole block is one destination, so the mark and the name must not be
+   two separate links to the same place — that is two tab stops and two
+   announcements for one thing. The NAME is the link; the logo is decoration
+   inside it and is marked `aria-hidden`. */
+[data-partner] a {
+  text-decoration-color: var(--af-line-link);
+}
+
+/* ── ROUTE IN ── [data-route] ────────────────────────────────────────────────
+ * "Here is a way to be involved, and here is who it is for." One route per
+ * block, and the WHO is required — a route with no named audience is a wish. */
+[data-route] {
+  padding-block: var(--af-space-6);
+  border-block-start: var(--af-rule-hairline) solid var(--af-line);
+  max-width: var(--af-measure);
+}
+[data-route-what] {
+  margin: 0 0 var(--af-space-2);
+  font-size: var(--af-type-subheading);
+  font-weight: var(--af-weight-bold);
+}
+[data-route-who] {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+}
+
+/* ── PEOPLE ── [data-people] ─────────────────────────────────────────────────
+ * A named list — trustees, the team, an advisory group. A name and a role, and
+ * ⛔ NO PHOTOGRAPHS: `guidelines/photographs.md` is about people doing work,
+ * and a grid of headshots is the shape of a corporate about-page. The one
+ * circle in this system is a fellow's portrait on their own profile. */
+[data-people] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: var(--af-measure);
+}
+[data-people] li {
+  margin-block-start: 0;
+  padding-block: var(--af-space-4);
+  border-block-end: var(--af-rule-hairline) solid var(--af-line);
+}
+[data-people] li > span {
+  display: block;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+}
+
+/* ── EMAIL LINK ── [data-mail] ───────────────────────────────────────────────
+ * ⛔ MEASURED DEFECT, 7 Aug 2026, carried across: this was `inline-flex`, which
+ * DISCARDS WHITESPACE BETWEEN CHILDREN — a label and its neighbour rendered
+ * touching at gap 0.00px. ⭐ `display: flex` with an explicit `gap` is the fix,
+ * and the general form of the bug is worth keeping: any flex container silently
+ * deletes the space characters between its children, so a text node that was
+ * separated by a space in the source is not separated on screen. The same
+ * defect produced "Aparna R— 3 Aug 2026" in a byline. See spacing.css.
+ *
+ * ⚠️ AND THERE IS STILL NO ADDRESS TO PUT IN IT. The live site publishes no
+ * email anywhere; five slots on contact.html are unfilled. This component is
+ * ready and cannot be used until the owner supplies one. */
+[data-mail] {
+  display: flex;
+  align-items: center;
+  gap: var(--af-space-2);
+  min-height: var(--af-tap-comfortable);
+  padding-inline: var(--af-space-4);
+  border: 1px solid var(--af-line-strong);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  text-decoration: none;
+  transition: background var(--af-motion-quick) var(--af-motion-ease),
+    color var(--af-motion-quick) var(--af-motion-ease);
+}
+[data-mail]:hover {
+  background: var(--af-surface-inverse);
+  color: var(--af-text-on-inverse);
+}

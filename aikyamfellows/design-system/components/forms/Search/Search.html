@@ -1,0 +1,20 @@
+<!-- @dsCard group="Forms" -->
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search — aikyam fellows</title>
+<link rel="stylesheet" href="../../../styles.css">
+<style>
+  body { margin: 0; padding: 2rem 0; }
+  .ds-note { font-family: var(--af-font-ui); font-size: var(--af-type-small);
+             color: var(--af-text-quiet); margin: 0 0 1.5rem; }
+</style>
+<main id="main" class="wrap">
+  <p class="ds-note">A search field and its result count. On a small archive most searches return nothing, so build the empty state first.</p>
+  <div data-search>
+    <label for="q">Search stories</label>
+    <input id="q" type="search" placeholder="a name, or a place">
+    <p data-search-count role="status">3 stories match &ldquo;listening&rdquo;</p>
+  </div>
+</main>

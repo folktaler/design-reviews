@@ -1,0 +1,21 @@
+<!-- @dsCard group="Chrome" -->
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagination — aikyam fellows</title>
+<link rel="stylesheet" href="../../../styles.css">
+<style>
+  body { margin: 0; padding: 2rem 0; }
+  .ds-note { font-family: var(--af-font-ui); font-size: var(--af-type-small);
+             color: var(--af-text-quiet); margin: 0 0 1.5rem; }
+</style>
+<main id="main" class="wrap">
+  <p class="ds-note">A paginated index. Shows the count, because on a small archive "Page 1 of 6" is reassuring rather than daunting.</p>
+  <nav data-pagination aria-label="Pagination">
+    <a href="?page=1" aria-current="page">1</a>
+    <a href="?page=2">2</a>
+    <a href="?page=2">Next</a>
+    <span data-pagination-count>Page 1 of 6</span>
+  </nav>
+</main>

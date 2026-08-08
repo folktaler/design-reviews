@@ -1,0 +1,117 @@
+/* aikyamfellows.org — faces, for the SHIPPED SITE
+ *
+ * ⛔ SELF-HOST. NEVER THE GOOGLE FONTS CDN. A second origin costs a DNS lookup
+ * and a TLS handshake before a single glyph arrives, on the critical path of
+ * the only thing this site does.
+ *
+ * ⚠️ AND WEIGH THE FILE YOU SHIP. Google serves different woff2 builds to
+ * different user agents — 12,584 vs 22,592 bytes for the same URL on the same
+ * day, measured on the sibling project. A CDN byte count is not what a reader
+ * downloads. The numbers below were weighed on disk.
+ *
+ *     noticia-text-400.woff2         22,592 B
+ *     noticia-text-700.woff2         22,344 B
+ *     noticia-text-400-italic.woff2  17,588 B
+ *                                    62,524 B total
+ *
+ * ⭐ THIS FILE IS FOR THE SITE. `fonts-inline.css` is the same three faces as
+ * base64 data: URIs, for a kit that must render as ONE FILE with no server.
+ * Do not ship the inline version to the site: it defeats caching across pages
+ * and costs the ~33% base64 overhead on every single page load.
+ */
+
+@font-face {
+  font-family: 'Noticia Text';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/noticia-text-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Noticia Text';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/noticia-text-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Noticia Text';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/noticia-text-400-italic.woff2') format('woff2');
+}
+
+/* ⭐ THE METRIC-MATCHED FALLBACK. Without it, `font-display: swap` reflows the
+   whole article the moment the real face arrives — every line rewraps and the
+   reader loses their place mid-sentence. These overrides scale Georgia (or
+   Noto Serif on Android) to Noticia's metrics so the fallback occupies almost
+   exactly the same space.
+   ⚠️ The percentages are Noticia-against-Georgia. They are NOT generic. If the
+   face ever changes, they are wrong and must be recomputed, and the symptom of
+   forgetting is a page that jumps once on every cold load. */
+@font-face {
+  font-family: 'Noticia Fallback';
+  src: local('Georgia'), local('Noto Serif'), local('Times New Roman');
+  size-adjust: 115.4%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * ⭐⭐ THE CHARSET, MEASURED — because this site is full of Indian names
+ *
+ * The handover carried one warning: "the rupee sign U+20B9 is in no Google
+ * subset of Noticia", and asked whether anything else in the charset matters
+ * for Indian names and place names.
+ *
+ * MEASURED IN CHROME, 7 Aug 2026, against Google's current latin + latin-ext
+ * builds of Noticia Text. Method: render each character at 120px into a canvas
+ * with the stack `'Noticia Text', <fallback>` and again with `<fallback>`
+ * alone, for two very different fallbacks, and compare the BITMAPS. Identical
+ * pixels means the glyph came from the fallback, i.e. Noticia does not have it.
+ *
+ * ⛔ THE FIRST INSTRUMENT I WROTE FALSE-PASSED AND I ALMOST SHIPPED ITS ANSWER.
+ * It compared measureText WIDTHS across two fallback stacks and called a glyph
+ * present when the widths agreed. Chrome does not use the declared fallback
+ * stack for a missing glyph — it uses the system fallback chain for that
+ * script — so the widths agreed for EVERY character, and the negative control
+ * (Malayalam അ U+0D05, which Noticia certainly does not contain) came back
+ * PRESENT. A coverage test without a negative control is not a test. Both
+ * negative controls (Malayalam and Devanagari) report MISSING under the bitmap
+ * method, which is the only reason the results below are worth anything.
+ *
+ * ✅ PRESENT — the full transliteration set this site needs:
+ *      ā U+0101   ī U+012B   ū U+016B   ō U+014D   Ā U+0100      (macrons)
+ *      ś U+015B                                                  (Śrī)
+ *      ṛ U+1E5B   ṭ U+1E6D   ḍ U+1E0D   ṇ U+1E47   ṣ U+1E63
+ *      ḥ U+1E25   ḷ U+1E37   ṃ U+1E43   ṅ U+1E45                (dots)
+ *      é ñ — – ’ “ …                                    (accents, typography)
+ *
+ * ⭐ ₹ U+20B9 IS PRESENT. The handover's warning is FALSIFIED by measurement.
+ *    A fellowship site talks about grants and stipends, so this matters more
+ *    here than it did there. Write ₹40,000, not "40,000 rupees".
+ *    ⚠️ ONE CAVEAT, stated because it is the difference between a measurement
+ *    and a claim: this was measured against the CDN build. The three woff2
+ *    files this system actually ships were downloaded earlier and may be an
+ *    older build. Before relying on ₹ in production, render it from the
+ *    SHIPPED file and look at it. A tofu box is very visible; a silent
+ *    fallback to Georgia's ₹ is not.
+ *
+ * ⛔ MISSING — exactly one, and it has an editorial consequence:
+ *      ṁ U+1E41  (m with dot ABOVE)
+ *
+ *    ⭐ THE HOUSE RULE THAT FOLLOWS: transliterate anusvāra as ṃ (dot BELOW,
+ *    U+1E43, present), never ṁ (dot ABOVE, U+1E41, absent). IAST uses ṃ; ISO
+ *    15919 uses ṁ. Both are correct scholarship and only one of them renders.
+ *    Written here rather than in a style guide nobody opens, because the
+ *    failure is a tofu box in the middle of a person's name.
+ *
+ * ⛔ NO INDIC SCRIPT AT ALL. Neither Malayalam nor Devanagari is in this face,
+ *    and no `latin-ext` build will ever contain them. If a fellow's name is
+ *    ever set in Malayalam alongside the English — which is a good idea and
+ *    somebody will eventually ask for it — that is a SECOND FACE (Noto Serif
+ *    Malayalam), a second decision, and a second measure. It is not a token
+ *    change and it must not be done by adding a fallback and hoping.
+ * ═══════════════════════════════════════════════════════════════════════════ */

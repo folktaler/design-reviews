@@ -1,0 +1,281 @@
+/* aikyamfellows.org — forms
+ *
+ * A field, a group of fields, the four states a form can be in, and search.
+ *
+ * ══ BEGIN SYSTEM FORMS ══════════════════════════════════════════════════════
+ *
+ * ════════════════════════════════════════════════════════════════════════════
+ * ⛔⛔ THE ONE THING TO READ BEFORE BUILDING A FORM HERE
+ *
+ * THIS PALETTE HAS NO RED. `colors.css` states it as a decision rather than an
+ * omission: no success green, no warning orange, no error red. That was decided
+ * for a reading page whose only failure state was a Correction, which is
+ * announced in words and by position.
+ *
+ * ⭐ IT HOLDS FOR VALIDATION TOO, AND NOT NARROWLY. WCAG 1.4.1 does not require
+ * that an error be red; it forbids colour from being the ONLY carrier. A
+ * palette with no red cannot signal by colour alone, so the criterion is met by
+ * construction rather than by discipline. The error is carried by four things
+ * that all survive greyscale, a screen reader and a printout:
+ *
+ *   1. an error summary at the top of the form, each item a LINK to its field
+ *   2. a 4px leading rule on the field — the pull-quote's rule, meaning "stop"
+ *   3. the message directly ABOVE the input, beginning with the word "Error:"
+ *   4. `aria-invalid="true"` and `aria-describedby` pointing at that message
+ *
+ * That is the GOV.UK error pattern with the red removed and nothing else
+ * changed. GOV.UK's own research is that the SUMMARY does the work — the red is
+ * convention layered on a structure that already carries the meaning.
+ *
+ * ⛔ WHAT WOULD FALSIFY IT, and it is a question for the owner rather than a
+ * decision for CSS: a reader who has filled in a long form, submitted, and
+ * cannot FIND the failed field. Everything above makes an error legible ONCE
+ * YOU ARE LOOKING AT IT. Red is about being findable at a glance across a
+ * screen. If that turns out to matter, the work is one measured hue in
+ * `colors.css` clearing 4.5:1 on both papers — and every rule below is already
+ * written against `--af-state-error`, so it would be a two-line change.
+ *
+ * ⚠️ THE LONGEST FORM ON THIS SITE TODAY IS THREE FIELDS. The argument above is
+ * strongest at that length and weakest at fifteen.
+ * ════════════════════════════════════════════════════════════════════════════
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * FIELD  —  [data-field]
+ *
+ * ⭐ THE LABEL IS ABOVE THE INPUT, ALWAYS, AND IT IS NEVER A PLACEHOLDER.
+ * Three reasons, and the third is the one people forget:
+ *   1. A placeholder disappears when the reader types, so anyone interrupted
+ *      loses the only description of the field.
+ *   2. Placeholder contrast is a browser default that fails 4.5:1.
+ *   3. ⛔ A label ABOVE the field survives zoom. A label beside it wraps into a
+ *      narrower column at 200% and eventually sits on a different line from its
+ *      own input, which is the moment the visual association breaks for exactly
+ *      the reader who needed it.
+ *
+ * ⛔ AND THE HINT IS ABOVE THE INPUT TOO, NOT BELOW IT. A hint below the field
+ * is read after the reader has already answered. "We only use this to reply"
+ * belongs before the box, not after it.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+[data-field] {
+  display: grid;
+  gap: var(--af-space-2);
+  margin-block-end: var(--af-space-6);
+  max-width: var(--af-measure-small);
+}
+[data-field] label {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  font-weight: var(--af-weight-bold);
+  color: var(--af-text);
+}
+[data-field-hint] {
+  font-family: var(--af-font-ui);
+  /* ⛔ 16px, NOT 14px. A hint is a sentence, and `--af-type-micro` is for
+     credits and dates. See typography.css: "NO SMALL TYPE FOR LONG TEXT" —
+     both times that rule was broken on the sibling project, the shrunken block
+     was the one the publisher most needed people to read. A form hint is
+     precisely that block. */
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-tight);
+  color: var(--af-text-quiet);
+}
+
+/* ⭐ REQUIRED IS MARKED IN WORDS, NOT WITH AN ASTERISK. An asterisk is a
+   convention that has to be explained by a legend elsewhere on the page, is
+   announced as "star" or skipped entirely, and is a 1-character tap-free glyph
+   at the smallest size on the form.
+   ⛔ AND THE BETTER MOVE IS USUALLY TO MARK THE OPTIONAL ONES. If eight of nine
+   fields are required, "(optional)" appears once instead of eight times. */
+[data-field-optional] {
+  font-weight: var(--af-weight-regular);
+  color: var(--af-text-quiet);
+}
+
+/* ── ERROR STATE ── [data-field][data-invalid] ───────────────────────────────
+ * ⛔ THE MESSAGE IS ABOVE THE INPUT. This is the one that gets built wrong,
+ * because every design tool's default puts it below. A message below the field
+ * is BELOW THE ON-SCREEN KEYBOARD on a phone the moment the reader focuses the
+ * input to fix it — the instruction for correcting the error is hidden by the
+ * act of correcting it.
+ *
+ * ⭐ THE 4px LEADING RULE IS THE PULL-QUOTE'S RULE, reused deliberately. It is
+ * the system's existing vocabulary for "the normal flow stops here", and a
+ * reader does not need to have learned that to feel it. */
+[data-field][data-invalid] {
+  padding-inline-start: var(--af-space-4);
+  border-inline-start: var(--af-rule-leading) solid var(--af-state-error-line);
+}
+[data-field-error] {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+  color: var(--af-state-error);
+}
+/* ⛔ THE WORD "Error:" IS IN THE MARKUP, NOT IN THIS FILE. A `::before` with
+   `content: 'Error: '` is not reliably announced — some screen readers skip
+   generated content entirely, and the ones that read it do so inconsistently
+   across engines. The one piece of text that says WHAT KIND of message this is
+   cannot live in a stylesheet. It goes in the HTML, wrapped in
+   `<span class="visually-hidden">` if it should not be seen twice. */
+[data-field][data-invalid] input,
+[data-field][data-invalid] textarea,
+[data-field][data-invalid] select {
+  border-width: 2px;
+  border-color: var(--af-state-error-line);
+}
+
+/* ── ERROR SUMMARY ── [data-error-summary] ───────────────────────────────────
+ * ⭐⭐ THE COMPONENT THAT DOES THE ACTUAL WORK, and the one most likely to be
+ * skipped because the per-field messages look sufficient.
+ *
+ * It sits at the TOP of the form, above the heading, and each item is a LINK to
+ * the id of the field that failed. That is what makes a no-red form work: the
+ * reader does not have to scan for the problem, they are handed it.
+ *
+ * ⛔ IT MUST TAKE FOCUS ON SUBMIT. `tabindex="-1"` on the container plus a
+ * `.focus()` call after a failed submit. Without that, a keyboard or screen
+ * reader user submits, the page re-renders, focus is back at the top of the
+ * document, and nothing announces that anything went wrong at all. The visible
+ * box is only half the component.
+ *
+ * ⚠️ ORDER MATTERS: the items must be in the same order as the fields on the
+ * page, not in the order the validator happened to produce them. */
+[data-error-summary] {
+  margin-block-end: var(--af-space-7);
+  padding: var(--af-space-5);
+  max-width: var(--af-measure);
+  border: 2px solid var(--af-state-error-line);
+  font-family: var(--af-font-ui);
+}
+[data-error-summary] h2 {
+  margin: 0 0 var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  font-weight: var(--af-weight-bold);
+}
+[data-error-summary] ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+[data-error-summary] li + li {
+  margin-block-start: var(--af-space-2);
+}
+[data-error-summary] a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--af-tap-comfortable);
+  font-weight: var(--af-weight-bold);
+}
+
+/* ── SUCCESS STATE ── [data-form-success] ────────────────────────────────────
+ * ⭐ NOT A GREEN BOX, AND FOR A STRONGER REASON THAN THE ERROR CASE: a success
+ * message that needs a green box to be understood is a badly written success
+ * message. "Check your inbox and click the link" is complete on its own.
+ *
+ * ⛔⛔ AND THIS IS THE STATE THIS SITE HAS ALREADY GOT WRONG IN PRODUCTION.
+ * Measured on the live site, 7 Aug 2026: the signup block's RESTING heading —
+ * shown to a reader who has typed nothing — reads
+ *
+ *     "Great! Check your inbox and click the link."
+ *
+ * A confirmation leaking into the default state, telling a first-time reader to
+ * go and look for an email that does not exist. All four states are written out
+ * in full in `guidelines/voice.md` precisely so that editing one string cannot
+ * do this again.
+ *
+ * ⛔ `role="status"` IN THE MARKUP. A success message that replaces a form
+ * in-place is a visual change with no announcement; a live region is the only
+ * thing that tells a screen reader user the thing they did worked. */
+[data-form-success] {
+  padding: var(--af-space-5);
+  max-width: var(--af-measure);
+  background: var(--af-surface-sunk);
+  border-inline-start: var(--af-rule-leading) solid var(--af-line-strong);
+  font-family: var(--af-font-ui);
+}
+[data-form-success] p {
+  margin: 0;
+}
+
+/* ── PENDING STATE ── [data-form][data-pending] ──────────────────────────────
+ * ⛔ NO SPINNER. `tokens/motion.css` ships no loop animation and this system
+ * has nothing that pulses. The button's own label changes ("Sending…") and the
+ * control is disabled — which is a state a screen reader announces, and a
+ * spinner is not.
+ * ⚠️ `aria-busy="true"` on the form, `aria-disabled` rather than `disabled` on
+ * the button: a truly `disabled` button is removed from the tab order, so a
+ * keyboard user's focus is dumped somewhere unpredictable mid-submit. */
+[data-form][data-pending] [data-button] {
+  cursor: progress;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * SEARCH  —  [data-search]
+ *
+ * ⭐ NEW, AND IT IS A CONTENT DECISION AS MUCH AS A COMPONENT. This site has
+ * 13 stories across 7 topics. At that size, BROWSE BEATS SEARCH: a reader
+ * scanning seven topic tags sees the whole site, and a reader typing into a box
+ * has to already know a word that appears in it.
+ *
+ * ⛔ SO SEARCH IS NOT IN THE MASTHEAD (see chrome.css) and it is not the
+ * primary way to find anything. It exists for the reader who arrives knowing a
+ * fellow's name, and for the day the archive is large enough that the topic
+ * list stops being a complete map.
+ *
+ * ⚠️ THE EMPTY RESULT IS THE STATE THAT MATTERS AND IT IS THE ONE NOBODY
+ * BUILDS. On a 13-story site most searches will return nothing. See
+ * `[data-empty]` in blocks.css — a no-results screen that offers the seven
+ * topics is a working page; one that says "0 results" is a dead end. */
+[data-search] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--af-space-3);
+  align-items: flex-end;
+  max-width: var(--af-measure);
+}
+[data-search] label {
+  flex: 1 1 100%;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+}
+[data-search] input[type='search'] {
+  flex: 1 1 14rem;
+  /* ⛔ `appearance: none` OR SAFARI DRAWS ITS OWN ROUNDED CAPSULE over this
+     border and ignores the height — the field renders as a system search box
+     inside a designed page, at the platform's font size rather than 17px. */
+  appearance: none;
+}
+/* ⛔ THE RESULT COUNT IS A LIVE REGION, and it is the only way a screen reader
+   user learns that typing changed anything. "3 stories match 'listening'" —
+   the number AND the term, because a count with no echo of the query is
+   unverifiable by the reader. */
+[data-search-count] {
+  flex: 1 1 100%;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+}
+
+/* ---------------------------------------------------------------------------
+ * ⛔ WHAT FORMS ON THIS SITE MAY NOT DO
+ *
+ * · NO FIELD MAY BE VALIDATED ON KEYSTROKE. A name is invalid halfway through
+ *   being typed. Validate on blur at the earliest, on submit by default.
+ * · NO `autocomplete="off"` ON A PERSONAL DETAIL. It defeats the password
+ *   manager and the browser's own address fill, which are the accessibility
+ *   tools most people actually use. `autocomplete="email"` and `"name"`.
+ * · NO ASKING FOR SOMETHING THE SITE WILL NOT USE. Every field is a cost paid
+ *   by the reader. A contact form needs a way to reply and a message.
+ * · ⛔ NO FORM WITHOUT A STATED DESTINATION. `guidelines/voice.md` requires the
+ *   sentence that says what happens to what is typed, NEXT TO the field that
+ *   collects it — not in a footer privacy link. An email address is personal
+ *   data and the disclosure is part of the component.
+ * · ⚠️ AND THE CONTACT PAGE STILL HAS NO EMAIL ADDRESS TO SEND TO. Five unfilled
+ *   slots; the live site publishes none anywhere. This file styles a form that
+ *   cannot yet be pointed at a recipient — see STATE.md. That is an owner
+ *   decision and inventing `hello@` plus the domain would ship a fabricated
+ *   address into production while making the kit look finished.
+ * ------------------------------------------------------------------------- */

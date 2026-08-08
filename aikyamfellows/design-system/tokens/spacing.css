@@ -1,0 +1,342 @@
+/* aikyamfellows.org — space, measure, shape
+ *
+ * ⚠️ THE HAZARD THAT LIVES IN THIS KIND OF FILE, carried over from the system
+ * this inherits because it cost a night there and would cost a night here:
+ * two comment blocks closed with `*​/` and then carried on for another thirty
+ * lines of prose. CSS does not treat that as a comment — the parser sees a
+ * malformed declaration and discards everything up to the next semicolon,
+ * which SWALLOWS THE DECLARATION THAT FOLLOWS IT. `--tap` was defined in the
+ * file and undefined in the browser, and nobody saw it because everything
+ * downstream used `var(--af-tap, 44px)` fallbacks.
+ *
+ * ⭐ Verify a value in `getComputedStyle`, never by reading this file.
+ */
+:root {
+  /* --- Scale ------------------------------------------------------------ */
+  /* A 4px mini-unit. The three that actually set the rhythm are --space-4
+     inside a block, --space-6 between paragraphs, --space-9 between sections. */
+  --af-space-1: 0.25rem; /* 4px  */
+  --af-space-2: 0.5rem; /* 8px  */
+  --af-space-3: 0.75rem; /* 12px */
+  --af-space-4: 1rem; /* 16px */
+  --af-space-5: 1.25rem; /* 20px */
+  --af-space-6: 1.5rem; /* 24px — the page gutter */
+  --af-space-7: 2rem; /* 32px */
+  --af-space-8: 2.5rem; /* 40px */
+  --af-space-9: 3rem; /* 48px — between sections */
+  --af-space-10: 4rem; /* 64px — before the footer */
+
+  --af-gutter: var(--af-space-6); /* 24px */
+
+  /* ═══════════════════════════════════════════════════════════════════════
+   * ⭐⭐ THE MEASURE — RE-DECIDED, AND IT MOVED
+   *
+   * catsofkochi shipped `--measure: 32rem` (512px). The handover flagged it
+   * for re-decision because 59 characters was chosen for a phone held at arm's
+   * length in glare, and this reader is indoors on a laptop reading a
+   * 1,900-word profile.
+   *
+   * ⛔ THE INHERITED TABLE COULD NOT BE REUSED, and this is the trap. The
+   * measured grid in the sibling project's spacing.css is FIGTREE — a sans.
+   * This system sets a SERIF. A face change is a measure change, so the table
+   * had to be measured again, in the face that ships.
+   *
+   * MEASURED IN CHROME, 7 Aug 2026, Noticia Text, by counting rendered line
+   * boxes character by character over a 700-character sample of real site
+   * prose. Median characters per full line (max in brackets):
+   *
+   *     column      18px        19px        20px
+   *     448px      50 (55)     48 (53)     46 (50)
+   *     480px      55 (59)     52 (53)     48 (52)
+   *     512px      58 (62)     55 (58)     52 (53)   ← catsofkochi's
+   *     544px      62 (65)     59 (60)     55 (58)
+   *     576px      66 (70)     63 (66)  ⭐ 59 (63)   ← ships
+   *     608px      69 (72)     66 (70)     63 (66)
+   *     640px      73 (77)     69 (72)     66 (70)
+   *
+   * ⚠️ SUPERSEDED — this single-corpus table is kept because it is what the
+   * face comparison below was measured against, but the WIDTH was re-decided
+   * on three corpora. See the block at `--af-measure`. 576px was my first
+   * answer and it is wrong for this site's proper nouns.
+   *
+   * ⛔⛔ AND THE NUMBER YOU MEASURE BEFORE THE FONT LOADS IS NOT THE NUMBER YOU
+   * SHIP. A sibling designer hit this on the same day and it is the sharpest
+   * form of the proxy trap in this whole system: a column can pass the
+   * character gate ONLY BECAUSE the webfont had not arrived, and then turn red
+   * the day somebody inlines the woff2 — after every review has passed it.
+   *
+   * MEASURED IN CHROME, 7 Aug 2026, 20px, the SAME sample in both faces, with
+   * the face-actually-painted proven by canvas width rather than by reading
+   * `getComputedStyle().fontFamily` (which reports the DECLARED stack and would
+   * have said "Noticia Text" either way — that is a proxy, not the thing):
+   *
+   *     column     metric-matched fallback     REAL Noticia
+   *     512px           48 (50)                 52 (53)
+   *     544px           52 (53)                 55 (58)
+   *     576px           54 (58)              ⭐ 59 (63)   ← ships
+   *     592px           57 (60)                 59 (63)
+   *     608px           58 (62)                 62 (65)   ← ON the gate
+   *     628px           59 (63)                 64 (68)   ⛔ OVER the 65 gate
+   *
+   * ⭐ THE FALLBACK UNDERCOUNTS BY ROUGHLY FIVE CHARACTERS. Georgia at
+   * `size-adjust: 115.4%` is wider per character than Noticia, so a column
+   * measured before the font loads looks SAFER than it is. 628px reads as a
+   * comfortable 63 in the fallback and is a failing 68 in the face that ships.
+   *
+   * ⛔ SO: never accept a measure reading without proving which face painted.
+   * The test is three canvas widths — the string in `'Noticia Text',monospace`
+   * must differ from BOTH `monospace` and `Georgia`. If it equals either, you
+   * are measuring the fallback.
+   *
+   * ⛔ AND NOT `ch`. MEASURED, same session, same face: `max-width: 60ch` at
+   * 19px Noticia renders a 654.6px column holding 72 characters median and 74
+   * max. `ch` is the advance of the digit zero, which is wider than the
+   * average lowercase letter. A cap that reads as "sixty characters" and
+   * delivers seventy-four is worse than no cap, because it looks like a fix.
+   * (The sibling project measured this on a sans and got ~80. Now it is
+   * measured on the serif that actually ships here.)
+   *
+   * ⚠️⚠️ THE TRAP UNDER THE NUMBER — `--measure` IS THE TEXT COLUMN, and
+   * `.wrap` adds the gutters ON TOP of it. `.wrap` is border-box, so a wrap
+   * capped at `--measure` renders a text column of `--measure` MINUS two
+   * gutters — 528px instead of 576px, which is 55 characters instead of 59,
+   * and the token file would still say 59. Ship the calc with the token:
+   *
+   *     .wrap { max-width: calc(var(--af-measure) + var(--af-gutter) * 2); }
+   *
+   * At 24px gutters that is 624px of wrap holding 576px of text — and 624px is
+   * also where the body type reaches 20px. See typography.css; the two numbers
+   * are derived from each other, not chosen separately.
+   * ═══════════════════════════════════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════════════════════════════════
+   * ⛔⛔ THE GATE READS THE MEDIAN, NOT THE MAXIMUM. Read the code, not the
+   * constant name — I did not, and neither did a sibling, and we drew opposite
+   * wrong conclusions from the same misreading. `check-kits.mjs` line 959:
+   *
+   *     const over = wide.filter((p) => p.median > MEASURE_MAX);
+   *
+   * Every gate expression in that block reads `p.median`. `max` is computed at
+   * line 576 and stored in the JSON, and `p.max` appears in NO gate anywhere in
+   * the file — grep it and see.
+   *
+   * ⭐ AND THE SUITE IS RIGHT TO DO THAT, which is the part worth keeping:
+   * THE MAXIMUM GROWS WITH THE LENGTH OF THE TEXT. Ten full lines gave a max of
+   * 63 on one corpus; seventeen gave 66 on another; a 1,900-word profile has
+   * about a hundred lines and its longest will be higher than both. Gate the
+   * maximum and the gate becomes a function of how long the article is, which
+   * is not a property of the design. The median is stable across sample size.
+   * A "worst line" reading is a real thing to look at and a bad thing to gate.
+   * ═══════════════════════════════════════════════════════════════════════ */
+
+  /* ═══════════════════════════════════════════════════════════════════════
+   * ⛔⛔ AND THE GATE ONLY LOOKS AT BLOCKS OVER 250 CHARACTERS AND 4 LINES.
+   *
+   *     PROSE_MIN_CHARS = 250    PROSE_MIN_LINES = 4
+   *
+   * Anything shorter is filtered out of `out.prose` before the gate runs and
+   * CANNOT fail it. If no block on a page qualifies, the check does not pass —
+   * it SKIPS, with the stated reason "this kit is a list or a specimen sheet,
+   * not continuous text".
+   *
+   * ⭐ THIS IS NOT A TECHNICALITY, IT DECIDED AN ARGUMENT. A sibling reported
+   * a paragraph on impact.html medianing 66 at 592px and narrowed the
+   * institutional column twice because of it. Measured from the real file:
+   *
+   *     impact "Four numbers, each one a link…"        157 chars  ⛔ EXCLUDED
+   *     impact "By whether the fellows we support…"    235 chars  ⛔ EXCLUDED
+   *     contact "Four different things arrive…"        159 chars  ⛔ EXCLUDED
+   *     partners "If you are thinking about…"          160 chars  ⛔ EXCLUDED
+   *     about "We are looking for social…"             177 chars  ⛔ EXCLUDED
+   *
+   * Every institutional paragraph sampled is under the threshold. The reported
+   * offender is never measured. ⚠️ Both of us had been counting characters in
+   * blocks the gate discards — measuring a real thing that is not the thing
+   * the check reads, which is the same class of error twice in one day.
+   *
+   * ⭐ AND THE GATE IS PER BLOCK, WHICH THE SIBLING GOT RIGHT AND I HAD WRONG:
+   * `bad.length === 0` over `wide.filter(p => p.median > MEASURE_MAX)`, so ONE
+   * qualifying block over 65 fails the page. The deciding number is therefore
+   * the HIGHEST per-block median among qualifying blocks — not an average of
+   * corpora, which is what my first table gave.
+   * ═══════════════════════════════════════════════════════════════════════ */
+
+  /* ⭐⭐ 37rem = 592px, AND IT WAS CHOSEN ON THREE CORPORA, NOT ONE.
+   * Measured 7 Aug 2026, 20px, real Noticia (face-painted proven by canvas
+   * width against both `monospace` and `Georgia`). Median (max) per corpus:
+   *
+   * ⭐ RE-MEASURED on the UNION of both page families' real copy, per block,
+   * with the suite's own qualification rules applied first. Three blocks
+   * qualify; five institutional paragraphs are excluded as too short. Figures
+   * are the HIGHEST per-block median, which is what the gate decides on:
+   *
+   *     column    at 19px body    at 20px body    sub-55 NOTE fires?
+   *     552px         62              59          ⚠️ yes — proper nouns at 53
+   *     568px         62              59          ⚠️ yes — proper nouns at 54
+   *     576px         64              62          ⚠️ yes — proper nouns at 54
+   *     584px      ⛔ 66 FAIL          62          no
+   *   ⭐ 592px     ⛔ 66 FAIL          62          no
+   *
+   * ⚠️ THE 19px COLUMN FAILS AND IT CANNOT OCCUR HERE — that is the whole
+   * point of the coupling. A 592px column only exists once the viewport is
+   * ≥640px, and at 640px the body is exactly 20px by construction. The suite
+   * measures at 1024px, where the clamp is at its 20px maximum. So the row
+   * that fails is a combination this system cannot produce.
+   * ⛔ IT IS REAL FOR ANYONE WHO HARDCODES 19px WITH A WIDE COLUMN, though,
+   * which is exactly what a kit does if it copies the measure and not the
+   * clamp. Copy both or neither.
+   *
+   * ⭐ AT THE BODY SIZE THAT SHIPS, 584 and 592 are the only widths where the
+   * gate passes with margin AND nothing fires the sub-55 advisory NOTE.
+   *
+   * ⭐⭐ CORPUS B IS WHY 592 AND NOT 552, AND IT IS SPECIFIC TO THIS SITE.
+   * Corpus B is real copy carrying the proper nouns this site is full of —
+   * Thiruvananthapuram, Bhattacharyya, Kalaripayattu, Kozhikode. Long
+   * unbreakable words force early line breaks, so THIS SITE'S OWN PROSE SETS
+   * FIVE TO EIGHT CHARACTERS SHORTER than generic English at the same width.
+   *
+   * So narrowing the column hurts here twice over: at 552px corpus B sets 53
+   * and at 536px it sets 51, both under the suite's 55 advisory floor, which
+   * fires an unasserted NOTE. 592px is the narrowest width at which all three
+   * corpora clear 55. The instinct to narrow was right for generic prose and
+   * backwards for a page full of Malayalam and Bengali names.
+   *
+   * ⚠️ AND THE MEASURE IS COUPLED TO THE BODY SIZE — re-derived when this
+   * moved. 592 + 24 + 24 = 640px is where the column stops being set by the
+   * screen. The body clamp reaches exactly 20px at exactly that width.
+   * VERIFIED: at a 640px viewport, `getComputedStyle(body).fontSize` is
+   * "20px" and the column is 592.0. At 639px it is 19.9969px and 591. */
+  /* ⚠️⚠️ THE EVIDENCE BASE FOR THIS TOKEN IS THINNER THAN A GREEN SUITE WILL
+   * MAKE IT LOOK, and it is recorded here because nothing else records it.
+   *
+   * Of the eleven kits, FOUR of the five institutional pages — home, impact,
+   * contact, partners — carry no qualifying prose block at all. They are
+   * lists, cards and short blocks, so `measure` reports SKIP on them: "a list
+   * or a specimen sheet, not continuous text". Only about.html has one
+   * (a 337-character mission paragraph, median 62 at 592px/20px).
+   *
+   * ⛔ SO A GREEN `measure` LINE ACROSS ELEVEN KITS IS NOT ELEVEN INDEPENDENT
+   * CONFIRMATIONS. It is one or two, and the rest are skips that look like
+   * agreement. The reading pages carry this gate for the whole site.
+   *
+   * ⚠️ THE FAILURE THAT FOLLOWS FROM IT: if the reading pages' paragraphs are
+   * ever shortened below 250 characters — an entirely reasonable editorial
+   * change — this check silently drops to ZERO coverage site-wide and keeps
+   * printing green. See PREDICTION.md for the coverage assertion that should
+   * be added to the suite to make that visible.
+   *
+   * What actually validates the number today, stated so it can be re-run:
+   *   · profile prose, 590 chars                    median 59
+   *   · Indian proper nouns, 441 chars              median 57
+   *   · short common words, 447 chars               median 62  ← the ceiling
+   *   · about.html mission, 337 chars               median 62  (measured
+   *     independently, on a different harness, by the institutional designer) */
+  --af-measure: 37rem; /* 592px of TEXT. Not of wrapper. */
+  --af-measure-wide: 62rem; /* index pages, the fellow grid, the footer */
+
+  /* ⭐ A MEASURE BELONGS TO A TYPE SIZE, NOT TO A PAGE.
+     ⛔ BUT REACH FOR THE TYPE FIRST. If a small block is long enough to need
+     its own measure, that is a signal it is set too small. This exists for
+     genuinely short 14–16px blocks — a photo credit, a correction notice. */
+  --af-measure-small: 24rem; /* short 14–16px blocks only. ⛔ Not a licence. */
+
+  /* --- Shape ------------------------------------------------------------ */
+  /* ⭐ RE-DECIDED, AND THIS ONE REVERTS. The sibling system's radius ladder
+     came from Airbnb, whose page is a product surface made of cards. This is a
+     document. The rule that governs it is the older one, and it is the live
+     aikyamfellows site's own: square is structure, round is a person.
+     ⛔ THE ONE ADDITION IS NOT DECORATION. A portrait of a person is round —
+     see components/media/Portrait — and that is the only circle in the system.
+     A photograph illustrating the work is square, full-bleed, and takes no
+     corner from anything. */
+  --af-radius-none: 0; /* photographs, page chrome, inputs, panels */
+  --af-radius-control: 0.5rem; /* 8px — buttons, the newsletter field */
+  --af-radius-pill: 999px; /* the topic tag, and nothing else */
+  --af-radius-round: 50%; /* a person's portrait. Nothing else. */
+
+  /* --- Rules ------------------------------------------------------------ */
+  /* TWO WEIGHTS, TWO MEANINGS.
+       1px, inset by the gutter  →  next section of the same page
+       4px, above a pull-quote   →  the writing pauses and someone speaks
+     ⛔ Neither is ever full-width AND thin: an inset hairline reads as a
+     pause, a full-bleed hairline reads as a mistake. */
+  --af-rule-hairline: 1px;
+  --af-rule-leading: 4px;
+
+  /* --- Shadow ----------------------------------------------------------- */
+  /* There is none, and that is the decision. Nothing on a reading page needs
+     to lift off the page; a hairline separates. Ship no shadow tokens. */
+
+  /* ═══════════════════════════════════════════════════════════════════════
+   * --- Touch ---
+   * ⛔ FOUR DEFECTS CAME OUT OF THIS ONE TOKEN on the sibling project, each
+   * introduced by the fix for the one before it. All four are restated here
+   * because this system inherits the same components:
+   *
+   * 1. `min-height: var(--af-tap)` DOES NOTHING TO AN INLINE <a>. The ROW is the
+   *    target, not the words:
+   *        .row            { position: relative; }
+   *        .row > a::after { content: ''; position: absolute; inset: 0; }
+   *    ⚠️ TWO ::after overlays on one row means the LATER ONE WINS, so a tap
+   *    on the fellow's name opens the topic tag instead. Bind with a child
+   *    selector and verify with `elementFromPoint` at both ends.
+   *
+   * 2. ⛔ DO NOT SIT EXACTLY ON 44. `min-height: var(--af-tap)` produces a box of
+   *    exactly 44, and exactly 44 measures as 43 once subpixel rounding at
+   *    deviceScaleFactor 2 is involved. A value landing exactly on its gate is
+   *    not passing, it is pending.
+   *
+   * 3. ⛔ `min-height` IS A FLOOR, NOT AN ADDEND. Adding padding to a 17px
+   *    link inside a 44px floor changes nothing — the box lands on 44 again.
+   *    ✅ Raise the floor, do not pad it: `min-height: var(--af-tap-comfortable)`.
+   *
+   * 4. ⛔ A TARGET HAS TWO AXES, and width is the one nobody measures. The
+   *    word "Places" at 14px measured 42.5px wide on every kit while height
+   *    was correct and signed off. ⚠️ THIS SYSTEM IS AT HIGHER RISK THAN THAT
+   *    ONE: its topic tags are single short words — "Design", "Aftercare" —
+   *    and a tag reading "Design" at 14px is narrower still. Both floors,
+   *    always:
+   *        min-height:      var(--af-tap-comfortable);
+   *        min-inline-size: var(--af-tap-comfortable);
+   *        display: inline-flex; align-items: center; justify-content: center;
+   *
+   * ⚠️ SIBLING TRAP: do NOT reach for `display: flex` to centre a ROW's
+   * content. Flex turns every child into its own item, so a text node after a
+   * link becomes a separate item and the space before an em dash disappears
+   * ("Aparna R— 3 Aug 2026"). Use padding on a row; keep flex for the control.
+   * ═══════════════════════════════════════════════════════════════════════ */
+  --af-tap: 44px; /* what a check asserts. ⛔ Do not build to this number. */
+  --af-tap-comfortable: 52px; /* what CSS sets, on BOTH axes */
+
+  --af-button-height: 3.25rem; /* 52px */
+  --af-button-pad: 0 var(--af-space-6);
+}
+
+/* ---------------------------------------------------------------------------
+ * ⛔ UNDERLINE THE TEXT, NOT THE BOX — in its own section because it is a
+ * SPACING bug that looks like a colour bug, and because THIS SYSTEM MAKES
+ * LINKS UNDERLINED BY DEFAULT, so it is loaded from the first line of CSS.
+ *
+ * A link styled `border-block-end: 1px solid` is invisible at natural link
+ * height, because the box IS the text. The moment a tap floor is added the box
+ * becomes 52px, the text centres inside it, and the border draws at the BOTTOM
+ * OF THE TAP TARGET — a stray rule hanging ~20px under the word.
+ *
+ * It appears the moment a tap-target fix lands, so it is introduced BY the fix
+ * unless both are done together:
+ *
+ *     a {
+ *       border: 0;                              ← kill any border rule
+ *       text-decoration: underline;             ← tracks the TEXT
+ *       text-decoration-color: var(--af-brand);
+ *       text-underline-offset: 3px;
+ *     }
+ *
+ * ⭐ AND THE INLINE-PROSE CASE IS THE OPPOSITE OF THE NAV CASE. A link inside
+ * a paragraph must NOT get a 52px tap floor: it would blow the line height of
+ * every paragraph containing a link. The floor belongs to links that stand
+ * alone — nav, the topic tag, "Read next", the byline's author link. In
+ * running prose, the line height IS the target and 20px × 1.55 = 31px, which
+ * is under 44 and is accepted, because the alternative damages the reading for
+ * every reader in order to help the tap for a few. That is a stated exception,
+ * not an oversight. See styles.css, `.prose a`.
+ * ------------------------------------------------------------------------- */

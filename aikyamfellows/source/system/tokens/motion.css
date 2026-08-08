@@ -1,0 +1,84 @@
+/* aikyamfellows.org — motion
+ *
+ * A deliberately tiny file, and the smallness is the point. Inherited from
+ * `tokens/motion.css` at tag `guardian-design-system-v1` and re-decided; the
+ * sibling file's reasoning was *"a reader standing in the sun waiting for a
+ * fare does not want a transition"*, and that reader is not this one.
+ *
+ * ⭐ THE CONCLUSION SURVIVES THE READER CHANGE, WITH A DIFFERENT ARGUMENT, and
+ * the argument is worth having in full because "indoors on a laptop" is exactly
+ * the premise someone would use to add motion back:
+ *
+ *     THIS SITE'S CONTENT IS 2,000-WORD PROFILES OF REAL PEOPLE, AND THE
+ *     READER IS ALREADY MOVING — THE PAGE IS SCROLLING UNDER THEM.
+ *
+ * Anything that fades in on scroll competes with the scroll itself, which is
+ * the one gesture the whole page exists to serve. A reveal animation on a
+ * paragraph delays a sentence that was already downloaded, to no reader's
+ * benefit, and on a long page it does it a hundred times. So the sibling's list
+ * holds unchanged: nothing animates on scroll, nothing fades in, no skeletons
+ * pulse, no counters count up.
+ *
+ * ⛔ THE ONE PLACE THAT ARGUMENT WOULD HAVE BEEN WEAKEST is the impact page's
+ * figures, which is precisely where a counting-up animation is conventional.
+ * There is nothing to count up to: those figures LINK TO THE LIST THEY COUNT
+ * (the value is an `<a>`, not a `<span>`, so a figure with no destination
+ * cannot be built), and animating a link's text is animating a control.
+ *
+ * ⚠️ WHAT THIS REPO HAD BEFORE THIS FILE: the reduced-motion killswitch at
+ * `styles.css:161` and no durations at all. That is the wrong half to keep.
+ * The killswitch is a promise about motion the system does not otherwise
+ * describe, so every hover and every disclosure was improvising its own timing
+ * — or, more often, having none, which is why nothing looked broken.
+ *
+ * ⭐ FOUR THINGS MOVE IN THIS SYSTEM. If a component needs a duration that is
+ * not below, that component is probably doing something this site does not do.
+ */
+:root {
+  /* A focus ring appearing, a link's underline thickening, a control taking its
+     hover fill. 120ms is under the ~150ms at which a change reads as a
+     transition rather than as a response — a control that animates slowly feels
+     like it is deciding. */
+  --af-motion-quick: 120ms;
+
+  /* A `<details>` disclosure opening, and the table-of-contents drawer on a
+     phone. Longer than a hover because the reader's eye has to FOLLOW the
+     content that is arriving, rather than merely register that a state changed. */
+  --af-motion-disclose: 180ms;
+
+  /* Fast out, settled in. ⛔ NOT `ease-in-out`, which decelerates into the
+     start as well and makes a 120ms hover read as sluggish at both ends. */
+  --af-motion-ease: cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+/* ---------------------------------------------------------------------------
+ * ⭐ HONOUR THE SYSTEM SETTING — not a nicety. Motion sensitivity is common,
+ * and this file's whole premise is a reader who is already scrolling.
+ *
+ * ⚠️ BOTH HALVES ARE NEEDED AND THEY DO DIFFERENT JOBS. Zeroing the tokens
+ * fixes everything written against this system. The wildcard fixes everything
+ * NOT written against it — a page kit's inline style, a Ghost theme's
+ * leftovers, an embed. Neither half covers the other, and the wildcard alone is
+ * what this repo already had.
+ *
+ * ⛔ THE DUPLICATE IS DELIBERATE. `styles.css` carries the same wildcard block.
+ * It is not dead code and must not be "tidied" away from either file: the base
+ * layer must hold it in case this token file is not loaded, and this file must
+ * hold it because the tokens it zeroes are declared here. If you remove one,
+ * remove it from the file that does NOT define the tokens.
+ * ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --af-motion-quick: 0ms;
+    --af-motion-disclose: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

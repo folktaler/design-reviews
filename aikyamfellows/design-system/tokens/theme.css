@@ -1,0 +1,260 @@
+/* aikyamfellows.org — semantic tokens
+ *
+ * ⭐⭐ THIS FILE IS THE CONTRACT. Components reference the names in here and
+ * NEVER the raw swatches in `colors.css`. A name says what a colour MEANS, so
+ * that changing the brand is one edit in `colors.css` and nothing else moves,
+ * and so that a page type nobody has built yet already has a vocabulary for the
+ * surfaces it needs.
+ *
+ * This layer is INHERITED FROM THE GUARDIAN SYSTEM AS A MECHANISM and its
+ * contents are re-decided. `tokens/theme.css` at tag `guardian-design-system-v1`
+ * opens with the same sentence and then defines a vocabulary built around one
+ * rule — *amber means "we checked this"* — that does not travel. There is no
+ * freshness system here and no fact that decays. See `REMOVED.md`.
+ *
+ * ⚠️ IT DID NOT TRAVEL THE FIRST TIME, AND THE COST WAS MEASURABLE. When the
+ * system was rehomed on 7 Aug 2026 the three raw-swatch files came across and
+ * this layer did not, so components reached straight past `colors.css`'s names
+ * into whatever they remembered. What they remembered was `--af-brand`, which is
+ * the Guardian system's name and is not defined anywhere in this repo:
+ *
+ *     13 uses of `var(--af-brand)` · 0 definitions
+ *     system/styles.css · system/components/components.css · system/tokens/spacing.css
+ *
+ * ⛔⛔ AND AN UNDEFINED CUSTOM PROPERTY DOES NOT FAIL QUIETLY. `var()` with no
+ * fallback is INVALID AT COMPUTED-VALUE TIME, which is not "ignore this
+ * declaration" — it is "throw the declaration away and use unset". For an
+ * inherited property that means *inherit*; for a non-inherited one it means
+ * *initial*. Two of the thirteen produce invisible text:
+ *
+ *     ::selection            { background: var(--af-brand);  ← discarded → transparent
+ *                              color: var(--af-paper); }     ← APPLIES
+ *     [data-topic]:hover     { background: var(--af-brand);  ← discarded → transparent
+ *                              color: var(--af-paper); }     ← APPLIES
+ *
+ * Paper-coloured text on paper. **Selecting any text on any page of this system
+ * makes the selected words vanish**, and hovering a topic tag empties it. The
+ * half of the rule that failed is the half that was carrying the contrast, and
+ * the half that survived is the half that depended on it.
+ *
+ * ⭐ THE GENERAL LESSON, because it is the same one this system keeps learning:
+ * a broken token does not render as a gap. It renders as a *plausible page*.
+ * Nobody reviewing the source would see it, and nobody looking at a resting
+ * page would either — it needs a drag of the mouse or a hover to appear.
+ *
+ * ⭐ WHY THE FIX IS A SEMANTIC LAYER AND NOT A RENAME. Renaming thirteen
+ * `--af-brand` to `--af-accent` would have taken one `sed` and would have left
+ * the components pointed at a raw swatch, which is the condition that allowed
+ * the drift. `--af-brand` is defined below as a MEANING, and the meaning is
+ * where the components should have been pointing all along.
+ *
+ * ════════════════════════════════════════════════════════════════════════════
+ * ⛔ WHAT THIS FILE MAY NOT DO: INTRODUCE A COLOUR.
+ *
+ * Every value below resolves to a swatch that `colors.css` already defines and
+ * whose contrast was COMPUTED IN A BROWSER on 7 Aug 2026. This file adds names,
+ * not hues. That is a deliberate constraint and it is why no ratio in here is
+ * newly asserted — the ratios are quoted from the file that measured them.
+ *
+ * ⚠️ If you add a semantic name that needs a colour this palette does not have,
+ * the work is in `colors.css` and it is a MEASUREMENT job, not a naming job.
+ * A name invented here with a hex behind it would be a value nobody has ever
+ * put through a contrast checker, wearing a token's authority.
+ * ════════════════════════════════════════════════════════════════════════════
+ */
+
+:root {
+  /* ═══ SURFACES ══════════════════════════════════════════════════════════
+   * What a block of the page is made of. Three, and the third is rare. */
+
+  /* The page itself. */
+  --af-surface-page: var(--af-paper);
+
+  /* A block that is beside the reading rather than part of it — the newsletter
+     card, a note, a disclosure body, a code block. ⛔ Ink on it is 15.79:1 and
+     ink-quiet is 6.75:1 (light) / 6.44:1 (dark); both clear AA, so a sunk block
+     may carry quiet text. That is the only reason it exists. */
+  --af-surface-sunk: var(--af-paper-sunk);
+
+  /* ⚠️ THE INVERTED SURFACE, AND IT HAS EXACTLY ONE JOB: the site footer, plus
+     the hover state of a control that already sits on it. It is ink, so in the
+     dark theme it INVERTS TO NEARLY-WHITE — which is correct (an inverted
+     footer stays inverted) and is the single most surprising line in this file.
+     ⛔ Do not reach for it to make something "stand out". A document has no
+     hierarchy that a dark band solves; the footer is inverted because it is the
+     end of the page, not because it is important. */
+  --af-surface-inverse: var(--af-ink);
+
+  /* ═══ TEXT ═══════════════════════════════════════════════════════════════
+   * ⭐ TWO TEXT COLOURS ON PAPER. NOT THREE. Inherited as a rule and restated
+   * here because a semantic layer is exactly where a third one gets added by
+   * someone who thinks they are naming rather than deciding. If something must
+   * recede further than `--af-text-quiet`, it needs fewer words or more space.
+   * See colors.css, which says this twice on purpose. */
+
+  --af-text: var(--af-ink); /* 17.15:1 on page (light) · 14.86:1 (dark) */
+  --af-text-quiet: var(--af-ink-quiet); /* 7.33:1 on page · 6.75:1 on sunk */
+
+  /* Text sitting ON a filled surface. Both resolve to paper, and they are two
+     names rather than one because they answer to different fills and would
+     diverge the moment either fill changed. */
+  --af-text-on-brand: var(--af-paper);
+  --af-text-on-inverse: var(--af-paper);
+
+  /* ⭐⭐ A LINK IS INK. This is the rule most likely to be "fixed" by someone
+     who has met a design system before, so the reason is here as well as in
+     colors.css: the brand is 15.72:1 on this paper and the ink is 17.15:1.
+     A link coloured with the brand is INDISTINGUISHABLE FROM THE SENTENCE
+     AROUND IT — not subtle, invisible. The underline carries the whole signal,
+     which is why `--af-line-link` below is a separate name that must never be
+     `none`. */
+  --af-text-link: var(--af-ink);
+
+  /* ═══ BRAND ══════════════════════════════════════════════════════════════
+   * ⭐ `--af-brand` IS THE NAME THIRTEEN DECLARATIONS ALREADY USE. Defining it
+   * here rather than renaming them is deliberate; see the header. It is the
+   * live Ghost accent #24164f, read as a COMPUTED value off aikyamfellows.org
+   * on 7 Aug 2026 — it does not appear as a literal in that site's stylesheet
+   * and a sibling designer concluded from the source that it did not exist.
+   *
+   * ⛔ ITS ONE JOB IS A FILL, A BORDER AND AN UNDERLINE. Never a word of
+   * running text, in either theme — 15.72:1 against ink's 17.15:1 in light, and
+   * the lifted dark value is 1.97:1 against dark ink, which is under the 3:1
+   * that any meaning-carrying distinction needs. The rule is unconditional and
+   * it is unconditional for a different measured reason in each theme. */
+  --af-brand: var(--af-accent);
+
+  /* The fill under `--af-text-on-brand`: the one primary button, the topic tag
+     on hover. Two appearances on a profile page is the intended count. */
+  --af-brand-fill: var(--af-accent);
+
+  /* ═══ THE BAND — the masthead, the top strip, the footer ══════════════════
+   * ⭐ ADDED 8 Aug 2026 with the Guardian header stack. Three names, because
+   * a dark band is not the same thing as the footer even though both are
+   * dark: the footer means "the document ends here", and the band means
+   * "this is the publication, not the page". Giving them separate names is
+   * what lets one change without dragging the other. */
+  --af-band: var(--af-accent); /* the indigo ground */
+  --af-band-text: var(--af-paper); /* 15.72:1 on it — measured */
+  /* ⛔ ON THE BAND ONLY. 10.55:1 on indigo, 1.49:1 on paper — it does not
+     read as subtle off the band, it reads as missing. See colors.css. */
+  --af-band-accent: var(--af-accent-bright);
+  /* Ink on the accent pill: 11.51:1 — measured. ⛔ NOT paper, which would be
+     1.49:1 on it and unreadable. The bright accent takes DARK text, always;
+     the brand fill takes LIGHT text. They are opposite and easy to swap. */
+  --af-text-on-band-accent: var(--af-ink);
+  /* The hairline that divides band items. `currentColor` at 25% rather than
+     `--af-line`, because the hairline token is tuned for paper (1.28:1) and
+     is invisible on indigo. */
+  --af-band-rule: color-mix(in srgb, var(--af-paper) 30%, transparent);
+
+  /* ═══ LINES ══════════════════════════════════════════════════════════════ */
+
+  /* The hairline. 1.28:1 in BOTH themes — decoration, not structure.
+     ⛔ It may never be the only thing separating two kinds of content. At
+     1.28:1 it is invisible to some readers, so a heading must always say in
+     words what the rule says in ink. */
+  --af-line: var(--af-rule);
+
+  /* ⭐ THE LOAD-BEARING RULE, and it is ink rather than a darker grey because
+     there is no third grey. It marks the two places a line means something
+     instead of merely spacing: the 4px leading rule above a pull-quote (*the
+     writing pauses and someone speaks*) and the rule over a figure that a
+     reader is meant to read as a heading. */
+  --af-line-strong: var(--af-ink);
+
+  /* ⭐ THE LINK UNDERLINE, and it is the brand — the one place the brand
+     touches running prose. ⛔ This name may never resolve to `none` or to
+     `transparent`. Removing it does not make links quieter, it makes them
+     STOP EXISTING, because `--af-text-link` is ink by design. */
+  --af-line-link: var(--af-accent);
+
+  /* The border of a resting form control. Ink-quiet, not the hairline: an
+     input's edge is the thing that says "type here", so it is text-weight
+     contrast (7.33:1) and not decoration (1.28:1). */
+  --af-line-control: var(--af-ink-quiet);
+
+  /* ═══ FOCUS ══════════════════════════════════════════════════════════════
+   * The ring is the brand. It clears the 3:1 required of a non-text indicator
+   * five times over — 15.72:1 light, 7.53:1 dark. A gold ring was tried and
+   * rejected BY MEASUREMENT at 2.10:1; see colors.css. */
+  --af-focus-ring: var(--af-focus);
+
+  /* ═══ STATE ══════════════════════════════════════════════════════════════
+   * ⭐⭐ THE THING TO READ BEFORE BUILDING A FORM, AND THE ONE OPEN QUESTION IN
+   * THIS FILE.
+   *
+   * `colors.css` states, as a decision rather than an omission: *no success
+   * green, no warning orange, no error red.* That was decided for a page whose
+   * only failure state was a Correction, which is announced in words and by
+   * position. It now has to hold for validation on a contact form, a signup and
+   * a search — surfaces that did not exist when it was decided.
+   *
+   * ⭐ IT HOLDS, AND NOT NARROWLY. WCAG 1.4.1 does not ask that error be red;
+   * it forbids colour from being the ONLY carrier. A palette with no red is
+   * therefore not a compromise against that criterion, it is the criterion
+   * enforced by construction — the error CANNOT be signalled by colour alone
+   * here, because there is no colour to signal it with. So an error is carried
+   * by four things that all survive greyscale, a screen reader and a printout:
+   *
+   *   1. an error summary at the top of the form, each item a link to its field
+   *   2. a 4px leading rule on the field — the same rule the pull-quote uses to
+   *      mean "stop, this is different"
+   *   3. the message directly above the input, beginning with the word "Error:"
+   *   4. `aria-invalid` and `aria-describedby` on the input
+   *
+   * That is the GOV.UK error pattern with its red removed and nothing else
+   * changed. GOV.UK's own research is that the SUMMARY does the work; the red
+   * is convention on top of a structure that already carries the meaning.
+   *
+   * ⛔ WHAT WOULD FALSIFY IT — say this to the owner rather than deciding it in
+   * CSS: a reader who has filled in a long form, submitted, and cannot FIND the
+   * field that failed. Everything above is about making the error legible once
+   * you are looking at it, and red is about being findable at a glance across a
+   * screen. If that turns out to matter here, the work is a measured red in
+   * `colors.css`, not a name in this file, and it is one hue that must clear
+   * 4.5:1 on both papers.
+   *
+   * ⚠️ THESE ARE NOT COLOURS. They are the two names a form reaches for, and
+   * they are deliberately identical to the neutral ones, so that a component
+   * written against them is already correct on the day a real hue is measured
+   * and only these two lines change. */
+  --af-state-error: var(--af-ink);
+  --af-state-error-line: var(--af-ink);
+
+  /* ⭐ AND SUCCESS IS NOT A COLOUR EITHER, for a stronger reason than error: a
+     success message that needs a green box to be understood is a badly written
+     success message. "Check your inbox and click the link" is complete on its
+     own. See guidelines/voice.md for all four states of the signup, written out
+     in full precisely because the live site currently shows its SUCCESS string
+     as the resting heading to a reader who has typed nothing. */
+  --af-state-success: var(--af-ink);
+}
+
+/* ---------------------------------------------------------------------------
+ * ⛔ NO DARK-THEME BLOCK IN THIS FILE, AND THAT IS THE POINT OF THE FILE.
+ *
+ * Every name above resolves to a raw swatch, and `colors.css` re-points those
+ * swatches inside its own `prefers-color-scheme` block. So the semantic layer
+ * is theme-agnostic by construction: `--af-surface-inverse` is ink in both
+ * themes and ink is nearly-white in one of them, which is exactly right and is
+ * something a hardcoded value could not do.
+ *
+ * ⚠️ A DARK OVERRIDE ADDED HERE WOULD BE A BUG THAT LOOKS LIKE THOROUGHNESS.
+ * It would freeze a semantic name to one theme's swatch, and the page would
+ * then have two sources of truth for the same colour with the later one
+ * winning. If a name needs to differ BY MEANING between themes, that is a
+ * missing swatch in `colors.css`, not an override here.
+ *
+ * ⭐ LOAD ORDER, and it is not optional:
+ *
+ *     fonts.css → tokens/colors.css → tokens/typography.css →
+ *     tokens/spacing.css → tokens/breakpoints.css → tokens/motion.css →
+ *     tokens/theme.css → styles.css → components/*.css
+ *
+ * `theme.css` must come AFTER `colors.css` — it references those swatches by
+ * name and a `var()` pointing at a not-yet-declared property resolves to the
+ * same invalid-at-computed-value-time state described in the header. The bug
+ * this file was written to fix is the bug that loading it in the wrong place
+ * reintroduces.
+ * ------------------------------------------------------------------------- */

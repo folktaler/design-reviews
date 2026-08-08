@@ -1,0 +1,613 @@
+/* aikyamfellows.org — component layer
+ *
+ * ⭐ COPY THIS FILE VERBATIM INTO A KIT, between the fences below. Never
+ * retype a value. A kit that disagrees with this file lies to whoever reviews
+ * it, and the fences make divergence a one-line grep rather than a reading
+ * exercise.
+ *
+ * Every component carries a `data-*` landmark. The landmark is not decoration:
+ * it is how a check finds the component in a rendered page, and how a page can
+ * be audited without depending on class names that a page kit may rename.
+ * The registry is system/LANDMARKS.md and it is the contract.
+ *
+ * ══ BEGIN SYSTEM COMPONENTS ══════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * TOPIC TAG  —  [data-topic]
+ *
+ * ⭐ ADDED FOR THIS SITE. catsofkochi had nothing like it: its categories were
+ * places, and a place is a page rather than a filter. Here the seven topics —
+ * Art & Culture, Education, Design, Access to Justice, Livelihood, Aftercare,
+ * Mental Health — are how a reader who cares about one thing finds the other
+ * eleven stories about it. That makes the tag a NAVIGATIONAL PRIMITIVE, and
+ * primitives get built like controls, not like labels.
+ *
+ * ⛔ THE LIVE SITE'S TAGS FAIL BOTH WAYS AND BOTH ARE FIXED HERE:
+ *   1. They are small text links in a row, well under any tap floor.
+ *   2. ⚠️ THE SAME TOPIC HAS TWO SLUGS. Measured on the live site, 7 Aug 2026:
+ *      `/tag/arts-culture/` AND `/tag/art-and-culture/` both exist and both
+ *      are linked from the homepage, and mental health is `/tag/mental-health-2/`
+ *      — a slug Ghost generates when a tag is created twice. A topic tag cannot
+ *      be a navigational primitive while a topic has two front doors: a reader
+ *      who clicks one sees a different, shorter list than the reader who clicks
+ *      the other, and neither list is wrong-looking enough to notice.
+ *      ⭐ THAT IS A CONTENT FIX, NOT A CSS FIX, and it has to happen before
+ *      this component means anything. It is the first thing in REMOVED.md's
+ *      "what still needs a person" list.
+ *
+ * ⭐ 17px, NOT 14px, and the size is what makes the shape work. At 14px in a
+ * 52px pill the text floats in a lozenge; at 17px the proportions read as a
+ * control. It also solves the width axis for free — the shortest topic,
+ * "Design", sets 90px wide here against 42.5px for a 14px word, which is the
+ * exact defect that shipped on eleven kits of the sibling system.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+[data-topic] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--af-tap-comfortable);
+  min-inline-size: var(--af-tap-comfortable);
+  padding-inline: var(--af-space-5);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  line-height: var(--af-leading-ui);
+  color: var(--af-brand);
+  background: none;
+  border: 1px solid var(--af-brand);
+  border-radius: var(--af-radius-pill);
+  transition: background var(--af-motion-quick) var(--af-motion-ease),
+    color var(--af-motion-quick) var(--af-motion-ease);
+  /* ⛔ NO UNDERLINE HERE, and this is the one place the site-wide link rule is
+     overridden. The pill IS the affordance; an underline inside an outlined
+     pill reads as a mistake. Stated as an exception so it is not "tidied". */
+  text-decoration: none;
+}
+/* ⛔ THIS RULE RENDERED AN EMPTY PILL UNTIL 8 Aug 2026 and nothing looked wrong
+   at rest. `--af-brand` was defined nowhere in this repo, so the `background`
+   line was invalid at computed-value time and was DISCARDED while the `color`
+   line applied — paper-coloured text on paper. Hovering a topic tag emptied it.
+   The half that failed was the half carrying the contrast. See theme.css. */
+[data-topic]:hover {
+  background: var(--af-brand-fill);
+  color: var(--af-text-on-brand);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * HEADLINE  —  [data-headline] / [data-headline-name] / [data-headline-phrase]
+ *
+ * ⭐⭐ THE MOST SITE-SPECIFIC COMPONENT HERE. Every profile on
+ * aikyamfellows.org is titled the same way — a person's name, a pipe, and a
+ * phrase:
+ *
+ *     Sentinaro Shiu | A Heart that Listens
+ *     Rahul Thomas| Theatre Saved Me            ← note the missing space
+ *     Nimi Ravindran | Sandbox of Possibilities
+ *     Maya P S | Keeping Fugdo Alive
+ *
+ * That is a two-part headline wearing a punctuation mark, and treating the
+ * pipe as a character has three costs: it wraps wherever it likes on a phone,
+ * the name cannot be styled or extracted separately, and one missing space
+ * ("Rahul Thomas|") is a typo nobody will ever catch by eye across 60 posts.
+ *
+ * ⭐ SO THE PIPE IS NOT A CHARACTER, IT IS A STRUCTURE. The name is set at
+ * display size in 400 (⚠️ was 700 until 8 Aug — see the weight note below and
+ * the long one on `h1` in styles.css); the phrase sits under it in italic at
+ * heading size. The
+ * separator disappears because a line break already separates them. The name
+ * becomes scannable in a list, and the phrase becomes what it always was — a
+ * sub-headline.
+ *
+ * ⛔ SPLIT ON `|` ONLY. NEVER ON `:`. This is a real trap in the live data:
+ *
+ *     "The Bauls & Millet Songs: Shilanjani Bhattacharyya's Journey"
+ *
+ * has the phrase FIRST and the name SECOND. A component that helpfully also
+ * split on a colon would set "The Bauls & Millet Songs" as the person's name
+ * at 42px, on a page about Shilanjani Bhattacharyya. If there is no `|`, the
+ * whole string is the name and the phrase is empty — a plain headline, which
+ * is always correct — and the post is reported for an editor to fix. The
+ * component must be able to LIST those posts, not just count them.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+[data-headline] {
+  margin: 0;
+}
+[data-headline-name] {
+  display: block;
+  font-size: var(--af-type-display);
+  /* ⛔ 400, matching the `h1` rule in styles.css — see the long note there.
+     This landmark sets its own weight rather than inheriting, so changing one
+     and not the other is exactly how the headline and the profile headline
+     would drift apart. */
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-display);
+  letter-spacing: var(--af-tracking-display);
+  text-wrap: balance;
+}
+[data-headline-phrase] {
+  display: block;
+  margin-block-start: var(--af-space-2);
+  font-size: var(--af-type-heading);
+  font-weight: var(--af-weight-regular);
+  font-style: italic;
+  line-height: var(--af-leading-heading);
+  text-wrap: balance;
+}
+[data-headline-phrase]:empty {
+  display: none;
+  margin-block-start: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * STANDFIRST  —  [data-standfirst]
+ *
+ * One per page, directly under the headline. The sentence that makes a
+ * stranger want to read 1,900 words.
+ *
+ * ⛔ IT MUST BE ABOUT THIS PERSON. Measured on the live site: the Sentinaro
+ * Shiu profile's standfirst is the SITE'S OWN TAGLINE — "Sometimes, the people
+ * who change lives are simply the ones who know how to listen…" — which is a
+ * lovely line and is on every page. A standfirst that is the same on every
+ * page is a decoration occupying the most valuable 24px on the site. If there
+ * is nothing specific to say, omit it; the component handles being absent.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+/* ⭐⭐ CORRECTED 8 Aug 2026 AGAINST MEASUREMENT, and this one component was a
+ * large part of *"pages don't look Guardian faithful."*
+ *
+ * MEASURED on theguardian.com across 20 article pages — news, opinion, feature
+ * and live blog — with unanimous agreement:
+ *
+ *     size 20px · line-height 23px (1.15) · colour PURE BLACK ·
+ *     width 540px inside a 620px body column (87%)
+ *
+ * This system had it at 21→24px, leading 1.4, in `--af-text-quiet`, at the full
+ * measure. Three of those four are wrong in the same direction: **the second
+ * most prominent thing on the page was set to recede.** A Guardian standfirst
+ * leads — it is nearly as dark as the headline and almost as tight, and it is
+ * NARROWER than the body so it reads as a block rather than as a first
+ * paragraph that happens to be bigger.
+ *
+ * ⛔ THE WIDTH IS THE SUBTLE ONE AND IT IS NOT DECORATION. At the full measure
+ * a standfirst is indistinguishable in shape from the paragraph beneath it, so
+ * the eye reads two paragraphs of different sizes. Pulled in, it becomes a
+ * distinct object and the article visibly begins below it.
+ *
+ * ⚠️ IT STAYS INK, NOT PURE BLACK. The Guardian's #000 on white is ~21:1; this
+ * palette's ink is 17.15:1 on its paper and there is deliberately no darker
+ * value — colors.css ships two text greys and no third, and adding a
+ * blacker-than-ink would be a fourth. Ink is the darkest thing here, which is
+ * what the measurement was actually saying. */
+[data-standfirst] {
+  margin: 0;
+  margin-block-start: var(--af-space-4);
+  /* 87% of the measure, matching the ratio measured on the Guardian. */
+  max-width: calc(var(--af-measure) * 0.87);
+  font-size: var(--af-type-standfirst);
+  line-height: var(--af-leading-standfirst);
+  color: var(--af-text);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * BYLINE  —  [data-byline] / [data-byline-author] / [data-byline-date]
+ *
+ * ⭐ ADDED FOR THIS SITE, AND IT IS A REAL DIFFERENCE. catsofkochi's byline
+ * was a cat persona — a voice, not a person, and deliberately not accountable.
+ * This site has recurring human authors: Aparna R and Haneen Naseer both
+ * appear across the archive, and `/author/haneen/` is a real page.
+ *
+ * ⭐ SO THE AUTHOR IS A LINK AND THE DATE IS NOT. That is the whole design of
+ * this component. An author's name earns an archive; a date earns nothing, and
+ * making it a link is how you get six identical "Aug 3, 2026" entries in a
+ * screen reader's link list.
+ *
+ * ⚠️ THE DATE IS `<time datetime="…">` WITH A HUMAN STRING INSIDE. The machine
+ * value and the printed value are different things and the printed one is
+ * allowed to say "3 August 2026" while the attribute says "2026-08-03".
+ *
+ * ⛔ NO `display: flex` ON THE ROW. Flex makes every child its own item, so the
+ * text node between the author and the date collapses and you get
+ * "Aparna R— 3 August 2026". Padding on the row; flex only inside the control. */
+[data-byline] {
+  margin-block-start: var(--af-space-5);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-tight);
+  color: var(--af-text-quiet);
+}
+[data-byline-author] {
+  color: var(--af-text);
+  text-decoration: underline;
+  text-decoration-color: var(--af-line-link);
+  text-underline-offset: 3px;
+}
+[data-byline-date] {
+  color: var(--af-text-quiet);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * PORTRAIT  —  [data-portrait]
+ *
+ * ⭐ ADDED FOR THIS SITE. The inherited photography guidance is about PLACES —
+ * a jetty, a doorway, a street. This site photographs PEOPLE, and a portrait
+ * of a person carries obligations a photograph of a building does not.
+ *
+ * ⛔ MEASURED DEFECT ON THE LIVE SITE: the Sentinaro Shiu profile carries
+ * several photographs of her and NOT ONE has a caption or a credit. That is
+ * two failures at once — the reader cannot tell which person in a group shot
+ * is the fellow, and the photographer is uncredited on a not-for-profit site
+ * whose whole proposition is giving people their due.
+ *
+ * ⭐ SO CAPTION AND CREDIT ARE REQUIRED SLOTS, not optional props. A component
+ * that renders happily without them is how 149 images shipped broken on the
+ * sibling project: the absence has to be visible at build time.
+ *
+ * ⛔ TEXT NEVER SITS ON A PHOTOGRAPH. Overlaid contrast belongs to the
+ * PHOTOGRAPH, so it cannot be computed once and trusted; and the standard fix,
+ * a scrim, damages the photograph to rescue the type. The caption goes below.
+ *
+ * TWO SHAPES, AND THE RULE THAT PICKS BETWEEN THEM:
+ *   · A photograph OF THE WORK is square and may run to the edge of the page.
+ *   · A photograph THAT IS SOMEONE'S FACE, used to identify them — in a card,
+ *     beside a byline, at the head of a profile — is round. It is the only
+ *     circle in the system.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+[data-portrait] {
+  margin: 0;
+  margin-block: var(--af-space-7);
+}
+[data-portrait] img {
+  width: 100%;
+  border-radius: var(--af-radius-none);
+}
+[data-portrait='round'] img {
+  border-radius: var(--af-radius-round);
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+[data-portrait] figcaption {
+  margin-block-start: var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-micro);
+  line-height: var(--af-leading-tight);
+  color: var(--af-text-quiet);
+  max-width: var(--af-measure-small);
+}
+/* The credit sits on its own line, in the same size. ⛔ It is NOT set smaller
+   or paler than the caption. A credit that recedes further than the caption is
+   the "12px uppercase grey" pattern — the visual grammar of a legal disclaimer
+   — applied to the one line that names a person who did work. */
+[data-portrait-credit] {
+  display: block;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * PULL-QUOTE  —  [data-pullquote] / [data-pullquote-source]
+ *
+ * ⭐ THE FELLOW'S OWN WORDS, AND THE ATTRIBUTION IS NOT OPTIONAL. The live
+ * site already uses pull-quotes well — "I feel very understood when I talk to
+ * you." — but an unattributed quote on a page about two or three people is
+ * ambiguous exactly where it matters. On the Sentinaro Shiu profile that line
+ * is a STUDENT speaking about her, not her speaking. Set without a source it
+ * reads as the fellow praising herself.
+ *
+ * ⛔ SO `source` IS REQUIRED. If the speaker is the fellow, say so; if it is a
+ * student, a colleague, a parent, say that. "Who said this" is the entire
+ * value of a pull-quote on a profile.
+ *
+ * A 4px leading rule, not quotation-mark decoration and not a box. The rule
+ * says "the writing pauses and someone speaks", which is the one thing this
+ * component means.
+ *
+ * ⚠️ THE RULE IS INK, NOT BRAND — CORRECTED 8 Aug 2026. It was written as
+ * `--af-brand`, which contradicts the sentence in `colors.css` that governs
+ * that colour: *"Not a link, not a heading, not a byline, NOT A RULE."* It also
+ * put a third brand appearance on a profile page, against a stated intended
+ * count of two (the topic tag and the newsletter button).
+ * ⭐ AND IT WAS INVISIBLE EITHER WAY UNTIL NOW: `--af-brand` was undefined, so
+ * the border fell back to `currentcolor`, which inside this block is
+ * `--af-ink`. The rule has been rendering in ink the whole time. This changes
+ * the source to say what the page has always shown. */
+[data-pullquote] {
+  margin: var(--af-space-8) 0;
+  padding-inline-start: var(--af-space-5);
+  border-inline-start: var(--af-rule-leading) solid var(--af-line-strong);
+  max-width: var(--af-measure);
+  font-size: var(--af-type-quote);
+  font-style: italic;
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-quote);
+  color: var(--af-text);
+}
+[data-pullquote] p {
+  margin: 0;
+  max-width: none;
+}
+[data-pullquote-source] {
+  display: block;
+  margin-block-start: var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-style: normal;
+  line-height: var(--af-leading-tight);
+  color: var(--af-text-quiet);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * FELLOW CARD  —  [data-fellow-card]
+ *
+ * Replaces PlaceCard. A place card answered "should I walk there"; this one
+ * answers "is this a person I want to read about", which is a different
+ * question with a different shape: the NAME leads, the phrase supports it, the
+ * topic is present so the card is filterable by eye, and there is no distance,
+ * no opening time and no price.
+ *
+ * ⛔ THE WHOLE CARD IS THE TARGET, NOT THE HEADLINE. `min-height` on an inline
+ * <a> does nothing — that defect shipped three times on the sibling project.
+ * ⚠️ AND ONLY ONE OVERLAY PER CARD. The topic tag inside a card must be lifted
+ * above the overlay or the overlay swallows it; two ::after overlays on one
+ * row means the LATER ONE WINS and a tap on the name opens the topic. */
+[data-fellow-card] {
+  position: relative;
+  display: grid;
+  gap: var(--af-space-3);
+  padding-block: var(--af-space-6);
+  border-block-end: var(--af-rule-hairline) solid var(--af-line);
+}
+[data-fellow-card] [data-fellow-card-link]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+[data-fellow-card] [data-fellow-card-link] {
+  text-decoration: none;
+  font-size: var(--af-type-heading);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+}
+[data-fellow-card]:hover [data-fellow-card-link] {
+  text-decoration: underline;
+  text-decoration-color: var(--af-line-link);
+  text-underline-offset: 3px;
+}
+[data-fellow-card] [data-fellow-card-phrase] {
+  font-style: italic;
+  color: var(--af-text-quiet);
+  max-width: var(--af-measure);
+}
+/* lifted above the card overlay so it stays independently tappable */
+[data-fellow-card] [data-topic] {
+  position: relative;
+  z-index: 1;
+  justify-self: start;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * NEWSLETTER  —  [data-newsletter]
+ *
+ * ⭐ NOT A COMMERCE CTA, and the difference is in the words rather than the
+ * pixels. There is nothing to buy, nothing is scarce, and nothing happens if
+ * the reader says no. So: no urgency, no counter, no "join 1,400 readers", no
+ * second ask after a dismissal.
+ *
+ * ⛔ THE LIVE SITE'S COPY IS A SUCCESS MESSAGE SHOWN AS THE RESTING HEADING.
+ * Measured 7 Aug 2026: the signup block's heading reads
+ *
+ *     "Great! Check your inbox and click the link."
+ *
+ * to a reader who has not typed anything yet. That is a confirmation state
+ * leaking into the default state — it tells a first-time reader to go and look
+ * for an email that does not exist. The four states below are written out in
+ * full in guidelines/voice.md precisely so this cannot happen again by
+ * somebody editing one string.
+ *
+ * ⛔ AND THE PRIVACY LINE IS PART OF THE COMPONENT, not a footer link. An
+ * email address is personal data; the sentence that says what happens to it
+ * belongs next to the field that collects it. */
+[data-newsletter] {
+  margin-block: var(--af-space-9);
+  padding: var(--af-space-7) var(--af-space-6);
+  background: var(--af-surface-sunk);
+  border-radius: var(--af-radius-none);
+}
+[data-newsletter] h2 {
+  font-size: var(--af-type-subheading);
+}
+[data-newsletter] p {
+  margin: var(--af-space-3) 0 0;
+  max-width: var(--af-measure-small);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-tight);
+  color: var(--af-text-quiet);
+}
+[data-newsletter-form] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--af-space-3);
+  margin-block-start: var(--af-space-5);
+}
+[data-newsletter] label {
+  display: block;
+  flex: 1 1 100%;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text);
+}
+[data-newsletter] input[type='email'] {
+  flex: 1 1 14rem;
+  min-height: var(--af-tap-comfortable);
+  padding-inline: var(--af-space-4);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  color: var(--af-text);
+  background: var(--af-surface-page);
+  border: 1px solid var(--af-text-quiet);
+  border-radius: var(--af-radius-control);
+}
+[data-newsletter] input[type='email']:focus-visible {
+  outline: 3px solid var(--af-focus-ring);
+  outline-offset: 2px;
+}
+/* ⛔ The privacy line is NOT smaller than the body of the block. See the note
+   on the portrait credit — shrinking the honest sentence is how it stops being
+   read. */
+[data-newsletter-privacy] {
+  margin-block-start: var(--af-space-4) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * BUTTON  —  [data-button]
+ * One primary button per page. Brand fill, paper text: 15.72:1.
+ * ⛔ Both tap axes, always. */
+[data-button] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--af-button-height);
+  min-inline-size: var(--af-tap-comfortable);
+  padding: var(--af-button-pad);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  line-height: var(--af-leading-ui);
+  color: var(--af-text-on-brand);
+  background: var(--af-brand-fill);
+  border: 1px solid var(--af-brand);
+  border-radius: var(--af-radius-control);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--af-motion-quick) var(--af-motion-ease),
+    color var(--af-motion-quick) var(--af-motion-ease);
+}
+[data-button='quiet'] {
+  color: var(--af-brand);
+  background: none;
+}
+[data-button]:focus-visible {
+  outline: 3px solid var(--af-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * READ NEXT  —  [data-read-next]
+ * Kept from the inherited system and kept because the live site already ends
+ * every profile with one. ⛔ The ROW is the target. */
+/* ⭐ THUMBNAILS ADDED 8 Aug 2026 — owner asked, and on this site the answer is
+ * clearly yes. "Read next" on a site about PEOPLE, with no faces, asks the
+ * reader to choose between three names they have never seen. The Guardian's
+ * carries thumbnails for the same reason. It is also the one place a portrait
+ * is unambiguously useful rather than decorative: the reader is deciding, and a
+ * face is what they are deciding about.
+ * ⛔ CIRCULAR, because it is a person — the one shape rule this system has
+ * (spacing.css: *square is structure, round is a person*). */
+[data-read-next] {
+  margin-block-start: var(--af-space-10);
+  padding-block-start: var(--af-space-6);
+  border-block-start: 2px solid var(--af-line-strong);
+}
+[data-read-next] h2 {
+  font-size: var(--af-type-subheading);
+}
+[data-read-next] ul {
+  list-style: none;
+  margin: var(--af-space-5) 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+}
+@media (min-width: 40rem) {
+  /* --af-bp-wide — three across, matching the count the live site uses. */
+  [data-read-next] ul {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+}
+[data-read-next] li {
+  position: relative;
+  margin-block-start: 0;
+  padding: var(--af-space-5);
+  background: var(--af-surface-page);
+  /* Same rule mechanism as [data-card] — see the note in blocks.css for why
+     this is a shadow and not the container's background showing through. */
+  box-shadow: 0 0 0 1px var(--af-line);
+}
+/* ⛔ THE WHOLE CELL IS THE TARGET, not the words. `min-height` on an inline
+   `<a>` does nothing — the defect that shipped three times on the sibling
+   project. ⚠️ And ONE overlay per cell: a second `::after` would win and a tap
+   on the name would open the wrong thing. */
+[data-read-next] li > a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+[data-read-next] [data-read-next-face] {
+  display: block;
+  inline-size: 3.75rem;
+  block-size: 3.75rem;
+  margin-block-end: var(--af-space-3);
+  border-radius: var(--af-radius-round);
+  object-fit: cover;
+  background: var(--af-surface-sunk);
+}
+/* ⛔ THE PIPE IS SPLIT HERE TOO. These rows carried the raw CMS string —
+   "Rahitha Krishnadas | Beating Barriers" — which is the exact thing
+   [data-headline] exists to prevent, reappearing in a different component.
+   ⚠️ A rule enforced in one place and not another is not a rule, and this is
+   how it comes back: the headline component was built carefully and the
+   read-next rows were treated as "just links". */
+[data-read-next] [data-card-name] {
+  margin-block-end: var(--af-space-1);
+}
+[data-read-next] h3 {
+  font-size: var(--af-type-ui);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+}
+[data-read-next] h3 a {
+  text-decoration: none;
+}
+[data-read-next] li:hover h3 a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+[data-read-next] p {
+  margin: var(--af-space-2) 0 0;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-micro);
+  color: var(--af-text-quiet);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * CORRECTION  —  [data-correction]
+ *
+ * ⭐ KEPT, AND RE-SCOPED — the one component from the facts family that
+ * travels. On catsofkochi a correction was part of a facts registry: the
+ * opening time changed, so the stamp changed. That machinery does not travel.
+ * But a site that publishes profiles of REAL PEOPLE, by name, needs a way to
+ * say "we got this wrong and here is what it said before", and it needs it
+ * more than a travel guide does, because the cost of being wrong lands on the
+ * person written about rather than on the reader.
+ *
+ * ⛔ ANNOUNCED IN WORDS AND BY POSITION, NEVER BY A RED BOX. It sits at the
+ * FOOT of the piece, carries a date, and states what changed. There is no
+ * error red in this palette on purpose. */
+[data-correction] {
+  margin-block-start: var(--af-space-8);
+  padding: var(--af-space-5);
+  border: var(--af-rule-hairline) solid var(--af-line);
+  border-inline-start: var(--af-rule-leading) solid var(--af-text-quiet);
+  max-width: var(--af-measure);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-tight);
+}
+[data-correction] strong {
+  font-weight: 700;
+}
+
+/* ── DIVIDER ── [data-divider] ──────────────────────────────────────────── */
+[data-divider] {
+  border: 0;
+  border-block-start: var(--af-rule-hairline) solid var(--af-line);
+  margin-block: var(--af-space-9);
+}
+
+/* ══ END SYSTEM COMPONENTS ════════════════════════════════════════════════ */

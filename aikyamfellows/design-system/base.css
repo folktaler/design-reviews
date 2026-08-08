@@ -1,0 +1,813 @@
+/* aikyamfellows.org — the base layer
+ *
+ * Element defaults and the two layout containers. Everything here is what a
+ * page gets for free; components add to it and never fight it.
+ *
+ * ⚠️ THE FAILURE THIS FILE EXISTS TO PREVENT, from the sibling project:
+ * `fonts.css` and `tokens/` were both correct, both committed, and LOADED BY
+ * NOTHING. Eleven mockups rendered in Georgia for a day and every judgement
+ * made by looking at one was made against the wrong typeface.
+ *
+ *     ⭐ A TOKEN FILE IS A PROXY FOR THE PAGE. Editing one can feel like
+ *        changing the design and change nothing.
+ *
+ * So: this file must be loaded, AFTER fonts.css and tokens/*.css, and the way
+ * you know it is loaded is that `getComputedStyle(document.body).fontFamily`
+ * begins with "Noticia Text". Not that the file is in the repo.
+ *
+ * ════════════════════════════════════════════════════════════════════════════
+ * ⭐⭐ WHY THIS FILE IS LONGER THAN IT WAS — 8 Aug 2026
+ *
+ * It used to style `h1 h2 h3 p a img hr` and nothing else. That is enough for
+ * the five reading pages and the five institutional pages that existed, and it
+ * is NOT enough for a design system, because:
+ *
+ *     AN ELEMENT WITH NO RULE HERE DOES NOT RENDER AS MISSING. IT RENDERS AS
+ *     THE BROWSER'S 1996 DEFAULT, INSIDE A PAGE THAT OTHERWISE LOOKS DESIGNED.
+ *
+ * A bulleted list in a mission statement came out at 40px indent in Times, one
+ * element away from a paragraph set in measured Noticia — and it would have
+ * passed every check in the suite, because no check asserts anything about a
+ * `<ul>`. The gap only appears when someone builds a page type nobody has built
+ * yet, which is the exact moment a design system is supposed to be doing its
+ * job.
+ *
+ * ⛔ EVERY BLOCK BELOW MARKED "unmeasured" IS A REASONED DEFAULT, NOT A
+ * MEASUREMENT. The type ladder, the measure and the tap floors were measured in
+ * a browser and say so. These were not — they are derived from tokens that
+ * were. The distinction is kept visible so that nobody quotes one as the other.
+ * ════════════════════════════════════════════════════════════════════════════
+ *
+ * ⚠️ COLOUR IS REFERENCED BY MEANING, NEVER BY SWATCH. Every colour below names
+ * a token from `tokens/theme.css`. This file used to reach for `--af-brand`,
+ * which is the SIBLING system's name and is defined nowhere in this repo — four
+ * declarations here were invalid at computed-value time, and one of them
+ * (`::selection`) made selected text invisible. See the header of theme.css.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* ⛔ `light`, and there is no other value — this site is light only (owner
+     decision, 8 Aug 2026; the reasoning and the three earlier decisions are in
+     colors.css). `light dark` would tell the browser "follow the OS", which
+     would paint dark scrollbars, form controls and autofill around a page whose
+     palette is light, for any reader whose machine is set to dark. */
+  color-scheme: light;
+  background: var(--af-surface-page);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--af-surface-page);
+  color: var(--af-text);
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-body);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-body);
+  letter-spacing: var(--af-letter-spacing-body);
+  text-rendering: optimizeLegibility;
+}
+
+/* --- Layout ---------------------------------------------------------------
+ * ⛔ THE CALC IS NOT OPTIONAL. `.wrap` is border-box, so capping it at
+ * `--measure` renders a text column of `--measure` MINUS two gutters — 528px
+ * instead of 576px, 55 characters instead of 59 — while spacing.css still says
+ * 576. See the long note there. */
+/* ⭐ THE PAGE BREATHES BELOW THE HEADER. Owner, 8 Aug 2026: *"the gap between
+   the menu and the header/breadcrumb seems a bit tight."*
+   ⛔ MEASURED DEFECT OF THE SAME SHAPE, 7 Aug: the H1 sat flush against the
+   masthead's bottom rule at a gap of 0.0px, because `.inst-h1` had no top
+   margin and `<main>` had no padding — invisible in the CSS, obvious the moment
+   the page was opened. That fix lived in `institutional.css` and was lost when
+   the chrome moved into the system. It belongs here, on `main`, so no page can
+   forget it. */
+main {
+  padding-block-start: var(--af-space-8);
+}
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--af-measure) + var(--af-gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--af-gutter);
+}
+.wrap--wide {
+  max-width: calc(var(--af-measure-wide) + var(--af-gutter) * 2);
+}
+
+/* --- Headings -------------------------------------------------------------
+ * ⛔ 700, NOT 600. Noticia Text ships two static weights. A 600 here is
+ * synthesised — the browser smears the 400 strokes — and it looks wrong in a
+ * way that is obvious on screen and invisible in the source. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--af-font-text);
+  font-weight: var(--af-weight-bold);
+  margin: 0;
+  text-wrap: balance;
+}
+/* ⭐⭐ THE H1 IS 400, NOT 700 — owner decision, 8 Aug 2026, and it is the one
+ * departure in this system forced by the typeface rather than chosen.
+ *
+ * MEASURED on theguardian.com across 20 article pages: their headline is
+ * **34px at weight 500** — a medium — and **300** on opinion pieces. Not bold.
+ * A Guardian headline is large and calm; ours was large and shouting.
+ *
+ * ⛔ 500 DOES NOT EXIST HERE. Noticia Text ships three static files — 400, 700
+ * and 400 italic — so `font-weight: 500` rounds to 400 or gets synthesised into
+ * a smeared fake, which is worse than either real weight and invisible in a
+ * source review. The honest choice was 400 or 700, with nothing between, and
+ * 400 is the nearer of the two to what was measured.
+ *
+ * ⚠️ WHAT THIS COSTS, stated so it can be reversed knowingly: at 400 a SHORT
+ * headline has less authority than it did at 700. What it buys is the long
+ * ones, which is most of them here — every profile is `Name | Phrase`, and
+ * "The Bauls & Millet Songs: Shilanjani Bhattacharyya's Journey" set at 42px
+ * bold across three lines is a wall. The same string at 400 reads.
+ *
+ * ⭐ AND SECTION HEADINGS STAY AT 700, which is also what was measured: the
+ * Guardian's in-article h2 is 24px/700 and its section-front heading 28px/700.
+ * The headline is the thing that got lighter, not the hierarchy. */
+h1 {
+  font-size: var(--af-type-display);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-display);
+  letter-spacing: var(--af-tracking-display);
+}
+h2 {
+  font-size: var(--af-type-heading);
+  line-height: var(--af-leading-heading);
+}
+h3 {
+  font-size: var(--af-type-subheading);
+  line-height: var(--af-leading-heading);
+}
+
+/* ⛔⛔ h4, h5 AND h6 ARE THE SAME SIZE AS BODY TEXT, AND THAT IS THE DECISION —
+ * unmeasured, reasoned, and stated at length because the obvious alternative is
+ * to extend the ladder and the obvious alternative is wrong here.
+ *
+ * The ladder in `typography.css` has THREE heading steps because a reading page
+ * has three: the headline, the section, the subsection. It separates its steps
+ * by SIZE rather than by weight, because Noticia has exactly two weights and
+ * emphasis in a serif is made of space, size and slope. Two more steps below
+ * `--af-type-subheading` (20→24px) would have to land between 20px and the
+ * 19→20px body — which is nowhere. There is no room, and a "step" of half a
+ * pixel is a lie in a token file.
+ *
+ * ⭐ SO THE DISTINCTION IS CARRIED BY SPACE, NOT SIZE. An h4 is body size at
+ * 700 with a large gap above it and a small gap below, which is how a serif
+ * book has always marked a run-in subsection. It reads correctly and it does
+ * not pretend to a step that was never measured.
+ *
+ * ⚠️ AND h5/h6 ARE STYLED IDENTICALLY TO h4 ON PURPOSE — an honest tie rather
+ * than an invented difference. A document that genuinely needs six visually
+ * distinct heading levels has an outline problem, not a typography problem, and
+ * the fix is to split the page. They are still styled rather than left to the
+ * browser, because an unstyled h6 renders SMALLER THAN BODY TEXT in Times, and
+ * "smaller than the text it introduces" is the one thing a heading may not be. */
+h4,
+h5,
+h6 {
+  font-size: var(--af-type-body);
+  line-height: var(--af-leading-heading);
+}
+
+/* --- Running prose --------------------------------------------------------
+ * `.prose` is the article body. It is the only place `--measure` binds, and
+ * the only place links are inline. */
+.prose > * + * {
+  margin-block-start: var(--af-paragraph-gap);
+}
+.prose > * + h2 {
+  margin-block-start: var(--af-space-9);
+}
+.prose > * + h3 {
+  margin-block-start: var(--af-space-7);
+}
+/* ⛔ A HEADING DIRECTLY AFTER A HEADING GETS A SMALL GAP, NOT A SECTION GAP.
+   Measured by looking, 8 Aug 2026: "Meet the team" and "Founders and
+   leadership" rendered touching, because `* + h3` gave the h3 a 32px top margin
+   and `.prose h2 + *` gave it a 12px one — and the later, more specific rule
+   won. Two headings in a row are one unit; the space belongs above the pair. */
+.prose h2 + h3,
+.prose h3 + h4,
+h2 + h3 {
+  margin-block-start: var(--af-space-2);
+}
+.prose > * + h4,
+.prose > * + h5,
+.prose > * + h6 {
+  margin-block-start: var(--af-space-6);
+}
+/* ⛔⛔ `margin: 0` HERE CANCELLED EVERY PARAGRAPH GAP ON THE SITE, and it took a
+ * screenshot to see it. `.prose > * + *` sets `margin-block-start` at
+ * specificity (0,1,0); `.prose p` is (0,1,1) and WINS, so the shorthand reset
+ * every paragraph's top margin back to zero. The rhythm token
+ * `--af-paragraph-gap` was computed, documented, derived from the leading — and
+ * applied to nothing.
+ *
+ * ⭐ THE TELL WAS VISUAL AND ONLY VISUAL. Every check passed: the token
+ * resolved, the value was right, `getComputedStyle` on `:root` returned
+ * `0.75em`. The page just had no gaps in it. Reading `getComputedStyle` on the
+ * TOKEN is not the same as reading it on the ELEMENT — a distinction this repo
+ * has now been bitten by twice.
+ *
+ * `margin-block-end: 0` says what was meant: paragraphs push down, never up,
+ * and the sibling rule owns the space between them. */
+.prose p {
+  margin-block-end: 0;
+  margin-inline: 0;
+  /* ⛔ NOT `60ch`. Measured: 60ch at 19px Noticia renders 654.6px and holds 74
+     characters. See spacing.css. */
+  max-width: var(--af-measure);
+}
+
+/* ⭐ A SUBHEAD SITS CLOSE TO THE TEXT IT INTRODUCES, and far from the text it
+   ends. Guardian-faithful, and visible in their own article pages: the space
+   above a subhead is roughly four times the space below it. Without the second
+   rule here a subhead floats midway between two paragraphs and stops belonging
+   to either. */
+.prose h2 + *,
+.prose h3 + *,
+.prose h4 + * {
+  margin-block-start: var(--af-space-3);
+}
+
+/* ⭐ THE MEASURE BINDS ON EVERY TEXT BLOCK, NOT JUST ON `p`, and this line is
+   the whole reason the block below exists. `--af-measure` is a statement about
+   how far a human eye can track a line of Noticia before it loses the return
+   sweep. That is true of a list item and a blockquote and a definition. Capping
+   only paragraphs produced a page where the prose was 592px and the bulleted
+   list beside it ran the full 1024px — the reader's eye fails on exactly the
+   content that was broken into bullets to make it easier. */
+.prose ul,
+.prose ol,
+.prose dl,
+.prose blockquote,
+.prose figcaption {
+  max-width: var(--af-measure);
+}
+
+/* ⭐ `pretty` ON PARAGRAPHS, `balance` ON HEADINGS, and they are not
+   interchangeable. `balance` evens the line lengths of a short block and is
+   capped by browsers at a handful of lines — correct for a headline, a no-op on
+   a 200-word paragraph. `pretty` leaves the block alone except for the last
+   line, where it prevents a single-word orphan. In a 592px column full of long
+   proper nouns — Thiruvananthapuram, Kalaripayattu — orphans are frequent.
+   ⚠️ Unmeasured, and safe to lose: where it is unsupported the text simply sets
+   as it did before. */
+.prose p {
+  text-wrap: pretty;
+}
+
+/* --- Links ----------------------------------------------------------------
+ * ⭐ INK WITH A BRAND UNDERLINE. The brand is 15.72:1 on paper and the ink is
+ * 17.15:1 — a link coloured with the brand would be indistinguishable from the
+ * text around it. The underline does the work, so it must always be there.
+ * ⛔ `text-decoration`, never `border-block-end`. A border tracks the BOX; the
+ * moment anything gives a link a height, the rule floats below the words. */
+a {
+  color: var(--af-text-link);
+  text-decoration: underline;
+  text-decoration-color: var(--af-line-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  border: 0;
+  transition: text-decoration-thickness var(--af-motion-quick) var(--af-motion-ease);
+}
+a:hover {
+  text-decoration-thickness: 2px;
+}
+a:focus-visible {
+  outline: 3px solid var(--af-focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ⭐ THE STATED EXCEPTION. An inline link in running prose gets NO tap floor.
+   20px × 1.55 leading is a 31px line, under the 44px target, and that is
+   accepted: raising it would blow the line height of every paragraph that
+   happens to contain a link, damaging the reading for every reader to help the
+   tap for a few. Links that STAND ALONE — nav, topic tag, Read next, the
+   byline's author — carry the floor on both axes. See spacing.css.
+
+   ⛔⛔ `:where()` IS LOAD-BEARING AND MUST NOT BE "TIDIED" TO `.prose a`.
+   MEASURED IN CHROMIUM, 8 Aug 2026: written as `.prose a`, this rule has
+   specificity (0,1,1) and BEATS `[data-topic]` at (0,1,0). A topic tag or a
+   button placed inside `.prose` — which is where a topic tag naturally sits on
+   a profile — silently lost its 52px floor and rendered 24.1px tall. The
+   exception for inline links was eating the floor of the standalone controls
+   the same sentence promises to protect.
+   ⭐ `:where(.prose)` contributes ZERO specificity, so this drops to (0,0,1) —
+   still enough to catch a bare `<a>` in a paragraph, no longer enough to beat
+   any component's landmark. The fix is one function and it is invisible in a
+   review that reads the selector as a description rather than as arithmetic. */
+:where(.prose) a {
+  min-height: 0;
+}
+
+/* ⭐ THE UNIVERSAL FOCUS RING, and it is here rather than only on `a` because
+   the elements that most need it are the ones a page kit adds later —
+   `<summary>`, `<button>`, `<input>`, and anything carrying `tabindex`. A
+   component that forgets its own focus style now inherits a correct one instead
+   of inheriting the browser's, which in some engines is a 1px dotted line that
+   disappears against the hairline. */
+:focus-visible {
+  outline: 3px solid var(--af-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ⭐ AND ANYTHING A LINK JUMPS TO GETS BREATHING ROOM ABOVE IT. Without this, a
+   footnote link, a table-of-contents entry or an error-summary link scrolls its
+   target to the exact top of the viewport, where a sticky masthead covers it —
+   the reader clicks, the page moves, and the thing they asked for is behind the
+   header. Unmeasured; 48px is `--af-space-9`, chosen to clear the 137px
+   masthead's collapsed state with margin. */
+:target {
+  scroll-margin-block-start: var(--af-space-9);
+}
+
+/* --- Lists ----------------------------------------------------------------
+ * ⚠️ THE BROWSER DEFAULT IS 40px OF PADDING AND IT IS WRONG IN A MEASURED
+ * COLUMN, in a way that is easy to miss: the indent comes out of the 592px, so
+ * a bulleted paragraph sets ~5 characters narrower than the paragraph above it
+ * and the ragged right edge visibly steps inward. `--af-space-6` (24px) is one
+ * gutter, which keeps the marker outside the text block without eating a
+ * disproportionate share of a phone's 327px column. Unmeasured.
+ *
+ * ⛔ AND `list-style-position: inside` IS NOT THE FIX, though it looks like one.
+ * It puts the marker in the text flow, so the second line of a wrapping item
+ * starts under the bullet instead of under the first word, and every multi-line
+ * item loses its hanging indent. On this site items wrap constantly. */
+ul,
+ol {
+  margin: 0;
+  padding-inline-start: var(--af-space-6);
+}
+li + li {
+  margin-block-start: var(--af-space-2);
+}
+li > ul,
+li > ol {
+  margin-block-start: var(--af-space-2);
+}
+
+/* The marker is quiet: it is punctuation, not content. ⛔ It is NOT the brand —
+   a column of indigo bullets is the brand appearing more often on one page than
+   everywhere else in the system combined. See colors.css: two appearances on a
+   page is the intended count. */
+::marker {
+  color: var(--af-text-quiet);
+}
+
+/* ⚠️ A LIST THAT IS A LAYOUT IS NOT A LIST. Nav rows, card grids, footer link
+   columns and the fellow index are all `<ul>` for correct semantics and must
+   not inherit bullets or indent. This is the reset every component reaches for,
+   so it lives here rather than being retyped in each one. */
+.list-bare {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.list-bare > li + li {
+  margin-block-start: 0;
+}
+
+/* Definition lists — the funding disclosure and any "what this includes" block.
+   ⛔ `dd` has a 40px browser margin-inline-start that is invisible in the source
+   and shows up as a mystery indent. */
+dl {
+  margin: 0;
+}
+dt {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+  color: var(--af-text-quiet);
+}
+dd {
+  margin: var(--af-space-1) 0 0;
+}
+dd + dt {
+  margin-block-start: var(--af-space-4);
+}
+
+/* --- Quotations -----------------------------------------------------------
+ * ⛔⛔ `blockquote` IS NOT THE PULL-QUOTE, and conflating them is the single
+ * most likely mistake in this file. They look similar and they mean opposite
+ * things:
+ *
+ *   [data-pullquote]   EDITORIAL. Text lifted OUT of the article and repeated
+ *                      at 30px italic, to make a reader stop. It says nothing
+ *                      new. It is a designer's device.
+ *   <blockquote>       STRUCTURAL. Words that belong to someone who is not the
+ *                      author, quoted at body size, appearing exactly once.
+ *                      Removing it removes information.
+ *
+ * ⚠️ ON A SITE THAT PROFILES REAL, NAMED, LIVING PEOPLE, THE DIFFERENCE IS NOT
+ * TYPOGRAPHIC. A `blockquote` attributed to a fellow is a claim that those are
+ * that person's actual words. A pull-quote restyled to look identical would put
+ * the same authority behind a phrase an editor chose for emphasis.
+ *
+ * So it is set at BODY size, upright, with a hairline leading rule — quieter
+ * than the pull-quote on purpose. The pull-quote's 4px rule means "the writing
+ * pauses"; this 1px one means "someone else is speaking". Unmeasured. */
+blockquote {
+  margin: var(--af-space-6) 0;
+  padding-inline-start: var(--af-space-5);
+  border-inline-start: var(--af-rule-hairline) solid var(--af-line);
+}
+blockquote p {
+  margin: 0;
+}
+blockquote p + p {
+  margin-block-start: var(--af-paragraph-gap);
+}
+/* `<cite>` is the attribution. Sans, quiet, upright — it is metadata about the
+   quote, not part of it, and the family split (serif is READ, sans is TOLD)
+   already encodes that. ⛔ Browsers italicise `cite` by default; that is
+   removed, because italic inside a quotation reads as emphasis inside the
+   speaker's words. */
+blockquote cite {
+  display: block;
+  margin-block-start: var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-style: normal;
+  color: var(--af-text-quiet);
+}
+
+/* --- Tables ---------------------------------------------------------------
+ * ⭐⭐ THE TABULAR-FIGURES RULE ARRIVES HERE, AND IT IS NOT A REVERSAL.
+ *
+ * `typography.css` deliberately ships NO `font-variant-numeric` rule and
+ * explains why: catsofkochi gated `tabular-nums` on every facts surface because
+ * it printed columns of departure times, and this site has "dates in bylines —
+ * one per page, with no neighbour to align with". The rule it states is:
+ *
+ *     "tabular figures matter where numbers stack vertically. Nothing here
+ *      stacks."
+ *
+ * ⭐ A TABLE IS THE CASE WHERE SOMETHING STACKS. The condition that file names
+ * is now met, for the first time, by an element that did not exist in the
+ * system when it was written. So `tabular-nums` goes on `td` and NOWHERE ELSE —
+ * applying the rule, not overturning it. A byline date still gets proportional
+ * figures, and the reason is unchanged.
+ *
+ * ⛔ AND `width: 100%` WITHOUT AN OVERFLOW WRAPPER IS A PHONE BUG WAITING. A
+ * four-column table cannot fit 327px, so it pushes the whole document sideways
+ * and every page on the site gets a horizontal scrollbar from one element. The
+ * table must be wrapped — see `[data-table]` in components/blocks.css — and
+ * this base rule alone is not sufficient. It is here so an unwrapped table in
+ * legacy content is at least legible. */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+}
+caption {
+  text-align: start;
+  padding-block-end: var(--af-space-3);
+  color: var(--af-text-quiet);
+}
+th,
+td {
+  padding: var(--af-space-3) var(--af-space-4) var(--af-space-3) 0;
+  text-align: start;
+  vertical-align: top;
+  border-block-end: var(--af-rule-hairline) solid var(--af-line);
+}
+th {
+  font-weight: var(--af-weight-bold);
+}
+/* ⭐ The header row's rule is the load-bearing one — it separates the labels
+   from the data, which is the one boundary in a table that carries meaning. */
+thead th {
+  border-block-end: 2px solid var(--af-line-strong);
+}
+td {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Figures --------------------------------------------------------------
+ * ⛔ `figure` HAS A 40px BROWSER MARGIN ON ALL FOUR SIDES. Unreset, every
+ * photograph on the site is inset from the column it is supposed to align with,
+ * by a number nobody chose. */
+figure {
+  margin: var(--af-space-7) 0;
+}
+figcaption {
+  margin-block-start: var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-tight);
+  color: var(--af-text-quiet);
+}
+
+/* --- Media ----------------------------------------------------------------
+ * ⚠️ `img` ALONE IS NOT ENOUGH, and the two that get forgotten are the two most
+ * likely to break a phone layout: an `<iframe>` (a map, a video, a form embed)
+ * has a default width of 300px that ignores its container and a fixed height
+ * that ignores its aspect ratio, and an `<svg>` with a `width` attribute
+ * overflows exactly as an image would. */
+img,
+svg,
+video,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+img,
+svg,
+video {
+  height: auto;
+}
+
+/* --- Rules ---------------------------------------------------------------- */
+hr {
+  border: 0;
+  border-block-start: var(--af-rule-hairline) solid var(--af-line);
+  margin-block: var(--af-space-9);
+}
+
+/* --- Small print, notation and emphasis -----------------------------------
+ * ⛔ THE `sup` FIX IS NOT COSMETIC. A footnote marker set with the browser's
+ * default `vertical-align: super` INCREASES THE LINE BOX of the line it sits
+ * on. In a justified column of body text every line carrying a footnote becomes
+ * taller than its neighbours, and the paragraph's rhythm — the thing
+ * `--af-leading-body: 1.55` was set to control — visibly stutters. `position:
+ * relative` lifts the glyph without touching the line box.
+ *
+ * ⭐ A footnote marker is also a TAP TARGET on a phone and a 12px superscript
+ * digit is the smallest one on any page. It gets padding rather than a
+ * `min-height` floor, because a floor on an inline element inside a paragraph
+ * does nothing at all — see spacing.css, defect 1 of 4. */
+sup,
+sub {
+  font-size: 0.7em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+sup a {
+  padding-inline: var(--af-space-1);
+}
+
+/* ⛔ 16px IS THE FLOOR FOR `small`, NOT 80%. The browser default is a
+   PERCENTAGE, so `small` inside `small` compounds down to unreadable, and even
+   once it lands at 15.2px it is under the 16px this system set as the smallest
+   size for anything with more than a few words. `--af-type-micro` (14px) exists
+   for credits and dates and is not what `<small>` means. See typography.css:
+   "NO SMALL TYPE FOR LONG TEXT" — both times that rule was broken on the
+   sibling project, the shrunken block was the one the publisher most needed
+   people to read. */
+small {
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+}
+
+/* ⛔ THE DOTTED UNDERLINE ON `abbr` IS THE ONLY DOTTED LINE IN THE SYSTEM AND IT
+   IS DELIBERATE: it must not be mistakable for a link's solid underline, which
+   is the one piece of decoration on this site that carries a promise (something
+   happens if you press this). ⚠️ `title` is invisible to touch and to keyboard,
+   so an abbreviation whose meaning MATTERS must be expanded in the sentence.
+   This styling is a convenience, never the explanation. */
+abbr[title] {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+/* ⭐ `mark` IS SUNK PAPER, NOT YELLOW — the palette has no highlight hue and is
+   not getting one (colors.css: no success green, no warning orange, no error
+   red). Its only sanctioned use is marking the matched term in a search result,
+   where the surrounding sentence already explains what the highlight means.
+   ⛔ Ink on sunk is 15.79:1, so this is legible; a yellow would have to be
+   measured on both papers and would exist for one component. */
+mark {
+  background: var(--af-surface-sunk);
+  color: var(--af-text);
+  padding-inline: var(--af-space-1);
+}
+
+/* `<b>` and `<strong>` must be 700 explicitly — Noticia has no other bold, and
+   a browser default of `bolder` can resolve to a synthesised weight. */
+b,
+strong {
+  font-weight: var(--af-weight-bold);
+}
+
+/* --- Code ----------------------------------------------------------------
+ * ⚠️ THE "NO THIRD FAMILY" RULE IN typography.css IS ABOUT DOWNLOADED FACES —
+ * the live site's Poppins for headings and its twelve declared, never-loaded
+ * faces of Lora. This is the SYSTEM monospace stack: zero bytes, no request, no
+ * `@font-face`. Nothing is downloaded and the rule is not bent.
+ *
+ * ⭐ AND CODE IS EXPECTED TO BE RARE HERE — this is a fellowship site, not
+ * documentation. It is styled anyway for one reason: unstyled `<pre>` inherits
+ * `white-space: pre` with no overflow handling, so a single long line pushes
+ * the entire document sideways on a phone. That is the same class of failure as
+ * the unwrapped table, and it arrives from pasted content rather than from a
+ * designer. */
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.9em;
+}
+code {
+  background: var(--af-surface-sunk);
+  padding: 0.1em var(--af-space-1);
+  border-radius: 2px;
+}
+pre {
+  margin: var(--af-space-6) 0;
+  padding: var(--af-space-5);
+  background: var(--af-surface-sunk);
+  overflow-x: auto;
+}
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* --- Form controls --------------------------------------------------------
+ * ⛔⛔ `font: inherit` IS THE WHOLE POINT OF THIS BLOCK. Form controls DO NOT
+ * inherit font-family or font-size from `body` in any browser — they take a
+ * platform default, which on macOS is a 13px system sans. Every input and
+ * button in this system therefore renders smaller than the smallest size the
+ * type ladder allows, on a site that set a 14px floor and wrote down why.
+ *
+ * ⚠️ AND 13px IS NOT MERELY UGLY ON iOS. Safari ZOOMS THE PAGE when a focused
+ * input's font-size is under 16px, and it does not zoom back out on blur. A
+ * reader taps the email field, the whole page jumps to 130%, and the article
+ * they were reading is now cropped. `--af-type-ui` is 17px, which clears it.
+ *
+ * ⭐ These are DEFAULTS, so that a control nobody has styled is already correct.
+ * The components that need more — [data-button], [data-field] — build on top. */
+input,
+textarea,
+select,
+button {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  line-height: var(--af-leading-ui);
+  color: var(--af-text);
+}
+input,
+textarea,
+select {
+  background: var(--af-surface-page);
+  border: 1px solid var(--af-line-control);
+  border-radius: var(--af-radius-control);
+  padding: var(--af-space-3) var(--af-space-4);
+  min-height: var(--af-tap-comfortable);
+  max-width: 100%;
+}
+textarea {
+  /* ⛔ A textarea is the one control where `min-height: 52px` is wrong: it is
+     for more than one line by definition, and a reader who cannot see what they
+     typed two sentences ago cannot proofread it. Unmeasured; ~6 lines. */
+  min-height: 9rem;
+  line-height: var(--af-leading-body);
+  resize: vertical;
+}
+label {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+}
+/* ⛔ `fieldset` ships a 2px groove border and asymmetric padding that no design
+   in this system uses, and `legend` sits INSIDE that border in a way that
+   cannot be overridden consistently. Both are reset; the grouping stays for
+   screen readers, which is the only reason they are used. */
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+legend {
+  padding: 0;
+}
+button {
+  cursor: pointer;
+}
+
+/* ⚠️ THE PLACEHOLDER CONTRAST TRAP. The browser default is roughly 54% grey and
+   fails 4.5:1 on this paper. `--af-text-quiet` is 7.33:1 and clears it.
+   ⛔ BUT PLACEHOLDER TEXT IS NOT A LABEL, and no contrast fixes that: it
+   disappears the moment the reader types, so anyone who is interrupted loses
+   the only description of the field. Every field in this system carries a
+   visible `<label>`; a placeholder may only ever show an EXAMPLE of the format. */
+::placeholder {
+  color: var(--af-text-quiet);
+  opacity: 1; /* Firefox dims placeholders further, on top of the colour. */
+}
+
+/* --- Disclosure -----------------------------------------------------------
+ * `<details>` is the only interactive element in this system that needs no
+ * JavaScript, which is why the FAQ, the "what we cannot show yet" block and the
+ * phone table-of-contents all use it.
+ * ⛔ `summary` MUST KEEP `display: list-item` OR IT LOSES ITS MARKER — and in
+ * some engines setting `display: flex` on it also removes the disclosure
+ * triangle, leaving a control with no affordance that still works. */
+summary {
+  cursor: pointer;
+  min-height: var(--af-tap-comfortable);
+  padding-block: var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  font-weight: var(--af-weight-bold);
+}
+summary::marker {
+  color: var(--af-text-quiet);
+}
+
+/* --- Selection and motion -------------------------------------------------
+ * ⛔⛔ THIS RULE WAS BROKEN AND THE BREAKAGE WAS INVISIBLE. It read
+ * `background: var(--af-brand)` against a token defined nowhere in this repo.
+ * An undefined `var()` with no fallback is invalid at computed-value time, so
+ * the background was DISCARDED and the `color` line survived — paper-coloured
+ * text on paper. Selecting any text on any page made the words vanish. It
+ * needed a mouse drag to appear, which is why nobody saw it. See theme.css. */
+::selection {
+  background: var(--af-brand-fill);
+  color: var(--af-text-on-brand);
+}
+
+/* ⚠️ THE DUPLICATE OF tokens/motion.css IS DELIBERATE — see the note there.
+   This half protects markup that was never written against this system: a page
+   kit's inline style, a Ghost theme's leftovers, an embed. Removing it because
+   "motion.css already does this" removes the only half that covers them. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- Skip link ------------------------------------------------------------
+ * ⭐ A 2,000-word profile with a nav, a topic tag and a byline above it is
+ * exactly the page a keyboard or screen-reader user should be able to skip
+ * into. It is one element and it is always forgotten, so it is in the base
+ * layer rather than in a component nobody remembers to include. */
+.skip-link {
+  position: absolute;
+  inset-inline-start: -9999px;
+  top: var(--af-space-2);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-ui);
+  background: var(--af-surface-page);
+  color: var(--af-text);
+  padding: var(--af-space-3) var(--af-space-4);
+  border: 2px solid var(--af-brand);
+  border-radius: var(--af-radius-control);
+  z-index: 100;
+}
+.skip-link:focus {
+  inset-inline-start: var(--af-space-4);
+}
+
+/* ⭐ THE VISUALLY-HIDDEN UTILITY, in the base layer because three components
+   need it (the error summary's "Error:" prefix, a search field's label, a
+   sort control's context) and each would otherwise carry its own copy with its
+   own bug.
+   ⛔ NOT `display: none` AND NOT `visibility: hidden` — both remove the element
+   from the accessibility tree, which is the exact opposite of what this is for.
+   The clip-path/1px form is the only one screen readers reliably announce. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

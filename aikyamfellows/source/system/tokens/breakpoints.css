@@ -1,0 +1,157 @@
+/* aikyamfellows.org — breakpoints
+ *
+ * Inherited from `tokens/breakpoints.css` at tag `guardian-design-system-v1`,
+ * where the file opens by explaining that it was added on 5 Aug 2026 *because
+ * the system had no breakpoint tokens at all*. It then failed to travel when
+ * the system was rehomed here on 7 Aug, so this repo spent a day in the state
+ * that file was written to end.
+ *
+ * ⚠️ THE SYMPTOM, MEASURED IN THIS REPO BEFORE THIS FILE EXISTED — one width,
+ * in one place, written the wrong way round:
+ *
+ *     institutional/institutional.css:243   @media (max-width: 430px)
+ *
+ * That is the only layout width in the entire system, it is a bare number with
+ * no token behind it, and it is `max-width` — a desktop-first exception carved
+ * out of a mobile-first system. It exists to trim the masthead nav to one row
+ * on a phone, which is a real and correct fix. The problem is that nobody could
+ * answer "what widths does this site support?" without grepping for it, and the
+ * next person needing a width would have invented a second one.
+ *
+ * ------------------------------------------------------------------------
+ * WHERE THESE COME FROM — carried across verbatim, because the sourcing is the
+ * value of the file and re-deriving it would be re-doing settled work.
+ *
+ * The Guardian's published ladder (@guardian/source, Apache-2.0, verified
+ * 5 Aug 2026 at github.com/guardian/csnx →
+ * libs/@guardian/source/src/foundations/__generated__/breakpoints.ts):
+ *
+ *   mobile 320 · mobileMedium 375 · mobileLandscape 480 · phablet 660 ·
+ *   tablet 740 · desktop 980 · leftCol 1140 · wide 1300
+ *
+ * BBC GEL groups by device class instead (bbc.co.uk/gel):
+ *
+ *   Group A   0–319px     typically feature phones
+ *   Group B   320–599px   typically smart phones
+ *   Group C   600px+      typically tablets
+ *   Group D   600px+      when touch is NOT available — desktop and laptop
+ *
+ * ⭐ THE MOST USEFUL THING IN EITHER SYSTEM IS BBC'S GROUP D, and it is easy to
+ * miss: their DESKTOP type is SMALLER than their TABLET type (body 16/22 vs
+ * 18/24). A touch device is held in the hand; a monitor sits at arm's length
+ * behind a keyboard. Screen width alone is a poor proxy for how far the eye is
+ * from the glass. That is why `typography.css` tops the body out at 20px rather
+ * than continuing to grow with the viewport — a wide screen is a signal of a
+ * desk, not of a need for bigger text.
+ *
+ * ⛔ WHAT WE DO NOT TAKE: the Guardian's eight steps. Eight breakpoints serve a
+ * newspaper front page with a left rail, a right rail, an ad column and five
+ * card densities. This is one column of prose with some index pages. Three is
+ * the honest number, and it was three on the sibling project for the same
+ * reason.
+ * ------------------------------------------------------------------------
+ * ⭐⭐ WHAT IS RE-DECIDED HERE, AND IT IS THE FIRST NUMBER
+ *
+ * The sibling system set `--bp-wide: 40rem` (640px) and justified it as *"one
+ * column becomes a comfortable reading column"* — a judgement. On this site the
+ * same number is DERIVED, and it is derived from two tokens that were measured
+ * rather than chosen:
+ *
+ *     --af-measure  592px  +  --af-gutter 24px  ×2  =  640px
+ *
+ * 640px is the exact viewport at which the text column stops being set by the
+ * screen and starts being set by the token, and — because `typography.css`
+ * interpolates the body size to land on exactly 20px at exactly that width — it
+ * is also the viewport at which the type reaches its maximum. The two files
+ * already agree on this number. This file is now the third.
+ *
+ * ⭐ SO `--af-bp-wide` IS NOT AN INDEPENDENT DECISION. If `--af-measure` or
+ * `--af-gutter` moves, this moves with it or the system has two answers for
+ * where the layout changes. `spacing.css` and `typography.css` both carry the
+ * same warning about each other; this is the third corner of that triangle.
+ * ------------------------------------------------------------------------
+ * ⛔ HOW TO USE THESE, AND THE LIMITATION THAT IS NOT NEGOTIABLE
+ *
+ * CSS custom properties CANNOT be used inside a media query condition.
+ * `@media (min-width: var(--af-bp-wide))` does not work, has never worked, and
+ * fails SILENTLY — the whole block is dropped and the page renders as though
+ * the rule was never written. These tokens are therefore the single written
+ * RECORD of the numbers: for documentation, for container queries, for any JS
+ * that needs them, and for the checks. In a media query, write the rem value
+ * and put the token name in a comment:
+ *
+ *     @media (min-width: 40rem) { … }   / * --af-bp-wide * /
+ *
+ * ⭐ AND WRITE `min-width`, NOT `max-width`. Mobile-first is not a style
+ * preference here: a `max-width` block is an exception that has to be MAINTAINED
+ * in the opposite direction from every other rule in the system, and the one
+ * that already exists (institutional.css:243) is the proof — it is the only
+ * place in this repo where the phone layout is the override rather than the
+ * base.
+ *
+ * Widths are in rem so that a reader who has raised their browser's default
+ * font size gets the wider layout at a proportionally larger viewport, which is
+ * what they are asking for. A px breakpoint ignores that preference outright.
+ * ------------------------------------------------------------------------
+ */
+:root {
+  /* ═══ THE THREE WE BEND AT ═══════════════════════════════════════════════ */
+
+  /* ⭐ 640px — DERIVED, not chosen. `--af-measure` + two gutters, and the width
+     at which the body clamp reaches exactly 20px. One column becomes the
+     reading column; a card list may go from one per row to two.
+     ⛔ Changing this without changing `--af-measure` puts the layout change and
+     the typographic change at different widths, which reads to a reader as the
+     page stuttering twice on the way out of a phone. */
+  --af-bp-wide: 40rem;
+
+  /* 980px — the Guardian's `desktop`. Index pages, the fellow grid and the
+     footer may reach `--af-measure-wide` here.
+     ⛔ RUNNING PROSE STILL DOES NOT. A line does not become easier to read
+     because the window got bigger; `--af-measure` is a property of the face and
+     the type size, and both are the same at 980px as at 640px. This is the
+     breakpoint most likely to be misused, because it is the one where there is
+     visibly room to spare. The room is the margin, and the margin is doing a
+     job. */
+  --af-bp-desk: 61.25rem;
+
+  /* 1300px — the Guardian's `wide`. NOTHING IN THIS SYSTEM CHANGES HERE today.
+     It is recorded so that the first full-bleed photograph has a number to use
+     instead of inventing one, and so that inventing one is visibly a decision. */
+  --af-bp-full: 81.25rem;
+
+  /* ═══ THE TWO WE TEST AT, AND NEVER BEND AT ══════════════════════════════ */
+
+  /* 320px — BBC's Group A boundary and the Guardian's `mobile`. The narrowest
+     screen this site promises to work on. Nothing gets a special layout here;
+     the rule is that nothing may break.
+     ⛔ EVERY HORIZONTAL-OVERFLOW CHECK STARTS AT THIS WIDTH, NOT AT 375px, and
+     that distinction has already been lost once in this repo: the recorded
+     overflow measurement in STATE.md is "375px: 0 overflow", which is the
+     reference phone and not the floor. A layout can be clean at 375 and push a
+     scrollbar at 320 — the components most likely to do it are the ones with a
+     `min-inline-size` floor, which is every control in this system. */
+  --af-bp-floor: 20rem;
+
+  /* 375px — the Guardian's `mobileMedium`. THE REFERENCE PHONE: when someone
+     says "check it on a phone", this is the width they mean. A 327px text
+     column after this system's 24px gutters.
+     ⚠️ CALLED THE REFERENCE PHONE, NOT THE COMMON ONE. The sibling system could
+     say "the single most common width in this site's traffic" because it had
+     measured 72% mobile / 82% India. NOTHING EQUIVALENT HAS BEEN MEASURED FOR
+     aikyamfellows.org. The device split is an OPEN QUESTION here, not an
+     inherited fact, and it is the same open question that `typography.css`
+     flags against the webfont decision — both point at the self-hosted
+     Plausible at analytics.aikyamhq.com. Until someone reads it, this is a
+     testing convention and not a claim about who is reading. */
+  --af-bp-phone: 23.4375rem;
+
+  /* ⚠️ 430px IS NOT A BREAKPOINT AND IS NOT LISTED ABOVE, deliberately.
+     `institutional.css:243` bends the masthead at `max-width: 430px` to trim
+     the nav to one row, and that fix was measured (137px masthead, one row).
+     It is a COMPONENT'S OWN THRESHOLD — the width at which a specific number of
+     specific nav words stops fitting — and it changes the day a nav item is
+     renamed. Promoting it to a system token would make a content-dependent
+     number look like a layout law. When the chrome moves into the system, that
+     rule moves with it as a component-local width, still commented. */
+}

@@ -1,0 +1,21 @@
+/* aikyamfellows.org — the stylesheet closure.
+ *
+ * ⛔ ORDER IS THE CONTRACT. theme.css must come AFTER colors.css: it references
+ * those swatches by name, and a var() pointing at a not-yet-declared property
+ * is invalid at computed-value time — which renders as a plausible page rather
+ * than as an error.
+ *
+ * ⭐ A rendered design receives ONLY this file's @import closure. Anything not
+ * reachable from here does not exist as far as a design is concerned. */
+@import url('./fonts.css');
+@import url('./tokens/colors.css');
+@import url('./tokens/typography.css');
+@import url('./tokens/spacing.css');
+@import url('./tokens/breakpoints.css');
+@import url('./tokens/motion.css');
+@import url('./tokens/theme.css');
+@import url('./base.css');
+@import url('./css/editorial.css');
+@import url('./css/chrome.css');
+@import url('./css/forms.css');
+@import url('./css/blocks.css');
