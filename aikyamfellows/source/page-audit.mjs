@@ -25,7 +25,7 @@ const { chromium } = pw;
 const BASE = 'https://folktaler.github.io/design-reviews/aikyamfellows/';
 const PAGES = ['index', 'home', 'about', 'fellows', 'profile', 'topic', 'author',
   'impact', 'partners', 'contact', 'support', 'proudly-not-for-profit',
-  'foundation', 'profile-variants'];
+  'foundation', 'profile-variants', 'action', 'action-variants'];
 
 const b = await chromium.launch();
 const findings = [];

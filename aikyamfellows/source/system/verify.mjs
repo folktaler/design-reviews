@@ -13,22 +13,10 @@ const pw = (await import(pwPath)).default;
 const { chromium } = pw;
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { cssOrder } from './css-order.mjs';
 
 const ROOT = '/Users/shemeerp/aikyamfellows-design';
-const ORDER = [
-  'system/fonts.css',
-  'system/tokens/colors.css',
-  'system/tokens/typography.css',
-  'system/tokens/spacing.css',
-  'system/tokens/breakpoints.css',
-  'system/tokens/motion.css',
-  'system/tokens/theme.css',
-  'system/styles.css',
-  'system/components/components.css',
-  'system/components/chrome.css',
-  'system/components/forms.css',
-  'system/components/blocks.css',
-];
+const ORDER = cssOrder('system/fonts.css');
 
 const css = ORDER.map((f) => readFileSync(join(ROOT, f), 'utf8')).join('\n');
 

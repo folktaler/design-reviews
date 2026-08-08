@@ -1,0 +1,354 @@
+/* aikyamfellows.org — THE ACTION
+ * ===========================================================================
+ *
+ * ⭐⭐ WHY THIS PAGE TYPE EXISTS, AND IT CAME FROM READING THE SITE'S OWN COPY.
+ *
+ * The site has two objects: a FELLOW (a person, with a profile) and a TOPIC (a
+ * subject, with a tag). It has no object for the WORK. The owner named this on
+ * 8 Aug 2026: *"fellows pages are good and have visibility. but their actions —
+ * usually their programs, or an update of their program — does not have a space
+ * on the site. actions clarify readers more than fellows profile."*
+ *
+ * ⛔ THE PROOF IS IN THE PUBLISHED PROFILE, NOT IN THE ARGUMENT. Sentinaro
+ * Shiu's profile runs about 1,900 words. It covers her childhood, her mother,
+ * her grandparents, her degree, her master's, her first counselling job and her
+ * spell in the corporate sector. Its last line is *"she chose to search for work
+ * that reflected her deeper purpose."* A reader reaches the end of the longest
+ * page on the site knowing her life story and NOT ONE THING SHE IS DOING NOW.
+ * Every profile on the site has that shape. The biography is not the problem —
+ * it is good, and people read it. The problem is that nothing follows it.
+ *
+ * ── WHAT THE GUARDIAN DOES, MEASURED 8 Aug 2026 ───────────────────────────
+ *
+ * Rendered `theguardian.com/environment/series/the-age-of-extinction`:
+ *
+ *   · a standing sentence ABOVE the series name — "Reporting on our catastrophic
+ *     species loss, and ways to tackle the biodiversity crisis". Permanent, not
+ *     a headline. It says what the work IS, in the present tense, forever.
+ *   · "The age of extinction is supported by —" the funder, named on the series
+ *     page itself rather than buried on an institutional page.
+ *   · NOT a feed. Named strands: Explore · Explainers · Wild world ·
+ *     **Nature heroes** · Primates · Watch, see and listen.
+ *   · every card carries a kicker naming its strand above the headline —
+ *     measured on six cards: "Nature heroes", "Invasive species",
+ *     "Deforestation", "Technology".
+ *
+ * ⭐⭐ THE DECISIVE DETAIL IS "NATURE HEROES". It is a PEOPLE strand living
+ * inside an ISSUE series. The Guardian does not have a people wing and an issues
+ * wing that link to each other — the person story is a strand OF the work. That
+ * is the fellow/action relationship, already solved, and it is the opposite of
+ * how this site is currently built.
+ *
+ * ⛔ SO THE ACTION IS THE SERIES, AND THE FELLOW IS THE CONTRIBUTOR. Note what
+ * that inverts: on the Guardian the contributor page is the THIN object — a list
+ * of what someone made. The series page is where the standing description, the
+ * funder and the structure live. The owner's instinct that actions clarify more
+ * than profiles is not a preference; it is what this architecture already says.
+ *
+ * ── WHAT IS DELIBERATELY *NOT* BORROWED ────────────────────────────────────
+ *
+ * ⛔ NO LIVE-BLOG GRAMMAR. No "updated 4 minutes ago", no auto-refresh, no
+ * newest-at-top pinning, no minute stamps. That grammar is built for update
+ * velocity a fellowship does not have, and monthly news wearing it reads as
+ * abandoned rather than as considered. ⭐ ONE THING IS worth taking from it and
+ * is taken below: the "key events" rail — a short list of the moments that
+ * mattered, above the stream. It needs no velocity at all, and for an action
+ * running three years it is the only way a new reader catches up.
+ */
+
+/* --- The action header ----------------------------------------------------
+ *
+ * ⭐ THE MISSION LINE SITS ABOVE THE NAME, which is the Guardian's order and
+ * looks wrong until you read it as a reader rather than as a designer. A name
+ * on its own — "Listening Rooms" — tells a stranger nothing; a stranger arriving
+ * from a search result needs the sentence FIRST and the name second, because the
+ * name is only useful once you know what it labels. The name is the bigger type;
+ * the sentence is what is read first. Size and reading order are allowed to
+ * disagree, and here they must. */
+[data-action-head] {
+  border-block-end: 1px solid var(--af-line);
+  padding-block-end: var(--af-space-7);
+  margin-block-end: var(--af-space-8);
+}
+
+[data-action-mission] {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-standfirst);
+  line-height: var(--af-leading-standfirst);
+  color: var(--af-text-quiet);
+  max-inline-size: var(--af-measure);
+  margin-block-end: var(--af-space-3);
+}
+
+[data-action-name] {
+  font-size: var(--af-type-display);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-display);
+  letter-spacing: var(--af-tracking-display);
+  margin: 0;
+}
+
+/* --- Status, and it is a WORD ---------------------------------------------
+ *
+ * ⛔⛔ THE FAILURE MODE THIS EXISTS TO PREVENT: an action page with one update
+ * on it reads as STALLED, not as STARTED. A series page works because it is fed.
+ * Six actions each showing a single item look like six abandoned projects, and
+ * the site would be worse than it is now — it currently makes no claim about
+ * ongoing work, and a half-empty stream makes one and fails it.
+ *
+ * So "begun" is a first-class state with its own sentence, not a degenerate
+ * "ongoing". An action that started last month is SUPPOSED to have one update.
+ *
+ * ⛔ NO COLOUR CODING, and this is the same refusal as the seven topics. Three
+ * statuses cannot be told apart by hue on first encounter by anyone, and the
+ * three greens/ambers/greys that would carry it are the three that fail contrast
+ * first. Words encode. The status is set in the UI face, uppercase at the micro
+ * step — the one place this system permits uppercase — beside a rule. */
+[data-action-status] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--af-space-2);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-micro);
+  font-weight: var(--af-weight-bold);
+  letter-spacing: var(--af-tracking-micro);
+  text-transform: uppercase;
+  color: var(--af-text-quiet);
+  margin-block-start: var(--af-space-5);
+}
+
+[data-action-status]::before {
+  content: '';
+  inline-size: var(--af-space-6);
+  block-size: 2px;
+  background: var(--af-line-strong);
+}
+
+/* ⚠️ "Concluded" is quieter than the other two, and that is a judgement worth
+   arguing with. An action that ended is not a failure and must not read as one —
+   but it also must not compete with what is running for a reader scanning an
+   index. Reduced to the quiet grey with no rule. */
+[data-action-status='concluded']::before {
+  background: var(--af-line);
+}
+
+/* --- Where, since when, under which topics -------------------------------- */
+[data-action-meta] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--af-space-2) var(--af-space-5);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  margin-block-start: var(--af-space-4);
+  padding: 0;
+  list-style: none;
+}
+
+[data-action-meta] > li {
+  display: flex;
+  gap: var(--af-space-2);
+}
+
+[data-action-meta] b {
+  color: var(--af-text);
+  font-weight: var(--af-weight-bold);
+}
+
+/* --- Who is funding it, named here ----------------------------------------
+ *
+ * ⭐ THE GUARDIAN PUTS THE FUNDER ON THE SERIES PAGE and it is the single most
+ * transferable thing on their page. A reader deciding whether to trust an
+ * account of somebody's work wants to know who paid for it, at the moment they
+ * are reading it — not three clicks away on a partners page they will not visit.
+ *
+ * ⛔ STILL NO LOGOS. Same decision as the partners page and the support page:
+ * a logo wall is the visual grammar of sponsorship, and once one funder is
+ * rendered larger than another every funder negotiates about it. Names in the
+ * site's own type, one line. */
+[data-action-funder] {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  margin-block-start: var(--af-space-5);
+}
+
+[data-action-funder] b {
+  color: var(--af-text);
+}
+
+/* --- The key events rail --------------------------------------------------
+ *
+ * ⭐ THE ONE THING TAKEN FROM THE LIVE BLOG. A reader arriving at an action that
+ * has been running three years cannot read the whole stream and should not have
+ * to. Four or five dated lines carry the arc.
+ *
+ * ⛔ IT IS AN <ol>, NOT A <ul>, AND NOT A DECORATIVE TIMELINE. The order is the
+ * meaning; if these are re-orderable they are not key events, they are a list of
+ * things that happened. And there is no connecting spine graphic — a vertical
+ * line joining dots is a picture of a timeline rather than a timeline, it breaks
+ * the moment one entry wraps to three lines, and it says nothing the dates do
+ * not already say. */
+[data-timeline] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--af-space-5);
+}
+
+[data-timeline] > li {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, auto) 1fr;
+  gap: var(--af-space-2) var(--af-space-5);
+  align-items: baseline;
+  padding-block-start: var(--af-space-4);
+  border-block-start: 1px solid var(--af-line);
+}
+
+[data-timeline-when] {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+  color: var(--af-text-quiet);
+  font-variant-numeric: tabular-nums;
+}
+
+[data-timeline-what] {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-body);
+  line-height: var(--af-leading-body);
+  margin: 0;
+}
+
+/* ⛔ AT THE PHONE THE TWO COLUMNS BECOME ONE. A 6.5rem date column against a
+   272px screen leaves 100px for the sentence, which sets at two words a line.
+   Measured at the documented 320px floor, not at 375px — the masthead defect on
+   8 Aug worked at 375 and failed at 320, and that is why this floor exists. */
+@media (max-width: 30rem) {
+  [data-timeline] > li {
+    grid-template-columns: 1fr;
+    gap: var(--af-space-1);
+  }
+}
+
+/* --- The update stream ----------------------------------------------------
+ *
+ * An update is not a profile and must not look like one. It is dated, it is
+ * short, and its headline is a sentence about a thing that happened rather than
+ * an evocative phrase. */
+[data-updates] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--af-space-7);
+}
+
+[data-update] {
+  padding-block-end: var(--af-space-7);
+  border-block-end: 1px solid var(--af-line);
+}
+
+[data-updates] > li:last-child [data-update],
+[data-update]:last-child {
+  border-block-end: 0;
+  padding-block-end: 0;
+}
+
+[data-update-title] {
+  font-size: var(--af-type-subheading);
+  line-height: var(--af-leading-heading);
+  margin: 0 0 var(--af-space-2);
+  max-inline-size: var(--af-measure);
+}
+
+[data-update-body] {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-body);
+  line-height: var(--af-leading-body);
+  max-inline-size: var(--af-measure);
+  margin: 0;
+}
+
+[data-update-when] {
+  display: block;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  margin-block-start: var(--af-space-3);
+}
+
+/* --- The strand kicker ----------------------------------------------------
+ *
+ * ⭐ THIS IS THE COMPONENT THAT TRAVELS. On the Guardian every card in the
+ * series carries a kicker naming its strand — measured: "Nature heroes",
+ * "Invasive species", "Deforestation". It is what makes a series legible as a
+ * structure rather than a pile.
+ *
+ * ⛔ IT IS THE SAME COMPONENT WHEREVER A CARD APPEARS, including the fellows
+ * index and the home page. That is the point of adding it: today a card on the
+ * fellows index says "Education · Aparna R · 3 August 2026" — a topic, an author
+ * and a date, and nothing about what the person is DOING. The strand kicker is
+ * where the action's name goes, on every card, site-wide.
+ *
+ * ⚠️ It is NOT a link in this rule. Whether a kicker is clickable is a separate
+ * decision from whether it is visible, and making it a link inside a card whose
+ * title is already a link puts two destinations in one tap target. */
+[data-strand] {
+  display: block;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-micro);
+  font-weight: var(--af-weight-bold);
+  letter-spacing: var(--af-tracking-micro);
+  text-transform: uppercase;
+  color: var(--af-text-quiet);
+  margin-block-end: var(--af-space-1);
+}
+
+/* --- The people running it ------------------------------------------------
+ *
+ * ⛔ THE FELLOWS APPEAR ON THE ACTION PAGE AS PEOPLE, NOT AS CREDITS. A row of
+ * names in small grey type under a heading called "Team" is how a corporate site
+ * lists staff. On a site whose whole argument is that these particular people
+ * are why the work happens, they get their name at reading size and one line
+ * saying what they do in it. */
+[data-action-people] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--af-space-6);
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+[data-action-person] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--af-space-4);
+  align-items: start;
+}
+
+/* ⚠️ A GREY SQUARE UNTIL THERE ARE PHOTOGRAPHS, and it is the 74th on the site.
+   `STATE.md` item 1 already counts 73 of these; this page type adds more, which
+   is an argument for getting the photographs rather than against the page. */
+[data-action-person] [data-portrait] {
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  flex: none;
+}
+
+[data-action-person-name] {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-body);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+  margin: 0;
+}
+
+[data-action-person-role] {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  margin: var(--af-space-1) 0 0;
+}
