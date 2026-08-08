@@ -1,547 +1,60 @@
 /* aikyamfellows.org — THE ACTION
  * ===========================================================================
  *
- * ⭐⭐ WHY THIS PAGE TYPE EXISTS, AND IT CAME FROM READING THE SITE'S OWN COPY.
+ * ⭐⭐ THE OWNER SPECIFIED THE MODEL, 8 Aug 2026, AND IT IS SHORT:
  *
- * The site has two objects: a FELLOW (a person, with a profile) and a TOPIC (a
- * subject, with a tag). It has no object for the WORK. The owner named this on
- * 8 Aug 2026: *"fellows pages are good and have visibility. but their actions —
- * usually their programs, or an update of their program — does not have a space
- * on the site. actions clarify readers more than fellows profile."*
+ *     "Actions: Title, Description, Date Published, Connected Fellow(s),
+ *      Tags, One Image + Standard Metadata. […] this is how i am looking at
+ *      it. nothing else."
+ *     "metadata for SEO bits - same as any post"
  *
- * ⛔ THE PROOF IS IN THE PUBLISHED PROFILE, NOT IN THE ARGUMENT. Sentinaro
- * Shiu's profile runs about 1,900 words. It covers her childhood, her mother,
- * her grandparents, her degree, her master's, her first counselling job and her
- * spell in the corporate sector. Its last line is *"she chose to search for work
- * that reflected her deeper purpose."* A reader reaches the end of the longest
- * page on the site knowing her life story and NOT ONE THING SHE IS DOING NOW.
- * Every profile on the site has that shape. The biography is not the problem —
- * it is good, and people read it. The problem is that nothing follows it.
+ * ⛔ "NOTHING ELSE" IS THE SPECIFICATION, NOT A CAVEAT ON IT. This file was
+ * three times longer this morning. Everything below was deleted in one pass, and
+ * it is listed here so nobody reinstates one believing it was an oversight:
  *
- * ── WHAT THE GUARDIAN DOES, MEASURED 8 Aug 2026 ───────────────────────────
+ *     · action status (Running / Begun / Concluded)   — not a field
+ *     · the funder line, "Supported by …"             — not a field
+ *     · a mission sentence distinct from Description  — not a field
+ *     · since / where / led-by meta rows              — not a field
+ *     · the key-events timeline                       — not a field
+ *     · the update stream and its strand kickers      — not a field
+ *     · the identity strip and the section-front lead — not a field
  *
- * Rendered `theguardian.com/environment/series/the-age-of-extinction`:
+ * ⭐ EVERY ONE OF THOSE WAS DEFENSIBLE AND SEVERAL WERE MEASURED OFF THE
+ * GUARDIAN. That is precisely why they had to go: a component that accretes good
+ * ideas becomes a form, and a form is what somebody has to fill in six times
+ * before anything ships. Six fields get filled in an afternoon. Fourteen do not
+ * get filled at all, and the page type dies waiting for content.
  *
- *   · a standing sentence ABOVE the series name — "Reporting on our catastrophic
- *     species loss, and ways to tackle the biodiversity crisis". Permanent, not
- *     a headline. It says what the work IS, in the present tense, forever.
- *   · "The age of extinction is supported by —" the funder, named on the series
- *     page itself rather than buried on an institutional page.
- *   · NOT a feed. Named strands: Explore · Explainers · Wild world ·
- *     **Nature heroes** · Primates · Watch, see and listen.
- *   · every card carries a kicker naming its strand above the headline —
- *     measured on six cards: "Nature heroes", "Invasive species",
- *     "Deforestation", "Technology".
+ * ⚠️ AND THE CUT FIXES SOMETHING THE LONGER VERSION HAD WRONG. "One Image" means
+ * the card carries a picture of the WORK and no second portrait of the fellow —
+ * which halves the photograph ask on a site that already has 73 unfilled image
+ * slots and no credits for any of them. The connected fellow is a name and a
+ * link, not a face. The variants sheet offered that trade as a compromise; the
+ * spec makes it the design.
  *
- * ⭐⭐ THE DECISIVE DETAIL IS "NATURE HEROES". It is a PEOPLE strand living
- * inside an ISSUE series. The Guardian does not have a people wing and an issues
- * wing that link to each other — the person story is a strand OF the work. That
- * is the fellow/action relationship, already solved, and it is the opposite of
- * how this site is currently built.
+ * ── THE MODEL, AS BUILT ────────────────────────────────────────────────────
  *
- * ⛔ SO THE ACTION IS THE SERIES, AND THE FELLOW IS THE CONTRIBUTOR. Note what
- * that inverts: on the Guardian the contributor page is the THIN object — a list
- * of what someone made. The series page is where the standing description, the
- * funder and the structure live. The owner's instinct that actions clarify more
- * than profiles is not a preference; it is what this architecture already says.
- *
- * ── WHAT IS DELIBERATELY *NOT* BORROWED ────────────────────────────────────
- *
- * ⛔ NO LIVE-BLOG GRAMMAR. No "updated 4 minutes ago", no auto-refresh, no
- * newest-at-top pinning, no minute stamps. That grammar is built for update
- * velocity a fellowship does not have, and monthly news wearing it reads as
- * abandoned rather than as considered. ⭐ ONE THING IS worth taking from it and
- * is taken below: the "key events" rail — a short list of the moments that
- * mattered, above the stream. It needs no velocity at all, and for an action
- * running three years it is the only way a new reader catches up.
+ *     Title                the thing itself
+ *     Description          a short paragraph — what a reader decides on
+ *     Date published       a real <time datetime>
+ *     Connected fellow(s)  ⭐ PLURAL, and the plural is load-bearing — see below
+ *     Tags                 the existing [data-topic] component, unchanged
+ *     One image            [data-action-media]
+ *     Standard metadata    ⛔ NOT VISIBLE FURNITURE. "SEO bits, same as any
+ *                          post" — description, canonical, Open Graph, Twitter
+ *                          card, JSON-LD. It lives in <head> and is emitted by
+ *                          build.mjs from the fragment's @description / @image /
+ *                          @published markers. See the head of build.mjs.
  */
 
-/* --- The action header ----------------------------------------------------
+/* --- The set --------------------------------------------------------------
  *
- * ⭐ THE MISSION LINE SITS ABOVE THE NAME, which is the Guardian's order and
- * looks wrong until you read it as a reader rather than as a designer. A name
- * on its own — "Listening Rooms" — tells a stranger nothing; a stranger arriving
- * from a search result needs the sentence FIRST and the name second, because the
- * name is only useful once you know what it labels. The name is the bigger type;
- * the sentence is what is read first. Size and reading order are allowed to
- * disagree, and here they must. */
-[data-action-head] {
-  border-block-end: 1px solid var(--af-line);
-  padding-block-end: var(--af-space-7);
-  margin-block-end: var(--af-space-8);
-}
-
-[data-action-mission] {
-  font-family: var(--af-font-text);
-  font-size: var(--af-type-standfirst);
-  line-height: var(--af-leading-standfirst);
-  color: var(--af-text-quiet);
-  max-inline-size: var(--af-measure);
-  margin-block-end: var(--af-space-3);
-}
-
-[data-action-name] {
-  font-size: var(--af-type-display);
-  font-weight: var(--af-weight-regular);
-  line-height: var(--af-leading-display);
-  letter-spacing: var(--af-tracking-display);
-  margin: 0;
-}
-
-/* --- Status, and it is a WORD ---------------------------------------------
- *
- * ⛔⛔ THE FAILURE MODE THIS EXISTS TO PREVENT: an action page with one update
- * on it reads as STALLED, not as STARTED. A series page works because it is fed.
- * Six actions each showing a single item look like six abandoned projects, and
- * the site would be worse than it is now — it currently makes no claim about
- * ongoing work, and a half-empty stream makes one and fails it.
- *
- * So "begun" is a first-class state with its own sentence, not a degenerate
- * "ongoing". An action that started last month is SUPPOSED to have one update.
- *
- * ⛔ NO COLOUR CODING, and this is the same refusal as the seven topics. Three
- * statuses cannot be told apart by hue on first encounter by anyone, and the
- * three greens/ambers/greys that would carry it are the three that fail contrast
- * first. Words encode. The status is set in the UI face, uppercase at the micro
- * step — the one place this system permits uppercase — beside a rule. */
-[data-action-status] {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--af-space-2);
-  font-family: var(--af-font-ui);
-  font-size: var(--af-type-micro);
-  font-weight: var(--af-weight-bold);
-  letter-spacing: var(--af-tracking-micro);
-  text-transform: uppercase;
-  color: var(--af-text-quiet);
-  margin-block-start: var(--af-space-5);
-}
-
-[data-action-status]::before {
-  content: '';
-  inline-size: var(--af-space-6);
-  block-size: 2px;
-  background: var(--af-line-strong);
-}
-
-/* ⚠️ "Concluded" is quieter than the other two, and that is a judgement worth
-   arguing with. An action that ended is not a failure and must not read as one —
-   but it also must not compete with what is running for a reader scanning an
-   index. Reduced to the quiet grey with no rule. */
-[data-action-status='concluded']::before {
-  background: var(--af-line);
-}
-
-/* --- Where, since when, under which topics -------------------------------- */
-[data-action-meta] {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--af-space-2) var(--af-space-5);
-  font-family: var(--af-font-ui);
-  font-size: var(--af-type-small);
-  color: var(--af-text-quiet);
-  margin-block-start: var(--af-space-4);
-  padding: 0;
-  list-style: none;
-}
-
-[data-action-meta] > li {
-  display: flex;
-  gap: var(--af-space-2);
-}
-
-[data-action-meta] b {
-  color: var(--af-text);
-  font-weight: var(--af-weight-bold);
-}
-
-/* --- Who is funding it, named here ----------------------------------------
- *
- * ⭐ THE GUARDIAN PUTS THE FUNDER ON THE SERIES PAGE and it is the single most
- * transferable thing on their page. A reader deciding whether to trust an
- * account of somebody's work wants to know who paid for it, at the moment they
- * are reading it — not three clicks away on a partners page they will not visit.
- *
- * ⛔ STILL NO LOGOS. Same decision as the partners page and the support page:
- * a logo wall is the visual grammar of sponsorship, and once one funder is
- * rendered larger than another every funder negotiates about it. Names in the
- * site's own type, one line. */
-[data-action-funder] {
-  font-family: var(--af-font-ui);
-  font-size: var(--af-type-small);
-  color: var(--af-text-quiet);
-  margin-block-start: var(--af-space-5);
-}
-
-[data-action-funder] b {
-  color: var(--af-text);
-}
-
-/* --- The key events rail --------------------------------------------------
- *
- * ⭐ THE ONE THING TAKEN FROM THE LIVE BLOG. A reader arriving at an action that
- * has been running three years cannot read the whole stream and should not have
- * to. Four or five dated lines carry the arc.
- *
- * ⛔ IT IS AN <ol>, NOT A <ul>, AND NOT A DECORATIVE TIMELINE. The order is the
- * meaning; if these are re-orderable they are not key events, they are a list of
- * things that happened. And there is no connecting spine graphic — a vertical
- * line joining dots is a picture of a timeline rather than a timeline, it breaks
- * the moment one entry wraps to three lines, and it says nothing the dates do
- * not already say. */
-[data-timeline] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--af-space-5);
-}
-
-[data-timeline] > li {
-  display: grid;
-  grid-template-columns: minmax(6.5rem, auto) 1fr;
-  gap: var(--af-space-2) var(--af-space-5);
-  align-items: baseline;
-  padding-block-start: var(--af-space-4);
-  border-block-start: 1px solid var(--af-line);
-}
-
-[data-timeline-when] {
-  font-family: var(--af-font-ui);
-  font-size: var(--af-type-small);
-  font-weight: var(--af-weight-bold);
-  color: var(--af-text-quiet);
-  font-variant-numeric: tabular-nums;
-}
-
-[data-timeline-what] {
-  font-family: var(--af-font-text);
-  font-size: var(--af-type-body);
-  line-height: var(--af-leading-body);
-  margin: 0;
-}
-
-/* ⛔ AT THE PHONE THE TWO COLUMNS BECOME ONE. A 6.5rem date column against a
-   272px screen leaves 100px for the sentence, which sets at two words a line.
-   Measured at the documented 320px floor, not at 375px — the masthead defect on
-   8 Aug worked at 375 and failed at 320, and that is why this floor exists. */
-@media (max-width: 30rem) {
-  [data-timeline] > li {
-    grid-template-columns: 1fr;
-    gap: var(--af-space-1);
-  }
-}
-
-/* --- The update stream ----------------------------------------------------
- *
- * An update is not a profile and must not look like one. It is dated, it is
- * short, and its headline is a sentence about a thing that happened rather than
- * an evocative phrase. */
-[data-updates] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--af-space-7);
-}
-
-[data-update] {
-  padding-block-end: var(--af-space-7);
-  border-block-end: 1px solid var(--af-line);
-}
-
-[data-updates] > li:last-child [data-update],
-[data-update]:last-child {
-  border-block-end: 0;
-  padding-block-end: 0;
-}
-
-[data-update-title] {
-  font-size: var(--af-type-subheading);
-  line-height: var(--af-leading-heading);
-  margin: 0 0 var(--af-space-2);
-  max-inline-size: var(--af-measure);
-}
-
-[data-update-body] {
-  font-family: var(--af-font-text);
-  font-size: var(--af-type-body);
-  line-height: var(--af-leading-body);
-  max-inline-size: var(--af-measure);
-  margin: 0;
-}
-
-[data-update-when] {
-  display: block;
-  font-family: var(--af-font-ui);
-  font-size: var(--af-type-small);
-  color: var(--af-text-quiet);
-  margin-block-start: var(--af-space-3);
-}
-
-/* --- The strand kicker ----------------------------------------------------
- *
- * ⭐ THIS IS THE COMPONENT THAT TRAVELS. On the Guardian every card in the
- * series carries a kicker naming its strand — measured: "Nature heroes",
- * "Invasive species", "Deforestation". It is what makes a series legible as a
- * structure rather than a pile.
- *
- * ⛔ IT IS THE SAME COMPONENT WHEREVER A CARD APPEARS, including the fellows
- * index and the home page. That is the point of adding it: today a card on the
- * fellows index says "Education · Aparna R · 3 August 2026" — a topic, an author
- * and a date, and nothing about what the person is DOING. The strand kicker is
- * where the action's name goes, on every card, site-wide.
- *
- * ⚠️ It is NOT a link in this rule. Whether a kicker is clickable is a separate
- * decision from whether it is visible, and making it a link inside a card whose
- * title is already a link puts two destinations in one tap target. */
-[data-strand] {
-  display: block;
-  font-family: var(--af-font-ui);
-  font-size: var(--af-type-micro);
-  font-weight: var(--af-weight-bold);
-  letter-spacing: var(--af-tracking-micro);
-  text-transform: uppercase;
-  color: var(--af-text-quiet);
-  margin-block-end: var(--af-space-1);
-}
-
-/* --- The people running it ------------------------------------------------
- *
- * ⛔ THE FELLOWS APPEAR ON THE ACTION PAGE AS PEOPLE, NOT AS CREDITS. A row of
- * names in small grey type under a heading called "Team" is how a corporate site
- * lists staff. On a site whose whole argument is that these particular people
- * are why the work happens, they get their name at reading size and one line
- * saying what they do in it. */
-[data-action-people] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--af-space-6);
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-}
-
-[data-action-person] {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--af-space-4);
-  align-items: start;
-}
-
-/* ⚠️ A GREY SQUARE UNTIL THERE ARE PHOTOGRAPHS, and it is the 74th on the site.
-   `STATE.md` item 1 already counts 73 of these; this page type adds more, which
-   is an argument for getting the photographs rather than against the page. */
-[data-action-person] [data-portrait] {
-  inline-size: 3.5rem;
-  block-size: 3.5rem;
-  flex: none;
-}
-
-[data-action-person-name] {
-  font-family: var(--af-font-text);
-  font-size: var(--af-type-body);
-  font-weight: var(--af-weight-bold);
-  line-height: var(--af-leading-heading);
-  margin: 0;
-}
-
-[data-action-person-role] {
-  font-family: var(--af-font-ui);
-  font-size: var(--af-type-small);
-  color: var(--af-text-quiet);
-  margin: var(--af-space-1) 0 0;
-}
-
-/* ===========================================================================
- * OPTION B — THE SECTION-FRONT SHAPE
- * ===========================================================================
- *
- * ⭐⭐ THIS IS NOT THE "LATEST FIRST" LAYOUT I FIRST DESCRIBED, AND THE
- * CORRECTION CAME FROM MEASURING RATHER THAN FROM ARGUING.
- *
- * `action-variants.html` describes option B as "the newest thing that happened,
- * at the top" and rejects it on one ground: with nothing new, a date in the
- * loudest position on the page says STALLED. That objection is sound against a
- * chronological feed. It is not what the Guardian does.
- *
- * ⛔ RENDERED theguardian.com/environment, 8 Aug 2026. The lead was an Analysis
- * piece; position 3 was dated 3 August and sat ABOVE position 5 dated 7 August.
- * The front is CURATED, not chronological. And not one card on it showed a date
- * — every card carried a KICKER instead: "Analysis", "Invertebrate of the year
- * 2026", "Countdown", "Food", "Extreme weather", "Pollutionwatch".
- *
- * ⭐ SO THE STRONGEST B IS "THE EDITOR'S LEAD", NOT "THE NEWEST". Once the lead
- * is CHOSEN rather than computed, an action with nothing new this month simply
- * leads with the thing most worth reading, and the page makes no claim about
- * frequency it cannot keep. That is a materially better option than the one I
- * put in the variants page, and this comment exists so nobody reads that page
- * and rejects B for a reason that no longer applies.
- *
- * ⚠️ ONE PLACE THIS SYSTEM DEPARTS FROM WHAT WAS MEASURED, WITH A NAMED READER
- * DIFFERENCE. The Guardian shows NO date on the front, because it publishes
- * constantly and a reader may safely assume freshness. aikyam publishes rarely.
- * A reader who assumes a chosen lead is recent, on a site that might not have
- * posted for eight months, has been misled by an omission. So the date stays —
- * quiet, small, below the standfirst rather than above the headline. Present
- * enough to be honest, quiet enough not to shout staleness.
- */
-
-/* --- The lead ------------------------------------------------------------- */
-[data-lead] {
-  border-block-end: 1px solid var(--af-line);
-  padding-block-end: var(--af-space-8);
-  margin-block-end: var(--af-space-7);
-}
-
-[data-lead-title] {
-  font-size: var(--af-type-display);
-  font-weight: var(--af-weight-regular);
-  line-height: var(--af-leading-display);
-  letter-spacing: var(--af-tracking-display);
-  margin: 0;
-  max-inline-size: 20ch;
-}
-
-/* ⛔ `20ch` AND NOT `--af-measure`, and it is the one place on this site a
-   headline gets its own limit. A display line set to a 576px reading measure
-   runs to nine or ten words on a laptop, which reads as a sentence rather than
-   as a headline. The Guardian's leads sit between four and nine words. */
-[data-lead-standfirst] {
-  font-family: var(--af-font-text);
-  font-size: var(--af-type-standfirst);
-  line-height: var(--af-leading-standfirst);
-  color: var(--af-text-quiet);
-  max-inline-size: var(--af-measure);
-  margin-block: var(--af-space-4) 0;
-}
-
-[data-lead-when] {
-  display: block;
-  font-family: var(--af-font-ui);
-  font-size: var(--af-type-small);
-  color: var(--af-text-quiet);
-  margin-block-start: var(--af-space-4);
-}
-
-/* --- The identity strip ---------------------------------------------------
- *
- * In option A this material IS the opening. Here it has to survive being
- * second, which means it must read as a caption to the lead rather than as a
- * second headline competing with it. Sunk surface, no display type, one row on
- * a laptop and stacked on a phone. */
-[data-action-strip] {
-  background: var(--af-surface-sunk);
-  padding: var(--af-space-6);
-  display: grid;
-  gap: var(--af-space-5);
-  grid-template-columns: 1fr;
-  margin-block-end: var(--af-space-8);
-}
-
-@media (min-width: 48rem) {
-  [data-action-strip] {
-    grid-template-columns: 2fr 1fr;
-    gap: var(--af-space-7);
-  }
-}
-
-[data-action-strip] [data-action-name] {
-  font-size: var(--af-type-subheading);
-  font-weight: var(--af-weight-bold);
-  letter-spacing: normal;
-}
-
-[data-action-strip] [data-action-mission] {
-  font-size: var(--af-type-body);
-  color: var(--af-text);
-  margin-block: var(--af-space-2) 0;
-}
-
-/* ⛔ THE SUNK SURFACE IS WHY THIS IS A SEPARATE RULE. `--af-text-quiet` measures
-   7.33:1 on the page and 6.75:1 on sunk — both pass, so this is not a contrast
-   fix. It is that the strip already recedes by being sunk, and quieting the type
-   as well recedes it twice. Two recessions make a block look disabled. */
-[data-action-strip] [data-action-status] {
-  margin-block-start: var(--af-space-4);
-}
-
-/* --- Secondary updates ----------------------------------------------------
- *
- * ⭐ NO DATES ON THESE, which is the measured Guardian behaviour and is safe
- * here in a way it is not on the lead: the lead carries the page's freshness
- * claim, and once it is dated the reader knows where they are. Repeating a date
- * on every row below turns a considered page into a changelog. */
-[data-update-list] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--af-space-6);
-}
-
-@media (min-width: 48rem) {
-  [data-update-list] {
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: var(--af-space-7);
-  }
-}
-
-[data-update-list] > li {
-  border-block-start: 2px solid var(--af-line-strong);
-  padding-block-start: var(--af-space-3);
-}
-
-[data-update-list] h3 {
-  font-size: var(--af-type-body);
-  font-weight: var(--af-weight-bold);
-  line-height: var(--af-leading-heading);
-  margin: 0;
-}
-
-[data-update-list] p {
-  font-family: var(--af-font-text);
-  font-size: var(--af-type-small);
-  line-height: var(--af-leading-body);
-  color: var(--af-text-quiet);
-  margin-block: var(--af-space-2) 0;
-}
-
-/* ===========================================================================
- * THE ACTION CARD
- * ===========================================================================
- *
- * ⭐⭐ THE OWNER POINTED AT THE LEAD BLOCK AND SAID WHAT HE ACTUALLY WANTED,
- * 8 Aug 2026: *"is the section that is closest to what i had in mind. like cards
- * almost. but needs an image. each card attached to a fellow. and cards can also
- * be listed/appear separate. no other details needed."*
- *
- * ⛔ READ THE LAST FOUR WORDS AS AN INSTRUCTION TO DELETE, BECAUSE THEY ARE.
- * The action page I built carries a status, a funder line, a since/where/led-by
- * meta row, a key-events rail and an honest-gap section. None of that is in the
- * card. A card is: an image, the action's name, a headline, a few lines, and the
- * fellow it belongs to. Everything else was me designing a page when what was
- * wanted was a component.
- *
- * ⭐ AND "CARDS CAN ALSO BE LISTED / APPEAR SEPARATE" IS THE LOAD-BEARING PART.
- * It means the card is not furniture belonging to the actions index — it is a
- * portable unit that has to survive appearing alone: on a fellow's profile under
- * "what she is doing now", in the middle of a story, on the home page, in a
- * newsletter. ⛔ So it may not depend on a grid for its meaning, may not
- * inherit its heading level from where it sits, and may not rely on the cards
- * around it to say what kind of thing it is. That is why the action's name is IN
- * the card as a kicker rather than being a section heading above a group of them.
- *
- * ⚠️ THE IMAGE IS NOW REQUIRED, AND THAT IS A COST STATED HERE RATHER THAN
- * DISCOVERED LATER. `STATE.md` item 1 already counts 73 image placeholders with
- * no photographs and no credits to fill them. A card whose image is optional
- * degrades into the text block that already exists; a card whose image is
- * required is a better card and a bigger ask. The owner asked for the image, so
- * it is required — and `[data-action-card='text']` below is the honest fallback
- * for the day this ships before the photographs arrive.
- */
-
-/* --- The set: a grid by default ------------------------------------------- */
+ * ⭐ ONE COMPONENT, TWO ARRANGEMENTS, AND THE ARRANGEMENT LIVES ON THE
+ * CONTAINER. The owner's earlier requirement stands: *"cards can also be
+ * listed/appear separate."* A card that must be rewritten to sit in a list is
+ * two components sharing one name, and the second stops matching the first the
+ * week after it is written. */
 [data-action-cards] {
   list-style: none;
   padding: 0;
@@ -551,32 +64,28 @@
   grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
 }
 
-/* ⭐ THE LIST ARRANGEMENT — the same card, one per row, image beside the text.
-   ⛔ It is an attribute on the CONTAINER and not a different card, which is the
-   whole point: a component that has to be rewritten to appear in a list is two
-   components with one name. */
 [data-action-cards='list'] {
   grid-template-columns: 1fr;
   gap: var(--af-space-7);
 }
 
+[data-action-cards='list'] > li + li {
+  border-block-start: 1px solid var(--af-line);
+  padding-block-start: var(--af-space-7);
+}
+
 @media (min-width: 40rem) {
   [data-action-cards='list'] [data-action-card] {
-    display: grid;
-    grid-template-columns: 14rem 1fr;
+    grid-template-columns: 15rem 1fr;
     gap: var(--af-space-6);
     align-items: start;
   }
 
-  /* In a row the 3:2 crop is too tall beside four lines of text. */
-  [data-action-cards='list'] [data-placeholder-media] {
+  /* ⚠️ The same image file, a different frame. A 3:2 crop is too tall standing
+     beside four lines of text in a row. */
+  [data-action-cards='list'] [data-action-media] {
     aspect-ratio: 4 / 3;
   }
-}
-
-[data-action-cards='list'] > li + li {
-  border-block-start: 1px solid var(--af-line);
-  padding-block-start: var(--af-space-7);
 }
 
 /* --- The card ------------------------------------------------------------- */
@@ -586,23 +95,51 @@
   align-content: start;
 }
 
-[data-action-card-media] {
+/* --- One image ------------------------------------------------------------
+ *
+ * ⛔ 3:2, FIXED, AND NOT CHOSEN PER CARD. A grid whose cards each pick their own
+ * crop has a ragged baseline, and that always gets fixed by cropping the picture
+ * rather than by changing the layout — which is how a design ends up demanding
+ * an aspect ratio from a photographer that nobody ever wrote down. Written down
+ * here: 3:2 in the grid, 4:3 in the list, same file. */
+[data-action-media] {
+  aspect-ratio: 3 / 2;
+  inline-size: 100%;
   margin: 0;
+  overflow: hidden;
+  background: var(--af-surface-sunk);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--af-space-5);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
 }
 
-/* ⛔ THE WHOLE CARD IS NOT A LINK, AND THAT IS DELIBERATE. Wrapping an image, a
-   kicker, a headline and a fellow's name in one <a> gives a screen-reader user a
-   single link whose accessible name is all four read out together, and gives a
-   voice-control user nothing shorter to say. The headline is the link; the
-   fellow is a second, separate link, because they go to different places. */
-[data-action-card-title] {
+[data-action-media] img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- Title ---------------------------------------------------------------- */
+[data-action-title] {
   font-size: var(--af-type-subheading);
   line-height: var(--af-leading-heading);
   margin: 0;
-  max-inline-size: 24ch;
+  max-inline-size: 26ch;
 }
 
-[data-action-card-text] {
+/* --- Description ----------------------------------------------------------
+ *
+ * ⚠️ SET AS PROSE, NOT AS A STANDFIRST. A standfirst is a larger, quieter line
+ * introducing an article a reader has already chosen. A description is what a
+ * reader uses to CHOOSE, so it is body size in the reading face — read, rather
+ * than skimmed past on the way to something else. */
+[data-action-description] {
   font-family: var(--af-font-text);
   font-size: var(--af-type-body);
   line-height: var(--af-leading-body);
@@ -611,54 +148,106 @@
   max-inline-size: var(--af-measure);
 }
 
-/* --- The fellow, attached -------------------------------------------------
+/* --- Connected fellow(s) --------------------------------------------------
  *
- * ⭐ "EACH CARD ATTACHED TO A FELLOW" IS THE SENTENCE THAT MAKES THIS SITE'S
- * ARCHITECTURE WORK. It is the Guardian's "Nature heroes" move — a person
- * carried inside the work rather than filed in a separate wing of the site.
+ * ⭐⭐ THE PLURAL IS THE WHOLE ARCHITECTURE, AND IT IS ONE CHARACTER LONG. The
+ * owner wrote "Connected Fellow(s)". That "(s)" is what separates this model
+ * from the one the site has today: a profile belongs to one person by
+ * definition, and an action that can name two or three is a thing that OUTLIVES
+ * any single fellowship. It can be handed on, it can be joined, and it can be
+ * funded as itself rather than as somebody's personal project.
  *
- * ⛔ THE FACE IS SMALL AND THE NAME IS AT READING SIZE, not the other way round.
- * A large face turns the action card back into a profile card, which is the
- * thing the owner said the site already has too much of. */
-[data-action-card-by] {
+ * ⛔ SO THE ONE-FELLOW CASE IS NOT THE SPECIAL CASE. It is a list of one, built
+ * from the same markup as a list of three — because the day a second fellow
+ * joins is the day a hand-written single name silently becomes wrong, and
+ * nothing on the page will look broken when it does.
+ *
+ * ⛔ AND EACH NAME IS ITS OWN LINK, not the row and not the card. A reader
+ * following "Rahitha Krishnadas" must arrive at Rahitha, not at a page listing
+ * everyone who ever touched this action. */
+[data-action-fellows] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
-  align-items: center;
-  gap: var(--af-space-3);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--af-space-1) var(--af-space-2);
   font-family: var(--af-font-ui);
   font-size: var(--af-type-small);
   color: var(--af-text-quiet);
-  margin: 0;
 }
 
-[data-action-card-by] [data-placeholder-media] {
-  inline-size: 2.25rem;
-  block-size: 2.25rem;
-  aspect-ratio: 1 / 1;
-  border-radius: var(--af-radius-round);
-  flex: none;
-  padding: 0;
+/* ⭐ THE SEPARATOR IS GENERATED, AND THE FIRST ITEM DOES NOT GET ONE. Writing
+   "·" into the markup between names means that the day a CMS drops a name, the
+   page renders a leading dot — the commonest visible defect in any list of
+   authors on any site. */
+[data-action-fellows] > li + li::before {
+  content: '·';
+  margin-inline-end: var(--af-space-2);
 }
 
-/* ⚠️ A NAME IS NOT A CAPTION. The fellow's name is set in the text colour at the
-   small step, not in the quiet grey — it is the second most important thing on
-   the card and quieting it to match the label around it loses that. */
-[data-action-card-by] b {
+[data-action-fellows] a {
   color: var(--af-text);
   font-weight: var(--af-weight-bold);
 }
 
-/* --- The text-only fallback -----------------------------------------------
+[data-action-fellows-label] {
+  font-weight: var(--af-weight-bold);
+}
+
+/* --- Date published -------------------------------------------------------
  *
- * ⛔ THIS IS NOT A VARIANT ANYONE SHOULD CHOOSE. It exists because this site has
- * 73 image placeholders and no photographs, and the day the actions index ships
- * before the photographs arrive, a grid of six grey rectangles is worse than no
- * pictures at all — grey boxes read as broken images, and a reader who thinks
- * the site is broken does not read the words beside them.
+ * ⚠️ ONE DATE, AND IT IS THE PUBLISH DATE. Not "updated", not "since". The spec
+ * says Date Published and that is a fact the CMS already holds for every post,
+ * which is the reason it is in the model and "since" is not: one requires
+ * nothing from anybody, the other requires six people to remember six dates. */
+[data-action-date] {
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Tags -----------------------------------------------------------------
  *
- * ⭐ The rule a card follows without a picture: it gets a strong top rule and
- * more room, so it reads as a considered text card rather than as a card that
- * lost its image. */
-[data-action-card='text'] {
-  border-block-start: 3px solid var(--af-line-strong);
-  padding-block-start: var(--af-space-4);
+ * ⛔ NO NEW COMPONENT. Tags are the seven topics, and [data-topic] already
+ * exists, is already measured on both tap axes, and already carries the rule
+ * that topics are told apart by WORDS and never by colour. A second tag
+ * component would be the same thing under a different name with its own bugs. */
+[data-action-tags] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--af-space-2);
+}
+
+/* --- The single action page ----------------------------------------------
+ *
+ * The same six fields, one of them at display size. ⛔ There is no additional
+ * furniture. If the page turns out to need something the card does not have,
+ * that is a NEW FIELD and it is the owner's to add — not design's to invent and
+ * then defend. */
+[data-action-page] > * + * {
+  margin-block-start: var(--af-space-5);
+}
+
+[data-action-page] [data-action-title] {
+  font-size: var(--af-type-display);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-display);
+  letter-spacing: var(--af-tracking-display);
+  max-inline-size: 20ch;
+}
+
+[data-action-page] [data-action-description] {
+  font-size: var(--af-type-standfirst);
+  line-height: var(--af-leading-standfirst);
+  color: var(--af-text);
+}
+
+[data-action-page] [data-action-media] {
+  margin-block-start: var(--af-space-7);
 }

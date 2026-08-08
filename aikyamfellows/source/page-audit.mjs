@@ -25,7 +25,7 @@ const { chromium } = pw;
 const BASE = 'https://folktaler.github.io/design-reviews/aikyamfellows/';
 const PAGES = ['index', 'home', 'about', 'fellows', 'profile', 'topic', 'author',
   'impact', 'contact', 'support', 'proudly-not-for-profit',
-  'foundation', 'profile-variants', 'action', 'action-b', 'action-variants', 'actions', 'action-card-variants'];
+  'foundation', 'profile-variants', 'action', 'actions'];
 
 const b = await chromium.launch();
 const findings = [];
@@ -60,8 +60,20 @@ for (const name of PAGES) {
        be the same place. ⭐ It was found by hand while merging another page in,
        NOT by this script: the h1 count passed and the level-skip check passed,
        because a repeated h2 is neither. */
+    /* ⛔ h1 AND h2 ONLY, AND THE FIRST VERSION OF THIS CHECK GOT IT WRONG THE
+       RUN AFTER IT WAS WRITTEN. Counting every level reported three "defects",
+       all correct behaviour: support.html has three <h3>Amount</h3> because it
+       offers three giving tiers, and the two variants pages render the SAME card
+       five times, which is the entire purpose of a variants page. An <h3> inside
+       a repeated component is supposed to repeat.
+       ⭐ A section heading is different: it names a place in the document, and
+       two places with one name is the defect actually found on about.html.
+       This is the fifth time in this repo a check's own method produced the
+       finding. Restricting the check is the fix; deleting it is not, because the
+       real defect was invisible to everything else. */
     const byText = {};
     for (const h of hs) {
+      if (!/^H[12]$/.test(h.tagName)) continue;
       const k = h.tagName + '|' + h.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
       byText[k] = (byText[k] || 0) + 1;
     }

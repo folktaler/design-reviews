@@ -244,20 +244,76 @@
    ⛔ `order: 1` puts it last in the visual row while leaving it FIRST in the
    DOM, so it is still the first thing a screen reader meets and still the
    first tab stop — which is what a masthead link should be. */
+/* ⭐⭐ TWO LINES, 8 Aug 2026, owner: *"i think we can put aikyam fellows wordmark
+   in two lines tastefully? the way the guardian does on their site?"*
+
+   ⛔ MEASURED BEFORE BUILT, because I would have got the proportions wrong from
+   memory. Rendered theguardian.com/uk and screenshotted the masthead link: the
+   logo SVG's viewBox is `0 -3 300 100`. A 3:1 box. "The Guardian" set on ONE
+   line would be nearer 6:1, so the stack was confirmed by arithmetic before
+   anything was looked at. The screenshot then showed the two things that make it
+   work — and one that does not transfer:
+
+     ✅ THE LEADING IS EXTREMELY TIGHT. The two lines very nearly touch; the
+        cap-height of the lower word almost reaches the baseline of the upper.
+        That single decision is what makes it read as a MASTHEAD rather than as a
+        heading that happened to wrap.
+     ✅ THE LOWER WORD SETS THE WIDTH and the upper word sits inside it. The
+        block has one hard edge, so it behaves as a shape rather than as text.
+     ⛔ THE GUARDIAN'S FIRST WORD IS MUCH SMALLER THAN ITS SECOND — and copying
+        that here would be a real error. "The" is an article carrying no
+        information, so shrinking it costs nothing. "aikyam" is the
+        ORGANISATION'S NAME and the most load-bearing word on the site.
+        Setting it at 55% of "fellows" would shrink the brand to promote a
+        common noun. Both words stay the same size.
+
+   ⚠️ THE LINE BREAK IS STRUCTURAL AND NOT A `<br>`. Two spans, each
+   `display:block`, so the accessible name is still the single string "aikyam
+   fellows" — one link, read as one name. A `<br>` would work visually and is
+   fragile: it survives until someone reflows the markup. */
 [data-wordmark] {
   order: 1;
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   min-height: var(--af-tap-comfortable);
   margin-inline-start: auto;
   font-family: var(--af-font-text);
-  font-size: clamp(1.75rem, 1rem + 3.2vw, 4rem); /* 28 → 64px */
+  font-size: clamp(1.5rem, 0.75rem + 3.1vw, 3.25rem); /* 24 → 52px */
   font-weight: var(--af-weight-bold);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  /* ⛔ 0.86, AND IT IS THE WHOLE EFFECT. At 1.05 the two words read as a
+     paragraph that wrapped; under 0.9 they read as one mark. This is the only
+     place in the system where leading goes below 1, and it is allowed here for
+     the same reason `--af-leading-display` is 1.12: at 52px the space between
+     lines is optical, not readability. */
+  line-height: 0.86;
+  letter-spacing: -0.025em;
   color: var(--af-band-text);
   text-decoration: none;
+  text-align: end;
 }
+
+/* ⭐ EACH WORD ITS OWN BLOCK. Right-aligned, because the wordmark already sits
+   at the right end of the masthead row — a left-aligned stack there would leave
+   a ragged edge against the margin, which is the one edge the reader's eye is
+   using to find the mark. */
+[data-wordmark] span {
+  display: block;
+}
+
+/* ⛔⛔ THE STACK IS UNCONDITIONAL, AND THE FIRST VERSION OF THIS RULE WAS WRONG.
+   It unstacked below 375px to save header height on a phone — which would have
+   shipped TWO MARKS: a stacked one on a laptop and a single line on a phone. A
+   wordmark is the one element on a site that may not change shape by viewport,
+   because it is what a returning reader recognises before reading anything.
+
+   ⭐ AND THE GUARDIAN SETTLES IT. Measured at a 375px viewport on 8 Aug: their
+   masthead logo renders 207 × 69px — a ratio of 3, the same 3:1 as the desktop
+   `viewBox="0 -3 300 100"`. They keep the stack on a phone. So does this.
+
+   ⚠️ THE COST, MEASURED RATHER THAN ASSUMED: below ~700px the wordmark already
+   sits on its OWN ROW above the nav rather than beside it, so the second line
+   adds roughly one line-height to the masthead and nothing else — it does not
+   push the nav onto another row. Re-measure at 320px after any change here; the
+   8 Aug nav fix passed at 375 and failed at the floor. */
 
 /* ── PRIMARY NAV ── [data-nav] ───────────────────────────────────────────────
  * ⛔ BOTH TAP AXES. `min-inline-size` is the one that is always forgotten, and
