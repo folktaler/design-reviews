@@ -2195,6 +2195,91 @@ main:has(> [data-hero]:first-child) {
   color: var(--af-text-quiet);
   margin: var(--af-space-1) 0 0;
 }
+[data-lead] {
+  border-block-end: 1px solid var(--af-line);
+  padding-block-end: var(--af-space-8);
+  margin-block-end: var(--af-space-7);
+}
+[data-lead-title] {
+  font-size: var(--af-type-display);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-display);
+  letter-spacing: var(--af-tracking-display);
+  margin: 0;
+  max-inline-size: 20ch;
+}
+[data-lead-standfirst] {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-standfirst);
+  line-height: var(--af-leading-standfirst);
+  color: var(--af-text-quiet);
+  max-inline-size: var(--af-measure);
+  margin-block: var(--af-space-4) 0;
+}
+[data-lead-when] {
+  display: block;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  margin-block-start: var(--af-space-4);
+}
+[data-action-strip] {
+  background: var(--af-surface-sunk);
+  padding: var(--af-space-6);
+  display: grid;
+  gap: var(--af-space-5);
+  grid-template-columns: 1fr;
+  margin-block-end: var(--af-space-8);
+}
+@media (min-width: 48rem) {
+  [data-action-strip] {
+    grid-template-columns: 2fr 1fr;
+    gap: var(--af-space-7);
+  }
+}
+[data-action-strip] [data-action-name] {
+  font-size: var(--af-type-subheading);
+  font-weight: var(--af-weight-bold);
+  letter-spacing: normal;
+}
+[data-action-strip] [data-action-mission] {
+  font-size: var(--af-type-body);
+  color: var(--af-text);
+  margin-block: var(--af-space-2) 0;
+}
+[data-action-strip] [data-action-status] {
+  margin-block-start: var(--af-space-4);
+}
+[data-update-list] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--af-space-6);
+}
+@media (min-width: 48rem) {
+  [data-update-list] {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--af-space-7);
+  }
+}
+[data-update-list] > li {
+  border-block-start: 2px solid var(--af-line-strong);
+  padding-block-start: var(--af-space-3);
+}
+[data-update-list] h3 {
+  font-size: var(--af-type-body);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+  margin: 0;
+}
+[data-update-list] p {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-body);
+  color: var(--af-text-quiet);
+  margin-block: var(--af-space-2) 0;
+}
 </style>
 
 <!--

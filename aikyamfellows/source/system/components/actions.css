@@ -352,3 +352,157 @@
   color: var(--af-text-quiet);
   margin: var(--af-space-1) 0 0;
 }
+
+/* ===========================================================================
+ * OPTION B — THE SECTION-FRONT SHAPE
+ * ===========================================================================
+ *
+ * ⭐⭐ THIS IS NOT THE "LATEST FIRST" LAYOUT I FIRST DESCRIBED, AND THE
+ * CORRECTION CAME FROM MEASURING RATHER THAN FROM ARGUING.
+ *
+ * `action-variants.html` describes option B as "the newest thing that happened,
+ * at the top" and rejects it on one ground: with nothing new, a date in the
+ * loudest position on the page says STALLED. That objection is sound against a
+ * chronological feed. It is not what the Guardian does.
+ *
+ * ⛔ RENDERED theguardian.com/environment, 8 Aug 2026. The lead was an Analysis
+ * piece; position 3 was dated 3 August and sat ABOVE position 5 dated 7 August.
+ * The front is CURATED, not chronological. And not one card on it showed a date
+ * — every card carried a KICKER instead: "Analysis", "Invertebrate of the year
+ * 2026", "Countdown", "Food", "Extreme weather", "Pollutionwatch".
+ *
+ * ⭐ SO THE STRONGEST B IS "THE EDITOR'S LEAD", NOT "THE NEWEST". Once the lead
+ * is CHOSEN rather than computed, an action with nothing new this month simply
+ * leads with the thing most worth reading, and the page makes no claim about
+ * frequency it cannot keep. That is a materially better option than the one I
+ * put in the variants page, and this comment exists so nobody reads that page
+ * and rejects B for a reason that no longer applies.
+ *
+ * ⚠️ ONE PLACE THIS SYSTEM DEPARTS FROM WHAT WAS MEASURED, WITH A NAMED READER
+ * DIFFERENCE. The Guardian shows NO date on the front, because it publishes
+ * constantly and a reader may safely assume freshness. aikyam publishes rarely.
+ * A reader who assumes a chosen lead is recent, on a site that might not have
+ * posted for eight months, has been misled by an omission. So the date stays —
+ * quiet, small, below the standfirst rather than above the headline. Present
+ * enough to be honest, quiet enough not to shout staleness.
+ */
+
+/* --- The lead ------------------------------------------------------------- */
+[data-lead] {
+  border-block-end: 1px solid var(--af-line);
+  padding-block-end: var(--af-space-8);
+  margin-block-end: var(--af-space-7);
+}
+
+[data-lead-title] {
+  font-size: var(--af-type-display);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-display);
+  letter-spacing: var(--af-tracking-display);
+  margin: 0;
+  max-inline-size: 20ch;
+}
+
+/* ⛔ `20ch` AND NOT `--af-measure`, and it is the one place on this site a
+   headline gets its own limit. A display line set to a 576px reading measure
+   runs to nine or ten words on a laptop, which reads as a sentence rather than
+   as a headline. The Guardian's leads sit between four and nine words. */
+[data-lead-standfirst] {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-standfirst);
+  line-height: var(--af-leading-standfirst);
+  color: var(--af-text-quiet);
+  max-inline-size: var(--af-measure);
+  margin-block: var(--af-space-4) 0;
+}
+
+[data-lead-when] {
+  display: block;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  margin-block-start: var(--af-space-4);
+}
+
+/* --- The identity strip ---------------------------------------------------
+ *
+ * In option A this material IS the opening. Here it has to survive being
+ * second, which means it must read as a caption to the lead rather than as a
+ * second headline competing with it. Sunk surface, no display type, one row on
+ * a laptop and stacked on a phone. */
+[data-action-strip] {
+  background: var(--af-surface-sunk);
+  padding: var(--af-space-6);
+  display: grid;
+  gap: var(--af-space-5);
+  grid-template-columns: 1fr;
+  margin-block-end: var(--af-space-8);
+}
+
+@media (min-width: 48rem) {
+  [data-action-strip] {
+    grid-template-columns: 2fr 1fr;
+    gap: var(--af-space-7);
+  }
+}
+
+[data-action-strip] [data-action-name] {
+  font-size: var(--af-type-subheading);
+  font-weight: var(--af-weight-bold);
+  letter-spacing: normal;
+}
+
+[data-action-strip] [data-action-mission] {
+  font-size: var(--af-type-body);
+  color: var(--af-text);
+  margin-block: var(--af-space-2) 0;
+}
+
+/* ⛔ THE SUNK SURFACE IS WHY THIS IS A SEPARATE RULE. `--af-text-quiet` measures
+   7.33:1 on the page and 6.75:1 on sunk — both pass, so this is not a contrast
+   fix. It is that the strip already recedes by being sunk, and quieting the type
+   as well recedes it twice. Two recessions make a block look disabled. */
+[data-action-strip] [data-action-status] {
+  margin-block-start: var(--af-space-4);
+}
+
+/* --- Secondary updates ----------------------------------------------------
+ *
+ * ⭐ NO DATES ON THESE, which is the measured Guardian behaviour and is safe
+ * here in a way it is not on the lead: the lead carries the page's freshness
+ * claim, and once it is dated the reader knows where they are. Repeating a date
+ * on every row below turns a considered page into a changelog. */
+[data-update-list] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--af-space-6);
+}
+
+@media (min-width: 48rem) {
+  [data-update-list] {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--af-space-7);
+  }
+}
+
+[data-update-list] > li {
+  border-block-start: 2px solid var(--af-line-strong);
+  padding-block-start: var(--af-space-3);
+}
+
+[data-update-list] h3 {
+  font-size: var(--af-type-body);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+  margin: 0;
+}
+
+[data-update-list] p {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-body);
+  color: var(--af-text-quiet);
+  margin-block: var(--af-space-2) 0;
+}

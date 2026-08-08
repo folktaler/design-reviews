@@ -2195,6 +2195,91 @@ main:has(> [data-hero]:first-child) {
   color: var(--af-text-quiet);
   margin: var(--af-space-1) 0 0;
 }
+[data-lead] {
+  border-block-end: 1px solid var(--af-line);
+  padding-block-end: var(--af-space-8);
+  margin-block-end: var(--af-space-7);
+}
+[data-lead-title] {
+  font-size: var(--af-type-display);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-display);
+  letter-spacing: var(--af-tracking-display);
+  margin: 0;
+  max-inline-size: 20ch;
+}
+[data-lead-standfirst] {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-standfirst);
+  line-height: var(--af-leading-standfirst);
+  color: var(--af-text-quiet);
+  max-inline-size: var(--af-measure);
+  margin-block: var(--af-space-4) 0;
+}
+[data-lead-when] {
+  display: block;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  margin-block-start: var(--af-space-4);
+}
+[data-action-strip] {
+  background: var(--af-surface-sunk);
+  padding: var(--af-space-6);
+  display: grid;
+  gap: var(--af-space-5);
+  grid-template-columns: 1fr;
+  margin-block-end: var(--af-space-8);
+}
+@media (min-width: 48rem) {
+  [data-action-strip] {
+    grid-template-columns: 2fr 1fr;
+    gap: var(--af-space-7);
+  }
+}
+[data-action-strip] [data-action-name] {
+  font-size: var(--af-type-subheading);
+  font-weight: var(--af-weight-bold);
+  letter-spacing: normal;
+}
+[data-action-strip] [data-action-mission] {
+  font-size: var(--af-type-body);
+  color: var(--af-text);
+  margin-block: var(--af-space-2) 0;
+}
+[data-action-strip] [data-action-status] {
+  margin-block-start: var(--af-space-4);
+}
+[data-update-list] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--af-space-6);
+}
+@media (min-width: 48rem) {
+  [data-update-list] {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--af-space-7);
+  }
+}
+[data-update-list] > li {
+  border-block-start: 2px solid var(--af-line-strong);
+  padding-block-start: var(--af-space-3);
+}
+[data-update-list] h3 {
+  font-size: var(--af-type-body);
+  font-weight: var(--af-weight-bold);
+  line-height: var(--af-leading-heading);
+  margin: 0;
+}
+[data-update-list] p {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-small);
+  line-height: var(--af-leading-body);
+  color: var(--af-text-quiet);
+  margin-block: var(--af-space-2) 0;
+}
 </style>
 
 <!--
@@ -2404,12 +2489,33 @@ main:has(> [data-hero]:first-child) {
       <p><b>Why it works.</b> It proves the work is alive before it describes it,
         which is the one thing a funder or a journalist is actually checking. A
         returning reader sees immediately whether anything is new.</p>
-      <p><b>⛔ Why I would not choose it.</b> It is the shape that breaks worst
-        when nothing has happened. With one update from four months ago at the
-        top of the page, this layout says <em>stalled</em> in the loudest position
-        on the screen — and the site has no update cadence yet. It is the right
-        answer for a fellowship publishing monthly and the wrong one for a
-        fellowship that might publish twice a year.</p>
+
+      <!-- ⛔⛔ THIS SECTION ORIGINALLY REJECTED B AND THE REJECTION WAS WRONG.
+           It is corrected in place rather than quietly rewritten, because the
+           owner read the original and asked for B to be built anyway — and
+           building it is what produced the measurement that overturned me. -->
+      <p><b>⛔ What this page first said, and why it was wrong.</b> It said B
+        &ldquo;breaks worst when nothing has happened&rdquo; — that one update
+        from four months ago at the top says <em>stalled</em> in the loudest
+        position on the screen. That objection holds against a feed. <b>It is not
+        what the Guardian does.</b> Rendered
+        <code>theguardian.com/environment</code> on 8 August: the lead was an
+        Analysis piece, not the newest story; position 3 was dated 3 August and
+        sat above position 5 dated 7 August; and <b>not one card on the front
+        carried a date at all</b> — every one carried a kicker instead
+        (&ldquo;Analysis&rdquo;, &ldquo;Countdown&rdquo;,
+        &ldquo;Pollutionwatch&rdquo;).</p>
+      <p>⭐ A section front is <em>curated</em>, not chronological. Once the lead
+        is <b>chosen</b> rather than computed, an action with nothing new leads
+        with whatever is most worth reading and makes no claim about frequency it
+        cannot keep. <b>That was my whole case against B, and it mostly
+        dissolves.</b> Built properly:
+        <a href="action-b.html">action-b.html</a>.</p>
+      <p><b>⚠️ What survives the correction.</b> One real cost remains: a
+        stranger who bounces after two seconds never learns what the programme
+        <em>is</em>. In B the mission sentence is one scroll away; in A it is the
+        first line. That is a smaller objection than the one I withdrew, and it
+        is a genuine trade rather than a defect.</p>
     </div>
 
     <hr data-divider>
@@ -2452,11 +2558,20 @@ main:has(> [data-hero]:first-child) {
 
     <h2>What I would pick</h2>
     <div class="prose">
-      <p><b>A, and it is not close.</b> Your own observation was that actions
-        clarify a reader more than profiles do — B and C both put something else
-        first. B leads with a date, which is a promise about frequency this site
-        cannot yet keep. C leads with a face, which is what the site already does
-        and what you said is not enough.</p>
+      <p><b>A, but it IS close now, and it was not when this page was written.</b>
+        The original text here said &ldquo;A, and it is not close&rdquo; on the
+        grounds that B leads with a date and makes a promise about frequency this
+        site cannot keep. ⛔ B does not lead with a date — that was my error, and
+        the correction is in section B above.</p>
+      <p>What still separates them is one sentence's worth of reading order. A
+        puts <b>what the work is</b> in the first line. B puts <b>the best thing
+        in it</b> there and the description one scroll down. For a site whose
+        entire problem is that a stranger cannot tell what is being done, A wins
+        on the thing that is actually broken. ⚠️ But if aikyam turns out to have
+        a real update cadence, B is the better page — it is the shape of a
+        publication, and A is the shape of an about page with news attached.
+        C leads with a face, which is what the site already does and what the
+        owner said is not enough.</p>
       <p>⭐ A also degrades best. An action with no updates still has a true
         sentence, a status and a funder at the top, and reads as <em>begun</em>
         rather than as <em>abandoned</em>. That matters more than it sounds,
