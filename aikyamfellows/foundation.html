@@ -503,6 +503,9 @@ summary::marker {
     scroll-behavior: auto !important;
   }
 }
+main:focus {
+  outline: none;
+}
 .skip-link {
   position: absolute;
   inset-inline-start: -9999px;
@@ -529,6 +532,40 @@ summary::marker {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+@media print {
+  [data-masthead],
+  [data-topbar],
+  [data-highlights],
+  [data-footer],
+  [data-subnav],
+  .skip-link {
+    display: none;
+  }
+  html,
+  body {
+    background: #fff;
+    color: #000;
+  }
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+  h1, h2, h3, h4 {
+    break-after: avoid;
+  }
+  [data-doc],
+  [data-card],
+  [data-figure],
+  blockquote {
+    break-inside: avoid;
+  }
+  .wrap,
+  .wrap--wide,
+  .prose p {
+    max-width: none;
+  }
 }
 /* system/components/components.css */
 [data-topic] {
@@ -1405,19 +1442,14 @@ summary::marker {
 }
 @media (max-width: 40rem) {
   [data-highlights] ul {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    scroll-snap-type: x mandatory;
-  }
-  [data-highlights] li {
-    flex: 0 0 78%;
-    scroll-snap-align: start;
-    padding-block: var(--af-space-3);
+    display: block;
+    overflow: visible;
   }
   [data-highlights] li + li {
-    border-inline-start: 1px solid var(--af-line);
+    display: none;
+  }
+  [data-highlights] li {
+    padding-block: var(--af-space-3);
   }
   [data-highlight-face] {
     inline-size: 3rem;
@@ -1575,7 +1607,6 @@ main:has(> [data-hero]:first-child) {
   gap: 1px;
   list-style: none;
   margin: 0;
-  padding: 0;
 }
 @media (min-width: 40rem) {
   [data-cards] {
@@ -2102,7 +2133,7 @@ main:has(> [data-hero]:first-child) {
   </nav>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
   <div class="wrap">
 
     <h1>Foundation</h1>
@@ -2112,10 +2143,12 @@ main:has(> [data-hero]:first-child) {
 
     <div data-note>
       <span data-note-label>How to read this page</span>
-      <p>Press <b>Dark mode</b> in the header. Everything below must stay legible
-        in both themes — the lowest measured pair in either is 6.44:1, against a
-        4.5:1 requirement. If anything here becomes hard to read in one theme,
-        that is a defect in the palette, not in the component.</p>
+      <p>⚠️ This page is generated, so it cannot describe a system it was not
+        built from — but its PROSE can go stale, and did. Until 8 Aug it told
+        readers to "press Dark mode in the header" on a site that has no dark
+        mode, and quoted a measure and a typeface that had both changed hours
+        earlier. Generation protects the components, not the sentences about
+        them. If a number below disagrees with the CSS, the CSS is right.</p>
     </div>
 
     <hr data-divider>
@@ -2130,12 +2163,13 @@ main:has(> [data-hero]:first-child) {
     <h4>H4 · body size at 700, told apart by space</h4>
     <p data-standfirst>Standfirst · 21→24px · one per page, under the headline.</p>
     <div class="prose">
-      <p>Body · 19→20px · the writing. Set in Noticia Text at a 592px measure,
-        which is the narrowest column where this site's own proper nouns —
-        Thiruvananthapuram, Bhattacharyya, Kalaripayattu, Kozhikode — still clear
-        the 55-character floor. Long unbreakable words force early line breaks,
-        so this site's prose sets five to eight characters shorter than generic
-        English at the same width.</p>
+      <p>Body · 19→20px · the writing. Set in the system serif stack at a 576px
+        measure — the widest column where Georgia, Charter and Palatino all stay
+        under 65 characters a line. This site's own proper nouns —
+        Thiruvananthapuram, Bhattacharyya, Kalaripayattu, Kozhikode — force early
+        line breaks, so its prose sets five to eight characters shorter than
+        generic English at the same width, which is why the column is not
+        narrower still.</p>
     </div>
     <p data-byline>Small · 16px · byline and caption</p>
     <p data-portrait-credit>Micro · 14px · credit, date, and the floor. Nothing
@@ -2248,11 +2282,11 @@ main:has(> [data-hero]:first-child) {
 
     <hr data-divider>
 
-    <h2>Forms — and the palette has no red</h2>
-    <p>The pattern is GOV.UK's with the red removed: a summary at the top linking
-      to each failed field, a 4px rule on the field, and the word &ldquo;Error:&rdquo;
-      in the text. WCAG 1.4.1 forbids colour being the <em>only</em> carrier, so a
-      palette with no red meets it by construction.</p>
+    <h2>Forms</h2>
+    <p>The GOV.UK pattern: a summary at the top linking to each failed field, a
+      4px rule on the field, the word &ldquo;Error:&rdquo; in the text, and a red
+      that was measured rather than borrowed — GOV.UK's own <code>#d4351c</code>
+      falls to 4.36:1 on this paper's sunk surface and was rejected for it.</p>
 
     <div data-error-summary role="alert" tabindex="-1">
       <h2>There is a problem</h2>

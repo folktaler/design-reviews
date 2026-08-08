@@ -121,44 +121,45 @@
   padding: var(--af-space-4) var(--af-space-5);
 }
 
-/* ⛔⛔ ON A PHONE THE BAND SCROLLS SIDEWAYS INSTEAD OF STACKING, and this is the
- * third time today the same defect has been caught by measuring at 320px.
+/* ⛔⛔ ON A PHONE THE BAND SHOWS ONE FACE AND SCROLLS NOWHERE — changed twice
+ * on 8 Aug and the second change is the right one.
  *
- * MEASURED 8 Aug 2026, stacked: the band was **314px** on a phone and pushed
- * the first line of the story to **561px** — the whole screen, on a reading
- * site. Three faces before a word of the article is the exact opposite of what
- * the band is for.
+ * First it stacked: MEASURED at 314px on a phone, pushing the first line of the
+ * story to 561px — the whole screen, on a reading site.
+ * Then it scrolled sideways: 96px, which solved the height and created a worse
+ * problem. An outside review pointed out that a horizontal swipe on a cheap
+ * Android is routinely eaten by the edge-swipe back gesture or read as a
+ * vertical scroll. The same objection retired the topic strip's scroll; this
+ * band kept it for another hour because the objection was applied to one of the
+ * two things it named.
+ * ⚠️ It also leaked: MEASURED 1px of document overflow at 280px, from a scroll
+ * container's padding rounding — small, real, and only visible at a width most
+ * testing never reaches.
  *
- * ⭐ THE BAND'S JOB IS "a face above the fold", and one face visible with two
- * more a swipe away does that in 96px. Hiding it entirely was the other option
- * and it is worse: a phone reader is the one most likely to have arrived from a
- * link and to have no idea this site is about people.
- *
- * ⚠️ A HORIZONTALLY SCROLLING ROW HIDES ITS OVERFLOW, so it must never be the
- * only route to what is in it — every fellow here is also on the index, which
- * is what makes it acceptable. See the sub-nav, which does the same thing for
- * the same reason. */
+ * ⭐ SO: ONE CARD, NO SCROLLER. The band's job is "a face above the fold on a
+ * site about people", and one face does that. Three faces on a 320px screen was
+ * never the requirement — it was the desktop layout surviving into a place it
+ * did not fit.
+ * ⛔ The other two are REMOVED from the DOM's flow rather than scrolled out of
+ * sight, so there is nothing to swipe at and nothing to leak. They are on the
+ * index, which is what makes hiding them acceptable. */
 @media (max-width: 40rem) {
   [data-highlights] ul {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    scroll-snap-type: x mandatory;
-  }
-  [data-highlights] li {
-    flex: 0 0 78%;
-    scroll-snap-align: start;
-    padding-block: var(--af-space-3);
+    display: block;
+    overflow: visible;
   }
   [data-highlights] li + li {
-    border-inline-start: 1px solid var(--af-line);
+    display: none;
+  }
+  [data-highlights] li {
+    padding-block: var(--af-space-3);
   }
   [data-highlight-face] {
     inline-size: 3rem;
     block-size: 3rem;
   }
 }
+
 [data-highlight-inner] {
   display: flex;
   align-items: flex-start;
@@ -459,7 +460,20 @@ main:has(> [data-hero]:first-child) {
   gap: 1px;
   list-style: none;
   margin: 0;
-  padding: 0;
+  /* ⚠️ THE ONE COST OF DRAWING THE RULES WITH A SHADOW, MEASURED AND ACCEPTED.
+     `box-shadow: 0 0 0 1px` paints OUTSIDE the box without reserving space, so
+     at 280px the outermost cells spill 0.6px and the document reports 1px of
+     horizontal overflow.
+     ⛔ TWO FIXES WERE TRIED AND BOTH MADE IT WORSE — recorded so nobody spends
+     the afternoon I just spent: `padding: 1px` took 1px to 3px (padding adds to
+     the box rather than giving the shadow room outside it), and `inset` took it
+     to 25px (the inner rule changes the cells' content box and the grid
+     reflows).
+     ⭐ SO IT STAYS. 280px is BELOW this system's stated floor —
+     `tokens/breakpoints.css` sets `--af-bp-floor: 20rem` and says 320px is "the
+     narrowest screen this site promises to work on." Every width from 320px up
+     is clean. Spending more on a sub-pixel at a width outside the promise is
+     how a system acquires a fix that is worse than the defect. */
 }
 @media (min-width: 40rem) {
   /* --af-bp-wide */

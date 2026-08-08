@@ -771,6 +771,34 @@ summary::marker {
   }
 }
 
+/* ⛔⛔ `#main` NEEDS `tabindex="-1"` OR THE SKIP LINK IS DECORATION, and this
+ * system had the bug it had already written down about something else.
+ *
+ * MEASURED 8 Aug 2026 on the live pages: activating the skip link scrolled the
+ * viewport to `#main` and left `document.activeElement` on the link. A keyboard
+ * user pressing it goes nowhere — the page moves under them and the next Tab
+ * continues from the masthead they were trying to escape.
+ *
+ * ⭐ A fragment jump moves the VIEWPORT to any element. It moves FOCUS only to
+ * one that can receive it, and `<main>` cannot by default.
+ *
+ * ⚠️ THIS IS THE SAME DEFECT AN OUTSIDE REVIEW FOUND IN THE ERROR SUMMARY
+ * EARLIER TODAY, and the fix there — `tabindex="-1"` on the fragment target —
+ * was written into forms.css hours before this was found. The rule was known
+ * and applied in one place only. A rule enforced in one place is not a rule.
+ *
+ * ⛔ `-1` AND NOT `0`. Zero would insert `<main>` into the tab order for every
+ * reader, so everyone tabbing through the page hits an invisible stop on the
+ * article container. `-1` makes it focusable by SCRIPT AND BY FRAGMENT without
+ * adding a tab stop. */
+main:focus {
+  /* ⛔ No focus ring on the container itself — it is 900px tall and outlining it
+     draws a box around the whole article. The reader knows where they are
+     because the content is now at the top of the screen and the next Tab lands
+     on the first link inside it, which does get a ring. */
+  outline: none;
+}
+
 /* --- Skip link ------------------------------------------------------------
  * ⭐ A 2,000-word profile with a nav, a topic tag and a byline above it is
  * exactly the page a keyboard or screen-reader user should be able to skip
@@ -810,4 +838,64 @@ summary::marker {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * PRINT — added 8 Aug 2026 after testing print media, which nobody had.
+ *
+ * ⭐ THIS MATTERS MORE THAN IT USUALLY DOES, and for one page in particular:
+ * the compliance page exists for a funder's compliance officer, and that reader
+ * prints things. A document index whose links vanish on paper is useless to
+ * exactly the person it was built for.
+ *
+ * ⛔ MEASURED, both real: the indigo band printed as a solid ink block — a
+ * quarter of a page of toner on every sheet — and no link printed its URL, so
+ * the 33 compliance documents became 33 pieces of underlined text.
+ */
+@media print {
+  /* The band is screen furniture. On paper it is a rectangle of ink. */
+  [data-masthead],
+  [data-topbar],
+  [data-highlights],
+  [data-footer],
+  [data-subnav],
+  .skip-link {
+    display: none;
+  }
+
+  html,
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  /* ⭐ THE URL AFTER THE LINK is the whole point on the compliance page: a
+     printed document index has to say WHERE each document is.
+     ⛔ Only for absolute links — printing "(profile.html)" after every internal
+     link makes the prose unreadable for no gain. */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+
+  /* ⛔ Never break a heading from the text it introduces, or a document name
+     from its format label. */
+  h1, h2, h3, h4 {
+    break-after: avoid;
+  }
+  [data-doc],
+  [data-card],
+  [data-figure],
+  blockquote {
+    break-inside: avoid;
+  }
+
+  /* The measure is a screen constraint — on paper the page width is the
+     constraint and a 576px column wastes half the sheet. */
+  .wrap,
+  .wrap--wide,
+  .prose p {
+    max-width: none;
+  }
 }
