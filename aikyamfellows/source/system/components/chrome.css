@@ -364,6 +364,13 @@
 }
 [data-subnav] summary {
   min-height: var(--af-tap-comfortable);
+  /* ⭐ `--af-motion-disclose` exists for exactly this and was going unused —
+     found by the token audit, not by reading. motion.css defines 180ms as the
+     duration for "a `<details>` disclosure opening", longer than a hover
+     because the reader's eye has to FOLLOW arriving content rather than merely
+     register a state change. The token had been written for a component that
+     did not exist yet; the component now exists. */
+  transition: background var(--af-motion-disclose) var(--af-motion-ease);
   display: flex;
   align-items: center;
   font-family: var(--af-font-ui);
