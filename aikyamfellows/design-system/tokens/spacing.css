@@ -230,7 +230,28 @@
    *   · short common words, 447 chars               median 62  ← the ceiling
    *   · about.html mission, 337 chars               median 62  (measured
    *     independently, on a different harness, by the institutional designer) */
-  --af-measure: 37rem; /* 592px of TEXT. Not of wrapper. */
+  /* ⛔⛔ 36rem = 576px — RE-MEASURED 8 Aug 2026 WHEN THE WEBFONT WAS CUT, and
+     the number moved because the face moved. 592px was measured in Noticia; in
+     the system serif stack the same column sets 66–67 characters and FAILS the
+     65 gate. Every face testable on this machine agrees:
+
+         column   Georgia  Charter  Palatino   worst   gate ≤65
+          544px        61       62        61      62   ✅
+          560px        63       63        62      63   ✅
+        ⭐ 576px        63       63        63      63   ✅  ← widest that passes
+          592px        67       67        65      67   ⛔
+
+     ⭐ 576 rather than 544 for the reason the original measurement gave: this
+     site's own proper nouns — Thiruvananthapuram, Bhattacharyya, Kalaripayattu
+     — force early breaks, so narrowing costs more here than in generic English.
+     Take the widest width that passes, never the safest.
+
+     ⚠️ AND IT IS NOW A SAFE NUMBER RATHER THAN A CORRECT ONE. With a webfont
+     there was one face and one answer. With a system stack there are several
+     faces and this is the value that holds for the ones that could be tested —
+     Cambria, which Windows readers get, could not be tested here. That is the
+     cost of cutting the font and it is stated rather than hidden. */
+  --af-measure: 36rem; /* 576px of TEXT. Not of wrapper. */
   --af-measure-wide: 62rem; /* index pages, the fellow grid, the footer */
 
   /* ⭐ A MEASURE BELONGS TO A TYPE SIZE, NOT TO A PAGE.

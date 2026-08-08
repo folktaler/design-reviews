@@ -133,11 +133,25 @@
  * the id of the field that failed. That is what makes a no-red form work: the
  * reader does not have to scan for the problem, they are handed it.
  *
- * ⛔ IT MUST TAKE FOCUS ON SUBMIT. `tabindex="-1"` on the container plus a
- * `.focus()` call after a failed submit. Without that, a keyboard or screen
- * reader user submits, the page re-renders, focus is back at the top of the
- * document, and nothing announces that anything went wrong at all. The visible
- * box is only half the component.
+ * ⛔⛔ HOW IT TAKES FOCUS WITH NO JAVASCRIPT — CORRECTED 8 Aug 2026. This file
+ * previously said "`tabindex="-1"` plus a `.focus()` call", which is a rule this
+ * system cannot keep: it ships zero JavaScript and says so proudly. An outside
+ * review caught the contradiction and supplied the right pattern.
+ *
+ *   1. the server returns the page with the summary at the top
+ *   2. it redirects to the form URL with `#error-summary` on the end
+ *   3. the container is `<div data-error-summary role="alert" tabindex="-1"
+ *      id="error-summary">`
+ *
+ * ⭐ THE `tabindex="-1"` IS WHAT MAKES THE FRAGMENT WORK. A fragment jump moves
+ * the viewport to any element; it moves FOCUS only to one that can receive it.
+ * Without the attribute the page scrolls and the keyboard user stays at the
+ * top of the document — the exact failure this is meant to prevent.
+ * ⚠️ `role="alert"` is belt and braces: on the browsers where fragment focus is
+ * unreliable, the live region announces the content anyway.
+ *
+ * ⛔ NONE OF THIS IS CSS. It is what whoever implements the form in Ghost must
+ * do, and it is written here because there is nowhere else it would be read.
  *
  * ⚠️ ORDER MATTERS: the items must be in the same order as the fields on the
  * page, not in the order the validator happened to produce them. */

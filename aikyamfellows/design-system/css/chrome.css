@@ -362,6 +362,33 @@
 [data-subnav] {
   border-block-start: 1px solid var(--af-band-rule);
 }
+[data-subnav] summary {
+  min-height: var(--af-tap-comfortable);
+  display: flex;
+  align-items: center;
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  font-weight: var(--af-weight-bold);
+  color: var(--af-band-text);
+  cursor: pointer;
+}
+[data-subnav] summary::marker {
+  color: var(--af-band-accent);
+}
+
+/* ⛔⛔ THE DISCLOSURE IS A DISCLOSURE AT EVERY WIDTH, AND THE CLEVER VERSION
+   WAS TRIED AND ABANDONED — recorded because it looks like it should work.
+   The attempt: hide the summary above 40rem and force the list visible, so a
+   wide screen sees the plain row it always saw. It FAILS, and not for a
+   specificity reason. MEASURED at 1300px: the list rendered at 54px and its
+   parent measured **1px** — the row was painting outside a parent that gave it
+   no layout. A closed `<details>` in Chromium does not merely set
+   `display: none` on its children; it removes them from layout, and overriding
+   `display` puts the pixels back without putting the space back.
+   ⭐ So the summary stays at every width. On a wide screen it costs one line
+   and one click for a route that is also in the footer and on the fellows
+   index; on a phone it saves ~96px on a screen that has none. That trade is
+   worth it in one direction and neutral in the other. */
 /* ⛔⛔ `margin: 0` HERE BROKE THE WHOLE HEADER'S ALIGNMENT, and it took a
    measurement to see what a screenshot only hinted at.
    This `<ul>` carries `class="wrap wrap--wide"`, whose entire job is
@@ -553,20 +580,19 @@
     bottom: -1px;
   }
 
-  /* ⭐ ONE SCROLLING ROW, NOT SEVEN WRAPPED ONES. Seven topic names wrap to
-     three rows at 320px and cost ~60px of a screen that has none to spare.
-     ⚠️ A horizontally scrolling row hides its overflow, so it must never be
-     the ONLY route to those pages — every topic is also linked from the
-     fellows index, which is what makes hiding them here acceptable. */
+  /* ⭐ THE TOPICS COLLAPSE BEHIND A DISCLOSURE — replaced the scrolling row on
+     8 Aug 2026. Seven names wrap to three rows at 320px and cost ~60px of a
+     screen that has none to spare; scrolling them sideways solved that and
+     created a worse problem, because a horizontal swipe on a cheap Android is
+     routinely eaten by the edge-swipe back gesture or read as a vertical
+     scroll. A `<details>` has neither failure and needs no JavaScript. */
   [data-subnav] ul {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: var(--af-space-4);
-    scrollbar-width: none;
-    padding-block: 0;
+    flex-wrap: wrap;
+    gap: var(--af-space-3) var(--af-space-4);
+    padding-block: 0 var(--af-space-3);
   }
   [data-subnav] a {
-    padding-block: var(--af-space-3);
+    padding-block: var(--af-space-2);
   }
   [data-subnav] li {
     flex: 0 0 auto;

@@ -13,46 +13,45 @@
 
 :root {
   /* ═══════════════════════════════════════════════════════════════════════
-   * 1. THE FACE — re-decided on 7 Aug 2026, and the answer did not change
+   * ⛔⛔ THE WEBFONT IS GONE — OWNER DECISION, 8 Aug 2026, AND IT OVERTURNS
+   * THE ARGUMENT THIS FILE WAS BUILT ON. The reasoning is kept, not deleted:
+   * the whole point of the reversal is that it was made knowingly.
    *
-   * The handover asked for the "82%-Android weighting" to be re-decided,
-   * because that number is what justified buying a webfont at all. On
-   * catsofkochi the argument was: Android's system serif is Noto Serif, iOS
-   * has Georgia and New York, and with 82% of readers on Android a system
-   * serif stack means most readers get the worst of the three. Indoors on a
-   * laptop that argument weakens a lot — macOS and Windows both have Georgia,
-   * and a system stack costs zero bytes.
+   * WHAT THIS FILE USED TO SAY, and it was a good argument:
    *
-   * ⭐ THE WEBFONT SURVIVES ANYWAY, FOR A DIFFERENT REASON, and it is a reason
-   * that belongs to a reading site rather than to a device split:
+   *     A FACE CHANGE IS A MEASURE CHANGE. A system stack is not one face, it
+   *     is three or four with different widths. `--af-measure` is a length;
+   *     characters-per-line is what the reader experiences; the conversion
+   *     between them is a property of the face. Ship a system stack and the
+   *     column that holds 59 characters on a Mac holds a different number on
+   *     Android — and there is no single value that is correct for all of them.
    *
-   *     A FACE CHANGE IS A MEASURE CHANGE.
+   * ⭐ THAT ARGUMENT IS STILL TRUE. It simply lost to a bigger number.
    *
-   * A system stack is not one face, it is three or four, and they have
-   * different widths. `--measure` is a length; characters-per-line is what
-   * the reader experiences; the conversion between them is a property of the
-   * face. Ship a system stack and the column that holds 59 characters on a Mac
-   * holds a different number on Android — and there is no single value of
-   * `--measure` that is correct for all of them. On a site whose entire job is
-   * reading 2,000-word profiles, that is the thing you least want to make
-   * per-visitor. 61 KB buys one predictable answer.
+   * MEASURED 8 Aug 2026: the three subset Noticia faces were **61.1 KB**, and
+   * base64-inlining inflated them to **81.4 KB — 55% of every page**, for a
+   * reader whose bandwidth nobody has measured. The file's own falsification
+   * test named this exact condition and nobody had run it.
    *
-   * ⛔ WHAT WOULD FALSIFY IT: if analytics show the audience is majority
-   * mobile-on-Indian-mobile-data after all (check analytics.aikyamhq.com — the
-   * self-hosted Plausible), then the 61 KB is being paid by the reader least
-   * able to afford it, and the right move is `font-display: optional` so a
-   * slow connection simply gets the fallback and never a reflow. That is a
-   * one-word change in fonts.css, not a redesign.
+   * ⚠️ SO THE COST IS PAID DELIBERATELY AND IT IS WRITTEN DOWN: the measure is
+   * no longer one number that is right, it is one number that is SAFE ACROSS
+   * THE FACES WE COULD TEST. See the re-measurement in spacing.css.
    *
-   * ⚠️ AND THE HONEST PART: Noticia is also the only face I could actually
-   * ship. Buying a different one needs a shell to download and subset woff2,
-   * which this session does not have. The constraint and the merit agree here,
-   * but they are two different things and only one of them is an argument.
+   * ⛔ WHAT WAS MEASURED, AND WHAT WAS NOT — 8 Aug, same method as before
+   * (real prose, counted line boxes, face-actually-painted proven by canvas
+   * width against a bogus family rather than by reading the declared stack):
    *
-   * The original selection, preserved so it is not re-argued: Noticia Text,
-   * SIL OFL, chosen over PT Serif, Zilla Slab, Roboto Slab, Bitter, Noto Serif
-   * and Source Serif 4 — largest x-height of the set (0.802 x/cap) and lining
-   * numerals. Georgia was rejected for old-style numerals.
+   *     Georgia   404.3px probe · present · 63 chars at 576px
+   *     Charter   396.3px probe · present · 63 chars at 576px
+   *     Palatino  405.9px probe · present · 63 chars at 576px
+   *   ⚠️ Cambria   ABSENT on the test machine — falls back, NOT measured
+   *   ⚠️ Times     ABSENT on the test machine — falls back, NOT measured
+   *
+   * ⛔ CAMBRIA IS WHAT WINDOWS READERS GET AND IT IS UNMEASURED. It is narrower
+   * than Georgia, and a narrower face fits MORE characters in the same column —
+   * so Windows may exceed the 65 gate at 576px. Anyone with a Windows machine
+   * can settle this in ten minutes; until then this is a stated gap, not a
+   * measurement.
    * ═══════════════════════════════════════════════════════════════════════ */
 
   /* ⭐ 2. TWO FAMILIES, SPLIT BY ROLE, NOT BY TASTE.
@@ -61,7 +60,11 @@
      captions, credits. The split is the Guardian's and it is inherited
      deliberately — it means a piece of metadata can never be mistaken for the
      writing, at any size, in any theme. */
-  --af-font-text: 'Noticia Text', 'Noticia Fallback', Georgia, 'Noto Serif', serif;
+  /* ⛔ `ui-serif` FIRST, and it is the reason this stack is honest about being
+     several faces: it resolves to whatever the platform considers its serif —
+     Georgia on this Mac (proven by canvas width), Cambria on Windows, something
+     else on Android. The rest of the stack is the fallback ladder. */
+  --af-font-text: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   --af-font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
     Arial, sans-serif;
 
@@ -119,15 +122,15 @@
    * `--af-measure` (37rem = 592px, see spacing.css) only starts to bind once the
    * viewport is wide enough to contain it plus two gutters:
    *
-   *     592 + 24 + 24 = 640px
+   *     576 + 24 + 24 = 624px   ⭐ RE-DERIVED 8 Aug when the measure moved
    *
    * So 640px is the viewport at which the text column stops being set by the
    * screen and starts being set by the token. The body size is interpolated to
    * arrive at exactly 20px at exactly that width:
    *
-   *     19px at 375px viewport  →  20px at 640px viewport
-   *     slope = (20 − 19) / (640 − 375) = 1/265 px per px = 0.37736vw
-   *     base  = 19 − 0.0037736 × 375 = 17.5849px = 1.0991rem
+   *     19px at 375px viewport  →  20px at 624px viewport
+   *     slope = (20 − 19) / (624 − 375) = 1/249 px per px = 0.40161vw
+   *     base  = 19 − 0.0040161 × 375 = 17.4940px = 1.09338rem
    *
    * ⚠️ RE-DERIVED when the measure moved 576 → 592px. The two are not
    * independent; changing either alone silently breaks the character count.
@@ -139,11 +142,11 @@
    *
    *     592px column @ 20px Noticia  →  57-62 median across three corpora
    *
-   * ⛔ FALSIFIABLE, and here is the test: at a 640px viewport,
-   * `getComputedStyle(document.body).fontSize` must read exactly "20px". If it
-   * reads 19.9 or 20.1 the interpolation above has been edited and the
-   * character count no longer holds. */
-  --af-type-body: clamp(1.1875rem, 1.0991rem + 0.37736vw, 1.25rem); /* 19 → 20px */
+   * ⛔ FALSIFIABLE, and here is the test: at a 624px viewport,
+   * `getComputedStyle(document.body).fontSize` must read exactly "20px" at a
+   * **624px** viewport (was 640px before the measure moved). If it reads 19.9 or
+   * 20.1 the interpolation above has been edited and the count no longer holds. */
+  --af-type-body: clamp(1.1875rem, 1.09338rem + 0.40161vw, 1.25rem); /* 19 → 20px */
   --af-leading-body: 1.55;
 
   /* The H1 carries a two-part headline — "Sentinaro Shiu | A Heart that

@@ -106,6 +106,38 @@
    * ═══════════════════════════════════════════════════════════════════════ */
   --af-accent-bright: #d9c9ff;
 
+  /* ═══════════════════════════════════════════════════════════════════════
+   * ⭐⭐ THE ERROR RED — ADDED 8 Aug 2026, REVERSING "no error red".
+   *
+   * The old rule said no red, and justified it from WCAG 1.4.1: colour may not
+   * be the ONLY carrier, so a palette with no red meets the criterion by
+   * construction. ⛔ THAT WAS TRUE AND BESIDE THE POINT, and an outside review
+   * caught it. 1.4.1 does not forbid colour — it forbids relying on it alone.
+   * Removing red removed a REDUNDANT channel, which helps nobody and costs the
+   * reader a universally understood alarm. Dressing a palette preference as an
+   * accessibility win is exactly the kind of claim this system exists to catch,
+   * and it caught everything except its own.
+   *
+   * ⛔ THE REVIEW SAID "use the full GOV.UK pattern". GOV.UK's own red was
+   * MEASURED against this paper and REJECTED — it fails AA on the sunk surface:
+   *
+   *     GOV.UK  #d4351c   4.74 on paper · ⛔ 4.36 on sunk · 3.62 vs ink
+   *     Guardian #c70000  5.97 · 5.50 · 2.87
+   *   ⭐ #b3200e          6.54 · 6.02 · 2.62   ← ships
+   *     #8f1a0b          8.83 · 8.13 · ⚠️ 1.94 vs ink — stops reading as red
+   *
+   * ⭐ #b3200e IS THE BALANCE POINT. Deeper reds gain contrast against paper and
+   * LOSE distinctness from ink — below about 2.0 they stop reading as red at
+   * all, which defeats the entire purpose of adding one. 6.54 / 6.02 clears AA
+   * on both surfaces with margin, and 2.62 against ink is plainly a different
+   * colour rather than a dark word.
+   *
+   * ⛔ ITS ONE JOB IS AN ERROR. Not a warning, not a delete button, not
+   * emphasis. There is still no success green and no warning orange, and those
+   * refusals stand: a success message that needs a green box to be understood
+   * is a badly written success message. */
+  --af-error: #b3200e;
+
   /* --- Paper and ink ---------------------------------------------------- */
   /* ⚠️ COOL, NOT WARM — the one token that changed purely because of the
      brand. catsofkochi's paper was #fdfcf9, a warm off-white chosen to sit

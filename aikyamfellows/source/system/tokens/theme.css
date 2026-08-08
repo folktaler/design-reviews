@@ -219,15 +219,19 @@
    * they are deliberately identical to the neutral ones, so that a component
    * written against them is already correct on the day a real hue is measured
    * and only these two lines change. */
-  --af-state-error: var(--af-ink);
-  --af-state-error-line: var(--af-ink);
+  /* ⭐ REVERSED 8 Aug 2026 — these were both ink while the palette had no red.
+     They now point at the measured `--af-error`. Everything downstream was
+     already written against these two names, so the reversal was a two-line
+     change — which is what a semantic layer is FOR, and the first time it has
+     had to prove it. */
+  --af-state-error: var(--af-error);
+  --af-state-error-line: var(--af-error);
 
-  /* ⭐ AND SUCCESS IS NOT A COLOUR EITHER, for a stronger reason than error: a
-     success message that needs a green box to be understood is a badly written
-     success message. "Check your inbox and click the link" is complete on its
-     own. See guidelines/voice.md for all four states of the signup, written out
-     in full precisely because the live site currently shows its SUCCESS string
-     as the resting heading to a reader who has typed nothing. */
+  /* ⛔ SUCCESS IS STILL NOT A COLOUR, and that refusal is unchanged. The error
+     case gained a red because red is a redundant channel for an alarm. There is
+     no equivalent argument for success: a message that needs a green box to be
+     understood is a badly written message. "Check your inbox and click the
+     link" is complete on its own. */
   --af-state-success: var(--af-ink);
 }
 

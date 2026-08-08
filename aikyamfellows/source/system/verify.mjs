@@ -101,6 +101,18 @@ const result = await page.evaluate((refs) => {
     return getComputedStyle(el, pseudo || null).getPropertyValue(prop);
   };
 
+  /* ⛔ The face check changed on 8 Aug when the webfont was cut. It used to
+     assert "Noticia Text". A system stack cannot be asserted by NAME — the
+     declared stack is what `font-family` reports whatever actually painted.
+     So it is proven the same way the measure was: canvas width against a bogus
+     family. Equal to bogus means nothing in the stack resolved. */
+  out.paintedFace = (() => {
+    const cv = document.createElement('canvas').getContext('2d');
+    const probe = 'Thiruvananthapuram Bhattacharyya';
+    const w = (f) => { cv.font = `20px ${f}`; return +cv.measureText(probe).width.toFixed(1); };
+    const stack = w(getComputedStyle(document.body).fontFamily);
+    return { stack, bogus: w('__nope__'), resolved: stack !== w('__nope__') };
+  })();
   out.body = {
     fontFamily: g('body', 'font-family'),
     fontSize: g('body', 'font-size'),
@@ -172,7 +184,7 @@ const floor = await page.evaluate(() => ({
   navRows: new Set([...document.querySelectorAll('[data-nav] a')].map((a) => a.getBoundingClientRect().top)).size,
 }));
 
-await page.setViewportSize({ width: 640, height: 800 });
+await page.setViewportSize({ width: 624, height: 800 });
 const coupling = await page.evaluate(() => getComputedStyle(document.body).fontSize);
 
 await browser.close();
