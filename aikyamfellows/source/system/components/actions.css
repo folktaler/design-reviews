@@ -36,10 +36,13 @@
  * ── THE MODEL, AS BUILT ────────────────────────────────────────────────────
  *
  *     Title                the thing itself
- *     Description          a short paragraph — what a reader decides on
+ *     Description          a short paragraph — what a reader decides on, and
+ *                          the SAME field the index shows as the excerpt
  *     Date published       a real <time datetime>
  *     Connected fellow(s)  ⭐ PLURAL, and the plural is load-bearing — see below
+ *                          ⛔ ON THE ACTION PAGE ONLY, not on the index
  *     Tags                 the existing [data-topic] component, unchanged
+ *                          ⛔ ON THE ACTION PAGE ONLY, not on the index
  *     One image            [data-action-media]
  *     Standard metadata    ⛔ NOT VISIBLE FURNITURE. "SEO bits, same as any
  *                          post" — description, canonical, Open Graph, Twitter
@@ -48,42 +51,63 @@
  *                          @published markers. See the head of build.mjs.
  */
 
-/* --- The set --------------------------------------------------------------
+/* --- The set: ONE arrangement, the row ------------------------------------
  *
- * ⭐ ONE COMPONENT, TWO ARRANGEMENTS, AND THE ARRANGEMENT LIVES ON THE
- * CONTAINER. The owner's earlier requirement stands: *"cards can also be
- * listed/appear separate."* A card that must be rewritten to sit in a list is
- * two components sharing one name, and the second stops matching the first the
- * week after it is written. */
+ * ⭐⭐ THE GRID IS GONE, 8 Aug 2026. Owner, looking at the two side by side:
+ * *"is the better layout but its too busy. in the list it can show the pic,
+ * title, excerpt (from the actual action page) and date. the remaining can be
+ * on the actual actions page."*
+ *
+ * ⛔ AND THE SECOND HALF OF THAT IS THE MORE IMPORTANT HALF. What came out of
+ * the row is not decoration — it is the FELLOWS and the TAGS, both of which I
+ * had argued for. They were wrong here for a reason worth writing down:
+ *
+ *   · a row of tag pills is the loudest thing in the card, repeated on every
+ *     row, and it is NAVIGATION WEARING THE CLOTHES OF CONTENT. Six rows of
+ *     pills read as a filter bar that has been sprayed down the page.
+ *   · the fellows line adds a third band of UI-face text between the sentence
+ *     and the date, so the eye crosses two labels to get from the description
+ *     to the thing it needs next.
+ *
+ * ⭐ A READER SCANNING A LIST IS MAKING EXACTLY ONE DECISION — is this worth
+ * opening — and picture, title, excerpt and date are the four things that
+ * decision is made from. Everything else is for the reader who already said yes,
+ * and belongs on the page they said yes to.
+ *
+ * ⚠️ WHAT THIS COSTS, STATED SO NOBODY REDISCOVERS IT AS A SURPRISE: the tags
+ * are no longer a route INTO an action from the index. A reader wanting "all the
+ * Education actions" now has to open one. The seven topics are still in the
+ * sub-nav on every page, so the route exists — it is just no longer duplicated
+ * six times down this page. */
 [data-action-cards] {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  gap: var(--af-space-8) var(--af-space-7);
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
-}
-
-[data-action-cards='list'] {
   grid-template-columns: 1fr;
   gap: var(--af-space-7);
 }
 
-[data-action-cards='list'] > li + li {
+[data-action-cards] > li + li {
   border-block-start: 1px solid var(--af-line);
   padding-block-start: var(--af-space-7);
 }
 
 @media (min-width: 40rem) {
-  [data-action-cards='list'] [data-action-card] {
-    grid-template-columns: 15rem 1fr;
+  /* ⚠️ 12rem, NOT 15rem. At 15rem the 4:3 image stands 180px tall against about
+     100px of text, so every row carried 80px of dead space below the date and
+     the list read as airy rather than as dense. Measured, not guessed: 12rem
+     gives a 144px image, which is within a line of the text column's height for
+     a two-line excerpt — the shape a list wants. */
+  [data-action-card] {
+    grid-template-columns: 12rem 1fr;
     gap: var(--af-space-6);
     align-items: start;
   }
 
   /* ⚠️ The same image file, a different frame. A 3:2 crop is too tall standing
-     beside four lines of text in a row. */
-  [data-action-cards='list'] [data-action-media] {
+     beside three lines of text in a row. */
+  [data-action-card] [data-action-media] {
     aspect-ratio: 4 / 3;
   }
 }
@@ -95,13 +119,35 @@
   align-content: start;
 }
 
+/* ⛔ THE TEXT COLUMN NEEDS ITS OWN RHYTHM, AND THE FIRST VERSION DID NOT HAVE
+   ONE. The card's `gap` spaces the two GRID CHILDREN — the image and the text
+   block — and does nothing at all inside the text block. So the title, the
+   excerpt and the date rendered touching, with the date sitting hard against
+   the last line of the sentence and reading as part of it.
+   ⭐ Found by screenshotting the built page. It is invisible in the CSS, where
+   a `gap` is declared and looks like it covers everything below it. */
+[data-action-card-body] {
+  display: grid;
+  align-content: start;
+  gap: var(--af-space-3);
+}
+
+/* ⭐ The date gets more air than the gap gives it. It is a different KIND of
+   thing from the two lines above — metadata rather than editorial — and one
+   step of extra space is what says so without a rule or a colour. */
+[data-action-card-body] [data-action-date] {
+  margin-block-start: var(--af-space-2);
+}
+
 /* --- One image ------------------------------------------------------------
  *
- * ⛔ 3:2, FIXED, AND NOT CHOSEN PER CARD. A grid whose cards each pick their own
- * crop has a ragged baseline, and that always gets fixed by cropping the picture
- * rather than by changing the layout — which is how a design ends up demanding
- * an aspect ratio from a photographer that nobody ever wrote down. Written down
- * here: 3:2 in the grid, 4:3 in the list, same file. */
+ * ⛔ THE CROP IS FIXED AND NOT CHOSEN PER CARD. A list whose rows each pick
+ * their own ratio has a ragged left edge, and that always gets fixed by cropping
+ * the picture rather than by changing the layout — which is how a design ends up
+ * demanding an aspect ratio from a photographer that nobody ever wrote down.
+ * Written down here: 4:3 in the row, 3:2 when the card is narrow enough that the
+ * image goes full width. Same file, two frames, and the subject must survive
+ * both — so it may not be centred so tightly that 4:3 clips it. */
 [data-action-media] {
   aspect-ratio: 3 / 2;
   inline-size: 100%;
@@ -133,12 +179,31 @@
   max-inline-size: 26ch;
 }
 
-/* --- Description ----------------------------------------------------------
+/* --- Description, which IS the excerpt ------------------------------------
  *
- * ⚠️ SET AS PROSE, NOT AS A STANDFIRST. A standfirst is a larger, quieter line
- * introducing an article a reader has already chosen. A description is what a
- * reader uses to CHOOSE, so it is body size in the reading face — read, rather
- * than skimmed past on the way to something else. */
+ * ⭐⭐ THE OWNER'S PHRASING SETTLED A CONTENT-MODEL QUESTION FOR FREE:
+ * *"excerpt (from the actual action page)"*. Description and excerpt are ONE
+ * FIELD, written once and shown in both places — so the model stays at six
+ * fields rather than growing a seventh that says almost the same thing.
+ *
+ * ⛔ THAT IS NOT MERELY TIDY, IT IS THE DIFFERENCE BETWEEN TWO TEXTS AGREEING
+ * AND TWO TEXTS DRIFTING. A separate "list excerpt" is written once, never
+ * revisited, and is quietly wrong about the action within a year — while
+ * continuing to look completely fine, because nobody ever sees the two side by
+ * side. One field cannot disagree with itself.
+ *
+ * ⚠️ THE CONSEQUENCE, WHICH IS AN EDITORIAL ONE: the description now has to do
+ * two jobs. On the index it is the only sentence a reader gets, so it must make
+ * someone want to open the page; on the action page it sits under the title as
+ * the standfirst. A sentence that only works in one of those places is the wrong
+ * sentence. "She was told the Chenda wasn't for girls" works in both. "A
+ * programme supporting traditional percussion among young women" works in
+ * neither.
+ *
+ * ⚠️ SET AS PROSE, NOT AS A STANDFIRST, on the index. A standfirst is a larger
+ * quieter line introducing an article a reader has already chosen. Here it is
+ * what a reader CHOOSES FROM, so it is body size in the reading face — read
+ * rather than skimmed past on the way to something else. */
 [data-action-description] {
   font-family: var(--af-font-text);
   font-size: var(--af-type-body);

@@ -279,16 +279,45 @@
   font-family: var(--af-font-text);
   font-size: clamp(1.5rem, 0.75rem + 3.1vw, 3.25rem); /* 24 → 52px */
   font-weight: var(--af-weight-bold);
-  /* ⛔ 0.86, AND IT IS THE WHOLE EFFECT. At 1.05 the two words read as a
-     paragraph that wrapped; under 0.9 they read as one mark. This is the only
-     place in the system where leading goes below 1, and it is allowed here for
-     the same reason `--af-leading-display` is 1.12: at 52px the space between
-     lines is optical, not readability. */
-  line-height: 0.86;
+  /* ⛔ 0.95, NOT 0.86 — corrected 8 Aug within the hour, owner: *"too tight"*.
+     He was right. Under 1 the two words read as one mark rather than as a
+     paragraph that wrapped, and that is why leading goes below 1 here at all —
+     the only place in this system it does. But 0.86 closed the gap to the point
+     where the f of "fellows" crowded the descender of the y above it. 0.95 keeps
+     the mark and gives the descender somewhere to go. */
+  line-height: 0.95;
   letter-spacing: -0.025em;
   color: var(--af-band-text);
   text-decoration: none;
-  text-align: end;
+}
+
+/* ⭐⭐ THE STAGGER — the owner's idea, 8 Aug 2026: *"maybe fellows can start
+   after the y of aikyam maybe?"* Measured in the shipping face rather than
+   eyeballed:
+
+       "aikyam"   3.754em          "aik"   1.581em   ← where the y BEGINS
+       "fellows"  3.665em          "aiky"  2.143em   ← where the y ENDS
+
+   ⛔ 2.143em, NOT 1.581em, AND THE DIFFERENCE IS THE WHOLE REASON TO MEASURE.
+   Starting "fellows" where the y BEGINS — the literal reading of the request —
+   puts the ascender of the f directly beneath the descender of the y, so the two
+   strokes collide at exactly the point the eye enters the second line. Starting
+   it where the y ENDS leaves that descender hanging into open space, which is
+   the oldest move in a two-line lockup. Rendered both; the second is cleaner.
+
+   ⚠️ WHAT THE STAGGER SPENDS. "aikyam" and "fellows" set to within 2.4% of the
+   same width, which is a coincidence worth money: flush, the block has two hard
+   vertical edges and reads as one solid mark. The stagger trades that symmetry
+   for movement and for a clear entry point. It is a real trade, not a free
+   improvement, and the flush version is on wordmark.html if it is ever regretted.
+
+   ⭐ AND IT COSTS NOTHING IN THE MASTHEAD, measured rather than assumed. Flush
+   and staggered were rendered at 320, 375, 700, 768, 900 and 1280px: identical
+   nav rows, identical masthead height, zero overflow at every width. Below about
+   700px the wordmark already has its own row above the nav, and above it there
+   is slack. The extra 2em buys nothing back from anybody. */
+[data-wordmark] span + span {
+  margin-inline-start: 2.143em;
 }
 
 /* ⭐ EACH WORD ITS OWN BLOCK. Right-aligned, because the wordmark already sits

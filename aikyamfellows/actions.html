@@ -986,11 +986,13 @@ main:focus {
   font-family: var(--af-font-text);
   font-size: clamp(1.5rem, 0.75rem + 3.1vw, 3.25rem); 
   font-weight: var(--af-weight-bold);
-  line-height: 0.86;
+  line-height: 0.95;
   letter-spacing: -0.025em;
   color: var(--af-band-text);
   text-decoration: none;
-  text-align: end;
+}
+[data-wordmark] span + span {
+  margin-inline-start: 2.143em;
 }
 [data-wordmark] span {
   display: block;
@@ -2048,24 +2050,20 @@ main:has(> [data-hero]:first-child) {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: var(--af-space-8) var(--af-space-7);
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
-}
-[data-action-cards='list'] {
   grid-template-columns: 1fr;
   gap: var(--af-space-7);
 }
-[data-action-cards='list'] > li + li {
+[data-action-cards] > li + li {
   border-block-start: 1px solid var(--af-line);
   padding-block-start: var(--af-space-7);
 }
 @media (min-width: 40rem) {
-  [data-action-cards='list'] [data-action-card] {
-    grid-template-columns: 15rem 1fr;
+  [data-action-card] {
+    grid-template-columns: 12rem 1fr;
     gap: var(--af-space-6);
     align-items: start;
   }
-  [data-action-cards='list'] [data-action-media] {
+  [data-action-card] [data-action-media] {
     aspect-ratio: 4 / 3;
   }
 }
@@ -2073,6 +2071,14 @@ main:has(> [data-hero]:first-child) {
   display: grid;
   gap: var(--af-space-4);
   align-content: start;
+}
+[data-action-card-body] {
+  display: grid;
+  align-content: start;
+  gap: var(--af-space-3);
+}
+[data-action-card-body] [data-action-date] {
+  margin-block-start: var(--af-space-2);
 }
 [data-action-media] {
   aspect-ratio: 3 / 2;
@@ -2167,27 +2173,38 @@ main:has(> [data-hero]:first-child) {
 </style>
 
 <!--
-  THE ACTIONS INDEX — rebuilt 8 Aug 2026 to the owner's specification:
+  THE ACTIONS INDEX — reduced 8 Aug 2026 on the owner's judgement, looking at the
+  grid and the list side by side:
 
-    "Actions: Title, Description, Date Published, Connected Fellow(s), Tags,
-     One Image + Standard Metadata. […] this is how i am looking at it.
-     nothing else."
-    "metadata for SEO bits - same as any post"
+    "is the better layout but its too busy. in the list it can show the pic,
+     title, excerpt (from the actual action page) and date. the remaining can
+     be on the actual actions page."
 
-  ⛔ THE EARLIER VERSION OF THIS PAGE IS GONE, AND SO ARE THREE OTHERS. The card
-  carried a strand kicker and a portrait of the fellow; the action page carried a
-  status, a funder, a key-events timeline and an update stream. None of those is
-  a field. `action-b.html`, `action-variants.html` and `action-card-variants.html`
-  were deleted rather than left to rot: they render components that no longer
-  exist, so they would have shown a design the system can no longer build. They
-  are in git if the spec ever reopens.
+  ⛔ FOUR THINGS IN A ROW, AND WHAT CAME OUT WAS NOT DECORATION. The fellows line
+  and the tag pills are gone from the index — both of which I had argued for an
+  hour earlier. They were wrong here:
 
-  ⚠️ WHAT IS REAL HERE: every fellow's name, every story title and every topic,
-  read off aikyamfellows.org on 7 Aug 2026. Two descriptions ("She was told the
-  Chenda wasn't for girls", "He first knew Chavittu Nadakam as the sound of
-  home") are the site's own published words.
+    · six rows of tag pills read as a filter bar sprayed down the page. It is
+      navigation wearing the clothes of content, and it was the loudest thing on
+      every row.
+    · the fellows line put a third band of UI-face text between the sentence and
+      the date, so the eye crossed two labels to get from the description to the
+      thing it needed next.
 
-  ⛔ WHAT IS NOT: the action TITLES, and the DATES. See the slot.
+  ⭐ A READER SCANNING THIS LIST MAKES ONE DECISION — is this worth opening.
+  Picture, title, excerpt and date are the four things that decision is made
+  from. Everything else is for the reader who already said yes, and belongs on
+  the page they said yes to.
+
+  ⭐ AND "excerpt (from the actual action page)" SETTLED A CONTENT QUESTION FOR
+  FREE: Description and excerpt are ONE field, written once, shown in both
+  places. A separate list excerpt gets written once, never revisited, and is
+  quietly wrong within a year while continuing to look fine — because nobody
+  ever sees the two side by side.
+
+  ⚠️ WHAT IS REAL: every fellow's name, every story title and every tag, read off
+  aikyamfellows.org on 7 Aug 2026. Two excerpts are the site's own published
+  words. ⛔ The action TITLES and the DATES are invented — see the slot.
 -->
 
 <!-- Shared header stack. Written once, inlined into all eleven pages.
@@ -2345,17 +2362,15 @@ main:has(> [data-hero]:first-child) {
     <p data-standfirst>What aikyam fellows are doing. Each action belongs to one
       or more fellows, and each has a page of its own.</p>
 
-    <!-- ⛔⛔ ONE SLOT, NOT TWELVE. The house rule gives every invented fact a
-         loud dashed box, and twelve of them across six cards would make the page
-         impossible to judge as a design — which is what it was built for. The
-         admission is made once, at full volume, before anything else. -->
+    <!-- ⛔⛔ ONE SLOT, NOT TWELVE. The house rule gives every invented fact a loud
+         dashed box, and twelve down one page would make it impossible to judge
+         as a design — which is what it is for. The admission is made once. -->
     <div data-slot>
       <b>The action titles and the dates below are invented. Nothing else
       is.</b> Six titles and six dates were written so this page could be SEEN.
       ⛔ A programme name invented by a designer gets quoted back by a funder,
       printed in a report, and becomes the real name by accident. The fellows,
-      the tags and four of the six descriptions are real; the titles, the dates
-      and two descriptions are the organisation's to give.
+      the tags and four of the six excerpts are real.
     </div>
 
     <ul data-action-cards>
@@ -2363,183 +2378,83 @@ main:has(> [data-hero]:first-child) {
       <li>
         <article data-action-card>
           <div data-action-media>⛔ photograph needed — Sentinaro at work</div>
-          <h2 data-action-title><a href="action.html">Listening Rooms</a></h2>
-          <p data-action-description>Counselling for young people in schools that
-            have no counsellor, in the language they think in.</p>
-          <ul data-action-fellows>
-            <li><span data-action-fellows-label>Fellow</span></li>
-            <li><a href="profile.html">Sentinaro Shiu</a></li>
-          </ul>
-          <ul data-action-tags>
-            <li><a data-topic href="topic.html">Education</a></li>
-            <li><a data-topic href="topic.html">Mental Health</a></li>
-          </ul>
-          <time data-action-date datetime="2026-08-03">3 August 2026</time>
+          <div data-action-card-body>
+            <h2 data-action-title><a href="action.html">Listening Rooms</a></h2>
+            <p data-action-description>Counselling for young people in schools
+              that have no counsellor, in the language they think in.</p>
+            <time data-action-date datetime="2026-08-03">3 August 2026</time>
+          </div>
         </article>
       </li>
 
-      <!-- ⭐ TWO FELLOWS, AND THIS CARD IS THE REASON THE PLURAL IS IN THE MODEL.
-           The owner wrote "Connected Fellow(s)". A single hand-written name would
-           have looked correct here until the day it wasn't, and nothing on the
-           page would have looked broken when it stopped being true. -->
       <li>
         <article data-action-card>
           <div data-action-media>⛔ photograph needed — Rahitha with the Chenda</div>
-          <h2 data-action-title><a href="action.html">Beating Barriers</a></h2>
-          <p data-action-description>She was told the Chenda wasn&rsquo;t for
-            girls. ⚠️ The site&rsquo;s own words — the rest of what this action
-            does is not written anywhere yet.</p>
-          <ul data-action-fellows>
-            <li><span data-action-fellows-label>Fellows</span></li>
-            <li><a href="profile.html">Rahitha Krishnadas</a></li>
-            <li><a href="profile.html">Nimi Ravindran</a></li>
-          </ul>
-          <ul data-action-tags>
-            <li><a data-topic href="topic.html">Art &amp; Culture</a></li>
-          </ul>
-          <time data-action-date datetime="2026-07-21">21 July 2026</time>
+          <div data-action-card-body>
+            <h2 data-action-title><a href="action.html">Beating Barriers</a></h2>
+            <p data-action-description>She was told the Chenda wasn&rsquo;t for
+              girls.</p>
+            <time data-action-date datetime="2026-07-21">21 July 2026</time>
+          </div>
         </article>
       </li>
 
       <li>
         <article data-action-card>
           <div data-action-media>⛔ photograph needed — a Chavittu Nadakam rehearsal</div>
-          <h2 data-action-title><a href="action.html">Stepping Forward</a></h2>
-          <p data-action-description>He first knew Chavittu Nadakam as the sound
-            of home. ⚠️ The site&rsquo;s own words.</p>
-          <ul data-action-fellows>
-            <li><span data-action-fellows-label>Fellow</span></li>
-            <li><a href="profile.html">Anson Kurumbathuruth</a></li>
-          </ul>
-          <ul data-action-tags>
-            <li><a data-topic href="topic.html">Art &amp; Culture</a></li>
-          </ul>
-          <time data-action-date datetime="2026-07-20">20 July 2026</time>
+          <div data-action-card-body>
+            <h2 data-action-title><a href="action.html">Stepping Forward</a></h2>
+            <p data-action-description>He first knew Chavittu Nadakam as the
+              sound of home.</p>
+            <time data-action-date datetime="2026-07-20">20 July 2026</time>
+          </div>
         </article>
       </li>
 
       <li>
         <article data-action-card>
           <div data-action-media>⛔ photograph needed — a rehearsal room</div>
-          <h2 data-action-title><a href="action.html">Theatre Saved Me</a></h2>
-          <p data-action-description>⛔ A description is needed. The story title
-            is real; nothing published says what Rahul runs now.</p>
-          <ul data-action-fellows>
-            <li><span data-action-fellows-label>Fellow</span></li>
-            <li><a href="profile.html">Rahul Thomas</a></li>
-          </ul>
-          <ul data-action-tags>
-            <li><a data-topic href="topic.html">Art &amp; Culture</a></li>
-          </ul>
-          <time data-action-date datetime="2026-07-25">25 July 2026</time>
+          <div data-action-card-body>
+            <h2 data-action-title><a href="action.html">Theatre Saved Me</a></h2>
+            <p data-action-description>⛔ An excerpt is needed. The story title is
+              real; nothing published says what Rahul runs now.</p>
+            <time data-action-date datetime="2026-07-25">25 July 2026</time>
+          </div>
         </article>
       </li>
 
       <li>
         <article data-action-card>
           <div data-action-media>⛔ photograph needed</div>
-          <h2 data-action-title><a href="action.html">Justice Reimagined</a></h2>
-          <p data-action-description>⛔ A description is needed. Access to Justice
-            is the tag; the work behind it is not described on the live site.</p>
-          <ul data-action-fellows>
-            <li><span data-action-fellows-label>Fellow</span></li>
-            <li><a href="profile.html">Rohit Sharma</a></li>
-          </ul>
-          <ul data-action-tags>
-            <li><a data-topic href="topic.html">Access to Justice</a></li>
-          </ul>
-          <time data-action-date datetime="2026-05-19">19 May 2026</time>
+          <div data-action-card-body>
+            <h2 data-action-title><a href="action.html">Justice Reimagined</a></h2>
+            <p data-action-description>⛔ An excerpt is needed. Access to Justice
+              is the tag; the work behind it is not described on the live
+              site.</p>
+            <time data-action-date datetime="2026-05-19">19 May 2026</time>
+          </div>
         </article>
       </li>
 
       <li>
         <article data-action-card>
           <div data-action-media>⛔ photograph needed</div>
-          <h2 data-action-title><a href="action.html">Designing Dreams</a></h2>
-          <p data-action-description>⛔ A description is needed.</p>
-          <ul data-action-fellows>
-            <li><span data-action-fellows-label>Fellow</span></li>
-            <li><a href="profile.html">Shilpa Sugunan</a></li>
-          </ul>
-          <ul data-action-tags>
-            <li><a data-topic href="topic.html">Design</a></li>
-          </ul>
-          <time data-action-date datetime="2026-05-06">6 May 2026</time>
+          <div data-action-card-body>
+            <h2 data-action-title><a href="action.html">Designing Dreams</a></h2>
+            <p data-action-description>⛔ An excerpt is needed.</p>
+            <time data-action-date datetime="2026-05-06">6 May 2026</time>
+          </div>
         </article>
       </li>
 
     </ul>
 
-    <hr data-divider>
-
-    <!-- ⭐ THE SAME CARDS, LISTED. One attribute on the container; the card
-         markup below is copied from above without a character changed. That is
-         the test of whether this is one component or two sharing a name. -->
-    <h2>The same actions, as a list</h2>
-    <p data-byline>Identical markup. <code>data-action-cards="list"</code> on the
-      container and nothing else changes. A grid reads as a collection; a list
-      reads as a sequence. With six, either works — and a single card standing
-      alone at the foot of a fellow&rsquo;s profile wants the list shape, because
-      one card in the grid shape looks like a grid that lost five siblings.</p>
-
-    <ul data-action-cards="list" style="margin-block-start:var(--af-space-7)">
-      <li>
-        <article data-action-card>
-          <div data-action-media>⛔ photograph needed</div>
-          <div style="display:grid;gap:var(--af-space-4);align-content:start">
-            <h3 data-action-title><a href="action.html">Listening Rooms</a></h3>
-            <p data-action-description>Counselling for young people in schools
-              that have no counsellor, in the language they think in.</p>
-            <ul data-action-fellows>
-              <li><span data-action-fellows-label>Fellow</span></li>
-              <li><a href="profile.html">Sentinaro Shiu</a></li>
-            </ul>
-            <ul data-action-tags>
-              <li><a data-topic href="topic.html">Education</a></li>
-              <li><a data-topic href="topic.html">Mental Health</a></li>
-            </ul>
-            <time data-action-date datetime="2026-08-03">3 August 2026</time>
-          </div>
-        </article>
-      </li>
-      <li>
-        <article data-action-card>
-          <div data-action-media>⛔ photograph needed</div>
-          <div style="display:grid;gap:var(--af-space-4);align-content:start">
-            <h3 data-action-title><a href="action.html">Beating Barriers</a></h3>
-            <p data-action-description>She was told the Chenda wasn&rsquo;t for
-              girls.</p>
-            <ul data-action-fellows>
-              <li><span data-action-fellows-label>Fellows</span></li>
-              <li><a href="profile.html">Rahitha Krishnadas</a></li>
-              <li><a href="profile.html">Nimi Ravindran</a></li>
-            </ul>
-            <ul data-action-tags>
-              <li><a data-topic href="topic.html">Art &amp; Culture</a></li>
-            </ul>
-            <time data-action-date datetime="2026-07-21">21 July 2026</time>
-          </div>
-        </article>
-      </li>
-      <li>
-        <article data-action-card>
-          <div data-action-media>⛔ photograph needed</div>
-          <div style="display:grid;gap:var(--af-space-4);align-content:start">
-            <h3 data-action-title><a href="action.html">Stepping Forward</a></h3>
-            <p data-action-description>He first knew Chavittu Nadakam as the
-              sound of home.</p>
-            <ul data-action-fellows>
-              <li><span data-action-fellows-label>Fellow</span></li>
-              <li><a href="profile.html">Anson Kurumbathuruth</a></li>
-            </ul>
-            <ul data-action-tags>
-              <li><a data-topic href="topic.html">Art &amp; Culture</a></li>
-            </ul>
-            <time data-action-date datetime="2026-07-20">20 July 2026</time>
-          </div>
-        </article>
-      </li>
-    </ul>
+    <!-- ⚠️ THE ONE THING THIS PAGE NO LONGER DOES, said out loud rather than left
+         to be rediscovered: a reader wanting "all the Education actions" can no
+         longer start one from here. The seven topics are in the sub-nav on every
+         page, so the route exists — it is just not duplicated six times down this
+         list. If that turns out to matter, the fix is a single row of seven tags
+         under the heading, ONCE, not a row of pills per card. -->
 
   </div>
 </main>
