@@ -24,7 +24,7 @@ const { chromium } = pw;
 
 const BASE = 'https://folktaler.github.io/design-reviews/aikyamfellows/';
 const PAGES = ['index', 'home', 'about', 'fellows', 'profile', 'topic', 'author',
-  'impact', 'partners', 'contact', 'support', 'proudly-not-for-profit',
+  'impact', 'contact', 'support', 'proudly-not-for-profit',
   'foundation', 'profile-variants', 'action', 'action-b', 'action-variants', 'actions', 'action-card-variants'];
 
 const b = await chromium.launch();
@@ -51,6 +51,22 @@ for (const name of PAGES) {
       const lvl = +h.tagName[1];
       if (prev && lvl > prev + 1) out.issues.push(`heading jumps h${prev} → h${lvl}: "${h.textContent.trim().slice(0,40)}"`);
       prev = lvl;
+    }
+
+    /* ⛔ TWO HEADINGS WITH THE SAME TEXT AT THE SAME LEVEL. Added 8 Aug after
+       about.html was found carrying "Open positions" TWICE — two wordings of one
+       invitation, one above the funding block and one at the foot. A screen-
+       reader user navigating by heading gets two destinations that turn out to
+       be the same place. ⭐ It was found by hand while merging another page in,
+       NOT by this script: the h1 count passed and the level-skip check passed,
+       because a repeated h2 is neither. */
+    const byText = {};
+    for (const h of hs) {
+      const k = h.tagName + '|' + h.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+      byText[k] = (byText[k] || 0) + 1;
+    }
+    for (const [k, n] of Object.entries(byText)) {
+      if (n > 1) out.issues.push(`${n} × <${k.split('|')[0].toLowerCase()}> with identical text "${k.split('|')[1].slice(0,45)}"`);
     }
 
     /* landmarks */

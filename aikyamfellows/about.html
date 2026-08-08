@@ -2384,7 +2384,7 @@ main:has(> [data-hero]:first-child) {
      It was removed the same day because all three things it carried were also
      in the footer. It comes back carrying only what is NOT a reading route:
 
-         main nav below  →  readers        Fellows · Partners · About · Contact
+         main nav below  →  readers        Fellows · Actions · About · Contact
          strip above     →  everyone else  Support us · Proudly Not for Profit
 
      ⛔ THAT SPLIT IS THE COMPONENT, not the styling. A funder and a compliance
@@ -2461,14 +2461,20 @@ main:has(> [data-hero]:first-child) {
              was that the two are interconnected and that actions clarify a
              reader more — putting them adjacent says that, and putting Actions
              after About would say the opposite.
-             ⚠️ THIS IS THE FOURTH ITEM IN A NAV THAT WAS MEASURED AT FOUR. The
-             masthead nav was fixed on 8 Aug to hold one row at the 320px floor
-             with 7px to spare; a fifth word takes that margin. Re-measured after
-             adding it — see page-audit.mjs, which checks overflow at 320px on
-             every page, not at 375px where the original fix passed and the floor
-             failed. -->
+             ⚠️ MEASURED, BECAUSE A FIFTH ITEM COST REAL HEADER. Adding Actions
+             alongside Partners took the masthead from 185px to 245px at a 375px
+             viewport — two nav rows to three. Removing Partners in the same
+             session brought it back to four items, so the header does not grow.
+             ⛔ Do not add a fifth without re-measuring at 320px AND 375px: the
+             original nav fix passed at 375 and failed at the floor. -->
         <li><a href="actions.html">Actions</a></li>
-        <li><a href="partners.html">Partners</a></li>
+        <!-- ⛔ PARTNERS REMOVED FROM THE PRIMARY NAV, 8 Aug 2026, owner:
+             *"and remove partners"* / *"add partners in about us itself"*. The
+             partners page is gone; its content is a section of About Us, which
+             is where it always half-belonged — "How this is paid for" already
+             named all four foundations and then linked away to a page that named
+             them again. ⭐ It also pays for Actions: the nav is five items with
+             Partners out, not six, so the masthead does not grow. -->
         <li><a href="about.html" aria-current="page">About</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
@@ -2784,8 +2790,8 @@ main:has(> [data-hero]:first-child) {
         <dt>Who funds it</dt>
         <dd>Four foundations — Samagata Foundation, Rohini Nilekani
           Philanthropies, Rainmatter Foundation and FOSS United — and a
-          number of individuals. <a href="/partners/">All of them are named,
-          with what each one supports</a>.</dd>
+          number of individuals. <a href="#partners">All of them are named
+          below, with what each one supports</a>.</dd>
 
         <dt>What fellows pay</dt>
         <dd>Nothing. The fellowship charges no fee and takes no share of
@@ -2805,23 +2811,156 @@ main:has(> [data-hero]:first-child) {
   </section>
 
   <!-- ══════════════════════════════════════════════════════════════════
-       OPEN POSITIONS.
-       ⛔ The live page sets this heading in ALL CAPS — "OPEN POSITIONS".
-       Changed to sentence case. Uppercase is reserved in this system for
-       14px labels, where it is a kicker; at heading size it reads as
-       shouting, and on the one section where someone might be nervous
-       about whether they are qualified, shouting is the wrong register.
+       PARTNERS — MOVED HERE FROM ITS OWN PAGE, 8 Aug 2026, owner's
+       instruction: *"and remove partners"* / *"add partners in about us
+       itself"*.
+
+       ⭐ IT WAS ALREADY HALF TRUE. "How this is paid for" above named all
+       four foundations and then linked away to a page that named them
+       again with a sentence each. A reader who had just been told who
+       funds the fellowship had to leave the page to find out what each one
+       funds. Now the answer is under the question.
+
+       ⛔⛔ NO LOGOS, AND THIS TRAVELS WITH THE CONTENT. It was the design
+       decision of the page that no longer exists, so it is restated here
+       or it is lost:
+
+         1. A LOGO WALL IS THE VISUAL GRAMMAR OF SPONSORSHIP. A grid of
+            marks is what a conference backdrop looks like, and it reads as
+            "these brands paid to be seen here" — the exact impression a
+            not-for-profit funded by philanthropies must not give.
+         2. A LOGO SAYS NOTHING ABOUT THE RELATIONSHIP. It tells a reader
+            the organisation exists, not what it funds, which is the only
+            thing a reader wants to know.
+         3. LOGOS WRECK A RESTRAINED PALETTE. Four marks arrive at four
+            unrelated weights, colours and aspect ratios, and the page ends
+            up designed by whoever drew the loudest one.
+
+       ⭐ AND NO SIZE TIERING. Same type, same size, same order for every
+       partner. Tiering by contribution is the one move that turns this
+       into a sponsor board, and once one partner is bigger than another
+       every partner negotiates about it. Order is the live site's. If a
+       rule is ever needed, alphabetical — never by amount.
        ══════════════════════════════════════════════════════════════════ -->
-  <section class="wrap" aria-labelledby="open-positions">
-    <h2  id="open-positions">Open positions</h2>
-    <p>We are looking for social entrepreneurs, technologists, storytellers
-      and advisors — people with experience in programme design,
-      fundraising, writing, finance or grassroots work.</p>
-    <p>There is no application form and no closing date. Tell us what you
-      have done and what you would want to do here.</p>
-    <p style="margin-block-start:var(--af-space-6)">
-      <a data-mail href="/contact/">See how to reach us</a></p>
+  <section class="wrap" aria-labelledby="partners">
+    <h2 id="partners">The foundations that fund this</h2>
+    <p>Four foundations and a number of individuals pay for this fellowship.
+      All of them are named here, with what each one supports.</p>
+
+    <div data-partner style="margin-block-start:var(--af-space-7)">
+      <a data-partner-logo href="https://samagata.org/" aria-hidden="true" tabindex="-1">
+        <!-- ⚠️ NO LOGO FILE YET. When one arrives:
+             <img src="logos/samagata.svg" alt=""> — alt is EMPTY on purpose, the
+             name beside it is the accessible label and a repeated one would be
+             announced twice. Until then the name is the mark, which is a
+             correct fallback rather than a placeholder. -->
+        <span>Samagata Foundation</span>
+      </a>
+      <div>
+        <h3 data-partner-name><a href="https://samagata.org/">Samagata Foundation</a></h3>
+        <p data-partner-what>Supports projects and ideas that bring value to
+          society, across science, culture, art, technology and education.</p>
+      </div>
+    </div>
+
+    <div data-partner>
+      <a data-partner-logo href="https://rohininilekaniphilanthropies.org/" aria-hidden="true" tabindex="-1">
+        <span>Rohini Nilekani Philanthropies</span>
+      </a>
+      <div>
+        <h3 data-partner-name><a href="https://rohininilekaniphilanthropies.org/">Rohini Nilekani Philanthropies</a></h3>
+        <p data-partner-what>Supports groundbreaking work that enables a strong
+          community.</p>
+      </div>
+    </div>
+
+    <div data-partner>
+      <a data-partner-logo href="https://rainmatter.org/" aria-hidden="true" tabindex="-1">
+        <span>Rainmatter Foundation</span>
+      </a>
+      <div>
+        <h3 data-partner-name><a href="https://rainmatter.org/">Rainmatter Foundation</a></h3>
+        <p data-partner-what>Works on climate change, afforestation, ecology and
+          livelihoods.</p>
+      </div>
+    </div>
+
+    <div data-partner>
+      <a data-partner-logo href="https://fossunited.org/" aria-hidden="true" tabindex="-1">
+        <span>FOSS United</span>
+      </a>
+      <div>
+        <h3 data-partner-name><a href="https://fossunited.org/">FOSS United</a></h3>
+        <p data-partner-what>Promotes and strengthens the free and open-source
+          software ecosystem in India.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-block-start:var(--af-space-8)">And these people</h3>
+    <p>Individuals who have given money, time or advice. Same type, same size,
+      no order of importance.</p>
+    <ul data-people style="margin-block-start:var(--af-space-4)">
+      <li><b>Satyam Vyas</b></li>
+      <li><b>Rishabh Lalani</b></li>
+      <li><b>Mekin Maheshwari</b></li>
+      <li><b>Sree</b></li>
+      <li><b>Nisha</b></li>
+    </ul>
   </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       ⭐ WHAT PARTNERSHIP INCLUDES — the most important section of the old
+       partners page, and the reason merging it into About had to be done
+       carefully rather than by moving the names alone.
+
+       A reader looking at four foundation names has exactly one question:
+       *"so do they decide what gets said here?"* A page that does not
+       answer it has left its most important sentence unwritten, and the
+       reader fills the gap with the worst available assumption.
+
+       ⚠️ ALL THREE STATEMENTS ARE DESIGN'S PROPOSED WORDING AND STILL NEED
+       SIGN-OFF. If one is not true, the fix is to change the sentence —
+       never to delete the section.
+       ══════════════════════════════════════════════════════════════════ -->
+  <section data-funding aria-labelledby="terms">
+    <div data-funding-inner>
+      <h2 id="terms">What partnership includes</h2>
+      <dl>
+        <dt>Choosing fellows</dt>
+        <dd><span data-slot>needs sign-off</span> Partners fund the
+          fellowship. They do not select the fellows.</dd>
+
+        <dt>What gets published</dt>
+        <dd><span data-slot>needs sign-off</span> No partner reads or
+          approves a fellow's story before it goes up. Every story is written
+          with the fellow, and the fellow reads it first.</dd>
+
+        <dt>What partners get</dt>
+        <dd><span data-slot>needs sign-off</span> Their name on this
+          page and an account of what their money did. There is no logo
+          placement, no naming rights and no advertising.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="wrap" aria-labelledby="join">
+    <h2 id="join">Funding a fellow</h2>
+    <p>If you are thinking about supporting this work, the useful first step is
+      a conversation rather than a form.
+      <a href="contact.html">Contact us</a> — that page says who reads what you
+      send. There is also a <a href="support.html">page on giving</a>.</p>
+  </section>
+
+  <!-- ⛔ THE SECOND "OPEN POSITIONS" SECTION WAS DELETED HERE, 8 Aug 2026.
+       This page carried the heading TWICE — once above "How this is paid
+       for" and again at the foot — in two different wordings of the same
+       invitation. Two identical <h2>s on one page give a screen-reader user
+       navigating by heading two destinations that turn out to be the same
+       place, and a sighted reader the impression the page repeats itself,
+       which it did.
+       ⭐ Found while merging the partners page in, NOT by any check: the
+       page audit tests the h1 count and heading-level skips, and a repeated
+       h2 passes both. Added to what that script looks for. -->
 
 </main>
 
@@ -2867,7 +3006,6 @@ main:has(> [data-hero]:first-child) {
              ⚠️ Any change to the masthead nav is a change to this list. They are
              two copies and nothing enforces it. -->
         <li><a href="actions.html">Actions</a></li>
-        <li><a href="partners.html">Partners</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
@@ -2901,7 +3039,7 @@ main:has(> [data-hero]:first-child) {
              ⚠️ Any change to the masthead nav is a change to this list. They are
              two copies and nothing enforces it. -->
         <li><a href="actions.html">Actions</a></li>
-        <li><a href="partners.html">Partners</a></li>
+        <li><a href="about.html#partners">Partners</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="impact.html">Our Impact</a></li>

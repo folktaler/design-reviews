@@ -2379,7 +2379,7 @@ main:has(> [data-hero]:first-child) {
      It was removed the same day because all three things it carried were also
      in the footer. It comes back carrying only what is NOT a reading route:
 
-         main nav below  →  readers        Fellows · Partners · About · Contact
+         main nav below  →  readers        Fellows · Actions · About · Contact
          strip above     →  everyone else  Support us · Proudly Not for Profit
 
      ⛔ THAT SPLIT IS THE COMPONENT, not the styling. A funder and a compliance
@@ -2456,14 +2456,20 @@ main:has(> [data-hero]:first-child) {
              was that the two are interconnected and that actions clarify a
              reader more — putting them adjacent says that, and putting Actions
              after About would say the opposite.
-             ⚠️ THIS IS THE FOURTH ITEM IN A NAV THAT WAS MEASURED AT FOUR. The
-             masthead nav was fixed on 8 Aug to hold one row at the 320px floor
-             with 7px to spare; a fifth word takes that margin. Re-measured after
-             adding it — see page-audit.mjs, which checks overflow at 320px on
-             every page, not at 375px where the original fix passed and the floor
-             failed. -->
+             ⚠️ MEASURED, BECAUSE A FIFTH ITEM COST REAL HEADER. Adding Actions
+             alongside Partners took the masthead from 185px to 245px at a 375px
+             viewport — two nav rows to three. Removing Partners in the same
+             session brought it back to four items, so the header does not grow.
+             ⛔ Do not add a fifth without re-measuring at 320px AND 375px: the
+             original nav fix passed at 375 and failed at the floor. -->
         <li><a href="actions.html">Actions</a></li>
-        <li><a href="partners.html">Partners</a></li>
+        <!-- ⛔ PARTNERS REMOVED FROM THE PRIMARY NAV, 8 Aug 2026, owner:
+             *"and remove partners"* / *"add partners in about us itself"*. The
+             partners page is gone; its content is a section of About Us, which
+             is where it always half-belonged — "How this is paid for" already
+             named all four foundations and then linked away to a page that named
+             them again. ⭐ It also pays for Actions: the nav is five items with
+             Partners out, not six, so the masthead does not grow. -->
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
@@ -2656,7 +2662,6 @@ main:has(> [data-hero]:first-child) {
              ⚠️ Any change to the masthead nav is a change to this list. They are
              two copies and nothing enforces it. -->
         <li><a href="actions.html">Actions</a></li>
-        <li><a href="partners.html">Partners</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
@@ -2690,7 +2695,7 @@ main:has(> [data-hero]:first-child) {
              ⚠️ Any change to the masthead nav is a change to this list. They are
              two copies and nothing enforces it. -->
         <li><a href="actions.html">Actions</a></li>
-        <li><a href="partners.html">Partners</a></li>
+        <li><a href="about.html#partners">Partners</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="impact.html">Our Impact</a></li>
