@@ -142,6 +142,13 @@ const result = await page.evaluate((refs) => {
     bpWide: rs.getPropertyValue('--af-bp-wide').trim(),
   };
 
+  /* ⛔ THE GATE IS READ FROM THE TOKEN, NOT HARDCODED — changed 8 Aug after an
+     audit pointed out that `--af-tap` was consumed by nothing. Its own comment
+     says it is "what a check asserts"; the check was asserting a literal 44 and
+     the token was decoration. A token that documents a rule nothing reads is
+     the same class of lie as a comment that describes code it does not govern. */
+  out.tapGate = parseFloat(rs.getPropertyValue('--af-tap')) || 44;
+
   // Tap targets, both axes, at this viewport.
   out.taps = [...document.querySelectorAll('[data-nav] a, [data-topic], [data-button], [data-footer] li a, [data-pagination] a')]
     .map((el) => {

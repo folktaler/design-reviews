@@ -227,12 +227,17 @@
   --af-state-error: var(--af-error);
   --af-state-error-line: var(--af-error);
 
-  /* ⛔ SUCCESS IS STILL NOT A COLOUR, and that refusal is unchanged. The error
-     case gained a red because red is a redundant channel for an alarm. There is
-     no equivalent argument for success: a message that needs a green box to be
-     understood is a badly written message. "Check your inbox and click the
-     link" is complete on its own. */
-  --af-state-success: var(--af-ink);
+  /* ⛔ THERE IS NO `--af-state-success`, AND ITS ABSENCE IS THE STATEMENT.
+     It existed until 8 Aug as `var(--af-ink)` — a token whose whole content was
+     "there is no colour here" — and an audit found it consumed by nothing, on
+     any page. A name nothing references is scaffolding wearing a token's
+     authority: it survives refactors, gets copied into new systems, and someone
+     eventually gives it a green.
+     ⭐ The refusal it encoded is unchanged and now lives where refusals belong,
+     in prose: the error case gained a red because red is a redundant channel
+     for an alarm; success has no equivalent argument, because a message that
+     needs a green box to be understood is a badly written message. "Check your
+     inbox and click the link" is complete on its own. */
 }
 
 /* ---------------------------------------------------------------------------
