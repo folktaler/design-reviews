@@ -2280,6 +2280,80 @@ main:has(> [data-hero]:first-child) {
   color: var(--af-text-quiet);
   margin-block: var(--af-space-2) 0;
 }
+[data-action-cards] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--af-space-8) var(--af-space-7);
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+}
+[data-action-cards='list'] {
+  grid-template-columns: 1fr;
+  gap: var(--af-space-7);
+}
+@media (min-width: 40rem) {
+  [data-action-cards='list'] [data-action-card] {
+    display: grid;
+    grid-template-columns: 14rem 1fr;
+    gap: var(--af-space-6);
+    align-items: start;
+  }
+  [data-action-cards='list'] [data-placeholder-media] {
+    aspect-ratio: 4 / 3;
+  }
+}
+[data-action-cards='list'] > li + li {
+  border-block-start: 1px solid var(--af-line);
+  padding-block-start: var(--af-space-7);
+}
+[data-action-card] {
+  display: grid;
+  gap: var(--af-space-4);
+  align-content: start;
+}
+[data-action-card-media] {
+  margin: 0;
+}
+[data-action-card-title] {
+  font-size: var(--af-type-subheading);
+  line-height: var(--af-leading-heading);
+  margin: 0;
+  max-inline-size: 24ch;
+}
+[data-action-card-text] {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-body);
+  line-height: var(--af-leading-body);
+  color: var(--af-text-quiet);
+  margin: 0;
+  max-inline-size: var(--af-measure);
+}
+[data-action-card-by] {
+  display: flex;
+  align-items: center;
+  gap: var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  margin: 0;
+}
+[data-action-card-by] [data-placeholder-media] {
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--af-radius-round);
+  flex: none;
+  padding: 0;
+}
+[data-action-card-by] b {
+  color: var(--af-text);
+  font-weight: var(--af-weight-bold);
+}
+[data-action-card='text'] {
+  border-block-start: 3px solid var(--af-line-strong);
+  padding-block-start: var(--af-space-4);
+}
 </style>
 
 <!--
@@ -2394,6 +2468,18 @@ main:has(> [data-hero]:first-child) {
     <nav aria-label="Primary">
       <ul data-nav>
         <li><a href="fellows.html">Fellows</a></li>
+        <!-- ⭐ ACTIONS ADDED 8 Aug 2026, and the position is the argument. It
+             sits SECOND, immediately after Fellows, because the owner's point
+             was that the two are interconnected and that actions clarify a
+             reader more — putting them adjacent says that, and putting Actions
+             after About would say the opposite.
+             ⚠️ THIS IS THE FOURTH ITEM IN A NAV THAT WAS MEASURED AT FOUR. The
+             masthead nav was fixed on 8 Aug to hold one row at the 320px floor
+             with 7px to spare; a fifth word takes that margin. Re-measured after
+             adding it — see page-audit.mjs, which checks overflow at 320px on
+             every page, not at 375px where the original fix passed and the floor
+             failed. -->
+        <li><a href="actions.html">Actions</a></li>
         <li><a href="partners.html">Partners</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
@@ -2609,6 +2695,14 @@ main:has(> [data-hero]:first-child) {
     <nav aria-label="Primary, repeated">
       <ul data-nav class="wrap wrap--wide">
         <li><a href="fellows.html">Fellows</a></li>
+        <!-- ⛔ THIS NAV IS LABELLED "Primary, repeated" AND MUST ACTUALLY REPEAT
+             IT. Actions was added to the masthead on 8 Aug and not here, which
+             for a few minutes made the label false: a screen-reader user landing
+             on a nav announced as the primary one, and finding it one item short
+             of the primary one, has been told something untrue by the markup.
+             ⚠️ Any change to the masthead nav is a change to this list. They are
+             two copies and nothing enforces it. -->
+        <li><a href="actions.html">Actions</a></li>
         <li><a href="partners.html">Partners</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
@@ -2635,6 +2729,14 @@ main:has(> [data-hero]:first-child) {
       <h2>The fellowship</h2>
       <ul>
         <li><a href="fellows.html">Fellows</a></li>
+        <!-- ⛔ THIS NAV IS LABELLED "Primary, repeated" AND MUST ACTUALLY REPEAT
+             IT. Actions was added to the masthead on 8 Aug and not here, which
+             for a few minutes made the label false: a screen-reader user landing
+             on a nav announced as the primary one, and finding it one item short
+             of the primary one, has been told something untrue by the markup.
+             ⚠️ Any change to the masthead nav is a change to this list. They are
+             two copies and nothing enforces it. -->
+        <li><a href="actions.html">Actions</a></li>
         <li><a href="partners.html">Partners</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact.html">Contact</a></li>

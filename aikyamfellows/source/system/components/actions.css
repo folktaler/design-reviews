@@ -506,3 +506,159 @@
   color: var(--af-text-quiet);
   margin-block: var(--af-space-2) 0;
 }
+
+/* ===========================================================================
+ * THE ACTION CARD
+ * ===========================================================================
+ *
+ * ⭐⭐ THE OWNER POINTED AT THE LEAD BLOCK AND SAID WHAT HE ACTUALLY WANTED,
+ * 8 Aug 2026: *"is the section that is closest to what i had in mind. like cards
+ * almost. but needs an image. each card attached to a fellow. and cards can also
+ * be listed/appear separate. no other details needed."*
+ *
+ * ⛔ READ THE LAST FOUR WORDS AS AN INSTRUCTION TO DELETE, BECAUSE THEY ARE.
+ * The action page I built carries a status, a funder line, a since/where/led-by
+ * meta row, a key-events rail and an honest-gap section. None of that is in the
+ * card. A card is: an image, the action's name, a headline, a few lines, and the
+ * fellow it belongs to. Everything else was me designing a page when what was
+ * wanted was a component.
+ *
+ * ⭐ AND "CARDS CAN ALSO BE LISTED / APPEAR SEPARATE" IS THE LOAD-BEARING PART.
+ * It means the card is not furniture belonging to the actions index — it is a
+ * portable unit that has to survive appearing alone: on a fellow's profile under
+ * "what she is doing now", in the middle of a story, on the home page, in a
+ * newsletter. ⛔ So it may not depend on a grid for its meaning, may not
+ * inherit its heading level from where it sits, and may not rely on the cards
+ * around it to say what kind of thing it is. That is why the action's name is IN
+ * the card as a kicker rather than being a section heading above a group of them.
+ *
+ * ⚠️ THE IMAGE IS NOW REQUIRED, AND THAT IS A COST STATED HERE RATHER THAN
+ * DISCOVERED LATER. `STATE.md` item 1 already counts 73 image placeholders with
+ * no photographs and no credits to fill them. A card whose image is optional
+ * degrades into the text block that already exists; a card whose image is
+ * required is a better card and a bigger ask. The owner asked for the image, so
+ * it is required — and `[data-action-card='text']` below is the honest fallback
+ * for the day this ships before the photographs arrive.
+ */
+
+/* --- The set: a grid by default ------------------------------------------- */
+[data-action-cards] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--af-space-8) var(--af-space-7);
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+}
+
+/* ⭐ THE LIST ARRANGEMENT — the same card, one per row, image beside the text.
+   ⛔ It is an attribute on the CONTAINER and not a different card, which is the
+   whole point: a component that has to be rewritten to appear in a list is two
+   components with one name. */
+[data-action-cards='list'] {
+  grid-template-columns: 1fr;
+  gap: var(--af-space-7);
+}
+
+@media (min-width: 40rem) {
+  [data-action-cards='list'] [data-action-card] {
+    display: grid;
+    grid-template-columns: 14rem 1fr;
+    gap: var(--af-space-6);
+    align-items: start;
+  }
+
+  /* In a row the 3:2 crop is too tall beside four lines of text. */
+  [data-action-cards='list'] [data-placeholder-media] {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+[data-action-cards='list'] > li + li {
+  border-block-start: 1px solid var(--af-line);
+  padding-block-start: var(--af-space-7);
+}
+
+/* --- The card ------------------------------------------------------------- */
+[data-action-card] {
+  display: grid;
+  gap: var(--af-space-4);
+  align-content: start;
+}
+
+[data-action-card-media] {
+  margin: 0;
+}
+
+/* ⛔ THE WHOLE CARD IS NOT A LINK, AND THAT IS DELIBERATE. Wrapping an image, a
+   kicker, a headline and a fellow's name in one <a> gives a screen-reader user a
+   single link whose accessible name is all four read out together, and gives a
+   voice-control user nothing shorter to say. The headline is the link; the
+   fellow is a second, separate link, because they go to different places. */
+[data-action-card-title] {
+  font-size: var(--af-type-subheading);
+  line-height: var(--af-leading-heading);
+  margin: 0;
+  max-inline-size: 24ch;
+}
+
+[data-action-card-text] {
+  font-family: var(--af-font-text);
+  font-size: var(--af-type-body);
+  line-height: var(--af-leading-body);
+  color: var(--af-text-quiet);
+  margin: 0;
+  max-inline-size: var(--af-measure);
+}
+
+/* --- The fellow, attached -------------------------------------------------
+ *
+ * ⭐ "EACH CARD ATTACHED TO A FELLOW" IS THE SENTENCE THAT MAKES THIS SITE'S
+ * ARCHITECTURE WORK. It is the Guardian's "Nature heroes" move — a person
+ * carried inside the work rather than filed in a separate wing of the site.
+ *
+ * ⛔ THE FACE IS SMALL AND THE NAME IS AT READING SIZE, not the other way round.
+ * A large face turns the action card back into a profile card, which is the
+ * thing the owner said the site already has too much of. */
+[data-action-card-by] {
+  display: flex;
+  align-items: center;
+  gap: var(--af-space-3);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+  margin: 0;
+}
+
+[data-action-card-by] [data-placeholder-media] {
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--af-radius-round);
+  flex: none;
+  padding: 0;
+}
+
+/* ⚠️ A NAME IS NOT A CAPTION. The fellow's name is set in the text colour at the
+   small step, not in the quiet grey — it is the second most important thing on
+   the card and quieting it to match the label around it loses that. */
+[data-action-card-by] b {
+  color: var(--af-text);
+  font-weight: var(--af-weight-bold);
+}
+
+/* --- The text-only fallback -----------------------------------------------
+ *
+ * ⛔ THIS IS NOT A VARIANT ANYONE SHOULD CHOOSE. It exists because this site has
+ * 73 image placeholders and no photographs, and the day the actions index ships
+ * before the photographs arrive, a grid of six grey rectangles is worse than no
+ * pictures at all — grey boxes read as broken images, and a reader who thinks
+ * the site is broken does not read the words beside them.
+ *
+ * ⭐ The rule a card follows without a picture: it gets a strong top rule and
+ * more room, so it reads as a considered text card rather than as a card that
+ * lost its image. */
+[data-action-card='text'] {
+  border-block-start: 3px solid var(--af-line-strong);
+  padding-block-start: var(--af-space-4);
+}
