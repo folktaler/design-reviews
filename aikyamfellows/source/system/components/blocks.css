@@ -1258,3 +1258,43 @@ main:has(> [data-hero]:first-child) {
   background: var(--af-surface-inverse);
   color: var(--af-text-on-inverse);
 }
+
+/* --- The type specimen ----------------------------------------------------
+ *
+ * ⛔ A SPECIMEN MUST SHOW A HEADING WITHOUT BEING ONE, AND UNTIL 8 Aug THE
+ * FOUNDATION PAGE DID NOT KNOW THAT. It demonstrated the ladder with real
+ * <h1>–<h4> elements, so the page carried TWO <h1>s — "Foundation", and
+ * "Display · H1 · 28→42px", which is a label for a size and not a title of
+ * anything. A screen-reader user pulling up the heading list to navigate the
+ * page got a second top-level heading that names a font size.
+ *
+ * ⭐ Found by traversing the live pages rather than by reading the markup, and
+ * it is the ONLY defect that survived that traversal — the other 110 reports in
+ * the same run were faults in the checking method, not in the site.
+ *
+ * ⚠️ THESE RULES MUST MIRROR styles.css AND WILL NOT WARN YOU IF THEY DRIFT.
+ * That is the cost of showing a heading without using one, and it is the
+ * cheaper of the two costs: a lying outline is a navigation defect for the
+ * readers least able to work around it, and a stale specimen is a wrong label
+ * next to a correct example. If you change a heading rule, change it here too. */
+[data-specimen='display'] {
+  font-size: var(--af-type-display);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-display);
+  letter-spacing: var(--af-tracking-display);
+}
+[data-specimen='heading'] {
+  font-size: var(--af-type-heading);
+  line-height: var(--af-leading-heading);
+  font-weight: var(--af-weight-bold);
+}
+[data-specimen='subheading'] {
+  font-size: var(--af-type-subheading);
+  line-height: var(--af-leading-heading);
+  font-weight: var(--af-weight-bold);
+}
+[data-specimen='run-in'] {
+  font-size: var(--af-type-body);
+  line-height: var(--af-leading-heading);
+  font-weight: var(--af-weight-bold);
+}

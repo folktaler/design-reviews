@@ -1991,6 +1991,27 @@ main:has(> [data-hero]:first-child) {
   background: var(--af-surface-inverse);
   color: var(--af-text-on-inverse);
 }
+[data-specimen='display'] {
+  font-size: var(--af-type-display);
+  font-weight: var(--af-weight-regular);
+  line-height: var(--af-leading-display);
+  letter-spacing: var(--af-tracking-display);
+}
+[data-specimen='heading'] {
+  font-size: var(--af-type-heading);
+  line-height: var(--af-leading-heading);
+  font-weight: var(--af-weight-bold);
+}
+[data-specimen='subheading'] {
+  font-size: var(--af-type-subheading);
+  line-height: var(--af-leading-heading);
+  font-weight: var(--af-weight-bold);
+}
+[data-specimen='run-in'] {
+  font-size: var(--af-type-body);
+  line-height: var(--af-leading-heading);
+  font-weight: var(--af-weight-bold);
+}
 </style>
 
 <!--
@@ -2156,10 +2177,16 @@ main:has(> [data-hero]:first-child) {
     <p data-byline>Serif is what a reader READS. Sans is what a reader is TOLD.
       Two weights exist — 400 and 700 — and nothing between them is real.</p>
 
-    <h1>Display · H1 · 28→42px</h1>
-    <h2>Heading · H2 · 24→28px</h2>
-    <h3>Subheading · H3 · 20→24px</h3>
-    <h4>H4 · body size at 700, told apart by space</h4>
+    <!-- ⛔ NOT <h1>–<h4>, AND THAT IS THE POINT. These four lines demonstrate
+         the ladder; they do not title anything. Marked up as headings they put
+         a SECOND <h1> on the page — "Display · H1 · 28→42px", a label for a
+         font size sitting at the top of the document outline beside
+         "Foundation". Found by tabbing the live page, 8 Aug. See the specimen
+         block at the foot of blocks.css. -->
+    <p data-specimen="display">Display · H1 · 28→42px</p>
+    <p data-specimen="heading">Heading · H2 · 24→28px</p>
+    <p data-specimen="subheading">Subheading · H3 · 20→24px</p>
+    <p data-specimen="run-in">H4 · body size at 700, told apart by space</p>
     <p data-standfirst>Standfirst · 21→24px · one per page, under the headline.</p>
     <div class="prose">
       <p>Body · 19→20px · the writing. Set in the system serif stack at a 576px
