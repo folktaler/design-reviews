@@ -72,6 +72,28 @@ body {
   line-height: var(--af-leading-body);
   letter-spacing: var(--af-letter-spacing-body);
   text-rendering: optimizeLegibility;
+
+  /* ⛔ ONE UNBREAKABLE WORD PUSHES THE WHOLE DOCUMENT SIDEWAYS, AND ON THIS SITE
+   * THAT IS A PREDICTABLE EVENT RATHER THAN AN EDGE CASE. Added 8 Aug 2026 after
+   * a URL in a byline — theguardian.com/environment/series/the-age-of-extinction
+   * — put 4px of horizontal overflow on a page at the 320px floor. The reader
+   * does not get a wrapped line; they get a horizontal scrollbar under EVERY
+   * page of the site, because the overflow is on the document.
+   *
+   * ⭐ THIS IS THE SYSTEM'S OWN NAMED READER DIFFERENCE ARRIVING IN A NEW FORM.
+   * `GUARDIAN-FAITHFUL.md` keeps exactly one departure that is specific to this
+   * site — LONG PROPER NOUNS — and cites Thiruvananthapuram, Bhattacharyya and
+   * Kalaripayattu. A 56-character URL is the same problem wearing different
+   * clothes, and so is a Google Drive link, a transliterated place name and an
+   * email address in running text. All four are already on this site.
+   *
+   * ⛔ `break-word`, NOT `anywhere`, and the difference is not cosmetic:
+   * `anywhere` also lets the browser use the broken width as the element's
+   * min-content size, which silently changes how flex and grid items shrink.
+   * `break-word` breaks the long word and leaves every layout calculation alone.
+   * `anywhere` IS correct in the one place it is used — the compliance document
+   * names, which are underscore-joined and have no break opportunity at all. */
+  overflow-wrap: break-word;
 }
 
 /* --- Layout ---------------------------------------------------------------
