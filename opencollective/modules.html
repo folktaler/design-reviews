@@ -8,57 +8,50 @@
 <link rel="stylesheet" href="tokens.css">
 <style>
   body { background: var(--slate-50); }
-  .wrap { max-width: 1000px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
-  h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 0.5rem; }
-  .lede { color: var(--slate-700); max-width: 66ch; margin: 0 0 1.5rem; }
-  .back { color: var(--primary); text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 2rem; }
+  .wrap { max-width: 1500px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+  h1 { font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 0.5rem; }
+  .lede { color: var(--slate-700); max-width: 72ch; margin: 0 0 1.25rem; }
+  .back { color: var(--primary); text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 1.5rem; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
-  .how { background: var(--blue-50); border-left: 3px solid var(--primary); padding: 1rem 1.25rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 2rem; max-width: 70ch; }
-  .how p { margin: 0 0 0.5rem; font-size: 0.875rem; color: var(--slate-700); }
+  .how { background: var(--blue-50); border-left: 3px solid var(--primary); padding: 0.875rem 1.125rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 1.5rem; max-width: 78ch; }
+  .how p { margin: 0 0 0.4375rem; font-size: 0.8125rem; color: var(--slate-700); }
   .how p:last-child { margin: 0; }
 
-  .who-key { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; align-items: center; }
-  .who-key .lbl { font-size: 0.75rem; color: var(--muted-foreground); margin-right: 0.25rem; }
-  .who { display: inline-flex; align-items: center; border-radius: 999px; padding: 0.125rem 0.5rem; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.01em; }
-  .who.giver     { background: #e8f1ff; color: #1e4bb8; }
-  .who.runner    { background: #e7f6ec; color: #1e6b3a; }
-  .who.host      { background: #f3ebff; color: #5b3ba8; }
-  .who.paid      { background: #fff2e0; color: #8a4b12; }
-  .who.books     { background: #ffeef0; color: #a32540; }
-  .who.dev       { background: #eef0f3; color: #3f4854; }
-  .who.public    { background: #e6f6f8; color: #14606d; }
+  .who { display: inline-block; border-radius: 999px; padding: 0.0625rem 0.4375rem; font-size: 0.625rem; font-weight: 600; margin: 0.125rem 0.125rem 0 0; }
+  .who.giver { background:#e8f1ff; color:#1e4bb8; } .who.runner { background:#e7f6ec; color:#1e6b3a; }
+  .who.host { background:#f3ebff; color:#5b3ba8; }  .who.paid { background:#fff2e0; color:#8a4b12; }
+  .who.books { background:#ffeef0; color:#a32540; } .who.dev { background:#eef0f3; color:#3f4854; }
+  .who.public { background:#e6f6f8; color:#14606d; }
 
-  h2.group { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-foreground); margin: 2.5rem 0 0.875rem; }
-
-  .mod { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.25rem 1.125rem; margin-bottom: 0.875rem; display: grid; grid-template-columns: auto 1fr; gap: 0 1rem; }
-  .mod.locked { background: var(--slate-100); }
-  .mod input[type=checkbox] { width: 18px; height: 18px; margin-top: 0.1875rem; accent-color: var(--primary); cursor: pointer; }
-  .mod .hd { display: flex; align-items: center; gap: 0.625rem; flex-wrap: wrap; }
-  .mod h3 { font-size: 1.0625rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
-  .mod .whos { display: flex; gap: 0.25rem; flex-wrap: wrap; }
-  .fb { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; margin: 0.75rem 0 0.75rem; }
-  .fb .cap { font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-foreground); font-weight: 600; margin-bottom: 0.1875rem; }
-  .fb p { margin: 0; font-size: 0.875rem; color: var(--slate-700); }
-  .fb .benefit p { color: var(--foreground); }
-  .fb .benefit { border-left: 2px solid var(--border); padding-left: 0.875rem; }
-  .skip { font-size: 0.8125rem; color: var(--slate-600); border-top: 1px dashed var(--border); padding-top: 0.625rem; }
-  .skip b { color: var(--foreground); font-weight: 600; }
-  .links { margin-top: 0.625rem; display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.8125rem; }
-  .links a { color: var(--primary); text-decoration: none; font-weight: 500; }
+  .scroller { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); }
+  table { border-collapse: collapse; width: 100%; min-width: 1180px; font-size: 0.8125rem; }
+  thead th { position: sticky; top: 0; z-index: 2; background: var(--slate-100); text-align: left; font-weight: 600; font-size: 0.6875rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--slate-600); padding: 0.625rem 0.75rem; border-bottom: 1px solid var(--border); }
+  td { padding: 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.45; }
+  tr.modrow:hover td { background: color-mix(in oklch, var(--primary) 3%, white); }
+  tr.modrow.locked td { background: var(--slate-50); }
+  tr.grouprow td { background: var(--slate-200); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate-700); padding: 0.5rem 0.75rem; }
+  .c-keep { width: 42px; text-align: center; }
+  .c-keep input { width: 17px; height: 17px; accent-color: var(--primary); cursor: pointer; margin-top: 0.125rem; }
+  .c-name { width: 190px; }
+  .c-name b { font-size: 0.875rem; }
+  .c-feat, .c-prob, .c-skip { width: 250px; color: var(--slate-700); }
+  .c-prob { color: var(--foreground); }
+  .c-note { width: 220px; }
+  .whos { margin-top: 0.25rem; }
+  .links { margin-top: 0.375rem; font-size: 0.75rem; display: flex; flex-direction: column; gap: 0.125rem; }
+  .links a { color: var(--primary); text-decoration: none; }
   .links a:hover { text-decoration: underline; }
-  .links .local { color: var(--slate-600); }
+  .links .local { color: var(--slate-500); }
+  textarea { width: 100%; font: inherit; font-size: 0.8125rem; padding: 0.4375rem 0.5rem; border: 1px solid var(--input); border-radius: var(--radius-sm); resize: vertical; background: var(--background); color: var(--foreground); }
+  textarea:focus { outline: 2px solid var(--ring); outline-offset: -1px; }
+  textarea::placeholder { color: var(--slate-400); }
 
-  .tray { position: sticky; bottom: 0; margin-top: 2.5rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0.875rem 1rem; box-shadow: 0 -4px 20px rgba(15,23,42,0.08); }
-  .tray summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
-  .tray summary::-webkit-details-marker { display: none; }
-  .tray summary .count { font-weight: 600; font-size: 0.9375rem; }
-  .tray summary .hint { color: var(--muted-foreground); font-size: 0.8125rem; }
-  .tray details[open] summary .hint::after { content: ' — click to collapse'; }
+  .tray { position: sticky; bottom: 0; margin-top: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0.875rem 1rem; box-shadow: 0 -4px 20px rgba(15,23,42,0.08); display: flex; align-items: center; gap: 0.875rem; flex-wrap: wrap; }
+  .tray .count { font-weight: 600; font-size: 0.9375rem; }
+  .tray .saved { color: var(--muted-foreground); font-size: 0.75rem; }
   .tray .row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-left: auto; }
-  #picked { font-size: 0.875rem; color: var(--slate-700); margin: 0.875rem 0 0; max-height: 34vh; overflow-y: auto; border-top: 1px solid var(--border); padding-top: 0.75rem; }
-  #picked ol { margin: 0; padding-left: 1.25rem; }
-  #picked li { margin-bottom: 0.125rem; }
-  @media (max-width: 760px) { .fb { grid-template-columns: 1fr; gap: 0.75rem; } }
+  @media (max-width: 720px) { .wrap { padding: 1.5rem 0.75rem 5rem; } h1 { font-size: 1.5rem; } }
 </style>
 </head>
 <body>
@@ -67,389 +60,274 @@
 
   <h1>What Open Collective does, and who each part is for</h1>
   <p class="lede">
-    Twenty modules. For each one: what it <em>is</em>, the problem it removes, who that problem
-    belongs to, and — the part that matters for choosing — what happens if you leave it out.
+    Twenty modules, one per row. Tick what you want, write what you think in the last column, then
+    copy the lot and hand it over.
   </p>
 
   <div class="how">
-    <p><strong>How to use this.</strong> Tick the parts you want. The list at the bottom builds as you go; copy it and hand it over, and the architect works out how to get only those without breaking the rest.</p>
-    <p>Two modules are ticked and locked. Nothing else works without them — that is a fact about the code, not a recommendation.</p>
-    <p><strong>Feature</strong> is what the software has. Next to it is <strong>the problem it removes</strong>, written as a problem rather than as a benefit — because a problem can be checked against reality. Read each one and ask: <em>do we actually have this problem?</em> If not, that module is a candidate to cut, however good it sounds.</p>
+    <p><strong>Your notes are saved in this browser</strong> as you type, so closing the tab does not lose them. They live only on this device — nobody else can see them until you copy the list and send it.</p>
+    <p><strong>What it is</strong> is the software. <strong>The problem it removes</strong> is written as a problem on purpose, because a problem can be checked against reality — read each one and ask <em>do we actually have this?</em></p>
+    <p>Two rows are ticked and greyed. Nothing works without them; that is a fact about the code, not a recommendation.</p>
   </div>
 
-  <div class="who-key">
-    <span class="lbl">Who each part serves:</span>
-    <span class="who giver">Contributor</span>
-    <span class="who runner">Collective admin</span>
-    <span class="who host">Fiscal host</span>
-    <span class="who paid">Person getting paid</span>
-    <span class="who books">Accountant</span>
-    <span class="who dev">Developer</span>
-    <span class="who public">Anyone looking</span>
-  </div>
-
-  <h2 class="group">The foundation — cannot be removed</h2>
-
-  <div class="mod locked">
-    <input type="checkbox" checked disabled data-name="Accounts and profiles">
-    <div>
-      <div class="hd"><h3>Accounts and profiles</h3>
-        <span class="whos"><span class="who runner">Collective admin</span><span class="who public">Anyone looking</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>One table holds every kind of profile — a person, a company, a group, a fund, an event. Each gets a page and a web address.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Without it, a person, a company and a group each need their own handling — and none of them can pay each other.</p></div>
-      </div>
-      <div class="skip"><b>Locked.</b> Every other module refers to accounts. There is no version of this software without it.</div>
-      <div class="links"><a href="collective.html">See the profile page</a> <span class="local">· in the fork: any collective's page</span></div>
-    </div>
-  </div>
-
-  <div class="mod locked">
-    <input type="checkbox" checked disabled data-name="The ledger">
-    <div>
-      <div class="hd"><h3>The ledger</h3>
-        <span class="whos"><span class="who books">Accountant</span><span class="who host">Fiscal host</span><span class="who public">Anyone looking</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>An append-only record of every movement of money. Each movement writes a group of rows — the amount, and every fee taken out of it, separately.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Nobody can answer “where did the money go” without someone compiling it by hand, and the answer is then only as honest as whoever compiled it.</p></div>
-      </div>
-      <div class="skip"><b>Locked.</b> This is the actual product. Everything else is a way of putting things into it or reading things out of it.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/advanced/ledger">How the ledger works</a> · <a href="system.html">The ledger row pattern</a></div>
-    </div>
-  </div>
-
-  <h2 class="group">Money coming in</h2>
-
-  <div class="mod">
-    <input type="checkbox" checked data-name="One-off contributions">
-    <div>
-      <div class="hd"><h3>One-off contributions</h3>
-        <span class="whos"><span class="who giver">Contributor</span><span class="who runner">Collective admin</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Someone pays once, by card or bank transfer. A receipt is issued and the money lands in the ledger.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>People want to give and the only way to take their money is a bank transfer they must trust you to record.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> money can only be added by hand by an admin, which works but means somebody is always doing data entry.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/giving-to-collectives/contributing">Docs</a> · <a href="contribute-upi.html">The rupee flow we proposed</a></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" checked data-name="Recurring contributions">
-    <div>
-      <div class="hd"><h3>Recurring contributions</h3>
-        <span class="whos"><span class="who giver">Contributor</span><span class="who runner">Collective admin</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Monthly or yearly giving that renews on its own, and that the giver can stop themselves.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Every month starts at zero. Nothing can be committed to, because nobody knows what will arrive.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> every month starts at zero and somebody has to ask again. It is the single biggest difference between a project and an organisation.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/giving-to-collectives/making-a-recurring-contribution">Docs</a> <span class="local">· needs the payment provider to support it — Razorpay does, via subscriptions</span></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Tiers and goals">
-    <div>
-      <div class="hd"><h3>Tiers and goals</h3>
-        <span class="whos"><span class="who giver">Contributor</span><span class="who runner">Collective admin</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Named levels of giving with their own description and reward, and public targets with a progress bar.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>An empty amount box tells a would-be giver nothing, so they guess low or close the tab.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> you get a plain amount box. Perfectly usable; measurably less persuasive.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/collectives/raising-money/setting-goals-and-tiers">Docs</a> · <a href="collective.html">See the tier cards</a></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Company giving — funds, bulk transfers, gift cards">
-    <div>
-      <div class="hd"><h3>Company giving — funds, bulk transfers, gift cards</h3>
-        <span class="whos"><span class="who giver">Contributor</span><span class="who books">Accountant</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>A company puts money in once and distributes it across many groups, or hands staff credit to give away.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>A company willing to fund thirty groups needs thirty approvals and thirty invoices, so it funds none of them.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> companies can still give, one payment at a time. Only worth having once a company actually asks.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/giving-to-collectives/giving-as-a-company">Docs</a></div>
-    </div>
-  </div>
-
-  <h2 class="group">Money going out</h2>
-
-  <div class="mod">
-    <input type="checkbox" checked data-name="Expenses and reimbursement">
-    <div>
-      <div class="hd"><h3>Expenses and reimbursement</h3>
-        <span class="whos"><span class="who paid">Person getting paid</span><span class="who runner">Collective admin</span><span class="who host">Fiscal host</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Anyone submits a claim with a receipt. An admin approves it, the host pays it, and every step is visible.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>A volunteer who spent their own money has to ask a particular person by email, then wait with no idea what is happening.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> spending happens over email and lands in the ledger only if someone remembers. That is the point at which a transparent budget stops being true.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/expenses-and-getting-paid/submitting-expenses">Docs</a> <span class="local">· in the fork: the dashboard's “3 expenses have not been reviewed”</span></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" checked data-name="Payouts to bank accounts">
-    <div>
-      <div class="hd"><h3>Payouts to bank accounts</h3>
-        <span class="whos"><span class="who paid">Person getting paid</span><span class="who host">Fiscal host</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Approved expenses are paid automatically to a bank account, and the payment fee is recorded as its own ledger line.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Someone retypes account numbers into a banking portal for every single payment. That is where money reaches the wrong person.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> the host pays by hand and marks it paid afterwards. Workable at low volume, tedious and error-prone above it. <b>For India this needs RazorpayX</b>, which is separate from the payment gateway.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/expenses-and-getting-paid/getting-paid-through-wise">How Wise payouts work</a></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Virtual cards">
-    <div>
-      <div class="hd"><h3>Virtual cards</h3>
-        <span class="whos"><span class="who runner">Collective admin</span><span class="who host">Fiscal host</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>A card number with a spending limit, issued to a person, with every charge appearing automatically.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>People must spend their own money first and wait to be repaid, which quietly excludes anyone who cannot afford to.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> people pay first and claim back. <b>Not available in India</b> through any provider this platform supports — treat as out of reach for now, not merely optional.</div>
-      <div class="links"><span class="local">Requires a card-issuing provider; the fork supports only Stripe issuing.</span></div>
-    </div>
-  </div>
-
-  <h2 class="group">Who holds the money</h2>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Fiscal hosting — holding money for other groups">
-    <div>
-      <div class="hd"><h3>Fiscal hosting — holding money for other groups</h3>
-        <span class="whos"><span class="who host">Fiscal host</span><span class="who runner">Collective admin</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>One legal entity holds money on behalf of many groups, takes a percentage, approves who joins, and pays everyone's expenses.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>A group that wants to raise money must first register a company, open a bank account and file returns — months of work before the first rupee arrives.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> you get an <em>independent collective</em> — one group holding its own money in its own account. Simpler, and enough if you never intend to host anyone else. This is the single biggest fork in the road on this page.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/fiscal-hosts/why-become-a-fiscal-host">Why become one</a> · <a href="https://documentation.opencollective.com/fiscal-hosts/setting-up-a-fiscal-host/setting-your-fiscal-host-fees">Host fees</a></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Projects — ring-fenced budgets">
-    <div>
-      <div class="hd"><h3>Projects — ring-fenced budgets</h3>
-        <span class="whos"><span class="who runner">Collective admin</span><span class="who books">Accountant</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>A pot of money inside a group, with its own balance, page and team. It can only spend what has been allocated to it.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>There is one pot and one level of access, so nobody can be trusted with a budget unless they are trusted with everything.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> every rupee sits in one pot and only full admins can spend. Fine for a small group; limiting the moment you have more than one thing going on.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/collectives/managing-money/projects">Docs</a></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Events and ticketing">
-    <div>
-      <div class="hd"><h3>Events and ticketing</h3>
-        <span class="whos"><span class="who runner">Collective admin</span><span class="who giver">Contributor</span><span class="who public">Anyone looking</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>A dated page that sells tickets, tracks who is coming, and puts the takings straight into the budget.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Ticket income sits in one system and event costs in another, so nobody can say whether the event made money or lost it.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> you use an outside ticketing service and add the money by hand afterwards. Perfectly common.</div>
-      <div class="links"><span class="local">In the fork: BrusselsTogether has seven events.</span></div>
-    </div>
-  </div>
-
-  <h2 class="group">Trust and paperwork</h2>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Team, roles and permissions">
-    <div>
-      <div class="hd"><h3>Team, roles and permissions</h3>
-        <span class="whos"><span class="who runner">Collective admin</span><span class="who books">Accountant</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Named roles — admin, member, accountant, host — each seeing and doing a defined set of things.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Showing an accountant the numbers means giving them the ability to move money.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> everyone with access can do everything. Fine among three trusted people, indefensible beyond that.</div>
-      <div class="links"><span class="local">Ten roles exist in the code, including accountant and community manager.</span></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Two-factor authentication and payout security">
-    <div>
-      <div class="hd"><h3>Two-factor authentication and payout security</h3>
-        <span class="whos"><span class="who runner">Collective admin</span><span class="who host">Fiscal host</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>A second proof of identity, demanded again at the moment money is about to move rather than only at sign-in.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>One stolen password empties the account.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> a single compromised login can pay out the balance. Strongly recommend keeping this whatever else is cut.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/advanced/security-for-accounts/two-factor-authentication">Docs</a></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Tax forms, KYC and legal documents">
-    <div>
-      <div class="hd"><h3>Tax forms, KYC and legal documents</h3>
-        <span class="whos"><span class="who host">Fiscal host</span><span class="who paid">Person getting paid</span><span class="who books">Accountant</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Collecting identity and tax paperwork before somebody is paid, and blocking the payout until it is done.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Someone has to remember, for every payment, whether the paperwork is done — and the payment goes out either way.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> compliance becomes a person's job and a spreadsheet. <b>What ships is built for United States tax rules</b> — Indian requirements are different and none of this transfers unchanged. Assume rebuilding, not configuring.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/expenses-and-getting-paid/understanding-tax-requirements">Docs</a></div>
-    </div>
-  </div>
-
-  <h2 class="group">Making sense of it afterwards</h2>
-
-  <div class="mod">
-    <input type="checkbox" checked data-name="Reports and exports">
-    <div>
-      <div class="hd"><h3>Reports and exports</h3>
-        <span class="whos"><span class="who books">Accountant</span><span class="who host">Fiscal host</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Transaction reports by period, and exports shaped to whatever columns your accounting software wants.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Year-end is a fortnight of copying figures from one system into another.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> somebody copies figures out by hand every quarter — the exact task the ledger existed to remove.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/advanced/ledger/exporting-transactions">Docs</a></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Accounting categories and bank reconciliation">
-    <div>
-      <div class="hd"><h3>Accounting categories and bank reconciliation</h3>
-        <span class="whos"><span class="who books">Accountant</span><span class="who host">Fiscal host</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Your own chart of accounts applied to each transaction, and a live bank feed matched against what the platform thinks happened.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Money moves in the real bank account that the platform never sees, so the published balance is wrong and nobody notices.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> that gap goes unnoticed until an audit. The bank-feed providers the fork supports do not cover Indian banks; expect manual import instead.</div>
-      <div class="links"><span class="local">Bank sync uses Plaid and GoCardless in the fork — neither covers India well.</span></div>
-    </div>
-  </div>
-
-  <h2 class="group">Community and reach</h2>
-
-  <div class="mod">
-    <input type="checkbox" checked data-name="Updates and conversations">
-    <div>
-      <div class="hd"><h3>Updates and conversations</h3>
-        <span class="whos"><span class="who runner">Collective admin</span><span class="who giver">Contributor</span><span class="who public">Anyone looking</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>Posts that reach contributors by email, and public discussion threads on the group's own page.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>People who gave money never find out what it did, so they do not give again.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> you need a newsletter tool and your contributor list lives in two places.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/advanced/keeping-your-community-updated">Docs</a> <span class="local">· in the fork: three updates and two threads on BrusselsTogether</span></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="Discovery, badges and embeds">
-    <div>
-      <div class="hd"><h3>Discovery, badges and embeds</h3>
-        <span class="whos"><span class="who public">Anyone looking</span><span class="who runner">Collective admin</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>A public directory, plus buttons and contributor lists you can paste into your own website.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Nobody finds you unless you send them a link, and sending them elsewhere to give loses most of them.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> every visitor must arrive by a link you sent them. Only matters once there is more than one group to browse.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/collectives/raising-money/adding-donation-buttons-badges-and-banners">Docs</a></div>
-    </div>
-  </div>
-
-  <div class="mod">
-    <input type="checkbox" data-name="API, OAuth and webhooks">
-    <div>
-      <div class="hd"><h3>API, OAuth and webhooks</h3>
-        <span class="whos"><span class="who dev">Developer</span><span class="who runner">Collective admin</span></span>
-      </div>
-      <div class="fb">
-        <div><div class="cap">Feature</div><p>A full programmatic interface, sign-in for other apps, and notifications pushed to your own systems.</p></div>
-        <div class="benefit"><div class="cap">The problem it removes</div><p>Anything not built here can only be built by changing the platform itself.</p></div>
-      </div>
-      <div class="skip"><b>Skip it and</b> every integration becomes a change to the platform itself. Cheap to keep, expensive to add back.</div>
-      <div class="links"><a href="https://documentation.opencollective.com/development/oauth">OAuth docs</a> · <a href="https://developers.opencollective.com">API reference</a></div>
-    </div>
+  <div class="scroller">
+    <table>
+      <thead>
+        <tr>
+          <th>Keep</th>
+          <th>Module &amp; who it serves</th>
+          <th>What it is</th>
+          <th>The problem it removes</th>
+          <th>If you leave it out</th>
+          <th>Your notes</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr class="grouprow"><td colspan="7">The foundation — cannot be removed</td></tr>
+      <tr class="modrow locked">
+        <td class="c-keep"><input type="checkbox" checked disabled data-name="Accounts and profiles" id="m0"><label class="sr" for="m0">Keep Accounts and profiles</label></td>
+        <td class="c-name"><b>Accounts and profiles</b><div class="whos"><span class="who runner">Collective admin</span><span class="who public">Anyone looking</span></div><div class="links"><a href="collective.html">See the profile page</a> <span class="local">· in the fork: any collective's page</span></div></td>
+        <td class="c-feat">One table holds every kind of profile — a person, a company, a group, a fund, an event. Each gets a page and a web address.</td>
+        <td class="c-prob">Without it, a person, a company and a group each need their own handling — and none of them can pay each other.</td>
+        <td class="c-skip"><b>Locked.</b> Every other module refers to accounts. There is no version of this software without it.</td>
+        <td class="c-note"><textarea rows="3" data-note="Accounts and profiles" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow locked">
+        <td class="c-keep"><input type="checkbox" checked disabled data-name="The ledger" id="m1"><label class="sr" for="m1">Keep The ledger</label></td>
+        <td class="c-name"><b>The ledger</b><div class="whos"><span class="who books">Accountant</span><span class="who host">Fiscal host</span><span class="who public">Anyone looking</span></div><div class="links"><a href="https://documentation.opencollective.com/advanced/ledger">How the ledger works</a> · <a href="system.html">The ledger row pattern</a></div></td>
+        <td class="c-feat">An append-only record of every movement of money. Each movement writes a group of rows — the amount, and every fee taken out of it, separately.</td>
+        <td class="c-prob">Nobody can answer “where did the money go” without someone compiling it by hand, and the answer is then only as honest as whoever compiled it.</td>
+        <td class="c-skip"><b>Locked.</b> This is the actual product. Everything else is a way of putting things into it or reading things out of it.</td>
+        <td class="c-note"><textarea rows="3" data-note="The ledger" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="grouprow"><td colspan="7">Money coming in</td></tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="One-off contributions" id="m2"><label class="sr" for="m2">Keep One-off contributions</label></td>
+        <td class="c-name"><b>One-off contributions</b><div class="whos"><span class="who giver">Contributor</span><span class="who runner">Collective admin</span></div><div class="links"><a href="https://documentation.opencollective.com/giving-to-collectives/contributing">Docs</a> · <a href="contribute-upi.html">The rupee flow we proposed</a></div></td>
+        <td class="c-feat">Someone pays once, by card or bank transfer. A receipt is issued and the money lands in the ledger.</td>
+        <td class="c-prob">People want to give and the only way to take their money is a bank transfer they must trust you to record.</td>
+        <td class="c-skip"><b>Skip it and</b> money can only be added by hand by an admin, which works but means somebody is always doing data entry.</td>
+        <td class="c-note"><textarea rows="3" data-note="One-off contributions" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Recurring contributions" id="m3"><label class="sr" for="m3">Keep Recurring contributions</label></td>
+        <td class="c-name"><b>Recurring contributions</b><div class="whos"><span class="who giver">Contributor</span><span class="who runner">Collective admin</span></div><div class="links"><a href="https://documentation.opencollective.com/giving-to-collectives/making-a-recurring-contribution">Docs</a> <span class="local">· needs the payment provider to support it — Razorpay does, via subscriptions</span></div></td>
+        <td class="c-feat">Monthly or yearly giving that renews on its own, and that the giver can stop themselves.</td>
+        <td class="c-prob">Every month starts at zero. Nothing can be committed to, because nobody knows what will arrive.</td>
+        <td class="c-skip"><b>Skip it and</b> every month starts at zero and somebody has to ask again. It is the single biggest difference between a project and an organisation.</td>
+        <td class="c-note"><textarea rows="3" data-note="Recurring contributions" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Tiers and goals" id="m4"><label class="sr" for="m4">Keep Tiers and goals</label></td>
+        <td class="c-name"><b>Tiers and goals</b><div class="whos"><span class="who giver">Contributor</span><span class="who runner">Collective admin</span></div><div class="links"><a href="https://documentation.opencollective.com/collectives/raising-money/setting-goals-and-tiers">Docs</a> · <a href="collective.html">See the tier cards</a></div></td>
+        <td class="c-feat">Named levels of giving with their own description and reward, and public targets with a progress bar.</td>
+        <td class="c-prob">An empty amount box tells a would-be giver nothing, so they guess low or close the tab.</td>
+        <td class="c-skip"><b>Skip it and</b> you get a plain amount box. Perfectly usable; measurably less persuasive.</td>
+        <td class="c-note"><textarea rows="3" data-note="Tiers and goals" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Company giving — funds, bulk transfers, gift cards" id="m5"><label class="sr" for="m5">Keep Company giving — funds, bulk transfers, gift cards</label></td>
+        <td class="c-name"><b>Company giving — funds, bulk transfers, gift cards</b><div class="whos"><span class="who giver">Contributor</span><span class="who books">Accountant</span></div><div class="links"><a href="https://documentation.opencollective.com/giving-to-collectives/giving-as-a-company">Docs</a></div></td>
+        <td class="c-feat">A company puts money in once and distributes it across many groups, or hands staff credit to give away.</td>
+        <td class="c-prob">A company willing to fund thirty groups needs thirty approvals and thirty invoices, so it funds none of them.</td>
+        <td class="c-skip"><b>Skip it and</b> companies can still give, one payment at a time. Only worth having once a company actually asks.</td>
+        <td class="c-note"><textarea rows="3" data-note="Company giving — funds, bulk transfers, gift cards" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="grouprow"><td colspan="7">Money going out</td></tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Expenses and reimbursement" id="m6"><label class="sr" for="m6">Keep Expenses and reimbursement</label></td>
+        <td class="c-name"><b>Expenses and reimbursement</b><div class="whos"><span class="who paid">Person getting paid</span><span class="who runner">Collective admin</span><span class="who host">Fiscal host</span></div><div class="links"><a href="https://documentation.opencollective.com/expenses-and-getting-paid/submitting-expenses">Docs</a> <span class="local">· in the fork: the dashboard's “3 expenses have not been reviewed”</span></div></td>
+        <td class="c-feat">Anyone submits a claim with a receipt. An admin approves it, the host pays it, and every step is visible.</td>
+        <td class="c-prob">A volunteer who spent their own money has to ask a particular person by email, then wait with no idea what is happening.</td>
+        <td class="c-skip"><b>Skip it and</b> spending happens over email and lands in the ledger only if someone remembers. That is the point at which a transparent budget stops being true.</td>
+        <td class="c-note"><textarea rows="3" data-note="Expenses and reimbursement" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Payouts to bank accounts" id="m7"><label class="sr" for="m7">Keep Payouts to bank accounts</label></td>
+        <td class="c-name"><b>Payouts to bank accounts</b><div class="whos"><span class="who paid">Person getting paid</span><span class="who host">Fiscal host</span></div><div class="links"><a href="https://documentation.opencollective.com/expenses-and-getting-paid/getting-paid-through-wise">How Wise payouts work</a></div></td>
+        <td class="c-feat">Approved expenses are paid automatically to a bank account, and the payment fee is recorded as its own ledger line.</td>
+        <td class="c-prob">Someone retypes account numbers into a banking portal for every single payment. That is where money reaches the wrong person.</td>
+        <td class="c-skip"><b>Skip it and</b> the host pays by hand and marks it paid afterwards. Workable at low volume, tedious and error-prone above it. <b>For India this needs RazorpayX</b>, which is separate from the payment gateway.</td>
+        <td class="c-note"><textarea rows="3" data-note="Payouts to bank accounts" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox"  data-name="Virtual cards" id="m8"><label class="sr" for="m8">Keep Virtual cards</label></td>
+        <td class="c-name"><b>Virtual cards</b><div class="whos"><span class="who runner">Collective admin</span><span class="who host">Fiscal host</span></div><div class="links"><span class="local">Requires a card-issuing provider; the fork supports only Stripe issuing.</span></div></td>
+        <td class="c-feat">A card number with a spending limit, issued to a person, with every charge appearing automatically.</td>
+        <td class="c-prob">People must spend their own money first and wait to be repaid, which quietly excludes anyone who cannot afford to.</td>
+        <td class="c-skip"><b>Skip it and</b> people pay first and claim back. <b>Not available in India</b> through any provider this platform supports — treat as out of reach for now, not merely optional.</td>
+        <td class="c-note"><textarea rows="3" data-note="Virtual cards" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="grouprow"><td colspan="7">Who holds the money</td></tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Fiscal hosting — holding money for other groups" id="m9"><label class="sr" for="m9">Keep Fiscal hosting — holding money for other groups</label></td>
+        <td class="c-name"><b>Fiscal hosting — holding money for other groups</b><div class="whos"><span class="who host">Fiscal host</span><span class="who runner">Collective admin</span></div><div class="links"><a href="https://documentation.opencollective.com/fiscal-hosts/why-become-a-fiscal-host">Why become one</a> · <a href="https://documentation.opencollective.com/fiscal-hosts/setting-up-a-fiscal-host/setting-your-fiscal-host-fees">Host fees</a></div></td>
+        <td class="c-feat">One legal entity holds money on behalf of many groups, takes a percentage, approves who joins, and pays everyone's expenses.</td>
+        <td class="c-prob">A group that wants to raise money must first register a company, open a bank account and file returns — months of work before the first rupee arrives.</td>
+        <td class="c-skip"><b>Skip it and</b> you get an <em>independent collective</em> — one group holding its own money in its own account. Simpler, and enough if you never intend to host anyone else. This is the single biggest fork in the road on this page.</td>
+        <td class="c-note"><textarea rows="3" data-note="Fiscal hosting — holding money for other groups" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Projects — ring-fenced budgets" id="m10"><label class="sr" for="m10">Keep Projects — ring-fenced budgets</label></td>
+        <td class="c-name"><b>Projects — ring-fenced budgets</b><div class="whos"><span class="who runner">Collective admin</span><span class="who books">Accountant</span></div><div class="links"><a href="https://documentation.opencollective.com/collectives/managing-money/projects">Docs</a></div></td>
+        <td class="c-feat">A pot of money inside a group, with its own balance, page and team. It can only spend what has been allocated to it.</td>
+        <td class="c-prob">There is one pot and one level of access, so nobody can be trusted with a budget unless they are trusted with everything.</td>
+        <td class="c-skip"><b>Skip it and</b> every rupee sits in one pot and only full admins can spend. Fine for a small group; limiting the moment you have more than one thing going on.</td>
+        <td class="c-note"><textarea rows="3" data-note="Projects — ring-fenced budgets" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Events and ticketing" id="m11"><label class="sr" for="m11">Keep Events and ticketing</label></td>
+        <td class="c-name"><b>Events and ticketing</b><div class="whos"><span class="who runner">Collective admin</span><span class="who giver">Contributor</span><span class="who public">Anyone looking</span></div><div class="links"><span class="local">In the fork: BrusselsTogether has seven events.</span></div></td>
+        <td class="c-feat">A dated page that sells tickets, tracks who is coming, and puts the takings straight into the budget.</td>
+        <td class="c-prob">Ticket income sits in one system and event costs in another, so nobody can say whether the event made money or lost it.</td>
+        <td class="c-skip"><b>Skip it and</b> you use an outside ticketing service and add the money by hand afterwards. Perfectly common.</td>
+        <td class="c-note"><textarea rows="3" data-note="Events and ticketing" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="grouprow"><td colspan="7">Trust and paperwork</td></tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Team, roles and permissions" id="m12"><label class="sr" for="m12">Keep Team, roles and permissions</label></td>
+        <td class="c-name"><b>Team, roles and permissions</b><div class="whos"><span class="who runner">Collective admin</span><span class="who books">Accountant</span></div><div class="links"><span class="local">Ten roles exist in the code, including accountant and community manager.</span></div></td>
+        <td class="c-feat">Named roles — admin, member, accountant, host — each seeing and doing a defined set of things.</td>
+        <td class="c-prob">Showing an accountant the numbers means giving them the ability to move money.</td>
+        <td class="c-skip"><b>Skip it and</b> everyone with access can do everything. Fine among three trusted people, indefensible beyond that.</td>
+        <td class="c-note"><textarea rows="3" data-note="Team, roles and permissions" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Two-factor authentication and payout security" id="m13"><label class="sr" for="m13">Keep Two-factor authentication and payout security</label></td>
+        <td class="c-name"><b>Two-factor authentication and payout security</b><div class="whos"><span class="who runner">Collective admin</span><span class="who host">Fiscal host</span></div><div class="links"><a href="https://documentation.opencollective.com/advanced/security-for-accounts/two-factor-authentication">Docs</a></div></td>
+        <td class="c-feat">A second proof of identity, demanded again at the moment money is about to move rather than only at sign-in.</td>
+        <td class="c-prob">One stolen password empties the account.</td>
+        <td class="c-skip"><b>Skip it and</b> a single compromised login can pay out the balance. Strongly recommend keeping this whatever else is cut.</td>
+        <td class="c-note"><textarea rows="3" data-note="Two-factor authentication and payout security" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Tax forms, KYC and legal documents" id="m14"><label class="sr" for="m14">Keep Tax forms, KYC and legal documents</label></td>
+        <td class="c-name"><b>Tax forms, KYC and legal documents</b><div class="whos"><span class="who host">Fiscal host</span><span class="who paid">Person getting paid</span><span class="who books">Accountant</span></div><div class="links"><a href="https://documentation.opencollective.com/expenses-and-getting-paid/understanding-tax-requirements">Docs</a></div></td>
+        <td class="c-feat">Collecting identity and tax paperwork before somebody is paid, and blocking the payout until it is done.</td>
+        <td class="c-prob">Someone has to remember, for every payment, whether the paperwork is done — and the payment goes out either way.</td>
+        <td class="c-skip"><b>Skip it and</b> compliance becomes a person's job and a spreadsheet. <b>What ships is built for United States tax rules</b> — Indian requirements are different and none of this transfers unchanged. Assume rebuilding, not configuring.</td>
+        <td class="c-note"><textarea rows="3" data-note="Tax forms, KYC and legal documents" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="grouprow"><td colspan="7">Making sense of it afterwards</td></tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Reports and exports" id="m15"><label class="sr" for="m15">Keep Reports and exports</label></td>
+        <td class="c-name"><b>Reports and exports</b><div class="whos"><span class="who books">Accountant</span><span class="who host">Fiscal host</span></div><div class="links"><a href="https://documentation.opencollective.com/advanced/ledger/exporting-transactions">Docs</a></div></td>
+        <td class="c-feat">Transaction reports by period, and exports shaped to whatever columns your accounting software wants.</td>
+        <td class="c-prob">Year-end is a fortnight of copying figures from one system into another.</td>
+        <td class="c-skip"><b>Skip it and</b> somebody copies figures out by hand every quarter — the exact task the ledger existed to remove.</td>
+        <td class="c-note"><textarea rows="3" data-note="Reports and exports" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Accounting categories and bank reconciliation" id="m16"><label class="sr" for="m16">Keep Accounting categories and bank reconciliation</label></td>
+        <td class="c-name"><b>Accounting categories and bank reconciliation</b><div class="whos"><span class="who books">Accountant</span><span class="who host">Fiscal host</span></div><div class="links"><span class="local">Bank sync uses Plaid and GoCardless in the fork — neither covers India well.</span></div></td>
+        <td class="c-feat">Your own chart of accounts applied to each transaction, and a live bank feed matched against what the platform thinks happened.</td>
+        <td class="c-prob">Money moves in the real bank account that the platform never sees, so the published balance is wrong and nobody notices.</td>
+        <td class="c-skip"><b>Skip it and</b> that gap goes unnoticed until an audit. The bank-feed providers the fork supports do not cover Indian banks; expect manual import instead.</td>
+        <td class="c-note"><textarea rows="3" data-note="Accounting categories and bank reconciliation" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="grouprow"><td colspan="7">Community and reach</td></tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Updates and conversations" id="m17"><label class="sr" for="m17">Keep Updates and conversations</label></td>
+        <td class="c-name"><b>Updates and conversations</b><div class="whos"><span class="who runner">Collective admin</span><span class="who giver">Contributor</span><span class="who public">Anyone looking</span></div><div class="links"><a href="https://documentation.opencollective.com/advanced/keeping-your-community-updated">Docs</a> <span class="local">· in the fork: three updates and two threads on BrusselsTogether</span></div></td>
+        <td class="c-feat">Posts that reach contributors by email, and public discussion threads on the group's own page.</td>
+        <td class="c-prob">People who gave money never find out what it did, so they do not give again.</td>
+        <td class="c-skip"><b>Skip it and</b> you need a newsletter tool and your contributor list lives in two places.</td>
+        <td class="c-note"><textarea rows="3" data-note="Updates and conversations" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="Discovery, badges and embeds" id="m18"><label class="sr" for="m18">Keep Discovery, badges and embeds</label></td>
+        <td class="c-name"><b>Discovery, badges and embeds</b><div class="whos"><span class="who public">Anyone looking</span><span class="who runner">Collective admin</span></div><div class="links"><a href="https://documentation.opencollective.com/collectives/raising-money/adding-donation-buttons-badges-and-banners">Docs</a></div></td>
+        <td class="c-feat">A public directory, plus buttons and contributor lists you can paste into your own website.</td>
+        <td class="c-prob">Nobody finds you unless you send them a link, and sending them elsewhere to give loses most of them.</td>
+        <td class="c-skip"><b>Skip it and</b> every visitor must arrive by a link you sent them. Only matters once there is more than one group to browse.</td>
+        <td class="c-note"><textarea rows="3" data-note="Discovery, badges and embeds" placeholder="Your note…"></textarea></td>
+      </tr>
+      <tr class="modrow">
+        <td class="c-keep"><input type="checkbox" checked data-name="API, OAuth and webhooks" id="m19"><label class="sr" for="m19">Keep API, OAuth and webhooks</label></td>
+        <td class="c-name"><b>API, OAuth and webhooks</b><div class="whos"><span class="who dev">Developer</span><span class="who runner">Collective admin</span></div><div class="links"><a href="https://documentation.opencollective.com/development/oauth">OAuth docs</a> · <a href="https://developers.opencollective.com">API reference</a></div></td>
+        <td class="c-feat">A full programmatic interface, sign-in for other apps, and notifications pushed to your own systems.</td>
+        <td class="c-prob">Anything not built here can only be built by changing the platform itself.</td>
+        <td class="c-skip"><b>Skip it and</b> every integration becomes a change to the platform itself. Cheap to keep, expensive to add back.</td>
+        <td class="c-note"><textarea rows="3" data-note="API, OAuth and webhooks" placeholder="Your note…"></textarea></td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="tray">
-    <details>
-      <summary>
-        <span class="count" id="count">Your selection</span>
-        <span class="hint">click to see the list</span>
-        <span class="row">
-          <button class="btn btn-default btn-sm" id="copy">Copy this list</button>
-          <button class="btn btn-outline btn-sm" id="none">Clear all</button>
-          <button class="btn btn-outline btn-sm" id="all">Select everything</button>
-        </span>
-      </summary>
-      <div id="picked"></div>
-    </details>
+    <span class="count" id="count">…</span>
+    <span class="saved" id="saved"></span>
+    <span class="row">
+      <button class="btn btn-default btn-sm" id="copy">Copy list and notes</button>
+      <button class="btn btn-outline btn-sm" id="all">Select everything</button>
+      <button class="btn btn-outline btn-sm" id="none">Clear all</button>
+      <button class="btn btn-outline-destructive btn-sm" id="wipe">Erase my notes</button>
+    </span>
   </div>
 </div>
 
 <script>
-  // Selection only. Nothing is saved anywhere; reloading resets it.
-  const boxes = () => Array.from(document.querySelectorAll('.mod input[type=checkbox]'));
-  const out = document.getElementById('picked');
+  var KEY = 'oc-modules-v1';
+  var boxes = function () { return Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox]')); };
+  var notes = function () { return Array.prototype.slice.call(document.querySelectorAll('textarea')); };
+
+  function save() {
+    var state = { keep: {}, note: {} };
+    boxes().forEach(function (b) { state.keep[b.dataset.name] = b.checked; });
+    notes().forEach(function (t) { if (t.value.trim()) state.note[t.dataset.note] = t.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* private mode */ }
+    var s = document.getElementById('saved');
+    s.textContent = 'notes saved';
+    clearTimeout(save._t); save._t = setTimeout(function () { s.textContent = ''; }, 1400);
+  }
+
+  function load() {
+    var raw; try { raw = localStorage.getItem(KEY); } catch (e) { return; }
+    if (!raw) return;
+    var state = JSON.parse(raw);
+    boxes().forEach(function (b) { if (!b.disabled && b.dataset.name in state.keep) b.checked = state.keep[b.dataset.name]; });
+    notes().forEach(function (t) { if (state.note[t.dataset.note]) t.value = state.note[t.dataset.note]; });
+  }
 
   function render() {
-    const on = boxes().filter(b => b.checked).map(b => b.dataset.name);
-    const off = boxes().filter(b => !b.checked).map(b => b.dataset.name);
-    document.getElementById('count').textContent = on.length + ' of ' + boxes().length + ' modules selected';
-    out.innerHTML =
-      '<ol>' + on.map(n => '<li>' + n + '</li>').join('') + '</ol>' +
-      (off.length ? '<p style="margin:0.75rem 0 0;color:var(--muted-foreground)"><strong>Leaving out:</strong> ' + off.join(' · ') + '</p>' : '');
+    var on = boxes().filter(function (b) { return b.checked; });
+    document.getElementById('count').textContent = on.length + ' of ' + boxes().length + ' modules kept';
   }
 
   function asText() {
-    const on = boxes().filter(b => b.checked).map(b => '- ' + b.dataset.name);
-    const off = boxes().filter(b => !b.checked).map(b => '- ' + b.dataset.name);
-    return 'Open Collective — modules we want\n\nIn scope:\n' + on.join('\n') +
-           (off.length ? '\n\nDeliberately left out:\n' + off.join('\n') : '') +
-           '\n\nPicked from folktaler.github.io/design-reviews/opencollective/modules.html';
+    var on = [], off = [];
+    boxes().forEach(function (b) {
+      var t = document.querySelector('textarea[data-note="' + b.dataset.name.replace(/"/g, '\\"') + '"]');
+      var note = t && t.value.trim() ? '\n    note: ' + t.value.trim().replace(/\n/g, ' ') : '';
+      (b.checked ? on : off).push('- ' + b.dataset.name + note);
+    });
+    return 'Open Collective - modules we want\n\nIn scope (' + on.length + '):\n' + on.join('\n') +
+      (off.length ? '\n\nDeliberately left out (' + off.length + '):\n' + off.join('\n') : '') +
+      '\n\nPicked from folktaler.github.io/design-reviews/opencollective/modules.html';
   }
 
-  document.addEventListener('change', e => { if (e.target.matches('.mod input')) render(); });
-  document.querySelectorAll('.tray summary .btn').forEach(b => b.addEventListener('click', e => e.preventDefault()));
-  document.getElementById('none').onclick = () => { boxes().forEach(b => { if (!b.disabled) b.checked = false; }); render(); };
-  document.getElementById('all').onclick = () => { boxes().forEach(b => b.checked = true); render(); };
-  document.getElementById('copy').onclick = async e => {
-    try { await navigator.clipboard.writeText(asText()); e.target.textContent = 'Copied'; }
-    catch { e.target.textContent = 'Press ⌘C'; }
-    setTimeout(() => { e.target.textContent = 'Copy this list'; }, 1600);
+  document.addEventListener('change', function (e) {
+    if (e.target.matches('input[type=checkbox]')) { render(); save(); }
+  });
+  document.addEventListener('input', function (e) { if (e.target.matches('textarea')) save(); });
+
+  document.getElementById('all').onclick = function () { boxes().forEach(function (b) { b.checked = true; }); render(); save(); };
+  document.getElementById('none').onclick = function () { boxes().forEach(function (b) { if (!b.disabled) b.checked = false; }); render(); save(); };
+  document.getElementById('wipe').onclick = function () {
+    if (!confirm('Erase every note you have typed on this page? This cannot be undone.')) return;
+    notes().forEach(function (t) { t.value = ''; });
+    save();
   };
-  render();
+  document.getElementById('copy').onclick = function (e) {
+    var btn = e.target;
+    navigator.clipboard.writeText(asText()).then(
+      function () { btn.textContent = 'Copied'; },
+      function () { btn.textContent = 'Press Cmd+C'; }
+    );
+    setTimeout(function () { btn.textContent = 'Copy list and notes'; }, 1600);
+  };
+
+  load(); render();
 </script>
 </body>
 </html>
