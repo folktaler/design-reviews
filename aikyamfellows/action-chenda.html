@@ -2144,20 +2144,39 @@ main:has(> [data-hero]:first-child) {
 [data-action-page] > * + * {
   margin-block-start: var(--af-space-5);
 }
+[data-action-page] [data-action-media] {
+  aspect-ratio: 3 / 2;
+  max-block-size: 40vh;
+  margin-block-start: 0;
+}
 [data-action-page] [data-action-title] {
   font-size: var(--af-type-display);
   font-weight: var(--af-weight-regular);
   line-height: var(--af-leading-display);
   letter-spacing: var(--af-tracking-display);
   max-inline-size: 20ch;
+  margin-block-start: var(--af-space-6);
 }
 [data-action-page] [data-action-description] {
   font-size: var(--af-type-standfirst);
   line-height: var(--af-leading-standfirst);
   color: var(--af-text);
 }
-[data-action-page] [data-action-media] {
-  margin-block-start: var(--af-space-7);
+[data-action-page] [data-action-byline] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--af-space-2) var(--af-space-4);
+  margin-block-start: var(--af-space-6);
+}
+[data-action-page] [data-action-fellow],
+[data-action-page] [data-action-date] {
+  margin: 0;
+}
+[data-action-page] [data-action-tags] {
+  margin-block-start: var(--af-space-8);
+  padding-block-start: var(--af-space-6);
+  border-block-start: 1px solid var(--af-line);
 }
 </style>
 
@@ -2335,19 +2354,30 @@ main:has(> [data-hero]:first-child) {
 <main id="main" tabindex="-1">
   <article class="wrap wrap--wide" data-action-page>
 
+    <!-- ⭐ THE PICTURE OPENS THE PAGE — owner, 9 Aug: *"the picture plus the
+         caption plus the description and then who wrote it […] The tag should be
+         in the end."* An action is not an article: the work is visible, so the
+         evidence comes first and the naming second. -->
+    <div data-action-media>⛔ photograph needed — Rahitha with the Chenda</div>
+
     <h1 data-action-title>Beating Barriers</h1>
 
+    <!-- ⛔ THE SAME STRING AS THE @description LINE AND THE ACTIONS LIST,
+         substituted by build.mjs. Do not type prose here. -->
     <p data-action-description>She was told the Chenda wasn't for girls. Rahitha now plays it, and teaches it to girls in Kozhikode who have been told the same thing by the same people, in the same words.</p>
 
-    <p data-action-fellow>By <a href="profile.html">Rahitha Krishnadas</a></p>
+    <!-- ⭐ WHO WROTE IT, AND WHEN, ON ONE LINE. Two halves of one question. -->
+    <p data-action-byline>
+      <span data-action-fellow>By <a href="profile.html">Rahitha Krishnadas</a></span>
+      <time data-action-date datetime="2026-07-21">Published 21 July 2026</time>
+    </p>
 
+    <!-- ⛔ TAGS LAST, above a rule. They were sitting between the fellow and the
+         date, interrupting the one sentence that says who is responsible. At the
+         end they are what they actually are: the way out of this page. -->
     <ul data-action-tags>
       <li><a data-topic href="topic.html">Art &amp; Culture</a></li>
     </ul>
-
-    <time data-action-date datetime="2026-07-21">Published 21 July 2026</time>
-
-    <div data-action-media>⛔ photograph needed — Rahitha with the Chenda</div>
 
     <div data-slot>
       <b>One sentence here is invented and it is the one that matters.</b>

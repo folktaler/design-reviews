@@ -280,12 +280,82 @@
 
 /* --- The single action page ----------------------------------------------
  *
- * The same six fields, one of them at display size. ⛔ There is no additional
- * furniture. If the page turns out to need something the card does not have,
- * that is a NEW FIELD and it is the owner's to add — not design's to invent and
- * then defend. */
+ * ⭐⭐ THE ORDER IS THE OWNER'S, 9 Aug 2026: *"the picture plus the caption plus
+ * the description and then who wrote it […] The tag should be in the end."*
+ *
+ *     1. the picture
+ *     2. the title              ← the "caption" under the picture
+ *     3. the description        ← the same 300 characters the list shows
+ *     4. who wrote it           ← the fellow, and the date beside them
+ *     5. the tags               ← last, explicitly
+ *
+ * ⛔ THIS IS A REVERSAL AND IT IS WORTH SAYING WHY IT IS RIGHT. Until now the
+ * page opened on a display-size title, which is the grammar of an ARTICLE — the
+ * headline is the thing, and the picture illustrates it. An action is not an
+ * article. It is a short update about work somebody is doing, and the work is
+ * visible: a room, a drum, a rehearsal. Opening on the photograph puts the
+ * evidence first and the naming second, which is the honest order for a page
+ * whose whole job is to show that something is actually happening.
+ *
+ * ⚠️ THE HEADING IS STILL AN <h1> AND STILL FIRST IN THE OUTLINE. Moving a
+ * picture above it changes the visual order, not the document's. A screen-reader
+ * user meets the image's alt text and then the heading, which is the same
+ * sequence a sighted reader gets.
+ *
+ * ⛔ TAGS LAST IS NOT A DETAIL EITHER. They were sitting between the fellow and
+ * the date, where a row of pill-shaped links interrupts the one sentence on the
+ * page that says who is responsible. At the end they are what they are: the way
+ * out of this page, after it has been read. */
 [data-action-page] > * + * {
   margin-block-start: var(--af-space-5);
+}
+
+/* ⭐ THE PICTURE OPENS THE PAGE, so it gets the full width of the column and no
+   top margin — it sits directly under the chrome, the way a lead image does.
+ *
+ * ⛔⛔ AND IT IS CAPPED, WHICH THE FIRST VERSION WAS NOT. At 3:2 across the wide
+ * column a lead image is 661px tall on a 1280px laptop. Add a 191px masthead and
+ * the title sits below the fold: a reader arrives at an action page and sees a
+ * photograph and nothing else — no name, no sentence, no idea what they are
+ * looking at. Putting the picture first is right; making it the whole first
+ * screen is not, and the two are easy to confuse because the page looks
+ * excellent in a screenshot that happens to include both.
+ *
+ * ⚠️ AND THE PICTURE WAS NOT THE MAIN COST — the chrome was. Measured on a
+ * 1280 × 800 laptop, 347px sits above the content before a word of it:
+ *
+ *       topbar        52px
+ *       faces band   104px
+ *       masthead     191px   (the topic sub-nav is inside it)
+ *       ─────────────────
+ *       main starts at 347
+ *
+ * That band is deliberate — the owner asked for a taller Guardian-style header
+ * on 8 Aug and it is doing its job — but it means "picture first" and "title
+ * above the fold" are in direct competition, and the arithmetic decides how much
+ * picture is left. A first cap of 55vh looked generous and still put the title
+ * at y=851 on an 800px screen.
+ *
+ * ⭐ 40vh IS THE LARGEST CAP THAT CLEARS THE FOLD EVERYWHERE IT MATTERS, found
+ * by testing five caps against three laptop sizes rather than by choosing a
+ * round number:
+ *
+ *       cap    1280×800   1440×900   1512×850
+ *       55vh      ⛔          ⛔          ⛔
+ *       45vh      ⛔          ✅          ✅
+ *       40vh      ✅          ✅          ✅      ← 320px of picture
+ *
+ * ⛔ 1280 × 800 IS THE ONE THAT DECIDES IT, and it is the one a designer on a
+ * larger screen never checks. At 45vh the page passes on two of three laptops,
+ * which is exactly the kind of result that ships.
+ *
+ * ⚠️ On a 375px phone the column is 327px wide, so the natural 3:2 height is
+ * 218px and the cap never engages at all — a phone gets the whole picture and
+ * pays nothing for this. The cap only bites where it has to. */
+[data-action-page] [data-action-media] {
+  aspect-ratio: 3 / 2;
+  max-block-size: 40vh;
+  margin-block-start: 0;
 }
 
 [data-action-page] [data-action-title] {
@@ -294,6 +364,7 @@
   line-height: var(--af-leading-display);
   letter-spacing: var(--af-tracking-display);
   max-inline-size: 20ch;
+  margin-block-start: var(--af-space-6);
 }
 
 [data-action-page] [data-action-description] {
@@ -302,6 +373,27 @@
   color: var(--af-text);
 }
 
-[data-action-page] [data-action-media] {
-  margin-block-start: var(--af-space-7);
+/* ⭐ THE FELLOW AND THE DATE ON ONE LINE. They answer two halves of the same
+   question — who, and when — and separating them into two rows of small grey
+   type makes the page look like it has metadata rather than a byline. */
+[data-action-page] [data-action-byline] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--af-space-2) var(--af-space-4);
+  margin-block-start: var(--af-space-6);
+}
+
+[data-action-page] [data-action-fellow],
+[data-action-page] [data-action-date] {
+  margin: 0;
+}
+
+/* ⛔ THE TAGS ARE LAST AND THEY ARE SEPARATED BY A RULE. Without one they read
+   as a continuation of the byline — two rows of small type in the same corner of
+   the page. The rule says the article has ended and these are the exits. */
+[data-action-page] [data-action-tags] {
+  margin-block-start: var(--af-space-8);
+  padding-block-start: var(--af-space-6);
+  border-block-start: 1px solid var(--af-line);
 }

@@ -2144,20 +2144,39 @@ main:has(> [data-hero]:first-child) {
 [data-action-page] > * + * {
   margin-block-start: var(--af-space-5);
 }
+[data-action-page] [data-action-media] {
+  aspect-ratio: 3 / 2;
+  max-block-size: 40vh;
+  margin-block-start: 0;
+}
 [data-action-page] [data-action-title] {
   font-size: var(--af-type-display);
   font-weight: var(--af-weight-regular);
   line-height: var(--af-leading-display);
   letter-spacing: var(--af-tracking-display);
   max-inline-size: 20ch;
+  margin-block-start: var(--af-space-6);
 }
 [data-action-page] [data-action-description] {
   font-size: var(--af-type-standfirst);
   line-height: var(--af-leading-standfirst);
   color: var(--af-text);
 }
-[data-action-page] [data-action-media] {
-  margin-block-start: var(--af-space-7);
+[data-action-page] [data-action-byline] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--af-space-2) var(--af-space-4);
+  margin-block-start: var(--af-space-6);
+}
+[data-action-page] [data-action-fellow],
+[data-action-page] [data-action-date] {
+  margin: 0;
+}
+[data-action-page] [data-action-tags] {
+  margin-block-start: var(--af-space-8);
+  padding-block-start: var(--af-space-6);
+  border-block-start: 1px solid var(--af-line);
 }
 </style>
 
@@ -2340,29 +2359,31 @@ main:has(> [data-hero]:first-child) {
 <main id="main" tabindex="-1">
   <article class="wrap wrap--wide" data-action-page>
 
+    <!-- ⭐ THE PICTURE OPENS THE PAGE — owner, 9 Aug: *"the picture plus the
+         caption plus the description and then who wrote it […] The tag should be
+         in the end."* An action is not an article: the work is visible, so the
+         evidence comes first and the naming second. -->
+    <div data-action-media>⛔ photograph needed — one image, 3:2, of the work rather than of the fellow</div>
+
     <h1 data-action-title>Listening Rooms</h1>
 
     <!-- ⛔ THE SAME STRING AS THE @description LINE AND THE ACTIONS LIST,
          substituted by build.mjs. Do not type prose here. -->
     <p data-action-description>Counselling for young people in two schools that have no counsellor of their own. Students come with arguments at home and things they cannot say to anyone else. Girls arrive sooner; boys take longer and stay longer once they do.</p>
 
-    <!-- ⭐ ONE FELLOW. The plural came out on 9 Aug — an action is a piece of one
-         person's work published as an update, not a programme with an
-         institutional life of its own, and on that definition a second name is a
-         category error rather than extra richness. -->
-    <p data-action-fellow>By <a href="profile.html">Sentinaro Shiu</a></p>
+    <!-- ⭐ WHO WROTE IT, AND WHEN, ON ONE LINE. Two halves of one question. -->
+    <p data-action-byline>
+      <span data-action-fellow>By <a href="profile.html">Sentinaro Shiu</a></span>
+      <time data-action-date datetime="2026-08-03">Published 3 August 2026</time>
+    </p>
 
+    <!-- ⛔ TAGS LAST, above a rule. They were sitting between the fellow and the
+         date, interrupting the one sentence that says who is responsible. At the
+         end they are what they actually are: the way out of this page. -->
     <ul data-action-tags>
       <li><a data-topic href="topic.html">Education</a></li>
       <li><a data-topic href="topic.html">Mental Health</a></li>
     </ul>
-
-    <time data-action-date datetime="2026-08-03">Published 3 August 2026</time>
-
-    <!-- ⛔ ONE IMAGE. The moment a page type accepts three, two are missing on
-         every page and the layout has to cope with a hole. -->
-    <div data-action-media>⛔ photograph needed — one image, 3:2, of the work
-      rather than of the fellow</div>
 
     <div data-slot>
       <b>The title and the date are design&rsquo;s wording.</b> &ldquo;Listening
