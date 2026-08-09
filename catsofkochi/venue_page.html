@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <title>Venue page — Cats of Kochi UI kit</title>
 
-<link rel="stylesheet" href="faces-noticia-text.css">
+<link rel="stylesheet" href="faces-figtree.css">
 <style>
   :root {
     --cok-amber: #ffa700;
@@ -22,9 +22,9 @@
        Superseded by ui_kits/venue_pages/ (plural), which is the page-type-4
        deliverable. Kept because it is the one full assembled venue page; the
        tokens are now brought into line so it stops disagreeing with the system. */
-    --font-display: 'Noticia Text', 'Noticia Fallback: Georgia', 'Noticia Fallback: Noto Serif', 'Noticia Fallback: Times New Roman', Georgia, 'Noto Serif', 'Times New Roman', serif;
+    --font-display: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
     --font-body: var(--font-display);
-    --font-text: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-text: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
     --tap-comfortable: 52px;
 
     --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem;
@@ -35,41 +35,23 @@
     --tracking-micro: .06em; --tap: 44px;
   }
 
-  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
-   * Artifacts sit behind a strict CSP with no server and can never fetch
-   * /fonts/*.woff2, so the face must travel inside the file.
-   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
-   * three files across every page instead of paying base64 overhead each time.
-   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  /* ══ SYSTEM FACES — copied verbatim from design-system/fonts.css.
+     ⛔ Do not edit here. Edit fonts.css, then re-copy this whole block.
+     A kit that disagrees with fonts.css lies to whoever reviews it. ══ */
   
   
-  
-  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
-     design-system/ui_kits/_FACES.md: one @font-face per local font, real
-     metrics, no single number forced across Georgia/Noto Serif/Times New
-     Roman at once. */
-  @font-face {
-    font-family: 'Noticia Fallback: Georgia';
-    src: local('Georgia');
-    ascent-override: 101.8313%;
-    descent-override: 27.4232%;
-    size-adjust: 105.586%;
-  }
-  @font-face {
-    font-family: 'Noticia Fallback: Noto Serif';
-    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
-    ascent-override: 109.8716%;
-    descent-override: 29.5885%;
-    size-adjust: 97.8593%;
-  }
-  @font-face {
-    font-family: 'Noticia Fallback: Times New Roman';
-    src: local('Times New Roman'), local('TimesNewRomanPSMT');
-    ascent-override: 92.7969%;
-    descent-override: 24.9903%;
-    line-gap-override: 0%;
-    size-adjust: 115.8654%;
-  }
+  /* Figtree Fallback — REWRITTEN 2026-08-08 (F5). See design-system/fonts.css:
+     one @font-face per local font, real metrics, no single number forced
+     across Helvetica Neue/Roboto/Arial at once. */
+  @font-face { font-family:'Figtree Fallback: Helvetica Neue';
+    src:local('Helvetica Neue'),local('HelveticaNeue');
+    ascent-override:95.2116%; descent-override:25.0557%; line-gap-override:0%; size-adjust:99.7778%; }
+  @font-face { font-family:'Figtree Fallback: Roboto';
+    src:local('Roboto Regular'),local('Roboto-Regular');
+    ascent-override:94.1165%; descent-override:24.7675%; size-adjust:100.9387%; }
+  @font-face { font-family:'Figtree Fallback: Arial';
+    src:local('Arial'),local('ArialMT');
+    ascent-override:94.3231%; descent-override:24.8219%; line-gap-override:0%; size-adjust:100.7176%; }
   /* ══ END SYSTEM FACES ══ */
 
   html { color-scheme: light; background: var(--cok-paper); }

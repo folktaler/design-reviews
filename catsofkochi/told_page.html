@@ -3,44 +3,25 @@
 <meta charset="utf-8">
 <title>A told page — Cats of Kochi</title>
 
-<link rel="stylesheet" href="faces-noticia-text.css">
+<link rel="stylesheet" href="faces-figtree.css">
 <style>
-  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
-   * Artifacts sit behind a strict CSP with no server and can never fetch
-   * /fonts/*.woff2, so the face must travel inside the file.
-   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
-   * three files across every page instead of paying base64 overhead each time.
-   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  /* ══ SYSTEM FACES — copied verbatim from design-system/fonts.css.
+     ⛔ Do not edit here. Edit fonts.css, then re-copy this whole block.
+     A kit that disagrees with fonts.css lies to whoever reviews it. ══ */
   
   
-  
-  /* Noticia Text Fallback — REWRITTEN 2026-08-09 (F5/F7 sync, missed on this kit
-     until now). design-system/ui_kits/_FACES.md: one @font-face per local font,
-     real metrics, no single number forced across Georgia/Noto Serif/Times New
-     Roman at once. Copied verbatim from design-system/ui_kits/answer_page/index.html,
-     never retyped. */
-  @font-face {
-    font-family: 'Noticia Fallback: Georgia';
-    src: local('Georgia');
-    ascent-override: 101.8313%;
-    descent-override: 27.4232%;
-    size-adjust: 105.586%;
-  }
-  @font-face {
-    font-family: 'Noticia Fallback: Noto Serif';
-    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
-    ascent-override: 109.8716%;
-    descent-override: 29.5885%;
-    size-adjust: 97.8593%;
-  }
-  @font-face {
-    font-family: 'Noticia Fallback: Times New Roman';
-    src: local('Times New Roman'), local('TimesNewRomanPSMT');
-    ascent-override: 92.7969%;
-    descent-override: 24.9903%;
-    line-gap-override: 0%;
-    size-adjust: 115.8654%;
-  }
+  /* Figtree Fallback — REWRITTEN 2026-08-08 (F5). See design-system/fonts.css:
+     one @font-face per local font, real metrics, no single number forced
+     across Helvetica Neue/Roboto/Arial at once. */
+  @font-face { font-family:'Figtree Fallback: Helvetica Neue';
+    src:local('Helvetica Neue'),local('HelveticaNeue');
+    ascent-override:95.2116%; descent-override:25.0557%; line-gap-override:0%; size-adjust:99.7778%; }
+  @font-face { font-family:'Figtree Fallback: Roboto';
+    src:local('Roboto Regular'),local('Roboto-Regular');
+    ascent-override:94.1165%; descent-override:24.7675%; size-adjust:100.9387%; }
+  @font-face { font-family:'Figtree Fallback: Arial';
+    src:local('Arial'),local('ArialMT');
+    ascent-override:94.3231%; descent-override:24.8219%; line-gap-override:0%; size-adjust:100.7176%; }
   /* ══ END SYSTEM FACES ══ */
 
   :root {
@@ -50,8 +31,8 @@
     /* Body AND headings are the serif. Captions and UI are the device's sans.
        Noticia Text cannot be downloaded inside an artifact, so the size-matched
        fallback stands in — the arrangement and spacing are real. */
-    --serif: 'Noticia Text','Noticia Fallback: Georgia','Noticia Fallback: Noto Serif','Noticia Fallback: Times New Roman',Georgia,'Noto Serif','Times New Roman',serif;
-    --sans: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --serif: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
+    --sans: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
     --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
     --s7:2rem;--s8:2.5rem;--s9:3rem;--s10:4rem;
     --micro:.8125rem; --small:.875rem; --track:.06em;
@@ -333,5 +314,5 @@
 <p class="note-frame">A told page with the full furniture: standfirst, cat
 opener, full-bleed photograph, subheads, a pull quote, <strong>one cat tip</strong>,
 the facts strip, the cat closer, read next. Serif body, sans captions and UI.
-⚠️ Rendered in the fallback serif — Noticia Text cannot be downloaded inside an
-artifact — so the spacing and arrangement are real, the letters will be stronger.</p>
+⚠️ Rendered in Figtree, the real face — inlined as base64, it downloads inside
+an artifact the same as anywhere else, so the letters below are the real ones.</p>
