@@ -1,0 +1,407 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Controls &amp; furniture — Cats of Kochi</title>
+
+<link rel="stylesheet" href="faces-noticia-text.css">
+<style>
+  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
+   * Artifacts sit behind a strict CSP with no server and can never fetch
+   * /fonts/*.woff2, so the face must travel inside the file.
+   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
+   * three files across every page instead of paying base64 overhead each time.
+   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  
+  
+  
+  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real
+     metrics, no single number forced across Georgia/Noto Serif/Times New
+     Roman at once. */
+  @font-face {
+    font-family: 'Noticia Fallback: Georgia';
+    src: local('Georgia');
+    ascent-override: 101.8313%;
+    descent-override: 27.4232%;
+    size-adjust: 105.586%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Noto Serif';
+    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
+    ascent-override: 109.8716%;
+    descent-override: 29.5885%;
+    size-adjust: 97.8593%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Times New Roman';
+    src: local('Times New Roman'), local('TimesNewRomanPSMT');
+    ascent-override: 92.7969%;
+    descent-override: 24.9903%;
+    line-gap-override: 0%;
+    size-adjust: 115.8654%;
+  }
+  /* ══ END SYSTEM FACES ══ */
+
+  :root {
+    --amber: #ffa700; --amber-ink: #946100; --amber-wash: #fdf2db;
+    --paper: #fdfcf9; --sunk: #f4f1ea; --ink: #1c1a17; --quiet: #5a544c;
+    --rule: #ddd7cb; --focus: #0b60c4;
+    /* ⛔ THIS COMMENT WAS HALF TRUE, WHICH IS WORSE THAN FALSE. The display
+       stack was corrected off the pre-inversion Iowan/Palatino — and `body`
+       was left pointing at `--text`, the SANS. So the note said the serif-body
+       decision had been applied here and the CSS had applied it to headings
+       only. Every paragraph in this kit has been setting in system-ui, which
+       is also why its lines ran long: 19px sans gives 62 characters in the
+       same column where 19px Noticia gives 58. */
+    /* ⚠️ RENAMED from `--display`/`--text` to the `--serif`/`--sans` every page
+       kit uses. A specimen sheet with its own vocabulary is a sheet nobody can
+       copy a value out of, and `_FACES.md` asks that every value here be
+       traceable to the token file.
+       ⛔ But renaming changed NOTHING that renders — see `.signup` below. The
+       divergence was a missing declaration, not a naming one. */
+    --serif: 'Noticia Text','Noticia Fallback: Georgia','Noticia Fallback: Noto Serif','Noticia Fallback: Times New Roman',Georgia,'Noto Serif','Times New Roman',serif;
+    --sans: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --s1:.25rem; --s2:.5rem; --s3:.75rem; --s4:1rem; --s5:1.25rem; --s6:1.5rem;
+    --s7:2rem; --s8:2.5rem; --s9:3rem; --s10:4rem;
+    /* ⚠️ .9375rem (15px) where every other kit and `tokens/typography.css` set
+       14px. Real drift — but ⛔ DO NOT "TIDY" IT TO 14px. Smaller type puts MORE
+       characters on a line, so aligning it would push `.signup__desc` toward
+       the measure ceiling while looking like housekeeping. I tried it, found
+       `.signup__desc` also reads this token, and put it back.
+       The two blocks that made this look urgent were `.fyi`, and they are body
+       size now, so nothing depends on this any more. It is a real question and
+       it deserves deciding on its own merits rather than as a side effect. */
+    --micro:.8125rem; --small:.9375rem;
+    --measure-small:21rem;
+    --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
+    --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
+    --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
+    --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
+    --track:.06em; --tap:44px; --tap-comfortable:52px;
+    --measure:32rem; --gutter:var(--s5);
+  }
+  html { color-scheme: light; background: var(--paper); }
+  * { box-sizing: border-box; }
+  /* the serif body the rest of the system has. `--sans` is now what its name
+     says: the sans, for captions, controls and labels only. */
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--serif);
+         font-size:var(--body); line-height:1.6; -webkit-text-size-adjust:100%; }
+  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
+          margin-inline:auto; padding:var(--s6) var(--gutter) var(--s10); }
+  h1,h2,h3 { font-family:var(--serif); line-height:1.15; margin:0; text-wrap:balance; }
+  h1 { font-size:var(--disp); letter-spacing:-.015em; }
+  h2 { font-size:var(--head); margin-block:var(--s10) var(--s3); }
+  h3 { font-size:var(--sub); margin-block:var(--s7) var(--s2); }
+  p { margin-block:var(--s4); }
+  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  a:hover { border-block-end-color:var(--amber-ink); }
+  a:focus-visible,button:focus-visible,input:focus-visible {
+    outline:3px solid var(--focus); outline-offset:2px; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.85em;
+         background:var(--sunk); padding:.1em .35em; }
+  /* ⛔ EVERY SPECIMEN DECLARES ITS OWN FACE — and on this page more than any
+     other. Making `body` the serif fixed the prose and left every unstyled
+     component inheriting it, so `.kicker` rendered in Noticia here and
+     system-ui on the eight pages that actually use it. ⭐ A specimen sheet that
+     renders a component differently from every page using it is misrepresenting
+     the thing it exists to document — the same species as a comment describing
+     a fix it never made, in the same file. */
+  .kicker { font-family:var(--sans);
+            font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+            color:var(--quiet); margin:0 0 var(--s2); }
+  .lede { font-family:var(--serif); font-size:var(--sub); line-height:1.15; color:var(--ink); }
+  /* ⛔ WAS `--small`. These are multi-line explanatory paragraphs, not labels,
+     and the rule is that small type is for SHORT text — a small block long
+     enough to run past the measure is a block set too small, not a column set
+     too wide. Body size; `--quiet` keeps it subordinate without shrinking it. */
+  /* ⚠️ Sans, because `.fyi` is COMMENTARY and commentary is sans everywhere
+     else in the system — `type_before_after` had it right and this sheet was
+     the outlier, again by inheritance rather than by decision.
+     ⛔ And it needs its own width: 19px sans gives 62 characters in the 512px
+     column where 19px Noticia gives 58. The face change moves the count, so
+     the cap moves with it — 29rem ≈ 56 characters. */
+  .fyi { font-family:var(--sans); font-size:var(--body); color:var(--quiet);
+         max-width:29rem; }
+  .spec { border:1px solid var(--rule); padding:var(--s5); margin-block:var(--s4); }
+  .spec__label { font-family:var(--sans);
+                 font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+                 color:var(--quiet); margin:0 0 var(--s4); }
+  .row { display:flex; flex-wrap:wrap; gap:var(--s4); align-items:center; }
+  .scroll { overflow-x:auto; margin-block:var(--s5); }
+  table { border-collapse:collapse; width:100%; font-family:var(--sans);
+          font-size:.95rem; line-height:1.45; }
+  th,td { border-bottom:1px solid var(--rule); padding:var(--s2) var(--s3); text-align:left; vertical-align:top; }
+  th { font-weight:600; }
+  /* ⛔ RENAMED FROM `.n`. `itinerary` uses `.n` for a place NAME; this was a
+     numeric table cell. Two different components sharing a two-character class
+     is a false positive waiting to happen in any cross-kit check keyed on class
+     name — and it produced one. The check was right to compare them and wrong
+     about what it was comparing; the honest fix is the name, not an exemption. */
+  td.num { font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .panel { background:var(--sunk); padding:var(--s5); margin-block:var(--s5); }
+  .panel--amber { background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink); }
+  .panel > :first-child { margin-block-start:0; } .panel > :last-child { margin-block-end:0; }
+
+  /* --- the button, as specified --- */
+  .btn { display:inline-flex; align-items:center; justify-content:center;
+         border-radius:999px; min-height:var(--tap-comfortable,52px); padding:0 var(--s4) 1px;
+         font-family:var(--sans); font-size:var(--small); font-weight:700; line-height:1.3;
+         text-decoration:none; cursor:pointer; border:1px solid var(--ink);
+         background:transparent; color:var(--ink); transition:background-color 120ms; }
+  .btn:hover { background:var(--sunk); }
+  .btn--primary { background:var(--amber); color:var(--ink); border-color:var(--amber); }
+  .btn--primary:hover { background:#e89600; border-color:#e89600; }
+  .btn[disabled] { opacity:.45; cursor:not-allowed; }
+  .btn--focus { outline:3px solid var(--focus); outline-offset:2px; }
+
+  /* --- newsletter --- */
+  /* ⛔ THE ACTUAL DIVERGENCE, AND IT WAS A MISSING LINE, NOT A NAMING ONE.
+     `homepage` sets `.signup { font-family: var(--sans) }` and this sheet set
+     nothing, so `__desc`, `__label` and `__privacy` inherited whatever `body`
+     happened to be — sans while the body was sans, serif the moment I fixed
+     the body. ⭐ The specimen was rendering the signup component in a different
+     typeface from the page it specifies: anyone judging the signup from this
+     sheet was judging something that does not ship.
+     A specimen must reproduce the component's OWN wrapper, not rely on the
+     page around it happening to match. */
+  .signup { margin-block:var(--s6); padding-block:var(--s5);
+            border-block:1px solid var(--rule); font-family:var(--sans); }
+  .signup__frequency { margin:0; font-size:var(--micro); text-transform:uppercase;
+                       letter-spacing:var(--track); color:var(--quiet); }
+  .signup__name { margin:var(--s1) 0 var(--s2); font-family:var(--serif);
+                  font-size:var(--sub); line-height:1.2; }
+  .signup__desc { margin:0 0 var(--s4); font-size:var(--small); line-height:1.6; }
+  .signup__form { display:flex; flex-wrap:wrap; gap:var(--s3); align-items:stretch; }
+  .signup__label { flex:1 0 100%; font-size:var(--micro); color:var(--quiet); }
+  .signup__input { flex:1 1 14rem; min-height:var(--tap-comfortable,52px); padding:var(--s2) var(--s3);
+                   border-radius:0; border:1px solid var(--quiet); background:var(--paper);
+                   color:var(--ink); font-family:var(--sans); font-size:var(--body); }
+  .signup__privacy { margin:var(--s3) 0 0; font-size:var(--micro); line-height:1.45; color:var(--quiet); }
+
+  /* --- article furniture --- */
+  .standfirst { margin:0 0 var(--s6); font-family:var(--serif); font-size:var(--sub);
+                line-height:1.15; font-weight:400; color:var(--ink); }
+  .byline { margin:0 0 var(--s6); font-family:var(--sans);
+            font-size:var(--small); color:var(--quiet); }
+  .pullquote { margin-block:var(--s8); padding-block:var(--s4);
+               border-block:1px solid var(--rule); }
+  .pullquote blockquote { margin:0; font-family:var(--serif); font-size:var(--head);
+                          line-height:1.25; text-wrap:balance; }
+  .pullquote figcaption { margin-block-start:var(--s3); font-size:var(--small); color:var(--quiet); }
+
+  .shapes { display:flex; gap:var(--s5); flex-wrap:wrap; align-items:center; }
+  .shape { text-align:center; font-family:var(--sans);
+           font-size:var(--micro); color:var(--quiet); }
+  .shape i { display:block; width:64px; height:44px; background:var(--sunk);
+             border:1px solid var(--rule); margin-bottom:var(--s2); }
+  .shape--pill i { border-radius:999px; }
+  .shape--round i { border-radius:50%; width:44px; height:44px; margin-inline:auto; }
+</style>
+
+<!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
+     Delete this whole div in the SAME commit that deletes this kit's line from
+     KIT_FAMILY in scripts/check-kits.mjs. The two say the same thing and must
+     die together: check-kits.mjs already prints "this kit has not been redrawn"
+     on every run — to a console, which is the one place the person deciding
+     will never look. This says it where he will.
+     ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
+     that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+</div>
+
+<div class="wrap">
+
+  <p class="kicker">Cats of Kochi · controls &amp; furniture · 5 August 2026</p>
+  <h1>What the Guardian does, and what we take</h1>
+  <p class="lede">Measured in a real browser on theguardian.com — the newsletter
+  block, the buttons, the article furniture.</p>
+
+  <div class="panel panel--amber">
+    <p style="margin:0"><strong>One decision inside, Shemeer.</strong> The
+    Guardian is <em>not</em> all-square the way catsofkochi is — they use round
+    shapes for things you press. We take exactly one of those. <a href="#shape">The
+    shape rule →</a></p>
+  </div>
+
+  <!-- ================================================= SHAPE -->
+  <h2 id="shape">The shape rule</h2>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th></th><th>catsofkochi today</th><th>The Guardian</th></tr></thead>
+      <tbody>
+        <tr><td>Buttons</td><td class="num">square</td><td class="num"><strong>pill, 24px</strong></td></tr>
+        <tr><td>Search field</td><td>—</td><td class="num"><strong>1000px — a full pill</strong></td></tr>
+        <tr><td>Icon buttons</td><td>—</td><td class="num"><strong>circles, 44×44</strong></td></tr>
+        <tr><td>Text inputs</td><td>—</td><td class="num">4px</td></tr>
+        <tr><td>Chrome, cards</td><td class="num">square</td><td class="num">square</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Both are right — they are different sites. <strong>The deciding argument is
+  how many controls there are, not taste.</strong> The Guardian needs a shape
+  system because their reader is constantly asking “can I press that?”. This site
+  has about <strong>four</strong> controls in total.</p>
+
+  <div class="panel">
+    <p style="margin:0"><strong>Square is structure. Round is a person or a
+    control.</strong></p>
+  </div>
+
+  <div class="spec">
+    <p class="spec__label">The whole shape system</p>
+    <div class="shapes">
+      <span class="shape"><i></i>square — everything</span>
+      <span class="shape shape--pill"><i></i>pill — a button</span>
+      <span class="shape shape--round"><i></i>circle — a cat</span>
+    </div>
+  </div>
+
+  <p class="fyi">Two shapes and a circle. That replaces the earlier “square
+  everything except portraits” — the exception is now a reason, not a list.</p>
+
+  <!-- ================================================= BUTTONS -->
+  <h2>Buttons</h2>
+
+  <p>⭐ <strong>Their Sign-up button is an outline, not a solid block</strong> —
+  transparent fill, a 1px ink border, 14px bold, radius 24px. Easy to miss, and it
+  matters: on a page made of writing, a solid block shouts. An outlined pill reads
+  as a control without raising its voice.</p>
+
+  <div class="spec">
+    <p class="spec__label">Ours — every variant and state</p>
+    <div class="row">
+      <button class="btn">Sign up</button>
+      <button class="btn btn--primary">Sign up</button>
+      <button class="btn btn--focus">Focused</button>
+      <button class="btn" disabled>Disabled</button>
+    </div>
+    <p class="fyi" style="margin-block-end:0">Outline is the default. The amber
+    fill is the only solid button, and there should be about one per page.</p>
+  </div>
+
+  <p><strong>The padding is lopsided on purpose</strong> — one extra pixel at the
+  bottom, copied from theirs, because capital letters sit optically high inside a
+  pill. It is the sort of detail that reads as made rather than generated.</p>
+
+  <p class="fyi">Hover darkens the <em>ground</em> and never the label. Focus is a
+  3px ring — theirs is a blue halo at <code>rgb(0,119,182)</code>; ours is the
+  blue we already verified at 5.9:1.</p>
+
+  <!-- ================================================= NEWSLETTER -->
+  <h2>The newsletter signup</h2>
+
+  <p class="lede">This is the one your 1,408 subscribers land in.</p>
+
+  <div class="panel panel--amber">
+    <p style="margin-block-start:0"><strong>⭐ The Guardian puts how often they
+    will email you ABOVE the newsletter's name.</strong></p>
+    <p style="margin-block-end:0;font-family:var(--serif);font-size:var(--sub);line-height:1.3">
+      Every weekday<br>First Edition</p>
+  </div>
+
+  <p>That is a writing decision, not a layout one. The thing a person most wants
+  to know before giving you their email is <strong>how often you are going to use
+  it</strong> — so it is answered before you even say what the thing is called.
+  They also say <em>“free”</em> out loud instead of leaving it assumed.</p>
+
+  <div class="spec">
+    <p class="spec__label">Ours</p>
+    <section class="signup">
+      <p class="signup__frequency">Once a month</p>
+      <h3 class="signup__name" style="margin-block-start:var(--s1)">What's on in Fort Kochi</h3>
+      <p class="signup__desc">The events worth your evening, the ones that moved,
+      and what we checked this month. Free.</p>
+      <form class="signup__form" onsubmit="return false">
+        <label class="signup__label" for="demo-email">Email address</label>
+        <input class="signup__input" id="demo-email" type="email" placeholder="you@example.com">
+        <button class="btn btn--primary" type="submit">Sign up</button>
+      </form>
+      <p class="signup__privacy">We only use your address for this. Unsubscribe in
+      one click, any time.</p>
+    </section>
+  </div>
+
+  <p><strong>It is not in a box.</strong> Theirs is transparent with no border and
+  no padding — it sits in the page. A boxed signup on a page of writing reads as
+  an advert, and an advert is the one thing every reader has trained themselves to
+  skip. Ours gets a hairline above and below and nothing else.</p>
+
+  <div class="panel">
+    <p style="margin-block-start:0">⚠️ <strong>One thing only you can decide:
+    how often.</strong> The cadence is required — the build refuses a signup
+    without one.</p>
+    <p style="margin-block-end:0">Do not promise a frequency the site cannot keep.
+    “Every week” that becomes every six weeks is a broken promise sitting in 1,408
+    inboxes. If the honest answer is <em>“when something changes”</em>, write
+    that — it is a better promise because it can be kept.</p>
+  </div>
+
+  <p class="fyi">The label above the field is visible, not a placeholder — a
+  placeholder disappears the moment somebody types, which is exactly when a person
+  using a magnifier needs it. And the privacy line is a promise, so it is quiet
+  but not set in the grey of fine print.</p>
+
+  <!-- ================================================= FURNITURE -->
+  <h2>Article furniture</h2>
+
+  <div class="spec">
+    <p class="spec__label">Standfirst — corrected against the real thing</p>
+    <p class="standfirst">A ninety-minute walk that most people do backwards, and
+    the one lane that makes it worth it.</p>
+    <p class="byline">Written by Shemeer · Fort Kochi · 3 August 2026</p>
+    <p class="fyi" style="margin-block-end:0">Measured: <strong>20px, weight 500,
+    in their headline face, black</strong>. My first version had it in the body
+    sans in grey, which made it read as a caption under the title instead of part
+    of it. The standfirst belongs to the headline.</p>
+  </div>
+
+  <div class="spec">
+    <p class="spec__label">Pull quote</p>
+    <figure class="pullquote">
+      <blockquote>They say ten, and they open at eleven. Everybody who lives here
+      knows it.</blockquote>
+      <figcaption>the man at the desk</figcaption>
+    </figure>
+    <p class="fyi" style="margin-block-end:0">A rule above and below, not a box and
+    not a giant quotation mark. ⛔ Never a fare or a time — a fact pulled out of the
+    body is a fact with no checked date on it. The build refuses those.</p>
+  </div>
+
+  <h3>Inline links — the underline is quieter than the word</h3>
+
+  <p>Measured in their body text: the link is coloured, has <em>no</em>
+  underline, and instead carries a <strong>light grey rule</strong> underneath.
+  A full-strength underline at body weight cuts through the descenders of every
+  link in a 2,000-word memoir. <a href="#shape">This link</a> uses their
+  mechanism — the colour names it, the quiet rule confirms it, and hovering
+  brings the rule up to full strength.</p>
+
+  <!-- ================================================= REFUSED -->
+  <h2>What we refuse</h2>
+
+  <div class="panel">
+    <p style="margin-block-start:0"><strong>Their section colours.</strong> The
+    Guardian tints headlines, links and pull quotes by section — measured purple
+    <code>rgb(101,0,84)</code> on Travel, red <code>rgb(199,0,0)</code> on News.
+    It is elegant, and it is already cut by your own direction document.</p>
+    <p style="margin-block-end:0">They are a newspaper with sections a reader
+    moves between. <strong>You are one place, told by one voice.</strong> Answer
+    pages and told pages are two rhythms of one publication — colouring them apart
+    would make them two sites. One accent, and it means <em>“we checked this”</em>.</p>
+  </div>
+
+  <p class="fyi">Also refused: the way they switch focus rings on and off with
+  JavaScript. That solved a problem the browser now solves by itself.</p>
+
+  <hr style="border:0;border-top:1px solid var(--rule);margin-block:var(--s9)">
+
+  <p class="fyi">Every Guardian number on this page was read off
+  theguardian.com in a browser on 5 August 2026, not recalled. ⚠️ Their cookie
+  wall was up throughout — measurements come from the page underneath it, which
+  is unaffected. It was not dismissed, because that would set a lasting
+  preference on Shemeer's own browser.</p>
+
+</div>

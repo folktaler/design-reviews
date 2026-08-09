@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cats of Kochi — Airbnb-faithful design system, 2026-08-09</title>
+<style>
+  body { font: 17px/1.5 system-ui, sans-serif; margin: 0; padding: 3rem 1.5rem;
+         max-width: 40rem; margin-inline: auto; color: #1c1a17; background: #fdfcf9; }
+  h1 { font-size: 1.75rem; margin: 0 0 .5rem; }
+  h2 { font-size: 1.1rem; margin: 2.5rem 0 .75rem; }
+  p { color: #5a544c; }
+  ul { list-style: none; padding: 0; margin: 1rem 0 0; }
+  li { padding: .85rem 0; border-top: 1px solid #ddd7cb; }
+  li:first-child { border-top: 0; }
+  a { color: #1c1a17; }
+  small { display: block; margin-top: .15rem; color: #5a544c; }
+  .gaps { padding: 0; margin: 1rem 0 0; }
+  .gaps li { border-top: 0; padding: 0 0 .85rem; }
+  code { font-size: .9em; background: #f4f1ea; padding: .1em .3em; border-radius: 2px; }
+</style>
+<h1>Cats of Kochi — the Airbnb-faithful system</h1>
+<p>Labelled <code>catsofkochi-airbnb-design-system-2026-08-09</code> — a different
+  system from the earlier Guardian-era one (<code>guardian-design-system-v1</code>),
+  stated here so nobody reviews the wrong one by name. 13 pages, one shared
+  faces file per font family, no build step and no JavaScript.</p>
+
+<h2>Known gaps — read this before reviewing</h2>
+<ul class="gaps">
+  <li><b>All 13 kits are consistent for the first time</b> — same faces, same
+    per-font fallback metrics, one declaration source (<code>faces-figtree.css</code>
+    / <code>faces-noticia-text.css</code>).</li>
+  <li><b>The Android fallback arm is unverified by rendering.</b> Fallback metrics
+    for Noto Serif and Roboto are derived from <code>@capsizecss</code>'s published
+    metrics, not measured on an Android device — nobody here has one to measure
+    against.</li>
+  <li><b><code>component-face-across-kits</code> is red in CI, and the check is
+    wrong, not the kits.</b> <code>.btn</code> in a Noticia kit and <code>.btn</code>
+    in the Figtree kit were never meant to render the same typeface — the two
+    families bind through different CSS variables by design. Being rescoped
+    separately; not a defect in what you're looking at here.</li>
+  <li><b>This site renders in standards mode; the Claude Design preview does not.</b>
+    Every kit published there reports <code>document.compatMode: "BackCompat"</code>
+    (quirks) because that host's serve wrapper injects markup ahead of the
+    doctype — not our markup, not fixable there. Where the two differ, trust
+    this one.</li>
+</ul>
+
+<h2>System reference</h2>
+<ul>
+  <li>
+    <a href="system.html"><b>System</b></a>
+    <small>Every token, face and component in one specimen sheet — start here.</small>
+  </li>
+  <li>
+    <a href="type_before_after.html"><b>Type change, before and after</b></a>
+    <small>The Figtree/Noticia Text switch, side by side.</small>
+  </li>
+  <li>
+    <a href="controls.html"><b>Controls &amp; furniture</b></a>
+    <small>Buttons, links, form controls and chrome, isolated from any one page.</small>
+  </li>
+</ul>
+
+<h2>Listing pages</h2>
+<ul>
+  <li>
+    <a href="homepage.html"><b>Homepage</b></a>
+    <small>The site's front door.</small>
+  </li>
+  <li>
+    <a href="index_browse.html"><b>Index &amp; browse</b></a>
+    <small>The full-listing browse mode.</small>
+  </li>
+  <li>
+    <a href="today.html"><b>Today in Fort Kochi</b></a>
+    <small>The free daily page.</small>
+  </li>
+  <li>
+    <a href="itinerary.html"><b>The paid itinerary</b></a>
+    <small>The itinerary-engine-backed page.</small>
+  </li>
+</ul>
+
+<h2>Venue pages</h2>
+<ul>
+  <li>
+    <a href="venue.html"><b>Venue page</b></a>
+    <small>Paradesi Synagogue — the Airbnb-faithful venue page, with the real
+      hero photograph and the posted-vs-observed hours moat.</small>
+  </li>
+  <li>
+    <a href="venue_page.html"><b>Venue page (UI kit)</b></a>
+    <small>The component-level venue kit.</small>
+  </li>
+  <li>
+    <a href="venue_pages.html"><b>Venue pages — three shapes</b></a>
+    <small>Known/missing/contradicted-hours states, side by side.</small>
+  </li>
+</ul>
+
+<h2>Told pages</h2>
+<ul>
+  <li>
+    <a href="told_page.html"><b>A told page</b></a>
+    <small>"The mutton walk" — the full editorial article shape.</small>
+  </li>
+  <li>
+    <a href="told_page_listing.html"><b>Told page — listing mode</b></a>
+    <small>Told pages as they appear in a list.</small>
+  </li>
+</ul>
+
+<h2>Answer pages</h2>
+<ul>
+  <li>
+    <a href="answer_page.html"><b>Answer page</b></a>
+    <small>Kochi Water Metro — the direct-answer page shape.</small>
+  </li>
+</ul>
+</html>

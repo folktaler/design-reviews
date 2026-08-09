@@ -1,0 +1,569 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cats of Kochi — the Airbnb-faithful system</title>
+<link rel="stylesheet" href="faces-figtree.css">
+<style>
+  /* ⚠️ THIS COMMENT DESCRIBES TWO DIFFERENT FILES AND MUST STAY TRUE OF BOTH.
+   * IN THE REPO: the faces are inlined as base64, below. They stay that way so
+   * check-kits.mjs's `font-404` fault has something in this file to corrupt — a
+   * <link> to a shared stylesheet survives that fault and the gate goes on
+   * passing while testing nothing.
+   * WHEN PUBLISHED: `inline_assets.py --siblings` LIFTS the real faces out into
+   * faces-figtree.css and leaves the local() fallback here. So a published copy
+   * of this kit declares no base64 at all, by design, and links its faces as a
+   * sibling — which Claude Design serves and an Artifact's CSP would not.
+   * ⛔ An earlier version of that tool moved the fallback out too, and every
+   * published kit then declared no fonts whatsoever and landed on plain Georgia
+   * while this comment still claimed the faces were inline. If you are reading
+   * an empty block below, you are reading a published copy built by that
+   * version — regenerate it.
+   * ⛔ NOT for the real site: there, link fonts.css so the browser caches
+   * two files across every page instead of paying base64 overhead each time. */
+  /* ══ SYSTEM FACES — copied verbatim from design-system/fonts.css.
+     ⛔ Do not edit here. Edit fonts.css, then re-copy this whole block.
+     A kit that disagrees with fonts.css lies to whoever reviews it. ══ */
+  
+  
+  /* Figtree Fallback — REWRITTEN 2026-08-08 (F5). See design-system/fonts.css:
+     one @font-face per local font, real metrics, no single number forced
+     across Helvetica Neue/Roboto/Arial at once. */
+  @font-face { font-family:'Figtree Fallback: Helvetica Neue';
+    src:local('Helvetica Neue'),local('HelveticaNeue');
+    ascent-override:95.2116%; descent-override:25.0557%; line-gap-override:0%; size-adjust:99.7778%; }
+  @font-face { font-family:'Figtree Fallback: Roboto';
+    src:local('Roboto Regular'),local('Roboto-Regular');
+    ascent-override:94.1165%; descent-override:24.7675%; size-adjust:100.9387%; }
+  @font-face { font-family:'Figtree Fallback: Arial';
+    src:local('Arial'),local('ArialMT');
+    ascent-override:94.3231%; descent-override:24.8219%; line-gap-override:0%; size-adjust:100.7176%; }
+  /* ══ END SYSTEM FACES ══ */
+
+  /* ══ SYSTEM TOKENS — copied verbatim from design-system/tokens/*.css.
+     Every value here must be traceable to a token file. ══ */
+  :root {
+    /* colors.css */
+    --cok-amber:#ffa700; --cok-amber-ink:#946100; --cok-amber-wash:#fdf2db;
+    --cok-paper:#fdfcf9; --cok-paper-sunk:#f4f1ea;
+    --cok-ink:#1c1a17; --cok-ink-quiet:#5a544c; --cok-rule:#ddd7cb;
+    --cok-scrim:rgba(28,26,23,.72); --cok-focus:#0b60c4;
+    /* theme.css */
+    --surface-page:var(--cok-paper); --surface-quiet:var(--cok-paper-sunk);
+    --surface-checked:var(--cok-amber-wash); --surface-stamp:var(--cok-amber);
+    --surface-scrim:var(--cok-scrim);
+    --text-primary:var(--cok-ink); --text-secondary:var(--cok-ink-quiet);
+    --text-on-stamp:var(--cok-ink); --text-on-scrim:var(--cok-paper);
+    --action-primary-bg:var(--cok-ink); --action-primary-text:var(--cok-paper);
+    --action-keep-bg:var(--cok-amber); --action-keep-text:var(--cok-ink);
+    --action-secondary-bg:var(--cok-paper-sunk); --action-secondary-text:var(--cok-ink);
+    --border-hairline:var(--cok-rule); --border-band:var(--cok-rule);
+    --border-checked:var(--cok-amber-ink);
+    --focus-ring:var(--cok-focus); --focus-ring-width:5px; --focus-ring-offset:3px;
+    /* typography.css */
+    --font-ui:'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
+    --figures-aligned:tabular-nums;
+    --type-body:clamp(1.1875rem,1.156rem + 0.17vw,1.25rem);
+    --type-display:clamp(1.875rem,1.55rem + 1.65vw,2.5rem);
+    --type-heading:clamp(1.5625rem,1.47rem + 0.5vw,1.75rem);
+    --type-subheading:clamp(1.3125rem,1.26rem + 0.3vw,1.4375rem);
+    --type-figure:clamp(2rem,1.8rem + 1vw,2.5rem);
+    --type-ui:1.0625rem; --type-small:1rem; --type-micro:.875rem;
+    --leading-body:1.5; --leading-display:1.15; --leading-heading:1.2;
+    --leading-ui:1.3; --leading-tight:1.375; --leading-figure:1.1;
+    --paragraph-gap:.75em;
+    --weight-regular:400; --weight-medium:500; --weight-semibold:600; --weight-bold:700;
+    --tracking-display:-.01em; --tracking-micro:.04em;
+    /* spacing.css */
+    --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem;
+    --space-5:1.25rem; --space-6:1.5rem; --space-7:2rem; --space-8:2.5rem;
+    --space-9:3rem; --space-10:4rem;
+    --gutter:var(--space-6);
+    --pitch-rule-heading:2.0625rem; --pitch-row:1.25rem;
+    --measure:32rem; --measure-wide:62rem; --measure-small:22rem;
+    --radius-none:0; --radius-card:.5rem; --radius-control:.75rem;
+    --radius-pill:999px; --radius-round:50%;
+    --rule-hairline:1px; --rule-band:8px; --rule-leading:4px;
+    --tap:44px; --tap-comfortable:52px;
+    --button-height:3.25rem; --button-pad:0 var(--space-6);
+    /* motion.css */
+    --motion-quick:120ms; --motion-ease:cubic-bezier(.2,0,.38,.9);
+    /* the stand-in for DM Serif Display, used ONLY in the last section.
+       Declared as --old-serif so the checker excludes it from the face
+       comparison, exactly as type_before_after does. */
+    --old-serif:Georgia,'Times New Roman',serif;
+  }
+  /* ══ END SYSTEM TOKENS ══ */
+
+  * { box-sizing: border-box; }
+  body {
+    margin:0; background:var(--surface-page); color:var(--text-primary);
+    font-family:var(--font-ui); font-size:var(--type-body);
+    line-height:var(--leading-body);
+  }
+  /* ⭐ --measure is the TEXT column; .wrap adds the gutters ON TOP of it.
+     A border-box wrapper capped at --measure renders 2 × gutter narrower than
+     the token says. Ship the calc with the value, always. */
+  .wrap { max-width: calc(var(--measure) + var(--gutter) * 2);
+          margin-inline:auto; padding-inline:var(--gutter); }
+  h1,h2,h3 { margin:0 0 var(--space-4); font-weight:var(--weight-semibold); }
+  h1 { font-size:var(--type-display); line-height:var(--leading-display);
+       letter-spacing:var(--tracking-display); }
+  h2 { font-size:var(--type-heading); line-height:var(--leading-heading); }
+  h3 { font-size:var(--type-subheading); line-height:var(--leading-heading); }
+  p { margin:0 0 var(--paragraph-gap); }
+  :focus-visible { outline:var(--focus-ring-width) solid var(--focus-ring);
+                   outline-offset:var(--focus-ring-offset); }
+  hr.divider { border:0; background:var(--border-hairline);
+               margin-block:var(--space-8) var(--pitch-rule-heading); }
+  hr.divider--hairline { height:var(--rule-hairline); }
+  hr.divider--band { height:var(--rule-band);
+                     margin-inline:calc(var(--gutter) * -1); }
+
+  /* ── header nav. BOTH axes floored, and the underline tracks the TEXT ── */
+  header { border-block-end:var(--rule-hairline) solid var(--border-hairline); }
+  nav ul { display:flex; gap:var(--space-2); list-style:none; margin:0; padding:0; }
+  nav a { display:inline-flex; align-items:center; justify-content:center;
+          min-height:var(--tap-comfortable); min-inline-size:var(--tap-comfortable);
+          padding-inline:var(--space-3); border:0;
+          font-size:var(--type-ui); font-weight:var(--weight-medium);
+          color:var(--text-primary); text-decoration:none; }
+  nav a[aria-current] { text-decoration:underline;
+          text-decoration-color:var(--cok-amber); text-decoration-thickness:2px;
+          text-underline-offset:3px; }
+
+  /* ── buttons: RANK IS SHAPE ── */
+  .btn { display:inline-flex; align-items:center; justify-content:center;
+         min-height:var(--button-height); min-inline-size:var(--tap-comfortable);
+         padding:var(--button-pad); border:0; cursor:pointer;
+         font-family:var(--font-ui); font-size:var(--type-ui);
+         font-weight:var(--weight-medium); line-height:var(--leading-ui);
+         text-decoration:none;
+         transition:background-color var(--motion-quick) var(--motion-ease); }
+  .btn--primary { border-radius:var(--radius-pill);
+                  background:var(--action-primary-bg); color:var(--action-primary-text); }
+  .btn--keep    { border-radius:var(--radius-pill);
+                  background:var(--action-keep-bg); color:var(--action-keep-text); }
+  .btn--secondary { border-radius:var(--radius-control);
+                  background:var(--action-secondary-bg); color:var(--action-secondary-text); }
+
+  /* ── the facts row ── */
+  .facts { margin:0; border:var(--rule-hairline) solid var(--border-hairline);
+           border-inline-start:var(--rule-leading) solid var(--border-checked);
+           background:var(--surface-checked); padding:var(--space-2) var(--space-4); }
+  .row { display:grid; grid-template-columns:minmax(6.5rem,30%) 1fr;
+         gap:var(--space-2) var(--space-4); padding-block:var(--space-3);
+         align-items:baseline; }
+  .row + .row { border-block-start:var(--rule-hairline) solid var(--border-hairline); }
+  .row__label { margin:0; font-size:var(--type-ui);
+                font-weight:var(--weight-medium); line-height:var(--leading-ui); }
+  .row__value { margin:0; font-size:var(--type-ui); line-height:var(--leading-tight); }
+  .row__value--aligned { font-variant-numeric:var(--figures-aligned); }
+  .row__posted { color:var(--text-secondary); }
+  .row__checked { display:block; margin-block-start:var(--space-1);
+                  font-size:var(--type-micro); font-weight:var(--weight-medium);
+                  line-height:var(--leading-tight); color:var(--text-secondary);
+                  font-variant-numeric:var(--figures-aligned); }
+
+  /* ── the trust card ── */
+  .trust { display:grid; grid-template-columns:repeat(3,1fr); min-height:5rem;
+           border:var(--rule-hairline) solid var(--border-hairline);
+           border-radius:var(--radius-card); }
+  .trust__cell { display:flex; flex-direction:column; align-items:center;
+                 justify-content:center; gap:var(--space-1);
+                 padding:var(--space-3) var(--space-2); text-align:center; }
+  .trust__cell + .trust__cell {
+                 border-inline-start:var(--rule-hairline) solid var(--border-hairline); }
+  .trust__value { font-size:var(--type-subheading); font-weight:var(--weight-medium);
+                  line-height:1.1; font-variant-numeric:var(--figures-aligned); }
+  .trust__label { font-size:var(--type-micro); font-weight:var(--weight-medium);
+                  line-height:var(--leading-tight); color:var(--text-secondary); }
+
+  /* ── the badge ── */
+  .badge { display:inline-flex; align-items:center; gap:var(--space-2);
+           font-size:var(--type-micro); font-weight:var(--weight-medium);
+           line-height:var(--leading-tight); }
+  .badge--on-photo { color:var(--text-on-scrim); background:var(--surface-scrim);
+           padding:var(--space-1) var(--space-2); border-radius:var(--radius-card); }
+
+  /* ── the photograph treatment. ⚠️ NO <img> IN THIS KIT — see the note at the
+       foot. These are CSS boxes standing in for the corner rule only. ── */
+  .photo { margin:0; }
+  .photo__box { display:flex; align-items:flex-end; padding:var(--space-3);
+                background:var(--surface-quiet);
+                border:var(--rule-hairline) dashed var(--border-hairline); }
+  .photo--bleed { margin-inline:calc(var(--gutter) * -1); }
+  .photo--bleed .photo__box { aspect-ratio:1.05/1; border-radius:var(--radius-none); }
+  .photo--card  .photo__box { aspect-ratio:4/3;    border-radius:var(--radius-card); }
+
+  /* ── the place card ── */
+  .card { position:relative; display:flex; flex-direction:column; gap:var(--space-2); }
+  .card > .photo { margin-block-end:var(--space-1); }
+  .card__kind { margin:0; font-size:var(--type-small); font-weight:var(--weight-medium);
+                line-height:var(--leading-tight); }
+  .card__name { margin:0; font-size:var(--type-small); font-weight:var(--weight-regular);
+                line-height:var(--leading-tight); color:var(--text-secondary); }
+  .card__name a { color:inherit; text-decoration:none; }
+  .card__name > a::after { content:''; position:absolute; inset:0; }
+  .card__facts { margin:0; font-size:var(--type-small); line-height:var(--leading-tight);
+                 color:var(--text-secondary); font-variant-numeric:var(--figures-aligned); }
+  .card__dot { color:var(--border-hairline); }
+  .card__checked { margin:0; font-size:var(--type-micro); font-weight:var(--weight-medium);
+                   line-height:var(--leading-tight); color:var(--text-secondary);
+                   font-variant-numeric:var(--figures-aligned); }
+
+  /* ── the sticky action bar. Shown IN FLOW here, not fixed: a fixed bar in a
+       specimen sheet covers the specimen. Its real position is bottom:0. ── */
+  .bar { display:flex; flex-direction:column; gap:var(--space-2);
+         padding:var(--space-3) var(--gutter);
+         background:var(--surface-page);
+         border-block-start:var(--rule-hairline) solid var(--border-hairline);
+         margin-inline:calc(var(--gutter) * -1); }
+  .bar__context { margin:0; font-size:var(--type-micro); font-weight:var(--weight-medium);
+                  line-height:var(--leading-tight); color:var(--text-secondary);
+                  font-variant-numeric:var(--figures-aligned); }
+
+  /* ── specimen furniture ── */
+  .spec { display:grid; gap:var(--space-3); margin-block-end:var(--space-6); }
+  .spec__label { font-size:var(--type-micro); font-weight:var(--weight-medium);
+                 letter-spacing:var(--tracking-micro); text-transform:uppercase;
+                 color:var(--text-secondary); }
+  .swatches { display:grid; grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
+              gap:var(--space-2); list-style:none; margin:0; padding:0; }
+  .swatch { padding:var(--space-3); border-radius:var(--radius-card);
+            font-size:var(--type-micro); line-height:var(--leading-tight); }
+  .shapes { display:flex; flex-wrap:wrap; gap:var(--space-3); list-style:none;
+            margin:0; padding:0; }
+  .shape { display:flex; align-items:center; justify-content:center;
+           width:5.5rem; height:5.5rem; background:var(--surface-quiet);
+           border:var(--rule-hairline) solid var(--border-hairline);
+           font-size:var(--type-micro); text-align:center; }
+  .grid2 { display:grid; gap:var(--space-6); }
+  @media (min-width:40rem){ .grid2 { grid-template-columns:1fr 1fr; } }
+
+  .note-frame { margin-block-start:var(--space-10);
+                border-block-start:var(--rule-band) solid var(--border-band);
+                background:var(--surface-quiet); }
+  .note-frame .wrap { padding-block:var(--space-6); }
+  .note-frame h2 { font-size:var(--type-subheading); }
+  .note-frame li { margin-block-end:var(--space-3); }
+</style>
+
+<header>
+  <div class="wrap">
+    <nav aria-label="Sections of this kit">
+      <ul>
+        <li><a href="#type" aria-current="true">Type</a></li>
+        <li><a href="#colour">Colour</a></li>
+        <li><a href="#shape">Shape</a></li>
+        <li><a href="#parts">Parts</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>The system, not the pages</h1>
+  <p>
+    Everything below is a token or a component. There is no page here on purpose:
+    the page types are the next piece of work and they will be built out of these
+    parts rather than alongside them. Every number on this sheet was measured on
+    Airbnb at a real 390&nbsp;pixel phone viewport, or measured in Chrome on the
+    typeface itself, and the two places it departs from what was measured are
+    marked where they occur rather than in a footnote.
+  </p>
+
+  <hr class="divider divider--hairline" id="type">
+  <h2>Type — one family, seven combinations</h2>
+  <p>
+    Airbnb renders four hundred and sixty-three text elements in a single family
+    and ships twenty-four size and weight combinations. Seven of those cover four
+    hundred and eighteen elements, so the tail is cut. One person publishing
+    cannot carry twenty-four, and nobody reading in the sun would notice if they
+    could. What is kept is the discipline rather than the count.
+  </p>
+
+  <div class="spec">
+    <span class="spec__label">display · 30 → 40 · 600</span>
+    <span style="font-size:var(--type-display);line-height:var(--leading-display);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-display)">The last ferry leaves at nine</span>
+    <span class="spec__label">heading · 25 → 28 · 600</span>
+    <span style="font-size:var(--type-heading);line-height:var(--leading-heading);font-weight:var(--weight-semibold)">Getting there from the fort</span>
+    <span class="spec__label">subheading · 21 → 23 · 600</span>
+    <span style="font-size:var(--type-subheading);line-height:var(--leading-heading);font-weight:var(--weight-semibold)">What it costs</span>
+    <span class="spec__label">body · 19 → 20 · 400 — the floor, and we refuse Airbnb's 14</span>
+    <span style="font-size:var(--type-body);line-height:var(--leading-body)">The jetty is a five minute walk from the bus stand.</span>
+    <span class="spec__label">ui · 17 · 500 — controls, facts rows, anything a thumb aims at</span>
+    <span style="font-size:var(--type-ui);line-height:var(--leading-ui);font-weight:var(--weight-medium)">Show all 43 places</span>
+    <span class="spec__label">small · 16 · 400 — captions, bylines, card rows</span>
+    <span style="font-size:var(--type-small);line-height:var(--leading-tight)">Photographed on a Tuesday, before the rain.</span>
+    <span class="spec__label">micro · 14 · 500 — stamps, kickers, counts. The floor of the system.</span>
+    <span style="font-size:var(--type-micro);line-height:var(--leading-tight);font-weight:var(--weight-medium)">We went and checked this on 3 August 2026</span>
+    <span class="spec__label">figure · 32 → 40 · 700 — one per page, at most</span>
+    <span style="font-size:var(--type-figure);line-height:var(--leading-figure);font-weight:var(--weight-bold);font-variant-numeric:var(--figures-aligned)">₹110</span>
+  </div>
+
+  <h3>The one decision here that is ours and not Airbnb's</h3>
+  <p>
+    Every surface that prints a clock time, a fare, a date or a count switches on
+    tabular figures. Neither Airbnb nor the live site does this. The reason is not
+    tidiness: with the default figures a one is roughly two thirds the width of a
+    zero, so a column of departure times drifts sideways as you read down it, and
+    a drifting column reads as an estimate rather than a fact.
+  </p>
+  <div class="grid2">
+    <div>
+      <p class="spec__label">default figures — the times do not line up</p>
+      <p style="font-size:var(--type-ui);line-height:1.6;margin:0">21:00<br>11:00<br>17:45<br>&#8377;110<br>&#8377;40</p>
+    </div>
+    <div>
+      <p class="spec__label">tabular figures — what the system ships</p>
+      <p style="font-size:var(--type-ui);line-height:1.6;margin:0;font-variant-numeric:var(--figures-aligned)">21:00<br>11:00<br>17:45<br>&#8377;110<br>&#8377;40</p>
+    </div>
+  </div>
+
+  <hr class="divider divider--hairline" id="colour">
+  <h2>Colour — the discipline is how little there is</h2>
+  <p>
+    On an Airbnb search page showing thirty-six listings with prices, badges and
+    ratings, the only red on the page is the logo. Prices are ink. Badges are ink.
+    Nothing is coloured in order to sell it. Amber here has one job, and the job
+    is not selling: it marks the thing the reader came for, which on a page about
+    a place is the date we last went and looked.
+  </p>
+  <ul class="swatches">
+    <li class="swatch" style="background:var(--cok-paper);border:1px solid var(--cok-rule)">paper<br>#fdfcf9</li>
+    <li class="swatch" style="background:var(--cok-paper-sunk)">quiet panel<br>#f4f1ea</li>
+    <li class="swatch" style="background:var(--cok-ink);color:var(--cok-paper)">ink 16.9:1<br>#1c1a17</li>
+    <li class="swatch" style="background:var(--cok-paper);color:var(--cok-ink-quiet);border:1px solid var(--cok-rule)">quiet ink 7.4:1<br>#5a544c</li>
+    <li class="swatch" style="background:var(--cok-amber);color:var(--cok-ink)">amber 8.9:1<br>#ffa700</li>
+    <li class="swatch" style="background:var(--cok-amber-wash);color:var(--cok-ink)">checked wash<br>#fdf2db</li>
+  </ul>
+  <p>
+    Two text greys, not three. Airbnb ships a third at two point one seven to one,
+    used sixty times on one page, and it fails every standard there is. Our quieter
+    ink is seven point four to one, which is forty per cent better than the grey
+    they use for everything secondary. If something needs to recede further than
+    that, it needs fewer words rather than paler ones.
+  </p>
+
+  <hr class="divider divider--hairline" id="shape">
+  <h2>Shape — five values, each with one job</h2>
+  <ul class="shapes">
+    <li class="shape" style="border-radius:var(--radius-none)">0<br>full-bleed photo,<br>chrome</li>
+    <li class="shape" style="border-radius:var(--radius-card)">8<br>a card, and a<br>photo inside one</li>
+    <li class="shape" style="border-radius:var(--radius-control)">12<br>secondary button,<br>map, chip</li>
+    <li class="shape" style="border-radius:var(--radius-pill)">pill<br>primary<br>button</li>
+    <li class="shape" style="border-radius:var(--radius-round)">circle<br>a cat</li>
+  </ul>
+  <p>
+    The rule that governs all five is about photographs, and it corrects the study
+    that produced it. A photograph running to the edge of the page is square. A
+    photograph inside a card takes the card&rsquo;s corner. Walking every picture on
+    the Airbnb listing page found the hero at zero, a photograph inside a card at
+    eight and an avatar at a half, all three resolving the same declaration with a
+    value set per instance. Of the twelve rules that touch it, not one sits inside
+    a media query, so the corner belongs to the component&rsquo;s job rather than to
+    the width of the screen.
+  </p>
+  <div class="grid2">
+    <figure class="photo photo--card">
+      <div class="photo__box"><span class="badge badge--on-photo">3 / 7</span></div>
+      <figcaption class="spec__label">inside a card — 8px, and 4:3</figcaption>
+    </figure>
+    <figure class="photo photo--card">
+      <div class="photo__box" style="border-radius:var(--radius-none);aspect-ratio:1.05/1"><span class="badge badge--on-photo">1 / 12</span></div>
+      <figcaption class="spec__label">full bleed — square, and near-square</figcaption>
+    </figure>
+  </div>
+
+  <hr class="divider divider--band" id="parts">
+  <h2>The parts</h2>
+
+  <h3>Buttons — rank is carried by shape</h3>
+  <p>
+    A pill is the one thing to do on this page. A twelve pixel corner is
+    everything else. Both are the same height, so the only difference a reader
+    sees at a glance is the corner, and a corner survives colour blindness, glare
+    and a screenshot forwarded on WhatsApp. Airbnb distinguishes their two ranks
+    exactly this way and it is the single most transferable thing they do.
+  </p>
+  <p style="display:flex;flex-wrap:wrap;gap:var(--space-3)">
+    <a class="btn btn--primary" href="#parts" data-button="primary">Check today's times</a>
+    <a class="btn btn--secondary" href="#parts" data-button="secondary" data-count="43">Show all 43 places</a>
+    <a class="btn btn--keep" href="#parts" data-button="keep">Get this by email</a>
+  </p>
+  <p class="spec__label">
+    the amber one is the single control that keeps a reader, and a page has at most one
+  </p>
+
+  <h3>The facts row</h3>
+  <p>
+    Three rows, three states, and the middle one is the whole business. A fact we
+    have is printed. A fact we do not have keeps its heading and puts the reason
+    where the value would be, because a blank is bad and a named absence is trust.
+    A fact that disagrees with the sign on the door gets both halves and a date,
+    because knowing the posted hours are wrong is the thing nobody else has.
+  </p>
+  <dl class="facts">
+    <div class="row" data-facts-row="fare" data-fact="known">
+      <dt class="row__label">Fare</dt>
+      <dd class="row__value row__value--aligned"><span data-fact-value>&#8377;40 each way</span></dd>
+    </div>
+    <div class="row" data-facts-row="hours" data-fact="contradicts">
+      <dt class="row__label">Hours</dt>
+      <dd class="row__value row__value--aligned">
+        <span class="row__posted" data-fact-posted>Posted: 10am.</span>
+        <span data-fact-actual>Actually opens at 11am.</span>
+        <span class="row__checked" data-checked-on="3 August 2026">We went and checked this on 3 August 2026</span>
+      </dd>
+    </div>
+    <div class="row" data-facts-row="how long" data-fact="missing">
+      <dt class="row__label">How long</dt>
+      <dd class="row__value"><span data-fact-missing>We have not timed this crossing since the monsoon.</span></dd>
+    </div>
+  </dl>
+
+  <h3>The trust card</h3>
+  <p>
+    Airbnb&rsquo;s version of this holds a star rating, a badge and a review count.
+    We have no crowd and cannot manufacture one, so what is taken is the shelf and
+    not the goods: three cells, thin rules between them, a number above its label,
+    and no colour anywhere in it. What sits on the shelf is a record of our own
+    work rather than anyone&rsquo;s opinion.
+  </p>
+  <div class="trust" data-trust-card>
+    <div class="trust__cell" data-trust-cell="last checked">
+      <span class="trust__value">3 Aug</span><span class="trust__label">last checked</span>
+    </div>
+    <div class="trust__cell" data-trust-cell="and looked">
+      <span class="trust__value">We went</span><span class="trust__label">and looked</span>
+    </div>
+    <div class="trust__cell" data-trust-cell="posted hours were wrong">
+      <span class="trust__value">2 of 5</span><span class="trust__label">posted hours were wrong</span>
+    </div>
+  </div>
+
+  <h3>The card</h3>
+  <p>
+    What kind of place, and where. Then the name, in grey. Then the facts. Airbnb
+    puts the proper noun third and demotes it, because a reader looking at a list
+    is deciding rather than recognising, and this is the row order a travel index
+    has needed all along. The live site does the opposite.
+  </p>
+  <div class="grid2">
+    <article class="card" data-place-card>
+      <figure class="photo photo--card"><div class="photo__box"></div></figure>
+      <p class="card__kind" data-card-row="kind">Synagogue in Mattancherry</p>
+      <h3 class="card__name" data-card-row="name" style="margin:0"><a href="#parts">Paradesi Synagogue</a></h3>
+      <p class="card__facts" data-card-row="facts">
+        <span>Sun&ndash;Thu to 6pm</span><span class="card__dot" aria-hidden="true"> · </span><span>Fri to 2pm</span><span class="card__dot" aria-hidden="true"> · </span><span>shut Sat</span>
+      </p>
+      <p class="card__checked" data-checked-on="7 August 2026">Read from the synagogue's own site, 7 August 2026</p>
+    </article>
+    <article class="card" data-place-card>
+      <figure class="photo photo--card"><div class="photo__box"></div></figure>
+      <p class="card__kind" data-card-row="kind">Water Metro from Fort Kochi</p>
+      <h3 class="card__name" data-card-row="name" style="margin:0"><a href="#parts">Vypin crossing</a></h3>
+      <!-- ⛔ TWO FACTS, NOT THREE, AND ON PURPOSE. The third slot held "every 15 min",
+           which nobody sourced. A specimen that keeps a slot filled to look complete
+           is the same defect as a heading that counts — the last slot gets an
+           invention. ⚠️ And this card said "Ferry … ₹4": ₹20 is the WATER METRO fare
+           and the two are different services at different prices. Fixed on the way
+           past, having briefly made that exact mistake myself. -->
+      <p class="card__facts" data-card-row="facts">
+        <span>&#8377;20 one way</span><span class="card__dot" aria-hidden="true"> · </span><span>about 6 minutes</span>
+      </p>
+      <p class="card__checked" data-checked-on="7 August 2026">Read from the operator's own site, 7 August 2026</p>
+    </article>
+  </div>
+
+  <h3>The sticky action bar</h3>
+  <p>
+    Shown here in the flow of the page rather than pinned, because a bar fixed to
+    the bottom of a specimen sheet covers the specimen. Airbnb&rsquo;s is a hundred
+    and twenty-seven pixels tall and permanent, which is fifteen per cent of a
+    phone screen given up on every page they publish. Ours is allowed on a venue
+    page and on the itinerary and nowhere else, because a told place has nothing to
+    pin and a hundred and ninety of our pages are told places.
+  </p>
+  <div class="bar" data-action-bar="venue">
+    <p class="bar__context" data-action-context>Shuts at 6pm &middot; 20 minutes on foot</p>
+    <a class="btn btn--primary" href="#parts" data-button="primary">Check today's times</a>
+  </div>
+
+  <hr class="divider divider--band">
+  <h2>One decision, and it is yours</h2>
+  <p>
+    Adopting one family for everything retires DM&nbsp;Serif&nbsp;Display, the serif
+    in the brand a reader already sees at the top of every page today. That is the
+    largest brand consequence in this system and it has not been assumed. The same
+    masthead is set both ways below. There is no wrong answer, and the honest
+    argument for each is one sentence.
+  </p>
+  <div class="grid2">
+    <div>
+      <p class="spec__label">A — one family, all sans</p>
+      <p style="font-size:var(--type-display);line-height:var(--leading-display);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-display);margin:0 0 var(--space-2)">Cats of Kochi</p>
+      <p style="font-size:var(--type-small);line-height:var(--leading-tight);margin:0">Everything on the site speaks in one voice, and a facts strip can never look like a different website from the essay above it.</p>
+    </div>
+    <div>
+      <p class="spec__label">B — a serif masthead over the sans</p>
+      <p style="font-family:var(--old-serif);font-size:var(--type-display);line-height:var(--leading-display);font-weight:var(--weight-regular);margin:0 0 var(--space-2)">Cats of Kochi</p>
+      <p style="font-size:var(--type-small);line-height:var(--leading-tight);margin:0">The site keeps the face fourteen hundred subscribers already recognise, and the serif does nothing except say the name.</p>
+    </div>
+  </div>
+</main>
+
+<div class="note-frame">
+  <div class="wrap">
+    <h2>Notes on this sheet — not part of the design</h2>
+    <ul>
+      <li>
+        <strong>⛔ The content in these specimens is illustrative, except where it
+        names a real place — and those are sourced.</strong> The two place cards
+        carry the Paradesi Synagogue's real hours and a real Water Metro fare, each
+        stamped with where it was read and when. Everything else — the label/value
+        pairs, the "posted 10am, actually 11am" row, the sample prices — exists to
+        show a shape and names nobody. ⭐ <strong>There are deliberately two stamp
+        wordings and the difference is the point.</strong> <em>"Read from the
+        venue's own site"</em> on the place cards, because that is what was done;
+        <em>"We went and checked"</em> on the contradicts row, because a posted
+        time can only be contradicted by somebody standing in front of it. That
+        row names no venue for exactly this reason — it demonstrates a state
+        without asserting a fact. ⚠️ A specimen that badges invented content as
+        checked teaches the badge to mean nothing, which costs more than the
+        specimen is worth.
+      </li>
+      <li>
+        <strong>How to tell whether you are reading Figtree.</strong> Both
+        <code>woff2</code> files are now on disk. In the repo this kit carries them
+        inline; published, it links them from <code>faces-figtree.css</code> beside
+        it. ⚠️ If the words here look like Georgia or Helvetica, the faces did not
+        arrive — check <code>document.fonts</code> for <code>Figtree:loaded</code>
+        rather than trusting <code>fonts.check()</code>, which returns true for a
+        font that is absent and has done so on this project before. A missing face
+        does not look broken; it looks like a different, plausible design.
+      </li>
+      <li>
+        <strong>There is no photograph on this sheet.</strong> The two picture
+        boxes are dashed CSS rectangles standing in for the corner rule only. This
+        kit was written by an agent with no shell, which cannot copy a hundred
+        kilobyte base64 payload into a file. <code>told_page</code> carries a real
+        one. Nothing here should be read as a judgement about how photographs look.
+      </li>
+      <li>
+        <strong>Option B is set in Georgia, not in DM Serif Display.</strong> Same
+        genre — a high-contrast display serif — and not the brand face. It answers
+        the structural question, which is whether a serif masthead earns its place
+        at all. It does not answer how the real face looks beside Figtree.
+      </li>
+      <li>
+        <strong>Every number on this sheet is measured, and two came out against
+        the study that produced them.</strong> The claim that Airbnb&rsquo;s
+        photographs are square was true of hero photographs and false of card
+        photographs. The claim that black on amber is two point four times more
+        legible than Airbnb&rsquo;s button is true of pure black, and this system
+        ships a warm near-black, so the honest multiple is one point nine eight.
+      </li>
+    </ul>
+  </div>
+</div>

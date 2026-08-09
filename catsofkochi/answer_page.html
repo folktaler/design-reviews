@@ -1,0 +1,388 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Answer page — Kochi Water Metro</title>
+
+<link rel="stylesheet" href="faces-noticia-text.css">
+<style>
+  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
+   * Artifacts sit behind a strict CSP with no server and can never fetch
+   * /fonts/*.woff2, so the face must travel inside the file.
+   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
+   * three files across every page instead of paying base64 overhead each time.
+   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  
+  
+  
+  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real
+     metrics, no single number forced across Georgia/Noto Serif/Times New
+     Roman at once. */
+  @font-face {
+    font-family: 'Noticia Fallback: Georgia';
+    src: local('Georgia');
+    ascent-override: 101.8313%;
+    descent-override: 27.4232%;
+    size-adjust: 105.586%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Noto Serif';
+    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
+    ascent-override: 109.8716%;
+    descent-override: 29.5885%;
+    size-adjust: 97.8593%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Times New Roman';
+    src: local('Times New Roman'), local('TimesNewRomanPSMT');
+    ascent-override: 92.7969%;
+    descent-override: 24.9903%;
+    line-gap-override: 0%;
+    size-adjust: 115.8654%;
+  }
+  /* ══ END SYSTEM FACES ══ */
+
+  :root {
+    --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
+    --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    --focus:#0b60c4;
+    --serif: 'Noticia Text','Noticia Fallback: Georgia','Noticia Fallback: Noto Serif','Noticia Fallback: Times New Roman',Georgia,'Noto Serif','Times New Roman',serif;
+    --sans: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+    --s7:2rem;--s8:2.5rem;--s9:3rem;--s10:4rem;
+    --micro:.8125rem; --small:.875rem; --track:.06em;
+    --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
+    --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
+    --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
+    --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
+    --measure:32rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
+  }
+  html { color-scheme:light; background:var(--paper); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+         font-family:var(--serif); font-size:var(--body); line-height:1.5;
+         -webkit-text-size-adjust:100%; }
+  img { display:block; max-width:100%; height:auto; }
+  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
+          margin-inline:auto; padding-inline:var(--gutter); }
+  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  a:hover { border-block-end-color:var(--amber-ink); }
+  a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+
+  .site-header { border-block-end:1px solid var(--rule); padding-block:var(--s3); }
+  .site-header__in { display:flex; align-items:center; justify-content:space-between;
+                     gap:var(--s4); flex-wrap:wrap; }
+  .site-name { font-family:var(--serif); font-weight:700; font-size:1.15rem; color:var(--ink);
+               border:0; min-height:var(--tap-comfortable,52px); display:inline-flex; align-items:center; }
+  .site-nav { display:flex; gap:var(--s5); font-family:var(--sans); font-size:var(--small); }
+  /* ⚠️ RAISE THE FLOOR, DO NOT PAD IT. `min-height` is a floor, not an addend:
+     a 17px nav label plus 4px padding is 25px, still under 44, so the floor
+     wins and the box lands on exactly 44 — which measures 43 after subpixel
+     rounding. Padding only lifts the height once it exceeds the floor.
+     The fallback is deliberate: an undefined custom property resolves to
+     nothing and fails silently, which is how this class of bug hides. */
+  /* ⚠️ BOTH AXES. "Places" is 42.5px WIDE at 14px — a floor on height alone
+     leaves a target that fails on the axis nobody measured. */
+  .site-nav a { color:var(--ink); border:0;
+                min-height:var(--tap-comfortable,52px);
+                min-inline-size:var(--tap-comfortable,52px);
+                display:inline-flex; align-items:center; justify-content:center; }
+
+  .post { padding-block:var(--s7) var(--s4); }
+  h1 { font-family:var(--serif); font-size:var(--disp); line-height:1.15;
+       letter-spacing:-.015em; text-wrap:balance; margin:0 0 var(--s3); }
+  h2 { font-family:var(--serif); font-size:var(--head); line-height:1.2;
+       margin-block:var(--s9) var(--s3); text-wrap:balance; }
+  p { margin-block:0 var(--para); }
+  ul { margin-block:0 var(--para); padding-inline-start:1.3rem; }
+  li { margin-block:var(--s1); }
+
+  .standfirst { font-family:var(--serif); font-size:var(--sub); line-height:1.15;
+                font-weight:400; margin:0 0 var(--s5); text-wrap:pretty; }
+  .byline { font-family:var(--sans); font-size:var(--small); color:var(--quiet);
+            margin:0 0 var(--s6); }
+
+  .catline { display:flex; gap:var(--s3); align-items:flex-start;
+             margin-block:var(--s6); padding:var(--s4); background:var(--sunk);
+             font-family:var(--sans); }
+  .catline__p { flex:0 0 auto; width:44px; height:44px; border-radius:50%; background:var(--rule); }
+  .catline p { margin:0; font-size:var(--small); line-height:1.5; }
+  .catline span { display:block; margin-block-start:var(--s1); font-size:var(--micro); color:var(--quiet); }
+
+  /* THE ANSWER — first thing under the opener */
+  .facts { margin-block:var(--s6); padding:var(--s4) var(--s5);
+           background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+           font-family:var(--sans); }
+  .facts dl { margin:0 0 var(--s4); }
+  .facts__row { display:grid; gap:var(--s1) var(--s4); padding-block:var(--s3);
+                border-block-end:1px solid var(--rule); }
+  .facts__row:first-child { padding-block-start:0; }
+  .facts__row:last-child { border-block-end:0; padding-block-end:0; }
+  @media (min-width:30rem){ .facts__row { grid-template-columns:8rem 1fr; } }
+  .facts dt { margin:0; color:var(--quiet); font-size:var(--small); line-height:1.45; }
+  .facts dd { margin:0; line-height:1.45; }
+  /* ⚠️ .facts__obs is RESERVED for "they post X, it opens at Y" — the
+     observed-contradicts-official case, which is the moat. Medium weight is
+     what makes it stand out. Do not use it for a second line that merely
+     continues the value; that spends the emphasis on nothing and teaches the
+     reader to ignore it. Continuations use .facts__more. */
+  .facts__obs { display:block; margin-block-start:var(--s2); font-weight:500; }
+  .facts__more { display:block; margin-block-start:var(--s1); }
+  .facts__unchecked { margin-block:0 var(--s4); padding-block-start:var(--s3);
+                      border-block-start:1px solid var(--rule); }
+  .unchecked { margin:0; line-height:1.45; }
+  .stamp { display:flex; align-items:center; gap:var(--s2); margin:0;
+           font-size:var(--micro); line-height:1; flex-wrap:wrap; }
+  .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
+                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+  .stamp__date { color:var(--quiet); }
+  /* ⛔⛔ THE CORRECTION LINK WAS THE HARDEST THING ON THE PAGE TO HIT — 14px tall,
+     because `.stamp` sets line-height:1 at micro size and the link inherited it.
+     That is below WCAG 2.2 AA's 24x24 floor, on the one control a reader uses to
+     tell us a fact is wrong. A site whose entire value is corrected facts had made
+     correcting them the least tappable thing it offers. ⚠️ Both axes, literal
+     fallbacks — an undefined token resolves to nothing and the floor disappears
+     without a sound. Assert 44, set 52. */
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX — same rule as `.jump a` in
+     ui_kits/today. The 52px floor above pushed the site-wide
+     `a { border-block-end }` rule to the bottom of the tap target, 18px
+     under the words. text-decoration tracks the text instead. */
+  .stamp a, .stamp__tell { min-height:var(--tap-comfortable,52px);
+                           min-width:var(--tap-comfortable,52px);
+                           display:inline-flex; align-items:center; justify-content:center;
+                           padding-inline:var(--s2,8px);
+                           border:0; text-decoration:underline;
+                           text-decoration-color:var(--amber);
+                           text-decoration-thickness:2px; text-underline-offset:3px; }
+  .stamp__tell { font-size:var(--micro); color:var(--amber-ink); }
+
+  /* routes as rows, not prose bullets */
+  .routes { list-style:none; margin:0 0 var(--para); padding:0; font-family:var(--sans); }
+  .routes li { display:grid; grid-template-columns:1fr auto; gap:var(--s1) var(--s4);
+               padding-block:var(--s3); border-block-end:1px solid var(--rule); margin:0; }
+  .routes li:last-child { border-block-end:0; }
+  .routes b { font-weight:400; font-size:var(--body); }
+  .routes span { font-size:var(--small); color:var(--quiet); white-space:nowrap; }
+
+  .cat-tip { margin-block:var(--s8); padding:var(--s4) var(--s5); background:var(--sunk);
+             border-inline-start:4px solid var(--rule); font-family:var(--sans); }
+  .cat-tip__label { display:flex; align-items:center; gap:var(--s2); margin:0 0 var(--s2);
+                    font-size:var(--micro); text-transform:uppercase;
+                    letter-spacing:var(--track); color:var(--quiet); }
+  .cat-tip__label a { color:inherit; }
+  .cat-tip__text { margin:0; font-size:var(--body); line-height:1.45; }
+
+  figure { margin:var(--s7) calc(var(--gutter)*-1); }
+  figure .ph { aspect-ratio:1/1.01; background:var(--sunk); display:grid; place-items:center;
+               font-family:var(--sans); font-size:var(--small); color:var(--quiet);
+               text-align:center; padding:var(--s4); }
+  figcaption { font-family:var(--sans); font-size:var(--small); line-height:1.45;
+               color:var(--quiet); margin:var(--s2) var(--gutter) 0; }
+
+  .readnext { margin-block-start:var(--s9); padding-block-start:var(--s4);
+              border-block-start:1px solid var(--rule); font-family:var(--sans); }
+  .kicker { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+            color:var(--quiet); margin:0 0 var(--s3); }
+  .stack { list-style:none; margin:0; padding:0; }
+  /* ⚠️ ROW IS THE TARGET. These measured 28px tall — a heading link is inline,
+     so no `min-height` ever reaches it, and unlike the list rows elsewhere
+     these had no overlay at all. The rows are already ~76px, so it is free. */
+  .stack li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
+              position:relative; }
+  .stack li:last-child { border-block-end:0; }
+  .stack h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2; margin:0 0 var(--s1); }
+  .stack h3 a { color:var(--ink); border:0; }
+  .stack h3 a::after { content:''; position:absolute; inset:0; }
+  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45; }
+
+  .site-footer { border-block-start:1px solid var(--rule); margin-block-start:var(--s10);
+                 padding-block:var(--s7) var(--s9); font-family:var(--sans);
+                 font-size:var(--small); color:var(--quiet); }
+  .note-frame { max-width:46rem; margin:var(--s6) auto 0; padding-inline:var(--gutter);
+                font-family:var(--sans); font-size:var(--small); color:var(--quiet); }
+  .note-frame h4 { font-family:var(--serif); color:var(--ink); font-size:1.1rem; margin:var(--s5) 0 var(--s2); }
+  .note-frame ol { padding-inline-start:1.2rem; }
+  .note-frame li { margin-block:var(--s2); }
+</style>
+
+<!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
+     Delete this whole div in the SAME commit that deletes this kit's line from
+     KIT_FAMILY in scripts/check-kits.mjs. The two say the same thing and must
+     die together: check-kits.mjs already prints "this kit has not been redrawn"
+     on every run — to a console, which is the one place the person deciding
+     will never look. This says it where he will.
+     ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
+     that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="site-name" href="#">cats of Kochi</a>
+    <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
+  </div>
+</header>
+
+<main>
+  <article class="post wrap">
+
+    <h1>Kochi Water Metro: times, fares and which boat to Fort Kochi</h1>
+
+    <p class="standfirst">The boats run 8 am to 7 pm. Here is which one goes where,
+    what a pass costs, and when it is worth avoiding.</p>
+
+    <div class="catline">
+      <div class="catline__p"></div>
+      <div>
+        <p>Luna here. The boats are the cool way across — glass, breeze, you
+        arrive dry.</p>
+        <span>Luna</span>
+      </div>
+    </div>
+
+    <!-- ⭐ THE ANSWER, immediately. On the live page these facts are in
+         paragraph 4, after ~400 words. -->
+    <section class="facts" aria-label="Kochi Water Metro — the practical facts">
+      <dl>
+        <div class="facts__row"><dt>Runs</dt><dd>8 am – 7 pm, every day</dd></div>
+        <div class="facts__row"><dt>How often</dt>
+          <dd>Every 15–20 min at peak (8–10 am, 5–7 pm)
+            <span class="facts__more">Every 30 min the rest of the day.</span></dd></div>
+        <div class="facts__row"><dt>To Fort Kochi</dt>
+          <dd>From High Court. 25–35 minutes</dd></div>
+        <div class="facts__row"><dt>Passes</dt>
+          <dd>₹180 for 12 trips · ₹600 for 50 · ₹1,500 for 150, over 90 days</dd></div>
+        <div class="facts__row"><dt>Paying</dt>
+          <dd>Kochi1 app, Kochi One card, or cash at the counter</dd></div>
+      </dl>
+
+      <div class="facts__unchecked">
+        <p class="unchecked">We have not checked the single-trip fare. Buy at the
+        counter or in the Kochi1 app — both show the price before you pay.</p>
+      </div>
+
+      <p class="stamp">
+        <span class="stamp__chip">Checked</span>
+        <time class="stamp__date" datetime="2026-08-03">3 Aug 2026</time>
+        <a class="stamp__tell" href="#">Changed? Tell us</a>
+      </p>
+    </section>
+
+    <p class="byline">Written by Shemeer · Kochi · updated 3 August 2026</p>
+
+    <h2>Which routes run</h2>
+
+    <ul class="routes">
+      <li><b>High Court – Fort Kochi</b><span>25–35 min</span></li>
+      <li><b>High Court – Vypin</b><span>~20 min</span></li>
+      <li><b>High Court – Mattancherry</b><span>~30 min</span></li>
+      <li><b>Vyttila – Kakkanad</b><span>~25 min</span></li>
+      <li><b>High Court – South Chittoor</b><span>via Bolgatty, Mulavukad North</span></li>
+      <li><b>South Chittoor – Cheranelloor</b><span>via Eloor</span></li>
+    </ul>
+
+    <p>For Fort Kochi you want the High Court terminal. It is the busiest of the
+    six and the only one most visitors ever use.</p>
+
+    <figure>
+      <div class="ph">the network map — full-bleed on a phone,<br>keeping its own shape</div>
+      <figcaption>The six routes. Drawn for us, not lifted from the operator.</figcaption>
+    </figure>
+
+    <h2>When it gets crowded</h2>
+
+    <p>The High Court – Fort Kochi boats fill up at weekends and on holidays, and
+    through December to January and April to May. Mid-morning to mid-afternoon is
+    reliably quiet.</p>
+
+    <p>Even full, the boats are air-conditioned and the crossing is short. Staff
+    move people on and off quickly.</p>
+
+    <aside class="cat-tip" aria-label="Tip from Luna">
+      <p class="cat-tip__label">
+        <span aria-hidden="true" style="display:inline-flex">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
+            <ellipse cx="6.3" cy="10.6" rx="2.4" ry="3.1" transform="rotate(-22 6.3 10.6)"/>
+            <ellipse cx="10.5" cy="7.7" rx="2.5" ry="3.3" transform="rotate(-8 10.5 7.7)"/>
+            <ellipse cx="15.3" cy="7.9" rx="2.5" ry="3.3" transform="rotate(8 15.3 7.9)"/>
+            <ellipse cx="19.1" cy="11.2" rx="2.3" ry="3" transform="rotate(22 19.1 11.2)"/>
+            <path d="M12.6 12.4c3.5 0 6.5 2.4 6.5 5.3 0 2.4-2.1 3.8-4.3 3.4a13.6 13.6 0 0 0-4.5 0c-2.2.4-4.3-1-4.3-3.4 0-2.9 3-5.3 6.6-5.3Z"/>
+          </svg>
+        </span>
+        <!-- ⛔ DO NOT "FIX" THIS TO 44px. Measured 37.9 x 20.5 and flagged as a tap
+             target; it is not one. WCAG 2.2 SC 2.5.8 exempts a target "in a sentence
+             or block of text" by name, and this link sits inside the words "Tip from
+             Luna". Growing it would break the line it lives in to satisfy a rule that
+             excludes it. The rule is about controls a thumb aims for, not words a
+             reader happens to be able to tap. -->
+        Tip from <a href="#">Luna</a>
+      </p>
+      <p class="cat-tip__text">Take the last boat back and you will be standing.
+      Everyone leaves the fort at the same time.</p>
+    </aside>
+
+    <h2>Tickets and passes</h2>
+
+    <p>The Kochi One card works on the boats and the land metro, so it is the one
+    to get if you are here more than a day. The Kochi1 app does the same job from
+    your phone and also sells land metro tickets. Cash and card at the counter
+    work if neither suits.</p>
+
+    <p>Passes are counted in trips, not days: twelve trips for 180 rupees, fifty
+    for 600, or a hundred and fifty for 1,500 over three months.</p>
+
+    <div class="catline">
+      <div class="catline__p"></div>
+      <div>
+        <p>Grab a front seat — the part nobody photographs is the fort coming up
+        on you, slowly.</p>
+        <span>Luna →</span>
+      </div>
+    </div>
+
+    <nav class="readnext" aria-label="Read next">
+      <p class="kicker">Read next</p>
+      <ul class="stack">
+        <li><h3><a href="#">A day in Fort Kochi, off the boat</a></h3>
+          <p>Where the sunset itinerary went — it was never about the ferry.</p></li>
+        <li><h3><a href="#">Getting here from the airport</a></h3>
+          <p>Fares, and which counter to ignore.</p></li>
+      </ul>
+    </nav>
+
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">cats of Kochi · Fort Kochi and Mattancherry · every fact
+  carries the date it was checked</div>
+</footer>
+
+<div class="note-frame">
+  <h4>What changed, and why</h4>
+  <ol>
+    <li><strong>The answer moved to the top.</strong> Hours, frequency, crossing
+    time and pass prices are in paragraph four of the live page, after about 400
+    words. They are now the first thing under the cat's opening line.</li>
+    <li><strong>The cat stopped narrating.</strong> The live page opens
+    <em>"Dear Cats Of Kochi readers… I am yours truly, Bandit"</em> and runs in
+    his voice throughout. Cats are a byline, never a narrator.</li>
+    <li>⭐ <strong>The fake interviewer became subheads.</strong> Six italic
+    questions — <em>"operating hours?"</em>, <em>"Which routes are currently
+    operational?"</em> — were an invented second voice doing a real job badly.
+    They are subheads now, which is what they were reaching for.</li>
+    <li>⭐ <strong>"Subject to change" became a date.</strong> The page hedged
+    twice. A hedge helps nobody; a checked-on date is a claim you can be held
+    to.</li>
+    <li>⭐ <strong>The single fare is missing — so the page says so.</strong> The
+    live page gives pass prices but never what one trip costs, which is probably
+    the most-searched fact about it. An honest gap beats a guess.</li>
+    <li><strong>Two sections left.</strong> A first-timer's itinerary and a
+    sunset recommendation are not answers about a ferry. They belong on the
+    itinerary page, linked at the foot.</li>
+  </ol>
+
+  <p>⚠️ Rendered in the fallback serif — Noticia Text cannot be downloaded inside
+  an artifact.</p>
+</div>

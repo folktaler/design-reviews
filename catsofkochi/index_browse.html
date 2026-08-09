@@ -1,0 +1,389 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Index &amp; browse — Cats of Kochi</title>
+
+<link rel="stylesheet" href="faces-noticia-text.css">
+<style>
+  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
+   * Artifacts sit behind a strict CSP with no server and can never fetch
+   * /fonts/*.woff2, so the face must travel inside the file.
+   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
+   * three files across every page instead of paying base64 overhead each time.
+   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  
+  
+  
+  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real
+     metrics, no single number forced across Georgia/Noto Serif/Times New
+     Roman at once. */
+  @font-face {
+    font-family: 'Noticia Fallback: Georgia';
+    src: local('Georgia');
+    ascent-override: 101.8313%;
+    descent-override: 27.4232%;
+    size-adjust: 105.586%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Noto Serif';
+    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
+    ascent-override: 109.8716%;
+    descent-override: 29.5885%;
+    size-adjust: 97.8593%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Times New Roman';
+    src: local('Times New Roman'), local('TimesNewRomanPSMT');
+    ascent-override: 92.7969%;
+    descent-override: 24.9903%;
+    line-gap-override: 0%;
+    size-adjust: 115.8654%;
+  }
+  /* ══ END SYSTEM FACES ══ */
+
+  :root {
+    --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
+    --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    --focus:#0b60c4;
+    --serif: 'Noticia Text','Noticia Fallback: Georgia','Noticia Fallback: Noto Serif','Noticia Fallback: Times New Roman',Georgia,'Noto Serif','Times New Roman',serif;
+    --sans: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+    --s7:2rem;--s8:2.5rem;--s9:3rem;--s10:4rem;
+    --micro:.8125rem; --small:.875rem; --track:.06em;
+    --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
+    --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
+    --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
+    --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
+    --measure:32rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
+  }
+  html { color-scheme:light; background:var(--paper); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+         font-family:var(--serif); font-size:var(--body); line-height:1.5;
+         -webkit-text-size-adjust:100%; }
+  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
+          margin-inline:auto; padding-inline:var(--gutter); }
+  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  a:hover { border-block-end-color:var(--amber-ink); }
+  a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+
+  .site-header { border-block-end:1px solid var(--rule); padding-block:var(--s3); }
+  .site-header__in { display:flex; align-items:center; justify-content:space-between;
+                     gap:var(--s4); flex-wrap:wrap; }
+  .site-name { font-family:var(--serif); font-weight:700; font-size:1.15rem; color:var(--ink);
+               border:0; min-height:var(--tap-comfortable,52px); display:inline-flex; align-items:center; }
+  .site-nav { display:flex; gap:var(--s5); font-family:var(--sans); font-size:var(--small); }
+  /* ⚠️ RAISE THE FLOOR, DO NOT PAD IT — `min-height` is a floor, not an addend,
+     so 17px of label + 4px padding still loses to it and lands on exactly 44.
+     Fallback included: an undefined token resolves to nothing, silently. */
+  /* ⚠️ BOTH AXES. "Places" is 42.5px WIDE at 14px — a floor on height alone
+     leaves a target that fails on the axis nobody measured. */
+  .site-nav a { color:var(--ink); border:0;
+                min-height:var(--tap-comfortable,52px);
+                min-inline-size:var(--tap-comfortable,52px);
+                display:inline-flex; align-items:center; justify-content:center; }
+
+  .post { padding-block:var(--s7) var(--s4); }
+  h1 { font-family:var(--serif); font-size:var(--disp); line-height:1.15;
+       letter-spacing:-.015em; text-wrap:balance; margin:0 0 var(--s3); }
+  h2 { font-family:var(--serif); font-size:var(--head); line-height:1.2;
+       margin-block:var(--s9) var(--s3); text-wrap:balance; }
+  h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
+       margin-block:var(--s7) var(--s3); padding-block-end:var(--s2);
+       border-block-end:1px solid var(--rule); }
+  p { margin-block:0 var(--para); }
+  .standfirst { font-family:var(--serif); font-size:var(--sub); line-height:1.15;
+                margin:0 0 var(--s6); text-wrap:pretty; }
+  .kicker { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+            color:var(--quiet); margin:0 0 var(--s3); font-family:var(--sans); }
+
+  /* ⭐ the SAME place row as the told-page listing. Not a new component. */
+  .places { list-style:none; margin:0 0 var(--s6); padding:0; font-family:var(--sans); }
+  .places li { display:grid; grid-template-columns:1fr auto;
+               grid-template-areas:'kind map' 'body body';
+               gap:var(--s1) var(--s4); padding-block:var(--s4);
+               border-block-end:1px solid var(--rule); }
+  .places li:last-child { border-block-end:0; }
+  @media (min-width:30rem){
+    .places li { grid-template-columns:4.5rem 1fr auto;
+                 grid-template-areas:'kind body map'; align-items:baseline; }
+  }
+
+  /* ⭐ THE ROW IS THE TARGET, not the words.
+     `min-height:44px` does nothing to an inline <a>, so the place name was a
+     22px tap target — half the minimum, on the links a reader taps while
+     walking. The rows are already taller than 44px, so nothing needs resizing:
+     stretch an invisible overlay from the name link across the whole row.
+     ⚠️ The Map link is a SECOND link in the same row, so it must be lifted
+     above the overlay and given its own height, or the overlay swallows it. */
+  .places li { position:relative; }
+  .pn a::after { content:''; position:absolute; inset:0; }
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX. `.pm` sets no border of its own, so it
+     inherited the site-wide `a { border-block-end }` — and once the box is 52px
+     with the word centred in it, that rule paints 13px BELOW "Map". Measured.
+     ⚠️ And both axes: it was 44 wide, which is the boundary, not clearance. */
+  .pm { position:relative; z-index:1;
+        min-height:var(--tap-comfortable,52px);
+        min-inline-size:var(--tap-comfortable,52px);
+        display:inline-flex; align-items:center; justify-content:center;
+        border:0; text-decoration:underline;
+        text-decoration-color:var(--rule); text-underline-offset:3px; }
+  .pk { grid-area:kind; font-size:var(--micro); text-transform:uppercase;
+        letter-spacing:var(--track); color:var(--quiet); line-height:1.45; }
+  .pb { grid-area:body; min-width:0; }
+  .pn { display:block; font-size:var(--body); line-height:1.35; }
+  .pv { display:block; margin-block-start:var(--s1); font-size:var(--small);
+        line-height:1.45; }
+  .pc { display:block; margin-block-start:var(--s1); font-size:var(--micro);
+        color:var(--quiet); }
+  /* ⚠️ second `.pm` block — grid placement written separately from tap sizing.
+     `align-self:start` pinned it to the top of a tall row; centred reads as a
+     row action. */
+  .pm { grid-area:map; align-self:center; font-size:var(--small); white-space:nowrap; }
+
+  /* the onward block at the foot of an article */
+  .onward { margin-block-start:var(--s9); padding-block-start:var(--s4);
+            border-block-start:2px solid var(--ink); font-family:var(--sans); }
+  .onward__place { display:block; padding:var(--s4) var(--s5); background:var(--amber-wash);
+                   border-inline-start:4px solid var(--amber-ink);
+                   margin-block-end:var(--s5); border-block-end:0; }
+  .onward__place b { display:block; font-family:var(--serif); font-size:var(--sub);
+                     line-height:1.2; color:var(--ink); font-weight:400; }
+  .onward__place span { display:block; margin-block-start:var(--s1);
+                        font-size:var(--small); color:var(--quiet); }
+  .stack { list-style:none; margin:0; padding:0; }
+  .stack li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
+              position:relative; }
+  .stack li:last-child { border-block-end:0; }
+  .stack h4 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
+              margin:0 0 var(--s1); font-weight:400; }
+  .stack h4 a { color:var(--ink); border:0; }
+  .stack h4 a::after { content:''; position:absolute; inset:0; }
+  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45; }
+
+  hr.div { border:0; border-block-start:1px solid var(--rule); margin-block:var(--s10); }
+  .shape { font-family:var(--sans); font-size:var(--micro); text-transform:uppercase;
+           letter-spacing:var(--track); color:var(--paper); background:var(--ink);
+           display:inline-block; padding:var(--s1) var(--s2); margin-block-end:var(--s4); }
+
+  .note-frame { max-width:46rem; margin:var(--s6) auto 0; padding-inline:var(--gutter);
+                font-family:var(--sans); font-size:var(--small); color:var(--quiet); }
+  .note-frame h4 { font-family:var(--serif); color:var(--ink); font-size:1.1rem;
+                   margin:var(--s5) 0 var(--s2); }
+  .note-frame ol,.note-frame ul { padding-inline-start:1.2rem; }
+  .note-frame li { margin-block:var(--s2); }
+  .was { background:var(--sunk); padding:var(--s4); font-size:var(--micro);
+         line-height:1.5; margin-block:var(--s3); }
+</style>
+
+<!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
+     Delete this whole div in the SAME commit that deletes this kit's line from
+     KIT_FAMILY in scripts/check-kits.mjs. The two say the same thing and must
+     die together: check-kits.mjs already prints "this kit has not been redrawn"
+     on every run — to a console, which is the one place the person deciding
+     will never look. This says it where he will.
+     ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
+     that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="site-name" href="#">cats of Kochi</a>
+    <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ 1. THE FOOT OF THE MEMOIR — the actual question -->
+  <article class="post wrap">
+    <p class="shape">Foot of a 2,000-word memoir</p>
+
+    <p style="color:var(--quiet);font-style:italic">…and four days before the
+    church opened, he was dead. They finished the ceiling without him.</p>
+
+    <nav class="onward" aria-label="Where to go next">
+      <!-- ⭐ FIRST: the place. The reader may be standing outside it. -->
+      <p class="kicker">This is about a place</p>
+      <a class="onward__place" href="#">
+        <b>Santa Cruz Basilica</b>
+        <span>Opening hours, the ticket, and everything else we have written
+        about it — checked 3 Aug 2026</span>
+      </a>
+
+      <!-- SECOND: what else is on that walk. Geographic, not topical. -->
+      <p class="kicker">A few minutes' walk away</p>
+      <ul class="places">
+        <li>
+          <span class="pk">Church</span>
+          <span class="pb">
+            <span class="pn"><a href="#">St Francis Church</a></span>
+            <span class="pv">Vasco da Gama was buried here for fourteen years.</span>
+          </span>
+          <a class="pm" href="#" aria-label="St Francis Church on the map">Map</a>
+        </li>
+        <li>
+          <span class="pk">Walk</span>
+          <span class="pb">
+            <span class="pn"><a href="#">Guardians of Fort Kochi mural</a></span>
+            <span class="pv">Free, always open.</span>
+          </span>
+          <a class="pm" href="#" aria-label="Guardians of Fort Kochi mural on the map">Map</a>
+        </li>
+      </ul>
+
+      <!-- THIRD: more from the same cat. A lens, not a category. -->
+      <p class="kicker">More from Ginger</p>
+      <ul class="stack">
+        <li><h4><a href="#">The mail-runners of the post office</a></h4>
+          <p>Another building, another person nobody wrote down.</p></li>
+      </ul>
+    </nav>
+  </article>
+
+  <hr class="div">
+
+  <!-- ============ 2. THE PLACE INDEX — the browse surface -->
+  <article class="post wrap">
+    <p class="shape">Index · everywhere we have written about</p>
+
+    <h1>Places</h1>
+    <p class="standfirst">Every building, café and stretch of water we have
+    written about, and what we think of it.</p>
+
+    <h3>Fort Kochi</h3>
+    <ul class="places">
+      <li>
+        <span class="pk">Gallery</span>
+        <span class="pb">
+          <span class="pn"><a href="#">Pepper House</a></span>
+          <span class="pv">Come for the ceiling, not the coffee.</span>
+          <span class="pc">4 pieces</span>
+        </span>
+        <a class="pm" href="#" aria-label="Pepper House on the map">Map</a>
+      </li>
+      <li>
+        <span class="pk">Church</span>
+        <span class="pb">
+          <span class="pn"><a href="#">Santa Cruz Basilica</a></span>
+          <span class="pv">The painter died four days before it opened.</span>
+          <span class="pc">1 piece</span>
+        </span>
+        <a class="pm" href="#" aria-label="Santa Cruz Basilica on the map">Map</a>
+      </li>
+      <li>
+        <span class="pk">Bar</span>
+        <span class="pb">
+          <span class="pn"><a href="#">Seagull</a></span>
+          <span class="pv">Chilled beer, and the ships pass close in the rain.</span>
+        </span>
+        <a class="pm" href="#" aria-label="Seagull on the map">Map</a>
+      </li>
+      <!-- ⭐ no verdict yet — the row still works -->
+      <li>
+        <span class="pk">Café</span>
+        <span class="pb">
+          <span class="pn"><a href="#">Kashi Art Café</a></span>
+        </span>
+        <a class="pm" href="#" aria-label="Kashi Art Café on the map">Map</a>
+      </li>
+    </ul>
+
+    <h3>Mattancherry</h3>
+    <ul class="places">
+      <li>
+        <span class="pk">Gallery</span>
+        <span class="pb">
+          <span class="pn"><a href="#">Muziris Contemporary</a></span>
+          <span class="pv">What a gallery keeps upstairs, and why it is rarely open.</span>
+          <span class="pc">2 pieces</span>
+        </span>
+        <a class="pm" href="#" aria-label="Muziris Contemporary on the map">Map</a>
+      </li>
+      <li>
+        <span class="pk">Lassi</span>
+        <span class="pb">
+          <span class="pn"><a href="#">Rawal Lassi Joint</a></span>
+          <span class="pv">A father-to-son legacy. Mango, in season.</span>
+          <span class="pc">appears in 9 pieces</span>
+        </span>
+        <a class="pm" href="#" aria-label="Rawal Lassi Joint on the map">Map</a>
+      </li>
+    </ul>
+  </article>
+
+</main>
+
+<div class="note-frame">
+
+  <h4>⭐ The Guardian's answer, measured — and it is a negative one</h4>
+
+  <p>I checked the foot of a current review for their onward routes. It has
+  <strong>zero rich-links, no "related content", no "more on this story"</strong>.
+  The only onward offer is <strong>"Most viewed"</strong> — popularity, not
+  relevance — plus the section navigation.</p>
+
+  <p><strong>So Guardian-faithful means: no related-posts grid.</strong> Which
+  confirms the instinct — it is the shape everyone reaches for and they, of all
+  people, do not use it.</p>
+
+  <p>⚠️ <strong>But their reason does not transfer.</strong> Their reader arrives
+  with a masthead, twelve section fronts and a habit. Yours arrives
+  <strong>sideways from Google, onto one deep page, having never seen the rest of
+  the site</strong> — and the footer offers nothing. <em>Named reader difference:
+  a slow guide, not a news product — fewer entry points.</em></p>
+
+  <p>So we need an onward route where they need none. It is just not a grid.</p>
+
+  <h4>What to offer after a memoir, and how the page knows</h4>
+
+  <p>⭐ <strong>The site has an axis a news site does not: every piece is about
+  somewhere.</strong> So the onward block is ordered by how likely it is to be
+  useful <em>to a person who may be standing outside the building they just read
+  about</em>:</p>
+
+  <ol>
+    <li><strong>The place itself.</strong> One link, amber, above everything —
+    because it is where the hours live. The memoir tells you why the church
+    matters; the venue page tells you whether you can get in. <strong>The page
+    knows because the piece is tagged to a venue</strong>, not to a subject.</li>
+    <li><strong>What else is a few minutes' walk away.</strong> Geographic, not
+    topical. ⭐ Someone who just read about Santa Cruz is far better served by
+    "St Francis is 200 metres away" than by "other churches we have covered".</li>
+    <li><strong>More from the same cat.</strong> A lens, not a category — readers
+    follow writers, and this list assembles itself from the byline with no
+    upkeep.</li>
+  </ol>
+
+  <p>⛔ <strong>Not offered: "related posts by tag".</strong> Tags are subjects,
+  and subject similarity is the weakest of the three signals for a reader who is
+  physically somewhere.</p>
+
+  <h4>The place index is the browse surface, and it earns its keep twice</h4>
+
+  <p>⭐ <strong>One lassi shop appears in nine files with five different
+  descriptions.</strong> The place index is where that stops: <em>the venue page
+  is where the fact lives, and the index is how anyone reaches it.</em> Note the
+  row reading <strong>"appears in 9 pieces"</strong> — that count is not a
+  vanity metric, it is the argument.</p>
+
+  <p>It also gives the <strong>53 tag redirects</strong> an honest destination
+  — about 30 of those tags are venues, and a venue row is a real target rather
+  than a generic archive.</p>
+
+  <h4>Reused, not invented</h4>
+  <p>⭐ <strong>The index row is the same component as the told-page listing
+  row</strong> — kind, name, verdict, optional count, Map. No new component was
+  needed for this page type, which is the sign the earlier one was cut at the
+  right joint. It still works with no verdict, as Kashi Art Café shows.</p>
+
+  <p>⚠️ Now carries <code>&lt;meta charset="utf-8"&gt;</code> — the middots and
+  em-dashes above would otherwise render as mojibake, as they did across the
+  first eight kits.</p>
+
+  <p>⚠️ Rendered in the fallback serif; Noticia cannot be downloaded inside an
+  artifact.</p>
+</div>

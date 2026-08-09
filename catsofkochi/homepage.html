@@ -1,0 +1,750 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Homepage — Cats of Kochi</title>
+
+<link rel="stylesheet" href="faces-noticia-text.css">
+<style>
+  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
+   * Artifacts sit behind a strict CSP with no server and can never fetch
+   * /fonts/*.woff2, so the face must travel inside the file.
+   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
+   * three files across every page instead of paying base64 overhead each time.
+   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  
+  
+  
+  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real
+     metrics, no single number forced across Georgia/Noto Serif/Times New
+     Roman at once. */
+  @font-face {
+    font-family: 'Noticia Fallback: Georgia';
+    src: local('Georgia');
+    ascent-override: 101.8313%;
+    descent-override: 27.4232%;
+    size-adjust: 105.586%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Noto Serif';
+    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
+    ascent-override: 109.8716%;
+    descent-override: 29.5885%;
+    size-adjust: 97.8593%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Times New Roman';
+    src: local('Times New Roman'), local('TimesNewRomanPSMT');
+    ascent-override: 92.7969%;
+    descent-override: 24.9903%;
+    line-gap-override: 0%;
+    size-adjust: 115.8654%;
+  }
+  /* ══ END SYSTEM FACES ══ */
+
+  :root {
+    --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
+    --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    --focus:#0b60c4; --alert:#a2191f;
+    --serif: 'Noticia Text','Noticia Fallback: Georgia','Noticia Fallback: Noto Serif','Noticia Fallback: Times New Roman',Georgia,'Noto Serif','Times New Roman',serif;
+    --sans: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+    --s7:2rem;--s8:2.5rem;--s9:3rem;--s10:4rem;
+    --micro:.8125rem; --small:.875rem; --track:.06em;
+    --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
+    --measure:32rem; --measure-small:21rem;
+    --gutter:var(--s5); --tap:44px; --tap-comfortable:52px;
+
+    /* ⭐ The Guardian's front-page ladder, measured on theguardian.com/uk.
+       Four steps, and NOTHING between them. */
+    --t-lead:1.75rem;   /* 28px / 500 — one per page */
+    --t-2:1.5rem;       /* 24px / 500 */
+    --t-3:1.25rem;      /* 20px / 500 */
+    --t-list:.875rem;   /* 14px / 400 — a run of links, no image */
+  }
+  html { color-scheme:light; background:var(--paper); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+         font-family:var(--serif); font-size:var(--body); line-height:1.5;
+         -webkit-text-size-adjust:100%; }
+  img { display:block; max-width:100%; height:auto; }
+  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
+          margin-inline:auto; padding-inline:var(--gutter); }
+  a { color:var(--ink); text-decoration:none; }
+  a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+
+  .site-header { border-block-end:1px solid var(--rule); padding-block:var(--s3); }
+  .site-header__in { display:flex; align-items:center; justify-content:space-between;
+                     gap:var(--s4); flex-wrap:wrap; }
+  .site-name { font-family:var(--serif); font-weight:700; font-size:1.15rem;
+               min-height:var(--tap-comfortable,52px);
+               display:inline-flex; align-items:center; }
+  .site-nav { display:flex; gap:var(--s5); font-family:var(--sans); font-size:var(--small); }
+  /* ⚠️ RAISE THE FLOOR, DO NOT PAD IT — `min-height` is a floor, not an addend.
+     Fallback included: an undefined token resolves to nothing, silently. */
+  /* ⚠️ BOTH AXES. "Places" is 42.5px WIDE at 14px — a floor on height alone
+     leaves a target that fails on the axis nobody measured. */
+  .site-nav a { min-height:var(--tap-comfortable,52px);
+                min-inline-size:var(--tap-comfortable,52px);
+                display:inline-flex; align-items:center; justify-content:center; }
+
+  /* ⭐ No hero H1. The Guardian's front page does not put its own name in big
+     type — the masthead does that and the first screen belongs to a story.
+     One orienting line survives, because unlike them we are unknown to a
+     first-time visitor. Named reader difference: a slow guide, not a news
+     product. */
+  .orient { font-family:var(--serif); font-size:1.25rem; line-height:1.2;
+            margin:var(--s5) 0 var(--s6); color:var(--ink); text-wrap:pretty; }
+  .vh { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden;
+        clip-path:inset(50%); white-space:nowrap; }
+
+  /* section = a labelled block with a size ladder inside it */
+  .band { margin-block:var(--s8); }
+  .band__label { font-family:var(--serif); font-weight:700; font-size:1.25rem;
+                 line-height:1.2; margin:0 0 var(--s4);
+                 padding-block-start:var(--s3); border-block-start:2px solid var(--ink); }
+  .band--lead .band__label { border-block-start-color:var(--amber); }
+
+  .kicker { display:block; font-family:var(--sans); font-size:var(--micro);
+            text-transform:uppercase; letter-spacing:var(--track);
+            color:var(--quiet); margin-block-end:var(--s1); }
+
+  /* ⭐ image size tracks headline size — 620 / 460 / 220 / none on theirs.
+     And front-page images ARE cropped to one ratio (all 5:4 measured), unlike
+     article images which keep their own shape. A grid needs a constant; an
+     article does not. */
+  .ph { aspect-ratio:5/4; background:var(--sunk); display:grid; place-items:center;
+        font-family:var(--sans); font-size:var(--micro); color:var(--quiet);
+        text-align:center; padding:var(--s2); margin-block-end:var(--s3); }
+
+  .lead { margin-block-end:var(--s6); }
+  .lead .ph { margin-inline:calc(var(--gutter)*-1); }
+  .lead, .cards li, .tier2 { position:relative; }
+  .lead > a::after, .cards li > a::after, .tier2 > a::after {
+    content:''; position:absolute; inset:0; }
+  .lead h3 { font-family:var(--serif); font-size:var(--t-lead); font-weight:500;
+             line-height:1.15; margin:0; text-wrap:balance; }
+  .lead p { margin:var(--s2) 0 0; font-family:var(--sans); font-size:var(--small);
+            color:var(--quiet); line-height:1.45; }
+
+  .tier2 h3 { font-family:var(--serif); font-size:var(--t-2); font-weight:500;
+              line-height:1.2; margin:0; text-wrap:balance; }
+  .tier3 h3 { font-family:var(--serif); font-size:var(--t-3); font-weight:500;
+              line-height:1.2; margin:0; }
+
+  /* ⭐ In ONE column, "the picture shrinks with the headline" breaks — the
+     column sets the image width, so a third-tier card gets a lead-sized
+     photograph. Caught at 375px; it looked right in the source.
+     The fix is the Guardian's own mobile card: a small square thumbnail
+     BESIDE the headline, not above it. Weight is preserved because the
+     picture is small, and three venues stop costing three screens. */
+  @media (max-width:33.99rem) {
+    .cards--3 .tier3 a { display:grid; grid-template-columns:5.5rem 1fr;
+                         column-gap:var(--s3); align-content:start; }
+    /* The photo occupies column 1 and spans every text row. Without the
+       explicit span the kicker, headline and line wrap AROUND it and the
+       card falls apart — which is exactly what happened first. */
+    .cards--3 .tier3 .ph { grid-column:1; grid-row:1 / span 3;
+                           aspect-ratio:1/1; margin-block-end:0; }
+    .cards--3 .tier3 .kicker { grid-column:2; grid-row:1; }
+    .cards--3 .tier3 h3 { grid-column:2; grid-row:2; }
+    .cards--3 .tier3 p { grid-column:2; grid-row:3; }
+    .cards--3 { gap:var(--s4); }
+    .cards--3 li { padding-block-end:var(--s4); border-block-end:1px solid var(--rule); }
+    .cards--3 li:last-child { border-block-end:0; padding-block-end:0; }
+  }
+  .tier2 p, .tier3 p { margin:var(--s1) 0 0; font-family:var(--sans);
+                       font-size:var(--small); color:var(--quiet); line-height:1.45; }
+
+  .cards { display:grid; gap:var(--s6); margin:0; padding:0; list-style:none; }
+  @media (min-width:34rem){ .cards--3 { grid-template-columns:repeat(3,1fr); } }
+
+  /* the list tier — no image, 14px, a run of links */
+  .list { list-style:none; margin:0; padding:0; font-family:var(--sans); }
+  .list li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
+             position:relative; min-height:var(--tap-comfortable,52px); }
+  .list li:last-child { border-block-end:0; }
+  .list a { font-size:var(--t-list); line-height:1.45; }
+  .list .kicker { margin-block-end:2px; }
+
+  /* ⭐ THE ROW IS THE TARGET. At the 14px list tier these were 17px tap
+     targets — the smallest on the site, on a page whose whole job is sending
+     people somewhere. `min-height` does nothing to an inline <a>, so the row
+     gets the height and the link stretches an overlay across it. */
+  .list a::after { content:''; position:absolute; inset:0; }
+
+  /* the practical block — the ~12 answer pages, deliberately plain */
+  .practical { background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+               padding:var(--s4) var(--s5); font-family:var(--sans); }
+  .practical p { margin:0 0 var(--s3); font-size:var(--small); color:var(--quiet); }
+  .practical ul { list-style:none; margin:0; padding:0; }
+  .practical li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
+                  position:relative; min-height:var(--tap-comfortable,52px);
+                  display:flex; align-items:center; }
+  .practical li:last-child { border-block-end:0; }
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX — same defect class documented in
+     ui_kits/today (finding #5, 2026-08-08): a floored row plus
+     border-block-end detaches the rule from short text. text-decoration
+     tracks the text instead. */
+  .practical a { font-size:var(--body); border:0; text-decoration:underline;
+                 text-decoration-color:var(--rule); text-underline-offset:3px; }
+  /* the row is the target — these are the twelve answer pages, the most
+     useful links on the site to somebody standing outside */
+  .practical a::after { content:''; position:absolute; inset:0; }
+
+  .signup { margin-block:var(--s9); padding-block:var(--s5);
+            border-block:1px solid var(--rule); font-family:var(--sans); }
+  .signup__freq { margin:0; font-size:var(--micro); text-transform:uppercase;
+                  letter-spacing:var(--track); color:var(--quiet); }
+  .signup__name { margin:var(--s1) 0 var(--s2); font-family:var(--serif);
+                  font-size:1.25rem; line-height:1.2; font-weight:700; }
+  .signup__desc { margin:0 0 var(--s4); font-size:var(--small); line-height:1.6; }
+  .signup__form { display:flex; flex-wrap:wrap; gap:var(--s3); }
+  .signup__label { flex:1 0 100%; font-size:var(--micro); color:var(--quiet); }
+  .signup__input { flex:1 1 13rem; min-height:var(--tap-comfortable,52px); padding:var(--s2) var(--s3);
+                   border-radius:0; border:1px solid var(--quiet); background:var(--paper);
+                   font-family:var(--sans); font-size:var(--body); }
+  .btn { display:inline-flex; align-items:center; justify-content:center;
+         border-radius:999px; min-height:var(--tap-comfortable,52px); padding:0 var(--s4) 1px;
+         font-family:var(--sans); font-size:var(--small); font-weight:700;
+         border:1px solid var(--amber); background:var(--amber); color:var(--ink);
+         cursor:pointer; }
+  .signup__privacy { margin:var(--s3) 0 0; font-size:var(--micro); color:var(--quiet);
+                     line-height:1.45; }
+
+  /* ⭐ the footer currently has NO links at all */
+  .site-footer { border-block-start:1px solid var(--rule); margin-block-start:var(--s9);
+                 padding-block:var(--s7) var(--s9); font-family:var(--sans);
+                 font-size:var(--small); }
+  .foot-cols { display:grid; gap:var(--s6); }
+  @media (min-width:30rem){ .foot-cols { grid-template-columns:1fr 1fr; } }
+  .foot-cols h4 { margin:0 0 var(--s2); font-size:var(--micro); text-transform:uppercase;
+                  letter-spacing:var(--track); color:var(--quiet); font-family:var(--sans); }
+  .foot-cols ul { list-style:none; margin:0; padding:0; }
+  /* ⚠️ these were ~22px targets — the footer is where a reader goes when they
+     have finished, so it is the last place to make them aim. */
+  .foot-cols li { padding-block:var(--s2); position:relative; min-height:var(--tap-comfortable,52px); }
+  .foot-cols a { border-block-end:1px solid var(--rule); }
+  .foot-cols a::after { content:''; position:absolute; inset:0; }
+  .foot-note { margin-block-start:var(--s6); color:var(--quiet); }
+
+  /* ⭐ THE FRONT DOOR LEADS WITH TODAY — and it is doing two jobs at once.
+     Someone standing on Bazaar Road can use it. Someone in Berlin planning a
+     December trip cannot use a word of it, and is persuaded entirely by its
+     existence: a site that knows the synagogue shuts at two, today, is a site
+     whose registry is real. ⭐ So today is at the front as PROOF at least as
+     much as utility, which is why it is short and links away rather than
+     trying to be the daily page. */
+  .today { background:var(--sunk); border-inline-start:4px solid var(--amber-ink);
+           padding:var(--s4) var(--s5); font-family:var(--sans);
+           margin-block:var(--s5) var(--s7); }
+  .today__k { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+              color:var(--quiet); font-weight:700; margin:0 0 var(--s2); }
+  .today__line { font-family:var(--serif); font-size:1.25rem; line-height:1.25;
+                 margin:0 0 var(--s4); color:var(--ink); }
+
+  .st { list-style:none; margin:0 0 var(--s4); padding:0; }
+  /* ⛔ not `display:flex` — it would split the name from the state that follows
+     it. Padding to the floor, normal flow inside. */
+  .st li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
+           min-height:var(--tap-comfortable,52px); position:relative;
+           font-size:var(--small); line-height:1.45; }
+  .st li:last-child { border-block-end:0; }
+  .st a { font-weight:700; border:0; text-decoration:underline;
+          text-decoration-color:var(--rule); text-underline-offset:3px; }
+  /* ⛔ ONLY THE PLACE GETS THE ROW OVERLAY. The "instead" line holds a second
+     link, and two `::after` overlays on one row means the later one wins — a
+     tap on "Paradesi Synagogue" opened Jew Town. Child selector, and the
+     second link is lifted above. */
+  .st > li > a::after { content:''; position:absolute; inset:0; }
+  .st__instead a { position:relative; z-index:1; }
+  .st__state { color:var(--quiet); }
+  .st__dist { color:var(--quiet); }
+
+  /* ⭐ THE STATE THAT HAD NO COMPONENT: open, but not now.
+     `FactsStrip`, `CheckedStamp`, `Unchecked` and `Correction` between them
+     cover SHUT and UNKNOWN. Neither covers the April afternoon — the place is
+     open today and you still cannot get in, because it closes in forty minutes
+     or does not open until three. That is the case the product is best at.
+     ⛔ And it is worse than useless without the second line: telling somebody
+     a door shuts in forty minutes and stopping there strands them. The
+     component is the pair — the state AND where to go instead. */
+  .st__soon { color:var(--alert); font-weight:700; }
+  .st__instead { display:block; margin-block-start:var(--s2); color:var(--ink); }
+  .st__instead b { font-weight:700; }
+
+  .today__foot { display:flex; align-items:center; justify-content:space-between;
+                 flex-wrap:wrap; gap:var(--s2) var(--s4); margin:0; }
+  .stamp { display:flex; align-items:center; gap:var(--s2); margin:0;
+           font-size:var(--micro); line-height:1; color:var(--quiet); }
+  .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
+                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+  /* ⚠️ underline the TEXT, not the box — a 44px floor plus `border-block-end`
+     leaves the rule hanging under the tap target. */
+  .today__more { font-size:var(--small); font-weight:700; border:0;
+                 text-decoration:underline; text-decoration-color:var(--amber);
+                 text-decoration-thickness:2px; text-underline-offset:3px;
+                 min-height:var(--tap-comfortable,52px); display:inline-flex; align-items:center; }
+
+  /* ⛔ NO UNNAMED DEFAULT LIST. A homepage's recommendations are the most
+     load-bearing opinion on the site, and presenting them unlabelled is exactly
+     how unlabelled opinion comes back wearing neutral clothes. The default is
+     a NAMED stance, and the other stances are visible beside it. */
+  .stance { font-family:var(--sans); font-size:var(--small); color:var(--quiet);
+            line-height:1.5; margin:calc(var(--s3)*-1) 0 var(--s5); }
+  .stance b { color:var(--ink); }
+  .ways { font-family:var(--sans); font-size:var(--small); color:var(--quiet);
+          line-height:1.7; margin:var(--s5) 0 0; }
+  .ways a { border-block-end:1px solid var(--rule); }
+
+  .trip { margin-block:var(--s9) var(--s7); padding-block:var(--s5);
+          border-block:1px solid var(--rule); font-family:var(--sans); }
+  .trip h2 { font-family:var(--serif); font-size:1.25rem; line-height:1.2;
+             margin:0 0 var(--s2); }
+  /* ⚠️ 83 characters a line at 1024px — the same paid-product sentence as
+     `today`, and the most load-bearing copy on the page. Healthy at 375px
+     (53–55), so this is wide-screen wrapping, not a rewrite.
+     ⭐ `ch` states the rule directly; a pixel max-width only implies it. */
+  /* ⛔ WAS `--small` — 14px, the size used for captions and metadata, on the
+     one paragraph on the page that asks for money. Set smaller than the writing
+     around it, which is a hierarchy problem before it is a measure problem. At
+     body size the 32rem column gives 58 characters and the ceiling clears. */
+  .trip p { font-family:var(--serif); font-size:var(--body); line-height:1.5;
+            margin:0 0 var(--s4); }
+
+  /* ⭐ The genuinely short-and-small blocks get the narrower column. A measure
+     belongs to a TYPE SIZE, not to a page: the same 552px holds 58 characters
+     at 19px serif and 83 at 14px sans.
+     ⚠️ Layout paragraphs excluded — `.today__foot` and `.stamp` are flex rows. */
+  .stance, .ways, .practical p, .signup__desc, .signup__privacy,
+  .st li, .lead p, .tier2 p, .tier3 p { max-width:var(--measure-small,29rem); }
+  .trip .btn { border-color:var(--ink); background:transparent; }
+
+  /* ⛔ MOCKUP SCAFFOLDING. Not part of the page. */
+  .demo { background:#1c1a17; color:#fdfcf9; font-family:var(--sans);
+          font-size:var(--micro); padding:var(--s3) var(--s5);
+          display:flex; align-items:center; flex-wrap:wrap; gap:var(--s2) var(--s3); }
+  .demo b { text-transform:uppercase; letter-spacing:var(--track); font-weight:700; opacity:.65; }
+  .demo button { font:inherit; color:inherit; background:transparent;
+                 border:1px solid rgba(253,252,249,.45); padding:var(--s2) var(--s4);
+                 min-height:var(--tap-comfortable,52px); cursor:pointer; }
+  .demo button[aria-pressed="true"] { background:var(--amber); color:#1c1a17;
+                                      border-color:var(--amber); font-weight:700; }
+  .demo button:focus-visible { outline:3px solid var(--amber); outline-offset:2px; }
+
+  .note-frame { max-width:46rem; margin:var(--s6) auto 0; padding-inline:var(--gutter);
+                font-family:var(--sans); font-size:var(--small); color:var(--quiet); }
+  /* ⚠️ CONSTRAIN THE PROSE, NOT THE CONTAINER. The frame stays 46rem because it
+     holds tables and code that need the width; its running text was measuring
+     83 characters a line, well past the 60 the pages themselves hold to. */
+  .note-frame p, .note-frame li { max-width:32rem; }
+  .note-frame h4 { font-family:var(--serif); color:var(--ink); font-size:1.1rem;
+                   margin:var(--s5) 0 var(--s2); max-width:32rem; }
+  .note-frame ol { padding-inline-start:1.2rem; } .note-frame li { margin-block:var(--s2); }
+</style>
+
+<!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
+     Delete this whole div in the SAME commit that deletes this kit's line from
+     KIT_FAMILY in scripts/check-kits.mjs. The two say the same thing and must
+     die together: check-kits.mjs already prints "this kit has not been redrawn"
+     on every run — to a console, which is the one place the person deciding
+     will never look. This says it where he will.
+     ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
+     that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+</div>
+
+<div class="demo">
+  <b>Mockup control — not part of the page. Pretend it is:</b>
+  <button data-t="2026-08-07T05:30:00Z">11 am</button>
+  <button data-t="2026-08-07T07:45:00Z">1.15 pm</button>
+  <button data-t="2026-08-07T09:30:00Z">3 pm</button>
+  <button data-t="2026-08-07T12:30:00Z">6 pm</button>
+  <button data-t="">your own clock</button>
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="site-name" href="#">cats of Kochi</a>
+    <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="vh">Cats of Kochi — Fort Kochi and Mattancherry</h1>
+
+  <!-- ⭐ TODAY LEADS. Short, and it links away rather than trying to be the
+       daily page — its job here is as much proof as utility. -->
+  <section class="today" aria-label="Fort Kochi today">
+    <p class="today__k">Fort Kochi, right now — <span class="today__clock">Friday,
+    1.15 pm</span></p>
+    <p class="today__line">Heavy rain from mid-afternoon. Do the outdoor things
+    before two.</p>
+
+    <!-- ⚠️ Every row must be TRUE WITH NO SCRIPT. "Shuts at 2" is a posted fact;
+         "in 45 minutes" is not, so it is never written into the HTML — the
+         enhancement adds it, and only while it is true. -->
+    <ul class="st">
+      <li>
+        <a href="#">Paradesi Synagogue</a><span class="st__dist"> · 20 minutes on
+        foot</span>
+        <!-- ⚠️ the distance sits with the PLACE, not the state. It was after the
+             state, and at 3 pm the row read "shut since 2 pm. Twenty minutes away
+             on foot" — sending somebody to a locked door. A property of the place
+             survives every rewrite; a property of the hour does not. -->
+        <!-- ⭐ 14:00 is correct AND it is a Friday in this mockup: the synagogue
+             runs 10-6 Sunday to Thursday and 10-2 on Fridays (paradesisynagogue.com,
+             read 7 Aug 2026). The clock at the top of this page says Friday, so the
+             early close is the right thing to be warning about. -->
+        <span class="st__state"> — <span class="cl" data-until="14">open, shuts at
+        2</span>.</span>
+        <!-- ⛔ the alternative carries ITS OWN closing hour. Without this the
+             row recommended Jew Town at six o'clock, when Jew Town is also
+             shut — the component reproducing the exact failure it exists to
+             prevent, one step further along. -->
+        <span class="st__instead" data-while="soon" data-until="18"><b>Instead:</b>
+        <a href="#">Jew Town</a> is the same walk and stays open till six.</span>
+      </li>
+      <li>
+        <a href="#">Mattancherry Palace</a>
+        <span class="st__state"> — shut all day. It is a Friday.</span>
+      </li>
+      <li>
+        <a href="#">Kerala Kathakali Centre</a>
+        <!-- ⛔ data-to IS NOT OPTIONAL. With data-from alone this row read
+             "open now" at nine o'clock at night — measured. 5–7 pm is the
+             site's own posted fact, repeated on both pillar guides. -->
+        <span class="st__state"> — <span class="cl" data-from="17" data-to="19">opens at
+        5</span>. Indoors, and it runs wet or dry.</span>
+        <span class="st__instead" data-while="closed"><b>Until then:</b>
+        <a href="#">Pepper House</a>, two minutes, better in rain than in sun.</span>
+      </li>
+    </ul>
+
+    <p class="today__foot">
+      <span class="stamp"><span class="stamp__chip">Checked</span>
+      <time datetime="2026-08-07T06:00">today, 6 am</time></span>
+      <a class="today__more" href="#">Everything for today and tomorrow</a>
+    </p>
+  </section>
+
+  <p class="orient">Fort Kochi and Mattancherry, told by people who live here —
+  what's open, what's worth it, and when we last checked.</p>
+
+  <!-- ⭐ LEAD. One per page, the largest headline and the largest picture. -->
+  <section class="band band--lead">
+    <h2 class="band__label">This week</h2>
+    <article class="lead">
+      <a href="#">
+        <div class="ph">the lead photograph — the whole screen wide</div>
+        <span class="kicker">Mattancherry</span>
+        <h3>The mutton walk, and the lane nobody turns down</h3>
+        <p>Ninety minutes, four stops, and the one gap between two godowns that
+        makes it worth doing.</p>
+      </a>
+    </article>
+  </section>
+
+  <!-- practical: the ~12 answer pages, plain and amber because they are checked -->
+  <section class="band">
+    <h2 class="band__label">Getting around</h2>
+    <div class="practical">
+      <p>Checked on the ground, and dated.</p>
+      <ul>
+        <li><a href="#">Water metro — times, fares, which boat</a></li>
+        <li><a href="#">Ferries from Fort Kochi</a></li>
+        <li><a href="#">From the airport</a></li>
+        <li><a href="#">Is it worth going in the monsoon?</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ⛔ NOT "Places". A named stance, with the others visible beside it. -->
+  <section class="band">
+    <h2 class="band__label">Fort Kochi, first time</h2>
+    <p class="stance"><b>A stance, not a ranking.</b> Written for two days and no
+    plan. Somebody else would choose differently, and we would rather say so than
+    call this "the best".</p>
+    <ul class="cards cards--3">
+      <li class="tier3"><a href="#">
+        <div class="ph">photo</div><span class="kicker">Fort Kochi</span>
+        <h3>Pepper House</h3><p>Come for the ceiling, not the coffee.</p></a></li>
+      <li class="tier3"><a href="#">
+        <div class="ph">photo</div><span class="kicker">Mattancherry</span>
+        <h3>Muziris Contemporary</h3><p>What a gallery keeps upstairs.</p></a></li>
+      <li class="tier3"><a href="#">
+        <div class="ph">photo</div><span class="kicker">Fort Kochi</span>
+        <h3>Kayees Rahmathulla</h3><p>Biryani, until it runs out.</p></a></li>
+    </ul>
+    <p class="ways">Other ways in: <a href="#">Second visit</a> ·
+    <a href="#">With children</a> · <a href="#">When it rains</a> ·
+    <a href="#">Everything, unsorted</a></p>
+  </section>
+
+  <section class="band">
+    <h2 class="band__label">What's on</h2>
+    <article class="tier2" style="margin-block-end:var(--s6)">
+      <a href="#">
+        <div class="ph">photo</div><span class="kicker">Until 14 September</span>
+        <h3>Mattanchère: Summer Art Salon</h3>
+        <p>Wed–Sun, and Tuesdays if you ask.</p></a>
+    </article>
+    <ul class="list">
+      <li><span class="kicker">Every Saturday</span><a href="#">Beach clean at Fort Kochi</a></li>
+      <li><span class="kicker">31 December</span><a href="#">Pappanji burns at midnight</a></li>
+    </ul>
+  </section>
+
+  <section class="band">
+    <h2 class="band__label">Newest writing</h2>
+    <ul class="list">
+      <li><span class="kicker">Fort Kochi</span><a href="#">Meet the guardians — the Fearless Collective mural</a></li>
+      <li><span class="kicker">Kochi</span><a href="#">The science behind the glowing water at Kavaru</a></li>
+      <li><span class="kicker">Mattancherry</span><a href="#">Inside the viewing room</a></li>
+      <li><span class="kicker">Fort Kochi</span><a href="#">What if we lost the Chinese fishing nets?</a></li>
+    </ul>
+  </section>
+
+  <!-- ⭐ THE TRIP — the reader today at the top cannot buy this; the reader in
+       Berlin can, and has just scrolled past the evidence that it works. -->
+  <section class="trip">
+    <h2>Coming for a few days?</h2>
+    <p>Four days in Kochi is not four daily pages. It is an order — which day
+    for the fort, which for the islands, which one you keep loose because half
+    of Mattancherry is shut. We write that order for your dates, and keep it
+    right while you are here. ₹0,000 for the trip, however many of you there
+    are.</p>
+    <a class="btn" href="#">What that includes</a>
+  </section>
+
+  <section class="signup">
+    <p class="signup__freq">Once a month</p>
+    <h2 class="signup__name">What's on in Fort Kochi</h2>
+    <p class="signup__desc">The events worth your evening, the ones that moved,
+    and what we checked this month. Free.</p>
+    <form class="signup__form" onsubmit="return false">
+      <label class="signup__label" for="e">Email address</label>
+      <input class="signup__input" id="e" type="email" placeholder="you@example.com">
+      <button class="btn" type="submit">Sign up</button>
+    </form>
+    <p class="signup__privacy">We only use your address for this. Unsubscribe in
+    one click, any time.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <h4>Start here</h4>
+        <ul>
+          <li><a href="#">One day in Fort Kochi</a></li>
+          <li><a href="#">Where to eat</a></li>
+          <li><a href="#">Getting around</a></li>
+          <li><a href="#">All places</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Who writes this</a></li>
+          <li><a href="#">The cats</a></li>
+          <li><a href="#">How we check things</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">Fort Kochi and Mattancherry · every fact carries the date
+    it was checked</p>
+  </div>
+</footer>
+
+<script>
+/* ⭐ Progressive enhancement, and only for the fact that decays within the hour.
+   The posted hours are written into the HTML and are true with no script. A
+   countdown is not a posted fact, so it is never written into the HTML — it is
+   computed at read time, in Asia/Kolkata, never from the device's own zone. */
+(function () {
+  var clockEl = document.querySelector('.today__clock');
+  var cells   = Array.prototype.slice.call(document.querySelectorAll('.cl'));
+  cells.forEach(function (c) { c.dataset.base = c.textContent.replace(/\s+/g, ' ').trim(); });
+
+  function say(h) { return ((h % 12) || 12) + (h < 12 ? ' am' : ' pm'); }
+
+  /* ⛔ An alternative that is itself shut is worse than no alternative. If the
+     "instead" carries its own closing hour, it must clear it too. When it does
+     not, the row simply says nothing more — honest beats helpful-and-wrong. */
+  function instead(cell, show, now) {
+    var row = cell.closest('li').querySelector('.st__instead');
+    if (!row) { return; }
+    if (show && row.dataset.until && now >= Number(row.dataset.until)) { show = false; }
+    row.hidden = !show;
+  }
+
+  function apply(pretend) {
+    var p = {};
+    new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Kolkata', weekday: 'long',
+      hour: '2-digit', minute: '2-digit', hour12: false
+    }).formatToParts(pretend ? new Date(pretend) : new Date())
+      .forEach(function (x) { p[x.type] = x.value; });
+
+    var h = Number(p.hour), now = h + Number(p.minute) / 60;
+    clockEl.textContent = p.weekday + ', ' + ((h % 12) || 12) + '.' + p.minute +
+                          (h < 12 ? ' am' : ' pm');
+
+    cells.forEach(function (c) {
+      c.classList.remove('st__soon');
+      c.textContent = c.dataset.base;
+
+      if (c.dataset.until) {
+        var u = Number(c.dataset.until), mins = Math.round((u - now) * 60);
+        if (mins <= 0) {
+          c.textContent = 'shut since ' + say(u);
+          c.classList.add('st__soon');
+          instead(c, true, now);
+        } else if (mins <= 90) {
+          /* ⭐ the whole point of the component: the warning is useless without
+             somewhere to go, so the "instead" line appears with it and not before */
+          c.textContent = c.dataset.base + ', in ' + mins + ' minutes';
+          c.classList.add('st__soon');
+          instead(c, true, now);
+        } else {
+          instead(c, false, now);
+        }
+      } else if (c.dataset.from) {
+        /* ⛔ "open now" is a claim about THIS MINUTE, and an opening hour alone
+           cannot support it. With only data-from this row still said "open now"
+           at 9 pm — the same strand-the-reader failure the "instead" guard above
+           exists to prevent, one row down. A posted opening time may only be
+           upgraded to a live claim while the closing hour is also known and has
+           not passed; with no data-to the HTML stands untouched. */
+        var from = Number(c.dataset.from);
+        var to   = c.dataset.to ? Number(c.dataset.to) : null;
+        var open = now >= from && to !== null && now < to;
+        if (open) {
+          /* the closing hour travels WITH the claim — "open now" on its own is
+             what sends somebody out at 6.55 for a thing that ends at seven */
+          c.textContent = 'open now, until ' + say(to);
+        } else if (to !== null && now >= to) {
+          c.textContent = 'shut since ' + say(to);
+          c.classList.add('st__soon');
+        }
+        /* ⛔ "Until then" only means anything while the opening is still ahead.
+           Bound to !open it reappeared after closing, promising a later start
+           that is not coming. Nothing is honest here; nothing is what it says. */
+        instead(c, now < from, now);
+      }
+    });
+  }
+
+  /* ⛔ mockup scaffolding only — the real page ships apply() and nothing below */
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.demo button'));
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      apply(b.dataset.t || null);
+    });
+  });
+  var start = buttons[1];                      /* opens at 1.15 pm — the closing case */
+  buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(x === start)); });
+  apply(start.dataset.t);
+})();
+</script>
+
+<div class="note-frame">
+  <h4>⭐ What changed, and why today is at the top</h4>
+
+  <p>Two readers, and only one of them can use today. Somebody on Bazaar Road at
+  nine wants what is open. Somebody in Berlin planning December cannot use a word
+  of it — <strong>and that second person is the one who pays.</strong> ⛔ The price
+  is shown as ₹0,000 here and in <code>itinerary</code> because none has been set;
+  a plausible number printed in a mockup becomes the one everybody assumes.</p>
+
+  <p>⭐ <strong>So today earns the front page for the planner as evidence, not as
+  utility.</strong> "This site knows the synagogue shuts at two, and it knows it
+  today" is what makes the registry believable. The planner cannot use the
+  content and is entirely persuaded by its existence. That is why the block is
+  short and <em>links away</em> rather than trying to be the daily page.</p>
+
+  <p>Order: <strong>today, then the reason to come, then the trip.</strong> The
+  orienting line moved below today — the band's own label does the framing, and a
+  first-time visitor is told what this is before the lead story rather than
+  before the evidence.</p>
+
+  <h4>⭐ The state that had no component — and it is ahead of the build</h4>
+
+  <p><code>FactsStrip</code>, <code>CheckedStamp</code>, <code>Unchecked</code>
+  and <code>Correction</code> cover <strong>shut</strong> and
+  <strong>unknown</strong>. Nothing covered <strong>open, but not now</strong> —
+  the April afternoon, where the place is open today and you still cannot get in.
+  It is the case the product is best at and it had no design.</p>
+
+  <p>⛔ <strong>And it is worse than useless as a warning alone.</strong> Telling
+  somebody a door shuts in forty minutes and stopping there strands them. So the
+  component is a <em>pair</em> — the state and where to go instead — and the
+  "instead" line is bound to the state: it appears when the door is closing or
+  shut, and disappears when there is no problem to solve. Press <strong>11 am</strong>
+  on the black bar and it goes away; press <strong>3 pm</strong> and the row
+  rewrites itself to "shut since 2 pm".</p>
+
+  <p>⚠️ Every row is <strong>true with no JavaScript</strong>. "Shuts at 2" is a
+  posted fact and lives in the HTML. <em>"In 45 minutes"</em> is not a posted
+  fact and is never written there — it is computed at read time, or not at all.</p>
+
+  <h4>⛔ "Places" is gone. There is no unnamed default list.</h4>
+
+  <p>The homepage's recommendations are the most load-bearing opinion on the
+  site. Presented unlabelled, they read as neutral fact — which is exactly how
+  unlabelled opinion comes back wearing neutral clothes. The band is now
+  <strong>"Fort Kochi, first time"</strong>, says in one line that it is a stance
+  rather than a ranking, and shows the other stances beside it.</p>
+
+  <h4>The trip, and where it sits</h4>
+
+  <p>Below the writing and above the newsletter: the reader who can use today
+  cannot buy it, and the reader who can buy it has just scrolled past the reason
+  to believe it. Same words as the daily page — <strong>the product is the
+  sequence, not the days.</strong></p>
+
+  <h4>What the Guardian's front page actually does — measured, then translated</h4>
+  <ol>
+    <li>⭐ <strong>Four headline sizes and nothing between them</strong> — 28px
+    lead, 24px, 20px, then a 14px run of links. That ladder is the whole
+    hierarchy.</li>
+    <li>⭐ <strong>The picture shrinks with the headline</strong> — 620px wide for
+    the lead, then 460, then 220, then none at all. Weight is stated twice, in
+    type and in picture, so it survives scanning.</li>
+    <li>⭐ <strong>Front-page images are cropped to one ratio</strong> — every one
+    measured 5:4. ⚠️ That is the opposite of their <em>article</em> images, which
+    keep their own shape. A grid needs a constant; an article does not. I had
+    written the no-fixed-ratio rule without that qualification.</li>
+    <li><strong>Section labels are bold where headlines are medium</strong>, at the
+    same size — so a label reads as a label without being bigger.</li>
+    <li><strong>Every card carries a kicker.</strong> Theirs is the section;
+    ours is the place.</li>
+    <li>⭐ <strong>No big H1.</strong> Their front page does not put its own name
+    in large type — the masthead does that, and the first screen belongs to a
+    story. So <em>"The newest writing"</em> is not reworded here, it is
+    <strong>deleted</strong>: the newest writing becomes one section near the
+    foot, and a story takes the top.</li>
+  </ol>
+
+  <h4>Where I departed, and why</h4>
+  <p><strong>One orienting line survives above the lead.</strong> The Guardian
+  needs no introduction; catsofkochi is unknown to a first-time visitor, and the
+  homepage is its best-performing page precisely for strangers.
+  <em>Named reader difference: a slow guide, not a news product.</em> It sits at
+  standfirst size, not hero size.</p>
+
+  <p><strong>Density is a fifth of theirs.</strong> Twelve sections becomes five,
+  and the practical block is a plain list rather than cards — those twelve answer
+  pages are utility, and utility does not want photographs.</p>
+
+  <p>⭐ <strong>The footer now has links.</strong> The live one has none at all —
+  which means a reader who finishes a page has nowhere to go.</p>
+
+  <p>⚠️ Rendered in the fallback serif; Noticia cannot be downloaded inside an
+  artifact.</p>
+</div>

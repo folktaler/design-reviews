@@ -1,0 +1,395 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Venue pages — three shapes</title>
+
+<link rel="stylesheet" href="faces-noticia-text.css">
+<style>
+  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
+   * Artifacts sit behind a strict CSP with no server and can never fetch
+   * /fonts/*.woff2, so the face must travel inside the file.
+   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
+   * three files across every page instead of paying base64 overhead each time.
+   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  
+  
+  
+  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real
+     metrics, no single number forced across Georgia/Noto Serif/Times New
+     Roman at once. */
+  @font-face {
+    font-family: 'Noticia Fallback: Georgia';
+    src: local('Georgia');
+    ascent-override: 101.8313%;
+    descent-override: 27.4232%;
+    size-adjust: 105.586%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Noto Serif';
+    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
+    ascent-override: 109.8716%;
+    descent-override: 29.5885%;
+    size-adjust: 97.8593%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Times New Roman';
+    src: local('Times New Roman'), local('TimesNewRomanPSMT');
+    ascent-override: 92.7969%;
+    descent-override: 24.9903%;
+    line-gap-override: 0%;
+    size-adjust: 115.8654%;
+  }
+  /* ══ END SYSTEM FACES ══ */
+
+  :root {
+    --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
+    --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    --focus:#0b60c4;
+    --serif: 'Noticia Text','Noticia Fallback: Georgia','Noticia Fallback: Noto Serif','Noticia Fallback: Times New Roman',Georgia,'Noto Serif','Times New Roman',serif;
+    --sans: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+    --s7:2rem;--s8:2.5rem;--s9:3rem;--s10:4rem;
+    --micro:.8125rem; --small:.875rem; --track:.06em;
+    --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
+    --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
+    --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
+    --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
+    --measure:32rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
+  }
+  html { color-scheme:light; background:var(--paper); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+         font-family:var(--serif); font-size:var(--body); line-height:1.5;
+         -webkit-text-size-adjust:100%; }
+  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
+          margin-inline:auto; padding-inline:var(--gutter); }
+  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  a:hover { border-block-end-color:var(--amber-ink); }
+  a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+
+  .site-header { border-block-end:1px solid var(--rule); padding-block:var(--s3); }
+  .site-header__in { display:flex; align-items:center; justify-content:space-between;
+                     gap:var(--s4); flex-wrap:wrap; }
+  .site-name { font-family:var(--serif); font-weight:700; font-size:1.15rem; color:var(--ink);
+               border:0; min-height:var(--tap-comfortable,52px); display:inline-flex; align-items:center; }
+  .site-nav { display:flex; gap:var(--s5); font-family:var(--sans); font-size:var(--small); }
+  /* ⚠️ RAISE THE FLOOR, DO NOT PAD IT — `min-height` is a floor, not an addend.
+     Fallback included: an undefined token resolves to nothing, silently. */
+  /* ⚠️ BOTH AXES. "Places" is 42.5px WIDE at 14px — a floor on height alone
+     leaves a target that fails on the axis nobody measured. */
+  .site-nav a { color:var(--ink); border:0;
+                min-height:var(--tap-comfortable,52px);
+                min-inline-size:var(--tap-comfortable,52px);
+                display:inline-flex; align-items:center; justify-content:center; }
+
+  .post { padding-block:var(--s7) var(--s4); }
+  h1 { font-family:var(--serif); font-size:var(--disp); line-height:1.15;
+       letter-spacing:-.015em; text-wrap:balance; margin:0 0 var(--s3); }
+  h2 { font-family:var(--serif); font-size:var(--head); line-height:1.2;
+       margin-block:var(--s9) var(--s3); text-wrap:balance; }
+  p { margin-block:0 var(--para); }
+
+  .byline { font-family:var(--sans); font-size:var(--small); color:var(--quiet);
+            margin:0 0 var(--s6); }
+
+  .catline { display:flex; gap:var(--s3); align-items:flex-start;
+             margin-block:var(--s6); padding:var(--s4); background:var(--sunk);
+             font-family:var(--sans); }
+  .catline__p { flex:0 0 auto; width:44px; height:44px; border-radius:50%; background:var(--rule); }
+  .catline p { margin:0; font-size:var(--small); line-height:1.5; }
+  .catline span { display:block; margin-block-start:var(--s1); font-size:var(--micro); color:var(--quiet); }
+
+  figure { margin:var(--s7) calc(var(--gutter)*-1); }
+  figure .ph { aspect-ratio:3/2; background:var(--sunk); display:grid; place-items:center;
+               font-family:var(--sans); font-size:var(--small); color:var(--quiet);
+               text-align:center; padding:var(--s4); }
+  figcaption { font-family:var(--sans); font-size:var(--small); line-height:1.45;
+               color:var(--quiet); margin:var(--s2) var(--gutter) 0; }
+
+  .facts { margin-block:var(--s6); padding:var(--s4) var(--s5);
+           background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+           font-family:var(--sans); }
+  .facts dl { margin:0 0 var(--s4); }
+  .facts__row { display:grid; gap:var(--s1) var(--s4); padding-block:var(--s3);
+                border-block-end:1px solid var(--rule); }
+  .facts__row:first-child { padding-block-start:0; }
+  .facts__row:last-child { border-block-end:0; padding-block-end:0; }
+  @media (min-width:30rem){ .facts__row { grid-template-columns:6.5rem 1fr; } }
+  .facts dt { margin:0; color:var(--quiet); font-size:var(--small); line-height:1.45; }
+  .facts dd { margin:0; line-height:1.45; }
+  .facts__obs { display:block; margin-block-start:var(--s2); font-weight:500; }
+  .facts__unchecked { margin-block:0 var(--s4); padding-block-start:var(--s3);
+                      border-block-start:1px solid var(--rule); }
+  .unchecked { margin:0 0 var(--s2); line-height:1.45; }
+  .unchecked:last-child { margin-block-end:0; }
+  .stamp { display:flex; align-items:center; gap:var(--s2); margin:0; flex-wrap:wrap;
+           font-size:var(--micro); line-height:1; }
+  .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
+                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+  .stamp__date { color:var(--quiet); }
+  /* ⛔⛔ THE CORRECTION LINK WAS THE HARDEST THING ON THE PAGE TO HIT — 14px tall,
+     because `.stamp` sets line-height:1 at micro size and the link inherited it.
+     Below WCAG 2.2 AA's 24x24 floor, on the one control a reader uses to tell us a
+     fact is wrong. ⚠️ Both axes, literal fallbacks — an undefined token resolves to
+     nothing and the floor disappears silently. Assert 44, set 52. */
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX — same rule as `.jump a` in
+     ui_kits/today. The 52px floor above pushed the site-wide
+     `a { border-block-end }` rule to the bottom of the tap target, 18px
+     under the words. text-decoration tracks the text instead. */
+  .stamp a, .stamp__tell { min-height:var(--tap-comfortable,52px);
+                           min-width:var(--tap-comfortable,52px);
+                           display:inline-flex; align-items:center; justify-content:center;
+                           padding-inline:var(--s2,8px);
+                           border:0; text-decoration:underline;
+                           text-decoration-color:var(--amber);
+                           text-decoration-thickness:2px; text-underline-offset:3px; }
+
+  /* a dated season block — fills during an edition, empties between */
+  .season { margin-block:var(--s7); padding:var(--s4) var(--s5); background:var(--sunk);
+            border-inline-start:4px solid var(--rule); font-family:var(--sans); }
+  .season h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
+               margin:0 0 var(--s2); }
+  .season p { margin:0 0 var(--s2); font-size:var(--small); line-height:1.5; }
+  .season p:last-child { margin-block-end:0; }
+
+  .stack { list-style:none; margin:0; padding:0; font-family:var(--sans); }
+  /* ⚠️ ROW IS THE TARGET. These measured 28px tall — a heading link is inline,
+     so no `min-height` ever reaches it, and unlike the list rows elsewhere
+     these had no overlay at all. The rows are already ~76px, so it is free. */
+  .stack li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
+              position:relative; }
+  .stack li:last-child { border-block-end:0; }
+  .stack h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2; margin:0 0 var(--s1); }
+  .stack h3 a { color:var(--ink); border:0; }
+  .stack h3 a::after { content:''; position:absolute; inset:0; }
+  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45; }
+  .kicker { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+            color:var(--quiet); margin:0 0 var(--s3); font-family:var(--sans); }
+
+  hr.div { border:0; border-block-start:1px solid var(--rule); margin-block:var(--s10); }
+  .shape { font-family:var(--sans); font-size:var(--micro); text-transform:uppercase;
+           letter-spacing:var(--track); color:var(--paper); background:var(--ink);
+           display:inline-block; padding:var(--s1) var(--s2); margin-block-end:var(--s4); }
+
+  .note-frame { max-width:46rem; margin:var(--s6) auto 0; padding-inline:var(--gutter);
+                font-family:var(--sans); font-size:var(--small); color:var(--quiet); }
+  .note-frame h4 { font-family:var(--serif); color:var(--ink); font-size:1.1rem;
+                   margin:var(--s5) 0 var(--s2); }
+  .note-frame ol,.note-frame ul { padding-inline-start:1.2rem; }
+  .note-frame li { margin-block:var(--s2); }
+  .was { background:var(--sunk); padding:var(--s4); font-size:var(--micro);
+         line-height:1.5; margin-block:var(--s3); }
+</style>
+
+<!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
+     Delete this whole div in the SAME commit that deletes this kit's line from
+     KIT_FAMILY in scripts/check-kits.mjs. The two say the same thing and must
+     die together: check-kits.mjs already prints "this kit has not been redrawn"
+     on every run — to a console, which is the one place the person deciding
+     will never look. This says it where he will.
+     ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
+     that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="site-name" href="#">cats of Kochi</a>
+    <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================ C: NEW SHORT PAGE, verdict exists -->
+  <article class="post wrap">
+    <p class="shape">New short page · ~350 words</p>
+
+    <h1>Seagull</h1>
+
+    <!-- The verdict IS the cat opener. Shemeer's own line, unedited. -->
+    <div class="catline">
+      <div class="catline__p"></div>
+      <div>
+        <p>Chilled beer, good food, looking at the sea. If it rains, the ships
+        pass like they're next to you.</p>
+        <span>Bandit</span>
+      </div>
+    </div>
+
+    <p class="byline">Fort Kochi · on the water</p>
+
+    <figure>
+      <div class="ph">a real photograph — none exists yet</div>
+      <figcaption>Nothing has been shot here. The page ships without one.</figcaption>
+    </figure>
+
+    <p>It is on the harbour side, past the jetty, and it looks like nothing from
+    the road. The room behind is ordinary. The reason to come is the verandah and
+    what is in front of it.</p>
+
+    <p>In the monsoon the container ships come close enough that you stop talking.</p>
+
+    <section class="facts" aria-label="Seagull — the practical facts">
+      <dl>
+        <div class="facts__row"><dt>Where</dt>
+          <dd>Harbour side, past the jetty. Fort Kochi</dd></div>
+      </dl>
+      <div class="facts__unchecked">
+        <p class="unchecked">We have not checked the hours. Call before you walk
+        down — it is not a short walk back.</p>
+        <p class="unchecked">We do not have a phone number for them yet.</p>
+      </div>
+      <p class="stamp">
+        <span class="stamp__chip">Checked</span>
+        <span class="stamp__date">everything except the gaps above &middot;</span>
+        <time class="stamp__date" datetime="2026-08-03">3 Aug 2026</time>
+        <a href="#">Changed? Tell us</a>
+      </p>
+    </section>
+
+    <h2>What we've written about here</h2>
+    <p style="font-family:var(--sans);font-size:var(--small);color:var(--quiet)">
+      Nothing yet. This is the first.</p>
+  </article>
+
+  <hr class="div">
+
+  <!-- ============================ B: EVERGREEN + DATED SEASON, no verdict -->
+  <article class="post wrap">
+    <p class="shape">Evergreen page · dated Biennale section</p>
+
+    <h1>Aspinwall House</h1>
+
+    <!-- ⭐ NO CAT LINE. No verdict has been written for this one, and an empty
+         cat line is the same defect as an empty facts row. The page simply
+         starts. -->
+
+    <p class="byline">Fort Kochi · a 19th-century trading compound</p>
+
+    <figure>
+      <div class="ph">a real photograph</div>
+      <figcaption>The seaward warehouses, from the lawn.</figcaption>
+    </figure>
+
+    <p>Aspinwall was a coir, pepper and timber business, and the compound is the
+    largest surviving piece of that trade in Fort Kochi. It is the main Biennale
+    venue and the reason most people have heard of it.</p>
+
+    <section class="facts" aria-label="Aspinwall House — the practical facts">
+      <dl>
+        <div class="facts__row"><dt>Open</dt>
+          <dd>During the Biennale only
+            <span class="facts__obs">Shut for most of the year. There is nothing
+            to see through the gate.</span></dd></div>
+        <div class="facts__row"><dt>Where</dt><dd>Calvetty, Fort Kochi</dd></div>
+      </dl>
+      <div class="facts__unchecked">
+        <p class="unchecked">We have not checked whether the grounds open for
+        anything else. Ask at the Biennale office on Bazaar Road.</p>
+      </div>
+      <p class="stamp">
+        <span class="stamp__chip">Checked</span>
+        <span class="stamp__date">everything except the gaps above &middot;</span>
+        <time class="stamp__date" datetime="2026-08-03">3 Aug 2026</time>
+        <a href="#">Changed? Tell us</a>
+      </p>
+    </section>
+
+    <!-- the dated block: fills during an edition, empties between -->
+    <section class="season">
+      <h3>Biennale 2025–26</h3>
+      <p>The edition closed on 31 March 2026. Aspinwall carried the main
+      exhibition across both floors of the seaward warehouses.</p>
+      <p><a href="#">What was on here</a> · <a href="#">The Biennale hub</a></p>
+    </section>
+
+    <h2>What we've written about here</h2>
+    <ul class="stack">
+      <li><h3><a href="#">The Biennale year that nearly did not happen</a></h3>
+        <p>Three weeks before opening, half the rooms were still a warehouse.</p></li>
+    </ul>
+  </article>
+
+</main>
+
+<div class="note-frame">
+
+  <h4>⭐ The Guardian's nearest relative is a restaurant review — and it does the
+  opposite of a facts strip</h4>
+
+  <p>Measured on a current review (Lennox, Manchester — 787 words, <strong>zero
+  subheads</strong>, one continuous piece). The practical facts are the
+  <strong>last paragraph</strong>, in the body face at 17px, no panel, no labels,
+  no date:</p>
+
+  <div class="was">
+    <em>"Lennox Manchester, 60 Spring Gardens, Manchester M2 2BQ, 0161 832 1815;
+    lennoxrestaurant.co.uk. Open Tues-Sun noon-midnight (1am Fri &amp; Sat, 9pm
+    Sun). About £70 a head a la carte for three courses (set menus from £35) plus
+    drinks and service"</em>
+  </div>
+
+  <p><strong>Guardian-faithful would mean no strip at all.</strong> I have kept
+  it, and here are the two named reader differences — both on the licensed list:</p>
+
+  <ol>
+    <li>⭐ <strong>Stranding facts.</strong> Their reader is choosing a
+    restaurant at home, in advance, reading for pleasure. Ours is
+    <strong>standing outside the building deciding whether to walk in now.</strong>
+    Nobody has ever been stranded by a restaurant review.</li>
+    <li><strong>Their facts need no date because the review IS dated.</strong> It
+    is published on a day and read as a snapshot of that night. A venue page is
+    evergreen and gets read for years, so the same sentence would quietly become
+    a lie.</li>
+  </ol>
+
+  <p>⭐ <strong>One thing taken from them, and it is a real gap in my strip: the
+  phone number.</strong> Their closing line carries one. Mine had hours, tickets
+  and closed days and no way to ring ahead — which makes <em>"call before you
+  walk down"</em> useless advice. <strong>Phone is now a strip row.</strong></p>
+
+  <h4>The two hard problems, designed for rather than papered over</h4>
+
+  <p><strong>1. The verdict may not exist.</strong> Seagull has one — Shemeer's
+  own line, unedited, and it carries the whole page. <strong>Aspinwall has
+  none, so it has no cat line at all.</strong> Not a filler one, not a generic
+  one. The page simply starts with the writing. An empty cat line is the same
+  defect as an empty facts row.</p>
+
+  <p><strong>2. Unchecked is the launch state, not an edge case.</strong> AIK-79
+  is open, so most of these pages ship with more unknown than known. Both pages
+  above show it: Seagull has <em>one</em> known fact and two honest gaps, and it
+  still works, because <strong>"we have not checked the hours, call before you
+  walk down" is more useful than a plausible guess.</strong></p>
+
+  <p>Note the Seagull gap is written with the consequence attached — <em>"it is
+  not a short walk back"</em>. A refusal that ends with what to do is help; one
+  that just admits ignorance is a shrug.</p>
+
+  <h4>The three shapes, and what actually differs</h4>
+  <ul>
+    <li><strong>A — Promote the existing article (4).</strong> ⛔ Prose untouched,
+    URL untouched. Add the strip and, if a verdict exists, the opener. Nothing
+    else. These are the site's best-ranking pages and the minimum change is the
+    point.</li>
+    <li><strong>B — Evergreen + dated season (10).</strong> As Aspinwall above.
+    The building is the page; the Biennale is a block inside it that fills and
+    empties. ⭐ Pepper House also carries a live <em>what's on here</em> list,
+    because it runs year-round.</li>
+    <li><strong>C — New short page (6).</strong> As Seagull. Verdict, a few
+    sentences, strip, article list. ⛔ Do not invent an arc — a manufactured
+    story is how 200-word stubs came back last time. Brevity is the honest
+    state.</li>
+  </ul>
+
+  <p>⭐ <strong>The layout is the same for all three.</strong> What differs is how
+  much of it is filled in — which is the right kind of difference, because it
+  means a thin page and a rich one are recognisably the same site rather than two
+  designs.</p>
+
+  <p>⚠️ Rendered in the fallback serif; Noticia cannot be downloaded inside an
+  artifact.</p>
+</div>

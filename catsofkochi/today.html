@@ -1,0 +1,728 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Today in Fort Kochi — the free daily page</title>
+
+<link rel="stylesheet" href="faces-noticia-text.css">
+<style>
+  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
+   * Artifacts sit behind a strict CSP with no server and can never fetch
+   * /fonts/*.woff2, so the face must travel inside the file.
+   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
+   * three files across every page instead of paying base64 overhead each time.
+   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  
+  
+  
+  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real
+     metrics, no single number forced across Georgia/Noto Serif/Times New
+     Roman at once. */
+  @font-face {
+    font-family: 'Noticia Fallback: Georgia';
+    src: local('Georgia');
+    ascent-override: 101.8313%;
+    descent-override: 27.4232%;
+    size-adjust: 105.586%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Noto Serif';
+    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
+    ascent-override: 109.8716%;
+    descent-override: 29.5885%;
+    size-adjust: 97.8593%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Times New Roman';
+    src: local('Times New Roman'), local('TimesNewRomanPSMT');
+    ascent-override: 92.7969%;
+    descent-override: 24.9903%;
+    line-gap-override: 0%;
+    size-adjust: 115.8654%;
+  }
+  /* ══ END SYSTEM FACES ══ */
+
+  :root {
+    --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
+    --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    --focus:#0b60c4; --alert:#a2191f;
+    --serif: 'Noticia Text','Noticia Fallback: Georgia','Noticia Fallback: Noto Serif','Noticia Fallback: Times New Roman',Georgia,'Noto Serif','Times New Roman',serif;
+    --sans: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+    --s7:2rem;--s8:2.5rem;--s9:3rem;--s10:4rem;
+    --micro:.8125rem; --small:.875rem; --track:.06em;
+    --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
+    --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
+    --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
+    --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
+    --measure:32rem; --measure-small:21rem;
+    --gutter:var(--s5); --tap:44px; --tap-comfortable:52px; --para:.75em;
+  }
+  html { color-scheme:light; background:var(--paper); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+         font-family:var(--serif); font-size:var(--body); line-height:1.5;
+         -webkit-text-size-adjust:100%; }
+  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
+          margin-inline:auto; padding-inline:var(--gutter); }
+  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  a:hover { border-block-end-color:var(--amber-ink); }
+  a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+  [hidden] { display:none !important; }
+
+  .site-header { border-block-end:1px solid var(--rule); padding-block:var(--s3); }
+  .site-header__in { display:flex; align-items:center; justify-content:space-between;
+                     gap:var(--s4); flex-wrap:wrap; }
+  /* ⚠️ RAISE THE FLOOR, DO NOT PAD IT — `min-height` is a floor, not an addend.
+     Fallback included: an undefined token resolves to nothing, silently. */
+  .site-name { font-family:var(--serif); font-weight:700; font-size:1.15rem; color:var(--ink);
+               border:0; min-height:var(--tap-comfortable,52px);
+               display:inline-flex; align-items:center; }
+  .site-nav { display:flex; gap:var(--s5); font-family:var(--sans); font-size:var(--small); }
+  /* ⚠️ BOTH AXES. "Places" is 42.5px WIDE at 14px — a floor on height alone
+     leaves a target that fails on the axis nobody measured. */
+  .site-nav a { color:var(--ink); border:0; min-height:var(--tap-comfortable,52px);
+                min-inline-size:var(--tap-comfortable,52px);
+                display:inline-flex; align-items:center; justify-content:center; }
+
+  .post { padding-block:var(--s6) var(--s4); }
+  h1 { font-family:var(--serif); font-size:var(--disp); line-height:1.15;
+       letter-spacing:-.015em; text-wrap:balance; margin:0 0 var(--s2); }
+  h2 { font-family:var(--serif); font-size:var(--head); line-height:1.2;
+       margin-block:var(--s8) var(--s3); }
+  p { margin-block:0 var(--para); }
+  .kicker { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+            color:var(--quiet); margin:0 0 var(--s2); font-family:var(--sans); }
+  /* the cat line — byline, never narrator. Evergreen: it never needs rewriting. */
+  .cat { font-style:italic; color:var(--quiet); margin:0 0 var(--s5); line-height:1.4; }
+
+  /* ⛔ THE PAGE IS OUT OF DATE. Shown only when the reader's day is not the
+     page's day — a cached page opened next morning is the common case. */
+  .stale { margin-block:var(--s5); padding:var(--s4) var(--s5); background:var(--sunk);
+           border-inline-start:4px solid var(--alert); font-family:var(--sans);
+           font-size:var(--small); line-height:1.5; }
+  .stale p { margin:0 0 var(--s3); }
+  .stale a { display:inline-flex; align-items:center; min-height:var(--tap-comfortable,52px);
+             font-weight:700; color:var(--ink); border:0;
+             text-decoration:underline; text-decoration-thickness:2px;
+             text-underline-offset:3px; }
+
+  /* ⭐ THE FIRST SCREEN — weather answered, not linked */
+  .now { margin-block:var(--s5) var(--s6); padding:var(--s4) var(--s5);
+         background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+         font-family:var(--sans); }
+  .now__line { font-family:var(--serif); font-size:var(--sub); line-height:1.25;
+               margin:0 0 var(--s3); color:var(--ink); }
+  /* ⚠️ The facts strip carries its OWN face. It was inheriting sans from `.now`,
+     so the identical strip under Tomorrow came out in the serif — same
+     component, two typefaces, and only visible once rendered. */
+  .now__facts { font-family:var(--sans);
+                display:grid; grid-template-columns:repeat(auto-fit,minmax(7rem,1fr));
+                gap:var(--s3) var(--s5); margin:0 0 var(--s3); }
+  .now__facts div { font-size:var(--micro); color:var(--quiet); line-height:1.3; }
+  .now__facts b { display:block; font-size:1.15rem; color:var(--ink);
+                  font-variant-numeric:tabular-nums; font-weight:400; }
+  .stamp { display:flex; align-items:center; gap:var(--s2); margin:0; flex-wrap:wrap;
+           font-size:var(--micro); line-height:1; }
+  .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
+                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+  .stamp__date { color:var(--quiet); }
+
+  /* ⭐ THE SIX O'CLOCK ANSWER — appears only once part of the day has gone.
+     Without JavaScript it never appears and nothing is lost: every block is
+     on the page, in order, with its hours written in words. */
+  .jump { display:flex; align-items:center; flex-wrap:wrap; gap:var(--s2) var(--s3);
+          margin-block:var(--s5); padding:var(--s3) var(--s5);
+          border-inline-start:4px solid var(--ink); background:var(--sunk);
+          font-family:var(--sans); font-size:var(--small); }
+  .jump__t { color:var(--quiet); }
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX. A 44px inline-flex link with
+     `border-block-end` puts the rule at the bottom of the tap target — a stray
+     amber line floating 20px under the words. `text-decoration` tracks the text. */
+  .jump a { color:var(--ink); font-weight:700; border:0;
+            text-decoration:underline; text-decoration-color:var(--amber);
+            text-decoration-thickness:2px; text-underline-offset:3px;
+            display:inline-flex; align-items:center; min-height:var(--tap-comfortable,52px); }
+
+  .shut { margin-block:var(--s5); padding:var(--s4) var(--s5); background:var(--sunk);
+          border-inline-start:4px solid var(--ink); font-family:var(--sans); }
+  .shut__k { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+             color:var(--quiet); margin:0 0 var(--s2); font-weight:700; }
+  .shut ul { list-style:none; margin:0; padding:0; }
+  /* ⚠️ ROW IS THE TARGET. Measured 18px before this: the closure rows had the
+     same look as the `.part` rows but none of the overlay, so the only tappable
+     thing was the name itself. `min-height` is a floor, not an addend. */
+  /* ⛔ NOT `display:flex`. Tried it for vertical centring and it turned the
+     link and the text after it into separate flex items — the space before the
+     em dash vanished ("Mattancherry Palace— closed") and long names broke into
+     a second column. Padding to the floor instead. */
+  .shut li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
+             font-size:var(--small); line-height:1.45;
+             position:relative; min-height:var(--tap-comfortable,52px); }
+  .shut li a::after { content:''; position:absolute; inset:0; }
+  .shut li:last-child { border-block-end:0; }
+
+  .part { margin-block:var(--s7); font-family:var(--sans); scroll-margin-block-start:var(--s4); }
+  .part h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
+             margin:0 0 var(--s2); padding-block-end:var(--s2);
+             border-block-end:1px solid var(--rule); font-weight:400;
+             display:flex; align-items:baseline; flex-wrap:wrap; gap:var(--s2) var(--s3); }
+  .hrs { font-family:var(--sans); font-size:var(--micro); color:var(--quiet);
+         letter-spacing:var(--track); text-transform:uppercase; }
+  /* ⭐ "over" MARKS, it does not dim. Fading the text would cost contrast in
+     sunlight to say something a two-word label says outright. */
+  .over { font-family:var(--sans); font-size:var(--micro); text-transform:uppercase;
+          letter-spacing:var(--track); color:var(--paper); background:var(--quiet);
+          padding:var(--s1) var(--s2); }
+  .part ul { list-style:none; margin:0; padding:0; }
+  /* ⚠️ Map SPANS both rows on a phone. With 'kind map' / 'body body' it landed
+     in the whitespace above the place name — the action appearing before the
+     thing it acts on. Spanning costs no height and reads as a row action. */
+  .part li { display:grid; grid-template-columns:1fr auto;
+             grid-template-areas:'kind map' 'body map';
+             gap:var(--s1) var(--s4); padding-block:var(--s3);
+             border-block-end:1px solid var(--rule); position:relative; }
+  .part li:last-child { border-block-end:0; }
+  @media (min-width:30rem){
+    .part li { grid-template-columns:4.5rem 1fr auto;
+               grid-template-areas:'kind body map'; align-items:baseline; }
+  }
+  .k { grid-area:kind; font-size:var(--micro); text-transform:uppercase;
+       letter-spacing:var(--track); color:var(--quiet); line-height:1.45; }
+  .b { grid-area:body; min-width:0; }
+  .n { display:block; font-size:var(--body); line-height:1.35; }
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX — same rule as `.jump a`: the tap
+     floor is 52px, so the underline must be on the text or it detaches
+     from the word. Finding #5 below documents this exact defect, measured
+     in Chrome; this closes it. */
+  .n a { border:0; text-decoration:underline; text-decoration-color:var(--rule);
+         text-underline-offset:3px; }
+  .n a::after { content:''; position:absolute; inset:0; }
+  .d { display:block; margin-block-start:var(--s1); font-size:var(--small);
+       color:var(--quiet); line-height:1.45; }
+  /* same rule as `.jump a`: the tap floor is 44px, so the underline must be on
+     the text or it detaches from the word. */
+  /* ⛔⛔ FLOORED ON ONE AXIS, WHICH IS THE SAME AS NOT FLOORED. This had
+     min-height:52 and no width rule, so seven "Map" links rendered 28.1 x 52 —
+     a thumb, outdoors, in sun, on the page a reader uses while walking. The nav
+     comment in `system` warns about exactly this by name and this rule did it
+     anyway. ⚠️ Literal fallbacks on both tokens: an undefined custom property
+     resolves to nothing and the floor vanishes silently rather than loudly.
+     Assert 44, set 52. */
+  .m { grid-area:map; align-self:center; font-size:var(--small); white-space:nowrap;
+       position:relative; z-index:1; min-height:var(--tap-comfortable,52px);
+       min-width:var(--tap-comfortable,52px); justify-content:center;
+       padding-inline:var(--s2,8px);
+       display:inline-flex; align-items:center; border:0;
+       text-decoration:underline; text-decoration-color:var(--rule);
+       text-underline-offset:3px; }
+
+  /* ⭐ the refusal — a first-class screen, not an error */
+  .dunno { margin-block:var(--s5); padding:var(--s4) var(--s5); background:var(--sunk);
+           border-inline-start:4px solid var(--alert); font-family:var(--sans); }
+  .dunno__k { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+              color:var(--alert); font-weight:700; margin:0 0 var(--s2); }
+  /* ⛔ WAS `--small`, and that contradicted the component's own rule.
+     `Unchecked.prompt.md`: "Primary ink, body size, upright. Not grey, not
+     small, not italic." The refusal is the site's honesty surface and the kit
+     had it set in caption type — the sponsorLabel error, in the one place that
+     can least afford it. Body size, and the measure question solved itself. */
+  .dunno p { margin:0 0 var(--s2); font-size:var(--body); line-height:1.5; }
+  .dunno p:last-child { margin-block-end:0; }
+
+  /* ⭐ TOMORROW — a different day, so it looks like one. Deliberately shorter
+     than today: a head start, not a second page. */
+  .tmw { margin-block:var(--s9) var(--s6); padding-block-start:var(--s5);
+         border-block-start:3px solid var(--ink); scroll-margin-block-start:var(--s4); }
+  .tmw__k { font-family:var(--sans); font-size:var(--micro); text-transform:uppercase;
+            letter-spacing:var(--track); color:var(--quiet); margin:0 0 var(--s2); }
+  .tmw__line { font-family:var(--serif); font-size:var(--sub); line-height:1.25;
+               margin:0 0 var(--s4); }
+  .tmw__first { font-size:var(--small); font-family:var(--sans); line-height:1.5;
+                margin:var(--s5) 0 0; }
+  .tmw__first b { font-family:var(--sans); font-weight:700; }
+  .tmw__end { font-family:var(--sans); font-size:var(--small); color:var(--quiet);
+              line-height:1.5; margin:var(--s5) 0 0; }
+
+  /* the paid nudge — once, at the foot, after the value */
+  .offer { margin-block:var(--s9) var(--s6); padding-block:var(--s5);
+           border-block:1px solid var(--rule); font-family:var(--sans); }
+  .offer h2 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
+              margin:0 0 var(--s2); }
+  /* ⚠️ 88 characters a line at 1024px — and this is the paid-product sentence,
+     the most load-bearing copy on the page. At 375px it sets at 53–55 and is
+     healthy, so this is a wide-screen wrapping problem, not a rewrite.
+     ⭐ `ch` states the rule directly. A pixel max-width only IMPLIES a character
+     count, and the implication breaks the moment the face or size changes. */
+  /* ⛔ WAS `--small` — 14px, the size used for captions and metadata, on the
+     one paragraph on the page that asks for money. It was set smaller than the
+     writing around it, which is the wrong hierarchy before it is a measure
+     problem. At body size the 32rem column gives 58 characters and the
+     ceiling stops being an issue at all. */
+  .offer p { font-family:var(--serif); font-size:var(--body); line-height:1.5;
+             margin:0 0 var(--s4); }
+
+  /* ⭐ The genuinely short-and-small blocks get the narrower column. A measure
+     belongs to a TYPE SIZE, not to a page: the same 552px holds 58 characters
+     at 19px serif and 88 at 14px sans.
+     ⚠️ Layout paragraphs are deliberately excluded — `.today__foot` is a flex
+     row, and capping it would shorten the rule between the stamp and the link. */
+  .tmw__first, .tmw__end, .shut li, .d { max-width:var(--measure-small,29rem); }
+  .btn { display:inline-flex; align-items:center; justify-content:center;
+         border-radius:999px; min-height:var(--tap-comfortable,52px); padding:0 var(--s5) 1px;
+         font-family:var(--sans); font-size:var(--small); font-weight:700;
+         border:1px solid var(--ink); background:transparent; color:var(--ink);
+         text-decoration:none; }
+
+  /* ⛔ MOCKUP SCAFFOLDING. Not part of the page. It exists because the page
+     behaves differently at different hours and a reviewer cannot wait until
+     ten at night to see the last state. */
+  .demo { background:#1c1a17; color:#fdfcf9; font-family:var(--sans);
+          font-size:var(--micro); padding:var(--s3) var(--s5);
+          display:flex; align-items:center; flex-wrap:wrap; gap:var(--s2) var(--s3); }
+  .demo b { text-transform:uppercase; letter-spacing:var(--track); font-weight:700;
+            opacity:.65; }
+  .demo button { font:inherit; color:inherit; background:transparent;
+                 border:1px solid rgba(253,252,249,.45); padding:var(--s2) var(--s4);
+                 min-height:var(--tap-comfortable,52px); cursor:pointer; }
+  .demo button[aria-pressed="true"] { background:var(--amber); color:#1c1a17;
+                                      border-color:var(--amber); font-weight:700; }
+  .demo button:focus-visible { outline:3px solid var(--amber); outline-offset:2px; }
+
+  .note-frame { max-width:46rem; margin:var(--s6) auto 0; padding-inline:var(--gutter);
+                font-family:var(--sans); font-size:var(--small); color:var(--quiet); }
+  /* ⚠️ CONSTRAIN THE PROSE, NOT THE CONTAINER. The frame stays 46rem because it
+     holds tables and code that need the width; its running text was measuring
+     88 characters a line, well past the 60 the pages themselves hold to. */
+  .note-frame p, .note-frame li { max-width:32rem; }
+  .note-frame h4 { font-family:var(--serif); color:var(--ink); font-size:1.1rem;
+                   margin:var(--s5) 0 var(--s2); max-width:32rem; }
+  .note-frame ol,.note-frame ul { padding-inline-start:1.2rem; }
+  .note-frame li { margin-block:var(--s2); }
+  .was { background:var(--sunk); padding:var(--s4); font-size:var(--micro);
+         line-height:1.5; margin-block:var(--s3); }
+  .flag { background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+          padding:var(--s4); font-size:var(--micro); line-height:1.6; margin-block:var(--s3); }
+</style>
+
+<!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
+     Delete this whole div in the SAME commit that deletes this kit's line from
+     KIT_FAMILY in scripts/check-kits.mjs. The two say the same thing and must
+     die together: check-kits.mjs already prints "this kit has not been redrawn"
+     on every run — to a console, which is the one place the person deciding
+     will never look. This says it where he will.
+     ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
+     that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+</div>
+
+<div class="demo">
+  <b>Mockup control — not part of the page. Pretend it is:</b>
+  <button data-t="2026-08-07T03:30:00Z">9 am</button>
+  <button data-t="2026-08-07T09:00:00Z">2.30 pm</button>
+  <button data-t="2026-08-07T13:10:00Z">6.40 pm</button>
+  <button data-t="2026-08-07T17:00:00Z">10.30 pm</button>
+  <button data-t="2026-08-08T04:00:00Z">next morning</button>
+  <button data-t="">your own clock</button>
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="site-name" href="#">cats of Kochi</a>
+    <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
+  </div>
+</header>
+
+<main>
+  <article class="post wrap" data-date="Friday 7 August">
+    <p class="kicker">Friday 7 August 2026</p>
+    <h1>Today in Fort Kochi</h1>
+    <p class="cat">The cats will not pretend to know next week.</p>
+
+    <!-- ⛔ shown only when the reader's day is not this page's day -->
+    <div class="stale" hidden>
+      <p>This page was written for <b>Friday 7 August</b>. It is
+      <b class="stale__now">Saturday 8 August</b> where you are, so the hours,
+      the weather and the closures below are yesterday's.</p>
+      <p><a href="#">Get today's page</a></p>
+    </div>
+
+    <!-- ⭐ FIRST SCREEN. The weather is ANSWERED, not linked away. -->
+    <section class="now" aria-label="Today at a glance">
+      <p class="now__line">Heavy rain from mid-afternoon. Do the outdoor things
+      before two.</p>
+      <div class="now__facts">
+        <div><b>6.44 pm</b>sunset</div>
+        <div><b>31°</b>high, feels 38°</div>
+        <div><b>4.10 pm</b>high tide</div>
+      </div>
+      <p class="stamp">
+        <span class="stamp__chip">Checked</span>
+        <time class="stamp__date" datetime="2026-08-07T06:00">today, 6 am</time>
+      </p>
+    </section>
+
+    <!-- ⭐ THE SIX O'CLOCK ANSWER -->
+    <p class="jump" hidden>
+      <span class="jump__t">It is 6.40 pm.</span>
+      <a href="#evening">Skip to this evening</a>
+    </p>
+
+    <!-- ⭐ FREE, ARITHMETIC, NEVER WRONG — and the thing that strands people -->
+    <section class="shut" aria-label="Closed today">
+      <p class="shut__k">Shut today, because it is a Friday</p>
+      <ul>
+        <li><a href="#">Mattancherry Palace</a> — closed every Friday</li>
+        <li><a href="#">Paradesi Synagogue</a> — 10 am to 2 pm on Fridays, not the usual 6</li>
+      </ul>
+    </section>
+
+    <!-- data-label names THIS block: the jump line reads "Skip to <label>" when
+         this is the first block still to come. -->
+    <section class="part" id="morning" data-to="14" data-label="this morning">
+      <h3>Before the rain <span class="hrs">until 2 pm</span></h3>
+      <ul>
+        <li>
+          <span class="k">Walk</span>
+          <span class="b"><span class="n"><a href="#">St Francis Church</a></span>
+          <span class="d">9 am – 5 pm. Ten minutes on foot from the jetty.</span></span>
+          <a class="m" href="#" aria-label="St Francis Church on the map">Map</a>
+        </li>
+        <li>
+          <span class="k">Eat</span>
+          <span class="b"><span class="n"><a href="#">The mutton walk</a></span>
+          <span class="d">Go before lunch — the mutton goes early.</span></span>
+          <a class="m" href="#" aria-label="Mattancherry food walk on the map">Map</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="part" id="afternoon" data-to="18" data-label="the afternoon">
+      <h3>When it turns <span class="hrs">2 to 6 pm</span></h3>
+      <ul>
+        <li>
+          <span class="k">Indoors</span>
+          <span class="b"><span class="n"><a href="#">Kerala Kathakali Centre</a></span>
+          <span class="d">Runs wet or dry. The 5 pm show is the one.</span></span>
+          <a class="m" href="#" aria-label="Kerala Kathakali Centre on the map">Map</a>
+        </li>
+        <li>
+          <span class="k">Indoors</span>
+          <span class="b"><span class="n"><a href="#">Pepper House</a></span>
+          <span class="d">The courtyard is better in rain than in sun.</span></span>
+          <a class="m" href="#" aria-label="Pepper House on the map">Map</a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ⭐ THE REFUSAL, as a first-class part of the page -->
+    <section class="dunno" aria-label="What we cannot tell you today">
+      <p class="dunno__k">One thing we cannot tell you</p>
+      <p>We cannot see whether the backwater boats are running this afternoon.
+      The operator has not posted since Wednesday.</p>
+      <p>Ask at the jetty counter before you go out there — it is a long way
+      back if they are not.</p>
+    </section>
+
+    <!-- ⭐ THE EVENING IS A REAL BLOCK, NOT A LISTINGS FOOTNOTE.
+         Somebody reading at seven wants dinner first and an event second. -->
+    <!-- ⚠️ data-to is 22, not 24. With 24 the "Today is done" line could never
+         appear: midnight is also the date rollover, so the stale banner would
+         always fire first. The evening ends when the food does. -->
+    <section class="part" id="evening" data-to="22" data-label="this evening">
+      <h3>This evening <span class="hrs">after 6 pm</span></h3>
+      <ul>
+        <li>
+          <span class="k">Eat</span>
+          <span class="b"><span class="n"><a href="#">Kayees Rahmathulla Hotel</a></span>
+          <span class="d">Biryani until it runs out, which is usually about nine.
+          Ten minutes from Jew Town.</span></span>
+          <a class="m" href="#" aria-label="Kayees Rahmathulla Hotel on the map">Map</a>
+        </li>
+        <li>
+          <span class="k">Eat</span>
+          <span class="b"><span class="n"><a href="#">The Chinese net stalls</a></span>
+          <span class="d">You pick the fish, they fry it. Agree the price first —
+          it is not written anywhere.</span></span>
+          <a class="m" href="#" aria-label="Chinese net fish stalls on the map">Map</a>
+        </li>
+        <li>
+          <span class="k">7 pm</span>
+          <span class="b"><span class="n"><a href="#">Mattanchère: Summer Art Salon</a></span>
+          <span class="d">Last night of the week. Indoors.</span></span>
+          <a class="m" href="#" aria-label="Summer Art Salon on the map">Map</a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ⭐ TOMORROW — the second and last day this page will look at -->
+    <section class="tmw" id="tomorrow" aria-label="Tomorrow">
+      <p class="tmw__k">Tomorrow — Saturday 8 August</p>
+      <p class="tmw__line">Dry until late afternoon. A better day for the boats
+      than today was.</p>
+
+      <div class="now__facts">
+        <div><b>6.12 am</b>sunrise</div>
+        <div><b>29°</b>high, feels 34°</div>
+        <div><b>5.05 am</b>low tide</div>
+      </div>
+
+      <section class="shut" aria-label="Closed tomorrow">
+        <p class="shut__k">Shut tomorrow, because it is a Saturday</p>
+        <ul>
+          <li><a href="#">Paradesi Synagogue</a> — closed every Saturday</li>
+          <li><a href="#">St Francis Church</a> — 9 am to 1 pm only on Saturdays</li>
+        </ul>
+      </section>
+
+      <p class="tmw__first"><b>First move:</b> be at the Chinese nets before
+      eight. The light is worth it and the fishermen are still there.</p>
+
+      <p class="tmw__end">That is as far as this page looks. Two days is what we
+      can check by hand every morning, so two days is what we promise.</p>
+    </section>
+
+    <!-- the paid product, once, after the value -->
+    <section class="offer">
+      <h2>Today and tomorrow. A trip is longer than that.</h2>
+      <p>Four days in Kochi is not four of these pages. It is an order — which
+      day for the fort, which for the islands, which one you keep loose because
+      half of Mattancherry is shut. We write that order for your dates, and keep
+      it right while you are here. ₹0,000 for the trip, however many of you
+      there are.</p>
+      <a class="btn" href="#">What that includes</a>
+    </section>
+  </article>
+</main>
+
+<script>
+/* ⭐ Progressive enhancement, and nothing else.
+   Without it the page is complete: every block is present, in order, with its
+   hours in words. With it the page knows what time it is in Kochi — the
+   traveller's phone may still be on London time, so the clock is computed in
+   Asia/Kolkata explicitly and never read from the device's zone. */
+(function () {
+  var jump   = document.querySelector('.jump');
+  var stale  = document.querySelector('.stale');
+  var blocks = Array.prototype.slice.call(document.querySelectorAll('[data-to]'));
+
+  function apply(pretend) {
+    blocks.forEach(function (b) {
+      b.classList.remove('is-over');
+      var chip = b.querySelector('.over'); if (chip) chip.remove();
+    });
+    jump.hidden = true;
+    stale.hidden = true;
+
+    var parts = {};
+    new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Kolkata', weekday: 'long', day: 'numeric', month: 'long',
+      hour: '2-digit', minute: '2-digit', hour12: false
+    }).formatToParts(pretend ? new Date(pretend) : new Date())
+      .forEach(function (p) { parts[p.type] = p.value; });
+
+    var hour  = Number(parts.hour) + Number(parts.minute) / 60;
+    var clock = ((Number(parts.hour) % 12) || 12) + '.' + parts.minute +
+                (Number(parts.hour) < 12 ? ' am' : ' pm');
+    var today = parts.weekday + ' ' + parts.day + ' ' + parts.month;
+
+    if (document.querySelector('[data-date]').dataset.date !== today) {
+      stale.querySelector('.stale__now').textContent = today;
+      stale.hidden = false;
+      return;   /* ⛔ a page from another day must not also claim to know the hour */
+    }
+
+    var live = null;
+    blocks.forEach(function (b) {
+      if (hour >= Number(b.dataset.to)) {
+        b.classList.add('is-over');
+        b.querySelector('h3').insertAdjacentHTML('beforeend', '<span class="over">over</span>');
+      } else if (!live) { live = b; }
+    });
+
+    if (!blocks[0].classList.contains('is-over')) return;  /* morning: nothing to skip */
+
+    var link = jump.querySelector('a');
+    if (live) {
+      jump.querySelector('.jump__t').textContent = 'It is ' + clock + '.';
+      link.textContent = 'Skip to ' + live.dataset.label;
+      link.href = '#' + live.id;
+    } else {
+      jump.querySelector('.jump__t').textContent = 'It is ' + clock + '. Today is done.';
+      link.textContent = 'Tomorrow starts here';
+      link.href = '#tomorrow';
+    }
+    jump.hidden = false;
+  }
+
+  /* ⛔ mockup scaffolding only — the real page ships `apply()` and nothing below */
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.demo button'));
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      apply(b.dataset.t || null);
+    });
+  });
+  var start = buttons[2];                       /* opens at 6.40 pm, the hard case */
+  buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(x === start)); });
+  apply(start.dataset.t);
+})();
+</script>
+
+<div class="note-frame">
+
+  <h4>⭐ The six o'clock problem, and why it was the same problem as "tomorrow"</h4>
+
+  <p>I had these down as two open questions. They are one. A page called
+  <em>today</em> is not a plan for a day — <strong>it is an answer to "what
+  next", asked at an hour nobody chose in advance.</strong> At nine in the
+  morning "what next" means the whole day. At seven in the evening it means
+  dinner, and then the first move of tomorrow.</p>
+
+  <p>So the page keeps one shape and <strong>changes where it starts you</strong>:</p>
+
+  <ul>
+    <li>Blocks carry their hours in words — <em>until 2 pm</em>, <em>2 to 6
+    pm</em>, <em>after 6 pm</em>. That is readable with no JavaScript at all.</li>
+    <li>Once a block's hours have passed it is marked <strong>over</strong>.
+    ⛔ It is <em>not</em> hidden and <em>not</em> faded: fading costs contrast
+    in sunlight to say what a two-word label says outright, and hiding it would
+    make the page's content depend on a script.</li>
+    <li>A single line near the top says <em>"It is 6.40 pm — skip to this
+    evening"</em>. After the last block it says <strong>"Today is done.
+    Tomorrow starts here."</strong></li>
+  </ul>
+
+  <p>⭐ <strong>That last sentence is the whole fix.</strong> The failure was
+  never that the page lacked evening content; it was that at seven o'clock it
+  still opened with a morning.</p>
+
+  <div class="flag">
+    ⚠️ <strong>The clock is computed in Asia/Kolkata, never read from the
+    device.</strong> A traveller's phone is often still on the zone they flew
+    from. A page that says "it is 2 pm, do the outdoor things" to somebody
+    standing in the dark is worse than a page with no clock.
+  </div>
+
+  <h4>Tomorrow — in, and visibly shorter than today</h4>
+
+  <p>Tomorrow gets the weather sentence, the computed figures, <strong>what is
+  shut</strong>, and exactly one first move. Not a second day's plan — that is
+  the paid product, and the difference has to be visible on the page rather than
+  argued in a sales line.</p>
+
+  <p>The boundary is stated where the reader hits it, in the site's own voice:
+  <em>"Two days is what we can check by hand every morning, so two days is what
+  we promise."</em> ⭐ It reads as a standard, not as a limitation, because it
+  is one.</p>
+
+  <h4>⛔ The stale-page case, which the clock forced into the open</h4>
+
+  <p>Once a page knows the hour it also knows the date, and the common failure
+  appears: <strong>a cached page opened the next morning</strong>. It looks
+  perfect and every closure in it is wrong. So the page compares its own date to
+  the reader's and, when they differ, says so at the top and stops using the
+  clock at all.</p>
+
+  <p>With no JavaScript nothing appears — and nothing is lost, because the date
+  is printed in the kicker either way.</p>
+
+  <h4>The paid line, rewritten</h4>
+
+  <div class="was">
+    <strong>Was:</strong> "This is today. Your trip is longer." — the same page,
+    written for your dates.<br>
+    ⛔ Reads as <em>more days of this</em>. Somebody would rightly ask why they
+    should pay for seven copies of a free page. ⛔ The figure is shown as ₹0,000
+    throughout, matching <code>itinerary</code>: no price has been set, and a
+    plausible one printed in a mockup becomes the price everybody assumes.
+  </div>
+
+  <p><strong>Now:</strong> <em>"Four days in Kochi is not four of these pages.
+  It is an order — which day for the fort, which for the islands, which one you
+  keep loose because half of Mattancherry is shut."</em></p>
+
+  <p>⭐ <strong>The product is the sequence, not the days.</strong> The free page
+  proves we can be right about one day; the paid one is the judgement about how
+  the days fit together, which is the thing that cannot be computed.</p>
+
+  <p>Checked against <code>COMMERCE-TERMS.md</code> §2.2: no
+  <em>book</em>, <em>reserve</em>, <em>arrange</em>, <em>on your behalf</em>,
+  <em>guaranteed</em> or <em>confirmed</em> anywhere on this page. "We write
+  that order" is a writing promise, which is all this business may promise.</p>
+
+  <h4>Two smaller things I changed while here</h4>
+
+  <ul>
+    <li><strong>The page had no cat line</strong> and the page contract requires
+    one. It now has an evergreen one — <em>"The cats will not pretend to know
+    next week"</em> — which carries no fact, never needs rewriting, and happens
+    to set the two-day expectation in the voice rather than in a rule.</li>
+    <li><strong>The evening had one event and no dinner.</strong> A block a
+    reader lands on at seven has to answer the question they actually have. It
+    now leads with two places to eat.</li>
+  </ul>
+
+  <h4>⭐ Six defects, none of which reading the CSS would have found</h4>
+
+  <p>I built this, then rendered it at 375px in Chrome at five different hours.
+  Everything below was found by looking, and every one of them would have
+  shipped:</p>
+
+  <ol>
+    <li><strong>"Today is done" could never appear.</strong> The evening block
+    ran to midnight — which is also the date rollover, so the stale banner
+    always fired first. The branch was unreachable. It now ends at ten, when
+    the food does.</li>
+    <li><strong>The jump line named the wrong block.</strong> At half two it
+    said <em>"Skip to this evening"</em> and jumped to the afternoon: each
+    block's label described the <em>next</em> block, not itself.</li>
+    <li><strong>The closure rows were 18px tap targets.</strong> They looked
+    identical to the listing rows but had none of the row-is-the-target
+    overlay, so only the name itself was tappable.</li>
+    <li><strong>Then my fix for that broke the sentence.</strong>
+    <code>display:flex</code> turned the link and the text after it into
+    separate items — <em>"Mattancherry Palace— closed every Friday"</em>, space
+    gone, long names breaking into a second column.</li>
+    <li><strong>Underlines detached from their words.</strong> A 44px tap floor
+    plus <code>border-block-end</code> puts the rule at the bottom of the
+    <em>box</em> — a stray amber line hanging 20px under the link. Affects every
+    kit using this pattern, not only this one.</li>
+    <li><strong>Tomorrow's figures came out in the serif.</strong> The facts
+    strip had no face of its own and was inheriting sans from the panel around
+    it. Same component, two typefaces, one screen apart.</li>
+  </ol>
+
+  <div class="flag">
+    ⭐ <strong>Four of these are the same shape as the font finding:</strong> the
+    file said the right thing and the rendered page did something else.
+    Two of them I introduced <em>while fixing</em> the one before. That is the
+    argument for rendering after every fix, not at the end of a batch.
+  </div>
+
+  <h4>Still open</h4>
+  <ul>
+    <li><strong>Where the weather sentence comes from.</strong> Unchanged and
+    still the sentence most able to be confidently wrong. Shemeer has ruled it
+    is automatic and may refuse; there is no override surface on the page.</li>
+    <li><strong>Tomorrow's weather can refuse too</strong>, using the same
+    section. I have not drawn two refusals at once — a page that admits two
+    gaps in one screen reads as unsure rather than honest, so if both refuse
+    they should probably merge into one.</li>
+  </ul>
+
+  <p><strong>The black bar at the top is scaffolding</strong>, not page
+  furniture — the page behaves differently at different hours and nobody should
+  have to wait until ten at night to review the last state. It opens on 6.40 pm
+  because that is the hard one. It ships with the page removed.</p>
+
+  <p>⚠️ Shown with the fallback font, not Noticia Text, unless the faces reach this
+  page — and the fallback here is a plain <code>local()</code> stack with no
+  <code>size-adjust</code>, so the line lengths you see are not the ones Noticia
+  will give. Weather, tide, sunset and
+  closing times are illustrative. ⛔ <strong>There is no running-prose measure
+  figure for this page</strong> — it is a list, and the only body-size serif on
+  it is one italic cat line. Counting characters per line here would be
+  measuring the wrong element, which is the mistake this project keeps making.</p>
+</div>

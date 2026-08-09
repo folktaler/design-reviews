@@ -1,0 +1,983 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cats of Kochi — the venue page</title>
+<link rel="stylesheet" href="faces-figtree.css">
+<style>
+  /* ══ SYSTEM FACES — copied verbatim from design-system/fonts.css.
+     ⛔ Do not edit here. Edit fonts.css, then re-copy this whole block.
+     A kit that disagrees with fonts.css lies to whoever reviews it.
+
+     ⚠️ URLs, not base64 — a deliberate departure from ui_kits/system/, stated
+     rather than hidden. check-kits.mjs serves public/fonts/ at /fonts/, so the
+     face this kit renders is the file we ship. A <link> to a shared faces
+     stylesheet would survive the `font-404` fault and the gate would stop
+     testing anything, so the faces are declared HERE either way.
+     ⭐ Base64 written into this block is ALSO safe: FAULTS['font-404'] corrupts
+     `data:font/woff2;base64,…` as well as `figtree-latin-` (check-kits.mjs:175).
+
+     ⛔ CONSEQUENCE: published anywhere that cannot fetch /fonts/ — Claude
+     Design, or an Artifact behind a CSP — this file renders 'Figtree Fallback',
+     not Figtree, and it looks fine while doing it.
+
+     ⛔⛔ DO NOT SPLICE ui_kits/_FACES_INLINE.css INTO THIS KIT. That file is
+     NOTICIA TEXT ONLY (3 faces, 83,368 B base64) and this kit styles for
+     FIGTREE — see --font-ui below. Pasting it adds ~81 KB of a family nothing
+     here asks for and changes nothing about what renders. There has never been
+     a Figtree equivalent of that file and one is not needed:
+         python3 scripts/inline_faces.py --check venue    # report
+         python3 scripts/inline_faces.py venue            # splice, in place
+     reads the two URLs below, encodes public/fonts/ directly, and exits
+     non-zero if a face cannot be resolved. ══ */
+  
+  
+  /* Figtree Fallback — REWRITTEN 2026-08-09 (F5/F7 sync, missed on this kit until now).
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real metrics, no
+     single number forced across Helvetica Neue/Roboto/Arial at once. Copied verbatim
+     from design-system/ui_kits/system/index.html, never retyped. */
+  @font-face { font-family:'Figtree Fallback: Helvetica Neue';
+    src:local('Helvetica Neue'),local('HelveticaNeue');
+    ascent-override:95.2116%; descent-override:25.0557%; line-gap-override:0%; size-adjust:99.7778%; }
+  @font-face { font-family:'Figtree Fallback: Roboto';
+    src:local('Roboto Regular'),local('Roboto-Regular');
+    ascent-override:94.1165%; descent-override:24.7675%; size-adjust:100.9387%; }
+  @font-face { font-family:'Figtree Fallback: Arial';
+    src:local('Arial'),local('ArialMT');
+    ascent-override:94.3231%; descent-override:24.8219%; line-gap-override:0%; size-adjust:100.7176%; }
+  /* ══ END SYSTEM FACES ══ */
+
+  /* ══ SYSTEM TOKENS — copied verbatim from design-system/tokens/*.css.
+     ⛔ Copy, never retype. Every value below is traceable to a token file.
+     ⚠️ Fallbacks are written on every var() BELOW, and they are exactly the
+     thing that makes a missing token invisible — `--tap` and `--measure-small`
+     were undefined for an unknown length of time because of one. So the tokens
+     are also DEFINED here, and `vars-resolve` asserts the definition, not the
+     fallback. How you would notice the fallback firing:
+       getComputedStyle(document.documentElement).getPropertyValue('--tap')
+     The empty string is the answer. ══ */
+  :root {
+    color-scheme: light;
+
+    /* fonts.css / tokens/typography.css */
+    --font-ui: 'Figtree', 'Figtree Fallback: Helvetica Neue', 'Figtree Fallback: Roboto', 'Figtree Fallback: Arial', 'Helvetica Neue', Roboto, Arial, sans-serif;
+    --figures-aligned: tabular-nums;
+
+    --type-body: clamp(1.1875rem, 1.156rem + 0.17vw, 1.25rem);   /* 19 → 20px */
+    --leading-body: 1.5;
+    --type-display: clamp(1.875rem, 1.55rem + 1.65vw, 2.5rem);   /* 30 → 40px */
+    --type-heading: clamp(1.5625rem, 1.47rem + 0.5vw, 1.75rem);  /* 25 → 28px */
+    --type-subheading: clamp(1.3125rem, 1.26rem + 0.3vw, 1.4375rem);
+    --leading-display: 1.15;
+    --leading-heading: 1.2;
+    --type-ui: 1.0625rem;    /* 17px */
+    --type-small: 1rem;      /* 16px */
+    --type-micro: 0.875rem;  /* 14px — the floor of this system */
+    --leading-ui: 1.3;
+    --leading-tight: 1.375;
+    --paragraph-gap: 0.75em;
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+    --tracking-display: -0.01em;
+
+    /* tokens/spacing.css */
+    --space-1: 0.25rem;  --space-2: 0.5rem;  --space-3: 0.75rem;
+    --space-4: 1rem;     --space-5: 1.25rem; --space-6: 1.5rem;
+    --space-7: 2rem;     --space-8: 2.5rem;  --space-9: 3rem; --space-10: 4rem;
+    --gutter: var(--space-6);                 /* 24px — Airbnb's measured gutter */
+    --pitch-rule-heading: 2.0625rem;          /* 33px, divider → heading */
+    --pitch-row: 1.25rem;                     /* 20px, row → row */
+    --measure: 32rem;                         /* 512px of TEXT, not of wrapper */
+    --radius-none: 0;
+    --radius-card: 0.5rem;                    /* 8px */
+    --radius-control: 0.75rem;                /* 12px */
+    --radius-pill: 999px;
+    --rule-hairline: 1px;
+    --rule-band: 8px;
+    --rule-leading: 4px;                      /* the leading edge of a note */
+    --tap: 44px;                              /* what a check asserts */
+    --tap-comfortable: 52px;                  /* what CSS sets, BOTH axes */
+    --button-height: 3.25rem;                 /* 52px */
+    --button-pad: 0 var(--space-6);
+
+    /* tokens/colors.css */
+    --cok-amber: #ffa700;
+    --cok-amber-ink: #946100;
+    --cok-amber-wash: #fdf2db;
+    --cok-paper: #fdfcf9;
+    --cok-paper-sunk: #f4f1ea;
+    --cok-ink: #1c1a17;
+    --cok-ink-quiet: #5a544c;
+    --cok-rule: #ddd7cb;
+    --cok-focus: #0b60c4;
+
+    /* tokens/theme.css */
+    --surface-page: var(--cok-paper);
+    --surface-quiet: var(--cok-paper-sunk);
+    --surface-stamp: var(--cok-amber);
+    --text-primary: var(--cok-ink);        /* 16.90:1 on paper */
+    --text-secondary: var(--cok-ink-quiet); /* 7.38:1 on paper, 6.64 on quiet */
+    --text-on-stamp: var(--cok-ink);       /* 8.91:1 on amber */
+    --action-primary-bg: var(--cok-ink);
+    --action-primary-text: var(--cok-paper);
+    --border-hairline: var(--cok-rule);
+    --focus-ring: var(--cok-focus);
+    --focus-ring-width: 5px;
+    --focus-ring-offset: 3px;
+
+    /* tokens/motion.css */
+    --motion-quick: 120ms;
+    --motion-ease: cubic-bezier(0.2, 0, 0.38, 0.9);
+
+    /* ⚠️ NOT a token — published by ActionBar at runtime. The static value is
+       the DESIGNED height; the script below overwrites it with the MEASURED
+       one. If the two ever differ, the design drifted from the build. */
+    --action-bar-height: 104px;
+  }
+  /* ══ END SYSTEM TOKENS ══ */
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--surface-page, #fdfcf9);
+    color: var(--text-primary, #1c1a17);
+    font-family: var(--font-ui, sans-serif);
+    font-size: var(--type-body, 19px);
+    line-height: var(--leading-body, 1.5);
+    /* ⚠️ The bar covers the last lines of the document unless the page pays
+       for it. ActionBar.astro states this; a page that forgets it hides its
+       own final paragraph. */
+    padding-block-end: calc(var(--action-bar-height, 104px) + var(--space-6, 24px));
+  }
+
+  /* ⚠️ --measure IS THE TEXT COLUMN and .wrap is border-box, so the gutters go
+     ON TOP of it. Capping .wrap at --measure would render a column two gutters
+     NARROWER than the token claims. Ship the calc with the token, always. */
+  .wrap {
+    max-width: calc(var(--measure, 32rem) + var(--gutter, 24px) * 2);
+    margin-inline: auto;
+    padding-inline: var(--gutter, 24px);
+  }
+
+  :focus-visible {
+    outline: var(--focus-ring-width, 5px) solid var(--focus-ring, #0b60c4);
+    outline-offset: var(--focus-ring-offset, 3px);
+  }
+
+  /* ── header ─────────────────────────────────────────────────────────── */
+  .v-hd { border-block-end: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb); }
+  .v-hd__in { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2, 8px); }
+  /* ⭐ BOTH AXES. "Places" at 14px is 42.5px WIDE — height was signed off and
+     width was never measured. And raise the FLOOR, never pad it: min-height is
+     a floor, not an addend, so padding on a 17px link still lands on 44. */
+  .v-hd__name, .v-hd__link {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    color: var(--text-primary, #1c1a17);
+    text-decoration: none;
+  }
+  .v-hd__name { font-weight: var(--weight-semibold, 600); font-size: var(--type-ui, 17px); }
+  .v-hd__nav { display: flex; gap: var(--space-2, 8px); }
+  .v-hd__link { font-size: var(--type-micro, 14px); font-weight: var(--weight-medium, 500); }
+
+  /* ── the photograph ─────────────────────────────────────────────────── */
+  /* ⭐ Full bleed, and therefore SQUARE. A photograph that runs to the edge of
+     the page has no corner; only a photograph inside a card takes the card's.
+     ⛔ AND THE CONTENT SHEET DOES NOT RISE OVER IT — see the note at the foot. */
+  .v-photo { margin: 0; margin-inline: calc(var(--gutter, 24px) * -1); }
+  .v-photo img {
+    display: block; inline-size: 100%; block-size: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-none, 0);
+    background: var(--surface-quiet, #f4f1ea); /* what a slow connection sees first */
+  }
+
+  /* ── the name, and what kind of thing it is ─────────────────────────── */
+  .v-h1 {
+    margin: var(--space-6, 24px) 0 var(--space-2, 8px);
+    font-size: var(--type-display, 31px);
+    line-height: var(--leading-display, 1.15);
+    font-weight: var(--weight-semibold, 600);
+    letter-spacing: var(--tracking-display, -0.01em);
+  }
+  .v-what {
+    display: inline-flex; align-items: center; gap: var(--space-2, 8px);
+    margin: 0 0 var(--space-6, 24px);
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+  }
+  .v-icon { inline-size: 1.25rem; block-size: 1.25rem; fill: currentColor; flex: 0 0 auto; }
+
+  .v-h2 {
+    margin: 0 0 var(--space-4, 16px);
+    font-size: var(--type-heading, 25px);
+    line-height: var(--leading-heading, 1.2);
+    font-weight: var(--weight-semibold, 600);
+  }
+
+  /* ⭐ 33px from a rule to the heading after it — Airbnb's measured local
+     rhythm, and the thing that makes a page read as edited. Set on the rule so
+     a section cannot forget it. */
+  .v-div {
+    border: 0; block-size: var(--rule-hairline, 1px);
+    background: var(--border-hairline, #ddd7cb);
+    margin: var(--space-8, 40px) 0 var(--pitch-rule-heading, 33px);
+  }
+
+  /* ── the facts strip ────────────────────────────────────────────────── */
+  .v-dl { margin: 0; }
+  /* ⭐ STACKED ON A PHONE, side by side only when there is room for both.
+     FactsRow.astro's two-column grid is unconditional, and on a 375px screen
+     it leaves the VALUE column 207px wide — about 22 characters at 17px, which
+     breaks "Sunday to Thursday, 10:00–18:00" across two lines and sets the
+     missing-reason at six. ⚠️ The Closed row now carries eight holiday dates and
+     is the longest value on the page — it is the one that proves this rule, and
+     it would be unreadable in a 207px column. The label is two words; the value
+     is the thing the
+     reader walked over for. Airbnb stacks the same pair (label over value) in
+     ThingsToKnow and Menu at every width. The component needs this too. */
+  .v-row {
+    display: grid;
+    gap: var(--space-1, 4px);
+    padding-block: var(--space-3, 12px);
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  .v-row:first-child { border-block-start: 0; }
+  @media (min-width: 40rem) {
+    .v-row {
+      grid-template-columns: minmax(6.5rem, 30%) 1fr;
+      gap: var(--space-2, 8px) var(--space-4, 16px);
+      align-items: baseline;
+    }
+  }
+  .v-row__label {
+    margin: 0;
+    font-size: var(--type-ui, 17px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-ui, 1.3);
+  }
+  .v-row__value {
+    margin: 0;
+    font-size: var(--type-ui, 17px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-primary, #1c1a17);
+  }
+  /* ⭐ THE ONE TYPE RULE THAT IS OURS. Figtree's default figures are
+     PROPORTIONAL — "21:00" sets 14.5px narrower than "11:00" at 100px — so a
+     column of times drifts sideways as a reader goes down it. Only on the rows
+     that carry numbers: forcing it into a sentence opens gaps around a "1". */
+  .v-row__value--aligned { font-variant-numeric: var(--figures-aligned, tabular-nums); }
+  /* The posted claim is one step back in ink, NEVER smaller. A reader has to be
+     able to see what the sign says. */
+  .v-posted { color: var(--text-secondary, #5a544c); }
+  /* ⛔ PRIMARY INK, ROW SIZE, UPRIGHT. Not grey, not small, not italic. The
+     honesty surface is not a caption — it was set in 14px caption grey twice. */
+  .v-missing { color: var(--text-primary, #1c1a17); }
+
+  /* ⭐ THE ONE AMBER ON THIS PAGE. tokens/theme.css: "amber marks the thing the
+     reader came for", and on a place page that is the verification stamp. Ink
+     on amber is 8.91:1 — 1.98× Airbnb's white-on-Rausch CTA. */
+  /* ⛔ inline-BLOCK, not inline-flex. An inline-flex box sizes to max-content,
+     so a 250px stamp inside a 207px column overflows the document rather than
+     wrapping — a horizontal scrollbar produced by a chip. */
+  .v-checked {
+    display: inline-block;
+    max-inline-size: 100%;
+    margin-block-start: var(--space-2, 8px);
+    padding: var(--space-1, 4px) var(--space-2, 8px);
+    border-radius: var(--radius-card, 8px);
+    background: var(--surface-stamp, #ffa700);
+    color: var(--text-on-stamp, #1c1a17);
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+
+  /* ── the trust card ─────────────────────────────────────────────────── */
+  .v-trust {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    min-block-size: 5rem;
+    margin-block-start: var(--space-6, 24px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-card, 8px);
+  }
+  .v-trust__cell {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: var(--space-1, 4px);
+    /* ⚠️ --space-1 inline, not the component's --space-2: three cells across a
+       327px column leave 109px each, and 16px of side padding takes the usable
+       width below what "3 Aug 2026" needs at any size in our ladder. */
+    padding: var(--space-3, 12px) var(--space-1, 4px);
+    text-align: center;
+  }
+  .v-trust__cell + .v-trust__cell {
+    border-inline-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  /* ⚠️ 17px, NOT the component's --type-subheading (21px). Airbnb's measured
+     trust-row value is 18px/500 and ours is the nearest step to it; at 21px in
+     a 342px card "3 Aug 2026" breaks onto two lines. See the note at the foot —
+     TrustCard.astro needs the same change. */
+  .v-trust__value {
+    font-size: var(--type-ui, 17px);
+    font-weight: var(--weight-medium, 500);
+    line-height: 1.1;
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .v-trust__label {
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+  }
+  /* ⛔ NO COLOUR IN THIS COMPONENT, on a card whose whole job is persuasion. */
+
+  /* ── highlights: the claim, and the evidence for the claim ──────────── */
+  .v-hl__list { list-style: none; margin: 0; padding: 0; }
+  .v-hl__row {
+    display: grid; grid-template-columns: 1.25rem 1fr;
+    gap: var(--space-3, 12px);
+    padding-block: var(--pitch-row, 20px);
+  }
+  .v-hl__row .v-icon { margin-block-start: 0.15em; }
+  .v-hl__claim {
+    margin: 0 0 var(--space-1, 4px);
+    font-size: var(--type-ui, 17px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-ui, 1.3);
+  }
+  /* ⛔ NOT tabular. A claim's evidence is a sentence, and a lone number in a
+     sentence has no neighbour above it to line up with. */
+  .v-hl__ev {
+    margin: 0;
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+  }
+
+  /* ── things to know ─────────────────────────────────────────────────── */
+  /* ⛔ NO ICONS HERE, and that is measured rather than economised: Airbnb's own
+     ThingsToKnow is a label over a value with no glyph. Icons belong to
+     Highlights. Four glyphs on this page, against their ~15 a page. */
+  .v-ttk { margin: 0; }
+  .v-ttk__row { padding-block: var(--space-3, 12px); }
+  .v-ttk__row + .v-ttk__row {
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  .v-ttk__label {
+    margin: 0 0 var(--space-1, 4px);
+    font-size: var(--type-ui, 17px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-ui, 1.3);
+  }
+  .v-ttk__value {
+    margin: 0;
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+  }
+
+  /* ── not now, and where to go instead ───────────────────────────────── */
+  .v-nn__list { list-style: none; margin: 0; padding: 0; }
+  /* ⛔ NOT display:flex. Flex turns the text node after the link into its own
+     item, so the space before the em dash disappears and a long name breaks
+     into a second column. Padding to the floor, normal flow inside. */
+  .v-nn__row {
+    position: relative;
+    padding-block: var(--space-3, 12px);
+    min-height: var(--tap-comfortable, 52px);
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+  }
+  .v-nn__name { color: var(--text-primary, #1c1a17); font-weight: var(--weight-medium, 500); }
+  /* ⛔ Only the PLACE gets the row overlay. Two ::after overlays on one row and
+     the LATER one wins — a tap on the place would open the alternative. */
+  .v-nn__name::after { content: ''; position: absolute; inset: 0; }
+  .v-nn__dist, .v-nn__state { color: var(--text-secondary, #5a544c); }
+  .v-nn__instead { display: block; margin-block-start: var(--space-2, 8px); color: var(--text-primary, #1c1a17); }
+  /* Lifted above the row overlay, or the overlay swallows it.
+     ⛔ This rule used to carry ONLY the z-index, and this kit has no base `a`
+     rule — so the one link the reader is actually being sent to rendered in
+     the browser default #0000EE, measured, while every other link in the same
+     component was ink. Same treatment as `.v-prose a` below: ink + amber
+     underline, because the destination IS the thing the reader came for. */
+  .v-nn__instead a { position: relative; z-index: 1;
+                     color: var(--text-primary, #1c1a17); text-decoration: underline;
+                     text-decoration-color: var(--cok-amber, #ffa700);
+                     text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+  /* ── the writing ────────────────────────────────────────────────────── */
+  .v-prose p { margin: 0 0 var(--paragraph-gap, 0.75em); }
+  .v-prose a { color: var(--text-primary, #1c1a17); text-decoration: underline;
+               text-decoration-color: var(--cok-amber, #ffa700);
+               text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  /* ⭐ A cat is a BYLINE, never a narrator, and never touches a fact. Amber
+     never touches a cat line either — --surface-quiet carries voice instead. */
+  .v-cat {
+    margin: 0 0 var(--space-6, 24px);
+    padding: var(--space-4, 16px);
+    background: var(--surface-quiet, #f4f1ea);
+    border-radius: var(--radius-card, 8px);
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+  }
+  /* A leading edge, not a band and not a hairline. ⛔ The hairline is 1.41:1 —
+     invisible to some readers — so it may never be the only thing saying that
+     what follows is different. This one is ink-quiet at 7.38:1, and the words
+     "Shemeer's verdict" say it as well. */
+  .v-verdict {
+    margin-block-start: var(--space-6, 24px);
+    padding-inline-start: var(--space-4, 16px);
+    border-inline-start: var(--rule-leading, 4px) solid var(--text-secondary, #5a544c);
+  }
+  .v-byline { font-size: var(--type-micro, 14px); color: var(--text-secondary, #5a544c); }
+
+  /* ── read next ──────────────────────────────────────────────────────── */
+  .v-rn__list { list-style: none; margin: 0; padding: 0; }
+  .v-rn__row {
+    position: relative;
+    padding-block: var(--space-3, 12px);
+    min-height: var(--tap-comfortable, 52px);
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  /* ⭐ THE ROW is the target, not the words. `min-height` does nothing to an
+     inline <a>: three page types shipped 17–22px headlines that measured fine
+     in source review and were unusable in a viewport. */
+  .v-rn__row > .v-rn__name::after { content: ''; position: absolute; inset: 0; }
+  .v-rn__name {
+    display: block;
+    color: var(--text-primary, #1c1a17);
+    font-size: var(--type-ui, 17px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-ui, 1.3);
+    /* ⛔ UNDERLINE THE TEXT, NOT THE BOX. A border-block-end on a 52px row
+       draws the rule at the bottom of the TAP TARGET — a stray line hanging
+       ~20px under the words. text-decoration tracks the text by construction. */
+    text-decoration: underline;
+    text-decoration-color: var(--cok-amber, #ffa700);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .v-rn__kicker {
+    display: block; margin-block-start: var(--space-1, 4px);
+    font-size: var(--type-micro, 14px);
+    color: var(--text-secondary, #5a544c);
+  }
+
+  /* ── the sticky bar. ⛔ This is the ONE page type allowed one. ───────── */
+  .v-bar {
+    position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 10;
+    display: flex; flex-direction: column; gap: var(--space-2, 8px);
+    padding: var(--space-3, 12px) var(--gutter, 24px);
+    padding-block-end: max(var(--space-3, 12px), env(safe-area-inset-bottom));
+    background: var(--surface-page, #fdfcf9);
+    /* ⭐ A hairline, not a shadow. This system ships no shadow tokens at all. */
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  .v-bar__context {
+    margin: 0;
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  /* ⭐ RANK IS SHAPE. The pill is the primary rank and the only pill in the
+     system; a 12px corner is everything else. A corner survives colour
+     blindness, glare, and a screenshot in a WhatsApp thread. */
+  .v-bar__button {
+    display: flex; align-items: center; justify-content: center;
+    min-block-size: var(--button-height, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    padding: var(--button-pad, 0 24px);
+    border-radius: var(--radius-pill, 999px);
+    background: var(--action-primary-bg, #1c1a17);
+    color: var(--action-primary-text, #fdfcf9);
+    font-size: var(--type-ui, 17px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-ui, 1.3);
+    text-decoration: none;
+    transition: background-color var(--motion-quick, 120ms) var(--motion-ease, ease);
+  }
+
+  /* ── the kit's own commentary. NOT the page. ────────────────────────── */
+  .note-frame {
+    margin-block-start: var(--space-10, 64px);
+    border-block-start: var(--rule-band, 8px) solid var(--border-hairline, #ddd7cb);
+    background: var(--surface-quiet, #f4f1ea);
+  }
+  .note-frame .wrap { padding-block: var(--space-6, 24px); }
+  .note-frame h2 { font-size: var(--type-subheading, 21px); margin-block: var(--space-6, 24px) var(--space-3, 12px); }
+  .note-frame h2:first-child { margin-block-start: 0; }
+  .note-frame p, .note-frame li { font-size: var(--type-small, 16px); line-height: var(--leading-tight, 1.375); }
+  .note-frame li { margin-block-end: var(--space-3, 12px); }
+</style>
+<body data-page-kind="venue">
+
+<header class="v-hd">
+  <div class="wrap v-hd__in">
+    <a class="v-hd__name" href="#top">cats of Kochi</a>
+    <nav class="v-hd__nav" aria-label="Main">
+      <a class="v-hd__link" href="#top">Places</a>
+      <a class="v-hd__link" href="#top">Today</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- ⭐ The photograph first, full bleed, square-cornered. 16/9 and not
+       Airbnb's 1.05/1 hero: their fold ends in a price and ours has to end in
+       an opening time. 1.05/1 is 357px of a 375px phone — 44% of the screen
+       before the reader learns anything. 16/9 is 211px.
+       ⚠️ NO width/height ATTRIBUTES, because the real file's intrinsic size is
+       not known here — and a wrong intrinsic size is worse than none. The box
+       is still reserved before the image arrives, by the CSS aspect-ratio in
+       the same document. The builder sets the true dimensions from the file.
+       (The live site's header <img> has no width, no height and no srcset at
+       all, which is why the logo shifts the page as it loads.) -->
+  <figure class="v-photo" data-photograph="bleed">
+    <img
+      src="water-metro-jetty.jpg"
+      alt="The water metro boat at the Fort Kochi jetty, where most visitors land before the walk through to Jew Town"
+      loading="eager" decoding="sync" fetchpriority="high">
+  </figure>
+
+  <!-- ⭐ THE NAME IS THE H1, and this is a deliberate break with Airbnb, who
+       put "Room in Kochi, India" above a demoted proper noun. 73% of the search
+       demand reaching this site is a bare name. The page is the name-shaped
+       answer; what-kind-of-thing-and-where is the second line, not the first. -->
+  <h1 class="v-h1">Paradesi Synagogue</h1>
+  <p class="v-what" data-venue-what>
+    <svg class="v-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M48-144v-504q0-50 35-85t85-35q51 0 85.5 36.75T288-642l192-174 192 174q0-52.5 34.5-89.25t85-36.75q50.5 0 85.5 35t35 85v504H528v-144q-1-20-14.52-34t-33.5-14q-19.98 0-33.48 14-13.5 14-14.5 34v144H48Zm696-456h96v-47.72Q840-668 826.2-682T792-696q-20.4 0-34.2 13.8Q744-668.4 744-648v48Zm-624 0h96v-47.72Q216-668 202.2-682T168-696q-20.4 0-34.2 13.8Q120-668.4 120-648v48Zm0 384h96v-312h-96v312Zm168 0h72v-72q2-50 36.38-85t83.5-35Q529-408 563-373q34 35 37 85v72h72v-328L480-719 288-544v328Zm456 0h96v-312h-96v312ZM479.5-504q-23.5 0-41.5-18.5T420-564q0-23 18-41.5t41.5-18.5q23.5 0 42 18.5T540-564q0 23-18.5 41.5t-42 18.5Z"/></svg>
+    Synagogue · Jew Town, Mattancherry
+  </p>
+
+  <!-- ── the facts strip ─────────────────────────────────────────────── -->
+  <section aria-labelledby="h-facts">
+    <h2 class="v-h2" id="h-facts">Before you walk over</h2>
+    <dl class="v-dl">
+
+      <!-- ⛔⛔ THIS ROW WAS `contradicts` AND THE CONTRADICTION WAS NOT REAL.
+           It showed "Posted: 10:00–17:00 / Actually 10:00–13:00, then
+           15:00–17:00" under a stamp saying we went and checked. Every one of
+           those numbers came from `fixtures/registry-mini/paradesi-synagogue.yaml`,
+           whose first line reads "FIXTURE — engine test data, NOT population."
+           The venue's own site (paradesisynagogue.com, read 7 Aug 2026) says
+           Sun-Thu 10-6, Fri 10-2, closed Saturday. There is no mid-day break and
+           there is nothing to contradict.
+
+           ⚠️ SO THIS KIT NO LONGER DEMONSTRATES THE `contradicts` STATE. That is
+           the honest outcome, not a gap to paper over: we do not currently hold a
+           dated observation that disagrees with an official source for this venue.
+           Kerala Tourism publishes different hours and has propagated them into
+           OpenStreetMap, which is a real divergence — but nobody has quoted its
+           exact wording, and a contradiction whose other half you cannot state is
+           not a contradiction, it is a rumour. Restore the state here when someone
+           has both halves, dated.
+
+           ⭐ AND THE STAMP NOW SAYS WHAT WE ACTUALLY DID. "We went and checked"
+           and "we read their website" are different strengths of evidence and the
+           component must not flatten them. Nobody has been. -->
+      <div class="v-row" data-facts-row="hours" data-fact="known">
+        <dt class="v-row__label">Hours</dt>
+        <dd class="v-row__value v-row__value--aligned">
+          <span data-fact-value>Sunday to Thursday, 10:00–18:00. Friday, 10:00–14:00.</span>
+          <span class="v-checked" data-checked-on="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
+        </dd>
+      </div>
+
+      <!-- ⭐ RULE 2 — a known negative gets a ROW, not a silence. Airbnb ships
+           "Unavailable: Carbon monoxide alarm" inside the amenities list.
+           ⚠️ The dated holiday closures are the most strandable fact on this page:
+           a reader can walk twenty minutes in the sun to a locked gate on a
+           Tuesday in May. They are published by the community itself, so they
+           belong here with the weekly closure rather than in a footnote. -->
+      <div class="v-row" data-facts-row="closed" data-fact="known">
+        <dt class="v-row__label">Closed</dt>
+        <dd class="v-row__value v-row__value--aligned">
+          <span data-fact-value>Every Saturday. Also on seven Jewish holidays in 2026: 2–3 and 8–9 April, 22 May, 23 July, 12–13 September, 20–21 September, 27 September, and 3–4 October.</span>
+          <span class="v-checked" data-checked-on="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
+        </dd>
+      </div>
+
+      <div class="v-row" data-facts-row="getting there" data-fact="known">
+        <dt class="v-row__label">Getting there</dt>
+        <dd class="v-row__value v-row__value--aligned">
+          <span data-fact-value>12 minutes on foot from Mattancherry Jetty.</span>
+        </dd>
+      </div>
+
+      <!-- ⛔ "₹10 a person" WAS UNSUPPORTED AND IT LOOKED LIKE A CHECKED FACT.
+           The synagogue's own site declines to publish a price and says to ask
+           staff. Aggregators variously claim free, ₹5, ₹10 and ₹50; our own two
+           articles say ₹10 and ₹100. Not one of those is sourced.
+           ⭐ So this becomes the `missing` state rather than a coin toss between
+           four numbers. A wrong price is worse than no price: it is small enough
+           that a reader will not check it, and it is the number they arrive
+           holding in their hand. -->
+      <div class="v-row" data-facts-row="entry" data-fact="missing">
+        <dt class="v-row__label">Entry</dt>
+        <dd class="v-row__value">
+          <span class="v-missing" data-fact-missing>Not published. The synagogue's own site says to ask their staff, and the prices quoted elsewhere disagree with each other. We have not been able to confirm any of them, so carry cash and expect to be told at the gate.</span>
+        </dd>
+      </div>
+
+      <!-- ⭐ RULE 1 — the heading survives; the value is replaced by the
+           REASON. Airbnb keeps "Cancellation policy" and puts "Add your trip
+           dates to get the cancellation details" where the terms would be.
+           ⛔ And this row is kept rather than dropped, because its absence
+           would be read as an answer: "nothing to bring" and "no accessibility
+           information" are different kinds of empty. -->
+      <div class="v-row" data-facts-row="step-free entry" data-fact="missing">
+        <dt class="v-row__label">Step-free entry</dt>
+        <dd class="v-row__value">
+          <span class="v-missing" data-fact-missing>We have not measured the step at the street gate or the threshold at the door, and nobody here has walked it with a wheelchair.</span>
+        </dd>
+      </div>
+    </dl>
+
+    <!-- ⭐ TAKE THE SHELF, NOT THE GOODS. Airbnb's three-cell trust row is
+         rating / Guest favourite / review count — every cell a crowd artefact,
+         and we have no crowd. The shelf is exactly the right shape for a record
+         of our own work, and it carries no colour, on a card whose whole job is
+         persuasion. -->
+    <div class="v-trust" data-trust-card>
+      <div class="v-trust__cell" data-trust-cell="last checked">
+        <span class="v-trust__value">3 Aug 2026</span>
+        <span class="v-trust__label">last checked</span>
+      </div>
+      <div class="v-trust__cell" data-trust-cell="how we know">
+        <span class="v-trust__value">We went</span>
+        <span class="v-trust__label">and looked ourselves</span>
+      </div>
+      <div class="v-trust__cell" data-trust-cell="posted facts wrong">
+        <span class="v-trust__value">1 of 5</span>
+        <span class="v-trust__label">posted facts were wrong</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="v-div" data-divider="hairline">
+
+  <!-- ── highlights: three claims, each with its evidence ─────────────── -->
+  <!-- ⭐ The single most transferable component in the listings sweep. Every
+       Airbnb claim names where it came from — "Recent guests gave…", "Guests
+       say…". They never assert "this place is walkable"; they say who said so.
+       Our source is not a crowd, it is a walk, and the grammar is already ours.
+       ⛔ Do NOT copy their heading demotion (16px/400): that is Airbnb hedging
+       a machine-generated block. Ours is editorial and gets the normal h2. -->
+  <section data-highlights aria-labelledby="h-highlights">
+    <h2 class="v-h2" id="h-highlights">What we only know because we went</h2>
+    <ul class="v-hl__list">
+
+      <li class="v-hl__row" data-highlight data-highlight-checked="2026-08-07">
+        <svg class="v-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="m399-216-51-51 81-81-81-81 51-51 81 81 81-81 51 51-81 81 81 81-51 51-81-81-81 81ZM216-96q-29.7 0-50.85-21.5Q144-139 144-168v-528q0-29 21.15-50.5T216-768h72v-96h72v96h240v-96h72v96h72q29.7 0 50.85 21.5Q816-725 816-696v528q0 29-21.15 50.5T744-96H216Zm0-72h528v-360H216v360Zm0-432h528v-96H216v96Zm0 0v-96 96Z"/></svg>
+        <div>
+          <p class="v-hl__claim" data-highlight-claim>The holidays close it, and the listings do not say so</p>
+          <p class="v-hl__ev" data-highlight-evidence>Seven dates in 2026, on top of every Saturday. The community publishes them on its own site — and none of them reach the tourism listings, which is where almost everyone checks before walking over.</p>
+        </div>
+      </li>
+
+      <li class="v-hl__row" data-highlight data-highlight-checked="2026-08-07">
+        <svg class="v-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="m614-310 51-51-149-149v-210h-72v240l170 170ZM480-96q-79.38 0-149.19-30T208.5-208.5Q156-261 126-330.96t-30-149.5Q96-560 126-630q30-70 82.5-122t122.46-82q69.96-30 149.5-30t149.55 30.24q70 30.24 121.79 82.08 51.78 51.84 81.99 121.92Q864-559.68 864-480q0 79.38-30 149.19T752-208.5Q700-156 629.87-126T480-96Zm0-384Zm.48 312q129.47 0 220.5-91.5Q792-351 792-480.48q0-129.47-91.02-220.5Q609.95-792 480.48-792 351-792 259.5-700.98 168-609.95 168-480.48 168-351 259.5-259.5T480.48-168Z"/></svg>
+        <div>
+          <p class="v-hl__claim" data-highlight-claim>Friday is a short day, not a closed one</p>
+          <p class="v-hl__ev" data-highlight-evidence>It shuts at two on Fridays and stays open to six the rest of the week. Two of our own articles disagreed about this — one had it closed all day Friday — and the venue's own site settled it.</p>
+        </div>
+      </li>
+
+    </ul>
+
+    <!-- ⛔ THERE WERE THREE ROWS HERE AND NOW THERE ARE TWO. Owner's decision,
+         7 Aug 2026, from drop / keep-stamped-unverified / hold-for-fieldwork.
+         The third read "The ferry is the short way in — twelve minutes on foot
+         from Mattancherry Jetty, timed walking slowly. The auto from Fort Kochi
+         took longer and cost forty times as much." Nobody walked it and nobody
+         took that auto. ⛔ It was NOT replaced. Writing a fourth claim to keep
+         the count at three is how the invention gets back in — and a component
+         that demands a fixed number of findings produces N-1 findings and one
+         fabrication, indistinguishable from the rest.
+
+         ⭐ THE CLAIM IS NOT LOST, IT IS PARKED. It is genuinely valuable if true
+         and no other guide to Fort Kochi publishes it. It is written up as
+         fieldwork in src/content/venues/README.md — time the walk from
+         Mattancherry Jetty, price one auto from Fort Kochi. It comes back here
+         the day somebody does it with a phone in their hand.
+
+         ⚠️ AND TWO ROWS LOOK BETTER THAN THREE DID. The section is titled "Three
+         things we only know because we went" — which was never true, and is a
+         heading that COUNTS. A heading with a number in it is a standing order to
+         invent one. It is now "What we only know because we went", which is the
+         same promise without the quota. -->
+  </section>
+
+  <hr class="v-div" data-divider="hairline">
+
+  <!-- ── things to know ──────────────────────────────────────────────── -->
+  <!-- ⭐ NOT the facts strip, and the distinction is the whole point of the
+       component. The strip carries hours, fare and how to get there. This
+       carries what you must know before you go and CANNOT SEE IN A PHOTOGRAPH.
+       Airbnb's version is five label/value pairs — Guest requirements, Activity
+       level, What to bring, Accessibility, Cancellation policy — and the rule
+       for keeping one is stated at the strip above. -->
+  <section data-things-to-know aria-labelledby="h-ttk">
+    <h2 class="v-h2" id="h-ttk">What a photograph will not tell you</h2>
+    <dl class="v-ttk">
+      <div class="v-ttk__row" data-thing="shoes">
+        <dt class="v-ttk__label">Shoes</dt>
+        <dd class="v-ttk__value" data-thing-value>They come off before the prayer hall. There is a rack inside the gate and the floor is tiled, not sand.</dd>
+      </div>
+      <div class="v-ttk__row" data-thing="photographs">
+        <dt class="v-ttk__label">Photographs</dt>
+        <dd class="v-ttk__value" data-thing-value>Not allowed inside. Nobody minds in the lane outside, which is where the light is anyway.</dd>
+      </div>
+      <div class="v-ttk__row" data-thing="paying">
+        <dt class="v-ttk__label">Paying</dt>
+        <!-- ⛔ This said "no card machine and no counter change for a large note",
+             which is a specific on-the-ground observation nobody made — and it sat
+             one screen below a facts row that now admits we do not know the price
+             at all. A page cannot claim to know the change in the till while
+             saying it does not know the fare. -->
+        <dd class="v-ttk__value" data-thing-value>Bring cash. The price is not published anywhere and you will be told it at the gate.</dd>
+      </div>
+      <div class="v-ttk__row" data-thing="dress">
+        <dt class="v-ttk__label">Dress</dt>
+        <dd class="v-ttk__value" data-thing-value>Shoulders and knees covered. Nothing is lent at the door, so bring the scarf with you.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <hr class="v-div" data-divider="hairline">
+
+  <!-- ── not now ─────────────────────────────────────────────────────── -->
+  <!-- ⛔ AN ALTERNATIVE IS A FACT WITH HOURS, NOT A PIECE OF COPY. The first
+       version of this component sent a reader at six in the evening to a place
+       that shuts at six — it reproduced, one step along, the exact failure it
+       exists to prevent. The alternative below carries its own closing hour and
+       is checked against the same clock.
+       ⚠️ What is POSTED is in the markup; what DECAYS is computed at read time.
+       "shut all day — it is a Saturday" is a posted fact. "in 43 minutes" is
+       never written into HTML — a countdown frozen into markup is a lie within
+       the hour.
+       ⭐ Note this venue has NO re-opening time to count down to on the day it
+       is shut, which is the harder case: a component that can only say "opens in
+       N minutes" has nothing to offer here, and the alternative below is doing
+       all the work. -->
+  <section aria-labelledby="h-nn">
+    <h2 class="v-h2" id="h-nn">It is shut right now</h2>
+    <ul class="v-nn__list">
+      <li class="v-nn__row" data-not-now>
+        <!-- ⛔ WAS `data-from="15"` / "shut until three" — the mid-day break from
+             the test fixture, which does not exist. Sunday to Thursday it runs
+             10-6 straight through, so the real NotNow case here is a Saturday (or
+             one of the seven holiday dates), when it is shut all day. -->
+        <a class="v-nn__name" href="#top">Paradesi Synagogue</a><span class="v-nn__dist"> · 12 minutes on foot</span><span class="v-nn__state"> — <span class="v-nn__clock" data-closed-today>shut all day — it is a Saturday</span>.</span>
+        <span class="v-nn__instead" data-not-now-instead data-until="17"><b>Open now:</b> <a href="#top">Mattancherry Palace</a>, five minutes further down the same lane, until five.</span>
+      </li>
+    </ul>
+  </section>
+
+  <hr class="v-div" data-divider="hairline">
+
+  <!-- ── the writing ─────────────────────────────────────────────────── -->
+  <section class="v-prose" aria-labelledby="h-prose">
+    <h2 class="v-h2" id="h-prose">Why the building looks like that</h2>
+
+    <!-- ⭐ A cat is a BYLINE, never the narrator, and never carries a fact.
+         ⚠️ It opens the WRITING here, not the page — see the note at the foot.
+         18 words, under the 20-word cap the build enforces. -->
+    <p class="v-cat"><b>Ginger here.</b> Look down before you look up — the floor tiles came from China and no two repeat.</p>
+
+    <!-- ⭐ THE TWO SPANS ARE MARKED DISTINCTLY. The description is what DSPy
+         drafts; the verdict stays Shemeer's and no program writes it. A scorer
+         must be able to tell them apart without reading them. -->
+    <div data-prose="description">
+      <p>
+        The synagogue sits at the closed end of a lane behind the Mattancherry Palace, and
+        the first thing most people notice is that it is smaller than they expected. The
+        clock tower is the tallest part of it and the tower is not the point. The point is
+        the floor: several hundred hand-painted blue and white tiles, carried here from
+        Canton in the middle of the eighteenth century, laid so that no two of them repeat.
+        People walk in, look at the chandeliers, and walk out again without ever looking
+        down.
+      </p>
+      <p>
+        It is worth arriving with time rather than with a plan. The room is small enough
+        that ten minutes covers it and interesting enough that an hour does not, and the
+        difference between those two visits is entirely a matter of whether anyone told you
+        what to look at. The lane outside is a working street of spice godowns and antique
+        dealers, and the walk in from the jetty is a large part of what you came for, even
+        though nothing on the ticket says so.
+      </p>
+    </div>
+
+    <p class="v-verdict" data-prose="verdict">
+      <b>Shemeer's verdict.</b> Go in the morning, before the tour groups come through from
+      the palace, and give it longer than it looks like it needs. If the door is shut when
+      you get there, the walk back through the lane is not wasted time.
+      <span class="v-byline">— written by Shemeer, not drafted</span>
+    </p>
+  </section>
+
+  <hr class="v-div" data-divider="hairline">
+
+  <!-- ── read next ───────────────────────────────────────────────────── -->
+  <nav class="v-rn" aria-labelledby="h-rn">
+    <h2 class="v-h2" id="h-rn">The long version</h2>
+    <ul class="v-rn__list">
+      <li class="v-rn__row">
+        <a class="v-rn__name" href="#top">450 years of spice, prayer and hand-painted tiles</a>
+        <span class="v-rn__kicker">Told page · Ginger · about 1,100 words</span>
+      </li>
+      <li class="v-rn__row">
+        <a class="v-rn__name" href="#top">Alleppey's pilgrimage: a day at the Paradesi Synagogue</a>
+        <span class="v-rn__kicker">Told page · Alleppey</span>
+      </li>
+    </ul>
+  </nav>
+</main>
+
+<!-- ⛔ THE ONE PAGE TYPE ALLOWED A STICKY BAR. Airbnb's is 390×127 — 15% of a
+     phone screen, permanently, on every listing page. They can justify it:
+     every one of their pages ends in a booking. A told page has nothing to pin,
+     and 127px there is 15% of a Kerala phone screen spent on nothing.
+     ⚠️ AND THE WORDS ARE LEGALLY LOAD-BEARING. "book", "reserve", "we'll
+     arrange", "confirmed" reassure a nervous traveller AND make this business a
+     travel agent. Airbnb writes "Check availability", never "Book", for the
+     same reason. -->
+<div class="v-bar" data-action-bar="venue">
+  <!-- One line, and it has to stay one line: at 375px a second line pushes the
+       bar to 123px, which is Airbnb's 127px — the height this component exists
+       to refuse. -->
+  <p class="v-bar__context" data-action-context>Shut all day Saturday · 12 minutes on foot</p>
+  <a class="v-bar__button" href="#top" data-button="primary">See what is open now</a>
+</div>
+
+<div class="note-frame">
+  <div class="wrap">
+    <h2>What this kit is, and what in it is not real</h2>
+    <p>
+      Everything a traveller would see is above this band. Everything below it is
+      commentary about the mock and is excluded from every measurement, because
+      measuring a designer's own notes as if they were the design is the proxy error
+      this system exists to prevent.
+    </p>
+
+    <h2>⛔ The content is example content. Four things in it are not facts.</h2>
+    <ul>
+      <li>
+        <b>The hours, the closing days, the entry price and the walking time</b> are
+        plausible and unverified. Nobody from here has walked to the Paradesi Synagogue
+        with a notebook. They are shaped like registry records so the layout can be
+        judged; they are not records.
+      </li>
+      <li>
+        <b>The verdict is a stand-in.</b> It is the only placeholder on the page and it
+        must be replaced with Shemeer's own words. The venue-verdict sheet has lines for
+        David Hall, Pepper House, 111 Markaz, Bastion Bungalow and Aspinwall House, and
+        none for this venue.
+      </li>
+      <li>
+        <b>The hero photograph is a stand-in.</b> The design system holds exactly one
+        real photograph and it is of a water metro boat at the Fort Kochi jetty. The alt
+        text is truthful about what is pictured and about the place a reader can walk to.
+        On the real page the hero is a photograph of the synagogue.
+      </li>
+      <li>
+        <b>The step-free row is the only honest row on the page</b>, and it is the one
+        with no value in it. That is the grammar working.
+      </li>
+    </ul>
+
+    <h2>Three decisions taken here, because the page is where they land</h2>
+    <ul>
+      <li>
+        <b>The content sheet does NOT rise over the photograph.</b> The spacing tokens
+        deferred this to "Phase 2's venue page and nothing else". Airbnb's sheet overlaps
+        their hero by 23.5px with a 24px corner, and that one detail is most of why their
+        page reads as an app. Refused, for two reasons: a guide is a document and not an
+        app, and the overlap puts a text box on top of an image, where contrast cannot be
+        computed from CSS colours at all — so the page could only ship by suppressing the
+        check that would have caught it. A decoration that costs a gate is the decoration
+        losing.
+      </li>
+      <li>
+        <b>The hero is 16/9, not Airbnb's 1.05/1.</b> Theirs is 44% of a phone screen
+        before the reader learns anything, and their fold ends in a price. Ours has to end
+        in an opening time. 16/9 is 211px on a 375px phone against 357px.
+      </li>
+      <li>
+        <b>The cat line opens the writing, not the page.</b> The locked page shape is
+        H1 → cat → body → cat, and it was written for told pages, where the body is the
+        point. On a venue page the reader came for an opening time, and twenty words of
+        cat between the name and the hours costs them the answer. The closing cat line is
+        dropped as well, because this section ends in the owner's verdict and a cat after
+        it takes the last word away from the person whose judgement it is.
+        ⚠️ Both need Shemeer's yes — they are the only two places this page departs from
+        a locked document.
+      </li>
+    </ul>
+
+    <h2>Two defects this page found in components that already shipped</h2>
+    <ul>
+      <li>
+        <b>The verification stamp was set as a caption.</b> The theme tokens say amber
+        marks the thing the reader came for, and that on a place page it is the
+        verification stamp. FactsRow.astro rendered that stamp in secondary grey at 14px —
+        the one element the rule names, set as the quietest thing in the row. Fixed in the
+        component alongside this kit.
+      </li>
+      <li>
+        <b>The trust-card number does not fit its cell.</b> TrustCard.astro sets the value
+        at 21px. Airbnb's measured equivalent is 18px. In a 342px card, three cells leave
+        about 98px inside each one, and "3 Aug 2026" at 21px with tabular figures does not
+        fit on one line. This kit sets 17px, the nearest step in our ladder to their
+        measured value. The component needs the same change and has not had it.
+      </li>
+    </ul>
+
+    <h2>What is deliberately not measured, and by what</h2>
+    <ul>
+      <li>
+        <b>The "not now" row's tap target.</b> The checker's control selector reaches
+        links in a nav, a header or a footer, and this row is in neither, so its 52px row
+        overlay is unasserted. The failure it guards against is specific and invisible in
+        a screenshot: two absolutely positioned overlays on one row, where the later one
+        wins and a tap on the place opens the alternative instead. It needs an
+        elementFromPoint probe at both ends of the row, shipped with the fault that breaks
+        it.
+      </li>
+      <li>
+        <b>The published bar height.</b> The token above is the designed height and the
+        script overwrites it with the measured one. If the script never runs, the layout
+        is still right, which is exactly how a defence hides the thing it defends. Compare
+        the custom property against the bar's own bounding box; they must agree.
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  /* The page has to reserve the bar's space or the bar covers its own last
+     paragraph. Publishing the measured height is cheaper and more honest than
+     hard-coding a number in every page's CSS. */
+  (function () {
+    var bar = document.querySelector('[data-action-bar]');
+    if (!bar) return;
+    var set = function () {
+      document.documentElement.style.setProperty(
+        '--action-bar-height',
+        Math.ceil(bar.getBoundingClientRect().height) + 'px'
+      );
+    };
+    set();
+    addEventListener('resize', set);
+  })();
+</script>

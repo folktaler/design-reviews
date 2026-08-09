@@ -1,0 +1,461 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>The paid itinerary — Cats of Kochi</title>
+
+<link rel="stylesheet" href="faces-noticia-text.css">
+<style>
+  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
+   * Artifacts sit behind a strict CSP with no server and can never fetch
+   * /fonts/*.woff2, so the face must travel inside the file.
+   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
+   * three files across every page instead of paying base64 overhead each time.
+   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  
+  
+  
+  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real
+     metrics, no single number forced across Georgia/Noto Serif/Times New
+     Roman at once. */
+  @font-face {
+    font-family: 'Noticia Fallback: Georgia';
+    src: local('Georgia');
+    ascent-override: 101.8313%;
+    descent-override: 27.4232%;
+    size-adjust: 105.586%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Noto Serif';
+    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
+    ascent-override: 109.8716%;
+    descent-override: 29.5885%;
+    size-adjust: 97.8593%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Times New Roman';
+    src: local('Times New Roman'), local('TimesNewRomanPSMT');
+    ascent-override: 92.7969%;
+    descent-override: 24.9903%;
+    line-gap-override: 0%;
+    size-adjust: 115.8654%;
+  }
+  /* ══ END SYSTEM FACES ══ */
+
+  :root {
+    --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
+    --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    --focus:#0b60c4; --alert:#a2191f;
+    --serif: 'Noticia Text','Noticia Fallback: Georgia','Noticia Fallback: Noto Serif','Noticia Fallback: Times New Roman',Georgia,'Noto Serif','Times New Roman',serif;
+    --sans: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+    --s7:2rem;--s8:2.5rem;--s9:3rem;--s10:4rem;
+    --micro:.8125rem; --small:.875rem; --track:.06em;
+    --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
+    --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
+    --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
+    --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
+    --measure:32rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
+  }
+  html { color-scheme:light; background:var(--paper); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+         font-family:var(--serif); font-size:var(--body); line-height:1.5;
+         -webkit-text-size-adjust:100%; }
+  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
+          margin-inline:auto; padding-inline:var(--gutter); }
+  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  a:hover { border-block-end-color:var(--amber-ink); }
+  a:focus-visible,button:focus-visible,input:focus-visible {
+    outline:3px solid var(--focus); outline-offset:2px; }
+
+  .site-header { border-block-end:1px solid var(--rule); padding-block:var(--s3); }
+  .site-header__in { display:flex; align-items:center; justify-content:space-between;
+                     gap:var(--s4); flex-wrap:wrap; }
+  .site-name { font-family:var(--serif); font-weight:700; font-size:1.15rem; color:var(--ink);
+               border:0; min-height:var(--tap-comfortable,52px); display:inline-flex; align-items:center; }
+  .site-nav { display:flex; gap:var(--s5); font-family:var(--sans); font-size:var(--small); }
+  /* ⚠️ RAISE THE FLOOR, DO NOT PAD IT — `min-height` is a floor, not an addend.
+     Fallback included: an undefined token resolves to nothing, silently. */
+  /* ⚠️ BOTH AXES. "Places" is 42.5px WIDE at 14px — a floor on height alone
+     leaves a target that fails on the axis nobody measured. */
+  .site-nav a { color:var(--ink); border:0;
+                min-height:var(--tap-comfortable,52px);
+                min-inline-size:var(--tap-comfortable,52px);
+                display:inline-flex; align-items:center; justify-content:center; }
+
+  .post { padding-block:var(--s7) var(--s4); }
+  h1 { font-family:var(--serif); font-size:var(--disp); line-height:1.15;
+       letter-spacing:-.015em; text-wrap:balance; margin:0 0 var(--s3); }
+  h2 { font-family:var(--serif); font-size:var(--head); line-height:1.2;
+       margin-block:var(--s9) var(--s3); text-wrap:balance; }
+  h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
+       margin-block:var(--s6) var(--s2); }
+  p { margin-block:0 var(--para); }
+  .standfirst { font-family:var(--serif); font-size:var(--sub); line-height:1.15;
+                margin:0 0 var(--s6); text-wrap:pretty; }
+  .kicker { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+            color:var(--quiet); margin:0 0 var(--s3); font-family:var(--sans); }
+
+  .btn { display:inline-flex; align-items:center; justify-content:center;
+         border-radius:999px; min-height:var(--tap-comfortable,52px); padding:0 var(--s5) 1px;
+         font-family:var(--sans); font-size:var(--small); font-weight:700;
+         border:1px solid var(--amber); background:var(--amber); color:var(--ink);
+         cursor:pointer; text-decoration:none; }
+  .btn--ghost { background:transparent; border-color:var(--ink); color:var(--ink); }
+
+  /* the price block */
+  .price { margin-block:var(--s6); padding:var(--s5); background:var(--amber-wash);
+           border-inline-start:4px solid var(--amber-ink); font-family:var(--sans); }
+  .price__fig { font-family:var(--serif); font-size:var(--disp); line-height:1;
+                margin:0 0 var(--s2); font-variant-numeric:tabular-nums; }
+  .price__note { margin:0 0 var(--s4); font-size:var(--small); color:var(--quiet); }
+  .price ul { list-style:none; margin:0 0 var(--s5); padding:0; }
+  .price li { padding-block:var(--s2); border-block-end:1px solid var(--rule);
+              font-size:var(--small); line-height:1.45; }
+  .price li:last-child { border-block-end:0; }
+
+  .gets { list-style:none; margin:0 0 var(--para); padding:0; font-family:var(--sans); }
+  .gets li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
+             font-size:var(--small); line-height:1.5; }
+  .gets li:last-child { border-block-end:0; }
+  .gets b { font-family:var(--serif); font-size:var(--body); font-weight:400;
+            display:block; margin-block-end:2px; color:var(--ink); }
+
+  /* the living page when the weather turns */
+  .alert { margin-block:var(--s6); padding:var(--s4) var(--s5); background:var(--sunk);
+           border-inline-start:4px solid var(--alert); font-family:var(--sans); }
+  .alert__k { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+              color:var(--alert); margin:0 0 var(--s2); font-weight:700; }
+  .alert p { margin:0 0 var(--s2); font-size:var(--small); line-height:1.5; }
+  .alert p:last-child { margin-block-end:0; }
+  .struck { text-decoration:line-through; color:var(--quiet); }
+
+  .day { margin-block:var(--s6); font-family:var(--sans); }
+  .day h4 { font-family:var(--serif); font-size:var(--sub); line-height:1.2; margin:0 0 var(--s2);
+            padding-block-end:var(--s2); border-block-end:1px solid var(--rule); font-weight:400; }
+  .day ul { list-style:none; margin:0; padding:0; }
+  .day li { display:grid; grid-template-columns:4.5rem 1fr; gap:var(--s1) var(--s4);
+            padding-block:var(--s3); border-block-end:1px solid var(--rule);
+            position:relative; }
+  .day li:last-child { border-block-end:0; }
+  .day .k { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+            color:var(--quiet); line-height:1.45; }
+  .day .n { font-size:var(--body); line-height:1.35; }
+  .day .n a::after { content:''; position:absolute; inset:0; }
+  .day .d { display:block; margin-block-start:var(--s1); font-size:var(--small);
+            color:var(--quiet); line-height:1.45; }
+
+  .stamp { display:flex; align-items:center; gap:var(--s2); margin:0; flex-wrap:wrap;
+           font-family:var(--sans); font-size:var(--micro); line-height:1; }
+  .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
+                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+  .stamp__date { color:var(--quiet); }
+  /* ⛔⛔ THE CORRECTION LINK WAS 155 x 14 — the least tappable thing on a page whose
+     entire value is corrected facts. `.stamp` sets line-height:1 at micro size and
+     the link inherited it. Below WCAG 2.2 AA's 24x24 floor.
+     ⚠️ THIS ONE HID FROM THE FIRST PASS because it says "Something wrong?" where
+     three other kits say "Changed?". Four kits, four wordings of one control —
+     ⭐ grep the CLASS, never the string, or the next kit invents a fifth. */
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX — same rule as `.jump a` in
+     ui_kits/today. The 52px floor above pushed the site-wide
+     `a { border-block-end }` rule to the bottom of the tap target, 18px
+     under the words. text-decoration tracks the text instead. */
+  .stamp a, .stamp__tell { min-height:var(--tap-comfortable,52px);
+                           min-width:var(--tap-comfortable,52px);
+                           display:inline-flex; align-items:center; justify-content:center;
+                           padding-inline:var(--s2,8px);
+                           border:0; text-decoration:underline;
+                           text-decoration-color:var(--amber);
+                           text-decoration-thickness:2px; text-underline-offset:3px; }
+
+  .disclose { margin-block:var(--s6); font-family:var(--sans); font-size:var(--small);
+              line-height:1.5; }
+  .disclose ul { list-style:none; margin:var(--s2) 0 0; padding:0; }
+  .disclose li { padding-block:var(--s2); border-block-end:1px solid var(--rule); }
+  .disclose li:last-child { border-block-end:0; }
+  .consent { display:flex; gap:var(--s3); align-items:flex-start; margin-block:var(--s5);
+             font-family:var(--sans); font-size:var(--small); line-height:1.45; }
+  .consent input { margin-block-start:.2em; width:20px; height:20px; flex:0 0 auto; }
+
+  hr.div { border:0; border-block-start:1px solid var(--rule); margin-block:var(--s10); }
+  .shape { font-family:var(--sans); font-size:var(--micro); text-transform:uppercase;
+           letter-spacing:var(--track); color:var(--paper); background:var(--ink);
+           display:inline-block; padding:var(--s1) var(--s2); margin-block-end:var(--s4); }
+
+  .note-frame { max-width:46rem; margin:var(--s6) auto 0; padding-inline:var(--gutter);
+                font-family:var(--sans); font-size:var(--small); color:var(--quiet); }
+  .note-frame h4 { font-family:var(--serif); color:var(--ink); font-size:1.1rem;
+                   margin:var(--s5) 0 var(--s2); }
+  .note-frame ol,.note-frame ul { padding-inline-start:1.2rem; }
+  .note-frame li { margin-block:var(--s2); }
+  .was { background:var(--sunk); padding:var(--s4); font-size:var(--micro);
+         line-height:1.5; margin-block:var(--s3); }
+  .ban { background:var(--amber-wash); border-inline-start:4px solid var(--alert);
+         padding:var(--s4); font-size:var(--micro); line-height:1.6; margin-block:var(--s3); }
+</style>
+
+<!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
+     Delete this whole div in the SAME commit that deletes this kit's line from
+     KIT_FAMILY in scripts/check-kits.mjs. The two say the same thing and must
+     die together: check-kits.mjs already prints "this kit has not been redrawn"
+     on every run — to a console, which is the one place the person deciding
+     will never look. This says it where he will.
+     ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
+     that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="site-name" href="#">cats of Kochi</a>
+    <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= 1. THE ASK -->
+  <article class="post wrap">
+    <p class="shape">1 · The ask</p>
+
+    <h1>A plan for your days here that knows what the weather is doing</h1>
+
+    <p class="standfirst">Written by someone who lives in Fort Kochi, for your
+    actual dates — and kept up to date until you go home.</p>
+
+    <p>Anything can write you an itinerary. What none of them can do is know that
+    it rained on your Tuesday, that the boat is not running, and that the thing
+    you wanted to see is five minutes from where you are staying.</p>
+
+    <p>This is a page, not a document. It is yours, it has your dates on it, and
+    it changes when Fort Kochi changes.</p>
+
+    <h2>What you get</h2>
+    <ul class="gets">
+      <li><b>A day-by-day plan for your dates</b>
+        Where to go, in what order, and what to skip. Written for the season you
+        are actually arriving in.</li>
+      <li><b>A page that stays live</b>
+        If a place closes or a boat stops running, the page changes and you are
+        told. It stays live until a week after your last day.</li>
+      <li><b>The honest version of each place</b>
+        What time they really open, who to ask for, which lane it is down.</li>
+      <li><b>Somebody to ask</b>
+        If a recommendation is not working out, there is a reply within a couple
+        of hours between 8am and 8pm.</li>
+    </ul>
+
+    <div class="price">
+      <p class="price__fig">₹0,000</p>
+      <p class="price__note">One payment, in rupees. Card is charged in INR.</p>
+      <ul>
+        <li>For the whole trip, however many of you there are</li>
+        <li>Delivered within two days of ordering</li>
+        <li>Live until seven days after your last day here</li>
+      </ul>
+      <a class="btn" href="#">Pay ₹0,000</a>
+    </div>
+
+    <div class="disclose">
+      <p><b>What this is not.</b></p>
+      <ul>
+        <li>We do not take payments for anyone else, and we hold nothing for you.</li>
+        <li>Where something needs paying for, we tell you who to contact and
+        what it usually costs, and you deal with them directly.</li>
+        <li>We take no commission from anywhere we send you.</li>
+      </ul>
+    </div>
+
+    <p style="font-family:var(--sans);font-size:var(--small);color:var(--quiet)">
+      Changed your mind, or your trip fell through? <a href="#">How refunds
+      work</a> — it is short and it is on your side.</p>
+  </article>
+
+  <hr class="div">
+
+  <!-- ================= 2. THE CONFIRMATION — highest-risk copy on the site -->
+  <article class="post wrap">
+    <p class="shape">2 · After paying</p>
+
+    <h1>Paid. Your plan is being written.</h1>
+
+    <p class="standfirst">It will be at this address within two days, and we will
+    email you when it is there.</p>
+
+    <ul class="gets">
+      <li><b>Your dates</b> 14–18 November 2026</li>
+      <li><b>Your page</b> catsofkochi.com/plan/xxxx — live until 25 November</li>
+      <li><b>Paid</b> ₹0,000 in INR</li>
+    </ul>
+
+    <p>Nothing is held or arranged for you anywhere, so there is nothing to
+    chase. When you want to eat somewhere or get on a boat, the plan tells you
+    who to contact and what it usually costs.</p>
+  </article>
+
+  <hr class="div">
+
+  <!-- ================= 3. THE LIVING PAGE — the actual product -->
+  <article class="post wrap">
+    <p class="shape">3 · The page, on the day it rains</p>
+
+    <h1>Your Fort Kochi</h1>
+    <p class="standfirst">14–18 November 2026</p>
+
+    <!-- ⭐ THIS IS THE PRODUCT. A PDF cannot do this. -->
+    <div class="alert">
+      <p class="alert__k">Tuesday has changed</p>
+      <p>A red alert is out for Tuesday and the backwater boats are not running.
+      We have rewritten that day.</p>
+      <p>The Kathakali centre runs whatever the weather and is five minutes from
+      where you are staying.</p>
+    </div>
+
+    <div class="day">
+      <h4>Tuesday 17 November</h4>
+      <ul>
+        <li><span class="k">Was</span>
+          <span><span class="n struck">Backwater trip, Alleppey</span>
+          <span class="d">Boats not running. Nothing to turn up for.</span></span></li>
+        <li><span class="k">Instead</span>
+          <span><span class="n"><a href="#">Kerala Kathakali Centre</a></span>
+          <span class="d">Runs wet or dry. Five minutes on foot from your street.</span></span></li>
+        <li><span class="k">Then</span>
+          <span><span class="n"><a href="#">Pepper House</a></span>
+          <span class="d">Indoors, and the courtyard is better in rain than in sun.</span></span></li>
+      </ul>
+    </div>
+
+    <p class="stamp">
+      <span class="stamp__chip">Checked</span>
+      <time class="stamp__date" datetime="2026-11-16">16 Nov 2026</time>
+      <a href="#">Something wrong? Tell us</a>
+    </p>
+
+    <div class="day">
+      <h4>Wednesday 18 November</h4>
+      <ul>
+        <li><span class="k">Morning</span>
+          <span><span class="n"><a href="#">The mutton walk</a></span>
+          <span class="d">Go before lunch. Sunset is at 6.02 that day if you want the beach after.</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+</main>
+
+<div class="note-frame">
+
+  <h4>⭐ The confirmation page is the highest-risk copy on this site</h4>
+
+  <p>Every commerce confirmation in the world says <em>"Your order is
+  confirmed."</em> <strong>"Confirmed" is on the banned list</strong>
+  (<code>COMMERCE-TERMS.md</code> §2.2) — alongside <em>book, reserve, we'll
+  arrange, your booking, guaranteed, on your behalf, we've held it for you</em>.
+  Those words create an agency relationship in a reader's mind and eventually in
+  a complaint, and they would make this business a travel agent, dragging
+  trip-level liability onto a fee-sized service.</p>
+
+  <p><strong>The resolution: confirm the purchase, never the trip.</strong></p>
+
+  <div class="ban">
+    ⛔ <em>"Your booking is confirmed"</em> · <em>"We've arranged your days"</em> ·
+    <em>"Your reservation at…"</em><br>
+    ✅ <em>"Paid. Your plan is being written."</em> · <em>"Nothing is held or
+    arranged for you anywhere, so there is nothing to chase."</em>
+  </div>
+
+  <div class="was">
+    ⚠️ <strong>A trap I walked into while writing this, worth passing on.</strong>
+    My first version of that reassurance read <em>"…arranged anywhere on your
+    behalf"</em> — and <strong>"on your behalf" is itself on the banned
+    list.</strong> Used in the negative it is safe in meaning, but the
+    build-time check in <code>Unchecked.astro</code> and
+    <code>NewsletterSignup.astro</code> does substring matching and would have
+    <strong>rejected the single most valuable sentence on the page.</strong>
+    <br><br>
+    ⭐ <strong>The fix is the copy, not the rule.</strong>
+    <em>"arranged for you anywhere"</em> says the same thing, passes any checker,
+    and is plainer English. A rule that can be obeyed by writing plainly beats a
+    rule with exceptions — and a checker that tried to parse negation would get
+    it wrong eventually.
+    <br><br>
+    <strong>So: state the negative without borrowing the banned phrase.</strong>
+    Whoever writes the real page copy will hit this, because the safest-sounding
+    disclaimers are built out of exactly those words.
+  </div>
+
+  <p>⭐ <strong>And that sentence does double duty.</strong> It is the legal
+  boundary <em>and</em> the most reassuring thing on the page — a buyer who
+  wondered whether they still have to organise something now knows. The safe
+  wording turned out to be the more useful wording, which is the same thing that
+  happened with the cat tip's <em>rhythm, not schedule</em> rule.</p>
+
+  <h4>What the Guardian could teach, and what it could not</h4>
+
+  <p>They do not sell itineraries, but they ask for money constantly and well.
+  Measured on their contribute page — the mechanics worth taking:</p>
+  <ul>
+    <li><strong>Say who you are and what the money does before naming a
+    price.</strong> Their opening line is an ownership claim, not a plea.</li>
+    <li><strong>Spell out the "then what".</strong> They show the introductory
+    price <em>and</em> what it becomes afterwards, in the same breath. Here the
+    equivalent is stating how long the page stays live — which
+    <code>COMMERCE-TERMS.md</code> §2.1 requires anyway, because without it the
+    obligation never ends.</li>
+    <li><strong>Currency is explicit.</strong> Theirs is switchable; ours says
+    the card is charged in INR, which is the commonest dispute avoided.</li>
+    <li><strong>One figure, plainly.</strong> A single total, not a build-up.</li>
+    <li><strong>The pay button says what it does</strong> — <em>"Pay ₹0,000"</em>,
+    not <em>"Continue"</em>. EU rules require the order button be unambiguous.</li>
+  </ul>
+
+  <p>⛔ <strong>What does not transfer: the discount framing.</strong> Their ask
+  is a recurring donation with an introductory rate. This is one payment for one
+  trip — a struck-through price and a countdown would read as pressure on
+  somebody spending real money on a holiday, and pressure is the opposite of the
+  trust this product is sold on.</p>
+
+  <h4>⭐ The page on the day it rains is the whole argument</h4>
+
+  <p><code>FRESHNESS-SPEC.md</code> §4: <em>"A generated itinerary is frozen at
+  the moment it was made. A living itinerary knows it rained."</em> Someone buys
+  in September for a November trip and a red alert lands the day before they
+  arrive — <strong>a PDF is now a liability</strong>, confidently sending them
+  to a boat that is not running.</p>
+
+  <p>So the third screen above is not a nice-to-have, it is
+  <strong>the thing being sold</strong>, and the design says so by showing the
+  struck-out plan next to its replacement. <strong>The reader can see the page
+  changed its mind.</strong> A free tool structurally cannot do that — it does
+  not know who you are or when you are travelling.</p>
+
+  <p>Note the checked-on stamp appears here too, dated to the day it was
+  rewritten. It is the same component as everywhere else, and this is where it
+  is worth the most.</p>
+
+  <h4>⚠️ Four questions I could not answer, for Shemeer</h4>
+  <ol>
+    <li><strong>What does it cost, and is it per trip or per person?</strong> The
+    page currently shows ₹0,000 and says "for the whole trip, however many of you"
+    — that is the version I would defend, because per-person pricing invites
+    haggling over a document.</li>
+    <li><strong>When the weather turns, does the page change itself, or does he
+    change it?</strong> This decides whether the product is software or a service
+    with his time in it — and therefore what he can promise about how fast.</li>
+    <li><strong>How long does the page stay live?</strong> I have written "until
+    seven days after your last day". <code>COMMERCE-TERMS.md</code> §2.1 requires
+    a stated end; the number is his.</li>
+    <li><strong>Does the buyer get anything to keep?</strong> A live page is the
+    product, but somebody on a boat with no signal has nothing. If the answer is
+    yes, it needs designing — and it must not be a PDF that outlives its own
+    accuracy.</li>
+  </ol>
+  <p>Refunds are <em>not</em> on this list — <code>COMMERCE-TERMS.md</code> §1.6
+  already has publishable text, and the page links to it.</p>
+
+  <p>⚠️ Rendered in the fallback serif; Noticia cannot be downloaded inside an
+  artifact. Prices shown as ₹0,000 deliberately — I will not invent a number.</p>
+</div>

@@ -1,0 +1,375 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Venue page — Cats of Kochi UI kit</title>
+
+<link rel="stylesheet" href="faces-noticia-text.css">
+<style>
+  :root {
+    --cok-amber: #ffa700;
+    --cok-amber-ink: #946100;
+    --cok-amber-wash: #fdf2db;
+    --cok-paper: #fdfcf9;
+    --cok-paper-sunk: #f4f1ea;
+    --cok-ink: #1c1a17;
+    --cok-ink-quiet: #5a544c;
+    --cok-rule: #ddd7cb;
+    --cok-focus: #0b60c4;
+
+    /* ⚠️ THIS KIT PREDATES THE SERIF INVERSION and was left behind by it. It
+       carried the old Iowan/Palatino display stack, a SANS body, and no mention
+       of Noticia — because it was built before the body became a serif.
+       Superseded by ui_kits/venue_pages/ (plural), which is the page-type-4
+       deliverable. Kept because it is the one full assembled venue page; the
+       tokens are now brought into line so it stops disagreeing with the system. */
+    --font-display: 'Noticia Text', 'Noticia Fallback: Georgia', 'Noticia Fallback: Noto Serif', 'Noticia Fallback: Times New Roman', Georgia, 'Noto Serif', 'Times New Roman', serif;
+    --font-body: var(--font-display);
+    --font-text: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --tap-comfortable: 52px;
+
+    --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem;
+    --space-5: 1.25rem; --space-6: 1.5rem; --space-7: 2rem; --space-8: 2.5rem;
+    --space-9: 3rem; --space-10: 4rem;
+    --measure: 32rem; /* 512px of TEXT = 59 characters at 19px */
+    --gutter: var(--space-5);
+    --tracking-micro: .06em; --tap: 44px;
+  }
+
+  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
+   * Artifacts sit behind a strict CSP with no server and can never fetch
+   * /fonts/*.woff2, so the face must travel inside the file.
+   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
+   * three files across every page instead of paying base64 overhead each time.
+   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  
+  
+  
+  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real
+     metrics, no single number forced across Georgia/Noto Serif/Times New
+     Roman at once. */
+  @font-face {
+    font-family: 'Noticia Fallback: Georgia';
+    src: local('Georgia');
+    ascent-override: 101.8313%;
+    descent-override: 27.4232%;
+    size-adjust: 105.586%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Noto Serif';
+    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
+    ascent-override: 109.8716%;
+    descent-override: 29.5885%;
+    size-adjust: 97.8593%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Times New Roman';
+    src: local('Times New Roman'), local('TimesNewRomanPSMT');
+    ascent-override: 92.7969%;
+    descent-override: 24.9903%;
+    line-gap-override: 0%;
+    size-adjust: 115.8654%;
+  }
+  /* ══ END SYSTEM FACES ══ */
+
+  html { color-scheme: light; background: var(--cok-paper); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--cok-paper); color: var(--cok-ink);
+    /* ⚠️ Was var(--font-text) — a SANS body, the pre-inversion arrangement.
+       The body is a serif now; captions and UI keep the sans. */
+    font-family: var(--font-body);
+    /* Guardian ladder, fluid: 18px on a phone → 19px on a wide screen. */
+    font-size: clamp(1.125rem, 1.09rem + 0.17vw, 1.1875rem);
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+
+  /* --measure is the TEXT column. The gutters are added on top, not taken out
+     of it — border-box would otherwise silently shave 40px off every column. */
+  .wrap { width: 100%; max-width: calc(var(--measure) + var(--gutter) * 2);
+          margin-inline: auto; padding-inline: var(--gutter); }
+
+  /* --- chrome --------------------------------------------------------- */
+  .site-header { border-block-end: 1px solid var(--cok-rule); padding-block: var(--space-3); }
+  .site-header__inner { display: flex; align-items: center; justify-content: space-between;
+                        gap: var(--space-4); flex-wrap: wrap; }
+  .site-header__name { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
+                       color: var(--cok-ink); text-decoration: none; display: inline-flex;
+                       align-items: center; min-height: var(--tap-comfortable, 52px); }
+  .site-nav { display: flex; gap: var(--space-5); font-size: .95rem; }
+  /* ⚠️ RAISE THE FLOOR, DO NOT PAD IT — `min-height` is a floor, not an addend.
+     ⛔ And my padding fix used `var(--s1)`, which THIS FILE DOES NOT DEFINE —
+     it uses `--space-1`. An undefined custom property resolves to nothing and
+     fails silently, so the "fix" was doubly inert here. Hence the fallback. */
+  /* ⚠️ BOTH AXES. "Places" is 42.5px WIDE at 14px — a floor on height alone
+     leaves a target that fails on the axis nobody measured. */
+  .site-nav a { color: var(--cok-ink); text-decoration: none; display: inline-flex;
+                align-items: center; justify-content: center;
+                min-height: var(--tap-comfortable, 52px);
+                min-inline-size: var(--tap-comfortable, 52px); }
+  .site-nav a:hover { text-decoration: underline; text-decoration-color: var(--cok-amber-ink); }
+
+  :focus-visible { outline: 3px solid var(--cok-focus); outline-offset: 2px; }
+
+  /* --- article -------------------------------------------------------- */
+  .post { padding-block: var(--space-7) var(--space-4); }
+  h1 { font-family: var(--font-display); font-size: clamp(1.75rem, 1.15rem + 3vw, 2.625rem);
+       line-height: 1.15; letter-spacing: -.015em; text-wrap: balance; margin: 0 0 var(--space-3); }
+  h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 1.33rem + .85vw, 1.75rem);
+       line-height: 1.2; margin-block: var(--space-9) var(--space-2); }
+  p { margin-block: var(--space-6); }
+  a { color: var(--cok-amber-ink); text-underline-offset: .15em; }
+
+  .byline { font-size: .9rem; color: var(--cok-ink-quiet); margin-block: 0 var(--space-6);
+            display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+  /* --- cat line ------------------------------------------------------- */
+  .catline { display: flex; gap: var(--space-3); align-items: flex-start;
+             margin-block: var(--space-6); padding: var(--space-4);
+             background: var(--cok-paper-sunk); }
+  .catline__portrait { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%;
+                       background: var(--cok-rule); }
+  .catline p { margin: 0; font-size: .95rem; line-height: 1.5; }
+  .catline span { display: block; margin-block-start: var(--space-1); font-size: .85rem;
+                  color: var(--cok-ink-quiet); }
+
+  /* --- figure --------------------------------------------------------- */
+  figure { margin: var(--space-7) 0; }
+  /* ⚠️ EVERY COMPONENT CARRIES ITS OWN FACE. Six classes here declared none and
+     inherited the serif from the wrapper, while the same classes in every other
+     kit are sans — the facts-strip mechanism again, one kit out of step. A
+     component that only looks right inside a particular parent is not a
+     component. */
+  .ph { aspect-ratio: 3 / 2; background: var(--cok-paper-sunk);
+        display: grid; place-items: center; color: var(--cok-ink-quiet);
+        font-family: var(--font-text); font-size: .9rem; }
+  figcaption { font-size: .85rem; line-height: 1.45; color: var(--cok-ink-quiet);
+               margin-block-start: var(--space-2); }
+
+  /* --- facts strip ---------------------------------------------------- */
+  .facts { margin-block: var(--space-6); padding: var(--space-4) var(--space-5);
+           background: var(--cok-amber-wash); border-inline-start: 4px solid var(--cok-amber-ink); }
+  .facts dl { margin: 0 0 var(--space-4); }
+  .facts__row { display: grid; gap: var(--space-1) var(--space-4);
+                padding-block: var(--space-3); border-block-end: 1px solid var(--cok-rule); }
+  .facts__row:first-child { padding-block-start: 0; }
+  .facts__row:last-child { border-block-end: 0; padding-block-end: 0; }
+  @media (min-width: 30rem) { .facts__row { grid-template-columns: 7.5rem 1fr; } }
+  .facts dt { margin: 0; color: var(--cok-ink-quiet); font-size: .9rem; line-height: 1.45; }
+  .facts dd { margin: 0; line-height: 1.45; }
+  .facts__observed { display: block; margin-block-start: var(--space-2); font-weight: 500; }
+  .facts__unchecked { margin-block: 0 var(--space-4); padding-block-start: var(--space-3);
+                      border-block-start: 1px solid var(--cok-rule); }
+  .unchecked { margin: 0; line-height: 1.45; font-family: var(--font-text); }
+
+  .stamp { display: flex; align-items: center; gap: var(--space-2); margin: 0;
+           font-family: var(--font-text); font-size: .8rem; line-height: 1; }
+  .stamp__chip { background: var(--cok-amber); color: var(--cok-ink);
+                 font-family: var(--font-text);
+                 padding: var(--space-1) var(--space-2); font-weight: 500;
+                 text-transform: uppercase; letter-spacing: var(--tracking-micro); }
+  .stamp__date { color: var(--cok-ink-quiet); font-family: var(--font-text); }
+
+  /* --- lists ---------------------------------------------------------- */
+  .stack { list-style: none; margin: 0; padding: 0; }
+  .stack li { padding-block: var(--space-4); border-block-end: 1px solid var(--cok-rule);
+              position: relative; }
+  .stack li:last-child { border-block-end: 0; }
+  /* 20 → 24px. At 1.2rem (19.2px) this sat at the same size as the paragraph
+     under it once body moved to 18–19px — a subheading that does not read as
+     one. Every step stays at least 2px clear of the step below at every width. */
+  .stack h3 { font-family: var(--font-display); font-size: clamp(1.25rem, 1.1rem + .75vw, 1.5rem);
+              line-height: 1.2; margin: 0 0 var(--space-1); }
+  .stack h3 a { color: var(--cok-ink); text-decoration: none; }
+  .stack h3 a::after { content: ''; position: absolute; inset: 0; }
+  .stack h3 a:hover { text-decoration: underline; text-decoration-color: var(--cok-amber-ink); }
+  .stack p { margin: 0; font-size: .9rem; line-height: 1.45; color: var(--cok-ink-quiet); }
+
+  .kicker { font-family: var(--font-text); font-size: .8rem;
+            text-transform: uppercase; letter-spacing: var(--tracking-micro);
+            color: var(--cok-ink-quiet); margin-block: 0 var(--space-3); }
+
+  .readnext { margin-block-start: var(--space-9); padding-block-start: var(--space-4);
+              border-block-start: 1px solid var(--cok-rule); }
+
+  .site-footer { border-block-start: 1px solid var(--cok-rule); margin-block-start: var(--space-10);
+                 padding-block: var(--space-7) var(--space-9); font-size: .9rem;
+                 color: var(--cok-ink-quiet); }
+
+  .note-frame { max-width: 46rem; margin: var(--space-6) auto 0; padding-inline: var(--space-5);
+                font-size: .9rem; color: var(--cok-ink-quiet); }
+</style>
+
+<!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
+     Delete this whole div in the SAME commit that deletes this kit's line from
+     KIT_FAMILY in scripts/check-kits.mjs. The two say the same thing and must
+     die together: check-kits.mjs already prints "this kit has not been redrawn"
+     on every run — to a console, which is the one place the person deciding
+     will never look. This says it where he will.
+     ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
+     that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <!-- The name is REAL TEXT. The live header renders the wordmark inside the
+         logo artwork at ~9px, where nobody reads it. The cropped cat mark goes
+         to the left of this text once the artwork exists — see
+         assets/logo/README.md. -->
+    <a class="site-header__name" href="#">cats of Kochi</a>
+    <nav class="site-nav">
+      <a href="#">Places</a>
+      <a href="#">What's on</a>
+      <a href="#">Writing</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <article class="post wrap">
+
+    <h1>Pepper House</h1>
+
+    <!-- On a venue page the cat opener IS the verdict. No closing line. -->
+    <div class="catline">
+      <div class="catline__portrait"></div>
+      <div>
+        <!-- ⛔ NAMED A REAL PERSON WE CANNOT VERIFY. It read "Ask for Sanju — he
+             knows which rooms are open", on a page carrying a Checked stamp. A
+             specimen may invent a shape; it may not invent a member of staff by
+             name, because that one is repeatable by a reader at a desk. -->
+        <p>Come for the ceiling, not the coffee. Ask at the desk which rooms are
+        open — it changes.</p>
+        <span>Ginger</span>
+      </div>
+    </div>
+
+    <p class="byline"><span>Fort Kochi</span> <span>·</span> <span>Written by Shemeer</span></p>
+
+    <figure>
+      <div class="ph">a real photograph</div>
+      <figcaption>The courtyard from the first-floor landing, before the
+      Biennale crowds arrive.</figcaption>
+    </figure>
+
+    <!-- The told body: verdict, who to ask for, how you actually get there.
+         Prose, because none of it expires. -->
+    <p>It is down the lane past the barber, the one with the blue shutter, and
+    you will walk past the entrance twice before you find it. Everyone does. The
+    doorway is a gap in a wall and there is no sign worth the name.</p>
+
+    <p>Inside, the courtyard opens up and the noise of Bazaar Road stops
+    completely. That is the thing worth coming for. The café at the back does a
+    fine enough filter coffee and an ordinary sandwich; nobody has ever come back
+    here for the sandwich.</p>
+
+    <p>Ask at the desk before you climb. The upstairs rooms are not always open,
+    and whoever is on will tell you either way rather than let you walk up to a
+    locked door.</p>
+
+    <!-- Only what expires. Stamped. -->
+    <section class="facts" aria-label="Pepper House — the practical facts">
+      <dl>
+        <div class="facts__row">
+          <dt>Hours</dt>
+          <dd>11 am – 7 pm
+            <span class="facts__observed">They post 10 am. It opens at 11.</span>
+          </dd>
+        </div>
+        <div class="facts__row"><dt>Tickets</dt><dd>Free. The café is not.</dd></div>
+        <div class="facts__row"><dt>Closed</dt><dd>Mondays</dd></div>
+      </dl>
+
+      <!-- ⛔ THIS SPECIMEN NAMES A REAL BUSINESS, WHICH `system`'s CONTRADICTS ROW
+           DOES NOT. That row says "Posted: 10am / Actually opens at 11am" attached
+           to nothing — an unnamed crossing — so it demonstrates the state without
+           asserting anything about anybody. Here the same shape sits under
+           aria-label="Pepper House", which turns an illustration into a claim
+           about a real place's opening time, under a Checked stamp.
+           ⚠️ The shape is kept because the posted-versus-observed row IS the moat
+           and this kit is where it was first drawn. What is added is the sentence
+           that stops a reader taking the numbers as ours. The real fix is that
+           `ui_kits/venue/` supersedes this kit and carries sourced facts. -->
+      <div class="facts__unchecked">
+        <p class="unchecked"><strong>The hours on this card are illustrative.</strong>
+        They show what a posted-versus-observed fact looks like; nobody has stood
+        outside this door with a notebook. Do not plan a morning on them.</p>
+        <p class="unchecked">We haven't checked whether the upstairs gallery is open
+        to the public this month. Ask at the desk.</p>
+      </div>
+
+      <p class="stamp">
+        <!-- No paw. Owner decision 5 Aug 2026: no cat marks anywhere. The chip
+             carries the word and the date, and the amber does the identifying —
+             which was always the load-bearing part. -->
+        <span class="stamp__chip">Checked</span>
+        <span class="stamp__date">everything except the gaps above &middot;</span>
+        <time class="stamp__date" datetime="2026-08-03">3 Aug 2026</time>
+      </p>
+    </section>
+
+    <h2>What we've written about here</h2>
+    <ul class="stack">
+      <li>
+        <h3><a href="#">The Biennale year that nearly did not happen</a></h3>
+        <p>Three weeks before opening, half the rooms were still a warehouse.</p>
+      </li>
+      <li>
+        <h3><a href="#">Inside the viewing room</a></h3>
+        <p>What a gallery keeps upstairs, and why it is rarely open.</p>
+      </li>
+    </ul>
+
+    <h2>What's on here</h2>
+    <!-- ⛔ MARK THE LIST, NOT THE ROW. This held one entry with unverified hours for
+         a real named event. Marking that single line would have invited the next
+         writer to add an unmarked second — the note has to cover the shape, because
+         every entry that ever lands here is the same class of claim.
+         ⭐ And the honest framing is forward-looking, not apologetic: an event
+         registry is being scoped — events point at a venue, carry a start and an
+         end, and EXPIRE rather than decay. So this is not "fake content", it is
+         what the list will look like once events are recorded. -->
+    <p class="unchecked"><strong>Times here are illustrative.</strong> This is the
+    shape of the what's-on list, not a researched programme — events are not
+    recorded yet. Check with the venue before you go.</p>
+    <ul class="stack">
+      <li>
+        <h3><a href="#">Mattanchère: Summer Art Salon</a></h3>
+        <p>Wed–Sun, 11 am to 6 pm. Tuesdays by appointment.</p>
+      </li>
+    </ul>
+
+    <!-- No closing cat line: a page ending in a list has nothing to sign off. -->
+
+    <nav class="readnext" aria-label="Read next">
+      <p class="kicker">Read next</p>
+      <ul class="stack">
+        <li>
+          <h3><a href="#">Where to eat in Mattancherry</a></h3>
+          <p>The same walk, told by someone who does it every week.</p>
+        </li>
+        <li>
+          <h3><a href="#">Getting here from the airport</a></h3>
+          <p>Fares, and which counter to ignore.</p>
+        </li>
+      </ul>
+    </nav>
+
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">cats of Kochi · Fort Kochi and Mattancherry · every fact
+  carries the date it was checked</div>
+</footer>
+
+<p class="note-frame">A venue page assembled entirely from the system: cat
+opener carrying the verdict, told body, facts strip with a contradiction and a
+refusal, the two lists, read next. No web fonts, no JavaScript, one accent
+colour used once, and no cat marks anywhere — the brand is carried by the type,
+the amber and the writing. The site name is real text, waiting on the cropped
+logo mark.</p>

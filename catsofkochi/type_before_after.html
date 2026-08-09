@@ -1,0 +1,282 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>The type change — before and after</title>
+
+<link rel="stylesheet" href="faces-noticia-text.css">
+<style>
+  /* ══ SYSTEM FACES — INLINE base64, spliced from _FACES_INLINE.css.
+   * Artifacts sit behind a strict CSP with no server and can never fetch
+   * /fonts/*.woff2, so the face must travel inside the file.
+   * ⛔ NOT for the real site — there, link fonts.css so the browser caches
+   * three files across every page instead of paying base64 overhead each time.
+   * Regenerate: python3 the block in git log for _FACES_INLINE.css. */
+  
+  
+  
+  /* Noticia Text Fallback — REWRITTEN 2026-08-08 (F5). See
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real
+     metrics, no single number forced across Georgia/Noto Serif/Times New
+     Roman at once. */
+  @font-face {
+    font-family: 'Noticia Fallback: Georgia';
+    src: local('Georgia');
+    ascent-override: 101.8313%;
+    descent-override: 27.4232%;
+    size-adjust: 105.586%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Noto Serif';
+    src: local('Noto Serif Regular'), local('NotoSerif-Regular');
+    ascent-override: 109.8716%;
+    descent-override: 29.5885%;
+    size-adjust: 97.8593%;
+  }
+  @font-face {
+    font-family: 'Noticia Fallback: Times New Roman';
+    src: local('Times New Roman'), local('TimesNewRomanPSMT');
+    ascent-override: 92.7969%;
+    descent-override: 24.9903%;
+    line-gap-override: 0%;
+    size-adjust: 115.8654%;
+  }
+  /* ══ END SYSTEM FACES ══ */
+
+  :root {
+    --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
+    --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    --sans: system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    /* The OLD stack — system serif, no download. What Android actually gives. */
+    --old-serif: Georgia,'Noto Serif',serif;
+    --new-serif: 'Noticia Text','Noticia Fallback: Georgia','Noticia Fallback: Noto Serif','Noticia Fallback: Times New Roman',Georgia,'Noto Serif','Times New Roman',serif;
+    --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;
+    --s7:2rem;--s8:2.5rem;--s9:3rem;--s10:4rem;
+    --micro:.8125rem; --small:.875rem; --track:.06em;
+    --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
+    --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
+    --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
+    --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
+    --measure:32rem; --gutter:var(--s5);
+  }
+  html { color-scheme:light; background:var(--paper); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+         font-size:var(--body); line-height:1.5; -webkit-text-size-adjust:100%; }
+  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
+          margin-inline:auto; padding:var(--s6) var(--gutter) var(--s10); }
+  h1,h2 { font-family:var(--old-serif); line-height:1.15; margin:0; text-wrap:balance; }
+  h1 { font-size:var(--disp); letter-spacing:-.015em; }
+  h2 { font-size:var(--head); margin-block:var(--s10) var(--s3); }
+  p { margin-block:var(--s4); }
+  .kicker { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+            color:var(--quiet); margin:0 0 var(--s2); }
+  .lede { font-size:var(--sub); line-height:1.2; font-family:var(--old-serif); }
+  .fyi { font-size:var(--small); color:var(--quiet); }
+  .panel { background:var(--sunk); padding:var(--s5); margin-block:var(--s5); }
+  .panel--amber { background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink); }
+  .panel > :first-child { margin-block-start:0; } .panel > :last-child { margin-block-end:0; }
+  .scroll { overflow-x:auto; margin-block:var(--s5); }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; line-height:1.45; }
+  th,td { border-bottom:1px solid var(--rule); padding:var(--s2) var(--s3); text-align:left; vertical-align:top; }
+  th { font-weight:600; } td.n { font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+  /* --- the two specimens --- */
+  .card { border:1px solid var(--rule); padding:var(--s5); margin-block:var(--s4); }
+  .card__tag { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
+               margin:0 0 var(--s4); }
+  .card--before .card__tag { color:#a2191f; }
+  .card--after .card__tag { color:#1d6b2f; }
+
+  /* BEFORE: sans body, serif headings, 1.6 leading, 24px gaps, 15px caption */
+  .before-h { font-family:var(--old-serif); font-size:1.5rem; line-height:1.2; margin:0 0 var(--s3);
+              font-weight:700; }
+  .before-p { font-family:var(--sans); font-size:1.125rem; line-height:1.6; margin:0 0 1.5rem; }
+  .before-p:last-of-type { margin-bottom:0; }
+  .before-cap { font-family:var(--sans); font-size:.9375rem; color:var(--quiet); margin:var(--s2) 0 0; }
+
+  /* AFTER: serif body (fallback stands in), sans caption, 1.5, half-line gaps, 14px caption */
+  .after-h { font-family:var(--new-serif); font-size:1.5rem; line-height:1.2; margin:0 0 var(--s3);
+             font-weight:700; }
+  .after-p { font-family:var(--new-serif); font-size:1.125rem; line-height:1.5; margin:0 0 .75em; }
+  .after-p:last-of-type { margin-bottom:0; }
+  .after-cap { font-family:var(--sans); font-size:.875rem; color:var(--quiet); margin:var(--s2) 0 0; }
+
+  .swatch { display:flex; gap:var(--s4); flex-wrap:wrap; margin-block:var(--s4); }
+  .swatch div { flex:1 1 8rem; font-size:var(--micro); color:var(--quiet); }
+  .swatch b { display:block; font-size:1.25rem; color:var(--ink);
+              font-variant-numeric:tabular-nums; }
+</style>
+
+<!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
+     Delete this whole div in the SAME commit that deletes this kit's line from
+     KIT_FAMILY in scripts/check-kits.mjs. The two say the same thing and must
+     die together: check-kits.mjs already prints "this kit has not been redrawn"
+     on every run — to a console, which is the one place the person deciding
+     will never look. This says it where he will.
+     ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
+     that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+</div>
+
+<div class="wrap">
+
+  <p class="kicker">Cats of Kochi · the type change · 5 August 2026</p>
+  <h1>Serif body, sans captions</h1>
+  <p class="lede">The Guardian's arrangement, and the one font we now download
+  to get it.</p>
+
+  <div class="panel panel--amber">
+    <p style="margin-block-start:0"><strong>You said: use whatever the Guardian
+    has proven, and change ours to fit.</strong> Two things follow, and the
+    second reverses my earlier advice.</p>
+    <p style="margin-block-end:0"><strong>1.</strong> The body becomes a serif and
+    captions become a sans — the opposite of what the site does today.
+    <strong>2.</strong> We now download one font, 24.5&nbsp;KB, because the
+    free-and-already-on-the-phone option turned out to be measurably worse for
+    most of your readers.</p>
+  </div>
+
+  <h2>Why I changed my mind about downloading a font</h2>
+
+  <p>I previously said ship none. That was right about the <em>old</em> fonts and
+  wrong about what replaces them, because I never checked what an Android phone
+  actually shows. <strong>82% of your readers are in India, overwhelmingly on
+  Android.</strong></p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Same sentence, 18px</th><th>Line width</th><th>x-height</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Noticia Text</strong> — what we'd download</td>
+            <td class="n">545px</td><td class="n"><strong>9.54</strong></td></tr>
+        <tr><td>Georgia — iPhones and Windows only</td><td class="n">518px</td><td class="n">8.67</td></tr>
+        <tr><td><strong>What Android gives you free</strong></td>
+            <td class="n"><strong>472px</strong></td><td class="n"><strong>8.08</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>The free option sets your writing 13% narrower with letters 15%
+  smaller</strong> — thinner, more like an old book, harder in bright light. That
+  is most of your audience reading a visibly weaker page.</p>
+
+  <h2>What it costs, and what it buys</h2>
+
+  <div class="swatch">
+    <div><b>61.1 KB</b>the whole download — regular, bold and italic</div>
+    <div><b>3</b>files, already downloaded and committed</div>
+    <div><b>0</b>extra connections — they ride the one already open</div>
+  </div>
+
+  <p>For scale: <strong>one photograph on your site is many times bigger than
+  this.</strong> The words appear immediately in the stand-in font and swap to the
+  real one the moment it lands — so nothing waits on it.</p>
+
+  <div class="panel">
+    <p style="margin-block-start:0">⚠️ <strong>I gave you two wrong numbers before
+    this one — 24.5&nbsp;KB, then 43.9&nbsp;KB — and I also said we could trim
+    about 19&nbsp;KB off for free.</strong> <strong>That saving does not exist.</strong>
+    The files are already as small as they go. Please ignore it; there is nothing
+    for anyone to go and do.</p>
+    <p style="margin-block-end:0"><strong>61.1&nbsp;KB is what a reader actually
+    downloads</strong>, weighed on the real files. The cause was mine: I was
+    measuring what Google's server handed <em>my</em> browser, and it hands
+    different browsers slightly different versions of the same font. The lesson is
+    simple — weigh the file we ship, not the one we looked at.</p>
+  </div>
+
+  <div class="panel">
+    <p style="margin-block-start:0"><strong>Noticia Text</strong>, free and
+    openly licensed. Of eight fonts I measured it was the <strong>smallest</strong>,
+    and it is drawn for exactly this job — news text on a screen, which is what
+    the Guardian's own font is for.</p>
+    <p style="margin-block-end:0">⭐ It also writes numbers evenly. Georgia sets
+    “40” and “9.30” with letters that bob up and down — fine in a novel, wrong on
+    a page where the fares and the ferry times are the point.</p>
+  </div>
+
+  <p>⭐ <strong>Italics are included and downloaded.</strong> I had left them out
+  to save 13&nbsp;KB; you said not to over-optimise against readability, and you
+  were right — a memoir uses italics for dish names, boat names and emphasis, and
+  a computer-slanted serif looks exactly like what it is.</p>
+
+  <p class="fyi">⛔ Still not bought: a second font for the small print (your
+  phone's own is excellent there) and a separate headline font.</p>
+
+  <div class="panel panel--amber">
+    <p style="margin-block-start:0">⭐ <strong>The best thing this pass turned up,
+    and it is specific to you: this font has no ₹ sign.</strong> Checked twice —
+    it has 227 characters and the rupee is not one of them. So every rupee symbol
+    would be drawn by a <em>different</em> font: one odd-looking character in the
+    middle of every price, on a site where all the prices are in rupees.</p>
+    <p style="margin-block-end:0">Not worth fixing with code. <strong>In the
+    writing, say “40 rupees”</strong> — which reads better for a visitor who may
+    not know the symbol anyway. In a tight facts strip, ₹ is fine. And the general
+    lesson is now a rule: <strong>always check the rupee before choosing a font
+    for an Indian site.</strong></p>
+  </div>
+
+  <!-- =============================================== BEFORE / AFTER -->
+  <h2>The same page, before and after</h2>
+
+  <p class="fyi">The specimens below now render Noticia Text with metric-matched
+  fallback CSS in place if the face has not landed yet (F5, F6, 2026-08-08) — the
+  page never claims a font state it has not measured; see the note at the foot.</p>
+
+  <div class="card card--before">
+    <p class="card__tag">Before — sans body, 1.6 leading, full-line gaps</p>
+    <p class="before-h">Pepper House</p>
+    <p class="before-p">It is down the lane past the barber, the one with the blue
+    shutter, and you will walk past the entrance twice before you find it.
+    Everyone does.</p>
+    <p class="before-p">Inside, the courtyard opens up and the noise of Bazaar
+    Road stops completely. That is the thing worth coming for.</p>
+    <p class="before-cap">The courtyard from the first-floor landing.</p>
+  </div>
+
+  <div class="card card--after">
+    <p class="card__tag">After — serif body, 1.5 leading, half-line gaps, sans caption</p>
+    <p class="after-h">Pepper House</p>
+    <p class="after-p">It is down the lane past the barber, the one with the blue
+    shutter, and you will walk past the entrance twice before you find it.
+    Everyone does.</p>
+    <p class="after-p">Inside, the courtyard opens up and the noise of Bazaar
+    Road stops completely. That is the thing worth coming for.</p>
+    <p class="after-cap">The courtyard from the first-floor landing.</p>
+  </div>
+
+  <p>The after is <strong>tighter and shorter</strong> — same words, less
+  scrolling. The caption is now clearly a different voice from the story, because
+  it is a different kind of letter rather than just a smaller one.</p>
+
+  <h2>The three numbers that moved</h2>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th></th><th>Was</th><th>Now</th><th>Guardian</th></tr></thead>
+      <tbody>
+        <tr><td>Space between lines</td><td class="n">1.6</td><td class="n"><strong>1.5</strong></td><td class="n">1.40</td></tr>
+        <tr><td>Gap between paragraphs</td><td class="n">24px</td><td class="n"><strong>half a line</strong></td><td class="n">half a line</td></tr>
+        <tr><td>Caption size</td><td class="n">15px</td><td class="n"><strong>14px</strong></td><td class="n">12px</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The paragraph gap goes to <strong>exactly theirs</strong> — nothing about
+  your reader makes it different. The other two stop short of theirs on purpose,
+  and the reasons are written into the files: <strong>your reader is outside in
+  the sun</strong>, and <strong>your pieces are long reads, not news</strong>.</p>
+
+  <div class="panel panel--amber">
+    <p style="margin:0">That is the rule now, for everything: <strong>take what
+    the Guardian has proven, and only depart from it when we can name something
+    about your reader that is genuinely different.</strong> “We do it differently”
+    is no longer a reason.</p>
+  </div>
+
+  <p class="fyi">Every number here was measured in a browser on 5 August 2026 —
+  the Guardian's on their own site, the fonts by downloading the real files and
+  weighing them.</p>
+
+</div>
