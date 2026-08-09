@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cats of Kochi — Airbnb-faithful design system, 2026-08-09</title>
+<title>Cats of Kochi — design system, two typefaces in transition, 2026-08-09</title>
 <style>
   body { font: 17px/1.5 system-ui, sans-serif; margin: 0; padding: 3rem 1.5rem;
          max-width: 40rem; margin-inline: auto; color: #1c1a17; background: #fdfcf9; }
@@ -18,26 +18,32 @@
   .gaps li { border-top: 0; padding: 0 0 .85rem; }
   code { font-size: .9em; background: #f4f1ea; padding: .1em .3em; border-radius: 2px; }
 </style>
-<h1>Cats of Kochi — the Airbnb-faithful system</h1>
-<p>Labelled <code>catsofkochi-airbnb-design-system-2026-08-09</code> — a different
-  system from the earlier Guardian-era one (<code>guardian-design-system-v1</code>),
-  stated here so nobody reviews the wrong one by name. 13 pages, one shared
-  faces file per font family, no build step and no JavaScript.</p>
+<h1>Cats of Kochi — two typefaces, one decided</h1>
+<p>Labelled <code>catsofkochi-airbnb-design-system-2026-08-09</code>. 13 pages,
+  one shared faces file per font family, no build step and no JavaScript.
+  <b>Only 2 of the 13 kits show the current typeface.</b> The other 11 still
+  show a serif that has been retired — read the gap below before judging any
+  type on this site.</p>
 
 <h2>Known gaps — read this before reviewing</h2>
 <ul class="gaps">
-  <li><b>All 13 kits are consistent for the first time</b> — same faces, same
-    per-font fallback metrics, one declaration source (<code>faces-figtree.css</code>
-    / <code>faces-noticia-text.css</code>).</li>
+  <li>⭐ <b>Eleven of the thirteen kits show a serif body the current
+    direction has already retired.</b> The owner decided, 9 August 2026:
+    Cats of Kochi is Figtree, all-sans — no second family. Only
+    <code>system.html</code> and <code>venue.html</code> carry that decision
+    today. The other eleven (<code>homepage</code>, <code>index_browse</code>,
+    <code>today</code>, <code>itinerary</code>, <code>venue_page</code>,
+    <code>venue_pages</code>, <code>told_page</code>,
+    <code>told_page_listing</code>, <code>answer_page</code>,
+    <code>controls</code>, <code>type_before_after</code>) are Guardian-era
+    and still run Noticia Text, awaiting a rebuild. <b>Do not spend a review
+    pass critiquing a typeface that is already gone</b> — everything else
+    about these pages (layout, spacing, component structure) is still live
+    and worth reviewing.</li>
   <li><b>The Android fallback arm is unverified by rendering.</b> Fallback metrics
     for Noto Serif and Roboto are derived from <code>@capsizecss</code>'s published
     metrics, not measured on an Android device — nobody here has one to measure
     against.</li>
-  <li><b><code>component-face-across-kits</code> is red in CI, and the check is
-    wrong, not the kits.</b> <code>.btn</code> in a Noticia kit and <code>.btn</code>
-    in the Figtree kit were never meant to render the same typeface — the two
-    families bind through different CSS variables by design. Being rescoped
-    separately; not a defect in what you're looking at here.</li>
   <li><b>This site renders in standards mode; the Claude Design preview does not.</b>
     Every kit published there reports <code>document.compatMode: "BackCompat"</code>
     (quirks) because that host's serve wrapper injects markup ahead of the
