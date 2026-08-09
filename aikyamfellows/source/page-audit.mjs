@@ -25,7 +25,7 @@ const { chromium } = pw;
 const BASE = 'https://folktaler.github.io/design-reviews/aikyamfellows/';
 const PAGES = ['index', 'home', 'about', 'fellows', 'profile', 'topic', 'author',
   'impact', 'contact', 'support', 'proudly-not-for-profit',
-  'foundation', 'profile-variants', 'action', 'action-chenda', 'actions', 'wordmark'];
+  'foundation', 'profile-variants', 'action', 'action-chenda', 'actions', 'wordmark', 'quote-listing-variants'];
 // (index already covered as 'index')
 
 const b = await chromium.launch();

@@ -1386,3 +1386,174 @@ main:has(> [data-hero]:first-child) {
   font-size: var(--af-type-body);
   max-width: none;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * QUOTE LISTING  —  [data-quote-cards] / [data-quote-card]
+ *
+ * ⭐⭐ OWNER, 9 Aug 2026, ON THE LISTING COMPANION: *"the companion quote is
+ * actually the star. its not clickable itself. and next to it is the fellow?
+ * can we try that as the listing. the companion quote will need an image to be
+ * more impactful though."*
+ *
+ * ⛔ THIS REPLACES [data-cards] AS THE "LATEST" LISTING, NOT [data-listing-
+ * companion] AS AN ADD-ON BESIDE IT. The unit here is the same idea the
+ * companion proved — a face, a quote, an attribution — made repeatable and
+ * made the primary way this list is read, rather than one example sitting
+ * underneath a grid of small name-cards.
+ *
+ * ⛔ THE WHOLE CARD IS ONE LINK, AND THAT IS A DELIBERATE DEPARTURE FROM THE
+ * ACTION CARD'S RULE. `actions.css` argues at length that a card must NOT be
+ * one link when its parts point at TWO destinations (the action, and the
+ * fellow) — wrapping both in one link gives a screen reader one name built
+ * from two different things. That problem does not exist here: the image, the
+ * quote and the fellow's name are all excerpts of the SAME profile and lead to
+ * the SAME page. One destination, so one link is correct, and it directly
+ * answers "its not clickable itself" — the star of the card is now the
+ * thing you can click.
+ *
+ * ⚠️ THE IMAGE IS 4:5, NOT THE 3:2 THIS SYSTEM USES FOR WORK-IN-PROGRESS PHOTOS
+ * (`[data-action-media]`) OR THE 1:1 CIRCLE IT USES FOR A SMALL AVATAR
+ * (`[data-card-face]`). A taller ratio is the editorial-portrait convention —
+ * a photograph OF a person, not a snapshot of what they are doing — and giving
+ * it a third ratio keeps it from being mistaken for either existing kind of
+ * image at a glance.
+ *
+ * ⛔⛔ CONTENT RISK, CARRIED FORWARD AND NOW LARGER. There is exactly one real
+ * quote on this site. A listing built ENTIRELY from this unit needs one per
+ * person shown, not one example among plain cards — so this is a bigger ask on
+ * the same real gap `[data-listing-companion]` already flagged. `quote-listing-
+ * variants.html` shows ONE real tile (Sentinaro) and the rest as loud,
+ * structural placeholders, on purpose — never invent the other five.
+ */
+[data-quote-cards] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--af-space-8) var(--af-space-7);
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+}
+
+[data-quote-card] {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+/* ⛔ FOCUS AND HOVER MUST BE VISIBLE ON THE WHOLE CARD, NOT JUST THE TEXT
+   inside it — a block-level link needs its own indicator or a keyboard user
+   tabbing to it sees nothing change. */
+[data-quote-card]:focus-visible {
+  outline: 3px solid var(--af-focus-ring);
+  outline-offset: 4px;
+}
+[data-quote-card]:hover [data-quote-card-quote] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+[data-quote-card-media] {
+  aspect-ratio: 4 / 5;
+  inline-size: 100%;
+  margin: 0 0 var(--af-space-5);
+  overflow: hidden;
+  background: var(--af-surface-sunk);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--af-space-5);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+}
+[data-quote-card-media] img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ⛔ THE BASE `blockquote` RULE HAS TO BE RESET HERE, EXACTLY AS
+   [data-opening-quote] ALREADY DOCUMENTS ELSEWHERE IN THIS FILE — missed on
+   the first pass and caught by screenshotting the built page, not by reading
+   the CSS. `styles.css` gives every blockquote a margin and an inline-start
+   hairline for running prose; inside a card that already draws its own
+   boundary, the base rule's border shows up as a second, unrelated rule a few
+   pixels from nothing, which reads as a mistake because it is one. */
+[data-quote-card-quote] {
+  margin: 0;
+  padding-inline-start: 0;
+  border-inline-start: 0;
+  font-size: var(--af-type-subheading);
+  font-style: italic;
+  line-height: var(--af-leading-heading);
+}
+
+/* ⭐ "NEXT TO IT IS THE FELLOW" — the byline sits directly under the quote as
+   a face-and-name pair, the same grammar the hero and the companion already
+   use, now repeated per card rather than shown once. */
+[data-quote-card-by] {
+  display: flex;
+  align-items: center;
+  gap: var(--af-space-3);
+  margin-block-start: var(--af-space-4);
+  font-family: var(--af-font-ui);
+  font-size: var(--af-type-small);
+  color: var(--af-text-quiet);
+}
+[data-quote-card-by] [data-placeholder-media] {
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  border-radius: var(--af-radius-round);
+  flex: none;
+  padding: 0;
+}
+[data-quote-card-by] b {
+  color: var(--af-text);
+  font-weight: var(--af-weight-bold);
+}
+
+/* --- The wide/horizontal treatment: image beside the quote, not above it -- */
+[data-quote-cards='wide'] {
+  grid-template-columns: 1fr;
+  gap: var(--af-space-8);
+}
+@media (min-width: 40rem) {
+  [data-quote-cards='wide'] [data-quote-card] {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: var(--af-space-6);
+    /* ⛔ NOT `center` — screenshotted with `align-items: center` and a short
+       quote against a 240px-tall 4:5 image left large dead margins above and
+       below the text, and the row read as loosely assembled rather than
+       composed. `start` lines the top of the photo up with the top of the
+       quote, the way a caption sits beside a photograph in print. */
+    align-items: start;
+  }
+  [data-quote-cards='wide'] [data-quote-card-media] {
+    margin-block-end: 0;
+  }
+}
+
+/* --- The lead treatment: the newest card set apart and larger ------------- */
+[data-quote-card='lead'] [data-quote-card-quote] {
+  font-size: var(--af-type-heading);
+}
+@media (min-width: 40rem) {
+  [data-quote-cards] > :first-child:has([data-quote-card='lead']) {
+    grid-column: 1 / -1;
+  }
+  [data-quote-cards] > :first-child:has([data-quote-card='lead']) [data-quote-card] {
+    display: grid;
+    grid-template-columns: 16rem 1fr;
+    gap: var(--af-space-7);
+    /* ⛔ SAME FIX AS THE WIDE TREATMENT, SAME REASON: `center` against a
+       240px+ tall image left the byline floating disconnected below a short
+       quote. `start` keeps the quote anchored to the top of the photograph. */
+    align-items: start;
+  }
+  [data-quote-cards] > :first-child:has([data-quote-card='lead']) [data-quote-card-media] {
+    margin-block-end: 0;
+  }
+}
