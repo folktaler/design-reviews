@@ -416,7 +416,8 @@
     font-size: var(--type-small, 16px);
     line-height: var(--leading-tight, 1.375);
   }
-  .v-nn__name { color: var(--text-primary, #1c1a17); font-weight: var(--weight-medium, 500); }
+  .v-nn__name { color: var(--text-primary, #1c1a17); font-weight: var(--weight-medium, 500);
+                 text-decoration: underline; text-decoration-color: var(--border-hairline, #ddd7cb); }
   /* ⛔ Only the PLACE gets the row overlay. Two ::after overlays on one row and
      the LATER one wins — a tap on the place would open the alternative. */
   .v-nn__name::after { content: ''; position: absolute; inset: 0; }
