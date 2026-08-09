@@ -27,6 +27,17 @@
   td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
   tr:last-child td { border-bottom: 0; }
   td.n { font-weight: 600; white-space: nowrap; }
+  /* Two columns do not fit a phone. Stack them rather than making the page
+     scroll sideways. */
+  @media (max-width: 34rem) {
+    thead { display: none; }
+    table, tbody, tr, td { display: block; width: 100%; }
+    tr { border-bottom: 1px solid var(--border); }
+    tr:last-child { border-bottom: 0; }
+    td { border-bottom: 0; padding: 0.125rem 1rem; }
+    td.n { white-space: normal; padding-top: 0.875rem; }
+    td:last-child { padding-bottom: 0.875rem; }
+  }
 
   ul { padding-left: 1.1rem; }
   li { margin-bottom: 0.5rem; color: var(--slate-700); }
@@ -164,8 +175,10 @@
     <p><strong>The word itself I am confident about</strong> — it is a common loanword across Indian
     languages including Malayalam. Worth saying out loud to three people in Kochi before it goes on
     anything printed, because a name is only right if it is right in the room.</p>
-    <p><strong>Rendered line lengths were not measured.</strong> Type sizes and column widths on all
-    three pages were set from the scale, not counted in a browser at 375px.</p>
+    <p><strong>Geometry was measured at 375px; typography was not.</strong> All four pages were opened
+    in a browser at phone width: none overflows sideways, and every tap target clears 52px. Line
+    length in characters was never counted, so the column widths remain a judgement from the type
+    scale rather than a measurement.</p>
   </div>
 </div>
 </body>

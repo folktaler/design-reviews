@@ -381,23 +381,16 @@
         homeless. It should fall back to Aikyam's standing page; that page is not drawn.</li>
       <li>The 80G certificate itself, the receipt PDF, and the PAN form are not drawn.</li>
       <li>No email is drawn — and the email is half of this moment.</li>
-      <li>Line lengths were set from the type scale, not measured in a browser. Worth checking on a
-        real phone before anyone trusts them.</li>
-      <li>The only JavaScript on this page is the eight lines that make "Copy the link" copy a link.</li>
+      <li>There is no JavaScript on this page at all, and nothing on it needs any. There was, briefly:
+        a copy-link script left behind when the share block was cut, throwing on every load. It was
+        found by opening the page rather than by reading it.</li>
+      <li><strong>Line length in characters was not counted.</strong> Measured at 375px in a browser,
+        nothing overflows sideways (0px) — but that is geometry, not typography.</li>
     </ul>
   </div>
 </div>
 
-<script>
-  // The one piece of behaviour on this page. A button that does nothing is a defect,
-  // so either it copies or it should not be a button.
-  document.getElementById('copy').addEventListener('click', function (e) {
-    var b = e.currentTarget;
-    navigator.clipboard.writeText(b.dataset.link).then(function () {
-      b.textContent = 'Link copied';
-      setTimeout(function () { b.textContent = 'Copy the link'; }, 2000);
-    });
-  });
-</script>
+<!-- No JavaScript on this page. The one script that was here belonged to a share
+     button that no longer exists, and it was throwing on every load. -->
 </body>
 </html>

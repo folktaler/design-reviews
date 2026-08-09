@@ -67,6 +67,9 @@
   .method[aria-checked="true"] .radio::after { content: ''; width: 8px; height: 8px; border-radius: 999px; background: var(--primary); }
   .method .nm { font-weight: 500; display: block; }
   .method .hint { font-size: 0.8125rem; color: var(--muted-foreground); display: block; }
+  /* On a phone the badge wraps onto its own line. Left-align it under the hint
+     rather than leaving it stranded at the right edge. */
+  @media (max-width: 34rem) { .method .badge { margin-left: calc(18px + 0.875rem) !important; } }
 
   .tick { display: flex; gap: 0.75rem; align-items: flex-start; border: 1px solid var(--input); border-radius: var(--radius-md); padding: 0.9375rem 1rem; margin-bottom: 1.25rem; cursor: pointer; }
   .tick input { width: 20px; height: 20px; margin: 0.125rem 0 0; flex: none; accent-color: var(--primary); }
@@ -176,7 +179,7 @@
         <button type="button" class="amt-opt" data-amt="2500" data-buys="the rented room for a month" aria-pressed="false">₹2,500</button>
         <button type="button" class="amt-opt" data-amt=""     data-buys="" aria-pressed="false">Other</button>
       </div>
-      <p class="buysline" id="buys"><b>₹1,000</b> pays for one girl's classes for two months. Aikyam works these out, not us.</p>
+      <p class="buysline" id="buys"><b>₹1,000</b> pays for one girl's classes for two months — Aikyam's own figure.</p>
 
       <div class="field">
         <label class="label" for="email">Where should the receipt go?</label>
@@ -396,6 +399,21 @@
         was invented, and no value was restated.</li>
     </ul>
 
+    <h2>What was measured, in a browser, at 375px</h2>
+    <ul>
+      <li><strong>Nothing overflows sideways.</strong> Document width 375px, horizontal overflow 0px.</li>
+      <li><strong>Tap targets:</strong> amount buttons 56px, email field 52px, payment rows 65px and
+        up, the pay button 56px × 293px. The floor everyone quotes is 44px; nothing here is near it.</li>
+      <li><strong>The amounts fall to a 2 × 2 grid</strong> of 141.5px, and the seven fact rows stack
+        instead of holding a label column.</li>
+      <li><strong>The behaviour works.</strong> The pay button is dead until the citizenship box is
+        ticked. Choosing ₹500 changes the button, the summary and the line about what it buys.
+        Switching to card moves the fee from ₹0 to ₹12 and leaves the total at ₹500 — which is the
+        one decision on this page most worth being able to see.</li>
+      <li><strong>Two defects were found this way and fixed:</strong> a stray badge on the UPI row, and
+        a table on <a href="naming.html">naming.html</a> that pushed the page 111px sideways.</li>
+    </ul>
+
     <h2>Known gaps</h2>
     <ul>
       <li><strong>No error states.</strong> Declined card, expired UPI collect request, a tab closed
@@ -408,9 +426,9 @@
         that such a page must say "this organisation cannot issue a tax receipt", and that variant is
         not drawn here.</li>
       <li>No "this has already been fully funded" state, and no closed state.</li>
-      <li>Line lengths were set from the type scale, not measured in a browser. Check on a real phone
-        before trusting them.</li>
       <li>Photographs: none. The page is text-only and would be stronger with one image of the class.</li>
+      <li><strong>Line length in characters was not counted.</strong> The column widths came from the
+        type scale. Everything below was measured; this was not.</li>
     </ul>
   </div>
 </div>
@@ -443,8 +461,8 @@
         custom = !b.dataset.amt;
         if (!custom) { amt = parseInt(b.dataset.amt, 10); }
         buys.innerHTML = custom
-          ? 'Type any amount you like. Aikyam will tell you what it paid for.'
-          : '<b>' + inr(amt) + '</b> pays for ' + b.dataset.buys + '. Aikyam works these out, not us.';
+          ? 'Type any amount you like. Aikyam will tell you later what it paid for.'
+          : '<b>' + inr(amt) + '</b> pays for ' + b.dataset.buys + ' — Aikyam\'s own figure.';
         render();
       });
     });

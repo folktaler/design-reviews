@@ -27,7 +27,7 @@
   .inbox .subject { font-weight: 600; margin-top: 0.25rem; }
   .inbox .pre { color: var(--muted-foreground); font-size: 0.9375rem; margin-top: 0.125rem; }
 
-  .stage { background: var(--slate-200); border-radius: var(--radius-lg); padding: 1.5rem 0.75rem; }
+  .stage { background: var(--slate-200); border-radius: var(--radius-lg); padding: 1.5rem 0.75rem; overflow-x: auto; }
 
   pre.plain { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; line-height: 1.65; color: var(--slate-700); white-space: pre-wrap; }
 
@@ -78,11 +78,11 @@
   <tr>
     <td align="center" style="padding:0 12px;">
 
-      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="width:600px;max-width:100%;background-color:#ffffff;border:1px solid #e2e8f0;border-radius:12px;">
+      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="width:100%;max-width:600px;background-color:#ffffff;border:1px solid #e2e8f0;border-radius:12px;">
 
         <!-- Sender strip. The organisation is the voice, not us. -->
         <tr>
-          <td style="padding:18px 32px;border-bottom:1px solid #e2e8f0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.4;color:#64748b;">
+          <td style="padding:18px 24px;border-bottom:1px solid #e2e8f0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.4;color:#64748b;">
             <span style="color:#0c2764;font-weight:700;font-size:15px;">Aikyam</span>
             &nbsp;·&nbsp; Fort Kochi, Kerala
           </td>
@@ -90,7 +90,7 @@
 
         <!-- Headline -->
         <tr>
-          <td style="padding:32px 32px 0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+          <td style="padding:32px 24px 0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
             <h1 style="margin:0 0 6px;font-size:28px;line-height:1.2;font-weight:700;color:#0f172a;letter-spacing:-0.5px;">The drums arrived on Tuesday.</h1>
             <p style="margin:0 0 24px;font-size:18px;line-height:1.5;color:#334155;">Six of them, for fourteen girls who had been sharing one.</p>
           </td>
@@ -100,7 +100,7 @@
              people will actually see. The real email carries a hosted JPEG with
              this same sentence as its alt text. -->
         <tr>
-          <td style="padding:0 32px;">
+          <td style="padding:0 24px;">
             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#eef1f6;border:1px solid #e2e8f0;border-radius:10px;">
               <tr>
                 <td align="center" style="padding:44px 24px;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.5;color:#64748b;">
@@ -113,7 +113,7 @@
 
         <!-- The story. Written for someone who has never heard of any of this. -->
         <tr>
-          <td style="padding:24px 32px 0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:17px;line-height:1.6;color:#334155;">
+          <td style="padding:24px 24px 0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:17px;line-height:1.6;color:#334155;">
             <p style="margin:0 0 16px;">Every Saturday morning, fourteen girls between nine and fourteen meet in a rented room in Amaravathi, Fort Kochi, to learn the chenda — the drum you hear at every temple festival in Kerala, and one that women were kept away from for a very long time.</p>
             <p style="margin:0 0 16px;">Until last week they had one instrument between them. Thirteen of them watched while one played.</p>
             <p style="margin:0 0 24px;">On 4 September, Aikyam bought six more from a shop in Peruvanam that has been making them for four generations. They were delivered on Tuesday. This is the bill.</p>
@@ -122,31 +122,25 @@
 
         <!-- The bill -->
         <tr>
-          <td style="padding:0 32px;">
+          <td style="padding:0 24px;">
             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border:1px solid #e2e8f0;border-radius:10px;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
               <tr>
-                <td style="padding:14px 18px;border-bottom:1px dashed #cbd5e1;font-size:15px;line-height:1.4;color:#0f172a;">
+                <td colspan="2" style="padding:14px 18px;border-bottom:1px dashed #cbd5e1;font-size:15px;line-height:1.4;color:#0f172a;">
                   <strong>Peruvanam Music House</strong><br>
                   <span style="color:#64748b;font-size:13px;">Bill 2126 &nbsp;·&nbsp; 4 September 2026</span>
                 </td>
               </tr>
               <tr>
-                <td style="padding:14px 18px 4px;font-size:15px;line-height:1.5;color:#334155;">
-                  Chenda, full set with kolu — 6 × ₹6,200
-                  <span style="float:right;color:#0f172a;">₹37,200</span>
-                </td>
+                <td style="padding:14px 8px 4px 18px;font-size:15px;line-height:1.5;color:#334155;">Chenda, full set with kolu — 6 × ₹6,200</td>
+                <td align="right" valign="top" style="padding:14px 18px 4px 0;font-size:15px;line-height:1.5;color:#0f172a;white-space:nowrap;">₹37,200</td>
               </tr>
               <tr>
-                <td style="padding:4px 18px 14px;font-size:15px;line-height:1.5;color:#334155;">
-                  Delivery, Peruvanam to Fort Kochi
-                  <span style="float:right;color:#0f172a;">₹1,000</span>
-                </td>
+                <td style="padding:4px 8px 14px 18px;font-size:15px;line-height:1.5;color:#334155;">Delivery, Peruvanam to Fort Kochi</td>
+                <td align="right" valign="top" style="padding:4px 18px 14px 0;font-size:15px;line-height:1.5;color:#0f172a;white-space:nowrap;">₹1,000</td>
               </tr>
               <tr>
-                <td style="padding:12px 18px;border-top:1px solid #e2e8f0;font-size:17px;line-height:1.4;font-weight:700;color:#0f172a;">
-                  Total paid
-                  <span style="float:right;">₹38,200</span>
-                </td>
+                <td style="padding:12px 8px 12px 18px;border-top:1px solid #e2e8f0;font-size:17px;line-height:1.4;font-weight:700;color:#0f172a;">Total paid</td>
+                <td align="right" valign="top" style="padding:12px 18px 12px 0;border-top:1px solid #e2e8f0;font-size:17px;line-height:1.4;font-weight:700;color:#0f172a;white-space:nowrap;">₹38,200</td>
               </tr>
             </table>
           </td>
@@ -154,7 +148,7 @@
 
         <!-- Who paid it. No names, no individual amounts, nothing about the reader. -->
         <tr>
-          <td style="padding:20px 32px 0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:17px;line-height:1.6;color:#334155;">
+          <td style="padding:20px 24px 0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:17px;line-height:1.6;color:#334155;">
             <p style="margin:0 0 16px;">Twelve people gave ₹23,900 of that online. Aikyam paid the remaining ₹14,300 out of its own funds, from its own bank account. Two people at Aikyam approved the purchase before the shop was paid.</p>
             <p style="margin:0 0 24px;">The class runs until March.</p>
           </td>
@@ -163,7 +157,7 @@
         <!-- The call to action. Written for the reader who has NOT given —
              the only reader who has anything left to do. -->
         <tr>
-          <td style="padding:0 32px;">
+          <td style="padding:0 24px;">
             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
               <tr>
                 <td style="padding:20px 20px 8px;font-size:17px;line-height:1.5;color:#0f172a;">
@@ -190,21 +184,21 @@
         <!-- The one line for the reader who already gave. True for either reader,
              and it names nobody and no amount. It carries no sign-in token. -->
         <tr>
-          <td style="padding:24px 32px 0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.6;color:#64748b;">
+          <td style="padding:24px 24px 0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.6;color:#64748b;">
             Gave to this already? <a href="https://raseed.in/you" style="color:#2563eb;text-decoration:underline;">Your own page</a> shows which of those twelve gifts was yours, and your receipt.
           </td>
         </tr>
 
         <!-- The line for the forwarded reader. -->
         <tr>
-          <td style="padding:16px 32px 24px;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.6;color:#64748b;">
+          <td style="padding:16px 24px 24px;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.6;color:#64748b;">
             Somebody forwarded you this? Nothing in it says who, or what they gave. It is written to be passed on.
           </td>
         </tr>
 
         <!-- Footer -->
         <tr>
-          <td style="padding:20px 32px 28px;border-top:1px solid #e2e8f0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:13px;line-height:1.6;color:#64748b;">
+          <td style="padding:20px 24px 28px;border-top:1px solid #e2e8f0;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:13px;line-height:1.6;color:#64748b;">
             <p style="margin:0 0 10px;">
               <strong style="color:#334155;">Aikyam</strong>, Fort Kochi, Kerala 682001. Registered in India as a not-for-profit, registration AIK/2019/0000. 80G registration on file. Aikyam holds its own bank account and its own payment account; no one else touches its money.
             </p>
@@ -356,6 +350,13 @@ design review. No real person or organisation is described.</pre>
         carried by a background colour.</li>
       <li>Body text is 17px. Mail clients on phones shrink aggressively and this is the one thing that
         cannot be fixed after sending.</li>
+      <li><strong>The bill's amounts are table cells, not floated spans.</strong> The first draft
+        floated them right; measured at 375px the description wrapped and the unit price ended up
+        sitting on the same line as the total, two rupee figures side by side with no way to tell
+        which was which. Floats are unreliable in Outlook as well, so this was wrong twice.</li>
+      <li><strong>The outer table is <code>width:100%; max-width:600px</code>, not
+        <code>width:600px</code>.</strong> Measured at 375px the fixed version pushed 281px of the
+        page off the right edge.</li>
     </ul>
 
     <h2>Known gaps</h2>
