@@ -2044,6 +2044,23 @@ main:has(> [data-hero]:first-child) {
   line-height: var(--af-leading-heading);
   font-weight: var(--af-weight-bold);
 }
+[data-rail-with-companion] {
+  display: grid;
+  gap: var(--af-space-7);
+}
+[data-listing-companion] {
+  padding-block-start: var(--af-space-7);
+  border-block-start: var(--af-rule-hairline) solid var(--af-line);
+}
+[data-listing-companion] [data-opening-face] {
+  inline-size: 3.75rem;
+  block-size: 3.75rem;
+  margin-block-end: var(--af-space-4);
+}
+[data-listing-companion] [data-opening-quote] {
+  font-size: var(--af-type-body);
+  max-width: none;
+}
 /* system/components/actions.css */
 [data-action-cards] {
   list-style: none;

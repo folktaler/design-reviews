@@ -2044,6 +2044,23 @@ main:has(> [data-hero]:first-child) {
   line-height: var(--af-leading-heading);
   font-weight: var(--af-weight-bold);
 }
+[data-rail-with-companion] {
+  display: grid;
+  gap: var(--af-space-7);
+}
+[data-listing-companion] {
+  padding-block-start: var(--af-space-7);
+  border-block-start: var(--af-rule-hairline) solid var(--af-line);
+}
+[data-listing-companion] [data-opening-face] {
+  inline-size: 3.75rem;
+  block-size: 3.75rem;
+  margin-block-end: var(--af-space-4);
+}
+[data-listing-companion] [data-opening-quote] {
+  font-size: var(--af-type-body);
+  max-width: none;
+}
 /* system/components/actions.css */
 [data-action-cards] {
   list-style: none;
@@ -2376,7 +2393,16 @@ main:has(> [data-hero]:first-child) {
        catsofkochi's hand-curated front rotted because one person had to tend it
        weekly, and a featured slot is the one that goes stale silently — it
        keeps looking correct while becoming wrong. -->
+  <!-- ⭐ THE COMPANION QUOTE, 9 Aug 2026 — owner, pointing at the hero opening's
+       face-and-quote treatment: "can we think of the home page where fellows
+       listing has a companion section like this?" Reuses the SAME real
+       quote already spent in the hero above, because it is the only real
+       quote this repo has. ⛔ THAT DUPLICATION IS FLAGGED, NOT RESOLVED — see
+       the long comment on [data-listing-companion] in blocks.css. This shows
+       the LAYOUT; whether the quote stays in both places, moves here only, or
+       waits for a second real quote is the owner's call. -->
   <section class="wrap wrap--wide">
+    <div data-rail-with-companion>
     <div data-rail>
       <h2 data-rail-label id="latest">Latest</h2>
       <ul data-cards>
@@ -2441,6 +2467,19 @@ main:has(> [data-hero]:first-child) {
         </div>
       </li>
       </ul>
+    </div>
+
+    <!-- ⚠️ DUPLICATES THE HERO QUOTE ABOVE — see the flag in blocks.css and
+         in home.html's kit note. Not a final decision. -->
+    <aside data-listing-companion>
+      <div data-opening-face aria-hidden="true"></div>
+      <blockquote data-opening-quote>
+        <p>&ldquo;I feel very understood when I talk to you.&rdquo;</p>
+        <cite data-opening-source>A Class&nbsp;7 student, to
+          <a href="profile.html">Sentinaro Shiu</a> — the moment she says
+          started everything</cite>
+      </blockquote>
+    </aside>
     </div>
   </section>
 
@@ -2553,6 +2592,13 @@ main:has(> [data-hero]:first-child) {
       "all posts" archive, not a list of fellows. This kit links it to
       /fellows/, which is what the label promises. That route belongs to the
       reading-pages designer; flagged rather than assumed.</p>
+    <p><b>⛔⛔ THE "LATEST" COMPANION QUOTE DUPLICATES THE HERO QUOTE ABOVE, AND
+      THAT IS UNRESOLVED.</b> There is exactly one real quote on this site —
+      Sentinaro's, already used at the top of this page — and no second real
+      quote exists to give this new companion its own words. Shown here to
+      prove the LAYOUT works; whether it should show the same quote twice, move
+      the quote here only, or wait for a second fellow's real quote is not
+      design's decision.</p>
     <p><b>⛔ The face on screen is a stand-in.</b> The @font-face rules point
       at served paths, so this kit paints in the metric-matched Georgia
       fallback, not Noticia Text. Layout and line length are right; the

@@ -1298,3 +1298,91 @@ main:has(> [data-hero]:first-child) {
   line-height: var(--af-leading-heading);
   font-weight: var(--af-weight-bold);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * LISTING COMPANION  —  [data-rail-content] / [data-listing-companion]
+ *
+ * ⭐⭐ OWNER, 9 Aug 2026, POINTING AT THE HOME PAGE'S OPENING QUOTE:
+ * *"is very powerful. can we think of the home page where fellows listing has
+ * a companion section like this?"* This pairs a face and an attributed quote
+ * beside the "Latest" rail, reusing [data-opening-face]/[data-opening-quote]/
+ * [data-opening-source] rather than inventing a second visual language for the
+ * same idea.
+ *
+ * ⛔⛔ THE CONTENT RISK IS THE REAL ISSUE HERE, NOT THE LAYOUT. There is
+ * exactly ONE real quote on this entire site — Sentinaro Shiu's, extracted from
+ * her full published profile, already spent on the hero opening at the top of
+ * this page. No other fellow's full profile prose has been read into this
+ * repo, so no other real quote exists to give this companion. Two honest paths,
+ * and this build does NOT choose between them — that choice is flagged rather
+ * than made:
+ *
+ *   A. Move the one real quote OUT of the hero and INTO this companion, since
+ *      it is currently attached to the newest fellow in "Latest" anyway
+ *      (Sentinaro is #1 in the rail below). One quote, spent once, in the
+ *      position the owner is now asking about.
+ *   B. Leave the hero as it is and accept that this companion needs its OWN
+ *      quote — which means a content pipeline that pulls a line from each new
+ *      fellow's profile as it is written, not a hand-picked one.
+ *
+ * ⛔ AND EITHER WAY, THIS REOPENS THE EXACT RISK `[data-opening]`'s OWN COMMENT
+ * WARNS ABOUT ELSEWHERE ON THIS PAGE: *"NOTHING HERE IS HAND-FILLED […] there
+ * is deliberately NO featured fellow slot: a hand-curated front rotted because
+ * one person had to tend it weekly."* A companion quote tied to "Latest" is
+ * only safe if it is mechanically the quote OF WHOEVER LEADS THE RAIL, updated
+ * the moment the rail's #1 item changes — never a name picked once and left.
+ * Today's build shows Sentinaro because she genuinely is #1. There is no
+ * pipeline yet that keeps that true automatically.
+ */
+/* ⛔⛔⛔ NO SIDE-BY-SIDE VARIANT, AND THIS IS A MEASURED STRUCTURAL FINDING,
+ * NOT A STYLE CHOICE. Two attempts at a wide-screen split both failed and the
+ * SECOND failure is the one worth keeping: `.wrap--wide` caps at
+ * `--af-measure-wide` (62rem/992px) plus its gutters — roughly 1040px — AND
+ * NEVER GROWS PAST THAT, at any viewport width. Measured card-grid width
+ * inside a splitting container at 1440px, 1920px and 2560px: 396px, 396px,
+ * 396px — identical, because the container itself is already at its cap by
+ * ~1040px and a wider window adds nothing.
+ *
+ * ⛔ SO THE ARITHMETIC DOES NOT HAVE A WIDE-ENOUGH SCREEN TO RESOLVE ITSELF ON.
+ * `[data-rail]`'s own label column (220px) + a genuinely 2-column card grid
+ * (≥512px, the 16rem card minimum × 2) + this companion (320px) + three gaps
+ * (~72px) needs roughly 1124px. The container that would have to hold all
+ * three never exceeds about 1040px. There is no breakpoint that fixes this —
+ * pushing it to 90rem/1440px just moved the same collision to a MORE common
+ * screen width (1440 and 1920 are among the most common laptop/desktop
+ * resolutions there are) while changing nothing about the result.
+ *
+ * ⭐ THE ONLY WAY TO GET A TRUE SIDE-BY-SIDE IS TO GIVE SOMETHING UP, AND THAT
+ * IS A DESIGN DECISION, NOT A CSS ONE:
+ *   · drop the rail's label-beside-list treatment for "Latest" specifically,
+ *     freeing the 220px column — costs consistency with the other rails on
+ *     this same page, which all keep label-beside-list.
+ *   · shrink the companion below a size that still reads as a quote rather
+ *     than a caption.
+ *   · widen `.wrap--wide` for this one section — costs the systemic measure
+ *     this token is deliberately shared by everything else on the site.
+ * None of those is free, and none is chosen here. This build stacks the
+ * companion FULL WIDTH, below the rail, at every viewport — the one
+ * arrangement that was measured to cost the card grid nothing, ever. */
+[data-rail-with-companion] {
+  display: grid;
+  gap: var(--af-space-7);
+}
+[data-listing-companion] {
+  padding-block-start: var(--af-space-7);
+  border-block-start: var(--af-rule-hairline) solid var(--af-line);
+}
+/* ⛔ THE FACE IS THE INDEX SIZE, NOT THE HERO SIZE. `[data-opening-face]` is
+   7rem because it carries the page's central claim alone above the fold. Here
+   it sits beside a grid of six OTHER faces at 3.75rem each; matching the hero
+   size would make this one person outrank a rail that is supposed to represent
+   the newest work generally, not this one person specifically. */
+[data-listing-companion] [data-opening-face] {
+  inline-size: 3.75rem;
+  block-size: 3.75rem;
+  margin-block-end: var(--af-space-4);
+}
+[data-listing-companion] [data-opening-quote] {
+  font-size: var(--af-type-body);
+  max-width: none;
+}
