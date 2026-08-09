@@ -148,8 +148,8 @@
      "⚠️ ONE per page"). ⚠️ The class NAME is the trap: "primary" here predates
      the post-pivot ladder, where `--action-primary-bg` is INK. Renaming it to
      `.btn--keep` is the right cleanup and belongs with the Figtree rebuild. */
-  .btn--primary { background:var(--amber); color:var(--ink); border-color:var(--amber); }
-  .btn--primary:hover { background:#e89600; border-color:#e89600; }
+  .btn--keep { background:var(--amber); color:var(--ink); border-color:var(--amber); }
+  .btn--keep:hover { background:#e89600; border-color:#e89600; }
   .btn[disabled] { opacity:.45; cursor:not-allowed; }
   .btn--focus { outline:3px solid var(--focus); outline-offset:2px; }
 
@@ -273,7 +273,7 @@
     <p class="spec__label">Ours — every variant and state</p>
     <div class="row">
       <button class="btn">Sign up</button>
-      <button class="btn btn--primary">Sign up</button>
+      <button class="btn btn--keep">Sign up</button>
       <button class="btn btn--focus">Focused</button>
       <button class="btn" disabled>Disabled</button>
     </div>
@@ -316,7 +316,7 @@
       <form class="signup__form" onsubmit="return false">
         <label class="signup__label" for="demo-email">Email address</label>
         <input class="signup__input" id="demo-email" type="email" placeholder="you@example.com">
-        <button class="btn btn--primary" type="submit">Sign up</button>
+        <button class="btn btn--keep" type="submit">Sign up</button>
       </form>
       <p class="signup__privacy">We only use your address for this. Unsubscribe in
       one click, any time.</p>
