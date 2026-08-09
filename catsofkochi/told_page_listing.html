@@ -43,7 +43,7 @@
   * { box-sizing:border-box; }
   body { margin:0; background:var(--paper); color:var(--ink);
          font-family:var(--serif); font-size:var(--body); line-height:1.5;
-         -webkit-text-size-adjust:100%; }
+         -webkit-text-size-adjust:100%; overflow-wrap:break-word; }
   img { display:block; max-width:100%; height:auto; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
@@ -156,10 +156,19 @@
      Below WCAG 2.2 AA's 24x24 floor, on the one control a reader uses to tell us a
      fact is wrong. ⚠️ Both axes, literal fallbacks — an undefined token resolves to
      nothing and the floor disappears silently. Assert 44, set 52. */
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX — same rule as `.stamp a` in
+     ui_kits/answer_page. The 52px floor above pushes the site-wide
+     `a { border-block-end }` rule to the bottom of the tap target, 18px
+     under the words (found live once `.liststamp` actually matched `.stamp`,
+     9 Aug 2026 — this kit had never rendered the fix before). text-decoration
+     tracks the text instead. */
   .stamp a, .stamp__tell { min-height:var(--tap-comfortable,52px);
                            min-width:var(--tap-comfortable,52px);
                            display:inline-flex; align-items:center; justify-content:center;
-                           padding-inline:var(--s2,8px); }
+                           padding-inline:var(--s2,8px);
+                           border:0; text-decoration:underline;
+                           text-decoration-color:var(--amber);
+                           text-decoration-thickness:2px; text-underline-offset:3px; }
 
   /* ⛔ Fill removed (design call, 9 Aug 2026 — see the long note in
      ui_kits/told_page, which carries the identical component). Aside form:
@@ -316,7 +325,15 @@
     </ul>
 
     <!-- ⭐ ONE stamp for the whole list, not one per place -->
-    <p class="liststamp">
+    <!-- ⛔ Was `class="liststamp"` alone — the CSS below styles `.stamp` and
+         `.stamp a` (the 52px correction-link fix, already written), and
+         `.liststamp` never matched either selector: the flex layout AND the
+         tap-target fix were both silently dead here, only on this kit. Found
+         in a responsiveness sweep, 9 Aug 2026 — "Changed? Tell us" measured
+         14px tall live, despite the fix reading correct in source. Both
+         classes are kept: `.liststamp` for anyone searching for "the one
+         stamp per list" variant, `.stamp` so the shared rules actually apply. -->
+    <p class="liststamp stamp">
       <span class="stamp__chip">Checked</span>
       <time class="stamp__date" datetime="2026-08-03">3 Aug 2026</time>
       <a href="#">Changed? Tell us</a>

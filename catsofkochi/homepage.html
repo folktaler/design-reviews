@@ -52,7 +52,7 @@
   * { box-sizing:border-box; }
   body { margin:0; background:var(--paper); color:var(--ink);
          font-family:var(--serif); font-size:var(--body); line-height:1.5;
-         -webkit-text-size-adjust:100%; }
+         -webkit-text-size-adjust:100%; overflow-wrap:break-word; }
   img { display:block; max-width:100%; height:auto; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
@@ -123,27 +123,32 @@
      photograph. Caught at 375px; it looked right in the source.
      The fix is the Guardian's own mobile card: a small square thumbnail
      BESIDE the headline, not above it. Weight is preserved because the
-     picture is small, and three venues stop costing three screens. */
-  @media (max-width:33.99rem) {
-    .cards--3 .tier3 a { display:grid; grid-template-columns:5.5rem 1fr;
-                         column-gap:var(--s3); align-content:start; }
-    /* The photo occupies column 1 and spans every text row. Without the
-       explicit span the kicker, headline and line wrap AROUND it and the
-       card falls apart — which is exactly what happened first. */
-    .cards--3 .tier3 .ph { grid-column:1; grid-row:1 / span 3;
-                           aspect-ratio:1/1; margin-block-end:0; }
-    .cards--3 .tier3 .kicker { grid-column:2; grid-row:1; }
-    .cards--3 .tier3 h3 { grid-column:2; grid-row:2; }
-    .cards--3 .tier3 p { grid-column:2; grid-row:3; }
-    .cards--3 { gap:var(--s4); }
-    .cards--3 li { padding-block-end:var(--s4); border-block-end:1px solid var(--rule); }
-    .cards--3 li:last-child { border-block-end:0; padding-block-end:0; }
-  }
+     picture is small, and three venues stop costing three screens.
+     ⛔ Was mobile-only (`@media max-width:33.99rem`), with a 3-equal-column
+     grid taking over above that. `.wrap`'s max-width is `--measure` (32rem)
+     + gutters — it does not grow past ~552px at ANY viewport, so three
+     columns inside it are 155px wide on a 1440px screen: narrower than a
+     phone card, with titles like "Muziris Contemporary" wrapping and ~928px
+     of empty page either side (found in a responsiveness sweep, 9 Aug 2026).
+     The row layout is correct at every width the wrap actually reaches, so
+     it now applies unconditionally instead of the 3-column grid. */
+  .cards--3 .tier3 a { display:grid; grid-template-columns:5.5rem 1fr;
+                       column-gap:var(--s3); align-content:start; }
+  /* The photo occupies column 1 and spans every text row. Without the
+     explicit span the kicker, headline and line wrap AROUND it and the
+     card falls apart — which is exactly what happened first. */
+  .cards--3 .tier3 .ph { grid-column:1; grid-row:1 / span 3;
+                         aspect-ratio:1/1; margin-block-end:0; }
+  .cards--3 .tier3 .kicker { grid-column:2; grid-row:1; }
+  .cards--3 .tier3 h3 { grid-column:2; grid-row:2; }
+  .cards--3 .tier3 p { grid-column:2; grid-row:3; }
+  .cards--3 { gap:var(--s4); }
+  .cards--3 li { padding-block-end:var(--s4); border-block-end:1px solid var(--rule); }
+  .cards--3 li:last-child { border-block-end:0; padding-block-end:0; }
   .tier2 p, .tier3 p { margin:var(--s1) 0 0; font-family:var(--sans);
                        font-size:var(--small); color:var(--quiet); line-height:1.45; }
 
   .cards { display:grid; gap:var(--s6); margin:0; padding:0; list-style:none; }
-  @media (min-width:34rem){ .cards--3 { grid-template-columns:repeat(3,1fr); } }
 
   /* the list tier — no image, 14px, a run of links */
   .list { list-style:none; margin:0; padding:0; font-family:var(--sans); }
