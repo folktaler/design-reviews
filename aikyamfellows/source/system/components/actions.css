@@ -44,6 +44,18 @@
  *     Tags                 the existing [data-topic] component, unchanged
  *                          ⛔ ON THE ACTION PAGE ONLY, not on the index
  *     One image            [data-action-media]
+ *
+ * ⛔⛔ THERE IS NO SEVENTH FIELD, AND THE QUESTION WAS ASKED AND ANSWERED.
+ * The owner's ordering instruction on 9 Aug read *"the picture plus the caption
+ * plus the description"*, where "caption" could have meant either the action's
+ * TITLE sitting under the picture, or a real caption ON the photograph — the
+ * second of which would have added a field. Asked directly; the answer is the
+ * title. ⭐ Recorded here because the alternative is genuinely attractive and
+ * will be proposed again: this site has 73 image placeholders and, measured
+ * across five live profiles, NOT ONE published photograph carries a credit. A
+ * caption field would be the natural place to fix that. It is still not in the
+ * model, and re-opening it needs the owner rather than a designer's good idea.
+ *
  *     Standard metadata    ⛔ NOT VISIBLE FURNITURE. "SEO bits, same as any
  *                          post" — description, canonical, Open Graph, Twitter
  *                          card, JSON-LD. It lives in <head> and is emitted by
