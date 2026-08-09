@@ -37,85 +37,95 @@
     running the fork.
   </p>
 
+  <div class="warn" style="border-left-color: var(--destructive); background: color-mix(in oklch, var(--destructive) 6%, white);">
+    <p style="color: var(--foreground)"><strong>The premise changed on 9 August 2026. Four pages here argue for a product that was abandoned.</strong></p>
+    <p style="color: var(--slate-700)">Collectives were going to be <strong>private</strong>, so Open Collective could show a stranger nothing and the whole donor experience had to be built as a separate app of ours. That was priced at roughly eleven extra things to build, and the Builder chose <strong>public collectives</strong> instead. The helper app went with it.</p>
+    <p style="color: var(--slate-700)">Open Collective now does the giving page, her account, emailed sign-in, her history across organisations, receipts and updates — all verified on the running fork. Razorpay is merged into its own contribution flow. Everything is in rupees. What is left to build is configuration, a few lines in one receipt template, and an export preset.</p>
+    <p style="color: var(--slate-700)"><strong>Nothing has been deleted.</strong> Each affected page carries a red block at the top saying what changed and what of it survives. Start with <a href="shape.html" style="color:var(--primary);font-weight:600">the shaping document</a>, which has been rewritten against the new facts.</p>
+  </div>
+
   <div class="warn">
     <p><strong>Read this before reporting anything.</strong></p>
     <p>These are static HTML pages. Nothing is wired up — no data, no clicks that go anywhere (the module picker is the one exception: its checkboxes work, but nothing is saved and reloading resets them), no dark mode, no icons (the product uses Lucide throughout and none are embedded here).</p>
     <p>The design tokens are <em>not</em> approximations. Every colour, radius and type size is copied from the platform's own stylesheet, and the Inter font files are the ones it self-hosts. Where a page departs from upstream, it says so on the page.</p>
   </div>
 
-  <h2>The helper app — what a donor actually sees</h2>
-  <p class="lede" style="margin-bottom:1rem">
-    These four are not Open Collective pages and are not meant to look like a fork of it. They are the
-    separate app that sits in front, and they are the only surfaces any donor ever meets. They read
-    the same <code>tokens.css</code>, and each says on itself where it departs from upstream and why.
-  </p>
-  <div class="list">
-    <a class="item" href="naming.html">
-      <span class="nm">What this is called <span class="badge badge-info">Read first</span></span>
-      <span class="why">The name, the one sentence, the words this product refuses to use, and the three deliberate departures from Open Collective's look. Everything below is downstream of it.</span>
-    </a>
-    <a class="item" href="give.html">
-      <span class="nm">The giving page <span class="badge badge-success">Public</span></span>
-      <span class="why">The front door. A stranger opens it with no account, from a forwarded email or a search result. UPI first, one checkbox, the fee shown but not added, and the whole burden of being believable.</span>
-    </a>
-    <a class="item" href="email-the-drums-arrived.html">
-      <span class="nm">The update email <span class="badge badge-success">Built to be forwarded</span></span>
-      <span class="why">Sent weeks later, when something has actually been bought. The only artefact in this product that survives a forward, so it contains nothing personal at all. Includes the plain-text version.</span>
-    </a>
-    <a class="item" href="what-it-bought.html">
-      <span class="nm">The return moment <span class="badge badge-neutral">Behind her sign-in</span></span>
-      <span class="why">Where Priya lands when she taps through: the shop's bill sitting directly above the twelve gifts that paid it, with her own inside them. This is the page that decides eight weeks versus three.</span>
-    </a>
-  </div>
-
   <h2>Start here</h2>
   <div class="list">
     <a class="item" href="shape.html">
-      <span class="nm">The shaping document <span class="badge badge-info">Leads everything</span></span>
-      <span class="why">What this is for, three storyboards, what got cut, the ordered roadmap with the release line, and the decisions taken. Every other page here is downstream of it. The people in the storyboards are invented, and the page says so.</span>
+      <span class="nm">The shaping document <span class="badge badge-info">Rewritten — leads everything</span></span>
+      <span class="why">What this is for, three storyboards, what is actually left to build, and the four decisions still open. Rewritten on 9 August against public collectives; it says at the top what changed and why, because two earlier versions have been read. The people in the storyboards are invented, and the page says so.</span>
     </a>
+  </div>
+
+  <h2>What a donor actually meets</h2>
+  <p class="lede" style="margin-bottom:1rem">
+    All three are Open Collective's own pages. This is the whole donor experience now — there is no
+    app of ours in front of it.
+  </p>
+  <div class="list">
+    <a class="item" href="collective.html">
+      <span class="nm">Collective profile <span class="badge badge-success">Public — the front door</span></span>
+      <span class="why">Who runs it, what it is for, what money came in and went out, and how to give. Since collectives went public this is the page a stranger opens from a forwarded link, and the page that carries the burden of being believable. Modelled on the running fork's BrusselsTogether page.</span>
+    </a>
+    <a class="item" href="contribute-upi.html">
+      <span class="nm">Contribute in rupees <span class="badge badge-info">The one sanctioned exception</span></span>
+      <span class="why">The contribution flow with UPI first and the fee shown without being charged. Drawn as a proposal when Open Collective had no Indian payment method; the Razorpay provider is now merged into the platform, and this is the only code written into somebody else's codebase.</span>
+    </a>
+    <a class="item" href="dashboard.html">
+      <span class="nm">Admin dashboard</span>
+      <span class="why">What Devi sees on signing in — balance, money in and out against the previous period, and what is waiting for a decision. One login now, not two, which is the single biggest thing the reversal fixed.</span>
+    </a>
+  </div>
+
+  <h2>The design system</h2>
+  <div class="list">
     <a class="item" href="system.html">
       <span class="nm">Design system</span>
       <span class="why">Colours, type, buttons, badges, form controls, shape, and the ledger row. Every other page reads from the same <code>tokens.css</code>.</span>
     </a>
   </div>
 
-  <h2>Superseded</h2>
+  <h2>Superseded — kept so the change is visible</h2>
+  <p class="lede" style="margin-bottom:1rem">
+    These were drawn for the private-collectives model and the helper app that model required. Neither
+    exists now. <strong>Nothing has been deleted</strong> — each page carries a red block at the top
+    saying what changed, what of it survives and where that goes. The reasoning in them is mostly
+    intact; it is now a specification for configuring Open Collective rather than a thing to build.
+  </p>
   <div class="list">
+    <a class="item" href="give.html">
+      <span class="nm">The giving page <span class="badge badge-warning">Now a configuration spec</span></span>
+      <span class="why">Built because a private collective serves a stranger nothing. Open Collective's own flow does this job now. The words, the amounts, the UPI-first ordering and the refusal of foreign money all survive as settings and tier copy — four of its decisions reversed outright and are marked.</span>
+    </a>
+    <a class="item" href="what-it-bought.html">
+      <span class="nm">The return moment <span class="badge badge-warning">Now an update template</span></span>
+      <span class="why">The bill above the gifts that paid it. Nearly all of it can be authored inside an Open Collective update; what cannot survive is the word "your". That loss is named on the page and it is the one thing genuinely given up by deleting the helper app.</span>
+    </a>
+    <a class="item" href="email-the-drums-arrived.html">
+      <span class="nm">The update email <span class="badge badge-warning">Now content and tone</span></span>
+      <span class="why">Open Collective sends this itself. We own the body and the subject line; the wrapper is theirs. The rule it exists to protect — nothing personal in anything designed to travel — survives, but is now enforced by somebody else's template and has not been checked.</span>
+    </a>
+    <a class="item" href="naming.html">
+      <span class="nm">What this is called <span class="badge badge-warning">Unsettled</span></span>
+      <span class="why">Recommends "raseed". The address is now <code>doable.aikyam.fund</code> and nobody has said which is the product's name — or whether anything a donor sees needs a name at all. The tension is laid out on the page and deliberately not resolved. The voice rules survive whichever way it goes.</span>
+    </a>
     <a class="item" href="modules.html">
       <span class="nm">The module picker <span class="badge badge-warning">Selection overturned</span></span>
-      <span class="why">Twenty modules and the problem each removes. Its 19-of-20 selection has been overturned — the model turned out not to be fiscal hosting at all. The method and the descriptions still hold; the selection does not.</span>
-    </a>
-  </div>
-
-  <h2>Faithful to what the fork renders today</h2>
-  <div class="list">
-    <a class="item" href="collective.html">
-      <span class="nm">Collective profile</span>
-      <span class="why">What the public sees: who runs it, what it's for, what money came in and went out, and how to give. Modelled on the running fork's BrusselsTogether page.</span>
-    </a>
-    <a class="item" href="dashboard.html">
-      <span class="nm">Admin dashboard</span>
-      <span class="why">What an admin sees on signing in — balance, money in and out against the previous period, and what is waiting for a decision.</span>
-    </a>
-  </div>
-
-  <h2>Proposals — these do not exist upstream</h2>
-  <div class="list">
-    <a class="item" href="contribute-upi.html">
-      <span class="nm">Contribute in rupees <span class="badge badge-warning">Proposal</span></span>
-      <span class="why">Open Collective has no Indian payment method. This is the contribution flow with UPI first, showing the fee without charging it. The page argues its own case at the bottom.</span>
+      <span class="why">Twenty modules and the problem each removes. Its 19-of-20 selection was overturned when the model turned out not to be fiscal hosting. The method and the descriptions still hold; the selection does not.</span>
     </a>
   </div>
 
   <h2>Known gaps in this set</h2>
   <ul>
-    <li><strong>Six pages, not thirteen.</strong> The expense detail, the transactions ledger, the fiscal-host dashboard, the event page and the sign-in flow are not here yet.</li>
+    <li><strong>Nothing here has been redrawn against the new model.</strong> The superseded pages are marked, not rebuilt. Nobody has drawn what a public Indian collective, its rupee contribution flow, its expense with a bill attached, or its update actually look like end to end.</li>
+    <li><strong>The three unresolved questions in the shaping document are unresolved here too</strong> — whose Razorpay account receives the money, whether one fiscal host holds many organisations, and whether a donor's name is published beside her amount. Each changes a page.</li>
     <li><strong>No icons.</strong> Every place the product shows a Lucide icon, these pages show a plain shape or nothing.</li>
     <li><strong>No photographs or avatars.</strong> Contributor faces are initials on a grey circle.</li>
     <li><strong>No dark mode.</strong> The platform defines a full dark palette; none of it is exercised here.</li>
     <li><strong>The hero arc is approximated.</strong> The product draws it as an SVG; here it is a radial gradient. It is close, not identical.</li>
     <li><strong>No error, empty or loading states anywhere.</strong></li>
+    <li><strong>Two things are outstanding whatever is decided:</strong> five secrets published in Open Collective's public repository must be replaced before anything faces the internet, and nobody has ever production-built the frontend.</li>
   </ul>
 
   <h2>How to change it</h2>

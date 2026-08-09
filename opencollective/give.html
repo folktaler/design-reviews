@@ -119,6 +119,18 @@
   code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; background: var(--slate-200); padding: 0.1em 0.35em; border-radius: 4px; }
   .back { display: inline-block; padding: 1rem 1.25rem 0; color: var(--primary); text-decoration: none; font-weight: 500; }
 
+  /* Correction block. Same markup and styling on all four helper-app pages. */
+  .corr { background: var(--background); border: 1px solid var(--destructive); border-left-width: 4px; border-radius: var(--radius-lg); padding: 1.25rem 1.375rem; margin: 1.5rem 0 0; }
+  /* The label is near-black, not red: --destructive is rose-500, a fill colour.
+     Measured at 375px it gives 3.75:1 on white — below the 4.5:1 floor for 11px
+     type. The alarm is carried by the border, where 3.75:1 clears the 3:1
+     non-text floor. --foreground measures 17.83:1. */
+  .corr .corr-h { font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; font-weight: 700; color: var(--foreground); margin: 0 0 0.625rem; max-width: none; }
+  .corr p { font-size: 0.9375rem; line-height: 1.55; margin: 0 0 0.75rem; max-width: none; }
+  .corr p:last-child { margin-bottom: 0; }
+  .corr ul { padding-left: 1.1rem; margin: 0 0 0.75rem; }
+  .corr li { font-size: 0.9375rem; line-height: 1.5; margin-bottom: 0.375rem; color: var(--slate-700); max-width: none; }
+
   @media (min-width: 34rem) { .amounts { grid-template-columns: repeat(4, 1fr); } }
 </style>
 </head>
@@ -141,6 +153,32 @@
 </div>
 
 <div class="page">
+
+  <div class="corr">
+    <p class="corr-h">Not a page to build any more — read this first</p>
+    <p>
+      This page was drawn when collectives were going to be <b>private</b>, which meant Open
+      Collective would serve a stranger nothing at all and we had to build the giving page ourselves.
+      <b>Collectives are public now.</b> Open Collective's own contribution flow does this job, with
+      Razorpay in it, and a donor never leaves it.
+    </p>
+    <p>
+      <b>So this page stops being a design and becomes a specification for configuring theirs.</b> The
+      layout is not what gets built. The words, the amounts, the order and the refusals are — and
+      somebody has to decide every one of them whatever software renders the screen. What each block
+      becomes is listed under <em>What of this survives, and where it goes</em> at the bottom.
+    </p>
+    <p>
+      Four decisions on this page reversed outright, and they are marked <b>Reversed</b> in the notes.
+      The one open question it raised — whether each update gets a permanent public web address — is
+      now answered by the public collective, and it is a yes.
+    </p>
+    <p>
+      <b>Nothing inside the mockup below has been edited.</b> It is kept exactly as it was drawn, so
+      anyone who read the earlier version can see what changed. Every correction is in this block and
+      in the notes.
+    </p>
+  </div>
 
   <!-- ============ The need, then the progress ============ -->
   <h1>Fourteen girls are learning chenda. They have one drum between them.</h1>
@@ -327,6 +365,77 @@
 
   <!-- ============ Notes for review ============ -->
   <div class="notes">
+    <h2>What of this survives, and where it goes</h2>
+    <p class="sectionnote">
+      Left column is a block of the page above. Right column is what it becomes now that Open
+      Collective's own contribution flow does the work. Everything in the right column is a decision
+      somebody still has to take — it just gets typed into a settings screen rather than built.
+    </p>
+    <ul>
+      <li><strong>The headline and the story</strong> → the collective's own description on its public
+        page. Same words, their page. This is the largest single thing that survives untouched.</li>
+      <li><strong>₹500 / ₹1,000 / ₹2,500 and the line about what each buys</strong> → tier copy.
+        Someone writes those three sentences and the organisation has to stand behind them.</li>
+      <li><strong>UPI listed first, with the fee shown and not added</strong> → payment method
+        ordering and the fee line, on the merged Razorpay provider.</li>
+      <li><strong>The citizenship tick</strong> → a required custom question at checkout, plus
+        international payments left off on every Razorpay account. Two layers, unchanged.</li>
+      <li><strong>The refusal of foreign money as a short section with its own heading</strong> → a
+        paragraph on the public page. Keep it a heading, not fine print under a tick.</li>
+      <li><strong>"Who you are giving to" — seven checkable facts</strong> → the collective's profile
+        fields and its public "about". <em>Less load-bearing than it was:</em> this section existed to
+        carry the entire burden of being believable because the profile was private. The public profile
+        now carries most of it.</li>
+      <li><strong>The tax paragraph</strong> → the receipt, once the host's Indian registration number
+        prints on it, and one line of tier copy. The wording rule is unchanged: <em>Aikyam</em> issues
+        the certificate, never we.</li>
+      <li><strong>"What happens after you pay", as three things that happen to her</strong> → the
+        receipt email's copy. Keep the framing; the word "sign up" still appears nowhere.</li>
+    </ul>
+
+    <h2>Reversed — decisions on this page that are now wrong</h2>
+    <ul>
+      <li><strong>Reversed: the progress figure is dated and attributed.</strong> "Counted by Aikyam,
+        last updated 8 August" existed only because the number was published from our own record and
+        could not be read from a private book. On a public collective it is live. <b>Drop the stamp.</b>
+        A dateline on a live number reads as doubt about a number nobody should doubt.</li>
+      <li><strong>Reversed: the "And what raseed is" section.</strong> It existed because a cold
+        arrival had nothing else to click and no about page behind it. There is one now. Whether
+        anything of ours is named on this screen at all is open — see <a href="naming.html">naming.html</a>.</li>
+      <li><strong>Reversed: "there is nothing else to click through to."</strong> There is. The
+        ledger, the expenses, the bills and the updates are all one tap away and all public.</li>
+      <li><strong>Reversed: the top bar carrying our wordmark.</strong> She is on Open Collective's
+        page, under the organisation's name. Nothing of ours sits above the story.</li>
+      <li><strong>Resolved, not reversed: "a permanent public web copy of each update."</strong> The
+        page below listed this as the one thing needing a yes. A public collective gives every update a
+        permanent public address by default. The question is now the opposite one, and it is in the
+        shaping document: whether an update should be <em>restricted</em> to contributors.</li>
+    </ul>
+
+    <h2>What this flow must not lose, and it is easy to lose in a settings screen</h2>
+    <ul>
+      <li><strong>Rupees, and nothing but rupees.</strong> Every rate is exactly 1, so any "converted
+        at" line will render as ₹500 = ₹500. Hide it. A conversion that does nothing looks like a bug
+        and invites the question "converted from what?"</li>
+      <li><strong>The fee is shown and not added.</strong> On UPI it is genuinely ₹0 and that is a real
+        reason to choose UPI. If the merged provider adds the fee to the total instead of absorbing it,
+        a ₹1,000 gift costs ₹1,023.60 and the page has broken its own promise.</li>
+      <li><strong>Her name is not published unless she chooses it.</strong> A public collective lists
+        contributors. She gave from a bus and was never asked. Ask once, at the moment she gives, in one
+        plain line — not in a profile setting she will never open.</li>
+      <li><strong>Nothing personal is asked at checkout.</strong> Email and the citizenship tick. No
+        PAN, no name, no address. PAN comes later, from her own profile, once.</li>
+      <li><strong>"What ₹500 buys" comes from the organisation.</strong> We must never write that line
+        ourselves — it is a claim about the world and only Aikyam can make it.</li>
+    </ul>
+
+    <h2>The original notes, kept as they were</h2>
+    <p class="sectionnote">
+      Written before the reversal, and left unedited on purpose. The reasoning still holds except
+      where marked <em>Reversed</em> above — and the reasoning is the part that transfers to a settings
+      screen. Read "front door" below as the collective's public page rather than this one.
+    </p>
+
     <h2>This is the front door, not a landing page</h2>
     <ul>
       <li><strong>It is the only page of this product a search engine will ever index</strong>, because

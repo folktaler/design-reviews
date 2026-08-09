@@ -39,6 +39,17 @@
   .rule-hard { background: var(--background); border-left: 3px solid var(--destructive); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 1rem 1.25rem; margin: 0.75rem 0 1.25rem; }
   .rule-hard p { margin: 0; }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; background: var(--slate-200); padding: 0.1em 0.35em; border-radius: 4px; }
+
+  /* Correction block. Same markup and styling on all four helper-app pages. */
+  .corr { background: var(--background); border: 1px solid var(--destructive); border-left-width: 4px; border-radius: var(--radius-lg); padding: 1.25rem 1.375rem; margin: 1.5rem 0 0; }
+  /* Label is near-black: --destructive is rose-500, a fill colour, and measures
+     3.75:1 on white — below the 4.5:1 floor for 11px type. The border carries the
+     alarm (3.75:1 clears the 3:1 non-text floor). --foreground is 17.83:1. */
+  .corr .corr-h { font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; font-weight: 700; color: var(--foreground); margin: 0 0 0.625rem; max-width: none; }
+  .corr p { font-size: 0.9375rem; line-height: 1.55; margin: 0 0 0.75rem; max-width: none; }
+  .corr p:last-child { margin-bottom: 0; }
+  .corr ul { padding-left: 1.1rem; margin: 0 0 0.75rem; }
+  .corr li { font-size: 0.9375rem; line-height: 1.5; margin-bottom: 0.375rem; color: var(--slate-700); max-width: none; }
 </style>
 </head>
 <body>
@@ -51,11 +62,41 @@
 </div>
 
 <div class="page">
+  <div class="corr">
+    <p class="corr-h">Not an email we send any more — it is what the update says</p>
+    <p>
+      <b>Open Collective sends the update email itself</b>, to everyone who contributed. So this stops
+      being an artefact we build and becomes the <b>content and the tone</b> for theirs: the words, the
+      order, the bill, the call to action, and the rule at the bottom of this page. That rule is the
+      most valuable thing here and it survives intact.
+    </p>
+    <p>
+      <b>What is no longer ours:</b> the wrapper. The from-address, the footer, the unsubscribe line
+      and the "read in a browser" link belong to the platform. Design owns the body and the subject
+      line, and nothing else.
+    </p>
+    <p>
+      <b>One thing got easier and one got riskier.</b> Easier: this page's open question — a permanent
+      public web copy of each update — is answered by the public collective, so a forwarded reader
+      lands on a real page rather than a locked door. Riskier: the personal-data rule below is now
+      enforced by <em>their</em> email template, not ours. ⛔ <b>Somebody must open one real update
+      notification from the fork and check it carries no name, no amount and no sign-in token.</b> If
+      it does, the forwardable email is broken by the platform and nothing we write fixes it. That has
+      not been checked.
+    </p>
+    <p>
+      Also stale: every <code>raseed.in</code> URL below. The address is
+      <code>doable.aikyam.fund</code>, and the naming question is open — see
+      <a href="naming.html">naming.html</a>. <b>Nothing inside the email itself has been edited</b>; it
+      is kept as drawn.
+    </p>
+  </div>
+
   <h1 class="pagetitle">The update email</h1>
   <p class="lede">
-    Sent weeks after a gift, when something has actually been bought. It is the only thing in this
-    product built to be forwarded, so it assumes the reader has never heard of Aikyam, of raseed, or
-    of whoever sent it to them.
+    Sent weeks after a gift, when something has actually been bought. It is the artefact in this
+    product built to be forwarded, so it assumes the reader has never heard of Aikyam, of us, or of
+    whoever sent it to them.
   </p>
 
   <div class="cap">In the inbox</div>
@@ -288,6 +329,60 @@ design review. No real person or organisation is described.</pre>
 
   <!-- ============ Notes ============ -->
   <div class="notes">
+    <h2>What is ours now, and what is theirs</h2>
+    <ul>
+      <li><strong>Ours: the body.</strong> Headline, story, bill, who paid, what is needed next. Written
+        by a person at the organisation, in the organisation's voice, every time. An update that sounds
+        like a platform does not get forwarded.</li>
+      <li><strong>Ours: the subject line</strong>, and it is still one guess rather than a tested set.
+        Three worth trying against each other: the one here, "Fourteen girls, six drums, one bill", and
+        "What ₹23,900 bought in Fort Kochi".</li>
+      <li><strong>Theirs: everything around it.</strong> From-address, footer, unsubscribe, the browser
+        link, the plain-text version. Do not design these; check them.</li>
+      <li><strong>Theirs, and it needs checking: the personal-data rule.</strong> The rule below used to
+        be ours to keep. It is now a property of somebody else's template. ⛔ Open one real update
+        notification from the fork and confirm it carries no name, no amount and no sign-in token.
+        Unchecked.</li>
+    </ul>
+
+    <h2>The decision this page now forces</h2>
+    <p>
+      An Open Collective update can go to <b>contributors only</b> or to <b>everyone</b>. That single
+      switch decides whether this email is forwardable at all — a contributors-only update is a locked
+      door to whoever Priya sends it to, which is the exact failure the public collective just removed.
+    </p>
+    <ul>
+      <li><strong>Recommendation: the update carrying a bill is public.</strong> The collective's page,
+        its balance, its expenses and the bill are already public, so restricting the update gates
+        nothing that is not one tap away — while costing the forward, which is the only growth this
+        product has.</li>
+      <li><strong>Contributors-only is for the intimate material</strong>: photographs of children,
+        video, names, the voice note. <em>The money is public; the people are not.</em></li>
+      <li>This is decision 1 in the shaping document and it is the Builder's, not mine to close.</li>
+    </ul>
+
+    <h2>What changed inside the email</h2>
+    <ul>
+      <li><strong>The call to action got better.</strong> "Give to this" pointed at a page of ours that
+        had to explain itself from nothing. It now points at the collective's own public page, which
+        carries the ledger, the past bills and the story. A forwarded stranger arrives somewhere that
+        proves itself.</li>
+      <li><strong>"Gave to this already? Your own page" is redundant</strong> — the platform's own
+        email already links her account. The principle it protected is not redundant: <b>no sign-in
+        token in anything designed to travel.</b></li>
+      <li><strong>Every <code>raseed.in</code> URL is stale.</strong> The address is
+        <code>doable.aikyam.fund</code>, and whether anything of ours is named in the footer at all is
+        an open question.</li>
+      <li><strong>The invented-people line in the footer stays</strong> while these pages are published,
+        and so does the one on the collective's public page. Public means public.</li>
+    </ul>
+
+    <h2>The original notes, kept as they were</h2>
+    <p>
+      Written before the reversal and left unedited. The rule below is the durable part of this whole
+      page — it was true when we were sending the email and it is true now that we are only writing it.
+    </p>
+
     <h2>The rule this email exists to protect</h2>
     <div class="rule-hard">
       <p><strong>An email designed to be forwarded contains nothing personal. Ever.</strong>

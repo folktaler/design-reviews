@@ -51,12 +51,51 @@
   .warn { border-left: 3px solid var(--amber-700); background: var(--amber-100); padding: 1rem 1.25rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 1rem 0; }
   .warn p { margin: 0 0 0.5rem; color: var(--amber-700); font-size: 0.9375rem; }
   .warn p:last-child { margin-bottom: 0; }
+
+  /* Correction block. Same markup and styling on all four helper-app pages. */
+  .corr { background: var(--background); border: 1px solid var(--destructive); border-left-width: 4px; border-radius: var(--radius-lg); padding: 1.25rem 1.375rem; margin: 1.5rem 0 0; }
+  /* Label is near-black: --destructive is rose-500, a fill colour, and measures
+     3.75:1 on white — below the 4.5:1 floor for 11px type. The border carries the
+     alarm (3.75:1 clears the 3:1 non-text floor). --foreground is 17.83:1. */
+  .corr .corr-h { font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; font-weight: 700; color: var(--foreground); margin: 0 0 0.625rem; max-width: none; }
+  .corr p { font-size: 0.9375rem; line-height: 1.55; margin: 0 0 0.75rem; max-width: none; }
+  .corr p:last-child { margin-bottom: 0; }
+  .corr ul { padding-left: 1.1rem; margin: 0 0 0.75rem; }
+  .corr li { font-size: 0.9375rem; line-height: 1.5; margin-bottom: 0.375rem; color: var(--slate-700); max-width: none; }
 </style>
 </head>
 <body>
 <a class="back" href="index.html">← All pages</a>
 
 <div class="page">
+  <div class="corr">
+    <p class="corr-h">Unsettled — two names are in play and this page only knows one</p>
+    <p>
+      This page recommends <b>raseed</b>. Since it was written the address became
+      <b><code>doable.aikyam.fund</code></b>, and nobody has said which of the two is the product's
+      name. <b>That tension is not resolved here and should not be resolved by whoever notices it
+      next.</b>
+    </p>
+    <p>
+      A third possibility opened at the same time and it is the one worth thinking about hardest:
+      <b>there may be nothing left that needs a consumer name.</b> The helper app is gone. A donor now
+      reads Aikyam's page, gives on Aikyam's page and comes back to her own account — she meets the
+      organisation, not us. The name may be for the instance the organisations log into, in which case
+      it needs to be clear rather than warm, and <em>doable</em> is a perfectly good name for that.
+    </p>
+    <p>
+      <b>What survives whichever way it goes:</b> the two lists below — the words this product refuses
+      to use, and the three voices. Those are voice rules for tier copy and updates, they are the most
+      durable thing on this page, and none of them depends on the name.
+    </p>
+    <p>
+      <b>What is now wrong below:</b> "the giving page is where a stranger decides that" assumed a page
+      of ours; every <code>raseed.in</code> URL in the other pages is stale; and the argument that the
+      name has four seconds to work on the giving page is weaker, because the top bar is Open
+      Collective's and the organisation's, not ours.
+    </p>
+  </div>
+
   <h1>What this is called</h1>
   <p class="lede">
     A recommendation, not a decision already taken. Vetoable in one line — but design owns naming
@@ -165,6 +204,31 @@
     The email uses no tokens at all — an inbox cannot read <code>oklch()</code> or a custom property.
     It uses the sRGB hex of the same colours the token file names in its own comments.
   </p>
+
+  <h2>The open question: raseed, doable, or neither</h2>
+  <p>
+    The two names are not competing for the same job, which is why nobody can pick between them yet.
+    <em>raseed</em> was chosen to be a promise a stranger reads in four seconds on a giving page.
+    <em>doable</em> is the address of the thing organisations log into. Both can be right at once, and
+    both can be unnecessary.
+  </p>
+  <table>
+    <thead><tr><th>If the name is</th><th>Then it is naming</th></tr></thead>
+    <tbody>
+      <tr><td class="n">raseed</td><td>A promise to a donor — "you get the shop's receipt". It only earns its keep if a donor ever sees it. She now reads the organisation's page and gives on the organisation's page, so there may be no surface left where it is read.</td></tr>
+      <tr><td class="n">doable</td><td>A tool an organisation uses. Clear, plain, and correct for a back office. It says nothing to a donor and does not need to.</td></tr>
+      <tr><td class="n">Neither</td><td>The organisation's own name is the only one a donor meets, and this is Aikyam running Open Collective. Cheapest, most honest, and it gives up the ability to say what this is in one word to a second organisation.</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">
+    <p><strong>One thing worth saying before anyone decides.</strong> <code>doable.aikyam.fund</code>
+    is a subdomain of Aikyam's own domain, which reads — correctly — as <em>Aikyam's tool, and other
+    organisations are guests on it</em>. That is a positioning statement, not a hosting detail. It lands
+    on exactly the frame the shaping document says is hardest: Nusrat deciding whether to bring the
+    second organisation. If the intention is a shared thing, the address is already arguing against it.</p>
+    <p><strong>Not mine to close</strong>, and it should not be closed by whoever notices it next
+    either. It needs one sentence from the Builder saying what is being named.</p>
+  </div>
 
   <h2>What could not be checked</h2>
   <div class="warn">

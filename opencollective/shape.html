@@ -53,331 +53,240 @@
   </div>
   <article class="doc">
 <h1>What this is, who it is for, and what to build first</h1>
-<p>A shaping document. Written 9 August 2026, corrected the same day. For Shemeer.
-Nothing here is decided — the decisions are listed at the end.</p>
+<p>A shaping document. First written 9 August 2026. <strong>This is the third version.</strong> For Shemeer.</p>
+<p>Read the correction below before anything else. Two earlier versions of this page have been read by
+people, and both of them argued for a product that is no longer being built.</p>
 <hr />
-<h2>⚠️ Correction to the earlier version of this document</h2>
-<p><strong>An earlier version of this document recommended dropping Open Collective. Its central reason was
-wrong, and the verdict below is a fresh one, not a defence of the old one.</strong></p>
-<p>The earlier version said Open Collective could not show a donor anything — that a donor on a private
-collective would see nothing at all. That claim was reached by reading the code. It has since been
-<strong>disproved by running it</strong>, on the live fork, with a real login:</p>
-<div class="tablewrap"><table>
-<thead>
-<tr>
-<th>What was tried</th>
-<th>What happened</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>An anonymous visitor asks for a private collective</td>
-<td>Refused: <em>&quot;This account is private. You must be a member to view it.&quot;</em></td>
-</tr>
-<tr>
-<td>An anonymous visitor asks for a collective that is still public</td>
-<td>Fully readable, balance and all</td>
-</tr>
-<tr>
-<td><strong>A donor asks for her own contributions — one login, three organisations, one of them private</strong></td>
-<td><strong>All 24 came back — amounts, who they went to, statuses, including every gift to the private one</strong></td>
-</tr>
-</tbody>
-</table></div>
-<p>The rule that permits it is a deliberate one, and its own note in the code says so: an order is
-blocked when its destination is private <em>unless the viewer has a direct stake in it — contributor,
-creator, or fiscal host admin.</em> <strong>A donor is the contributor.</strong> She keeps her own history even when
-the recipient has gone dark.</p>
-<p>So: <strong>private collectives, donor accounts, contribution receipts and one login spanning several
-organisations all work, with no code changes.</strong> The platform is not disqualified on capability.</p>
-<p><strong>Three things the correction does not touch, and they still stand:</strong></p>
-<ol>
-<li>The part of Open Collective that is genuinely hard and genuinely excellent is <strong>fiscal hosting</strong> —
-one organisation holding and disbursing money for many. This model rejects fiscal hosting outright.</li>
-<li>It is <strong>not the book of record.</strong> Each organisation's CA files from Tally or Zoho Books.</li>
-<li>Donor-only transparency is <strong>worth nothing unless donors come back.</strong> That is unchanged and it is
-still the hardest problem in this product.</li>
-</ol>
-<p><strong>And one true finding from the earlier version stays, demoted:</strong> donor-only <em>updates</em> really do die
-on a private collective — the code turns the Updates feature off for private accounts entirely.
-Shown that trade, the Builder said the smaller thing was <strong>&quot;good enough for now&quot;</strong>, so it is a known
-limit rather than a blocker. It is recorded in section 5.</p>
-<p><strong>The old 90-day kill test is dead</strong> for a different reason than before: it required public pages,
-and there will not be any. A replacement is in section 7.</p>
-<p><strong>What being wrong cost.</strong> One shaping round, and a &quot;drop it&quot; recommendation that would have thrown
-away something usable. Caught in hours, before anything was built on it. That is the cheapest
-possible version of this mistake, and it is only cheap because the fix was a measurement rather than
-an argument. The lesson is narrow and worth keeping: <strong>reading permission code tells you what a rule
-says; only running it tells you which rule applies.</strong></p>
-<hr />
-<h2>1. What changed this week, and what it costs</h2>
-<p><strong>The premise that changed:</strong> transparency is no longer public. It is for donors only, permanently.
-In your words:</p>
-<blockquote>
-<p>&quot;Priya now has a login with our platform. she can go back in there and generate her donation
-reciepts. download them. see updates about the project she donated to. and find other projects.
-Only donors will have visibility. transparency is only for the donors. not for everyone at this
-point.&quot;</p>
-</blockquote>
-<p>Asked whether that was a first phase, you said permanent. Three further corrections came with it:
-<strong>organisations get paid, never individuals</strong>; <strong>no organisation joins expecting to use FCRA here</strong>;
-<strong>storyboards as diagrams.</strong></p>
-<h3>Three things this deletes outright</h3>
-<div class="tablewrap"><table>
-<thead>
-<tr>
-<th>What it deletes</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>The public account book</strong> — the thing the first two documents said this product <em>was</em></td>
-<td>There is no public. The sentence &quot;a shared public ledger anyone can read&quot; is now false.</td>
-</tr>
-<tr>
-<td><strong>Storyboard B — an individual receiving money</strong></td>
-<td>Your instruction. Only organisations get paid.</td>
-</tr>
-<tr>
-<td><strong>Everything about FCRA and a second foreign-money route</strong></td>
-<td>Your instruction. Foreign money is refused by everyone, forever, full stop.</td>
-</tr>
-</tbody>
-</table></div>
-<h3>One thing it deletes that nobody has said out loud yet</h3>
-<p><strong>Priya can no longer show anyone what her money bought.</strong> The last frame of the old storyboard was
-her forwarding the page to the friend who sent her the story. Under donor-only visibility that friend
-sees nothing on that page. The sharing loop — the growth mechanic, and the top of the old ladder — is
-gone by definition.</p>
-<p>That is not an argument against your decision. It is the price of it, and it should be paid knowingly
-rather than discovered in month four. What the friend <em>can</em> be shown is settled in section 4.</p>
-<h3>What being asked this late cost</h3>
-<p>The fork was set up, a Razorpay payment provider was built inside it, and two shaping rounds were
-written around a public ledger. The Razorpay week was written off by the config-only rule. The
-centrepiece of the last document — the public page, the forwarding loop — is written off now. Call it
-a fortnight of work and two rounds of thinking. Cheap, because nothing has been announced and no
-donor has given a rupee. It would not have been cheap in three months.</p>
-<hr />
-<h2>2. What Open Collective can and cannot do, now that it has been measured</h2>
-<p>This is the whole factual basis for the verdict. Two columns, and the second one is what decides it.</p>
-<h3>It can do these, today, with no code written</h3>
+<h2>⚠️ Correction, and it is most of the document</h2>
+<p><strong>Version 1</strong> said drop Open Collective, because a donor on a private collective would see nothing.
+That was read out of the code and was wrong.</p>
+<p><strong>Version 2</strong> corrected it by running the fork: a donor keeps her own history even when the recipient
+is private. It then recommended <strong>private collectives</strong>, and — because a private collective serves an
+anonymous visitor nothing at all — it put the entire donor experience into a <strong>separate helper app</strong>
+of ours: sixteen items, a giving page, sign-in, her account, her history, her receipts, updates, the
+80G certificate, the tax file.</p>
+<p><strong>Version 3, this one.</strong> That was priced, and private collectives turned out to cost roughly eleven
+extra things to build. The Builder chose <strong>public collectives</strong> instead, and the helper app collapsed
+with the premise that required it.</p>
 <div class="tablewrap"><table>
 <thead>
 <tr>
 <th></th>
-<th>How it was established</th>
+<th>Version 2 said</th>
+<th>Now</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Keep an organisation's whole book <strong>private</strong> — invisible to the internet</td>
+<td>Collective visibility</td>
+<td>Private, permanently. Donors only</td>
+<td><strong>Public</strong></td>
+</tr>
+<tr>
+<td>Everything a donor meets</td>
+<td>A separate app we build</td>
+<td><strong>Open Collective's own pages</strong></td>
+</tr>
+<tr>
+<td>Payment</td>
+<td>Our own checkout, our own Razorpay</td>
+<td><strong>Razorpay inside Open Collective's own contribution flow.</strong> She never leaves it</td>
+</tr>
+<tr>
+<td>Currency</td>
+<td>Not settled</td>
+<td><strong>INR only.</strong> Every exchange rate is exactly 1</td>
+</tr>
+<tr>
+<td>Her PAN</td>
+<td>Asked on her own page, in our app</td>
+<td><strong>On her own Open Collective profile</strong>, in the structured part of her address</td>
+</tr>
+<tr>
+<td>The 80G number</td>
+<td>Ours to generate</td>
+<td><strong>Configured on the fiscal host</strong></td>
+</tr>
+<tr>
+<td>Form 10BD</td>
+<td>A file our app writes</td>
+<td><strong>An export.</strong> Every field the CA needs already exists</td>
+</tr>
+<tr>
+<td>Sample data</td>
+<td>—</td>
+<td><strong>One demo fiscal host.</strong> Everything under it is sample data; nothing else is</td>
+</tr>
+<tr>
+<td>Address</td>
+<td><code>raseed.in</code> (a placeholder)</td>
+<td><strong><code>doable.aikyam.fund</code></strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What is left to build is configuration, a few lines in one receipt template, and an export preset.</strong>
+That is the whole thing.</p>
+<h3>What this correction cost, and what it bought</h3>
+<p><strong>Cost:</strong> four design pages built around the helper app, and one shaping round. They are not deleted —
+each one is re-marked and most of the thinking in them survives as a specification for configuring
+Open Collective rather than as a thing to build. See <code>design-system/index.html</code>.</p>
+<p><strong>Bought:</strong> the largest limitation in version 2 is gone. That document said, in bold, <em>&quot;She cannot
+show anyone what her money bought.&quot;</em> On a public collective she can. <strong>The sharing loop is back</strong>, and
+it is the single most valuable thing this reversal returned.</p>
+<p><strong>The lesson worth keeping,</strong> because it has now happened twice in different directions: version 1 was
+wrong because it read code instead of running it; version 2 was wrong because it designed around a
+constraint before anyone had priced removing the constraint. <strong>Price the premise before you build on
+it.</strong></p>
+<hr />
+<h2>1. What this is, in one sentence</h2>
+<blockquote>
+<p><strong>Give to one of these Indian organisations, and you are shown the shop's bill for what your money
+actually bought.</strong></p>
+</blockquote>
+<p><strong>Who it is not for.</strong> Individuals who want to be paid. Donors outside India. Anyone who wants a
+payment gateway. Anyone who wants their organisation's numbers kept private — that is now the loudest
+thing this product cannot offer, and section 6 is about it.</p>
+<hr />
+<h2>2. What is true, and how each thing came to be believed</h2>
+<p>Nothing in this section is an argument. It is the factual floor, and the third column matters.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A public collective is readable by a stranger — story, balance, money in, money out</td>
+<td>Yes</td>
 <td>Run, on the fork</td>
 </tr>
 <tr>
-<td>Give a donor <strong>a login of her own</strong></td>
+<td>A donor gets an account of her own</td>
+<td>Yes</td>
 <td>Run</td>
 </tr>
 <tr>
-<td>Show her <strong>her own giving across several organisations in one place</strong>, including private ones</td>
-<td>Run — 24 contributions, three organisations, one login</td>
+<td>She signs in by emailed link, no password</td>
+<td>Yes</td>
+<td>Run</td>
 </tr>
 <tr>
-<td>Issue her a <strong>contribution receipt</strong> for each gift</td>
-<td>Its standard receipt, unchanged</td>
+<td>She sees her giving across several organisations in one place</td>
+<td>Yes</td>
+<td>Run</td>
 </tr>
 <tr>
-<td>Give admins a <strong>ledger that balances</strong>, and an expense flow with a bill attached and approvals</td>
-<td>Its core, and the thing it is best at</td>
+<td>She can pull her own contribution receipt</td>
+<td>Yes</td>
+<td>Run</td>
+</tr>
+<tr>
+<td>Updates can be limited to the people who contributed</td>
+<td>Yes</td>
+<td>Run</td>
+</tr>
+<tr>
+<td>Her PAN sits privately on her profile, in the structured part of her address — invisible to the public, visible to her and to the organisation that must file for her</td>
+<td>Yes</td>
+<td>Run</td>
+</tr>
+<tr>
+<td>The receipt template already prints a tax registration number, for European VAT</td>
+<td>Yes</td>
+<td>Read. A few lines make it print an Indian one</td>
+</tr>
+<tr>
+<td>She pays by UPI without leaving Open Collective</td>
+<td>Being merged</td>
+<td>Builder's decision. <strong>The one sanctioned exception to the no-code rule</strong></td>
+</tr>
+<tr>
+<td>Every amount is in rupees and every exchange rate is exactly 1</td>
+<td>Decided</td>
+<td>Builder's decision</td>
+</tr>
+<tr>
+<td>Form 10BD is an export, not a build</td>
+<td>Decided</td>
+<td>Every field the CA needs already exists</td>
 </tr>
 </tbody>
 </table></div>
-<h3>It cannot do these, and no setting reaches them</h3>
+<h3>Three things nobody has established, and each one changes the product</h3>
+<p>⛔ <strong>Do not build past these.</strong> They are not technical details; each is a different product.</p>
+<p><strong>1. Whose Razorpay account receives the rupees.</strong> If the money lands in Aikyam's own Razorpay and
+Aikyam's own bank, then every sentence written for this product so far is still true. If it lands in
+a platform account and is passed on, then we hold other people's money, the copy is false, and the
+legal shape of the whole thing changed without anyone saying so out loud.</p>
+<p><strong>2. Whether one fiscal host holds many organisations, or each organisation is its own host.</strong> Version
+2 rejected fiscal hosting outright — one body holding and disbursing money for many. The 80G number is
+now &quot;configured on the fiscal host&quot;, which reads as though each organisation is its own. If it is not,
+fiscal hosting came back in through a settings screen, and that is the biggest decision in this
+document being taken by accident.</p>
+<p><strong>3. Whether a donor's name appears in public next to her amount.</strong> A public collective lists who
+contributed. Priya gave ₹500 from a bus and was never asked whether she wanted her name on a public
+web page. <strong>Recommendation: her name is not shown unless she chooses it.</strong> She is asked once, plainly,
+at the moment she gives — not buried in a profile setting she will never open.</p>
+<hr />
+<h2>3. What a donor now meets, and it is all theirs</h2>
+<p>The whole of version 2's helper app is replaced by pages that already exist.</p>
 <div class="tablewrap"><table>
 <thead>
 <tr>
-<th></th>
-<th>Why</th>
+<th>What she does</th>
+<th>Where it happens now</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Show a stranger anything at all</strong> — not the name, not the story, not a progress bar, not a donate button</td>
-<td>Measured. An anonymous request for a private collective is refused outright. Section 4.</td>
+<td>Reads the story and the ask</td>
+<td>The collective's public page</td>
 </tr>
 <tr>
-<td><strong>Show a donor the bill her money paid</strong></td>
-<td>A donor has a stake in her own gift. She has no stake in an expense. The private gate lets her through the first door and not the second.</td>
+<td>Gives ₹500 by UPI</td>
+<td>Open Collective's contribution flow, with Razorpay in it</td>
 </tr>
 <tr>
-<td><strong>Donor-only updates</strong></td>
-<td>The Updates feature is switched off entirely for private accounts. This is the true finding from the earlier version, and it survives.</td>
+<td>Gets a receipt</td>
+<td>Open Collective's receipt, with an Indian tax number added</td>
 </tr>
 <tr>
-<td><strong>An 80G certificate, or the Form 10BD file the CA needs by 31 May</strong></td>
-<td>Indian statutory paperwork. Never was, never will be.</td>
+<td>Comes back without a password</td>
+<td>Open Collective's emailed sign-in</td>
 </tr>
 <tr>
-<td><strong>Send an email because something happened</strong></td>
-<td>It has notifications, not this.</td>
+<td>Sees everything she has given, everywhere</td>
+<td>Open Collective's own contributions page</td>
+</tr>
+<tr>
+<td>Finds out what it bought</td>
+<td>An <strong>update</strong>, posted by a human, with the expense and its bill beside it</td>
+</tr>
+<tr>
+<td>Gets her 80G certificate</td>
+<td>The receipt, once the host's Indian tax number prints on it</td>
+</tr>
+<tr>
+<td>Adds her PAN</td>
+<td>Her own profile</td>
 </tr>
 </tbody>
 </table></div>
-<h3>One thing that is read but not run, and it decides everything</h3>
-<p>Under this model no money ever passes through Open Collective — it lands in the organisation's own
-Razorpay and its own bank. So the helper app has to <strong>tell</strong> Open Collective a gift happened.</p>
-<p>Reading the code, there are two doors for that, and they do not agree:</p>
-<ul>
-<li>The <strong>ordinary contribution</strong> path never checks whether the destination is private. It looks like
-it would work.</li>
-<li>The <strong>&quot;record a payment that happened elsewhere&quot;</strong> path — the one this model actually wants — is
-refused for an arbitrary donor when the account is private, unless the caller is the platform's own
-root operator.</li>
-</ul>
-<p>⛔ <strong>That has not been run, and after this week's correction I will not treat reading as knowing.</strong>
-It is the single test that settles the platform question, and it is an afternoon:</p>
-<blockquote>
-<p><strong>The test.</strong> As an ordinary donor account that administers nothing, get one ₹500 contribution
-recorded against a <strong>private</strong> collective through the API, then read it back as that donor.
-If the write is refused on every route, Open Collective has nothing left to do here and drops.
-If it works, the shape in section 3 stands. Owner: <code>builder</code>.</p>
-</blockquote>
+<p><strong>The only thing left in that column that is not free is the update</strong> — because an update is written,
+not generated. That is section 5.</p>
 <hr />
-<h2>3. Does Open Collective survive? Yes — behind the wall, not in front of it. Needs your yes.</h2>
-<p><strong>Recommend: keep it, as the organisation's own book that Devi and her colleagues keep. Do not make
-it Priya's product.</strong> Conditional on the test above.</p>
-<p>This is not the old verdict flipped. It is a smaller claim in a different place.</p>
-<p>Here is the argument in five lines.</p>
-<ol>
-<li><strong>Everything a donor meets has to be built in the helper app anyway.</strong> The stranger's giving page,
-because Open Collective will not serve an anonymous visitor a single byte of a private account.
-The &quot;what your money bought&quot; page, because a donor cannot see a bill. The 80G certificate and the
-10BD file, because they are Indian law. The email that fires when something is bought, because
-nothing in the platform fires on that event.</li>
-<li><strong>But the admin side is a genuinely good fit, and that is new.</strong> An expense with the shop's bill
-attached, two people approving it, and a ledger that balances afterwards is roadmap item 8 — above
-the release line — and it is precisely what this software already does well, on a private account,
-with configuration only.</li>
-<li><strong>Fiscal hosting is still rejected, so the ceiling is low.</strong> The thing Open Collective is famous
-for — one body holding money for many — is the thing this model refuses. You are keeping the
-filing cabinet and declining the safe. That caps how much value it can ever add here.</li>
-<li><strong>It is still not the book of record.</strong> Each organisation's CA files from Tally or Zoho Books. This
-is a second set of books that no filing comes from, and a second set of books that nobody is
-<em>required</em> to keep correct is a set of books that eventually is not.</li>
-<li><strong>It costs four services on a box that cannot comfortably take them,</strong> from a codebase nobody here
-wrote, with no supported install path, and stock secrets published in its own public repository
-that must be regenerated per instance.</li>
-</ol>
-<p><strong>So: keep, narrowly.</strong> Lines 1 and 3 are why it must not become the donor's product. Line 2 is why
-dropping it outright would throw away real work. Lines 4 and 5 are why it must never grow past the
-back office.</p>
-<p><strong>Cost of my being wrong in the keeping direction.</strong> You carry four services and an unowned codebase
-for an expense screen six people open, and Devi has a second login on her Tuesday — which makes the
-most fragile frame in the whole storyboard slightly worse. Recoverable: the helper app talks to it
-through one narrow seam, and replacing that seam with its own tables is days, not weeks.</p>
-<p><strong>Cost of my being wrong in the dropping direction.</strong> Roadmap item 8 — the approval flow, the
-attachment, the ledger that balances — gets built by hand, badly, in the middle of the release. That
-is the more expensive mistake, and it is the one the earlier version of this document was about to
-make.</p>
-<h3>The line that protects you either way</h3>
-<p><strong>One seam, named now: the helper app writes contributions in, and reads expenses back out. Nothing
-else.</strong> No donor ever holds an Open Collective login. No page of it is ever shown to anyone outside
-the organisation. If that seam ever needs to widen, the answer is to drop the platform, not to widen
-the seam.</p>
-<p>⛔ And the standing rule is unchanged and not up for discussion: <strong>no new features in Open
-Collective's code, ever.</strong> Settings and configuration only; everything else is the helper app beside
-it, talking to its API. That rule already cost a week of Razorpay work; it does not get re-litigated
-because a measurement went our way.</p>
-<h3>What is still adopted rather than built</h3>
-<p>Not a decision I take — <code>architect</code> runs the alignment gate. Naming candidates so it is not
-re-derived from nothing:</p>
-<div class="tablewrap"><table>
-<thead>
-<tr>
-<th>Job</th>
-<th>Open source first</th>
-<th>Recommendation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Donor sign-in</strong></td>
-<td>Supabase Auth (Apache-2.0, already runs five projects here, emailed-link sign-in native) · Keycloak (Apache-2.0, far heavier) · WorkOS (proprietary, credentials on file)</td>
-<td><strong>Supabase Auth</strong>, in the helper app. Open Collective has a perfectly good passwordless login, but using it would put the donor inside a product she must never see.</td>
-</tr>
-<tr>
-<td><strong>The organisation's internal book, approvals and attachments</strong></td>
-<td><strong>Open Collective</strong> (already running) · Firefly III (AGPL) · the organisation's own Zoho or Tally (proprietary, and legally the book of record)</td>
-<td><strong>Open Collective</strong>, configured, conditional on the test in section 2.</td>
-</tr>
-</tbody>
-</table></div>
-<hr />
-<h2>4. What a stranger sees before she has an account</h2>
-<p>This was the sharpest open question, and the measurement answers most of it.</p>
-<p><strong>An anonymous visitor asking Open Collective about a private organisation is refused outright</strong> —
-not a stub, not a name, not a progress bar. Nothing. Therefore:</p>
+<h2>4. Three storyboards</h2>
 <blockquote>
-<p><strong>The giving page cannot live in Open Collective. It is a page the helper app serves, on our own
-address, that a stranger opens with no account and no login.</strong></p>
+<p><strong>Everyone here is invented.</strong> Priya, Devi, Nusrat, Rahitha, Aikyam, Chalanam Foundation, Puzha
+Reading Room and Peruvanam Music House are illustrative characters written to test the product. They
+are not real people or real organisations, and nothing said about them — including any registration
+or tax status — describes anybody actual.</p>
 </blockquote>
-<p>That is not a compromise; it is what the config-not-fork rule already assigns to the helper app — the
-country's payment rail, and the checkout itself. It simply is not optional any more.</p>
-<p><strong>Recommend for what that page shows:</strong> the story, the ask, and the progress — <em>&quot;₹23,400 of ₹40,000
-raised&quot;</em>. Everything else is behind a login: the ledger, the bills, the names, the updates.</p>
-<p>Two details that follow, and both matter:</p>
-<ul>
-<li><strong>The progress number is published by the helper app from its own record.</strong> It is not read live
-from Open Collective, because an anonymous read of a private account is refused. Anyone building
-this must know that before they wire it, or the page will be blank in production and fine in
-testing.</li>
-<li><strong>The forwarded link lands on the giving page, not on a locked door.</strong> Priya cannot show her friend
-what her ₹500 bought. She can show her the thing that needs money. That is the largest surviving
-fragment of the sharing loop and it costs nothing.</li>
-</ul>
-<p>A progress bar reveals nothing about any individual and is the single strongest reason a stranger
-gives. If you mean that even the total is private, say so — and the giving page loses its best
-device. This is decision 3.</p>
-<hr />
-<h2>5. What this is now, in one sentence</h2>
-<p>The product changed category this week. It is not a transparency platform any more. It is a
-<strong>donor account</strong>.</p>
-<blockquote>
-<p><strong>Give to one of these Indian organisations, and you get a permanent account that shows you
-exactly what your money bought — with the bill.</strong></p>
-</blockquote>
-<p><strong>Who it is not for.</strong> The general public, journalists, funders doing diligence. Individuals who want
-to be paid. Donors outside India. Organisations that want somebody else to hold their money. Anyone
-looking for a payment gateway.</p>
-<h3>The thing that is structurally different, and it matters more than anything else here</h3>
-<p>Public transparency works <strong>even if nobody looks.</strong> It is a signal. It sits there being checkable,
-and that is most of its value.</p>
-<p><strong>Donor-only transparency is worth exactly nothing unless donors come back.</strong> It is a locked room. If
-Priya never returns, the entire justification for this product is a room nobody enters.</p>
-<p>So the whole thing rests on one behaviour: <strong>the return visit.</strong> That is a harder product problem
-than a public page, and it is what the build has to be aimed at. The correction does not soften this
-one bit — it only means the room now has a working door.</p>
-<h3>The known limit, recorded plainly</h3>
-<p><strong>Donor-only updates die on a private collective.</strong> The platform switches its Updates feature off for
-private accounts entirely, so &quot;a post only my backers can read&quot; cannot come from it. Shown the trade,
-the Builder said the smaller version — <em>she sees her own donations and her receipts</em> — is <strong>&quot;good
-enough for now.&quot;</strong> So this is a limit, not a blocker. If donor-only updates are ever wanted, they are
-a helper-app page (roadmap item 12), never a change to the platform.</p>
-<h3>What you gain by donor-only, which is real</h3>
-<p>The second organisation's first objection was never &quot;how much work&quot; — it was <em>who gets to see my
-numbers.</em> Donor-only makes that a much easier yes. And &quot;you can see this because you gave&quot; is a
-genuine reason to give, which a public page can never be. Transparency stops being marketing and
-becomes membership. Better product for organisations, worse one for growth.</p>
-<hr />
-<h2>6. Three storyboards</h2>
-<blockquote>
-<p><strong>Everyone here is invented.</strong> Priya, Devi, Nusrat, Rahitha and Chalanam Foundation are illustrative
-characters written to test the product, not real people or real organisations, and nothing said
-about them — including any registration or tax status — describes anybody actual.</p>
-</blockquote>
-<p>The low scores in these tables are the point. Where the feeling drops is where the product fails.</p>
+<p>The low scores are the point. Where the feeling drops is where the product fails.</p>
 <h3>A — Priya, and the year after her ₹500</h3>
-<p><strong>Priya — her ₹500, and the year after it</strong></p>
 <div class="tablewrap"><table>
 <thead>
 <tr>
@@ -404,7 +313,7 @@ about them — including any registration or tax status — describes anybody ac
 </tr>
 <tr>
 <td>She gives</td>
-<td>One screen, three amounts, she picks ₹500</td>
+<td>Three amounts on one screen, she picks ₹500</td>
 <td>●●●●○ 4</td>
 </tr>
 <tr>
@@ -414,13 +323,13 @@ about them — including any registration or tax status — describes anybody ac
 </tr>
 <tr>
 <td></td>
-<td>UPI, thumbprint, nine seconds</td>
+<td>UPI, thumbprint, nine seconds, never left the page</td>
 <td>●●●●● 5</td>
 </tr>
 <tr>
 <td></td>
-<td>Money lands in the organisation's own bank, we never touch it</td>
-<td>●●●●● 5</td>
+<td>Is asked once whether her name may be shown</td>
+<td>●●●○○ 3</td>
 </tr>
 <tr>
 <td>She gets an account she never asked for</td>
@@ -429,12 +338,12 @@ about them — including any registration or tax status — describes anybody ac
 </tr>
 <tr>
 <td></td>
-<td>Thank you, a receipt, and one link to see her giving</td>
+<td>Thank you, a receipt, one link</td>
 <td>●●●●○ 4</td>
 </tr>
 <tr>
 <td></td>
-<td>Taps the link, no password, she is in</td>
+<td>Taps it, no password, she is in</td>
 <td>●●●●● 5</td>
 </tr>
 <tr>
@@ -444,47 +353,53 @@ about them — including any registration or tax status — describes anybody ac
 </tr>
 <tr>
 <td></td>
-<td>Page opens on the exact thing her ₹500 was part of</td>
+<td>Page opens on the thing she paid part of</td>
 <td>●●●●● 5</td>
 </tr>
 <tr>
 <td></td>
-<td>The shop's bill sits directly above the gifts that paid it</td>
-<td>●●●●● 5</td>
+<td>The shop's bill is there, attached to the expense</td>
+<td>●●●●○ 4</td>
 </tr>
 <tr>
 <td></td>
-<td>She forwards it and her friend lands on the ask, not the bill</td>
-<td>●●●○○ 3</td>
+<td><strong>Nothing on it says her ₹500 was part of it</strong></td>
+<td>●●○○○ 2</td>
+</tr>
+<tr>
+<td></td>
+<td>She forwards it and her friend sees the whole thing</td>
+<td>●●●●● 5</td>
 </tr>
 <tr>
 <td>She comes back on her own</td>
-<td>Adds her PAN to unlock her 80G certificate</td>
-<td>●●●○○ 3</td>
+<td>Adds her PAN — inside an address form</td>
+<td>●●○○○ 2</td>
 </tr>
 <tr>
 <td></td>
-<td>Downloads a year of receipts in one go</td>
-<td>●●●●● 5</td>
-</tr>
-<tr>
-<td></td>
-<td>Sees all three organisations she has given to on one page</td>
-<td>●●●●● 5</td>
-</tr>
-<tr>
-<td></td>
-<td>One line at the bottom says two more things need money</td>
+<td>Downloads a year of receipts</td>
 <td>●●●●○ 4</td>
+</tr>
+<tr>
+<td></td>
+<td>Sees all three organisations on one page</td>
+<td>●●●●● 5</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>The forwarding frame is no longer a 1, and that is the correction's only real effect on Priya.</strong>
-The friend still cannot see the bill. She can see the thing that needs money, which is the part worth
-forwarding anyway. <strong>The reason to exist is the fourth section.</strong> Anyone can build the second section
-in an afternoon with Razorpay. Almost nobody builds the fourth.</p>
-<h3>B — Devi at Aikyam, who is the whole product's weakest link</h3>
-<p><strong>Devi at Aikyam — the person everything quietly depends on</strong></p>
+<p><strong>Two frames dropped and one was raised.</strong></p>
+<p>The <strong>forwarding frame went from 3 to 5</strong>, and it is the whole of what the reversal bought. Her friend
+now lands on the actual thing — the bill, the ledger, the story — not on a locked door.</p>
+<p><strong>The frame that fell is the arithmetic sentence.</strong> Version 2 had a page that said <em>&quot;Your ₹500 was part
+of the ₹23,900 that bought six chenda on 4 September.&quot;</em> An update is the same text for everybody, so
+the word &quot;your&quot; is gone. That is the real cost of deleting the helper app and it should be paid
+knowingly. It is section 7's only open decision.</p>
+<p><strong>The PAN frame fell too</strong>, and that one is cheap to fix: a tax identifier typed into a structured
+address form will be labelled as an address line, and a field labelled wrongly collects wrong data —
+lower case, spaces, the wrong line. It needs its own label, its own one-line explanation of why it is
+being asked, and a check of the format (five letters, four digits, one letter).</p>
+<h3>B — Devi at Aikyam, and this is the frame the reversal fixed</h3>
 <div class="tablewrap"><table>
 <thead>
 <tr>
@@ -521,33 +436,38 @@ in an afternoon with Razorpay. Almost nobody builds the fourth.</p>
 </tr>
 <tr>
 <td></td>
-<td>Rahitha never has to spend her own money and wait</td>
+<td>Rahitha never spends her own money and waits</td>
 <td>●●●●● 5</td>
 </tr>
 <tr>
-<td>The part that quietly fails</td>
+<td>The part that still fails</td>
 <td>Devi must type what was bought and attach the bill</td>
 <td>●●○○○ 2</td>
 </tr>
 <tr>
 <td></td>
-<td>A second login, on a system built for somebody else</td>
+<td><strong>One login now, not two</strong></td>
+<td>●●●●○ 4</td>
+</tr>
+<tr>
+<td></td>
+<td>She must also <em>write the update</em>, and nothing forces her to</td>
+<td>●●○○○ 2</td>
+</tr>
+<tr>
+<td></td>
+<td>A busy fortnight comes and she does neither</td>
 <td>●○○○○ 1</td>
 </tr>
 <tr>
 <td></td>
-<td>A busy fortnight comes and she does not</td>
+<td>No donor hears anything, because nobody wrote anything</td>
 <td>●○○○○ 1</td>
 </tr>
 <tr>
 <td></td>
-<td>No donor email goes out, because nothing was recorded</td>
-<td>●○○○○ 1</td>
-</tr>
-<tr>
-<td></td>
-<td>Nobody outside notices, because nobody outside can look</td>
-<td>●○○○○ 1</td>
+<td><strong>Somebody outside can notice, because the page is public</strong></td>
+<td>●●●○○ 3</td>
 </tr>
 <tr>
 <td>What keeps it honest</td>
@@ -559,23 +479,16 @@ in an afternoon with Razorpay. Almost nobody builds the fourth.</p>
 <td>A monthly check that the record matches the bank</td>
 <td>●●●●○ 4</td>
 </tr>
-<tr>
-<td></td>
-<td>A nudge when nothing has been recorded for 60 days</td>
-<td>●●●●○ 4</td>
-</tr>
 </tbody>
 </table></div>
-<p><strong>Read the third section twice, and note the frame the correction adds.</strong> Keeping Open Collective
-means Devi has a second login, in a dashboard designed for open-source collectives on the other side
-of the world. That is the honest cost of the recommendation in section 3, and it lands on exactly the
-person the product can least afford to lose. Under a public ledger a stale record is embarrassing and
-somebody complains. Under donor-only it is invisible, and the only symptom is that Priya's email
-never arrives — which looks like nothing at all.</p>
-<p>Note also that Rahitha never receives money. Aikyam buys drums for its own programme, from its own
-bank, and Rahitha never floats a rupee. That is the whole of what survives of the old storyboard B.</p>
+<p><strong>Two frames improved.</strong> Version 2 gave Devi a second login on a system built for somebody else, on
+the person the product can least afford to lose. That is gone — one login, and it is the one she was
+always going to have. And a stale ledger is now visible to anyone, so silence has a witness again.</p>
+<p><strong>One frame got worse, and it is now the biggest single risk in the build.</strong> Under version 2 the donor
+email fired <em>because Devi recorded a purchase</em> — a system watching a record. Now the update is a piece
+of writing a busy person has to sit down and produce. <strong>The trigger stopped being a mechanism and
+became a habit.</strong> Nothing in this product tells Priya anything unless Devi writes. Section 5.</p>
 <h3>C — Nusrat, deciding whether to bring the second organisation</h3>
-<p><strong>Nusrat at Chalanam Foundation — deciding whether to join</strong></p>
 <div class="tablewrap"><table>
 <thead>
 <tr>
@@ -587,7 +500,7 @@ bank, and Rahitha never floats a rupee. That is the whole of what survives of th
 <tbody>
 <tr>
 <td>The objection</td>
-<td>Sees Aikyam's donor page over someone's shoulder</td>
+<td>Sees Aikyam's page over someone's shoulder</td>
 <td>●●●○○ 3</td>
 </tr>
 <tr>
@@ -601,19 +514,24 @@ bank, and Rahitha never floats a rupee. That is the whole of what survives of th
 <td>●○○○○ 1</td>
 </tr>
 <tr>
-<td>The answer that wins her</td>
-<td>Your money stays in your bank and your own Razorpay</td>
+<td>The answer, and it is harder than it was</td>
+<td><strong>Everyone. The page is public</strong></td>
+<td>●○○○○ 1</td>
+</tr>
+<tr>
+<td></td>
+<td>Money stays in Chalanam's own bank and its own Razorpay</td>
 <td>●●●●● 5</td>
 </tr>
 <tr>
 <td></td>
-<td>Nothing is public, only the people who gave can look</td>
-<td>●●●●● 5</td>
+<td>She can keep a donor's name off the page</td>
+<td>●●●○○ 3</td>
 </tr>
 <tr>
 <td></td>
-<td>You choose what each funder is shown</td>
-<td>●●●●○ 4</td>
+<td>She cannot keep the balance or the spending off it</td>
+<td>●●○○○ 2</td>
 </tr>
 <tr>
 <td>Getting live</td>
@@ -627,7 +545,7 @@ bank, and Rahitha never floats a rupee. That is the whole of what survives of th
 </tr>
 <tr>
 <td></td>
-<td>Her first ₹1000 lands in Chalanam's own bank forty minutes later</td>
+<td>Her first ₹1,000 lands in Chalanam's own bank</td>
 <td>●●●●● 5</td>
 </tr>
 <tr>
@@ -637,12 +555,12 @@ bank, and Rahitha never floats a rupee. That is the whole of what survives of th
 </tr>
 <tr>
 <td></td>
-<td>She is told no, not through this, not any organisation, not ever</td>
+<td>She is told no, not through this, not ever</td>
 <td>●●○○○ 2</td>
 </tr>
 <tr>
 <td></td>
-<td>She keeps taking it the way she always has, entirely outside this</td>
+<td>She keeps taking it the way she always has, outside this</td>
 <td>●●●○○ 3</td>
 </tr>
 <tr>
@@ -652,7 +570,7 @@ bank, and Rahitha never floats a rupee. That is the whole of what survives of th
 </tr>
 <tr>
 <td></td>
-<td>She downloads one file in four minutes</td>
+<td>She runs one export</td>
 <td>●●●●● 5</td>
 </tr>
 <tr>
@@ -667,10 +585,17 @@ bank, and Rahitha never floats a rupee. That is the whole of what survives of th
 </tr>
 </tbody>
 </table></div>
-<p><strong>The second section is much easier to say than it was last week</strong>, and that is the one clear win from
-your change. <strong>The last two frames are the new cost</strong> of collecting PAN from her profile rather than
-at checkout — see decision 6.</p>
-<h3>Where the money and the information actually go</h3>
+<p>⚠️ <strong>Read the first four rows twice. This is what the reversal cost and nobody has priced it.</strong></p>
+<p>Version 2's single best sentence to a cautious organisation was <em>&quot;nothing is public — only the people
+who gave can look.&quot;</em> That sentence is now false and there is no replacement for it. Nusrat's sharpest
+objection is the one thing the new model answers worst.</p>
+<p><strong>It is not fatal, and here is the honest version to say to her instead:</strong> what is public is the money
+— the balance, what came in, what went out, and the bill for it. What is not public is who gave, if
+they would rather not be named. If an organisation cannot live with its spending being readable, this
+product is not for it, and that is better said in the first conversation than the fourth.</p>
+<p><strong>But it should be said out loud that this narrows who will join.</strong> Two organisations before anything
+is announced is still the constraint, and the second one is now harder to win, not easier.</p>
+<h3>Where the money and the information go</h3>
 <div class="tablewrap"><table>
 <thead>
 <tr>
@@ -682,357 +607,132 @@ at checkout — see decision 6.</p>
 <tbody>
 <tr>
 <td>Priya, on her phone</td>
-<td>₹500 by UPI</td>
-<td>The organisation's own Razorpay</td>
+<td>₹500 by UPI, inside Open Collective</td>
+<td>Razorpay — <strong>whose account is question 1 of section 2</strong></td>
 </tr>
 <tr>
-<td>The organisation's own Razorpay</td>
+<td>Razorpay</td>
 <td>settles overnight</td>
 <td>The organisation's own bank account</td>
 </tr>
 <tr>
-<td>The organisation's own Razorpay</td>
-<td>tells us it succeeded</td>
-<td>The helper app — everything Priya ever sees</td>
+<td>Open Collective</td>
+<td>records the contribution, issues the receipt</td>
+<td>Priya</td>
 </tr>
 <tr>
-<td>The helper app — everything Priya ever sees</td>
-<td>receipt now, the real news later</td>
-<td>Priya, on her phone</td>
-</tr>
-<tr>
-<td>Priya, on her phone</td>
-<td>signs in by emailed link</td>
-<td>Priya's own page</td>
-</tr>
-<tr>
-<td>The helper app — everything Priya ever sees</td>
-<td>—</td>
-<td>Priya's own page</td>
-</tr>
-<tr>
-<td>The helper app — everything Priya ever sees</td>
-<td>records the gift — the one write</td>
-<td>Open Collective, private, staff only</td>
-</tr>
-<tr>
-<td>The organisation's own bank account</td>
+<td>The organisation's bank account</td>
 <td>pays the shop, by a human</td>
 <td>The shop</td>
 </tr>
 <tr>
 <td>The shop</td>
 <td>gives a bill</td>
-<td>Devi records it, two people approve</td>
+<td>Devi records the expense and attaches it</td>
 </tr>
 <tr>
-<td>Devi records it, two people approve</td>
-<td>—</td>
-<td>Open Collective, private, staff only</td>
+<td>Devi</td>
+<td>writes an update</td>
+<td>Open Collective emails everyone who contributed</td>
 </tr>
 <tr>
-<td>Open Collective, private, staff only</td>
-<td>the helper app reads it back — the one read</td>
-<td>The helper app — everything Priya ever sees</td>
+<td>The public page</td>
+<td>is readable by anyone, forever</td>
+<td>Priya's friend, a funder, a stranger</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>Open Collective now appears, and it appears exactly twice.</strong> One write in, one read out, and no
-line from it to Priya. That picture is the recommendation. If either of those two lines turns out to be
-impossible, the box comes out and the helper app grows two tables.</p>
+<p><strong>There is no helper app on this picture.</strong> That is the point of the whole document.</p>
 <hr />
-<h2>7. The eleven-star ladder</h2>
-<p><strong>The moment: Priya coming back, and finding out what her ₹500 did.</strong></p>
-<p>Why this moment and not the gift. Giving is a commodity — every Indian platform has had a UPI button
-for a decade, and we will never be better at it, only adequate. And now that nothing is public, the
-old moment — a stranger reading the ledger — cannot happen at all. What is left is the return visit,
-and it is the only thing that makes donor-only transparency worth anything.</p>
-<div class="tablewrap"><table>
-<thead>
-<tr>
-<th>Stars</th>
-<th>What happens</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>3</strong></td>
-<td>She can log in, if she remembers she has an account. She sees a list of what she gave, to whom, and can download each receipt. Nothing ever reminds her to look.</td>
-</tr>
-<tr>
-<td><strong>4</strong></td>
-<td>A quarterly newsletter with a login link. She skims it.</td>
-</tr>
-<tr>
-<td><strong>5</strong></td>
-<td>Three weeks later, one email: a photo of six drums in a rented room, and the line &quot;they arrived Tuesday&quot;.</td>
-</tr>
-<tr>
-<td><strong>6</strong></td>
-<td><strong>The link logs her straight in — no password — onto the exact thing she funded, where the ₹38,200 bill sits directly above the ₹23,900 from twelve people that paid it, and one of those lines is hers.</strong></td>
-</tr>
-<tr>
-<td><strong>7</strong></td>
-<td>The page has done the arithmetic she would have had to do: <em>&quot;Your ₹500 was part of the ₹23,900 that bought six chenda from Peruvanam Music House on 4 September.&quot;</em> Everything else she has ever given is on the same page, each with a plain status, and her receipts are there to download without asking anyone.</td>
-</tr>
-<tr>
-<td><strong>8</strong></td>
-<td>The email arrived <strong>because something happened</strong>, not because a month passed. The trigger is Devi recording the purchase. A donor who funds something slow hears nothing and is not lied to.</td>
-</tr>
-<tr>
-<td><strong>9</strong></td>
-<td>Twenty seconds of phone video from the first class, on her page, before it is anywhere else. She saw it first because she paid for it.</td>
-</tr>
-<tr>
-<td><strong>10</strong></td>
-<td>A year on, one page: everything she gave across three organisations, what each became, a single 80G summary her employer would accept, and one honest line — <em>&quot;you have not been asked for anything since March.&quot;</em></td>
-</tr>
-<tr>
-<td><strong>11</strong></td>
-<td>The fourteen girls record a voice note using her name, and there is a seat with her name on it at the performance.</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>What the correction did to this ladder: it raised the floor, not the ceiling.</strong> Three stars is now
-free out of the box — a login, a list of her giving across every organisation, receipts to download.
-That is real and it should be said. But <strong>the platform's contribution stops at three</strong>, and every
-rung from five upward is a page and an email the helper app has to write. The product still lives
-between six and eight, and nothing there got cheaper this week.</p>
-<p><strong>Six is the build. Seven is nearly free once six exists</strong> — the helper app already knows which gifts
-paid for which bill, so the sentence is a sentence, not a system.</p>
-<p><strong>Eight is the one to fight for</strong>, and it is cheap: it is the difference between a newsletter and a
-product, and it costs nothing extra because the app already knows the moment Devi records something.</p>
-<p><strong>Nine, ten and eleven are why you would keep going.</strong></p>
-<p><strong>What this ladder rules out.</strong> No rung is improved by a shared ledger, a public page, a directory, a
-platform balance, or by putting Priya inside Open Collective. Every rung above five is one person
-being told, precisely, what her own money became. That is the product.</p>
-<hr />
-<h2>8. What to cut</h2>
-<p>The constraint, so this is a real choice: <strong>one build effort, eight weeks, two organisations live
-before anything is announced.</strong> Change the constraint if it is wrong; do not remove it.</p>
-<p>Every item is labelled <strong>Setting</strong> (a switch that already exists), <strong>Configuration</strong> (information
-typed in, or an existing screen set up by hand), or <strong>Helper app</strong> (the separate program beside
-everything else, which is where all the building happens). Nothing anywhere is labelled &quot;change the
-platform&quot;, because that is not a thing that happens here.</p>
-<h3>Cut because the premise changed</h3>
-<div class="tablewrap"><table>
-<thead>
-<tr>
-<th>Cut</th>
-<th>Kind</th>
-<th>The frame that proves nobody needs it</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Open Collective as anything a donor touches</strong></td>
-<td>Do not build</td>
-<td>Frame A: everything she meets is a helper-app page. She never has a second login, never sees a dashboard, never lands on it from an email.</td>
-</tr>
-<tr>
-<td><strong>Donor-only updates from the platform</strong></td>
-<td>Cannot be configured</td>
-<td>The feature is off for private accounts. Frame A5's update is a helper-app page — roadmap item 12 — or it does not exist.</td>
-</tr>
-<tr>
-<td><strong>The public page, public totals of who gave, public bills</strong></td>
-<td>Deleted by premise</td>
-<td>There is no public. Frame A: the friend sees the ask, and nothing else.</td>
-</tr>
-<tr>
-<td><strong>Anything an individual receives</strong></td>
-<td>Deleted by instruction</td>
-<td>Storyboard B is gone. Rahitha never touches money.</td>
-</tr>
-<tr>
-<td><strong>A second payment route for foreign money</strong></td>
-<td>Deleted by instruction</td>
-<td>Frame C4: she is told no, and keeps doing it outside. Nothing to build, ever.</td>
-</tr>
-<tr>
-<td><strong>A directory of participating organisations</strong></td>
-<td>Do not build</td>
-<td>With two organisations it is a list of two. Frame A: one line at the bottom of her page — &quot;two more things need money&quot; — does the whole job.</td>
-</tr>
-<tr>
-<td><strong>The old 90-day kill test</strong></td>
-<td>Rewritten</td>
-<td>It required public pages. See below.</td>
-</tr>
-</tbody>
-</table></div>
-<h3>Cut because no frame needs it, unchanged from before</h3>
-<p>Events and ticketing · tiers with physical rewards · ring-fenced sub-budgets · discussion threads ·
-automatic bank feeds · multi-currency · cards and Stripe and PayPal · any platform-level payment
-account including RazorpayX · reimbursing people who had to spend their own money first.</p>
-<p>Each of these is a &quot;do not build&quot;. None appears in any frame.</p>
-<h3>What the change <em>adds</em>, which must be said plainly</h3>
-<p>This is not a simplification. It removes a public page and adds a login product.</p>
-<div class="tablewrap"><table>
-<thead>
-<tr>
-<th>New</th>
-<th>Kind</th>
-<th>Why it is unavoidable</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Donor accounts and sign-in</strong></td>
-<td>Helper app</td>
-<td>She cannot see anything without one, and it cannot be the platform's, because she must never be sent there.</td>
-</tr>
-<tr>
-<td><strong>A page that is hers, not the project's</strong></td>
-<td>Helper app</td>
-<td>Her gifts, their statuses, her receipts.</td>
-</tr>
-<tr>
-<td><strong>The public giving page</strong></td>
-<td>Helper app</td>
-<td>Section 4. A stranger cannot reach a private account at all.</td>
-</tr>
-<tr>
-<td><strong>Donor-scoped updates</strong></td>
-<td>Helper app</td>
-<td>Who funded what, and therefore who may read what.</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Net: the change costs more work than it saves, and it weakens the growth loop.</strong> Keeping Open
-Collective narrowly — for item 8 only — pays back some of it, not all.</p>
-<hr />
-<h2>9. One roadmap, in order</h2>
-<p>One list. <strong>Helper app</strong> unless labelled otherwise.</p>
+<h2>5. What is actually left to do</h2>
+<p>Small. Say so plainly rather than dressing it up.</p>
 <div class="tablewrap"><table>
 <thead>
 <tr>
 <th>#</th>
 <th>What</th>
-<th>Lives in</th>
-<th>Frame</th>
+<th>Kind</th>
 <th>Waits on</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>0</td>
-<td><strong>The test in section 2</strong> — record one donor's gift against a private collective through the API and read it back</td>
-<td><strong>Configuration</strong></td>
-<td>—</td>
-<td>nothing. Items 8 and 8a depend on the answer</td>
+<td><strong>Replace the five secrets published in Open Collective's public repository</strong></td>
+<td>Configuration</td>
+<td>nothing. <strong>Nothing may face the internet before this</strong></td>
 </tr>
 <tr>
 <td>1</td>
-<td>The per-organisation record — 80G number and validity, its own Razorpay keys, its own bank, whether it can issue a receipt at all</td>
-<td><strong>Helper app</strong></td>
-<td>C3</td>
-<td>nothing. Everything below reads it</td>
+<td><strong>Production-build the frontend once</strong> — nobody ever has</td>
+<td>Build</td>
+<td>nothing. Do it early; an unbuilt frontend is an unknown, not a formality</td>
 </tr>
 <tr>
 <td>2</td>
-<td>International payments confirmed off on every Razorpay account, plus a citizenship tick at checkout and a line on the page saying so</td>
-<td><strong>Setting</strong> + <strong>Helper app</strong></td>
-<td>C4</td>
-<td>item 1</td>
+<td>The Razorpay payment provider, merged</td>
+<td>Platform code — <strong>the one sanctioned exception</strong></td>
+<td>—</td>
 </tr>
 <tr>
 <td>3</td>
-<td>The giving page — the story, the ask, the progress, one screen, three amounts, UPI, rupees, on a phone, <strong>openable by a stranger with no account</strong></td>
-<td><strong>Helper app</strong></td>
-<td>A1–A3</td>
-<td>items 1, 2</td>
+<td>Every amount INR, every rate exactly 1, and <strong>any &quot;converted at&quot; line hidden</strong> rather than left showing ₹500 = ₹500</td>
+<td>Configuration</td>
+<td>2</td>
 </tr>
 <tr>
 <td>4</td>
-<td>Payment succeeds, contribution recorded, <strong>and her account is created from her email whether she asked for one or not</strong></td>
-<td><strong>Helper app</strong></td>
-<td>A3</td>
-<td>item 3</td>
+<td>The host record per organisation — 80G number and validity, its own Razorpay keys, its own bank</td>
+<td>Configuration</td>
+<td>2</td>
 </tr>
 <tr>
 <td>5</td>
-<td>The immediate email — thank you, payment receipt, and one link to see her giving</td>
-<td><strong>Helper app</strong></td>
-<td>A3</td>
-<td>item 4</td>
+<td><strong>The Indian tax number on the receipt</strong> — a few lines beside the European VAT number already there</td>
+<td>Platform code, small</td>
+<td>4</td>
 </tr>
 <tr>
 <td>6</td>
-<td>Sign-in by emailed link only. No passwords, ever</td>
-<td><strong>Helper app</strong></td>
-<td>A3</td>
-<td>item 4</td>
+<td>Tier copy: the amounts, what each buys, the words</td>
+<td><strong>Content — design owns this</strong></td>
+<td>4</td>
 </tr>
 <tr>
 <td>7</td>
-<td>Her page — everything she has given across every organisation, each with a plain status, receipts downloadable without asking</td>
-<td><strong>Helper app</strong></td>
-<td>A5, 3★–7★</td>
-<td>item 6</td>
+<td>The citizenship tick at checkout, and international payments left off on every Razorpay account</td>
+<td>Setting + Configuration</td>
+<td>2, 4</td>
 </tr>
 <tr>
 <td>8</td>
-<td><strong>Devi's record: what was bought, how much, when, the shop's bill attached, two people approve</strong> — Open Collective's existing expense flow on a private account, set up by hand</td>
-<td><strong>Configuration</strong></td>
-<td>B2–B3</td>
-<td>item 0</td>
-</tr>
-<tr>
-<td>8a</td>
-<td>The one seam — the helper app writes each contribution in, and reads each approved expense back out</td>
-<td><strong>Helper app</strong></td>
-<td>B3</td>
-<td>items 0, 4, 8</td>
+<td>PAN on her profile — its own label, its own sentence, a format check</td>
+<td>Configuration + <strong>content</strong></td>
+<td>2</td>
 </tr>
 <tr>
 <td>9</td>
-<td><strong>&quot;What your money became&quot; — the email that fires when item 8 is used, and the page it opens, with the arithmetic sentence and the bill above the gifts</strong></td>
-<td><strong>Helper app</strong></td>
-<td>A4, 6★+8★</td>
-<td>items 7, 8a</td>
+<td><strong>The update template</strong> — what an update must contain, and who is allowed to see it</td>
+<td><strong>Content — design owns this</strong></td>
+<td>6</td>
 </tr>
 <tr>
 <td>10</td>
-<td>PAN taken from her own profile, once, reused for every future gift — forced by &quot;your 80G certificate is ready&quot;</td>
-<td><strong>Helper app</strong></td>
-<td>A5, C5</td>
-<td>item 7</td>
+<td>The Form 10BD export preset</td>
+<td>Configuration</td>
+<td>8</td>
 </tr>
 <tr>
 <td>11</td>
-<td>The 80G certificate, per organisation, carrying that organisation's own registration number</td>
-<td><strong>Helper app</strong></td>
-<td>A5, C5</td>
-<td>items 1, 10</td>
+<td>The written checklist that puts a second organisation live in half an hour</td>
+<td>Configuration</td>
+<td>3–10</td>
 </tr>
 <tr>
 <td>12</td>
-<td>Updates visible only to the people who funded that particular thing</td>
-<td><strong>Helper app</strong></td>
-<td>A5</td>
-<td>items 7, 8a</td>
-</tr>
-<tr>
-<td>13</td>
-<td>The Form 10BD file the CA opens by 31 May, generated per organisation by that organisation</td>
-<td><strong>Helper app</strong></td>
-<td>C5</td>
-<td>item 10</td>
-</tr>
-<tr>
-<td>14</td>
-<td>One line on her page — &quot;two more things need money now&quot;</td>
-<td><strong>Helper app</strong></td>
-<td>A5</td>
-<td>item 7</td>
-</tr>
-<tr>
-<td>15</td>
-<td>The written checklist that puts a second organisation live in half an hour, <strong>including its private book</strong></td>
-<td><strong>Configuration</strong></td>
-<td>C3</td>
-<td>items 1–14</td>
+<td>The demo fiscal host, and a line on every page under it saying so</td>
+<td>Configuration + content</td>
+<td>4</td>
 </tr>
 </tbody>
 </table></div>
@@ -1042,293 +742,175 @@ Collective narrowly — for item 8 only — pays back some of it, not all.</p>
 <tr>
 <th>#</th>
 <th>What</th>
-<th>Lives in</th>
 <th>Why it waits</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>16</td>
-<td><strong>Monthly recurring giving by UPI Autopay</strong></td>
-<td><strong>Helper app</strong> + external approval</td>
-<td>Needs a separate approval per organisation, measured in weeks. Apply now, build after. A monthly donor is by definition a returning donor, so this is worth more than it was last week — but it cannot block a release, because the waiting is outside our hands.</td>
+<td>13</td>
+<td>Monthly recurring giving by UPI Autopay</td>
+<td>Needs a separate approval per organisation, measured in weeks. Apply now, build after</td>
 </tr>
 <tr>
-<td>17</td>
-<td>The year-end page across every organisation she gave to</td>
-<td><strong>Helper app</strong></td>
-<td>10★. Needs a year.</td>
+<td>14</td>
+<td>Photographs and video on updates before they are anywhere else</td>
+<td>Needs somebody whose job it is to shoot them</td>
 </tr>
 <tr>
-<td>18</td>
-<td>Video and photographs on her page before they are anywhere else</td>
-<td><strong>Helper app</strong></td>
-<td>9★. Needs someone whose job it is to shoot them.</td>
-</tr>
-<tr>
-<td>19</td>
+<td>15</td>
 <td>A nudge to Devi when nothing has been recorded for 60 days</td>
-<td><strong>Helper app</strong></td>
-<td>B4. Nothing can go stale until something exists.</td>
+<td>Nothing can go stale until something exists</td>
 </tr>
 <tr>
-<td>20</td>
-<td>Tax deducted at source; a third organisation's special case; anything else</td>
-<td>—</td>
-<td>Each waits for someone to ask twice.</td>
+<td>16</td>
+<td>Anything else</td>
+<td>Waits for someone to ask twice</td>
 </tr>
 </tbody>
 </table></div>
-<h3>Where the line sits, and why there</h3>
-<p>Above the line: a stranger can give in under a minute, the organisation banks the rupee itself, she
-gets a receipt that is legal, she can come back without a password, she can see what her money bought
-with the bill next to it, the tax filing is possible, and a second organisation can go live in half
-an hour.</p>
-<p><strong>Item 9 is the one I would defend hardest.</strong> Without it this is a donate button with a login, and it
-has no reason to exist. Note honestly that <strong>item 9 ships silent</strong> — on launch day nothing has been
-spent yet, so the first of those emails goes out weeks later. Expected, not a fault.</p>
-<p><strong>Item 0 is first for a reason.</strong> It is half a day, and it decides whether items 8 and 8a are
-configuration or three weeks of building.</p>
-<h3>What someone can do the day it ships</h3>
+<p><strong>Items 0 and 1 are first and they are not negotiable.</strong> Five published secrets and a frontend that has
+never been production-built are the only two things on this list that can stop a launch dead.</p>
+<p><strong>Item 9 is the one to defend.</strong> Everything else on the list is a setting. Item 9 is the product.</p>
+<hr />
+<h2>6. The eleven-star ladder, re-checked</h2>
+<p><strong>The moment: Priya finding out what her ₹500 did.</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Stars</th>
+<th>What happens</th>
+<th>Who delivers it now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>3</strong></td>
+<td>She can sign in and see what she gave, to whom, with receipts</td>
+<td><strong>Open Collective, free</strong></td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Her giving across three organisations on one page</td>
+<td><strong>Open Collective, free</strong></td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>Three weeks later, an email: a photo of six drums, &quot;they arrived Tuesday&quot;</td>
+<td><strong>Devi writes it.</strong> The platform sends it</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>The email opens onto the public page where the ₹38,200 bill sits with the money that paid it, and anyone she forwards it to sees the same thing</td>
+<td><strong>Open Collective + Devi</strong>, near-free</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td>The arithmetic is done for her: <em>&quot;your ₹500 was part of the ₹23,900&quot;</em></td>
+<td><strong>Nobody. This is the gap</strong></td>
+</tr>
+<tr>
+<td><strong>8</strong></td>
+<td>The email arrives <strong>because something happened</strong>, not because someone remembered</td>
+<td><strong>Nobody. This is the other gap</strong></td>
+</tr>
+<tr>
+<td><strong>9</strong></td>
+<td>Twenty seconds of phone video from the first class, for contributors first</td>
+<td>Devi, with a camera</td>
+</tr>
+<tr>
+<td><strong>10</strong></td>
+<td>A year on, one page, one 80G summary an employer would accept</td>
+<td>Mostly there</td>
+</tr>
+<tr>
+<td><strong>11</strong></td>
+<td>The girls record a voice note using her name</td>
+<td>A person, not software</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>The floor rose and the ceiling fell.</strong> Three, four and six are now free or nearly free — that is much
+better than version 2, where every rung above five was a page we had to write. But <strong>seven and eight
+both went from &quot;we build it&quot; to &quot;nobody does it&quot;</strong>, because the app that would have done them is gone.</p>
 <ul>
-<li>Priya can read a story, tap once, give ₹500 by UPI in under a minute from a bus, and get a receipt
-before her stop.</li>
-<li>She has an account she never signed up for, and she gets into it by tapping a link in an email.</li>
-<li>She sees everything she has given, to every organisation, in one place.</li>
-<li>Weeks later, one email shows her the exact thing her money bought, with the bill above the gifts
-that paid for it, and the sentence already written.</li>
-<li>She can add her PAN once and download an 80G certificate, and every receipt she has ever had.</li>
-<li>She can read an update that only the people who funded that thing can see.</li>
-<li>She can forward the ask to a friend, who can give without an account.</li>
-<li>Aikyam requires two people for anything going out, and hands the CA one file on 31 May.</li>
-<li>Nusrat can put Chalanam live in half an hour without giving up control of a rupee or showing her
-numbers to anyone who did not give.</li>
+<li><strong>Seven</strong> is the word &quot;your&quot;. Buying it back means a page of ours, which means a helper app, which
+is the thing that was just deleted. <strong>Do not buy it back for launch.</strong> Revisit it only if the kill
+test in section 8 fails on click-through — and by then it is one page, not an app.</li>
+<li><strong>Eight</strong> is a person remembering. Item 15 (a 60-day nudge) is the cheap 80% of it and it sits below
+the line, correctly. If Devi's frame is failing at month two, move it up.</li>
 </ul>
-<h3>What it cannot</h3>
-<ul>
-<li><strong>She cannot show anyone what her money bought</strong> — only what still needs money. This is the largest
-single limitation and it is deliberate.</li>
-<li>No monthly giving. Every gift is one-off.</li>
-<li>No money from outside India, for any organisation, ever.</li>
-<li>No unregistered individual receives money. Organisations are paid; people are helped.</li>
-<li>Nobody, donor or otherwise, sees an organisation's overall finances.</li>
-<li>No tickets, no rewards, no directory, no bank feeds, no public page.</li>
-</ul>
-<h3>The way this fails, and the new kill test</h3>
-<p>Two failure modes, and the second is the one that closes the product.</p>
-<p><strong>One: nobody records what was spent.</strong> Money never passes through the software, so nothing forces
-the record to match the bank. Contributions are safe — they write themselves. Spending is not. And
-now nobody outside can notice, because nobody outside can look. The only symptom is that Priya's
-email never arrives, which looks exactly like nothing. There is no clever fix; there is a small one:
-<strong>one named person owns that record, and a monthly check that the two totals agree. Write the name
-down before launch.</strong></p>
-<p><strong>Two: she never comes back.</strong> Donor-only transparency is a locked room. The measurement this week
-proved the door works. It proved nothing about whether anyone walks through it.</p>
-<p>The old kill test required public pages and cannot be run. This one can:</p>
+<hr />
+<h2>7. The decisions that are yours</h2>
+<p>Most of version 2's eight are now settled by the reversal. Four are left, and the first two are real.</p>
+<p><strong>1. Updates that carry a bill: public, or contributors only?</strong>
+<em>Recommend:</em> <strong>public.</strong> The collective's page, its balance, its expenses and the bill are already
+public, so a contributors-only update gates nothing that is not visible one click away — while costing
+the forward, which is the only growth this product has. Keep contributors-only for the intimate
+material: photographs of children, video, names, the voice note. <em>That split is the recommendation:</em>
+<strong>the money is public, the people are not.</strong>
+<em>Cost of being wrong:</em> &quot;you can see this because you gave&quot; is a genuine reason to give, and making the
+bill public spends it. Reversible per update, at any time.</p>
+<p><strong>2. Do we accept that seven and eight are not built?</strong>
+<em>Recommend:</em> <strong>yes, for launch.</strong> Say it out loud now rather than discovering in month three that the
+product is a well-kept ledger with a newsletter.
+<em>Cost of being wrong:</em> this is the difference between a product and a page. If nobody clicks, the
+diagnosis will be ambiguous — was it the missing &quot;your&quot;, or was it the whole idea? Section 8 is written
+to tell those two apart.</p>
+<p><strong>3. Is her name shown in public next to her amount?</strong>
+<em>Recommend:</em> <strong>no, unless she chooses it, asked once at the moment she gives.</strong> A default that
+publishes a stranger's name because she gave ₹500 from a bus is a privacy event she did not agree to.
+<em>Cost of being wrong:</em> almost none. Named giving can be offered later; a name published once cannot be
+taken back.</p>
+<p><strong>4. PAN from her profile rather than at checkout, accepting that some donors are never filed.</strong>
+<em>Recommend:</em> <strong>yes</strong>, unchanged from version 2, with the certificate as the forcing line and a plain
+sentence telling her what she loses by not adding it.
+<em>Cost of being wrong:</em> every donor who never returns before 31 May loses her deduction. Visible in the
+first year; if the hole is large, ask at checkout after all.</p>
+<h3>Settled, and not up for discussion</h3>
+<p>Public collectives. No helper app. INR only. Foreign money refused by every organisation, permanently.
+No individual ever receives money. Two organisations live before anything is announced. A monthly
+check of each organisation's book against its bank statement. <strong>No feature is added to Open
+Collective's code, with exactly one exception — the Razorpay provider — and a second exception needs
+the Builder's explicit yes.</strong></p>
+<hr />
+<h2>8. How this fails, and the kill test</h2>
+<p><strong>One: nobody writes the update.</strong> Money never fails to record itself; writing does. There is no
+mechanism behind it any more — only Devi's Tuesday. The mitigation is not clever: one named person
+owns it, and a monthly check. <strong>Write the name down before launch.</strong></p>
+<p><strong>Two: it turns out nobody wanted to know.</strong> The public page proved the door is open. It proves nothing
+about whether anyone walks through it.</p>
 <blockquote>
-<p><strong>By 90 days after the first &quot;what your money became&quot; email goes out:</strong></p>
+<p><strong>By 90 days after the first &quot;what your money bought&quot; update goes out:</strong></p>
 <ol>
-<li><strong>At least half</strong> the donors who received one opened it and clicked through.</li>
+<li><strong>At least half</strong> the contributors who received one opened it and clicked through.</li>
 <li><strong>At least one</strong> donor came back a second time without being emailed first.</li>
-<li><strong>Every month in that period</strong> had at least one purchase recorded with its bill attached.</li>
+<li><strong>Every month</strong> in that period had at least one expense recorded with its bill attached, and one
+update written about it.</li>
+<li><strong>At least one</strong> forwarded link produced a contribution from somebody who had never given before.</li>
 </ol>
-<p>Any one of those failing is a finding, not a footnote. If under a quarter clicked, donor-only
-transparency is a room nobody enters — and the honest response is to make it public, or to stop
-giving transparency as the reason this exists, not to build more of it. If the third fails, the
-problem is Devi's Tuesday, and no amount of donor-facing work will fix it.</p>
+<p>Test 4 is new, and it is the one the reversal bought. If it passes, public collectives paid for
+themselves. If tests 1 and 2 fail while 3 passes, the missing piece is the word &quot;your&quot; — that is
+when to reconsider building one page. If test 3 fails, the problem is Devi's Tuesday, and no
+donor-facing work will fix it.</p>
 </blockquote>
 <hr />
-<h2>10. PAN, receipts, and foreign money</h2>
-<p>Nothing here can be a global rule, because organisations differ. Each gets a record, and the giving
-page reads that record and behaves accordingly.</p>
-<div class="tablewrap"><table>
-<thead>
-<tr>
-<th></th>
-<th>Aikyam</th>
-<th>Chalanam Foundation</th>
-<th>A third, smaller organisation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>80G registration</td>
-<td>Yes — current, on file</td>
-<td>Yes</td>
-<td><strong>No</strong></td>
-</tr>
-<tr>
-<td>FCRA</td>
-<td>No</td>
-<td>Yes — <strong>and irrelevant here</strong></td>
-<td>No</td>
-</tr>
-<tr>
-<td>Its own Razorpay account</td>
-<td>Yes</td>
-<td>To be created, ~11 days</td>
-<td>Must exist first</td>
-</tr>
-<tr>
-<td>International payments on it</td>
-<td><strong>Off</strong></td>
-<td><strong>Off</strong></td>
-<td><strong>Off</strong></td>
-</tr>
-<tr>
-<td>PAN</td>
-<td>Asked from her profile, once</td>
-<td>Same</td>
-<td><strong>Never asked</strong></td>
-</tr>
-<tr>
-<td>What the page promises</td>
-<td>&quot;You will get an 80G tax receipt&quot;</td>
-<td>Same</td>
-<td><strong>&quot;This organisation cannot issue a tax receipt&quot;</strong></td>
-</tr>
-<tr>
-<td>Who files on 31 May</td>
-<td>Aikyam's CA, from Aikyam's own file</td>
-<td>Chalanam's CA, from theirs</td>
-<td>Nobody</td>
-</tr>
-</tbody>
-</table></div>
-<p>A page that promises a receipt an organisation cannot issue is worse than a page that promises
-nothing.</p>
-<h3>Two different receipts, and they are not the same document</h3>
-<p>Worth separating, because the measurement this week made one of them free and left the other exactly
-where it was.</p>
-<ul>
-<li><strong>The contribution receipt</strong> — &quot;you gave ₹500 to Aikyam on 4 September&quot;. Open Collective issues
-this, and a donor can pull her own even when the collective is private. Free.</li>
-<li><strong>The 80G certificate</strong> — the one worth money to her, carrying the organisation's registration
-number and her PAN, and matching what the CA files in Form 10BD by 31 May. Nothing in the platform
-produces this and nothing ever will. <strong>Helper app, roadmap item 11.</strong></li>
-</ul>
-<h3>How PAN works now, and the hole in it</h3>
-<p>Under your decision, checkout asks for a citizenship tick only. PAN comes later, from her own profile,
-once, reused forever. <strong>The change makes this genuinely better than the old plan</strong> — the old document
-called PAN-at-checkout &quot;the only thing that cannot be added later&quot;, and now it can be, because she has
-an account.</p>
-<p>The forcing mechanism is the certificate: <em>&quot;Your 80G certificate for last year is ready. Add your PAN
-to download it.&quot;</em> People will do that, because it is worth money to them.</p>
-<p><strong>The hole:</strong> a donor who gives in March and never returns cannot be filed for. Not &quot;is hard&quot; —
-cannot. Form 10BD needs an identifier by 31 May and she is gone. She loses her deduction; the
-organisation files without her. That is a real cost of collecting PAN later rather than at checkout,
-it is visible in the last frames of Nusrat's storyboard, and it needs your yes as decision 6.</p>
-<h3>How foreign money is blocked</h3>
-<div class="tablewrap"><table>
-<thead>
-<tr>
-<th>Layer</th>
-<th>Where</th>
-<th>What it stops</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>International payments left off on each organisation's Razorpay</td>
-<td><strong>Setting</strong></td>
-<td>Every foreign card. This is the strong one, and it is already the default.</td>
-</tr>
-<tr>
-<td>A citizenship tick, and a plain line on the page</td>
-<td><strong>Helper app</strong></td>
-<td>Establishes intent, and deters.</td>
-</tr>
-<tr>
-<td>Anything flagged international is refused and refunded, not banked</td>
-<td><strong>Helper app</strong></td>
-<td>Whatever got past the first two.</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Every organisation refuses foreign money, including one holding FCRA.</strong> Permanently, not just in
-release one — that is your instruction and it removes a whole below-the-line item. Cost of being
-wrong: Chalanam loses some foreign giving and takes it the way it always has. The reverse error is
-criminal. Not a close call.</p>
+<h2>9. Two things that are outstanding no matter what is decided</h2>
+<ol>
+<li><strong>Five secrets are published in Open Collective's public repository.</strong> They must be replaced before
+anything faces the internet. This is not a launch task; it is a gate.</li>
+<li><strong>Nobody has ever production-built the frontend.</strong> Everything above assumes it builds. Until
+somebody has done it once, that is an assumption, not a fact.</li>
+</ol>
 <hr />
-<h2>11. The decisions that are yours</h2>
-<p>Eight. Each with a recommendation and what it costs if I am wrong. The first one is new, it is the
-biggest, and I am deliberately not taking it.</p>
-<p><strong>1. Which product is this — the donor account with the bill, or a receipts-and-history login?</strong>
-The measurement opened a genuine fork, and it is yours.</p>
-<ul>
-<li><strong>A) The donor account with the bill.</strong> The fifteen items above. The 6★ and 8★ moments — an email
-that fires because something was bought, a page where the bill sits above the gifts that paid it.
-Eight weeks. It is the thing worth building and nobody else is doing it.</li>
-<li><strong>B) The receipts-and-history login.</strong> A giving page, a UPI button, and Open Collective's own donor
-view for the rest. She logs in, sees what she gave across every organisation, downloads her
-receipts. This is literally what &quot;good enough for now&quot; describes and it is measured as working
-today. Perhaps three weeks. It has no &quot;what your money bought&quot;, no 80G certificate, no triggered
-email, and it sends her into a product she was never meant to see.</li>
-</ul>
-<p><em>Recommend:</em> <strong>A.</strong> B is a donate button with a history page, and the ladder says the reason to exist
-starts at six. But B is real, and if the eight weeks are not there, B in three weeks beats A in
-never — provided you say out loud that it is a stepping stone, because B's donor lives inside Open
-Collective and moving her out later is a migration.
-<em>Cost of being wrong:</em> choosing A when the time is not there means shipping nothing; choosing B and
-liking it means the product quietly becomes something with no reason to exist.</p>
-<p><strong>2. Open Collective: keep it as the organisation's private book, or drop it?</strong>
-<em>Recommend:</em> <strong>keep, narrowly — Devi's book and the approval flow, roadmap item 8, and nothing else.
-Conditional on the test in section 2, which <code>builder</code> can run in an afternoon.</strong> It is genuinely good
-at an expense with a bill attached and two approvals, and that is above the release line.
-<em>Cost of being wrong:</em> four services and an unowned codebase carried for a screen six people open,
-plus a second login on Devi's Tuesday — the most fragile frame in the storyboard. Recoverable in
-days, because the seam is one write and one read.
-<em>Cost of the reverse:</em> item 8 gets hand-built, badly, mid-release. That is the more expensive error,
-and it is the one the earlier version of this document was about to make.
-<em>Either way:</em> the donor never touches it, and no feature is ever added to its code.</p>
-<p><strong>3. What does a stranger see before she has an account?</strong>
-<em>Recommend:</em> a helper-app page she can open with no login, carrying the story, the ask and the
-progress — <em>&quot;₹23,400 of ₹40,000 raised&quot;</em> — with the progress number published from our own record,
-not read live from the platform. Everything else is behind a login.
-<em>Cost of being wrong:</em> if you meant even the total is private, the giving page loses its strongest
-device and conversion drops. Visible in the numbers within a fortnight, reversible in an hour.
-<em>Not optional:</em> the page itself must be ours. Open Collective refuses anonymous visitors outright,
-so there is no version of this where the stranger lands on the platform.</p>
-<p><strong>4. Is her account created automatically at the first gift, with no signup step?</strong>
-<em>Recommend:</em> yes. Nine seconds of UPI at 9pm on a bus does not survive a registration form, and if
-she has no account she can never come back — which is the entire product.
-<em>Cost of being wrong:</em> some people dislike being given an account they did not ask for. Mitigated by
-saying so in the receipt email and offering one-tap deletion. The reverse error is fatal.</p>
-<p><strong>5. Sign-in by emailed link only, no passwords?</strong>
-<em>Recommend:</em> yes. She visits three times a year. She will never remember a password, and a forgotten
-password is a donor who never comes back.
-<em>Cost of being wrong:</em> almost none. Passwords can be added later; taking them away later is harder.</p>
-<p><strong>6. PAN from her profile rather than at checkout — accepting that some donors are never filed?</strong>
-<em>Recommend:</em> yes, as you decided, <strong>with the 80G certificate as the forcing mechanism</strong> and a plain
-sentence on her page telling her what she loses by not adding it.
-<em>Cost of being wrong:</em> every donor who never returns before 31 May loses her tax deduction and the
-organisation files a short list. You will see the size of that hole in the first year, and if it is
-large the fix is to ask at checkout after all. Say now that you accept this, because it will land on
-a real person in May.</p>
-<p><strong>7. The friend Priya forwards to — the ask, and nothing else. Confirm?</strong>
-<em>Recommend:</em> she lands on the giving page, sees the story, the ask and the progress, and can give
-without an account. She never sees the bill or the ledger.
-<em>Cost of being wrong:</em> the sharing loop is weaker than a public ledger either way. This is only about
-whether a forwarded link lands somewhere useful or on a locked door. A locked door loses the gift.</p>
-<p><strong>8. &quot;Find other projects&quot; — a directory, or one line?</strong>
-<em>Recommend:</em> one line at the bottom of her page. With two organisations, a directory is a list of two,
-and it is the kind of thing that quietly grows into a marketplace.
-<em>Cost of being wrong:</em> trivially reversible. Nobody has ever been lost by not having a directory.</p>
-<h3>Unchanged, and still standing</h3>
-<p>RazorpayX cancelled. UPI Autopay applied for now, Aikyam only, on its own account. Foreign money
-refused everywhere. No individual ever receives money. Two organisations live before anything is
-announced. Aikyam checks each organisation's book monthly against that organisation's bank statement.
-No feature is ever added to Open Collective's code.</p>
-<hr />
-<h2>12. The sentence to keep testing</h2>
+<h2>10. The sentence to keep testing</h2>
 <blockquote>
-<p><strong>Give to one of these Indian organisations, and you get a permanent account that shows you exactly
-what your money bought — with the bill.</strong></p>
+<p><strong>Give to one of these Indian organisations, and you are shown the shop's bill for what your money
+actually bought.</strong></p>
 </blockquote>
-<p>Every time something is proposed, ask whether that sentence survives it. It survives receipts,
-updates, a second organisation and monthly giving. It does not survive a directory, a marketplace, a
-payment product, holding anybody else's money, a page nobody can get into, or a donor being sent to
-log in somewhere else.</p>
+<p>It survives receipts, updates, a second organisation, monthly giving and a public page. It does not
+survive a directory, a marketplace, holding anybody else's money, or an organisation that will not let
+its spending be read.</p>
 <p>And when the sentence stops being true, it is not the sentence that is wrong.</p>
 
   </article>
