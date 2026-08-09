@@ -91,8 +91,42 @@ function build(name) {
    * of whatever text is nearest the top of the page — which on this site is a
    * skip link, a standing ask, and three fellows' names. Making it optional
    * means it is omitted once and nobody sees the result for months. */
-  const description = (src.match(/<!--\s*@description\s+([\s\S]*?)\s*-->/) || [])[1];
+  const description = (src.match(/<!--\s*@description\s+([\s\S]*?)\s*-->/) || [])[1]
+    ?.replace(/\s+/g, ' ').trim();
   if (!description) throw new Error(`${name}: no <!-- @description … --> line`);
+
+  /* ⛔⛔ 300 CHARACTERS, ENFORCED, ON ANY PAGE THAT USES @excerpt.
+   *
+   * Owner, 9 Aug 2026: *"The excerpt and the description are all the same so we
+   * will limit it to maybe 300-500-800 characters, whichever is better. It's
+   * almost like a bit of information or an update people read about certain
+   * fellows' work, that's all."*
+   *
+   * ⭐ MEASURED RATHER THAN PICKED. Rendered into the actions list at its real
+   * 576px column in the shipping face:
+   *
+   *       300 chars →  5 lines, 155px
+   *       500 chars →  9 lines, 279px
+   *       800 chars → 14 lines, 434px
+   *
+   * Because the excerpt and the description are THE SAME TEXT and nothing is
+   * truncated, the LIST is the binding constraint, not the page. Six rows at 14
+   * lines is roughly 3,000px of list — a reader scrolls past the sixth action
+   * without ever seeing it. Five lines is already the top of what a scannable
+   * list carries. 300 it is.
+   *
+   * ⚠️ THIS IS A HARD FAILURE AND NOT A WARNING, for the same reason the missing
+   * description is: a soft limit on prose is exceeded once, looks fine on the
+   * page it was written on, and is discovered as a layout problem months later
+   * by someone who did not write it. */
+  const LIMIT = 300;
+  if (src.includes('<!--@excerpt-->') && description.length > LIMIT) {
+    throw new Error(
+      `${name}: description is ${description.length} characters, limit is ${LIMIT}. ` +
+      `It is shown in full in the actions list, where ${description.length} characters ` +
+      `sets to about ${Math.round(description.length / 62)} lines.`
+    );
+  }
   const published = (src.match(/<!--\s*@published\s+(\S+)\s*-->/) || [])[1] || '';
   const image = (src.match(/<!--\s*@image\s+(\S+)\s*-->/) || [])[1] || '';
 
@@ -127,9 +161,17 @@ function build(name) {
       )
     : masthead;
 
+  /* ⭐ ONE TEXT, TWO PLACES, AND THE GENERATOR IS WHAT MAKES THAT TRUE. The
+     description is written ONCE in the @description marker; `<!--@excerpt-->`
+     in the body expands to the same string. ⛔ The alternative — writing it in
+     the head marker and again in the markup — is two texts that agree on the day
+     they are written and disagree quietly afterwards, which is exactly what the
+     owner's "the excerpt and the description are all the same" is asking to be
+     impossible rather than merely intended. */
   body = body
     .replace('<!--@masthead-->', markedMasthead)
-    .replace('<!--@footer-->', footer);
+    .replace('<!--@footer-->', footer)
+    .replaceAll('<!--@excerpt-->', description);
 
   if (body.includes('<!--@masthead-->') || body.includes('<!--@footer-->')) {
     throw new Error(`${name}: a partial placeholder survived substitution`);

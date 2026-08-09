@@ -377,7 +377,44 @@ ol {
   margin: 0;
   padding-inline-start: var(--af-space-6);
 }
-li + li {
+/* ⛔⛔ SCOPED TO PROSE, 9 Aug 2026, AND IT WAS A REAL BUG ON EVERY PAGE.
+ *
+ * This was a bare `li + li { margin-block-start: 8px }` — a base rule written
+ * for a bulleted list in an article, which then applied to EVERY <li> on the
+ * site. The owner found it from the outside: *"whenever I click on the fellows
+ * link on the menu, it just seems to go much higher than any of the other menu
+ * items."*
+ *
+ * ⭐ AND THE DIAGNOSIS WAS THE OPPOSITE OF THE REPORT. "Fellows" is not high —
+ * it is the only one that is RIGHT. Every nav item after the first was carrying
+ * 8px of top margin from this rule, so three of the four sat 8px too low.
+ * Measured: the first <li> is 60px tall and the other three 52px, all four
+ * bottoms flush at the same y. The report named the odd one out correctly and
+ * the cause backwards, which is what a user report is for.
+ *
+ * ⛔ IT WAS NOT ONLY THE NAV. Surveyed across all 14 pages, seven kinds of list
+ * inherited the margin and FIVE of them were leaks:
+ *
+ *     [data-nav]            flex   ← 14 pages, both masthead and footer
+ *     [data-action-cards]   grid   ← added 8px to a gap that was already set
+ *     [data-action-fellows] flex
+ *     [data-action-tags]    flex
+ *     <ol> in flex          flex   ← topic, author
+ *     ul / ol inside .prose block  ← the two legitimate uses
+ *
+ * ⭐ THE SHAPE OF THE MISTAKE IS WORTH MORE THAN THE FIX. Two components had
+ * already noticed and cancelled it by hand — `.list-bare > li + li` and
+ * `[data-toc] li + li`, both setting it back to 0. A base rule that every new
+ * component has to remember to cancel is not a base rule, it is a tax, and the
+ * evidence it had stopped being paid was sitting in the stylesheet as two
+ * cancellations while five other lists quietly paid it. ⛔ Every flex or grid
+ * list already declares its own `gap`; a margin on top of a gap is two spacing
+ * systems disagreeing in the same box.
+ *
+ * ⚠️ `.list-bare` and `[data-toc]` KEEP their cancellations — both can appear
+ * inside `.prose`, where this rule still applies and they still need to opt out.
+ */
+.prose li + li {
   margin-block-start: var(--af-space-2);
 }
 li > ul,

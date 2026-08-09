@@ -3,14 +3,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Listening Rooms — aikyam fellows</title>
-<meta name="description" content="Counselling for young people in schools that have no counsellor, in the language they think in. Led by Sentinaro Shiu.">
+<meta name="description" content="Counselling for young people in two schools that have no counsellor of their own. Students come with arguments at home and things they cannot say to anyone else. Girls arrive sooner; boys take longer and stay longer once they do.">
 <link rel="canonical" href="https://aikyamfellows.org/action/">
 
 <!-- Open Graph / Twitter — how this page looks when it is shared, which for a
      fellowship's stories is how most people meet them. -->
 <meta property="og:type" content="article">
 <meta property="og:title" content="Listening Rooms — aikyam fellows">
-<meta property="og:description" content="Counselling for young people in schools that have no counsellor, in the language they think in. Led by Sentinaro Shiu.">
+<meta property="og:description" content="Counselling for young people in two schools that have no counsellor of their own. Students come with arguments at home and things they cannot say to anyone else. Girls arrive sooner; boys take longer and stay longer once they do.">
 <meta property="og:url" content="https://aikyamfellows.org/action/">
 <meta property="og:site_name" content="aikyam fellows">
 <meta property="og:locale" content="en_IN">
@@ -19,14 +19,14 @@
      produces a card with a large empty frame where the picture should be. -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Listening Rooms — aikyam fellows">
-<meta name="twitter:description" content="Counselling for young people in schools that have no counsellor, in the language they think in. Led by Sentinaro Shiu.">
+<meta name="twitter:description" content="Counselling for young people in two schools that have no counsellor of their own. Students come with arguments at home and things they cannot say to anyone else. Girls arrive sooner; boys take longer and stay longer once they do.">
 
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
  "@type": "Article",
  "headline": "Listening Rooms",
- "description": "Counselling for young people in schools that have no counsellor, in the language they think in. Led by Sentinaro Shiu.",
+ "description": "Counselling for young people in two schools that have no counsellor of their own. Students come with arguments at home and things they cannot say to anyone else. Girls arrive sooner; boys take longer and stay longer once they do.",
  "url": "https://aikyamfellows.org/action/",
  "datePublished": "2026-08-03"
 }
@@ -298,7 +298,7 @@ ol {
   margin: 0;
   padding-inline-start: var(--af-space-6);
 }
-li + li {
+.prose li + li {
   margin-block-start: var(--af-space-2);
 }
 li > ul,
@@ -2117,27 +2117,14 @@ main:has(> [data-hero]:first-child) {
   margin: 0;
   max-inline-size: var(--af-measure);
 }
-[data-action-fellows] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--af-space-1) var(--af-space-2);
+[data-action-fellow] {
   font-family: var(--af-font-ui);
   font-size: var(--af-type-small);
   color: var(--af-text-quiet);
+  margin: 0;
 }
-[data-action-fellows] > li + li::before {
-  content: '·';
-  margin-inline-end: var(--af-space-2);
-}
-[data-action-fellows] a {
+[data-action-fellow] a {
   color: var(--af-text);
-  font-weight: var(--af-weight-bold);
-}
-[data-action-fellows-label] {
   font-weight: var(--af-weight-bold);
 }
 [data-action-date] {
@@ -2175,31 +2162,31 @@ main:has(> [data-hero]:first-child) {
 </style>
 
 <!--
-  A SINGLE ACTION — rebuilt 8 Aug 2026 to the owner's specification:
+  AN ACTION — one of two built to the owner's model, 9 Aug 2026:
 
-    "Actions: Title, Description, Date Published, Connected Fellow(s), Tags,
-     One Image + Standard Metadata. […] nothing else."
+    "each action will be connected to only one fellow and not multiple fellows"
+    "Every single action can have its own page and metadata, just like a post"
+    "The excerpt and the description are all the same … 300-500-800 characters"
+    "almost like a bit of information or an update people read about certain
+     fellows' work, that's all"
 
-  ⛔ SIX FIELDS. THIS PAGE HAS SIX FIELDS. Everything the earlier version carried
-  — a status, a funder line, since/where rows, a key-events timeline, an update
-  stream with strand kickers, a "what we cannot show yet" section — has been
-  deleted, and the deletion is the point rather than a regret. Each was
-  defensible on its own and several were measured off the Guardian; together they
-  made a fourteen-field form that somebody has to fill in six times before
-  anything ships. Six fields get filled in an afternoon. Fourteen do not get
-  filled at all, and the page type dies waiting for content.
+  ⭐⭐ THE DESCRIPTION APPEARS ONCE IN THIS FILE — in the @description line above
+  — and the body below expands `Counselling for young people in two schools that have no counsellor of their own. Students come with arguments at home and things they cannot say to anyone else. Girls arrive sooner; boys take longer and stay longer once they do.` to the same string at build
+  time. ⛔ THAT IS NOT TIDINESS. "The excerpt and the description are all the
+  same" is a requirement that two texts must be INCAPABLE of disagreeing, not one
+  that they should be kept in step by whoever edits next. Written twice, they
+  agree on the day they are written and diverge silently afterwards, because
+  nobody ever sees the list and the page side by side.
 
-  ⭐ THE SEVENTH THING, "Standard Metadata", IS NOT ON THE PAGE AT ALL — owner:
-  *"metadata for SEO bits - same as any post"*. It is in <head>: description,
-  canonical, Open Graph, Twitter card and JSON-LD, emitted by build.mjs from the
-  @description and @published markers above. Every page in this system now gets
-  it, and the build FAILS on a page that has no description. Until today these
-  pages shipped a <title> and nothing else — so shared to WhatsApp, which is how
-  a fellowship's stories actually travel, each one previewed as a bare URL with
-  no headline and no picture.
+  ⭐ 300 CHARACTERS, ENFORCED BY THE BUILD. Measured at the actions list's real
+  576px column: 300 chars sets to 5 lines, 500 to 9, 800 to 14. Nothing is
+  truncated between the list and the page, so the LIST is the binding constraint
+  — six rows at 14 lines is about 3,000px and the sixth action is never seen.
+  Exceed it and `node build.mjs` fails with the character count.
 
-  ⛔ THE TITLE AND THE DATE ARE INVENTED. See the slot. Real: Sentinaro, her two
-  tags, and that she counselled students in Classes 6 to 12.
+  ⛔ THE TITLE AND THE DATE ARE INVENTED. Real: Sentinaro, her two tags, that she
+  counselled students in Classes 6 to 12, and the observation about who speaks
+  sooner — all from her published profile.
 -->
 
 <!-- Shared header stack. Written once, inlined into all eleven pages.
@@ -2355,16 +2342,15 @@ main:has(> [data-hero]:first-child) {
 
     <h1 data-action-title>Listening Rooms</h1>
 
-    <p data-action-description>Counselling for young people in schools that have
-      no counsellor, in the language they think in.</p>
+    <!-- ⛔ THE SAME STRING AS THE @description LINE AND THE ACTIONS LIST,
+         substituted by build.mjs. Do not type prose here. -->
+    <p data-action-description>Counselling for young people in two schools that have no counsellor of their own. Students come with arguments at home and things they cannot say to anyone else. Girls arrive sooner; boys take longer and stay longer once they do.</p>
 
-    <!-- ⭐ FELLOWS, TAGS AND DATE — the same three components as the card, in the
-         same order. A reader arriving here from a card should meet the page they
-         just tapped rather than a rearrangement of it. -->
-    <ul data-action-fellows>
-      <li><span data-action-fellows-label>Fellow</span></li>
-      <li><a href="profile.html">Sentinaro Shiu</a></li>
-    </ul>
+    <!-- ⭐ ONE FELLOW. The plural came out on 9 Aug — an action is a piece of one
+         person's work published as an update, not a programme with an
+         institutional life of its own, and on that definition a second name is a
+         category error rather than extra richness. -->
+    <p data-action-fellow>By <a href="profile.html">Sentinaro Shiu</a></p>
 
     <ul data-action-tags>
       <li><a data-topic href="topic.html">Education</a></li>
@@ -2373,10 +2359,8 @@ main:has(> [data-hero]:first-child) {
 
     <time data-action-date datetime="2026-08-03">Published 3 August 2026</time>
 
-    <!-- ⛔ ONE IMAGE. Not a gallery, not a lead plus thumbnails. The spec says
-         one, and one is also what an organisation can reliably supply: the
-         moment a page type accepts three, two are missing on every page and the
-         layout has to cope with a hole. -->
+    <!-- ⛔ ONE IMAGE. The moment a page type accepts three, two are missing on
+         every page and the layout has to cope with a hole. -->
     <div data-action-media>⛔ photograph needed — one image, 3:2, of the work
       rather than of the fellow</div>
 

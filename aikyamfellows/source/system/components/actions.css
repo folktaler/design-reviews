@@ -39,7 +39,7 @@
  *     Description          a short paragraph — what a reader decides on, and
  *                          the SAME field the index shows as the excerpt
  *     Date published       a real <time datetime>
- *     Connected fellow(s)  ⭐ PLURAL, and the plural is load-bearing — see below
+ *     Connected fellow     ⛔ EXACTLY ONE — the plural was removed 9 Aug
  *                          ⛔ ON THE ACTION PAGE ONLY, not on the index
  *     Tags                 the existing [data-topic] component, unchanged
  *                          ⛔ ON THE ACTION PAGE ONLY, not on the index
@@ -213,51 +213,40 @@
   max-inline-size: var(--af-measure);
 }
 
-/* --- Connected fellow(s) --------------------------------------------------
+/* --- The connected fellow, and there is exactly ONE ------------------------
  *
- * ⭐⭐ THE PLURAL IS THE WHOLE ARCHITECTURE, AND IT IS ONE CHARACTER LONG. The
- * owner wrote "Connected Fellow(s)". That "(s)" is what separates this model
- * from the one the site has today: a profile belongs to one person by
- * definition, and an action that can name two or three is a thing that OUTLIVES
- * any single fellowship. It can be handed on, it can be joined, and it can be
- * funded as itself rather than as somebody's personal project.
+ * ⛔⛔ THE PLURAL IS GONE, 9 Aug 2026. Owner: *"each action will be connected to
+ * only one fellow and not multiple fellows."*
  *
- * ⛔ SO THE ONE-FELLOW CASE IS NOT THE SPECIAL CASE. It is a list of one, built
- * from the same markup as a list of three — because the day a second fellow
- * joins is the day a hand-written single name silently becomes wrong, and
- * nothing on the page will look broken when it does.
+ * ⚠️ I ARGUED THE OTHER WAY YESTERDAY AND THE ARGUMENT IS RECORDED HERE RATHER
+ * THAN DELETED, because it was not a bad argument — it was an argument about a
+ * different organisation. It said: a profile belongs to one person by
+ * definition, so an action that can name two or three is a thing that OUTLIVES
+ * any single fellowship, can be handed on, and can be funded as itself.
  *
- * ⛔ AND EACH NAME IS ITS OWN LINK, not the row and not the card. A reader
- * following "Rahitha Krishnadas" must arrive at Rahitha, not at a page listing
- * everyone who ever touched this action. */
-[data-action-fellows] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--af-space-1) var(--af-space-2);
+ * ⭐ WHAT THE OWNER'S SENTENCE ACTUALLY SETTLES IS WHAT AN ACTION *IS*, and it
+ * is not what I had assumed. *"actions are the inspiring actions that are done
+ * by the fellows […] almost like a bit of information or an update people read
+ * about certain fellows' work."* An action is not a programme with an
+ * institutional life of its own — it is a piece of one person's work, published
+ * as an update. On that definition a second name is not richer, it is a
+ * category error, and the shared-ownership case I was designing for does not
+ * exist. Deleting the list is not a compromise; it is the model being correct.
+ *
+ * ⭐ AND IT REMOVES A WHOLE CLASS OF LAYOUT. No separator logic, no "Fellow" vs
+ * "Fellows" label to get right, no wrapping row of names. One name, one link.
+ *
+ * ⛔ THE NAME IS ITS OWN LINK — not the row, not the card. A reader following
+ * "Rahitha Krishnadas" must arrive at Rahitha. */
+[data-action-fellow] {
   font-family: var(--af-font-ui);
   font-size: var(--af-type-small);
   color: var(--af-text-quiet);
+  margin: 0;
 }
 
-/* ⭐ THE SEPARATOR IS GENERATED, AND THE FIRST ITEM DOES NOT GET ONE. Writing
-   "·" into the markup between names means that the day a CMS drops a name, the
-   page renders a leading dot — the commonest visible defect in any list of
-   authors on any site. */
-[data-action-fellows] > li + li::before {
-  content: '·';
-  margin-inline-end: var(--af-space-2);
-}
-
-[data-action-fellows] a {
+[data-action-fellow] a {
   color: var(--af-text);
-  font-weight: var(--af-weight-bold);
-}
-
-[data-action-fellows-label] {
   font-weight: var(--af-weight-bold);
 }
 

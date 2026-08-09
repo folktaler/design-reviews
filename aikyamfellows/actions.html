@@ -3,14 +3,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Actions — aikyam fellows</title>
-<meta name="description" content="What aikyam fellows are doing — each action belongs to a fellow and has a page of its own.">
+<meta name="description" content="The inspiring actions aikyam fellows are doing. Each belongs to one fellow and has a page of its own.">
 <link rel="canonical" href="https://aikyamfellows.org/actions/">
 
 <!-- Open Graph / Twitter — how this page looks when it is shared, which for a
      fellowship's stories is how most people meet them. -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Actions — aikyam fellows">
-<meta property="og:description" content="What aikyam fellows are doing — each action belongs to a fellow and has a page of its own.">
+<meta property="og:description" content="The inspiring actions aikyam fellows are doing. Each belongs to one fellow and has a page of its own.">
 <meta property="og:url" content="https://aikyamfellows.org/actions/">
 <meta property="og:site_name" content="aikyam fellows">
 <meta property="og:locale" content="en_IN">
@@ -18,14 +18,14 @@
      produces a card with a large empty frame where the picture should be. -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Actions — aikyam fellows">
-<meta name="twitter:description" content="What aikyam fellows are doing — each action belongs to a fellow and has a page of its own.">
+<meta name="twitter:description" content="The inspiring actions aikyam fellows are doing. Each belongs to one fellow and has a page of its own.">
 
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
  "@type": "WebPage",
  "headline": "Actions",
- "description": "What aikyam fellows are doing — each action belongs to a fellow and has a page of its own.",
+ "description": "The inspiring actions aikyam fellows are doing. Each belongs to one fellow and has a page of its own.",
  "url": "https://aikyamfellows.org/actions/"
 }
 </script>
@@ -296,7 +296,7 @@ ol {
   margin: 0;
   padding-inline-start: var(--af-space-6);
 }
-li + li {
+.prose li + li {
   margin-block-start: var(--af-space-2);
 }
 li > ul,
@@ -2115,27 +2115,14 @@ main:has(> [data-hero]:first-child) {
   margin: 0;
   max-inline-size: var(--af-measure);
 }
-[data-action-fellows] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--af-space-1) var(--af-space-2);
+[data-action-fellow] {
   font-family: var(--af-font-ui);
   font-size: var(--af-type-small);
   color: var(--af-text-quiet);
+  margin: 0;
 }
-[data-action-fellows] > li + li::before {
-  content: '·';
-  margin-inline-end: var(--af-space-2);
-}
-[data-action-fellows] a {
+[data-action-fellow] a {
   color: var(--af-text);
-  font-weight: var(--af-weight-bold);
-}
-[data-action-fellows-label] {
   font-weight: var(--af-weight-bold);
 }
 [data-action-date] {
@@ -2173,38 +2160,30 @@ main:has(> [data-hero]:first-child) {
 </style>
 
 <!--
-  THE ACTIONS INDEX — reduced 8 Aug 2026 on the owner's judgement, looking at the
-  grid and the list side by side:
+  THE ACTIONS INDEX — 9 Aug 2026, to the owner's settled model:
 
-    "is the better layout but its too busy. in the list it can show the pic,
-     title, excerpt (from the actual action page) and date. the remaining can
-     be on the actual actions page."
+    "actions are the inspiring actions that are done by the fellows"
+    "each action will be connected to only one fellow and not multiple fellows"
+    "every single action can have its own page and metadata, just like a post"
+    "the excerpt and the description are all the same … 300-500-800 characters"
+    "almost like a bit of information or an update people read about certain
+     fellows' work, that's all"
 
-  ⛔ FOUR THINGS IN A ROW, AND WHAT CAME OUT WAS NOT DECORATION. The fellows line
-  and the tag pills are gone from the index — both of which I had argued for an
-  hour earlier. They were wrong here:
+  ⭐ THE ROW IS FOUR THINGS: picture, title, excerpt, date. Fellow and tags are
+  on the action's own page. A reader scanning this list is making exactly one
+  decision — is this worth opening — and those four are what it is made from.
 
-    · six rows of tag pills read as a filter bar sprayed down the page. It is
-      navigation wearing the clothes of content, and it was the loudest thing on
-      every row.
-    · the fellows line put a third band of UI-face text between the sentence and
-      the date, so the eye crossed two labels to get from the description to the
-      thing it needed next.
+  ⛔ THE EXCERPTS BELOW ARE COPIES, AND THAT IS A LIMITATION OF THIS MOCK RATHER
+  THAN OF THE DESIGN. On the action pages themselves the description is written
+  ONCE, in the @description line, and build.mjs substitutes it into the body — so
+  the excerpt and the page text cannot disagree. This index is a separate file
+  and has to repeat the strings by hand. ⚠️ In Ghost the same field feeds both
+  and the duplication does not exist. Do not read this file as the pattern.
 
-  ⭐ A READER SCANNING THIS LIST MAKES ONE DECISION — is this worth opening.
-  Picture, title, excerpt and date are the four things that decision is made
-  from. Everything else is for the reader who already said yes, and belongs on
-  the page they said yes to.
-
-  ⭐ AND "excerpt (from the actual action page)" SETTLED A CONTENT QUESTION FOR
-  FREE: Description and excerpt are ONE field, written once, shown in both
-  places. A separate list excerpt gets written once, never revisited, and is
-  quietly wrong within a year while continuing to look fine — because nobody
-  ever sees the two side by side.
-
-  ⚠️ WHAT IS REAL: every fellow's name, every story title and every tag, read off
-  aikyamfellows.org on 7 Aug 2026. Two excerpts are the site's own published
-  words. ⛔ The action TITLES and the DATES are invented — see the slot.
+  ⚠️ WHAT IS REAL: every fellow's name and story title, and two of the excerpts
+  ("She was told the Chenda wasn't for girls", "He first knew Chavittu Nadakam as
+  the sound of home"), read off aikyamfellows.org on 7 Aug 2026.
+  ⛔ WHAT IS NOT: the action titles, the dates, and the rest of the excerpts.
 -->
 
 <!-- Shared header stack. Written once, inlined into all eleven pages.
@@ -2359,29 +2338,33 @@ main:has(> [data-hero]:first-child) {
   <div class="wrap wrap--wide">
 
     <h1>Actions</h1>
-    <p data-standfirst>What aikyam fellows are doing. Each action belongs to one
-      or more fellows, and each has a page of its own.</p>
+    <p data-standfirst>The work aikyam fellows are doing. Each action belongs to
+      one fellow, and each has a page of its own.</p>
 
-    <!-- ⛔⛔ ONE SLOT, NOT TWELVE. The house rule gives every invented fact a loud
-         dashed box, and twelve down one page would make it impossible to judge
-         as a design — which is what it is for. The admission is made once. -->
     <div data-slot>
-      <b>The action titles and the dates below are invented. Nothing else
-      is.</b> Six titles and six dates were written so this page could be SEEN.
-      ⛔ A programme name invented by a designer gets quoted back by a funder,
-      printed in a report, and becomes the real name by accident. The fellows,
-      the tags and four of the six excerpts are real.
+      <b>The action titles and the dates below are invented. Most of the
+      excerpts are too.</b> They were written so this page could be SEEN. ⛔ A
+      programme name invented by a designer gets quoted back by a funder,
+      printed in a report, and becomes the real name by accident. Real: the six
+      fellows, the six story titles, and two of the excerpts.
     </div>
 
     <ul data-action-cards>
 
+      <!-- ⭐ THE FIRST TWO ROWS LINK TO REAL, SEPARATE PAGES — action.html and
+           action-chenda.html. Two is the smallest number that shows the page
+           type is a TEMPLATE rather than one layout fitted to one piece of
+           content: different title lengths, different excerpt lengths, one tag
+           against two, and not a line of new CSS between them. -->
       <li>
         <article data-action-card>
           <div data-action-media>⛔ photograph needed — Sentinaro at work</div>
           <div data-action-card-body>
             <h2 data-action-title><a href="action.html">Listening Rooms</a></h2>
-            <p data-action-description>Counselling for young people in schools
-              that have no counsellor, in the language they think in.</p>
+            <p data-action-description>Counselling for young people in two
+              schools that have no counsellor of their own. Students come with
+              arguments at home and things they cannot say to anyone else. Girls
+              arrive sooner; boys take longer and stay longer once they do.</p>
             <time data-action-date datetime="2026-08-03">3 August 2026</time>
           </div>
         </article>
@@ -2391,9 +2374,11 @@ main:has(> [data-hero]:first-child) {
         <article data-action-card>
           <div data-action-media>⛔ photograph needed — Rahitha with the Chenda</div>
           <div data-action-card-body>
-            <h2 data-action-title><a href="action.html">Beating Barriers</a></h2>
+            <h2 data-action-title><a href="action-chenda.html">Beating Barriers</a></h2>
             <p data-action-description>She was told the Chenda wasn&rsquo;t for
-              girls.</p>
+              girls. Rahitha now plays it, and teaches it to girls in Kozhikode
+              who have been told the same thing by the same people, in the same
+              words.</p>
             <time data-action-date datetime="2026-07-21">21 July 2026</time>
           </div>
         </article>
@@ -2405,7 +2390,8 @@ main:has(> [data-hero]:first-child) {
           <div data-action-card-body>
             <h2 data-action-title><a href="action.html">Stepping Forward</a></h2>
             <p data-action-description>He first knew Chavittu Nadakam as the
-              sound of home.</p>
+              sound of home. ⚠️ The site&rsquo;s own words — what Anson does with
+              it now is not published anywhere.</p>
             <time data-action-date datetime="2026-07-20">20 July 2026</time>
           </div>
         </article>
@@ -2448,13 +2434,6 @@ main:has(> [data-hero]:first-child) {
       </li>
 
     </ul>
-
-    <!-- ⚠️ THE ONE THING THIS PAGE NO LONGER DOES, said out loud rather than left
-         to be rediscovered: a reader wanting "all the Education actions" can no
-         longer start one from here. The seven topics are in the sub-nav on every
-         page, so the route exists — it is just not duplicated six times down this
-         list. If that turns out to matter, the fix is a single row of seven tags
-         under the heading, ONCE, not a row of pills per card. -->
 
   </div>
 </main>

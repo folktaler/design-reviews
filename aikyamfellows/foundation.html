@@ -296,7 +296,7 @@ ol {
   margin: 0;
   padding-inline-start: var(--af-space-6);
 }
-li + li {
+.prose li + li {
   margin-block-start: var(--af-space-2);
 }
 li > ul,
@@ -2115,27 +2115,14 @@ main:has(> [data-hero]:first-child) {
   margin: 0;
   max-inline-size: var(--af-measure);
 }
-[data-action-fellows] {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--af-space-1) var(--af-space-2);
+[data-action-fellow] {
   font-family: var(--af-font-ui);
   font-size: var(--af-type-small);
   color: var(--af-text-quiet);
+  margin: 0;
 }
-[data-action-fellows] > li + li::before {
-  content: '·';
-  margin-inline-end: var(--af-space-2);
-}
-[data-action-fellows] a {
+[data-action-fellow] a {
   color: var(--af-text);
-  font-weight: var(--af-weight-bold);
-}
-[data-action-fellows-label] {
   font-weight: var(--af-weight-bold);
 }
 [data-action-date] {
