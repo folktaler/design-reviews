@@ -21,9 +21,9 @@
 <h1>Cats of Kochi — the Airbnb-faithful system</h1>
 <p>Labelled <code>catsofkochi-airbnb-design-system-2026-08-09</code> — a different
   system from the earlier Guardian-era one (<code>guardian-design-system-v1</code>),
-  stated here so nobody reviews the wrong one by name. 13 pages, one shared
-  faces file per font family, no build step and no JavaScript.
-  <b>12 of the 13 kits now show the current typeface, Figtree.</b> One does
+  stated here so nobody reviews the wrong one by name. 14 pages, one shared
+  faces file per font family, no build step and almost no JavaScript.
+  <b>13 of the 14 kits now show the current typeface, Figtree.</b> One does
   not, deliberately — read the gap below before judging its type.</p>
 
 <h2>Known gaps — read this before reviewing</h2>
@@ -65,7 +65,47 @@
 
 <h2>Changelog</h2>
 <ul class="gaps">
-  <li>⭐ <b>9 Aug 2026 (latest) — the checked-on stamp is settled: full hide.</b> The
+  <li>⭐ <b>9 Aug 2026 (latest) — a new page, <code>reviews-workflow</code>: visitor
+    reviews, proposed.</b> A feature that does not exist — no code, no ticket, nothing
+    built. Three screens drawn against two owner decisions taken the same day: anyone
+    with an account may review any place (no proof of visit, unlike Airbnb), and a
+    person reads every submission before it appears.
+    <ul style="margin-top:.5rem">
+      <li style="padding:.35rem 0"><b>The threshold is four reviews within two years,
+        not Airbnb's three.</b> Their three is bought — only a completed paid stay
+        unlocks a review, so faking one costs a booking. A free account is cheaper, so
+        the bar should be stricter, not looser. Four is also where one outlier stops
+        deciding the number (a maximum swing of 1.00 stars against 1.33 at three), and
+        five would mean the score never appears on a site with 26 places. Below the
+        threshold the reviews print in full and the average is withheld, with the number
+        that would make one appear named on the page — Airbnb's own answer to a low
+        count, and the single most transferable thing in the reviews study.</li>
+      <li style="padding:.35rem 0"><b>No amber anywhere near a review.</b> Amber means
+        "we checked this" and a review is the one thing on the page nobody here checked.
+        Exactly one amber underline exists on the whole page, in the moderation queue,
+        pointing away from a review at the hours record it supports. Six Airbnb category
+        ratings cut to two, the histogram cut, and the sort control cut with a warning
+        attached: their default ordering is personalised to the reader, which is the one
+        thing a facts registry could copy by accident.</li>
+      <li style="padding:.35rem 0">⚠️ <b>Four defects were found only by rendering it</b>
+        — a stray hairline through every question on the form (a <code>legend</code> is
+        laid out inside its <code>fieldset</code>'s border), star rows indented 11px
+        against the column, three queue tabs needing 298px inside a 285px card, and a
+        breakdown bar chart whose 4px ink fill collided with
+        <code>--rule-leading</code> and read as furniture. All four are invisible in the
+        source.</li>
+    </ul>
+    Verified in real Chrome at 375px before publishing:
+    <code>document.compatMode === "CSS1Compat"</code>, zero horizontal overflow at page
+    <i>and</i> container level, all 46 controls at least 44px on <i>both</i> axes,
+    <code>--tap</code> and <code>--measure</code> resolving from their definitions rather
+    than their fallbacks, line length median 42 and maximum 62 characters, and the type
+    confirmed as real Figtree by bitmap comparison against both a metric-matched fallback
+    and a family nothing declares. ⛔ Not verified: nobody has read it on a phone in
+    Kerala sun, and no traveller has been asked whether they would review a place they
+    did not pay to enter — which is the assumption the whole feature rests on.
+    <b>Pending owner reaction. Not approved, not built.</b></li>
+  <li>⭐ <b>9 Aug 2026 — the checked-on stamp is settled: full hide.</b> The
     owner's decision, and it removes rather than adds: <em>"the end user need not see
     anything about how the facts are there. except maybe a small link on the general
     process we use. thats all. google maps does not do that. why should we?"</em>
@@ -198,6 +238,18 @@
     <code>theme.css</code>'s own rules call out as legitimate, and it reads
     clearly on the new near-white background where it nearly vanished on the
     old tinted one.</li>
+</ul>
+
+<h2>Proposals — drawn, not built</h2>
+<ul>
+  <li>
+    <a href="reviews-workflow.html"><b>Visitor reviews — three screens</b></a>
+    <small>Leaving a review, how a score and a breakdown render on a place page once
+      reviews accumulate, and the queue where every submission is accepted or turned
+      down before it goes live. <b>A new-feature proposal pending owner reaction — no
+      code, no ticket, nothing built.</b> Every name, star and count on it is
+      invented.</small>
+  </li>
 </ul>
 
 <h2>System reference</h2>
