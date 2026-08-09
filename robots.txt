@@ -1,0 +1,7 @@
+# design.folktaler.com is a different host from folktaler.github.io, so the
+# permissive robots.txt at that host's root does not cover it. Without this
+# file the custom domain answers /robots.txt with a 404 — the exact condition
+# that appears to make some fetchers abstain, and the reason this domain
+# exists in the first place.
+User-agent: *
+Allow: /
