@@ -39,15 +39,19 @@
 
   <div class="warn">
     <p><strong>Read this before reporting anything.</strong></p>
-    <p>These are static HTML pages. Nothing is wired up — no data, no clicks that go anywhere, no dark mode, no icons (the product uses Lucide throughout and none are embedded here).</p>
+    <p>These are static HTML pages. Nothing is wired up — no data, no clicks that go anywhere (the module picker is the one exception: its checkboxes work, but nothing is saved and reloading resets them), no dark mode, no icons (the product uses Lucide throughout and none are embedded here).</p>
     <p>The design tokens are <em>not</em> approximations. Every colour, radius and type size is copied from the platform's own stylesheet, and the Inter font files are the ones it self-hosts. Where a page departs from upstream, it says so on the page.</p>
   </div>
 
   <h2>Start here</h2>
   <div class="list">
+    <a class="item" href="modules.html">
+      <span class="nm">What it does, and what to keep</span>
+      <span class="why">Twenty modules. What each one is, the problem it removes, whose problem that is, and what happens if you leave it out. Tick the ones you want and copy the list — that list is what the architect scopes from.</span>
+    </a>
     <a class="item" href="system.html">
       <span class="nm">Design system</span>
-      <span class="why">Colours, type, buttons, badges, form controls, shape, and the ledger row. This is the page to change things on — every other page reads from the same <code>tokens.css</code>.</span>
+      <span class="why">Colours, type, buttons, badges, form controls, shape, and the ledger row. Every other page reads from the same <code>tokens.css</code>.</span>
     </a>
   </div>
 
@@ -73,7 +77,7 @@
 
   <h2>Known gaps in this set</h2>
   <ul>
-    <li><strong>Four pages, not thirteen.</strong> The expense detail, the transactions ledger, the fiscal-host dashboard, the event page and the sign-in flow are not here yet.</li>
+    <li><strong>Five pages, not thirteen.</strong> The expense detail, the transactions ledger, the fiscal-host dashboard, the event page and the sign-in flow are not here yet.</li>
     <li><strong>No icons.</strong> Every place the product shows a Lucide icon, these pages show a plain shape or nothing.</li>
     <li><strong>No photographs or avatars.</strong> Contributor faces are initials on a grey circle.</li>
     <li><strong>No dark mode.</strong> The platform defines a full dark palette; none of it is exercised here.</li>

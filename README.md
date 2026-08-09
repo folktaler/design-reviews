@@ -20,5 +20,6 @@ output. Editing them does nothing — each project's source lives elsewhere.
 - **[opencollective/](opencollective/)** — the design system behind a fork of
   Open Collective, plus pages built on it. Tokens are copied from the platform's
   own `app.css` (Tailwind v4 variables) rather than matched by eye, and the Inter
-  files are the ones it self-hosts. 4 pages, one shared `tokens.css`, no build
-  step and no JavaScript. Source lives in `~/opencollective/design-system/`.
+  files are the ones it self-hosts. 5 pages, one shared `tokens.css`, no build
+  step. `modules.html` carries the only JavaScript in the repo — a checkbox
+  picker for choosing which parts of the product to keep. Source lives in `~/opencollective/design-system/`.
