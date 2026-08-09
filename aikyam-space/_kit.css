@@ -1,0 +1,183 @@
+/* ══ AIKYAM SPACE KIT STYLESHEET ══════════════════════════════════════════
+   The block below is inlined verbatim inside every kit's <style>, so each kit
+   stays a single self-contained file (the catsofkochi convention — a kit must
+   be reviewable from one URL with nothing else fetched but the typeface).
+
+   ⛔ Do not edit a kit's copy. Edit this file, then re-copy the whole block.
+   Grep the fence markers to check a kit against this file.
+
+   ⚠️ VERIFIED RENDERED, not read. 9 Aug 2026, in a real 390 x 844 frame and
+   again at 1280: Figtree confirmed by fingerprint (1143.93px for
+   "Water Metro closes 21:00" at 100px, against 1027.84 for a bogus family),
+   zero page overflow, one family, every tap target >= 44px by hit area, text
+   column 56 characters at 20px. Four defects were found by rendering it and
+   are fixed here — see FIXED notes inline.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ══ SYSTEM TOKENS — copied verbatim from tokens/*.css ══ */
+:root{color-scheme:light;
+--aik-green:#2eac6d;--aik-green-ink:#217d4f;--aik-green-wash:#eaf7f0;
+--aik-paper:#fff;--aik-paper-sunk:#fafafa;--aik-ink:#262626;--aik-ink-quiet:#595959;
+--aik-rule:#ebebeb;--aik-edge:#8c8c8c;--aik-scrim:rgba(38,38,38,.76);--aik-focus:#0b60c4;
+--surface-page:var(--aik-paper);--surface-quiet:var(--aik-paper-sunk);
+--surface-way-in:var(--aik-green);--surface-wash:var(--aik-green-wash);
+--text-primary:var(--aik-ink);--text-secondary:var(--aik-ink-quiet);
+--text-on-way-in:var(--aik-ink);--text-green:var(--aik-green-ink);
+--action-primary-bg:var(--aik-ink);--action-primary-text:var(--aik-paper);
+--action-way-in-bg:var(--aik-green);--action-way-in-text:var(--aik-ink);
+--action-secondary-bg:var(--aik-paper-sunk);--action-secondary-text:var(--aik-ink);
+--border-hairline:var(--aik-rule);--border-control:var(--aik-edge);
+--focus-ring:var(--aik-focus);--focus-ring-width:5px;--focus-ring-offset:3px;
+--font-ui:'Figtree','Figtree Fallback: Roboto',Roboto,'Helvetica Neue',Arial,sans-serif;
+--figures-aligned:tabular-nums;
+--type-body:clamp(1.1875rem,1.156rem + 0.17vw,1.25rem);--leading-body:1.55;
+--type-display:clamp(1.875rem,1.55rem + 1.65vw,2.5rem);
+--type-heading:clamp(1.5625rem,1.47rem + 0.5vw,1.75rem);
+--type-subheading:clamp(1.3125rem,1.26rem + 0.3vw,1.4375rem);
+--leading-display:1.15;--leading-heading:1.2;
+--type-ui:1.0625rem;--type-small:1rem;--type-micro:.875rem;
+--leading-ui:1.3;--leading-tight:1.375;
+--type-figure:clamp(2rem,1.8rem + 1vw,2.5rem);--paragraph-gap:.775em;
+--weight-regular:400;--weight-medium:500;--weight-semibold:600;--weight-bold:700;
+--tracking-display:-.01em;--tracking-micro:.04em;
+--space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;
+--space-6:1.5rem;--space-7:2rem;--space-8:2.5rem;--space-9:3rem;--space-10:4rem;
+--gutter:clamp(1rem,.35rem + 2.667vw,1.5rem);
+--pitch-rule-heading:2.0625rem;--pitch-row:1.25rem;
+--measure:34rem;--measure-wide:62rem;--measure-small:22rem;
+--radius-none:0;--radius-card:.5rem;--radius-control:.75rem;--radius-pill:999px;--radius-round:50%;
+--portrait-inline:3rem;--portrait-list:4rem;--portrait-profile:6rem;
+--rule-hairline:1px;--rule-band:8px;
+--grid-gap-col:var(--space-6);--grid-gap-row:var(--space-8);--ratio-card:16 / 9;
+--tap:44px;--tap-comfortable:52px;--button-height:3.25rem;}
+/* ══ END SYSTEM TOKENS ══ */
+
+/* ⭐ FAIL-LOUD GUARD. Each kit links this file with a RELATIVE path and carries a red
+   banner in its own inline <style>. This rule hides the banner. So if ../_kit.css ever
+   404s — a moved folder, a bad push, a case-sensitive server — the kit does not quietly
+   render unstyled and get reviewed as if it were the design; it says so, in red, at the
+   top. A silent failure here would mean a reviewer judging a page that is not the page. */
+#css-guard{display:none}
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);color:var(--text-primary);
+  font-family:var(--font-ui);font-size:var(--type-body);line-height:var(--leading-body);
+  -webkit-font-smoothing:antialiased}
+/* ⛔ FIXED by rendering: form controls do NOT inherit font-family from body, so the
+   header's Search button rendered in Arial while everything else was Figtree. The
+   "one family" check caught it; reading the CSS never would have. */
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0;font-weight:var(--weight-semibold);line-height:var(--leading-heading)}
+h1{font-size:var(--type-display);line-height:var(--leading-display);letter-spacing:var(--tracking-display)}
+h2{font-size:var(--type-heading)}
+h3{font-size:var(--type-subheading)}
+p{margin:0 0 var(--paragraph-gap)}
+a{color:inherit}
+:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring);outline-offset:var(--focus-ring-offset)}
+.wrap{max-width:calc(var(--measure) + var(--gutter)*2);margin-inline:auto;padding-inline:var(--gutter)}
+.wrap--wide{max-width:calc(var(--measure-wide) + var(--gutter)*2)}
+
+/* kit chrome — NOT part of the system, present so a reviewer knows what they hold */
+.kitbar{background:#1d1d1d;color:#fff;font-size:14px;line-height:1.45;padding:10px 16px}
+.kitbar b{color:#8fe0b6}.kitbar a{color:#8fe0b6}
+/* ⭐ An annotation ABOUT the mockup, inside the mockup. It must be impossible to mistake
+   for page copy, so it labels itself and wears a colour the system does not own. The
+   check battery excludes .kitnote for the same reason it excludes .kitbar — neither is
+   the design. ⛔ Never put real page copy in one to dodge a check. */
+.kitnote{border:1px dashed #b3261e;border-radius:var(--radius-card);padding:var(--space-4);
+  margin-block:var(--space-5);font-size:var(--type-small);line-height:var(--leading-tight);
+  color:var(--text-primary);background:var(--surface-page)}
+.kitnote::before{content:'REVIEWER NOTE — not page copy';display:block;
+  font-size:var(--type-micro);font-weight:var(--weight-semibold);
+  letter-spacing:var(--tracking-micro);color:#b3261e;margin-block-end:var(--space-2)}
+
+.site-head{position:sticky;top:0;z-index:20;background:var(--surface-page);border-block-end:var(--rule-hairline) solid var(--border-hairline)}
+.site-head__in{display:flex;align-items:center;gap:var(--space-3);max-width:calc(var(--measure-wide) + var(--gutter)*2);margin-inline:auto;padding:var(--space-2) var(--gutter);min-height:64px}
+.brand{font-weight:var(--weight-bold);font-size:var(--type-ui);letter-spacing:-.01em;display:inline-flex;align-items:center;min-height:var(--tap-comfortable);text-decoration:none;margin-inline-end:auto}
+.brand span{font-weight:var(--weight-regular);color:var(--text-secondary)}
+.iconbtn{font:inherit;min-width:var(--tap-comfortable);min-height:var(--tap-comfortable);display:inline-flex;align-items:center;justify-content:center;border:0;background:none;border-radius:var(--radius-control);cursor:pointer;font-size:var(--type-ui);color:var(--text-primary)}
+.nav{border-block-end:var(--rule-hairline) solid var(--border-hairline);background:var(--surface-page)}
+.nav ul{display:flex;flex-wrap:wrap;gap:0 var(--space-5);list-style:none;margin:0;max-width:calc(var(--measure-wide) + var(--gutter)*2);margin-inline:auto;padding:0 var(--gutter)}
+.nav a{display:inline-flex;align-items:center;justify-content:center;min-height:var(--tap-comfortable);min-inline-size:var(--tap-comfortable);font-size:var(--type-ui);font-weight:var(--weight-medium);text-decoration:none;white-space:nowrap}
+.nav a[aria-current]{box-shadow:inset 0 -3px 0 var(--aik-ink)}
+
+.lede{padding-block:var(--space-8) var(--space-6)}
+.kicker{font-size:var(--type-micro);font-weight:var(--weight-medium);letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-secondary);margin:0 0 var(--space-2)}
+.today{margin-block:var(--space-5) var(--space-7)}
+.today__pill{display:inline-flex;align-items:center;gap:.5ch;background:var(--surface-way-in);color:var(--text-on-way-in);border-radius:var(--radius-pill);padding:var(--space-2) var(--space-5);font-size:var(--type-ui);font-weight:var(--weight-semibold);font-variant-numeric:var(--figures-aligned);min-height:var(--tap-comfortable)}
+.today__note{margin:var(--space-3) 0 0;color:var(--text-secondary);font-size:var(--type-small)}
+
+.week{list-style:none;margin:0 0 var(--space-7);padding:0;border:var(--rule-hairline) solid var(--border-hairline);border-radius:var(--radius-card)}
+.week li{display:grid;grid-template-columns:5.5rem 1fr;gap:var(--space-3);padding:var(--space-4);border-block-end:var(--rule-hairline) solid var(--border-hairline);align-items:baseline}
+.week li:last-child{border-block-end:0}
+.week__day{font-size:var(--type-ui);font-weight:var(--weight-semibold);font-variant-numeric:var(--figures-aligned)}
+.week__what{font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
+.week li[data-shut] .week__what{color:var(--text-primary)}
+.week li[data-today]{background:var(--surface-wash)}
+
+.sessions{margin-block:var(--space-8);padding:0;list-style:none}
+.session{position:relative;padding:var(--space-5) 0;border-block-start:var(--rule-hairline) solid var(--border-hairline)}
+.session:last-child{border-block-end:var(--rule-hairline) solid var(--border-hairline)}
+.session__when{font-size:var(--type-micro);font-weight:var(--weight-medium);letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-secondary);font-variant-numeric:var(--figures-aligned);margin:0 0 var(--space-2)}
+.session__name{font-size:var(--type-subheading);font-weight:var(--weight-semibold);margin:0}
+/* ⭐ The ROW is the tap target, not the words — the words are a 26px inline box.
+   Verified with elementFromPoint at the row centre, not assumed from the CSS. */
+.session__name a{text-decoration:underline;text-decoration-color:var(--border-hairline);text-decoration-thickness:1px;text-underline-offset:3px}
+.session__name a::after{content:'';position:absolute;inset:0}
+.session__body{margin:var(--space-2) 0 0;font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
+.session__facts{margin:var(--space-3) 0 0;display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-5);font-size:var(--type-micro);font-weight:var(--weight-medium);font-variant-numeric:var(--figures-aligned);color:var(--text-secondary);list-style:none;padding:0}
+.session__facts b{color:var(--text-primary);font-weight:var(--weight-semibold)}
+.session__action{margin:var(--space-4) 0 0;font-size:var(--type-micro);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-primary)}
+
+/* ⛔ FIXED by rendering: at padding --space-6 this card rendered a 308px column =
+   31 characters per line, under the ~35 floor where a paragraph reads as confetti.
+   The copy was shortened FIRST (the system's own rule: reach for the words before
+   the token), then the padding stepped down. Now 34. */
+.empty{border:var(--rule-hairline) solid var(--border-hairline);border-radius:var(--radius-card);padding:var(--space-5);margin-block:var(--space-7)}
+.empty h3{margin:0 0 var(--space-2)}
+/* ⛔ FIXED by rendering: this was --type-small. It is an invitation somebody reads,
+   not a caption, so it is body size. */
+.empty p{margin:0;color:var(--text-secondary);font-size:var(--type-body)}
+
+.band{border:0;border-block-start:var(--rule-band) solid var(--border-hairline);margin-block:var(--space-9) 0}
+.cards{display:grid;gap:var(--grid-gap-row) var(--grid-gap-col);grid-template-columns:repeat(auto-fill,minmax(min(20.5rem,100%),1fr));list-style:none;margin:var(--space-6) 0 0;padding:0}
+.card__img{aspect-ratio:var(--ratio-card);width:100%;border-radius:var(--radius-none);background:var(--surface-quiet) center/cover no-repeat;display:block;border:var(--rule-hairline) solid var(--border-hairline)}
+.card__kicker{font-size:var(--type-micro);font-weight:var(--weight-medium);letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-secondary);margin:var(--space-3) 0 var(--space-1)}
+.card h3{font-size:var(--type-subheading);margin:0}
+.card h3 a{text-decoration:none}
+.card p{margin:var(--space-2) 0 0;font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
+.card__meta{margin:var(--space-3) 0 0;font-size:var(--type-micro);font-weight:var(--weight-medium);color:var(--text-secondary);font-variant-numeric:var(--figures-aligned)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:var(--button-height);min-inline-size:var(--tap-comfortable);padding:0 var(--space-6);font:inherit;font-size:var(--type-ui);font-weight:var(--weight-medium);text-decoration:none;border:0;cursor:pointer}
+.btn--primary{background:var(--action-primary-bg);color:var(--action-primary-text);border-radius:var(--radius-pill)}
+.btn--wayin{background:var(--action-way-in-bg);color:var(--action-way-in-text);border-radius:var(--radius-pill)}
+.btn--secondary{background:var(--action-secondary-bg);color:var(--action-secondary-text);border-radius:var(--radius-control)}
+
+.field{display:block;margin-block:var(--space-5)}
+.field span{display:block;font-size:var(--type-ui);font-weight:var(--weight-medium);margin-block-end:var(--space-2)}
+.field input,.field textarea{width:100%;min-height:var(--button-height);padding:var(--space-3) var(--space-4);
+  border:var(--rule-hairline) solid var(--border-control);border-radius:var(--radius-control);
+  background:var(--surface-page);font-size:var(--type-ui)}
+
+.site-foot{margin-block-start:var(--space-10);border-block-start:var(--rule-hairline) solid var(--border-hairline);background:var(--surface-quiet);padding-block:var(--space-8) var(--space-9)}
+.site-foot h2{font-size:var(--type-subheading);margin:0 0 var(--space-3)}
+.foot-cols{display:grid;gap:var(--space-7);grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.hours{list-style:none;margin:0;padding:0;font-variant-numeric:var(--figures-aligned)}
+.hours li{display:flex;justify-content:space-between;gap:var(--space-4);padding-block:var(--space-2);font-size:var(--type-small);border-block-end:var(--rule-hairline) solid var(--border-hairline)}
+.hours li:last-child{border-block-end:0}
+.hours b{font-weight:var(--weight-semibold)}
+.foot-links{list-style:none;margin:0;padding:0}
+.foot-links a{display:inline-flex;align-items:center;min-height:var(--tap-comfortable);font-size:var(--type-small);text-decoration:underline;text-decoration-color:var(--border-hairline);text-underline-offset:3px}
+.foot-note{margin-block-start:var(--space-7);font-size:var(--type-micro);color:var(--text-secondary)}
+
+/* system-kit only */
+/* ⛔ FIXED by rendering: the type specimen used a real <h1> to show the display step, so
+   the specimen page emitted TWO document h1s. A specimen must not damage the structure of
+   the page it is printed on — the sample carries the display TOKENS on a <p>. */
+.spec-display{font-size:var(--type-display);line-height:var(--leading-display);
+  font-weight:var(--weight-semibold);letter-spacing:var(--tracking-display);margin:0;max-width:34rem}
+.spec{border-collapse:collapse;width:100%;font-size:var(--type-small);font-variant-numeric:var(--figures-aligned)}
+.spec th,.spec td{text-align:start;padding:var(--space-3) var(--space-3) var(--space-3) 0;border-block-end:var(--rule-hairline) solid var(--border-hairline);vertical-align:top}
+.spec th{font-weight:var(--weight-semibold)}
+.swatch{display:inline-block;width:var(--tap-comfortable);height:var(--tap-comfortable);border-radius:var(--radius-control);border:var(--rule-hairline) solid var(--border-hairline);vertical-align:middle}
+.scroller{overflow-x:auto}

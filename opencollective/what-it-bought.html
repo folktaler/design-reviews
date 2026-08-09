@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The drums arrived — raseed</title>
+<link rel="stylesheet" href="faces-inter.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* This page departs from Open Collective's sizing in three places, on purpose.
+     They are listed at the bottom of the page under "Where this leaves Open
+     Collective's look, and why". Everything else comes from tokens.css. */
+
+  body { background: var(--slate-50); font-size: 1.0625rem; line-height: 1.6; }
+
+  .appbar { height: 56px; background: var(--background); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.625rem; padding: 0 1.25rem; position: sticky; top: 0; z-index: 5; }
+  .wordmark { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 1rem; letter-spacing: -0.01em; color: var(--oc); }
+  .appbar .me { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--slate-600); }
+  .avatar { width: 30px; height: 30px; border-radius: 999px; background: var(--slate-200); color: var(--slate-700); display: grid; place-items: center; font-size: 0.75rem; font-weight: 600; }
+
+  .banner { background: var(--amber-100); color: var(--amber-700); font-size: 0.8125rem; line-height: 1.5; padding: 0.625rem 1.25rem; border-bottom: 1px solid color-mix(in oklch, var(--amber-700) 25%, white); }
+  .banner b { font-weight: 600; }
+
+  .page { max-width: 40rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
+  .prose { max-width: 33rem; }
+
+  /* Touch: Open Collective's buttons are 44px, sized for a mouse on a dashboard.
+     Every button a donor taps here is 52px. */
+  .btn-lg { height: 3.25rem; }
+  .btn-xl { height: 3.5rem; font-size: 1.0625rem; }
+
+  /* ---- The outcome ---------------------------------------------------- */
+  .outcome { padding-top: 2rem; }
+  .eyebrow { font-size: 0.75rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--slate-500); font-weight: 600; margin-bottom: 0.625rem; }
+  h1 { font-size: clamp(1.75rem, 6.5vw, 2.25rem); line-height: 1.18; letter-spacing: -0.025em; font-weight: 700; margin: 0 0 0.5rem; max-width: 18ch; }
+  .standfirst { font-size: 1.125rem; color: var(--slate-700); margin: 0 0 1.5rem; }
+
+  figure { margin: 0 0 1.5rem; }
+  figure svg { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+  figcaption { font-size: 0.8125rem; color: var(--muted-foreground); margin-top: 0.5rem; }
+
+  .sentence { font-size: 1.1875rem; line-height: 1.5; font-weight: 500; border-left: 3px solid var(--primary); padding: 0.125rem 0 0.125rem 1rem; margin: 0 0 2.25rem; max-width: 33rem; }
+  .sentence .you { color: var(--primary); font-variant-numeric: tabular-nums; }
+  .sentence .n { font-variant-numeric: tabular-nums; }
+
+  /* ---- Section headings ------------------------------------------------ */
+  h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.015em; margin: 0 0 0.25rem; }
+  .sectionnote { color: var(--muted-foreground); font-size: 0.9375rem; margin: 0 0 0.875rem; max-width: 33rem; }
+  section { margin-bottom: 2.5rem; }
+
+  /* ---- The bill -------------------------------------------------------- */
+  .bill { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .bill .head { padding: 0.75rem 1.125rem; border-bottom: 1px dashed var(--slate-300); display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+  .bill .shop { font-weight: 600; }
+  .bill .ref { font-size: 0.8125rem; color: var(--muted-foreground); margin-left: auto; font-variant-numeric: tabular-nums; }
+  .bill .items { padding: 0.5rem 1.125rem 1.125rem; }
+  .billline { display: flex; gap: 1rem; padding: 0.5rem 0; font-size: 0.9375rem; }
+  .billline .r { margin-left: auto; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .billline.tot { border-top: 1px solid var(--border); margin-top: 0.375rem; padding-top: 0.75rem; font-weight: 600; font-size: 1.0625rem; }
+  .bill .attach { display: flex; align-items: center; gap: 0.875rem; padding: 0.875rem 1.125rem; border-top: 1px solid var(--border); background: var(--slate-50); }
+  .thumb { width: 44px; height: 56px; border-radius: 4px; border: 1px solid var(--slate-300); background: repeating-linear-gradient(180deg, #fff 0 7px, var(--slate-100) 7px 8px); flex: none; }
+  .attach .t { font-size: 0.875rem; }
+  .attach a { color: var(--primary); font-weight: 500; text-decoration: none; }
+  .attach a:hover { text-decoration: underline; }
+  .provenance { font-size: 0.8125rem; color: var(--muted-foreground); margin: 0.75rem 0 0; max-width: 33rem; }
+  .provenance b { color: var(--slate-700); font-weight: 500; }
+
+  /* ---- Who paid it ----------------------------------------------------- */
+  .splitbar { display: flex; height: 14px; border-radius: 999px; overflow: hidden; margin: 0.5rem 0 0.625rem; background: var(--slate-200); }
+  .splitbar span { display: block; height: 100%; }
+  .seg-donors { background: var(--primary); }
+  .seg-own { background: var(--slate-300); }
+  .splitkey { display: flex; gap: 1.25rem; flex-wrap: wrap; font-size: 0.875rem; }
+  .splitkey div { display: flex; align-items: baseline; gap: 0.4rem; }
+  .swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; transform: translateY(-1px); }
+  .splitkey .amt { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+  /* ---- Gifts ----------------------------------------------------------- */
+  .gift { display: flex; align-items: baseline; gap: 0.875rem; padding: 0.8125rem 1.125rem; border-bottom: 1px solid var(--border); font-size: 0.9375rem; }
+  .gift:last-child { border-bottom: 0; }
+  .gift .when { color: var(--muted-foreground); font-size: 0.875rem; min-width: 5.5rem; }
+  .gift .amt { margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .gift.yours { background: var(--blue-50); }
+  .gift.yours .who { color: var(--primary); font-weight: 600; }
+  .giftbox { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  details.others { border-top: 1px solid var(--border); }
+  details.others summary { cursor: pointer; padding: 0.875rem 1.125rem; font-size: 0.9375rem; font-weight: 500; color: var(--primary); list-style: none; }
+  details.others summary::-webkit-details-marker { display: none; }
+  details.others summary::after { content: ' ▾'; }
+  details.others[open] summary::after { content: ' ▴'; }
+
+  /* ---- The quiet line about forwarding --------------------------------- */
+  .aside { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.125rem 1.25rem; font-size: 0.9375rem; color: var(--slate-700); }
+  .aside b { color: var(--foreground); font-weight: 600; }
+
+  /* ---- Her giving ------------------------------------------------------ */
+  .row { display: flex; align-items: flex-start; gap: 0.875rem; padding: 1rem 1.125rem; border-bottom: 1px solid var(--border); }
+  .row:last-child { border-bottom: 0; }
+  .row .main { flex: 1; min-width: 0; }
+  .row .nm { font-weight: 600; font-size: 0.9375rem; }
+  .row .sub { font-size: 0.8125rem; color: var(--muted-foreground); margin-top: 0.125rem; }
+  .row .amt { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+  .row .acts { margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  /* Secondary, but still a thing a thumb hits: 48px, not 36. */
+  .linkbtn { font-size: 0.875rem; color: var(--primary); text-decoration: none; font-weight: 500; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.5rem 0.875rem; min-height: 3rem; display: inline-flex; align-items: center; }
+
+  .nudge { background: var(--blue-50); border: 1px solid color-mix(in oklch, var(--primary) 25%, white); border-radius: var(--radius-lg); padding: 1.25rem; }
+  .nudge h2 { margin-bottom: 0.375rem; }
+
+  .nextline { font-size: 0.9375rem; color: var(--slate-700); border-top: 1px solid var(--border); padding-top: 1.25rem; }
+  .nextline a { color: var(--primary); font-weight: 500; }
+
+  /* ---- Notes ------------------------------------------------------------ */
+  .notes { border-top: 1px solid var(--border); margin-top: 3rem; padding-top: 2rem; }
+  .notes h2 { font-size: 1rem; margin-top: 2rem; }
+  .notes ul { padding-left: 1.1rem; }
+  .notes li { color: var(--slate-700); font-size: 0.9375rem; margin-bottom: 0.5rem; }
+  .back { display: inline-block; padding: 1rem 1.25rem 0; color: var(--primary); text-decoration: none; font-weight: 500; }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← All pages</a>
+
+<div class="appbar">
+  <span class="wordmark">
+    <svg width="20" height="22" viewBox="0 0 20 22" aria-hidden="true"><path d="M2 2h16v15l-2.7-1.6L12.6 17 10 15.4 7.4 17 4.7 15.4 2 17z" fill="none" stroke="var(--oc-blue)" stroke-width="2" stroke-linejoin="round"/><path d="M6 7h8M6 10.5h5" stroke="var(--oc-blue)" stroke-width="1.6" stroke-linecap="round"/></svg>
+    raseed
+  </span>
+  <span class="me">Priya <span class="avatar">PR</span></span>
+</div>
+
+<div class="banner">
+  <b>Design page, not the product.</b> Priya, Devi, Rahitha, Aikyam, Chalanam Foundation, Puzha Reading Room and Peruvanam Music House are invented for this design. No real person or organisation is described here, and no registration or tax status shown is anybody's actual status. Nothing on this page is wired up.
+</div>
+
+<div class="page">
+
+  <!-- ============ 1. The outcome, before anything else ============ -->
+  <section class="outcome">
+    <div class="eyebrow">Aikyam · Fort Kochi</div>
+    <h1>The drums arrived on Tuesday.</h1>
+    <p class="standfirst">You helped buy them.</p>
+
+    <figure>
+      <svg viewBox="0 0 640 360" role="img" aria-label="Placeholder for a photograph of six chenda drums standing in a rented room">
+        <rect width="640" height="360" fill="#eef1f6"/>
+        <rect y="250" width="640" height="110" fill="#e2e7ef"/>
+        <g fill="none" stroke="#c3cbd8" stroke-width="6">
+          <ellipse cx="120" cy="190" rx="46" ry="16"/><path d="M74 190v70a46 16 0 0 0 92 0v-70"/>
+          <ellipse cx="228" cy="196" rx="44" ry="15"/><path d="M184 196v68a44 15 0 0 0 88 0v-68"/>
+          <ellipse cx="330" cy="186" rx="47" ry="16"/><path d="M283 186v72a47 16 0 0 0 94 0v-72"/>
+          <ellipse cx="436" cy="196" rx="44" ry="15"/><path d="M392 196v68a44 15 0 0 0 88 0v-68"/>
+          <ellipse cx="536" cy="190" rx="46" ry="16"/><path d="M490 190v70a46 16 0 0 0 92 0v-70"/>
+        </g>
+        <text x="320" y="332" text-anchor="middle" font-family="Inter, sans-serif" font-size="17" fill="#8792a6">Placeholder — the real page carries Devi's phone photo</text>
+      </svg>
+      <figcaption>Six chenda in the rented room at Amaravathi, photographed by Devi on 9 September.</figcaption>
+    </figure>
+
+    <p class="sentence">
+      Your <span class="you">₹500</span> was part of the <span class="n">₹23,900</span> that twelve
+      people gave, which bought six chenda from Peruvanam Music House on
+      <span class="n">4 September</span>.
+    </p>
+  </section>
+
+  <!-- ============ 2. The bill ============ -->
+  <section>
+    <h2>The shop's bill</h2>
+    <p class="sectionnote">The paper Aikyam got from the shop, and what Devi typed off it.</p>
+
+    <div class="bill">
+      <div class="head">
+        <span class="shop">Peruvanam Music House</span>
+        <span class="ref">Bill 2126 · 4 Sept 2026</span>
+      </div>
+      <div class="items">
+        <div class="billline"><span>Chenda, full set with kolu — 6 × ₹6,200</span><span class="r">₹37,200</span></div>
+        <div class="billline"><span>Delivery, Peruvanam to Fort Kochi</span><span class="r">₹1,000</span></div>
+        <div class="billline tot"><span>Total paid</span><span class="r">₹38,200</span></div>
+      </div>
+      <div class="attach">
+        <span class="thumb" aria-hidden="true"></span>
+        <span class="t">
+          <a href="#">Photograph of the bill</a><br>
+          <span class="muted" style="font-size:0.8125rem">JPEG · 1.2 MB · uploaded 6 September</span>
+        </span>
+      </div>
+    </div>
+
+    <p class="provenance">
+      <b>Recorded by Devi at Aikyam on 6 September.</b> Two people at Aikyam approved this before the
+      shop was paid. Aikyam paid the shop from its own bank account — the money never passed through us.
+    </p>
+  </section>
+
+  <!-- ============ 3. Who paid it ============ -->
+  <section>
+    <h2>Who paid the ₹38,200</h2>
+    <p class="sectionnote">Gifts did not cover the whole bill. Aikyam put in the rest.</p>
+
+    <div class="splitbar" role="img" aria-label="Of the ₹38,200 bill, ₹23,900 came from twelve gifts and ₹14,300 from Aikyam's own funds">
+      <span class="seg-donors" style="width:62.6%"></span>
+      <span class="seg-own" style="width:37.4%"></span>
+    </div>
+    <div class="splitkey">
+      <div><span class="swatch" style="background:var(--primary)"></span><span><span class="amt">₹23,900</span> from twelve gifts, one of them yours</span></div>
+      <div><span class="swatch" style="background:var(--slate-300)"></span><span><span class="amt">₹14,300</span> from Aikyam's own funds</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 4. The gifts that paid for it ============ -->
+  <section>
+    <h2>The gifts that paid for it</h2>
+    <p class="sectionnote">Every gift that went to the drums, yours first.</p>
+
+    <div class="giftbox">
+      <div class="gift yours">
+        <span class="when">12 Aug</span>
+        <span class="who">Your gift</span>
+        <span class="amt">₹500</span>
+      </div>
+      <details class="others">
+        <summary>The other eleven gifts</summary>
+        <div class="gift"><span class="when">2 Aug</span><span class="who muted">A donor</span><span class="amt">₹5,000</span></div>
+        <div class="gift"><span class="when">4 Aug</span><span class="who muted">A donor</span><span class="amt">₹2,500</span></div>
+        <div class="gift"><span class="when">8 Aug</span><span class="who muted">A donor</span><span class="amt">₹1,000</span></div>
+        <div class="gift"><span class="when">11 Aug</span><span class="who muted">A donor</span><span class="amt">₹2,000</span></div>
+        <div class="gift"><span class="when">14 Aug</span><span class="who muted">A donor</span><span class="amt">₹400</span></div>
+        <div class="gift"><span class="when">17 Aug</span><span class="who muted">A donor</span><span class="amt">₹5,000</span></div>
+        <div class="gift"><span class="when">19 Aug</span><span class="who muted">A donor</span><span class="amt">₹1,500</span></div>
+        <div class="gift"><span class="when">21 Aug</span><span class="who muted">A donor</span><span class="amt">₹2,500</span></div>
+        <div class="gift"><span class="when">24 Aug</span><span class="who muted">A donor</span><span class="amt">₹500</span></div>
+        <div class="gift"><span class="when">28 Aug</span><span class="who muted">A donor</span><span class="amt">₹1,000</span></div>
+        <div class="gift"><span class="when">30 Aug</span><span class="who muted">A donor</span><span class="amt">₹2,000</span></div>
+      </details>
+    </div>
+    <p class="provenance">Nobody's name is shown here — not to strangers, and not to the other people who gave.</p>
+  </section>
+
+  <!-- ============ 5. Forwarding is the email's job, not this page's. One line. ============ -->
+  <section>
+    <div class="aside">
+      <b>Want to show somebody?</b> Forward the email we sent you — <a href="email-the-drums-arrived.html">the one about the drums</a>.
+      It opens for anyone, it explains itself from scratch, and there is nothing in it about you or
+      what you gave. This page is the opposite: it is yours, it is behind your sign-in, and a link to
+      it is a locked door to everyone else.
+    </div>
+  </section>
+
+  <!-- ============ 6. Everything she has given ============ -->
+  <section>
+    <h2>Everything you have given</h2>
+    <p class="sectionnote">Three organisations, one place, no password.</p>
+
+    <div class="giftbox">
+      <div class="row">
+        <div class="main">
+          <div class="nm">Aikyam · chenda for the Saturday class</div>
+          <div class="sub">₹500 on 12 August 2026</div>
+          <div class="acts">
+            <span class="badge badge-success">Spent — you have seen the bill</span>
+          </div>
+          <div class="acts">
+            <a class="linkbtn" href="#">Receipt</a>
+            <a class="linkbtn" href="#">80G certificate</a>
+          </div>
+        </div>
+        <span class="amt">₹500</span>
+      </div>
+
+      <div class="row">
+        <div class="main">
+          <div class="nm">Chalanam Foundation · winter clothes</div>
+          <div class="sub">₹1,000 on 3 July 2026</div>
+          <div class="acts">
+            <span class="badge badge-neutral">Not spent yet</span>
+          </div>
+          <div class="sub" style="margin-top:0.5rem">We will email you the day it is. Nothing has been bought from this yet, and we are not going to pretend otherwise.</div>
+          <div class="acts">
+            <a class="linkbtn" href="#">Receipt</a>
+            <a class="linkbtn" href="#">80G certificate</a>
+          </div>
+        </div>
+        <span class="amt">₹1,000</span>
+      </div>
+
+      <div class="row">
+        <div class="main">
+          <div class="nm">Puzha Reading Room · shelves</div>
+          <div class="sub">₹250 on 19 February 2026</div>
+          <div class="acts">
+            <span class="badge badge-success">Spent — you have seen the bill</span>
+          </div>
+          <div class="sub" style="margin-top:0.5rem">Puzha Reading Room is not registered under 80G, so it cannot issue a tax certificate for this gift. That is the organisation's registration, not something you can add.</div>
+          <div class="acts">
+            <a class="linkbtn" href="#">Receipt</a>
+          </div>
+        </div>
+        <span class="amt">₹250</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. PAN, framed as the thing she gets ============ -->
+  <section>
+    <div class="nudge">
+      <h2>Your 80G certificate for 2025–26 is ready</h2>
+      <p class="sectionnote" style="margin-bottom:1rem">
+        It needs your PAN — ten characters, once. We keep it, and every certificate after this one
+        writes itself. Without it Aikyam cannot put you on the file it hands the tax department by
+        31 May, and the certificate cannot be issued at all.
+      </p>
+      <button class="btn btn-default btn-lg" type="button" style="width:100%;max-width:20rem">Add my PAN</button>
+    </div>
+  </section>
+
+  <p class="nextline">
+    Two more things need money right now — <a href="give.html">one at Aikyam</a> and one at Chalanam
+    Foundation. Nobody has asked you for anything since March.
+  </p>
+
+  <!-- ============ Notes for review ============ -->
+  <div class="notes">
+    <h2>What this page is for</h2>
+    <p class="sectionnote">
+      It is the six-star moment in the shaping document, and the whole argument for eight weeks
+      rather than three. Priya taps a link in an email, lands here already signed in, and meets one
+      thing: what her ₹500 became, with the shop's paper above the gifts that paid for it.
+    </p>
+
+    <h2>The decisions on this page</h2>
+    <ul>
+      <li><strong>The outcome comes before the money.</strong> A headline, a photograph and one
+        sentence before a single number is broken down. She came for the drums, not for a statement.</li>
+      <li><strong>The bill is a document, not a row in a table.</strong> Shop name, bill number, line
+        items, the photograph of the paper, and who typed it in. A number without its paper is a claim;
+        with the paper it is evidence.</li>
+      <li><strong>The gifts did not cover the bill, and the page says so.</strong> ₹23,900 of ₹38,200.
+        Hiding the ₹14,300 Aikyam put in would have been easy and would have been the first lie.</li>
+      <li><strong>Amounts are shown, names never are</strong> — not even between people who gave to
+        the same thing. Nobody decided that before now; it is decided here.</li>
+      <li><strong>"Not spent yet" is a status she can read.</strong> Not pending, not processing. A
+        donor who funds something slow is told nothing has happened, which is the truth.</li>
+      <li><strong>PAN is offered as a certificate she can have, not a form she must fill.</strong> The
+        sentence about 31 May is the plain warning the shaping document asked for.</li>
+    </ul>
+
+    <h2>Why there is no share button here</h2>
+    <ul>
+      <li><strong>This page cannot be forwarded and should not pretend it can.</strong> It sits behind
+        Priya's sign-in, and the organisation behind it is private, so a link she pastes into WhatsApp
+        is a sign-in wall to everybody else.</li>
+      <li><strong>The email is the only thing in this product that survives a forward</strong>, because
+        it carries its own copy of the story. So the forwarding job moved there entirely —
+        <a href="email-the-drums-arrived.html">email-the-drums-arrived.html</a> — and this page got
+        simpler for it.</li>
+      <li><strong>This page holds everything personal; the email holds none of it.</strong> Her amount,
+        her three organisations, her receipts and her PAN live here, behind sign-in. That split is the
+        rule, not a preference: see the email's own notes.</li>
+    </ul>
+
+    <h2>Where this leaves Open Collective's look, and why</h2>
+    <ul>
+      <li><strong>Body type is 17px, not 14px.</strong> Open Collective's 14px is right for an admin
+        scanning a dashboard all day and wrong for one person reading one thing once, on a phone.</li>
+      <li><strong>Buttons a donor taps are 52px tall, not 44px.</strong> 44 is the floor, not a target,
+        and this is a phone page.</li>
+      <li><strong>Colour is spent on exactly one thing:</strong> her line, her amount, her share of the
+        bar. Everything else is grey. Open Collective's blue is used as the accent it already is.</li>
+      <li>Every colour, radius, badge and button style otherwise comes from <code>tokens.css</code>
+        unchanged. Nothing new was invented.</li>
+    </ul>
+
+    <h2>Known gaps</h2>
+    <ul>
+      <li>The photograph and the bill thumbnail are placeholders drawn in code. No real image is embedded.</li>
+      <li>No state for "she has given to one thing only" — the sections that compare across
+        organisations would need rewriting for a first-time donor.</li>
+      <li>No state for "Aikyam has nothing to raise for right now", which makes the share block
+        homeless. It should fall back to Aikyam's standing page; that page is not drawn.</li>
+      <li>The 80G certificate itself, the receipt PDF, and the PAN form are not drawn.</li>
+      <li>No email is drawn — and the email is half of this moment.</li>
+      <li>There is no JavaScript on this page at all, and nothing on it needs any. There was, briefly:
+        a copy-link script left behind when the share block was cut, throwing on every load. It was
+        found by opening the page rather than by reading it.</li>
+      <li><strong>Line length in characters was not counted.</strong> Measured at 375px in a browser,
+        nothing overflows sideways (0px) — but that is geometry, not typography.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- No JavaScript on this page. The one script that was here belonged to a share
+     button that no longer exists, and it was throwing on every load. -->
+</body>
+</html>

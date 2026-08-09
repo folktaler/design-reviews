@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aikyam space — proposed /contact-us/ (mockup)</title>
+<meta name="description" content="Mockup of a reachable contact page for aikyam.space — when to just turn up, where the room is, and a form that says what happens after you send it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>#css-guard{background:#b3261e;color:#fff;padding:16px;margin:0;font:600 16px/1.45 system-ui,sans-serif}</style>
+<link rel="stylesheet" href="../_kit.css">
+</head>
+<body>
+<p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
+
+<div class="kitbar">
+  <b>MOCKUP — not the live site.</b> Proposed <code>/contact-us/</code>.
+  ⚠️ <b>No email address or phone number appears anywhere on the live site</b> — the live page
+  is a heading, one sentence and an embedded Tally form, with no <code>mailto:</code>, no
+  <code>tel:</code> and no address. <b>None has been invented here.</b> Every place one would
+  go is marked as a gap for the owner to fill. The Maps link is the real one from
+  <a href="https://aikyam.space/about/">aikyam.space/about/</a>.
+</div>
+
+<header class="site-head">
+  <div class="site-head__in">
+    <a class="brand" href="#">aikyam <span>space</span></a>
+    <button class="iconbtn" aria-label="Search">Search</button>
+    <a class="btn btn--secondary" href="#">Subscribe</a>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <ul>
+    <li><a href="#">Clubs</a></li>
+    <li><a href="#">Stories</a></li>
+    <li><a href="#">Residency</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Team</a></li>
+    <li><a href="#" aria-current="page">Contact</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+  <section class="lede">
+    <p class="kicker">Fort Kochi</p>
+    <h1>Come and see us</h1>
+    <p style="margin-block-start:var(--space-4)">For most things you do not need to write
+      first. The clubs are free and open — walk in during session hours and say who you are.</p>
+
+    <div class="today">
+      <p class="today__pill">Open today · 2–6 PM</p>
+      <p class="today__note">Sunday 9 August. Closed on Mondays.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="ways-h">
+    <h2 id="ways-h">Three ways to reach us</h2>
+
+    <ul class="sessions">
+      <li class="session">
+        <p class="session__when">No notice needed</p>
+        <h3 class="session__name"><a href="#">Turn up during a session</a></h3>
+        <p class="session__body">Tuesday to Sunday, 2–6 PM. Someone will be in the hall.
+          This is the fastest way to see the space and meet a facilitator.</p>
+        <p class="session__action">Just turn up</p>
+      </li>
+
+      <li class="session">
+        <p class="session__when">We reply within a few days</p>
+        <h3 class="session__name"><a href="#form">Send us a message</a></h3>
+        <p class="session__body">Use the form below if you want to book the room, propose a
+          club, or ask something before you come.</p>
+        <p class="session__action">Write to us</p>
+      </li>
+
+      <li class="session">
+        <p class="session__when">Find the door</p>
+        <h3 class="session__name"><a href="https://share.google/Xc0HN6lt65kULvdCg">Open the map</a></h3>
+        <p class="session__body">aikyam space, Fort Kochi. The pin is the entrance, not the
+          street — follow it to the gate.</p>
+        <p class="session__action">Open in Maps</p>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="form-h" id="form">
+    <h2 id="form-h">Send us a message</h2>
+    <p style="margin-block-start:var(--space-3)">Tell us what you want to do. If you are asking
+      about the room, say roughly when and how many people.</p>
+
+    <form onsubmit="return false">
+      <label class="field">
+        <span>Your name</span>
+        <input type="text" name="name" autocomplete="name">
+      </label>
+      <label class="field">
+        <span>How we reply to you</span>
+        <input type="text" name="reply" placeholder="Email or phone" autocomplete="email">
+      </label>
+      <label class="field">
+        <span>What is this about?</span>
+        <textarea name="message" rows="5"></textarea>
+      </label>
+      <p><a class="btn btn--primary" href="#">Send</a></p>
+      <p style="font-size:var(--type-small);color:var(--text-secondary)">We read everything.
+        You will get a reply from a person, not an automatic one.</p>
+    </form>
+  </section>
+
+  <hr class="band">
+
+  <section style="margin-block-start:var(--pitch-rule-heading)" aria-labelledby="gaps-h">
+    <h2 id="gaps-h">⚠️ Reviewer note — three gaps, not page copy</h2>
+    <div class="empty" style="margin-block-start:var(--space-4)">
+      <h3>1. There is no published email address or phone number</h3>
+      <p>Not on this page, not on <code>/about/</code>, not in the footer — measured across
+        all 26 pages. A room people are meant to visit should publish at least one. Nothing
+        has been made up here; the owner has to supply it.</p>
+    </div>
+    <div class="empty">
+      <h3>2. There is no street address</h3>
+      <p>Only “aikyam space, Fort Kochi” and a Maps share link. The owner's decision was
+        Maps-pin-only, so this mockup shows the pin — but a first-time visitor arriving by
+        auto usually needs a line they can read aloud.</p>
+    </div>
+    <div class="empty">
+      <h3>3. WhatsApp is deferred</h3>
+      <p>Not shown on purpose. It is likely to be the channel most neighbours actually use,
+        so it is worth deciding soon rather than never.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap--wide">
+    <div class="foot-cols">
+      <div>
+        <h2>When we are open</h2>
+        <ul class="hours">
+          <li><span>Monday</span><b>Closed</b></li>
+          <li><span>Tuesday – Friday</span><b>2–6 PM</b></li>
+          <li><span>Saturday – Sunday</span><b>2–6 PM</b></li>
+        </ul>
+        <p class="foot-note" style="margin-block-start:var(--space-3)">These are the club
+          session times. If you want to visit outside them, write first.</p>
+      </div>
+      <div>
+        <h2>Where we are</h2>
+        <p style="font-size:var(--type-small)">aikyam space, Fort Kochi</p>
+        <ul class="foot-links">
+          <li><a href="https://share.google/Xc0HN6lt65kULvdCg">Open in Maps</a></li>
+          <li><a href="#form">Write to us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>More</h2>
+        <ul class="foot-links">
+          <li><a href="#">About the space</a></li>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">An aikyam project</a></li>
+          <li><a href="#">Our policies</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">a [ space ] for inspiring action · supported by Samagata Foundation ·
+      built with free and open source software</p>
+  </div>
+</footer>
+
+</body>
+</html>

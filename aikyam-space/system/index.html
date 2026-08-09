@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aikyam space — the system (specimen)</title>
+<meta name="description" content="The aikyam space design system rendered as a specimen sheet: type ladder, colour with measured contrast, spacing, shape, tap targets and every component, separate from any applied page.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>#css-guard{background:#b3261e;color:#fff;padding:16px;margin:0;font:600 16px/1.45 system-ui,sans-serif}</style>
+<link rel="stylesheet" href="../_kit.css">
+</head>
+<body>
+<p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
+
+<div class="kitbar">
+  <b>SPECIMEN.</b> The raw system, so it can be judged without a page around it. Every ratio
+  below was computed in the browser from the rendered RGB; every size is a token, not a
+  hand-typed number. Full reasoning lives in
+  <code>tokens/*.css</code> and <code>README.md</code>.
+</div>
+
+<header class="site-head">
+  <div class="site-head__in">
+    <a class="brand" href="#">aikyam <span>space</span></a>
+    <button class="iconbtn" aria-label="Search">Search</button>
+    <a class="btn btn--secondary" href="#">Subscribe</a>
+  </div>
+</header>
+
+<main class="wrap wrap--wide">
+  <section class="lede">
+    <p class="kicker">Design system</p>
+    <h1>One green, one family, and a room to walk into</h1>
+    <p style="margin-block-start:var(--space-4);max-width:34rem">Airbnb-faithful, applied to a
+      community space in Fort Kochi. The reader is a neighbour on a phone, often an
+      entry-level Android, deciding whether to come on Saturday.</p>
+  </section>
+
+  <section aria-labelledby="c-h">
+    <h2 id="c-h">Colour — and the accent has one job</h2>
+    <p style="margin-block-start:var(--space-3);max-width:34rem"><b>Green marks the way in.</b>
+      At most once per screen, and only ever as a fill behind dark text. It is never a
+      category, a tag, a heading, a link or a drop cap.</p>
+    <div class="scroller">
+      <table class="spec">
+        <thead><tr><th scope="col">Token</th><th scope="col"></th><th scope="col">Value</th><th scope="col">On paper</th><th scope="col">Job</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">--aik-ink</th><td><span class="swatch" style="background:#262626"></span></td><td>#262626</td><td><b>15.13:1</b></td><td>All primary text</td></tr>
+          <tr><th scope="row">--aik-ink-quiet</th><td><span class="swatch" style="background:#595959"></span></td><td>#595959</td><td><b>7.00:1</b></td><td>Secondary. There is no third grey</td></tr>
+          <tr><th scope="row">--aik-green</th><td><span class="swatch" style="background:#2eac6d"></span></td><td>#2eac6d</td><td>⛔ 2.90:1</td><td>A FILL only. Ink on it is 5.22:1</td></tr>
+          <tr><th scope="row">--aik-green-ink</th><td><span class="swatch" style="background:#217d4f"></span></td><td>#217d4f</td><td>5.11:1</td><td>The rare case where green must be a word</td></tr>
+          <tr><th scope="row">--aik-green-wash</th><td><span class="swatch" style="background:#eaf7f0"></span></td><td>#eaf7f0</td><td>ink 13.74:1</td><td>The one tinted block: today's row</td></tr>
+          <tr><th scope="row">--aik-paper-sunk</th><td><span class="swatch" style="background:#fafafa"></span></td><td>#fafafa</td><td>ink 14.50:1</td><td>Panels, secondary buttons</td></tr>
+          <tr><th scope="row">--aik-rule</th><td><span class="swatch" style="background:#ebebeb"></span></td><td>#ebebeb</td><td>1.19:1</td><td>Decoration. ⛔ Never a control's edge</td></tr>
+          <tr><th scope="row">--aik-edge</th><td><span class="swatch" style="background:#8c8c8c"></span></td><td>#8c8c8c</td><td>3.36:1</td><td>The edge of something you type in</td></tr>
+          <tr><th scope="row">--aik-focus</th><td><span class="swatch" style="background:#0b60c4"></span></td><td>#0b60c4</td><td>6.03:1</td><td>Focus ring, drawn outside the control</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty">
+      <h3>⛔ What the live site does with this green</h3>
+      <p>White on it (every Subscribe button) is <b>2.90:1</b>. It as text on white (every
+        category tag, every drop cap) is <b>also 2.90:1</b>. Measured across seven pages:
+        25 green fills and 24 green words. The cause is arithmetic — the theme computes its
+        contrast colour with a YIQ luma test, and #2eac6d scores 127.14 against a threshold
+        of 128, so it picks white by 0.86.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-h">
+    <h2 id="t-h">Type — one family, eight steps</h2>
+    <p style="margin-block-start:var(--space-3);max-width:34rem">Figtree, self-hosted in
+      production. It replaces Poppins, Lora and the system sans — three families that render
+      on one live post card today. <b>Poppins has no tabular figures</b>, tested three ways,
+      which disqualifies it from a page whose job is a schedule.</p>
+
+    <div style="margin-block-start:var(--space-6)">
+      <p class="kicker">--type-display · h1 · 30→40px / 600</p>
+      <p class="spec-display">A room you can walk into</p>
+    </div>
+    <div style="margin-block-start:var(--space-6)">
+      <p class="kicker">--type-heading · h2 · 25→28px / 600</p>
+      <h2>The three clubs</h2>
+    </div>
+    <div style="margin-block-start:var(--space-6)">
+      <p class="kicker">--type-subheading · h3 · 21→23px / 600</p>
+      <h3>Stitching Club</h3>
+    </div>
+    <div style="margin-block-start:var(--space-6)">
+      <p class="kicker">--type-body · 19→20px / 400 / 1.55 — the floor</p>
+      <p style="max-width:34rem">Fresh cut pieces collected before they reach landfill,
+        cleaned, arranged into designs and stitched into strong, useful tote bags. This
+        column is 544px at the desktop body size, which counts out at 56 characters per
+        line — measured by counting rendered line boxes, not estimated.</p>
+    </div>
+    <div style="margin-block-start:var(--space-6)">
+      <p class="kicker">--type-ui · 17px / 500 — anything a thumb aims at</p>
+      <p style="font-size:var(--type-ui);font-weight:var(--weight-medium);margin:0">Just turn up</p>
+    </div>
+    <div style="margin-block-start:var(--space-6)">
+      <p class="kicker">--type-small · 16px / 400 — captions, card rows</p>
+      <p style="font-size:var(--type-small);color:var(--text-secondary);margin:0;max-width:27rem">Children
+        and teachers exploring science by doing.</p>
+    </div>
+    <div style="margin-block-start:var(--space-6)">
+      <p class="kicker">--type-micro · 14px / 500 — the floor of the whole system</p>
+      <p style="font-size:var(--type-micro);font-weight:var(--weight-medium);letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-secondary);margin:0">Daily 2–6 PM · except Mondays</p>
+    </div>
+
+    <div class="empty">
+      <h3>⭐ Tabular figures, where numbers stack</h3>
+      <p>A column of times that does not line up reads as an estimate. Compare — the same
+        four rows, proportional then tabular:</p>
+      <div style="display:flex;gap:var(--space-8);margin-block-start:var(--space-4);font-size:var(--type-ui)">
+        <div><b style="display:block;font-size:var(--type-micro)">DEFAULT</b>
+          <div style="font-variant-numeric:proportional-nums">11:00<br>21:00<br>₹2,000<br>₹5,000</div></div>
+        <div><b style="display:block;font-size:var(--type-micro)">TABULAR</b>
+          <div style="font-variant-numeric:tabular-nums">11:00<br>21:00<br>₹2,000<br>₹5,000</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-h">
+    <h2 id="s-h">Space, shape and touch</h2>
+    <div class="scroller">
+      <table class="spec">
+        <thead><tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Why that number</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">--gutter</th><td>16px → 24px</td><td>⭐ Departs from Airbnb's 24px on a phone: at our 19px body a 24px gutter gives 36 characters a line against 39 at 16px, and neither reaches 45. Take the wider column</td></tr>
+          <tr><th scope="row">--measure</th><td>34rem = 544px</td><td>56 characters at 20px. The live article column is 700px = 78–82</td></tr>
+          <tr><th scope="row">--tap / --tap-comfortable</th><td>44px / 52px</td><td>44 is what a check asserts; 52 is what CSS sets, on BOTH axes</td></tr>
+          <tr><th scope="row">--radius-card / control / pill</th><td>8 / 12 / 999px</td><td>Rank is carried by SHAPE, because the green cannot carry it</td></tr>
+          <tr><th scope="row">--portrait-list</th><td>64px</td><td>The live team page renders faces at 52×52 from 600–1385px sources</td></tr>
+          <tr><th scope="row">--grid-gap-col / row</th><td>24 / 40px</td><td>Airbnb's measured grid. The live grid is 16px both ways</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="b-h">
+    <h2 id="b-h">Buttons — rank is shape, not colour</h2>
+    <p style="margin-block-start:var(--space-3);max-width:34rem">All three are the same height.
+      A reader who cannot separate the hues can still tell them apart, which matters here
+      because the brand green fails contrast in both polarities.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);margin-block-start:var(--space-5)">
+      <a class="btn btn--primary" href="#">Write to us</a>
+      <a class="btn btn--wayin" href="#">Open today · 2–6 PM</a>
+      <a class="btn btn--secondary" href="#">Read all 37 stories</a>
+    </div>
+    <p style="font-size:var(--type-small);color:var(--text-secondary);margin-block-start:var(--space-4)">
+      Pill + ink = the one thing to do here. Pill + green = the way in, once per screen.
+      12px + sunk = everything else.</p>
+  </section>
+
+  <section aria-labelledby="comp-h">
+    <h2 id="comp-h">The one bespoke component — the session row</h2>
+    <ul class="sessions">
+      <li class="session">
+        <p class="session__when">Daily 2–6 PM · except Mondays</p>
+        <h3 class="session__name"><a href="#">Stitching Club</a></h3>
+        <p class="session__body">Fresh cut pieces collected before they reach landfill,
+          cleaned, arranged and stitched into tote bags.</p>
+        <ul class="session__facts">
+          <li>Fee <b>Free</b> — tools included</li>
+          <li>With <b>Mary Gracy</b></li>
+          <li>In <b>Malayalam</b></li>
+        </ul>
+        <p class="session__action">Just turn up</p>
+      </li>
+    </ul>
+    <p style="font-size:var(--type-small);color:var(--text-secondary)">The whole row is the tap
+      target, not the words — the title is a 26px inline box, so an overlay owns the row and
+      it is verified with <code>elementFromPoint</code>, never assumed. The action is one of
+      exactly three, and it is a fact about the session, not a design choice:
+      <b>Just turn up</b> · <b>Write to us first</b> · <b>Full — the next one is …</b></p>
+
+    <h3 style="margin-block-start:var(--space-8)">And its empty state, which is the common case</h3>
+    <div class="empty" style="margin-block-start:var(--space-4)">
+      <h3>Nothing on this week</h3>
+      <p>The room is open Tuesday to Sunday, 2–6 PM. Come and see, or write to us.</p>
+    </div>
+    <p style="font-size:var(--type-small);color:var(--text-secondary)">⛔ Never hide the
+      schedule when it is empty. The heading survives; the value is replaced by the reason. A
+      schedule that disappears teaches people to stop checking.</p>
+  </section>
+
+  <section aria-labelledby="dark-h">
+    <h2 id="dark-h">⚠️ Dark mode is real, and this is a correction</h2>
+    <div class="empty" style="margin-block-start:var(--space-4)">
+      <h3>An earlier version of this system said “light only, the dark CSS is unreachable”</h3>
+      <p>That was wrong, and it was found while building these mockups. The live footer carries
+        a visible <code>&lt;select&gt;</code> — System / Light / Dark — measured at 106×27.
+        Choosing System sets <code>data-color-scheme="system"</code> and the page really does
+        go dark: background #1f1f1f, text #d9d9d9, <b>11.68:1</b>.</p>
+      <p>Two things follow. The brand green as a tag on that dark ground is <b>5.68:1</b> — it
+        <i>passes</i>, so the green's contrast problem is specifically a light-mode problem.
+        And the Subscribe button is <b>still 2.90:1 in dark mode</b>, because the YIQ script
+        picks white regardless of scheme.</p>
+      <p><b>So dark mode is a decision nobody has taken here, not dead code to delete.</b> This
+        system is drawn light-only and its dark values are undefined — that gap is real and is
+        listed on the index.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap--wide">
+    <div class="foot-cols">
+      <div>
+        <h2>When we are open</h2>
+        <ul class="hours">
+          <li><span>Monday</span><b>Closed</b></li>
+          <li><span>Tuesday – Friday</span><b>2–6 PM</b></li>
+          <li><span>Saturday – Sunday</span><b>2–6 PM</b></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Where we are</h2>
+        <p style="font-size:var(--type-small)">aikyam space, Fort Kochi</p>
+        <ul class="foot-links">
+          <li><a href="https://share.google/Xc0HN6lt65kULvdCg">Open in Maps</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>More</h2>
+        <ul class="foot-links">
+          <li><a href="../">All five mockups</a></li>
+          <li><a href="#">An aikyam project</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">a [ space ] for inspiring action · supported by Samagata Foundation ·
+      built with free and open source software</p>
+  </div>
+</footer>
+
+</body>
+</html>

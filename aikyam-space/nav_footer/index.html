@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aikyam space — proposed nav and footer (mockup)</title>
+<meta name="description" content="Mockup of the reduced aikyam.space navigation (8 items to 6, Clubs first, emoji dropped) and the new footer carrying operating hours and a Maps pin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>#css-guard{background:#b3261e;color:#fff;padding:16px;margin:0;font:600 16px/1.45 system-ui,sans-serif}</style>
+<link rel="stylesheet" href="../_kit.css">
+</head>
+<body>
+<p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
+
+<div class="kitbar">
+  <b>MOCKUP — not the live site.</b> The reduced navigation and the new footer, shown on their
+  own so they can be judged without a page around them. The live nav has <b>8 items, each
+  opening with an emoji</b>; the live footer has <b>18 links and is 741px tall on a phone</b>
+  with no opening hours anywhere. Both measured 9 Aug 2026.
+</div>
+
+<header class="site-head">
+  <div class="site-head__in">
+    <a class="brand" href="#">aikyam <span>space</span></a>
+    <button class="iconbtn" aria-label="Search">Search</button>
+    <a class="btn btn--secondary" href="#">Subscribe</a>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <ul>
+    <li><a href="#" aria-current="page">Clubs</a></li>
+    <li><a href="#">Stories</a></li>
+    <li><a href="#">Residency</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Team</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+  <section class="lede">
+    <p class="kicker">Chrome</p>
+    <h1>Nav and footer</h1>
+    <p style="margin-block-start:var(--space-4)">The nav above is the proposal. Clubs comes
+      first because the schedule is what somebody is usually here for.</p>
+  </section>
+
+  <section aria-labelledby="nav-h">
+    <h2 id="nav-h">Eight items become six</h2>
+    <div class="scroller">
+      <table class="spec">
+        <thead>
+          <tr><th scope="col">Live today</th><th scope="col">Proposed</th><th scope="col">Why</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">🍪 Clubs</th><td><b>Clubs</b></td><td>Moves to first. It is the schedule, and the schedule is the product.</td></tr>
+          <tr><th scope="row">🎙️ Community Tales<br>⭐ Activities</th><td><b>Stories</b></td><td>Two tag pages doing one job. Merged.</td></tr>
+          <tr><th scope="row">🤝🏾 Co-Impact</th><td><b>Residency</b></td><td>Kept — a real, separate offer. Renamed to something a first-time reader can decode.</td></tr>
+          <tr><th scope="row">🌳 [ space ]</th><td><b>About</b></td><td>A bracketed word is a logo, not a label.</td></tr>
+          <tr><th scope="row">🫂 Team</th><td><b>Team</b></td><td>Unchanged.</td></tr>
+          <tr><th scope="row">✉️ Contact</th><td><b>Contact</b></td><td>Unchanged.</td></tr>
+          <tr><th scope="row">☀️ Daily Activities</th><td><b>Dropped</b></td><td>Points at one monthly post. Its forward half becomes the front page; its backward half becomes a story.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty">
+      <h3>Why the emoji go</h3>
+      <p>They render differently on every phone, cannot take a colour, and are read aloud by
+        screen readers under their full names — “handshake, medium-dark skin tone” before
+        “Co-Impact”. And 🍪 next to “Clubs” reads as a cookie banner before it reads as a
+        biscuit. Six words do not need pictures.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="unpub-h">
+    <h2 id="unpub-h">Six pages proposed for unpublishing</h2>
+    <p style="margin-block-start:var(--space-3)">Measured 9 Aug 2026: four of these render a
+      heading and nothing else, and all six are offered to search engines in the sitemap.</p>
+    <div class="scroller">
+      <table class="spec">
+        <thead><tr><th scope="col">Page</th><th scope="col">What it renders</th><th scope="col">Call</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">/editors-picks/</th><td>No <code>h1</code> at all — chrome only</td><td>Unpublish</td></tr>
+          <tr><th scope="row">/categories/</th><td>22 characters</td><td>Unpublish</td></tr>
+          <tr><th scope="row">/event-status/</th><td>28 characters</td><td>Unpublish — the front page answers this now</td></tr>
+          <tr><th scope="row">/jobs/</th><td>6 characters, and its <code>h1</code> says “Events”</td><td>Unpublish</td></tr>
+          <tr><th scope="row">/recommendations/</th><td>One link to another site</td><td>Unpublish</td></tr>
+          <tr><th scope="row">/membership/</th><td>Prices in <b>$</b> — “Free $0”, “Tiny Enterprise $50 /year”</td><td>⚠️ Owner decision — pricing unresolved</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="kitnote">Unpublishing changes URLs. Anything with inbound links or search
+      traffic should be redirected, not deleted — and nobody has checked which of these six
+      has either. On the sister project this exact step sent 96,883 impressions to a 404.</p>
+  </section>
+
+  <section aria-labelledby="foot-h">
+    <h2 id="foot-h">The footer</h2>
+    <p style="margin-block-start:var(--space-3)">Three columns instead of five blocks. The
+      first one is new: <b>the live site publishes no opening hours anywhere</b>, so a
+      neighbour cannot find out when the door is open without reading a club page.</p>
+    <p class="kitnote">The hours below are <b>derived from the published club times</b>, not
+      from a stated opening policy — the space has never published one. If the room is open
+      outside session hours, these are wrong and only the owner can say so.</p>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap--wide">
+    <div class="foot-cols">
+      <div>
+        <h2>When we are open</h2>
+        <ul class="hours">
+          <li><span>Monday</span><b>Closed</b></li>
+          <li><span>Tuesday – Friday</span><b>2–6 PM</b></li>
+          <li><span>Saturday – Sunday</span><b>2–6 PM</b></li>
+        </ul>
+        <p class="foot-note" style="margin-block-start:var(--space-3)">These are the club
+          session times. If you want to visit outside them, write first.</p>
+      </div>
+      <div>
+        <h2>Where we are</h2>
+        <p style="font-size:var(--type-small)">aikyam space, Fort Kochi</p>
+        <ul class="foot-links">
+          <li><a href="https://share.google/Xc0HN6lt65kULvdCg">Open in Maps</a></li>
+          <li><a href="#">Write to us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>More</h2>
+        <ul class="foot-links">
+          <li><a href="#">About the space</a></li>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">An aikyam project</a></li>
+          <li><a href="#">Our policies</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">a [ space ] for inspiring action · supported by Samagata Foundation ·
+      built with free and open source software</p>
+  </div>
+</footer>
+
+</body>
+</html>
