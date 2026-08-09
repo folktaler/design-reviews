@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finish the Line — quiz design steps</title>
+<link rel="stylesheet" href="faces-ftl.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ftl-surface); color: var(--ftl-ink);
+         font-family: var(--ftl-font-ui); font-size: var(--ftl-text-md); line-height: 1.5; }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem 5rem; }
+  a { color: inherit; }
+  b { color: var(--ftl-ink); font-weight: 600; }
+  code { font: 400 0.9em ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ftl-ink);
+         background: var(--ftl-surface-sunken); padding: 0.05em 0.35em; border-radius: 4px; }
+  h1 { font-size: 1.8rem; letter-spacing: -0.02em; margin: 0 0 0.4rem; }
+  h2 { font-size: 1.05rem; letter-spacing: 0.01em; margin: 3rem 0 0.25rem;
+       padding-block-end: 0.5rem; border-block-end: 1px solid var(--ftl-border); }
+  h3 { font: 600 11px/1 var(--ftl-font-ui); letter-spacing: 0.1em; text-transform: uppercase;
+       color: var(--ftl-ink-subtle); margin: 0; }
+  p.lede { color: var(--ftl-ink-muted); max-width: 68ch; }
+  p.note { font-size: 13.5px; line-height: 1.55; color: var(--ftl-ink-muted); max-width: 70ch; margin: 0.5rem 0 0; }
+  .back { color: var(--ftl-focus); text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 2rem; }
+
+  header.top { position: sticky; top: 0; background: var(--ftl-surface); z-index: 10;
+               border-block-end: 1px solid var(--ftl-border); }
+  header.top nav { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem; display: flex;
+                    gap: 4px; overflow-x: auto; }
+  header.top nav a { display: block; padding: 12px 10px; font-size: 13px; font-weight: 600;
+                      text-decoration: none; color: var(--ftl-ink-muted); white-space: nowrap; }
+  header.top nav a:hover { color: var(--ftl-ink); }
+
+  .stopblk { border-left: 3px solid var(--ftl-miss); padding: 4px 0 4px 14px; margin: 14px 0; max-width: 72ch; }
+  .warnblk { border-left: 3px solid var(--ftl-warn); padding: 4px 0 4px 14px; margin: 14px 0; max-width: 72ch; }
+  .okblk   { border-left: 3px solid var(--ftl-hit);  padding: 4px 0 4px 14px; margin: 14px 0; max-width: 72ch; }
+  .stopblk p, .warnblk p, .okblk p { font-size: 13.5px; line-height: 1.55; color: var(--ftl-ink-muted); margin: 0 0 6px; }
+  .stopblk p:last-child, .warnblk p:last-child, .okblk p:last-child { margin-bottom: 0; }
+
+  .tally { display: flex; gap: 10px; margin: 1rem 0 1.75rem; flex-wrap: wrap; }
+  .tallycell { flex: 1 1 150px; border: 1px solid var(--ftl-border); border-radius: 8px; padding: 12px 14px; }
+  .tallynum { font-family: var(--ftl-font-quote); font-variant-numeric: tabular-nums;
+              font-size: var(--ftl-display-sm); line-height: 1; color: var(--ftl-ink); }
+  .tallylbl { font-size: 12px; color: var(--ftl-ink-muted); margin-top: 4px; }
+
+  ol.steps { list-style: none; margin: 1.25rem 0 0; padding: 0; counter-reset: none; }
+  .step { border: 1px solid var(--ftl-border); border-radius: 8px; padding: 14px 16px;
+          margin: 0 0 10px; scroll-margin-top: 64px; }
+  .step.judgement { border-color: var(--ftl-warn); background: var(--ftl-tint-idle); }
+  .step-head { display: flex; align-items: baseline; gap: 10px; }
+  .stepno { flex: none; font-family: var(--ftl-font-quote); font-variant-numeric: tabular-nums;
+            font-size: 13px; color: var(--ftl-ink-subtle); width: 1.4em; }
+  .step-head h3 { flex: 1; font: 600 15px/1.35 var(--ftl-font-ui); letter-spacing: normal;
+                  text-transform: none; color: var(--ftl-ink); }
+  .badge { flex: none; display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+           padding: 2px 8px; border-radius: 999px; color: var(--ftl-on-solid); white-space: nowrap; }
+  .badge.free { background: var(--ftl-hit); }
+  .badge.judgement { background: var(--ftl-warn); }
+  .step p.note { margin-left: calc(1.4em + 10px); }
+  .step .tool { margin-left: calc(1.4em + 10px); font-size: 12px; color: var(--ftl-ink-subtle);
+                margin-top: 2px; }
+  .invented { margin-left: calc(1.4em + 10px); margin-top: 8px; border: 1px dashed var(--ftl-border-strong);
+              border-radius: 6px; padding: 8px 10px; font-size: 13px; }
+  .invented .tag { display: block; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+                    font-weight: 600; color: var(--ftl-ink-subtle); margin-bottom: 4px; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 0.5rem 0 1rem; }
+  th { text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+       color: var(--ftl-ink-subtle); font-weight: 600; padding: 0 12px 7px 0; }
+  td { padding: 7px 12px 7px 0; border-block-start: 1px solid var(--ftl-border);
+       color: var(--ftl-ink-muted); vertical-align: top; }
+  td b { color: var(--ftl-ink); }
+
+  footer { margin-top: 3rem; padding-top: 1.5rem; border-block-start: 1px solid var(--ftl-border);
+           font-size: 12.5px; color: var(--ftl-ink-subtle); }
+</style>
+</head>
+<body>
+<header class="top">
+  <nav aria-label="Sections of this page">
+    <a href="#steps">The 15 steps</a>
+    <a href="#judgement">The four judgement calls</a>
+    <a href="#evidence">What's measured</a>
+    <a href="#conclusion">The honest conclusion</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <a class="back" href="./">← All Finish the Line pages</a>
+
+  <h1>How one quiz gets made</h1>
+  <p class="lede">Finish the Line is a 60-second Friends quiz: three lines, two fakes, pick the one
+  really said. The owner is about to author <b>156 more episodes — roughly 468 questions</b> — and
+  has a hard constraint: the pipeline stays <b>LLM-free</b>. This page walks one question from
+  "pick an episode" to "it's live," and marks each step as either a deterministic program or a
+  human judgement call.</p>
+  <p class="lede"><b>The marking is the point of this page — that's what's worth commenting on.</b>
+  If a step you think is free actually needs judgement, or the reverse, that's exactly the kind of
+  note this page is for.</p>
+
+  <div class="tally">
+    <div class="tallycell"><div class="tallynum">11 / 15</div><div class="tallylbl">steps are deterministic — a program, not a person</div></div>
+    <div class="tallycell"><div class="tallynum">4</div><div class="tallylbl">steps are a human judgement call, and they cluster</div></div>
+    <div class="tallycell"><div class="tallynum">~6</div><div class="tallylbl">decisions per episode this actually costs the owner</div></div>
+  </div>
+
+  <h2 id="steps">The 15 steps</h2>
+  <p class="note">Each step below carries a stable id, so a comment anchors to one specific step
+  rather than drifting if the page changes later.</p>
+
+  <ol class="steps">
+    <li class="step" id="step-1">
+      <div class="step-head"><span class="stepno">1</span><h3>Pick an episode that's ready</h3><span class="badge free">Free</span></div>
+      <p class="note">It's a list — the next episode in the queue that has everything it needs.</p>
+    </li>
+
+    <li class="step judgement" id="step-2">
+      <div class="step-head"><span class="stepno">2</span><h3>Pick which clip to use</h3><span class="badge judgement">Judgement</span></div>
+      <p class="note">An episode's script has hundreds of lines. Choosing the handful of seconds
+      that will read well as a quiz clip — one clear speaker, not buried under overlapping
+      dialogue, not already a line everyone can recite on sight — is a taste call. Nothing ranks
+      clips by how good a quiz question they'll make.</p>
+    </li>
+
+    <li class="step" id="step-3">
+      <div class="step-head"><span class="stepno">3</span><h3>Fetch that clip's subtitles</h3><span class="badge free">Free</span></div>
+      <p class="note">A download, using yt-dlp.</p>
+    </li>
+
+    <li class="step" id="step-4">
+      <div class="step-head"><span class="stepno">4</span><h3>Find which lines are in the clip</h3><span class="badge free">Free</span></div>
+      <p class="note">Plain text matching between the subtitles and the aired script.</p>
+    </li>
+
+    <li class="step judgement" id="step-5">
+      <div class="step-head"><span class="stepno">5</span><h3>Pick which line makes a good question</h3><span class="badge judgement">Judgement</span></div>
+      <p class="note">Several lines from the clip are candidates. Deciding which single one is
+      worth building a question around — a complete sentence, not a fragment, not something that
+      gives itself away by how it's phrased — is a taste call a script can't apply.</p>
+    </li>
+
+    <li class="step" id="step-6">
+      <div class="step-head"><span class="stepno">6</span><h3>Prove the line is word-for-word in the aired script</h3><span class="badge free">Free</span></div>
+      <p class="note">A validation pass (validate_episode.py) checks the chosen line matches the
+      script exactly before anything is built on top of it.</p>
+    </li>
+
+    <li class="step" id="step-7">
+      <div class="step-head"><span class="stepno">7</span><h3>Generate candidate fakes</h3><span class="badge free">Free</span></div>
+      <p class="note">nlpaug plus plain slicing produces a shortlist of near-miss variants of the
+      real line — roughly ten per line. See the measured evidence below.</p>
+    </li>
+
+    <li class="step judgement" id="step-8">
+      <div class="step-head"><span class="stepno">8</span><h3>Pick the two best fakes</h3><span class="badge judgement">Judgement</span></div>
+      <p class="note">A person reads the ~10 generated candidates and keeps the two that are wrong
+      in a genuinely tempting way — close enough to make someone pause, not so close it's basically
+      a duplicate, not so far off it's obviously wrong. This is the step the measured evidence below
+      is about.</p>
+      <div class="invented">
+        <span class="tag">Invented example — not from the show</span>
+        Original: "I already told the landlord about it." A plausible fake keeps the sentence's
+        shape: "I already called the landlord about it." A nonsense fake changes what happened:
+        "I already forgot the landlord's number."
+      </div>
+    </li>
+
+    <li class="step" id="step-9">
+      <div class="step-head"><span class="stepno">9</span><h3>Write the cue</h3><span class="badge free">Free</span></div>
+      <p class="note">A template — "Chandler says…" — filled in from who actually said the line.</p>
+    </li>
+
+    <li class="step" id="step-10">
+      <div class="step-head"><span class="stepno">10</span><h3>Write the reveal, differing words bolded</h3><span class="badge free">Free</span></div>
+      <p class="note">A difflib diff between the real line and each fake decides which words get
+      bolded — no one writes this by hand.</p>
+    </li>
+
+    <li class="step judgement" id="step-11">
+      <div class="step-head"><span class="stepno">11</span><h3>Write the trap note</h3><span class="badge judgement">Judgement</span></div>
+      <p class="note">The trap note explains, after the reveal, why the fake was tempting. A
+      generated version can state the fact but reads flat — it needs the product's own dry voice,
+      and voice isn't something a deterministic step produces.</p>
+    </li>
+
+    <li class="step" id="step-12">
+      <div class="step-head"><span class="stepno">12</span><h3>Write the scene setup</h3><span class="badge free">Mostly free</span></div>
+      <p class="note">The setup line is quoted straight from the aired script — a lookup, not a
+      composition. Whether it reads cleanly out of context sometimes needs a light polish; that
+      smaller judgement never changes which line is quoted, which is why this step counts on the
+      free side of the tally above.</p>
+    </li>
+
+    <li class="step" id="step-13">
+      <div class="step-head"><span class="stepno">13</span><h3>Find the exact second for the clip link</h3><span class="badge free">Free</span></div>
+      <p class="note">Matches the chosen words to caption timings to produce a timestamped link.</p>
+    </li>
+
+    <li class="step" id="step-14">
+      <div class="step-head"><span class="stepno">14</span><h3>Validate the finished episode</h3><span class="badge free">Free</span></div>
+      <p class="note">An automated check of the completed episode before it goes anywhere near
+      publishing.</p>
+    </li>
+
+    <li class="step" id="step-15">
+      <div class="step-head"><span class="stepno">15</span><h3>Bundle and deploy</h3><span class="badge free">Free</span></div>
+      <p class="note">Packaging and shipping the finished episode.</p>
+    </li>
+  </ol>
+
+  <h2 id="judgement">The four judgement calls, together</h2>
+  <p class="lede">Steps 2, 5, 8 and 11 are the ones that don't reduce to a program: <b>which clip,
+  which line, which two fakes, how the trap note reads.</b> Every other step — 11 of 15 — already
+  runs as a deterministic tool with no person in the loop.</p>
+
+  <h2 id="evidence">What's measured</h2>
+  <p class="lede">These numbers are what make this page worth annotating rather than a diagram of
+  intentions.</p>
+  <table>
+    <tbody>
+      <tr><td><b>Coverage</b></td><td>The fake generator ran over all 504 existing lines and kept
+        5,117 candidates — about 10 per line.</td></tr>
+      <tr><td><b>Agreement with a human</b></td><td>47 lines got a machine candidate that exactly
+        matched the fake a human had already written by hand.</td></tr>
+      <tr><td><b>Hand check</b></td><td>A 120-item manual check found 34% of candidates plausible
+        and 66% nonsense. Most candidates are junk — the open question is whether <b>two good ones
+        per line</b> reliably exist, and that is unmeasured. It's the next thing to settle.</td></tr>
+      <tr><td><b>A fixed bug</b></td><td>Fixing the tokenizer took garbled candidate output from
+        44.5% down to 0%.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="conclusion">The honest conclusion</h2>
+  <div class="stopblk">
+    <p><b>⛔ There is no third option for those four steps.</b> Either a person decides, or a model
+    does. LLM-free is achievable — but it means the owner makes roughly six decisions per episode,
+    about 900 across the whole project, each one shaped "pick two from a list of about ten" rather
+    than writing anything from a blank page.</p>
+  </div>
+  <p class="note">If the hand-check ratio above holds at scale, some lines may not offer two
+  plausible fakes in a shortlist of ten — which would turn a "pick two" decision into "write one
+  yourself." That gap is unmeasured and worth flagging if it changes how many of the ~900 decisions
+  are truly picks versus occasional writing.</p>
+
+  <footer>Finish the Line — quiz design steps, 9 August 2026. Annotate inline with the sidebar on
+  the right; comments anchor to individual steps.</footer>
+</div>
+
+<script src="https://hypothes.is/embed.js" async></script>
+</body>
+</html>
