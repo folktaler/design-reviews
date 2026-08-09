@@ -135,6 +135,17 @@
         disagree, and these mockups follow the clubs page. Somebody has to say which is right.</p>
     </div>
     <div class="empty">
+      <h3>⛔ 0. The week grid is frozen at Sunday 9 August 2026</h3>
+      <p>Every date in these mockups is hand-written, so the homepage grid is correct on
+        9 August and wrong on 10 August. Expected in a drawing — but shipped static it would
+        rot exactly the way the monthly diary rots, which is the defect this redesign exists
+        to fix. The schedule is a <b>recurrence rule</b>; dates are a <b>projection</b> of it
+        that must be computed when the page is read, never typed and never baked. The full
+        constraint, including how it layers so nothing false appears without JavaScript, is in
+        <code>COMPONENTS.md</code>. <b>Listed first because it is the one gap that could undo
+        the whole redesign at implementation time.</b></p>
+    </div>
+    <div class="empty">
       <h3>10. “Coming up” is empty, and that is the deliverable</h3>
       <p>There is not one future-dated item anywhere on aikyam.space — <code>/tag/events/</code>
         holds only the three monthly guides, <code>/event-status/</code> renders 28 characters.

@@ -87,7 +87,16 @@
       forward seven days, and the heading says “<b>The next seven days</b>” rather than “This
       week”, because a calendar week is not what a person deciding whether to walk over is
       asking about — on a Saturday, “this week” is nearly over and useless. The first row is
-      labelled <b>Today</b>, not “Sun 9”, so it stays true without anyone editing it.</p>
+      labelled <b>Today</b>, not “Sun 9”, so it stays true without anyone editing it.
+      <br><br>⛔⛔ <b>These rows are hand-written and this grid is frozen at Sunday 9 August
+      2026.</b> Correct today, wrong tomorrow. That is fine in a drawing and <b>must not
+      survive into the build</b> — shipped static, it would rot in exactly the way the August
+      diary rots, which is the defect this redesign exists to fix. A page that says “Today”
+      from a build made three days ago is worse than the diary, because the diary is at least
+      honestly dated. The schedule is a <b>recurrence rule</b> (“daily except Mondays”), and
+      dates are a <b>projection</b> of it that has to be computed when the page is read.
+      Full constraint, including how it layers so nothing false appears without JavaScript:
+      <code>COMPONENTS.md</code> § “the schedule is a RULE, not a list of dates”.</p>
   </section>
 
   <!-- 4 : COMING UP — one-off dated events. Currently, honestly, empty. -->
