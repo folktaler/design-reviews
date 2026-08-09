@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chenda classes for fourteen girls in Fort Kochi — give to Aikyam · raseed</title>
+<meta name="description" content="Fourteen girls in Fort Kochi are learning chenda and share one drum. Aikyam is raising ₹40,000 for a teacher, the room and repairs. Give by UPI in about a minute — and you are shown the shop's bill for what it buys.">
+<link rel="stylesheet" href="faces-inter.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* Departures from Open Collective's sizing are listed at the bottom of the page.
+     Every colour, radius, badge and button style comes from tokens.css unchanged. */
+
+  body { background: var(--slate-50); font-size: 1.0625rem; line-height: 1.6; }
+
+  .appbar { height: 56px; background: var(--background); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 1.25rem; }
+  .org { display: flex; align-items: baseline; gap: 0.5rem; font-weight: 600; color: var(--oc); }
+  .org .place { font-weight: 400; font-size: 0.875rem; color: var(--slate-600); }
+  .onraseed { margin-left: auto; display: flex; align-items: center; gap: 0.375rem; font-size: 0.8125rem; color: var(--slate-600); }
+  .onraseed b { font-weight: 600; color: var(--oc); font-size: 0.9375rem; }
+
+  .banner { background: var(--amber-100); color: var(--amber-700); font-size: 0.8125rem; line-height: 1.5; padding: 0.75rem 1.25rem; border-bottom: 1px solid color-mix(in oklch, var(--amber-700) 25%, white); }
+  .banner b { font-weight: 600; }
+
+  .page { max-width: 40rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
+  .prose { max-width: 33rem; }
+
+  /* Touch: 52px on everything a stranger taps on a phone. */
+  .btn-lg { height: 3.25rem; }
+  .btn-xl { height: 3.5rem; font-size: 1.0625rem; }
+
+  h1 { font-size: clamp(1.75rem, 6.2vw, 2.25rem); line-height: 1.18; letter-spacing: -0.025em; font-weight: 700; margin: 2rem 0 0.75rem; max-width: 20ch; }
+  h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.015em; margin: 0 0 0.25rem; }
+  .sectionnote { color: var(--muted-foreground); font-size: 0.9375rem; margin: 0 0 0.875rem; max-width: 33rem; }
+  section { margin-bottom: 2.5rem; }
+  p { max-width: 33rem; }
+
+  /* ---- Progress. Published from our own record, and dated because of it. ---- */
+  .progwrap { margin: 0 0 1.75rem; }
+  .prog { height: 10px; border-radius: 999px; background: var(--slate-200); overflow: hidden; }
+  .prog span { display: block; height: 100%; background: var(--primary); }
+  .progtext { margin-top: 0.5rem; font-size: 0.9375rem; color: var(--slate-700); font-variant-numeric: tabular-nums; }
+  .progtext b { font-weight: 600; color: var(--foreground); }
+  .progtext .stamp { color: var(--muted-foreground); font-size: 0.875rem; display: block; margin-top: 0.125rem; }
+
+  .story p { font-size: 1.0625rem; margin: 0 0 1rem; }
+  .story a { color: var(--primary); }
+
+  /* ---- The give card --------------------------------------------------- */
+  .give { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem 1.25rem; }
+  .amounts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.625rem; margin-bottom: 0.625rem; }
+  .amt-opt { min-height: 3.5rem; border: 1px solid var(--input); background: var(--background); border-radius: var(--radius-md); font-size: 1.125rem; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; font-family: inherit; color: var(--foreground); }
+  .amt-opt[aria-pressed="true"] { border-color: var(--primary); background: var(--blue-50); color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); }
+  .buysline { font-size: 0.9375rem; color: var(--slate-700); margin: 0 0 1.25rem; min-height: 1.5rem; }
+  .buysline b { font-weight: 600; }
+
+  .field { margin-bottom: 1.25rem; }
+  .field .help { font-size: 0.875rem; color: var(--muted-foreground); margin-top: 0.375rem; }
+  .input { height: 3.25rem; font-size: 1.0625rem; }
+
+  .methods { display: grid; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .method { display: flex; align-items: center; gap: 0.875rem; flex-wrap: wrap; border: 1px solid var(--input); border-radius: var(--radius-md); padding: 0.875rem 1rem; min-height: 3.25rem; cursor: pointer; background: var(--background); font-family: inherit; font-size: 1rem; text-align: left; color: var(--foreground); width: 100%; }
+  .method .txt { flex: 1 1 9rem; min-width: 0; }
+  .method[aria-checked="true"] { border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); background: var(--blue-50); }
+  .method .radio { width: 18px; height: 18px; border-radius: 999px; border: 2px solid var(--slate-300); flex: none; display: grid; place-items: center; }
+  .method[aria-checked="true"] .radio { border-color: var(--primary); }
+  .method[aria-checked="true"] .radio::after { content: ''; width: 8px; height: 8px; border-radius: 999px; background: var(--primary); }
+  .method .nm { font-weight: 500; display: block; }
+  .method .hint { font-size: 0.8125rem; color: var(--muted-foreground); display: block; }
+
+  .tick { display: flex; gap: 0.75rem; align-items: flex-start; border: 1px solid var(--input); border-radius: var(--radius-md); padding: 0.9375rem 1rem; margin-bottom: 1.25rem; cursor: pointer; }
+  .tick input { width: 20px; height: 20px; margin: 0.125rem 0 0; flex: none; accent-color: var(--primary); }
+  .tick span { font-size: 1rem; }
+
+  .summary { border-top: 1px solid var(--border); padding-top: 1rem; margin-bottom: 1.25rem; }
+  .line { display: flex; gap: 1rem; font-size: 0.9375rem; padding: 0.3125rem 0; }
+  .line .r { margin-left: auto; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .line.total { font-weight: 600; font-size: 1.0625rem; border-top: 1px solid var(--border); margin-top: 0.5rem; padding-top: 0.75rem; }
+  .fineprint { font-size: 0.875rem; color: var(--muted-foreground); margin: 0.875rem 0 0; }
+
+  /* ---- Trust ------------------------------------------------------------ */
+  .facts { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .fact { display: flex; gap: 1rem; padding: 0.8125rem 1.125rem; border-bottom: 1px solid var(--border); font-size: 0.9375rem; }
+  .fact:last-child { border-bottom: 0; }
+  .fact .k { color: var(--muted-foreground); min-width: 9rem; flex: none; }
+  .fact .v { font-weight: 500; min-width: 0; }
+  /* On a phone a 9rem label column leaves the value about 130px wide, which rags
+     badly. Stack them instead. */
+  @media (max-width: 30rem) {
+    .fact { display: block; }
+    .fact .k { font-size: 0.8125rem; margin-bottom: 0.0625rem; }
+  }
+
+  .lastbill { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; }
+  .lastbill .cap { font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--slate-500); font-weight: 600; margin-bottom: 0.5rem; }
+  .lastbill h3 { font-size: 1.0625rem; font-weight: 600; margin: 0 0 0.5rem; }
+  .lastbill .figures { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 0.75rem 0; }
+  .lastbill .fig { font-size: 0.875rem; color: var(--muted-foreground); }
+  .lastbill .fig b { display: block; font-size: 1.125rem; color: var(--foreground); font-variant-numeric: tabular-nums; }
+  .lastbill a { color: var(--primary); font-weight: 500; }
+
+  .steps { counter-reset: s; padding: 0; margin: 0; list-style: none; }
+  .steps li { counter-increment: s; position: relative; padding-left: 2.25rem; margin-bottom: 0.875rem; font-size: 1rem; max-width: 33rem; }
+  .steps li::before { content: counter(s); position: absolute; left: 0; top: 0.0625rem; width: 1.625rem; height: 1.625rem; border-radius: 999px; background: var(--slate-200); color: var(--slate-700); font-size: 0.8125rem; font-weight: 600; display: grid; place-items: center; }
+
+  .refuse { border-left: 3px solid var(--slate-300); padding-left: 1.125rem; }
+  .refuse p { font-size: 1rem; }
+
+  footer { border-top: 1px solid var(--border); margin-top: 3rem; padding-top: 1.5rem; font-size: 0.875rem; color: var(--muted-foreground); }
+  footer a { color: var(--primary); font-weight: 500; }
+
+  .notes { border-top: 1px solid var(--border); margin-top: 2.5rem; padding-top: 2rem; }
+  .notes h2 { font-size: 1rem; margin-top: 2rem; }
+  .notes ul { padding-left: 1.1rem; }
+  .notes li { color: var(--slate-700); font-size: 0.9375rem; margin-bottom: 0.5rem; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; background: var(--slate-200); padding: 0.1em 0.35em; border-radius: 4px; }
+  .back { display: inline-block; padding: 1rem 1.25rem 0; color: var(--primary); text-decoration: none; font-weight: 500; }
+
+  @media (min-width: 34rem) { .amounts { grid-template-columns: repeat(4, 1fr); } }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← All pages</a>
+
+<div class="appbar">
+  <span class="org">Aikyam <span class="place">Fort Kochi, Kerala</span></span>
+  <span class="onraseed">
+    on
+    <svg width="15" height="17" viewBox="0 0 20 22" aria-hidden="true"><path d="M2 2h16v15l-2.7-1.6L12.6 17 10 15.4 7.4 17 4.7 15.4 2 17z" fill="none" stroke="var(--oc-blue)" stroke-width="2" stroke-linejoin="round"/></svg>
+    <b>raseed</b>
+  </span>
+</div>
+
+<div class="banner">
+  <b>Design page, not the product.</b> Aikyam, Devi Menon, Peruvanam Music House and every figure here
+  are invented for this design. No real person or organisation is described, and no registration or
+  tax status shown is anybody's actual status. Nothing takes payment.
+</div>
+
+<div class="page">
+
+  <!-- ============ The need, then the progress ============ -->
+  <h1>Fourteen girls are learning chenda. They have one drum between them.</h1>
+
+  <div class="progwrap">
+    <div class="prog" role="img" aria-label="₹23,400 raised of ₹40,000"><span style="width:58.5%"></span></div>
+    <div class="progtext">
+      <b>₹23,400</b> of ₹40,000 · 47 people
+      <span class="stamp">Counted by Aikyam, last updated 8 August 2026</span>
+    </div>
+  </div>
+
+  <div class="story">
+    <p>Every Saturday morning, fourteen girls between nine and fourteen meet in a rented room in
+    Amaravathi, Fort Kochi, to learn the chenda — the drum you hear at every temple festival in
+    Kerala, and one that women were kept away from for a very long time.</p>
+
+    <p>In September Aikyam bought them six drums, and
+    <a href="#lastbill">published the shop's bill for them</a>. What is left to pay for is the
+    teaching: a teacher for six months, the room every Saturday, and repairs. That comes to ₹40,000.</p>
+
+    <p>Aikyam is a small not-for-profit in Fort Kochi. It banks its own money — it is Aikyam's
+    account the payment goes into, and nobody else's.</p>
+  </div>
+
+  <!-- ============ The ask ============ -->
+  <section>
+    <div class="give">
+      <h2>Give to this</h2>
+      <p class="sectionnote">One screen. It takes about a minute on UPI.</p>
+
+      <label class="label">How much?</label>
+      <div class="amounts" role="group" aria-label="Amount">
+        <button type="button" class="amt-opt" data-amt="500"  data-buys="one girl's classes for a month" aria-pressed="false">₹500</button>
+        <button type="button" class="amt-opt" data-amt="1000" data-buys="one girl's classes for two months" aria-pressed="true">₹1,000</button>
+        <button type="button" class="amt-opt" data-amt="2500" data-buys="the rented room for a month" aria-pressed="false">₹2,500</button>
+        <button type="button" class="amt-opt" data-amt=""     data-buys="" aria-pressed="false">Other</button>
+      </div>
+      <p class="buysline" id="buys"><b>₹1,000</b> pays for one girl's classes for two months. Aikyam works these out, not us.</p>
+
+      <div class="field">
+        <label class="label" for="email">Where should the receipt go?</label>
+        <input class="input" id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
+        <div class="help">Your email address, and nothing else. No name, no address, no PAN.</div>
+      </div>
+
+      <label class="label">How would you like to pay?</label>
+      <div class="methods" role="radiogroup" aria-label="Payment method">
+        <button type="button" class="method" role="radio" aria-checked="true" data-fee="0">
+          <span class="radio"></span>
+          <span class="txt"><span class="nm">UPI</span><span class="hint">GPay, PhonePe, Paytm, or any UPI app</span></span>
+          <span class="badge badge-success" style="margin-left:auto">Costs Aikyam nothing</span>
+        </button>
+        <button type="button" class="method" role="radio" aria-checked="false" data-fee="0.0236">
+          <span class="radio"></span>
+          <span class="txt"><span class="nm">Card</span><span class="hint">Visa, Mastercard, RuPay — issued in India</span></span>
+        </button>
+        <button type="button" class="method" role="radio" aria-checked="false" data-fee="0.0177">
+          <span class="radio"></span>
+          <span class="txt"><span class="nm">Net banking</span><span class="hint">All major Indian banks</span></span>
+        </button>
+      </div>
+
+      <label class="tick" for="citizen">
+        <input type="checkbox" id="citizen">
+        <span>I confirm I am an Indian citizen.</span>
+      </label>
+
+      <div class="summary">
+        <div class="line"><span>Your gift to Aikyam</span><span class="r" id="sum-gift">₹1,000</span></div>
+        <div class="line"><span>Payment fee <span class="muted">— Aikyam pays this, not you</span></span><span class="r muted" id="sum-fee">₹0</span></div>
+        <div class="line total"><span>You pay</span><span class="r" id="sum-total">₹1,000</span></div>
+      </div>
+
+      <button class="btn btn-default btn-xl" id="pay" style="width:100%" disabled>Give ₹1,000 by UPI</button>
+      <p class="fineprint">
+        Razorpay handles the payment and Aikyam never sees your card or UPI details. The money goes
+        into Aikyam's own bank account. raseed never holds it.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ Foreign money, said without insult ============ -->
+  <section>
+    <div class="refuse">
+      <h2>Money from outside India</h2>
+      <p>Aikyam can only take money from Indian citizens. That is a legal limit and not a preference:
+      an Indian charity needs a separate licence to receive foreign donations, and Aikyam does not
+      hold one. A card issued outside India will be declined, and anything that slips through is
+      refunded rather than banked.</p>
+      <p>If you are abroad and wanted to help, write to
+      <a href="mailto:devi@aikyam.example">devi@aikyam.example</a>. There are useful things to do here
+      that are not money.</p>
+    </div>
+  </section>
+
+  <!-- ============ Who this is. There is nothing else to click through to. ============ -->
+  <section>
+    <h2>Who you are giving to</h2>
+    <p class="sectionnote">Everything here can be checked against a public register.</p>
+    <div class="facts">
+      <div class="fact"><span class="k">Organisation</span><span class="v">Aikyam, a not-for-profit registered in Kerala since 2019</span></div>
+      <div class="fact"><span class="k">Registration</span><span class="v">AIK/2019/0000</span></div>
+      <div class="fact"><span class="k">Tax status</span><span class="v">80G registered, valid to 31 March 2027</span></div>
+      <div class="fact"><span class="k">Where</span><span class="v">Amaravathi, Fort Kochi, Kerala 682001</span></div>
+      <div class="fact"><span class="k">Who runs the class</span><span class="v">Devi Menon, every Saturday since 2021</span></div>
+      <div class="fact"><span class="k">Ask them anything</span><span class="v"><a href="mailto:devi@aikyam.example" style="color:var(--primary)">devi@aikyam.example</a> · 0484 000 0000</span></div>
+      <div class="fact"><span class="k">Who holds the money</span><span class="v">Aikyam, in its own bank account and its own payment account</span></div>
+    </div>
+  </section>
+
+  <!-- ============ What this website is. Front door: a lot of people arrive
+       here having never heard of any of it, from a search rather than a friend. ============ -->
+  <section>
+    <h2>And what raseed is</h2>
+    <p class="sectionnote">
+      raseed is how small Indian organisations show the people who gave to them what the money
+      bought — with the shop's bill, weeks later, once it has actually been spent.
+    </p>
+    <p class="sectionnote">
+      It is not a charity and it is not a payment company. It never holds anyone's money: Aikyam has
+      its own bank account and its own payment account, and your rupees go there and nowhere else.
+      Aikyam's books are private — no stranger can look through them, and neither can we publish
+      them. Only the people who gave get to see what their own gifts became.
+    </p>
+    <p class="sectionnote" style="margin-bottom:0">
+      <a href="what-it-bought.html" style="color:var(--primary);font-weight:500">This is what a
+      person who gave sees →</a>
+    </p>
+  </section>
+
+  <!-- ============ Proof of follow-through ============ -->
+  <section id="lastbill">
+    <div class="lastbill">
+      <div class="cap">The last thing this raised for</div>
+      <h3>Six chenda drums, delivered 8 September 2026</h3>
+      <p style="margin:0;color:var(--slate-700);font-size:0.9375rem">Bought from Peruvanam Music House on 4 September. Twelve people paid for most of it; Aikyam paid the rest out of its own funds.</p>
+      <div class="figures">
+        <span class="fig"><b>₹38,200</b> the shop's bill</span>
+        <span class="fig"><b>₹23,900</b> from twelve people</span>
+        <span class="fig"><b>₹14,300</b> from Aikyam</span>
+      </div>
+      <a href="email-the-drums-arrived.html">Read what Aikyam sent about it, bill and all →</a>
+    </div>
+  </section>
+
+  <!-- ============ The account, framed as what she gets ============ -->
+  <section>
+    <h2>What happens after you pay</h2>
+    <ol class="steps">
+      <li>Aikyam's receipt reaches you in about a minute.</li>
+      <li>That email carries a link to a page that is yours — everything you have ever given, to any
+        organisation here, with every receipt. No password, now or ever.</li>
+      <li>Weeks later, when Aikyam actually spends this money, one more email arrives with the shop's
+        bill in it. That is the whole reason this exists.</li>
+    </ol>
+    <p class="sectionnote" style="margin-top:1rem">
+      You are being given that page rather than asked to sign up for it. If you would rather not have
+      it, one tap in the first email removes it and your receipt still stands.
+    </p>
+  </section>
+
+  <!-- ============ Tax, stated carefully ============ -->
+  <section>
+    <h2>The tax certificate</h2>
+    <p class="sectionnote">
+      Aikyam holds an 80G registration, so this gift can be claimed against Indian income tax. Aikyam
+      issues the certificate, under its own registration number — we only keep it where you can find
+      it. Your PAN is needed for that, and we will ask for it later, once, from your own page.
+      Not now, and not on this screen.
+    </p>
+  </section>
+
+  <footer>
+    <p style="margin:0 0 0.5rem">
+      <strong>raseed</strong> is how small Indian organisations show the people who gave to them what
+      the money bought. It never holds anyone's money.
+    </p>
+    <p style="margin:0">
+      Given before? <a href="what-it-bought.html">See your giving</a> · <a href="#">How raseed works</a> ·
+      <a href="#">Privacy</a>
+    </p>
+  </footer>
+
+  <!-- ============ Notes for review ============ -->
+  <div class="notes">
+    <h2>This is the front door, not a landing page</h2>
+    <ul>
+      <li><strong>It is the only page of this product a search engine will ever index</strong>, because
+        everything else is either private or behind a sign-in. Somebody will arrive here having never
+        heard of raseed, Aikyam or whoever forwarded the email. So the page names itself in the top
+        bar, has a title and a description written for a search result, and gives real room to
+        <em>And what raseed is</em> — a section that exists purely for the reader who arrived
+        cold.</li>
+      <li><strong>It also has no "about us" behind it.</strong> The organisation's profile is private,
+        so this page carries the entire burden of being believable. That is what <em>Who you are
+        giving to</em> is: seven checkable facts, a named human and a phone number, rather than a
+        paragraph about values.</li>
+      <li><strong>No "Priya sent you this" strip.</strong> An earlier draft had one. It was cut because
+        most arrivals will not have been sent it by anybody, and a page that assumes a friend is
+        confusing for everyone who has not got one.</li>
+      <li><strong>Nine pm, on a bus, on a phone.</strong> One column, four taps to pay, 52px targets,
+        and the ask a screen and a half down — after the need and the proof, before the institutional
+        detail.</li>
+      <li><strong>The name has about four seconds to work here</strong>, in the top bar and again in
+        the footer line. That is the whole reason the name had to be a word an Indian reader already
+        knows rather than an invented one — see <a href="naming.html">naming.html</a>.</li>
+    </ul>
+
+    <h2>The decisions on this page</h2>
+    <ul>
+      <li><strong>The headline is the need, not the organisation.</strong> Nobody on a bus cares what
+        Aikyam is called until they care about the drum.</li>
+      <li><strong>The progress figure is dated and attributed.</strong> "Counted by Aikyam, last
+        updated 8 August" — because it is published from our own record and cannot be read live from
+        the private book. A number that might lag is honest if it says when it was true, and a lie if
+        it does not.</li>
+      <li><strong>The fee is shown and not added.</strong> On UPI it is genuinely ₹0, which is a real
+        reason to choose UPI and is a badge rather than a footnote. Switch to card and the line moves
+        while the total does not.</li>
+      <li><strong>One checkbox, one email field, nothing else.</strong> No PAN, no name, no address.
+        The email is not a form field so much as the delivery address for the receipt, and it says
+        so.</li>
+      <li><strong>The account is described as three things that will happen to her</strong>, not as an
+        account. The word "sign up" does not appear on the page.</li>
+      <li><strong>"What ₹500 buys" comes from the organisation.</strong> The page says so out loud. We
+        must never write that line ourselves — it is a claim about the world and Aikyam is the only
+        one who can make it.</li>
+      <li><strong>The refusal of foreign money is a short section with its own heading</strong>, not
+        fine print under a tick. Somebody abroad who wanted to help deserves the reason and a way to
+        do something else. The words "criminal" and "illegal" are not on the page; they belong in the
+        staff handbook, not in front of a person trying to be generous.</li>
+      <li><strong>"The last thing this raised for" is the strongest trust device available</strong> and
+        it costs nothing — the content is already public, because the update email travels.</li>
+    </ul>
+
+    <h2>The one thing here that needs a yes</h2>
+    <ul>
+      <li><strong>A permanent public web copy of each update email.</strong> The "Read what Aikyam
+        sent about it" link, and the email's own "read this in a browser" link, both imply one. It is
+        a small widening: from "the email travels between people" to "the email has an address anyone
+        can find". It is also what makes this page believable to a cold stranger, so it is probably
+        worth it — but it was not decided, and one purchase becoming permanently public is not the
+        same as an email being forwarded.</li>
+    </ul>
+
+    <h2>Where this leaves Open Collective's look, and why</h2>
+    <ul>
+      <li><strong>Body type 17px, not 14px.</strong> Their 14px is right for an admin scanning a
+        dashboard and wrong for one stranger reading one page once.</li>
+      <li><strong>Tap targets 52px, not 44px.</strong> 44 is a floor to clear, not a size to build at.</li>
+      <li><strong>One accent colour, spent on money and the action.</strong> The progress bar and the
+        pay button are the same blue; nothing else on the page is coloured. The green badge is the
+        single exception and it is carrying a fact, not decoration.</li>
+      <li>Colours, radii, badges, inputs and buttons are <code>tokens.css</code> unchanged. Nothing new
+        was invented, and no value was restated.</li>
+    </ul>
+
+    <h2>Known gaps</h2>
+    <ul>
+      <li><strong>No error states.</strong> Declined card, expired UPI collect request, a tab closed
+        mid-payment, a foreign card refused at the gateway. All four happen; none is drawn.</li>
+      <li><strong>The "Other amount" state is not drawn</strong> — tapping it should reveal a field and
+        it does not.</li>
+      <li>Razorpay's own payment sheet is the last screen and belongs to Razorpay. It cannot be
+        restyled and is not shown.</li>
+      <li><strong>No version for an organisation without 80G.</strong> The shaping document is explicit
+        that such a page must say "this organisation cannot issue a tax receipt", and that variant is
+        not drawn here.</li>
+      <li>No "this has already been fully funded" state, and no closed state.</li>
+      <li>Line lengths were set from the type scale, not measured in a browser. Check on a real phone
+        before trusting them.</li>
+      <li>Photographs: none. The page is text-only and would be stronger with one image of the class.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  /* The only JavaScript here. It exists so the two decisions worth arguing about
+     are visible on a phone: that the fee moves and the total does not, and that
+     nothing can be paid until the citizenship box is ticked. */
+  (function () {
+    var amt = 1000, feeRate = 0, custom = false;
+    var buys = document.getElementById('buys');
+    var pay = document.getElementById('pay');
+    var tick = document.getElementById('citizen');
+    var methodName = 'UPI';
+
+    function inr(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
+
+    function render() {
+      document.getElementById('sum-gift').textContent = custom ? '—' : inr(amt);
+      document.getElementById('sum-fee').textContent = custom ? '—' : inr(amt * feeRate);
+      document.getElementById('sum-total').textContent = custom ? '—' : inr(amt);
+      pay.textContent = custom ? 'Give by ' + methodName : 'Give ' + inr(amt) + ' by ' + methodName;
+      pay.disabled = !tick.checked || custom;
+    }
+
+    document.querySelectorAll('.amt-opt').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('.amt-opt').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
+        b.setAttribute('aria-pressed', 'true');
+        custom = !b.dataset.amt;
+        if (!custom) { amt = parseInt(b.dataset.amt, 10); }
+        buys.innerHTML = custom
+          ? 'Type any amount you like. Aikyam will tell you what it paid for.'
+          : '<b>' + inr(amt) + '</b> pays for ' + b.dataset.buys + '. Aikyam works these out, not us.';
+        render();
+      });
+    });
+
+    document.querySelectorAll('.method').forEach(function (m) {
+      m.addEventListener('click', function () {
+        document.querySelectorAll('.method').forEach(function (o) { o.setAttribute('aria-checked', 'false'); });
+        m.setAttribute('aria-checked', 'true');
+        feeRate = parseFloat(m.dataset.fee);
+        methodName = m.querySelector('.nm').textContent;
+        render();
+      });
+    });
+
+    tick.addEventListener('change', render);
+    render();
+  })();
+</script>
+</body>
+</html>
