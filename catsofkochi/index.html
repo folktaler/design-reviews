@@ -28,14 +28,19 @@
 
 <h2>Known gaps — read this before reviewing</h2>
 <ul class="gaps">
-  <li>⛔ <b><code>facts_strip</code> is three competing proposals, not a decision.</b>
-    Every other page here shows one settled design. That one shows <b>A, B and C</b>
-    as alternatives to the same problem, and the owner has not picked one
-    (AIK-90 is open). ⚠️ Do not
-    review it as if B were the plan — B is only the recommendation, argued for at the
-    foot of the page. It also contains the one deliberately fictional thing on this
-    site: a "we went and the board was right" specimen, labelled as made up, because
-    no venue has ever been in that state.</li>
+  <li>⭐ <b><code>facts_strip</code> is now a decision, not a comparison.</b> It used
+    to show three competing proposals (A the shelf, B the correction, C the dateline).
+    The owner resolved it on <b>9 August 2026: none of them — full hide.</b> The page
+    shows our hours plainly and says nothing about method, dates or the posted board.
+    ⚠️ Anyone reviewing it against an older note about "A, B and C" is reading a
+    superseded page. Its one deliberately fictional specimen ("we went and the board
+    was right") is gone — under full hide it would have rendered identically to the
+    real ones, so there was nothing left to invent.</li>
+  <li>⚠️ <b>Full hide creates a page that does not exist yet.</b> Every venue page now
+    carries one footer link, <em>How we check our facts</em>, and that is the only
+    surface left where the site can explain why its hours differ from a posted board.
+    Nothing is written behind it. Until it is, the link goes nowhere and the
+    explanation lives nowhere.</li>
   <li>⭐ <b><code>type_before_after</code> still shows Noticia Text, and stays
     that way on purpose.</b> The owner decided, 9 August 2026: Cats of Kochi
     is Figtree, all-sans — no second family (the other twelve kits carry that
@@ -60,8 +65,52 @@
 
 <h2>Changelog</h2>
 <ul class="gaps">
-  <li><b>9 Aug 2026 (latest) — a new page, <code>facts_strip</code>, awaiting a
-    decision.</b> The trust signal the site does not have yet: how a fact says who
+  <li>⭐ <b>9 Aug 2026 (latest) — the checked-on stamp is settled: full hide.</b> The
+    owner's decision, and it removes rather than adds: <em>"the end user need not see
+    anything about how the facts are there. except maybe a small link on the general
+    process we use. thats all. google maps does not do that. why should we?"</em>
+    <code>facts_strip</code> has been rebuilt as one finished design and no longer
+    offers a choice.
+    <ul style="margin-top:.5rem">
+      <li style="padding:.35rem 0"><b>What a traveller sees.</b> The hours, at the
+        largest size in the facts block, with the day range above them and the shut
+        days below in ink. <b>No stamp, no chip, no "checked on", no "the board says",
+        no source line, no amber anywhere on the page.</b> Where nobody knows the
+        hours — 23 of the 26 records — the page says <em>"We don't know when this
+        opens"</em> at body size in primary ink, then what to do instead.</li>
+      <li style="padding:.35rem 0"><b>One link, in the footer, once per page.</b>
+        <em>How we check our facts</em> — site-wide, not per venue and not per fact.
+        It takes the ordinary link tier (ink, 1px grey underline), not the 2px amber
+        decision tier: it advances no decision the reader came for, and amber on it
+        would re-announce the provenance the page just stopped announcing.</li>
+      <li style="padding:.35rem 0">⚠️ <b>The cost, stated plainly.</b> A reader can no
+        longer tell a time somebody stood outside and measured from a time read off a
+        website — three registry states now render identically. The differentiator
+        does not vanish, it moves: it is delivered as accuracy instead of announced as
+        a badge. ⛔ <b>This changes nothing in the registry.</b>
+        <code>observed_contradicts_official</code> is still immune from
+        auto-correction — that is a data rule, and <code>docs/FRESHNESS-SPEC.md</code>
+        and <code>CLAUDE.md</code> are untouched.</li>
+      <li style="padding:.35rem 0">⛔ <b>What it leaves without a home:</b>
+        <code>CheckedStamp</code> and <code>TrustCard</code> on a venue page, and the
+        <code>data-fact-posted</code> / <code>data-fact-actual</code> /
+        <code>data-checked-on</code> / <code>data-source-checked</code> landmarks.
+        <code>data-fact="contradicts"</code> and <code>="known"</code> now render the
+        same, so a scorer looking for a rendered contradiction will find none.</li>
+    </ul>
+    Verified in real Chrome at 375px and 320px: <code>document.compatMode ===
+    "CSS1Compat"</code>, zero horizontal overflow at both widths, all 7 links at least
+    44px on <i>both</i> axes (52 × 52 minimum), tokens resolving from their
+    definitions rather than their fallbacks, hours 16.92:1 and the refusal 16.92:1 on
+    paper, the footer link 15.39:1 on its quiet ground, zero elements rendering amber,
+    and the type confirmed as real Figtree (1143.92px on the standard string, against
+    1140.27 for the metric-matched fallback and 1027.83 for a family nothing declares).
+    Both time ranges hold together on one line at 375px and break at the comma — never
+    mid-range — at 320px. ⛔ Not verified: nobody has read it on a phone in Kerala
+    sun.</li>
+  <li>⚰️ <b>9 Aug 2026 (superseded by the entry above) — <code>facts_strip</code> as
+    three shapes awaiting a decision.</b> Kept as history; the page no longer looks
+    like this. The trust signal the site does not have yet: how a fact says who
     checked it, when, and whether the posted board disagrees. Three shapes, drawn on
     the two real records that carry hours — Bastion Bungalow
     (<code>observed_contradicts_official</code>, the site's only instance of the
@@ -205,11 +254,12 @@
     <small>Known/missing/contradicted-hours states, side by side.</small>
   </li>
   <li>
-    <a href="facts_strip.html"><b>The checked-on stamp — three ways</b></a>
-    <small>How a fact says who checked it, when, and whether the posted board is
-      wrong — drawn three ways on two real records, plus all four states the
-      component has to hold (23 of 26 places have no hours at all).
-      <b>Pending owner approval: A, B and C, none picked.</b></small>
+    <a href="facts_strip.html"><b>Hours on a venue page</b></a>
+    <small>What a traveller sees when we know the hours, and when nobody does —
+      drawn on two real records. <b>Decided 9 Aug 2026: full hide.</b> Our times,
+      plainly, with no date stamp, no source and no mention of the posted board;
+      one quiet footer link, <em>How we check our facts</em>, for the whole
+      site.</small>
   </li>
 </ul>
 
