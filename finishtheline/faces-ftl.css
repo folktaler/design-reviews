@@ -1,0 +1,32 @@
+/* FINISH THE LINE — FONT FACES
+   Mirrors the app's own font-face block. Three faces, no more: Inter 400,
+   Inter 600, Newsreader 400. There is no Newsreader italic and no Inter
+   500/700 — anything asking for a weight not here renders as a synthesised
+   face, which is the actual bug behind a faux-bold option row on the live
+   site (Jelly's own radio component sets weight 600; only a 400 Newsreader
+   was loaded).
+
+   The three .woff2 files sit alongside this stylesheet, copied unmodified
+   from the files the live site self-hosts. See FONT-LICENCE.txt. */
+
+@font-face {
+  font-family: Inter;
+  src: url(inter-400.woff2) format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  src: url(inter-600.woff2) format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Newsreader;
+  src: url(newsreader-400.woff2) format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

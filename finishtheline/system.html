@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finish the Line — design system</title>
+<link rel="stylesheet" href="faces-ftl.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ftl-surface); color: var(--ftl-ink);
+         font-family: var(--ftl-font-ui); font-size: var(--ftl-text-md); line-height: 1.5; }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem 5rem; }
+  a { color: inherit; }
+  b { color: var(--ftl-ink); font-weight: 600; }
+  code { font: 400 0.9em ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ftl-ink);
+         background: var(--ftl-surface-sunken); padding: 0.05em 0.35em; border-radius: 4px; }
+  h1 { font-size: 1.8rem; letter-spacing: -0.02em; margin: 0 0 0.4rem; }
+  h2 { font-size: 1.05rem; letter-spacing: 0.01em; margin: 3rem 0 0.25rem;
+       padding-block-end: 0.5rem; border-block-end: 1px solid var(--ftl-border); }
+  h3 { font: 600 11px/1 var(--ftl-font-ui); letter-spacing: 0.1em; text-transform: uppercase;
+       color: var(--ftl-ink-subtle); margin: 1.5rem 0 0.6rem; }
+  p.lede { color: var(--ftl-ink-muted); max-width: 68ch; }
+  p.note { font-size: 13.5px; line-height: 1.55; color: var(--ftl-ink-muted); max-width: 70ch; margin: 0.75rem 0; }
+  .back { color: var(--ftl-focus); text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 2rem; }
+
+  header.top { position: sticky; top: 0; background: var(--ftl-surface); z-index: 10;
+               border-block-end: 1px solid var(--ftl-border); }
+  header.top nav { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem; display: flex;
+                    gap: 4px; overflow-x: auto; }
+  header.top nav a { display: block; padding: 12px 10px; font-size: 13px; font-weight: 600;
+                      text-decoration: none; color: var(--ftl-ink-muted); white-space: nowrap; }
+  header.top nav a:hover { color: var(--ftl-ink); }
+
+  .stopblk { border-left: 3px solid var(--ftl-miss); padding: 4px 0 4px 14px; margin: 14px 0; max-width: 72ch; }
+  .warnblk { border-left: 3px solid var(--ftl-warn); padding: 4px 0 4px 14px; margin: 14px 0; max-width: 72ch; }
+  .okblk   { border-left: 3px solid var(--ftl-hit);  padding: 4px 0 4px 14px; margin: 14px 0; max-width: 72ch; }
+  .stopblk p, .warnblk p, .okblk p { font-size: 13.5px; line-height: 1.55; color: var(--ftl-ink-muted); margin: 0 0 6px; }
+  .stopblk p:last-child, .warnblk p:last-child, .okblk p:last-child { margin-bottom: 0; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 0.5rem 0 1rem; }
+  th { text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+       color: var(--ftl-ink-subtle); font-weight: 600; padding: 0 12px 7px 0; }
+  td { padding: 7px 12px 7px 0; border-block-start: 1px solid var(--ftl-border);
+       color: var(--ftl-ink-muted); vertical-align: top; }
+  td b, td.pair { color: var(--ftl-ink); }
+  .v { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+       padding: 2px 7px; border-radius: 4px; color: var(--ftl-on-solid); }
+  .pass { background: var(--ftl-hit); }
+  .fail { background: var(--ftl-miss); }
+
+  .modes { display: flex; gap: 10px; margin: 0 0 14px; }
+  .modes button { font: 600 12px/1 var(--ftl-font-ui); letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0 14px; min-height: 34px; border-radius: 4px; cursor: pointer;
+    border: 1.5px solid var(--ftl-border-strong); background: transparent; color: var(--ftl-ink); }
+  .modes button[aria-pressed="true"] { background: var(--ftl-fill-neutral); color: var(--ftl-ink);
+    border-color: var(--ftl-fill-neutral); }
+  .stage { border: 1px solid var(--ftl-border); border-radius: 8px; padding: 16px 18px; background: var(--ftl-surface); }
+
+  .hues { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 18px; }
+  .hue { flex: 1 1 130px; border-radius: 8px; overflow: hidden; border: 1px solid var(--ftl-border); }
+  .swatch { height: 68px; display: flex; align-items: center; justify-content: center;
+            color: var(--ftl-on-solid); font-size: 24px; font-weight: 600; }
+  .hmeta { padding: 8px 10px; background: var(--ftl-surface-raised); }
+  .hjob { font-size: 12.5px; font-weight: 600; color: var(--ftl-ink); }
+  .hval { font-size: 11px; letter-spacing: 0.04em; color: var(--ftl-ink-subtle); font-variant-numeric: tabular-nums; margin-top: 2px; }
+
+  .row2 { display: flex; align-items: baseline; gap: 16px; padding: 8px 0; border-block-end: 1px solid var(--ftl-border); }
+  .row2:last-of-type { border-block-end: 0; }
+  .rmeta { flex: none; width: 158px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+           font-weight: 600; color: var(--ftl-ink-subtle); }
+  .rmeta b { display: block; color: var(--ftl-ink-muted); font-size: 11.5px; letter-spacing: 0.03em;
+             text-transform: none; font-weight: 400; margin-top: 2px; }
+
+  .side2 { display: flex; gap: 16px; margin: 0 0 18px; flex-wrap: wrap; }
+  .col2 { flex: 1 1 220px; border-radius: 8px; padding: 14px; }
+  .col2 h4 { font: 600 11px/1 var(--ftl-font-ui); letter-spacing: 0.1em; text-transform: uppercase;
+             color: var(--ftl-ink-subtle); margin: 0 0 10px; }
+  .box2 { background: var(--ftl-surface-raised); border-radius: 8px; min-height: 50px; display: flex;
+          align-items: center; padding: 0 12px; font-size: 13px; color: var(--ftl-ink); }
+  .box2 + .box2 { margin-top: 8px; }
+  .bordered2 { border: 1.5px solid var(--ftl-border-strong); }
+  .fillonly2 { border: 1.5px solid transparent; }
+  .lightpane { background: #f8f7fb; }
+  .darkpane  { background: #14111b; }
+
+  .phone { width: 100%; max-width: 300px; border: 1px dashed var(--ftl-border-strong);
+           border-radius: 8px; padding: 12px; position: relative; margin-bottom: 8px; }
+  .demorow { display: flex; gap: 8px; }
+  .stage2 { max-width: 335px; }
+
+  .lists { display: flex; gap: 26px; flex-wrap: wrap; margin: 14px 0; }
+  .lists > div { flex: 1 1 220px; }
+  .lists h4 { font: 600 11px/1 var(--ftl-font-ui); letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 10px; }
+  .lists ul { margin: 0; padding-left: 18px; }
+  .lists li { font-size: 13.5px; line-height: 1.6; color: var(--ftl-ink-muted); margin: 0 0 5px; }
+  .lists .no h4 { color: var(--ftl-miss); }
+  .lists .yes h4 { color: var(--ftl-hit); }
+
+  .strings { border: 1px solid var(--ftl-border); border-radius: 8px; overflow: hidden; margin: 0.75rem 0; }
+  .s { display: flex; gap: 14px; padding: 9px 14px; border-block-start: 1px solid var(--ftl-border);
+       font-size: 13.5px; align-items: baseline; }
+  .s:first-child { border-block-start: 0; }
+  .s .where { flex: none; width: 122px; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+              font-weight: 600; color: var(--ftl-ink-subtle); }
+  .s .what.serif { font-family: var(--ftl-font-quote); font-size: 15px; }
+
+  .bubble { max-width: 340px; background: var(--ftl-surface-raised);
+            border: 1px solid var(--ftl-border); border-radius: 14px 14px 14px 4px;
+            padding: 12px 14px; margin: 12px 0;
+            font: 400 15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif;
+            color: var(--ftl-ink); white-space: pre-wrap; }
+  .bubble .grid { font-size: 19px; letter-spacing: 0.02em; }
+  .bubble .url { color: var(--ftl-focus); }
+
+  footer { margin-top: 3rem; padding-top: 1.5rem; border-block-start: 1px solid var(--ftl-border);
+           font-size: 12.5px; color: var(--ftl-ink-subtle); }
+</style>
+</head>
+<body>
+<header class="top">
+  <nav aria-label="Sections of this system">
+    <a href="#sources">Sources</a>
+    <a href="#colour">Colour</a>
+    <a href="#type">Type</a>
+    <a href="#layout">Layout</a>
+    <a href="#motion">Motion</a>
+    <a href="#components">Components</a>
+    <a href="#controls">Vendored controls</a>
+    <a href="#voice">Voice</a>
+    <a href="#share">Shared text</a>
+    <a href="#legal">Trademark boundary</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <a class="back" href="./">← All Finish the Line pages</a>
+
+  <h1>Finish the Line — the design system</h1>
+  <p class="lede">A screen system for a <b>timed phone game</b>. Three routes, ten states, four
+  owned components, roughly ninety tokens. This describes <b>what ships on finishtheline.cc as of
+  9 August 2026</b>, not what it should be — where a claim differs from the running app, it says so.</p>
+  <p class="lede"><b>The product in one line:</b> three lines of dialogue, two of them fakes, and
+  sixty seconds to keep picking the real one.</p>
+
+  <h2 id="sources">Sources</h2>
+  <p class="note">Authored by reading the running code, in order of authority: the app's own
+  stylesheet (which wins every disagreement), its markup and states, its runtime-built pieces
+  (option rows, result cells, the share label), then the design system's token files, copied
+  verbatim.</p>
+  <p class="note"><b>Verified.</b> Every token value here is copied from the source, not retyped
+  from memory. The contrast table below computes its ratios from <b>rendered</b> colour at view
+  time, rather than printing numbers written into a comment — that distinction has already caught
+  a token shipping at 3.17:1 under a comment claiming it passed, and a contrast figure recorded
+  elsewhere at 2.4× the truth.</p>
+
+  <h2 id="colour">Colour</h2>
+  <p class="lede">Four state hues, one job each — sage means correct and <i>only</i> correct, brick
+  means wrong, gold means the clock is short, slate means the clock ran out. Azure is at-rest and
+  focus. Every hue is one value in both modes, with a single white ink over all of them.</p>
+
+  <h3>Four hues, one job each</h3>
+  <div class="hues">
+    <div class="hue"><div class="swatch" style="background:var(--ftl-hit)">✓</div>
+      <div class="hmeta"><div class="hjob">Correct — only ever this</div><div class="hval">#41763f · 5.40 on white</div></div></div>
+    <div class="hue"><div class="swatch" style="background:var(--ftl-miss)">✗</div>
+      <div class="hmeta"><div class="hjob">Wrong · clock nearly gone</div><div class="hval">#b5453a · 5.42</div></div></div>
+    <div class="hue"><div class="swatch" style="background:var(--ftl-warn)">!</div>
+      <div class="hmeta"><div class="hjob">Clock short</div><div class="hval">#806c1f · 5.14</div></div></div>
+    <div class="hue"><div class="swatch" style="background:var(--ftl-idle)">–</div>
+      <div class="hmeta"><div class="hjob">The clock ran out on it</div><div class="hval">#6b6e70 · 5.14</div></div></div>
+  </div>
+  <div class="stopblk">
+    <p><b>⛔ A state hue is always a fill or a border, never text.</b> All four sit at roughly
+    0.13–0.15 luminance, which is why one white ink works over every one of them in both modes —
+    and why they cannot be text.</p>
+  </div>
+  <div class="warnblk">
+    <p><b>⚠ The cost, stated plainly.</b> Adjacent hues separate by only 1.05–1.40:1, told apart by
+    <b>hue alone</b> — which a colour-blind player cannot rely on. That is acceptable here
+    <b>only</b> because every state also carries a ✓ / ✗ / – glyph, shown in the swatches above.
+    <b>The glyph is the accessibility mechanism, not decoration.</b> An answered option or a result
+    cell must never render without one.</p>
+  </div>
+  <div class="stopblk">
+    <p><b>⛔ Green is never the brand.</b> The mark used to share the correct-answer green with the
+    wordmark — one colour meaning both "Finish the Line" and "you got it right", thirty seconds
+    apart. It was moved to ink instead. Both cleared contrast, so this was a meaning fix, not a
+    contrast fix.</p>
+  </div>
+
+  <h3>Surfaces do not separate — borders do</h3>
+  <p class="note">The two page surfaces are almost the same colour: raised clears the page by only
+  <b>1.06:1 in light and 1.09:1 in dark</b> — far below the 3:1 a non-text boundary needs. A fill
+  can never be what makes something a distinct, tappable object here; the border is.</p>
+  <div class="side2">
+    <div class="col2 lightpane" data-ftl-mode="light">
+      <h4>Light page</h4>
+      <div class="box2 fillonly2">Fill only — where does this row end?</div>
+      <div class="box2 bordered2">Border — now it is an object</div>
+    </div>
+    <div class="col2 darkpane" data-ftl-mode="dark">
+      <h4>Dark page — what ships</h4>
+      <div class="box2 fillonly2">Fill only — where does this row end?</div>
+      <div class="box2 bordered2">Border — now it is an object</div>
+    </div>
+  </div>
+  <p class="note">The three tint tokens (<code>--ftl-tint-hit / -miss / -idle</code>) measure about
+  1.1:1 against the page <b>by design</b> — they carry the hue quietly. The full-strength border
+  carries the contrast, at 3.44–3.45:1. They are opaque mixes with the page, never translucent
+  overlays, so the value measured is the value painted.</p>
+
+  <h3>Contrast, measured in your browser right now</h3>
+  <p class="note">Every ratio below is read back out of the rendered page, not typed into this
+  file. Pairs are enumerated from the <b>components</b>, not the token list — a token-list audit
+  passes every pair it thinks of and misses the ones components actually compose.</p>
+  <div class="modes">
+    <button type="button" data-m="light" aria-pressed="false">Light</button>
+    <button type="button" data-m="dark" aria-pressed="false">Dark</button>
+  </div>
+  <div class="stage" id="contrast-stage">
+    <table>
+      <thead><tr><th>Pair</th><th>Where it appears</th><th>Ratio</th><th>AA</th></tr></thead>
+      <tbody id="contrast-rows"></tbody>
+    </table>
+  </div>
+  <p class="note"><b>The one row that fails is deliberate, and it is here to be looked at.</b>
+  <code>ink-subtle on surface-sunken</code> measures <b>4.35:1 in light</b> and passes at 4.65 in
+  dark — a pairing that is fine in the mode the product ships and fails in the mode it also
+  supports. The row below it is the same badge on <code>ink-muted</code> — this system's component
+  CSS already uses that fix; the running app does not yet.</p>
+
+  <h2 id="type">Type</h2>
+  <p class="lede">One content rule decides the family, every time: <b>the serif is worn by anything
+  a character actually said; the sans by everything the app says about them.</b> Under a clock, a
+  player comparing three options is comparing quotes with quotes, and the serif says which text is
+  in the game before a word of it is read.</p>
+  <p class="note" style="font-style:italic">The lines below are placeholder text written for this
+  page. No dialogue from the show appears anywhere in this design system.</p>
+
+  <h3>Reading sizes — all three ship</h3>
+  <div class="row2">
+    <span class="rmeta">13px · label<b>--ftl-text-xs</b></span>
+    <span style="font-size:var(--ftl-text-xs);letter-spacing:0.13em;text-transform:uppercase;font-weight:600;color:var(--ftl-ink-muted)">Warm-up · the clock isn't running yet</span>
+  </div>
+  <div class="row2">
+    <span class="rmeta">17px · narration<b>--ftl-text-md</b></span>
+    <span style="font-size:var(--ftl-text-md);line-height:1.6;color:var(--ftl-ink-muted)">Guess wrong and you lose 5 seconds off the clock.</span>
+  </div>
+  <div class="row2">
+    <span class="rmeta">19px · dialogue<b>--ftl-text-lg</b></span>
+    <span style="font-family:var(--ftl-font-quote);font-size:var(--ftl-text-lg);line-height:1.5">"The third one is the one they said."</span>
+  </div>
+
+  <h3>Display numerals — exempt, because they are glanced at, not read</h3>
+  <div class="row2">
+    <span class="rmeta">32px · the score<b>--ftl-display-sm</b></span>
+    <span style="font-family:var(--ftl-font-quote);font-variant-numeric:tabular-nums;font-size:var(--ftl-display-sm)">7 lines in 60 seconds</span>
+  </div>
+  <div class="row2">
+    <span class="rmeta">44px · the clock<b>--ftl-display-md</b></span>
+    <span style="font-variant-numeric:tabular-nums;font-size:var(--ftl-display-md);line-height:1.2">60.0</span>
+  </div>
+  <div class="row2">
+    <span class="rmeta">64px · the countdown<b>--ftl-display-lg</b></span>
+    <span style="font-variant-numeric:tabular-nums;font-size:var(--ftl-display-lg);line-height:1.2">3</span>
+  </div>
+  <p class="note">Every numeral above is tabular — the clock counts down in tenths, so with
+  proportional figures the whole line reflows ten times a second while the player is trying to
+  read three sentences against it. 15px and 22px exist in the token file and no shipped page uses
+  either; they are not deprecated, just unclaimed.</p>
+
+  <div class="stopblk">
+    <p><b>⛔ Never set a UI string in the serif to make it feel special.</b> Every serif string on
+    screen is a claim that a character said it.</p>
+    <p><b>⛔ Only three faces ship</b> — Inter 400, Inter 600, Newsreader 400. There is no
+    Newsreader italic and no Inter 700. Asking for one renders a synthesised face — the actual bug
+    behind one option row painting faux-bold, because Jelly's own vendored radio sets weight 600
+    and only a 400 serif was loaded.</p>
+  </div>
+
+  <h2 id="layout">Layout</h2>
+  <p class="lede">On the round screen a player must see the clock, the cue and <b>all three options
+  without scrolling</b>. Telegram's in-app browser on a 375×667 phone leaves roughly <b>560px</b>.
+  That is the whole budget, and two tokens spend it: <code>--ftl-budget-timer</code> (≤96px) and
+  <code>--ftl-budget-question</code> (≤440px).</p>
+  <div class="stopblk">
+    <p><b>⛔ The rule this forces: anything that appears AFTER an answer is anchored to the
+    viewport, never appended to the flow.</b> Appending pushes the explanation off the bottom of
+    the screen on exactly the long questions where the player most needs it — which is why the
+    reveal is a fixed sheet, capped at 42% of the <b>dynamic</b> viewport.</p>
+  </div>
+  <p class="note">Measured at 375px: an option row is 56px to about 39 characters, 79px to about
+  77, and 108px beyond that — so three rows alone can cost 180 to 336px before a word of scene
+  text. That is the real argument for keeping candidate lines short.</p>
+
+  <h3>44px is a floor, and it has two axes</h3>
+  <p class="note">The measurement that settled this: a vendored radio control paints <b>41.8px
+  tall and about 210px wide</b> inside a 335px column — under the floor on one axis and, on the
+  other, narrower than the row it sits in, so taps at the right-hand end land on nothing.</p>
+  <div class="phone">
+    <div class="demorow">
+      <div style="width:210px;height:41.8px;border-radius:8px;background:var(--ftl-tint-miss);border:1.5px solid var(--ftl-miss);display:flex;align-items:center;padding:0 10px;font-size:13px">41.8 × 210</div>
+      <div style="flex:1;background:repeating-linear-gradient(135deg,transparent 0 5px,var(--ftl-miss) 5px 6px);border-radius:8px;opacity:0.5"></div>
+    </div>
+    <p class="note" style="margin:6px 0 10px">Hatched = looks tappable, is not.</p>
+    <div class="option-row" style="background:var(--ftl-tint-hit);border-color:var(--ftl-hit)">Full-bleed 56px row — the row is the target</div>
+  </div>
+  <p class="note"><b>Assert 44, set 52.</b> A min-height floor that lands exactly on 44 leaves
+  nothing for a rounding error or a font swap. FTL cannot go fully square either: the vendored
+  controls paint canvas-based soft-body surfaces, and a 0px corner beside one reads as a rendering
+  bug — so elements FTL owns go sharp (4px chips, 8px rows, pill tracks) and the vendored controls
+  keep their soft geometry.</p>
+
+  <h2 id="motion">Motion</h2>
+  <p class="lede">In a 60-second game, <b>animation time is round time.</b> A staggered per-element
+  reveal of the kind daily word games use runs about 1.7 seconds per tile; at 8–12 questions that
+  is <b>14 to 20 seconds of a 60-second round spent watching an animation</b>. So the reveal is one
+  state change, <b>120ms, simultaneous</b> across all three options.</p>
+  <p class="note">Three durations exist and no more: 120ms (state changes), 200ms (the sheet
+  sliding in, screen fades), 400ms (unclaimed). All three collapse to 1ms under
+  <code>prefers-reduced-motion</code> — collapse, not disable, so nothing waiting on a transition
+  event stops firing.</p>
+
+  <h2 id="components">Components</h2>
+  <p class="lede">Four things the app owns outright, in plain CSS on plain elements. The candidate
+  lines below are placeholder text; no dialogue from the show appears anywhere in this system.</p>
+
+  <h3>Option row — every state</h3>
+  <div class="stage2">
+    <div class="option-row"><span class="n">1</span><span class="option-text">"The third one is the one they said."</span></div>
+    <div class="option-row hit"><span class="n">2</span><span class="option-text">"The third one is what they said."</span><span class="pick-mark">✓</span></div>
+    <div class="option-row"><span class="n">3</span><span class="option-text">"The third one is the thing they said."</span></div>
+  </div>
+  <p class="note">Fill decorative, border carries the state, glyph carries the meaning. The
+  player's own pick is the filled row; the correct row (when they picked wrong) is outline-only, so
+  it does not compete with their own filled pick.</p>
+
+  <h3>Clock — four phases</h3>
+  <div class="row2" style="align-items:center">
+    <div style="flex:1"><p class="clock-display" style="margin-bottom:6px">41.8</p><div class="clock-track" style="margin-bottom:0"><span class="clock-fill" style="width:70%"></span></div><p class="note" style="margin:4px 0 0">At rest</p></div>
+    <div style="flex:1"><p class="clock-display" style="margin-bottom:6px">12.4</p><div class="clock-track short" style="margin-bottom:0"><span class="clock-fill" style="width:21%"></span></div><p class="note" style="margin:4px 0 0">Short — under 15s</p></div>
+    <div style="flex:1"><p class="clock-display" style="margin-bottom:6px">3.1</p><div class="clock-track critical" style="margin-bottom:0"><span class="clock-fill" style="width:5%"></span></div><p class="note" style="margin:4px 0 0">Critical — grows too</p></div>
+  </div>
+  <p class="note">The bar grows as well as reddens at critical, because it is read peripherally —
+  the player is looking at the option rows, not the clock. Frozen (reading an answer) dims the
+  number rather than hiding it, so the player keeps a continuity cue that this is the same
+  question.</p>
+
+  <h3>Result grid — the thing people screenshot</h3>
+  <div class="grid-row" role="list" style="justify-content:flex-start">
+    <span class="grid-cell hit" role="listitem">✓</span>
+    <span class="grid-cell hit" role="listitem">✓</span>
+    <span class="grid-cell miss" role="listitem">✗</span>
+    <span class="grid-cell hit" role="listitem">✓</span>
+    <span class="grid-cell expired" role="listitem">–</span>
+    <span class="grid-cell hit" role="listitem">✓</span>
+    <span class="grid-cell miss" role="listitem">✗</span>
+    <span class="grid-cell hit" role="listitem">✓</span>
+  </div>
+  <div class="warnblk">
+    <p><b>⚠ Known gap: eight cells orphan one on its own line.</b> A 335px column holds 7 cells at
+    40px with an 8px gap; an eight-answer round wraps to two rows with a single cell alone on the
+    second — which reads as a mistake rather than a wrap. Nine or ten answers look fine; eight is
+    the ugly case. Not fixed — flagged for a decision between accepting the wrap, shrinking the
+    cell, or capping the row so it always breaks evenly.</p>
+  </div>
+  <p class="note">The score is a plain count of lines, not a named tier — tiers used to draw on
+  show-specific in-jokes that read as nonsense to a first-time player, on the one screen most
+  likely to be screenshotted and sent to someone who has never played.</p>
+
+  <h2 id="controls">Vendored controls</h2>
+  <p class="lede">Everything else on screen is a vendored web component (a button, a radio, a
+  progress bar, a spinner) that paints to a <b>canvas inside a shadow root</b>. That single fact
+  decides everything below.</p>
+  <div class="okblk">
+    <p><b>Custom properties cross the shadow boundary. Selectors do not.</b> The only way to
+    restyle one of these is to set the property its painter actually reads, on the host — not
+    <code>::part()</code>, not a descendant selector, not <code>!important</code> on a class.</p>
+  </div>
+  <div class="stopblk">
+    <p><b>⛔ Never bind one of these tokens to <code>color-mix()</code> or <code>oklch()</code>.</b>
+    These components hand the raw computed colour string straight to canvas with no resolver. An
+    invalid fill value is <b>silently ignored</b> and the previous colour simply persists — the
+    control keeps painting, in the wrong colour, with no error anywhere.</p>
+  </div>
+  <div class="stopblk">
+    <p><b>⛔ Every one of these controls bleeds about 44px past its own host, on every side,
+    unconditionally.</b> It is a soft-body wobble margin, not a stale-paint bug — the bleed has to
+    be contained with <code>overflow-x</code> on <b>both</b> <code>html</code> and
+    <code>body</code>, since an HTML document propagates whichever one of them declares a value to
+    the other.</p>
+  </div>
+  <p class="note">Anything the app owns outright — the option row, the result cell, the reveal
+  sheet, the type roles — is plain CSS on plain elements, and none of the above applies to it. The
+  vendored controls are a boundary, not a foundation.</p>
+  <p class="note">These frames are drawn with plain CSS throughout this page and the pages kit —
+  loading the real vendored bundle here would make every specimen depend on a remote script.</p>
+
+  <h2 id="voice">Voice</h2>
+  <p class="lede"><b>Dry sitcom beat.</b> No emoji, no exclamation marks, no hype — in the
+  interface. The game is already funny; the interface does not need to be. Its job is to be out of
+  the way in under a second.</p>
+
+  <h3>Every string the player reads — the complete set</h3>
+  <div class="strings">
+    <div class="s"><span class="where">/ · pitch</span><span class="what serif" style="font-family:var(--ftl-font-quote)">Three lines. Two are fakes. Pick the one they really said.</span></div>
+    <div class="s"><span class="where">/ · pitch</span><span>A daily game built from Friends.</span></div>
+    <div class="s"><span class="where">/ · pitch</span><span>The 60-second round opens 10 September.</span></div>
+    <div class="s"><span class="where">/quiz · landing</span><span class="what serif" style="font-family:var(--ftl-font-quote)">Three Friends lines. Two are fakes. Pick the one they really said.</span></div>
+    <div class="s"><span class="where">/quiz · landing</span><span>Sixty seconds. The clock stops while you read the answer.</span></div>
+    <div class="s"><span class="where">/quiz · landing</span><span>Guess wrong and you lose 5 seconds off the clock.</span></div>
+    <div class="s"><span class="where">/quiz · landing</span><span>Ross has the clipboard. The girls are already losing.</span></div>
+    <div class="s"><span class="where">/quiz · warm-up</span><span>Warm-up · the clock isn't running yet</span></div>
+    <div class="s"><span class="where">/quiz · countdown</span><span>Lightning round — Ready…</span></div>
+    <div class="s"><span class="where">/quiz · reveal</span><span>Keep going</span></div>
+    <div class="s"><span class="where">/quiz · results</span><span>7 lines in 60 seconds</span></div>
+    <div class="s"><span class="where">/quiz · results</span><span>Play again</span></div>
+    <div class="s"><span class="where">/tv</span><span>Opens 10 September</span></div>
+  </div>
+
+  <div class="lists">
+    <div>
+      <h4>Do</h4>
+      <ul>
+        <li>State the rule, then stop. "Guess wrong and you lose 5 seconds."</li>
+        <li>Let the interface carry the verdict — the row already went green</li>
+        <li>Keep the one in-world joke per screen, at most</li>
+        <li>Grade 8–10 reading level, hardest on anything a first-timer sees</li>
+      </ul>
+    </div>
+    <div class="no">
+      <h4>Never</h4>
+      <ul>
+        <li>Emoji or exclamation marks anywhere in the product</li>
+        <li>Restating the answer in words — the reveal sheet never repeats it</li>
+        <li>A joke only someone deep in the show can parse</li>
+        <li>Praise for a correct answer. It was one line, in a 60-second round</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note"><b>The score tiers were deleted.</b> They named results in show-specific
+  in-jokes that read as nonsense to anyone not deep in the series — on the one screen most likely
+  to be screenshotted and sent to someone who has never played. The standing test for any new
+  string: <i>would a first-time player know what this means?</i></p>
+  <p class="note"><b>The reveal never restates the answer</b> — the correct row already outlines
+  and pops; saying it again in words is the same answer twice.</p>
+
+  <h2 id="share">The shared text</h2>
+  <p class="lede">Three lines of <b>plain text</b>. No stylesheet, no fonts, no tokens — whatever
+  the receiving chat client decides. It travels further than the site and is harder to withdraw
+  than anything else here, so it gets its own rules.</p>
+  <div class="bubble">🥄 Finish the Line — 7 lines in 60 seconds
+<span class="grid">✅✅❌✅⬜✅❌✅</span>
+<span class="url">https://finishtheline.cc</span></div>
+  <p class="note"><b>✅ ❌ ⬜, never 🟩 🟥.</b> Green-versus-red is the one pair red-green
+  colourblindness cannot separate — and because emoji hue is decided by the renderer, there is no
+  contrast fix to reach for. Shape has to carry it.</p>
+  <p class="note"><b>No episode names, ever.</b> A result posted into a group chat must not spoil a
+  line for whoever reads it — the grid is abstract rather than a list of what you got, and that is
+  a content rule, not a space saving.</p>
+  <p class="note"><b>Emoji are allowed here, and nowhere else.</b> The interface bans them because
+  the app controls its own rendering and has real glyphs, colour and type to work with. This
+  message has none of that — the rule is about capability, not taste.</p>
+
+  <h2 id="legal">Trademark boundary</h2>
+  <p class="lede">This project's posture is fan-scale, private and takedown-compliant. <b>A logo is
+  the single most legally exposed thing it can ship</b>, because a mark is exactly what a trademark
+  protects. Evoking an era is fine; quoting the show is not.</p>
+  <div class="lists">
+    <div class="no">
+      <h4>Never</h4>
+      <ul>
+        <li>A dot-separated wordmark lettering out the show's name</li>
+        <li>Individually coloured dots between letters — in a logo, a button, or anywhere else</li>
+        <li>The orange sofa, the umbrella, the frame-in-a-frame</li>
+        <li>Character names or catchphrases as brand elements</li>
+        <li>Dialogue from the show on any shared URL, share card or preview image</li>
+      </ul>
+    </div>
+    <div class="yes">
+      <h4>Fine</h4>
+      <ul>
+        <li>Saying plainly that the game is built from the show</li>
+        <li>Period-adjacent type and colour that quote nothing specific</li>
+        <li>Marks built from the game's own mechanic — lines, quotes, the clock</li>
+        <li>The show's name in running prose, where it is a factual description</li>
+      </ul>
+    </div>
+  </div>
+  <div class="warnblk">
+    <p><b>⚠ One pattern above is currently live on the product and is under review by the
+    owner</b> for exactly this reason — it is not reproduced here, on purpose, since showing it
+    would defeat the point of flagging it. See the logo concepts page for the replacement under
+    consideration.</p>
+  </div>
+  <p class="note"><b>The share card is the sharpest edge.</b> An <code>og:image</code> is scraped,
+  cached and re-hosted by every chat client that touches the link, so it travels further than the
+  site and is harder to withdraw than anything else the project publishes. Nothing from the
+  question corpus may appear in it.</p>
+
+  <h2>Brand</h2>
+  <p class="lede">Four logo concepts are still on the table — see
+  <a href="logo-concepts.html">the logo concepts page</a> for all four at real 16px in a real
+  browser tab strip, in dark and light. No mark has been chosen yet.</p>
+
+  <footer>Finish the Line — design system, 9 August 2026. Build output, not a source of truth —
+  the real system lives in the project's own repository.</footer>
+</div>
+
+<script>
+(function () {
+  var PAIRS = [
+    ["--ftl-ink",        "--ftl-surface",        "Dialogue — the three options"],
+    ["--ftl-ink-muted",  "--ftl-surface",        "Narration — stage direction"],
+    ["--ftl-ink-subtle", "--ftl-surface",        "Quietest supporting text"],
+    ["--ftl-ink-subtle", "--ftl-surface-sunken", "The 1/2/3 option number — the pairing that FAILS in light"],
+    ["--ftl-ink-muted",  "--ftl-surface-sunken", "The same number, on ink-muted — the fix"],
+    ["--ftl-ink",        "--ftl-surface-raised", "Text inside the reveal sheet"],
+    ["--ftl-ink",        "--ftl-tint-hit",       "The ✓ on a correct row"],
+    ["--ftl-ink",        "--ftl-tint-miss",      "The ✗ on a wrong row"],
+    ["--ftl-ink",        "--ftl-tint-idle",      "The – on an expired cell"],
+    ["--ftl-on-solid",   "--ftl-hit",            "Label on a correct fill"],
+    ["--ftl-on-solid",   "--ftl-miss",           "Label on a wrong fill"],
+    ["--ftl-on-solid",   "--ftl-warn",           "Label on a clock-short fill"],
+    ["--ftl-on-solid",   "--ftl-fill-neutral",   "Share / Enter button label"]
+  ];
+
+  function srgb(c) { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function lum(rgb) { return 0.2126 * srgb(rgb[0]) + 0.7152 * srgb(rgb[1]) + 0.0722 * srgb(rgb[2]); }
+  function ratio(a, b) {
+    var la = lum(a), lb = lum(b);
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  }
+  // Resolve a token by PAINTING it and reading the value back, so color-mix()
+  // chains resolve exactly as the browser resolves them, rather than handing
+  // back an unresolved color-mix() string.
+  var probe = document.createElement("span");
+  probe.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px";
+  document.body.appendChild(probe);
+  function parse(str) {
+    var nums = (str.match(/[\d.]+/g) || []).map(Number);
+    if (nums.length < 3) return null;
+    var scale = /^color\(/.test(str) ? 255 : 1;
+    return [nums[0] * scale, nums[1] * scale, nums[2] * scale];
+  }
+  function resolve(token) {
+    probe.style.color = "";
+    probe.style.color = "var(" + token + ")";
+    return parse(getComputedStyle(probe).color) || [0, 0, 0];
+  }
+
+  function render() {
+    var out = "";
+    PAIRS.forEach(function (p) {
+      var r = ratio(resolve(p[0]), resolve(p[1]));
+      var ok = r >= 4.5;
+      out += '<tr><td class="pair">' + p[0].replace("--ftl-", "") + " on " + p[1].replace("--ftl-", "") +
+             "</td><td>" + p[2] + '</td><td style="font-variant-numeric:tabular-nums;font-weight:600;color:var(--ftl-ink)">' + r.toFixed(2) + ":1</td>" +
+             '<td><span class="v ' + (ok ? "pass" : "fail") + '">' + (ok ? "PASS" : "FAIL") + "</span></td></tr>";
+    });
+    document.getElementById("contrast-rows").innerHTML = out;
+  }
+
+  var stage = document.getElementById("contrast-stage");
+  document.querySelectorAll(".modes button").forEach(function (b) {
+    b.onclick = function () {
+      var m = b.dataset.m;
+      stage.setAttribute("data-ftl-mode", m);
+      document.querySelectorAll(".modes button").forEach(function (o) {
+        o.setAttribute("aria-pressed", String(o === b));
+      });
+      render();
+    };
+  });
+  var start = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.querySelector('.modes button[data-m="' + start + '"]').click();
+})();
+</script>
+</body>
+</html>

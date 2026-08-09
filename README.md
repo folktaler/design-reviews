@@ -23,3 +23,10 @@ output. Editing them does nothing — each project's source lives elsewhere.
   files are the ones it self-hosts. 5 pages, one shared `tokens.css`, no build
   step. `modules.html` carries the only JavaScript in the repo — a checkbox
   picker for choosing which parts of the product to keep. Source lives in `~/opencollective/design-system/`.
+- **[finishtheline/](finishtheline/)** — a screen system for a 60-second phone
+  game built from Friends dialogue. 3 pages, one shared `tokens.css` and one
+  shared `faces-ftl.css`, no build step. The four vendored Jelly UI controls are
+  drawn as plain-CSS stand-ins throughout, marked ⌗ — loading the real bundle
+  would make every frame depend on a remote script. The logo is four concepts
+  awaiting a decision, not a chosen mark. Source lives in
+  `~/finishtheline/design-system/ds/`.

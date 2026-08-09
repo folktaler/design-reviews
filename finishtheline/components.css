@@ -1,0 +1,194 @@
+/* =========================================================================
+   FINISH THE LINE — COMPONENT RULES
+   The four things the app owns outright. Plain CSS on plain elements;
+   nothing here touches a vendored web component. Class names are the
+   shipped ones, so this maps onto real rules rather than a parallel set.
+
+   ⚠ WHERE THIS DIFFERS FROM WHAT SHIPS, IT IS MARKED. The shipped file
+   expresses two text hierarchies with `opacity`; this system forbids that.
+   Adopting these is a real change, not a silent import.
+
+   ⛔ EVERY BOX BELOW SETS ITS OWN box-sizing, AND THAT IS NOT TIDINESS.
+   Without a border-box reset an option row renders 78px, not 56px — the
+   8px padding and 3px border on each side stack on top of the min-height.
+   Three rows then cost 234px instead of 168px, which breaks the vertical
+   budget and pushes the third option off a 375×667 phone. The running app
+   is fine because it carries a global `* { box-sizing: border-box }`; a
+   design system cannot rely on a consumer having done the same, so each
+   component that depends on it declares it.
+   ========================================================================= */
+
+
+/* ---------------------------------------------------------------------
+   OPTION ROW — one of the three candidate lines.
+   fill = decorative · border = the state · glyph = the accessibility
+   --------------------------------------------------------------------- */
+
+.option-row {
+  box-sizing: border-box;
+  display: flex;
+  gap: var(--ftl-space-4);
+  align-items: center;
+  padding: var(--ftl-space-2) var(--ftl-space-3);
+  margin: 0 0 var(--ftl-option-gap);
+  border-radius: var(--ftl-radius-md);
+  min-height: var(--ftl-option-min-h);
+  cursor: pointer;
+  /* Reserved at full width, transparent, so a state border never shifts
+     the text — answering must move nothing. */
+  border: var(--ftl-rail-w) solid transparent;
+  transition: background-color var(--ftl-dur-fast) var(--ftl-ease),
+              border-color var(--ftl-dur-fast) var(--ftl-ease);
+}
+
+.option-row .n {
+  flex: none;
+  width: 1.2ch;
+  font-size: var(--ftl-text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--ftl-ink-muted);
+}
+
+.option-row .option-text {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--ftl-font-quote);
+  font-size: var(--ftl-text-lg);
+  font-weight: var(--ftl-weight-normal);
+  line-height: 1.5;
+  color: var(--ftl-ink);
+}
+
+.option-row .pick-mark {
+  margin-left: auto;
+  flex: none;
+  font-size: var(--ftl-text-lg);
+  color: var(--ftl-ink);
+}
+
+.option-row.hit  { background: var(--ftl-tint-hit);  border-color: var(--ftl-hit); }
+.option-row.miss { background: var(--ftl-tint-miss); border-color: var(--ftl-miss); }
+/* The real answer, shown only when the player picked something else —
+   outline only, no fill, so it does not compete with their own filled pick. */
+.option-row.reveal-correct { border-color: var(--ftl-hit); }
+
+
+/* ---------------------------------------------------------------------
+   CLOCK — the number and its bar. Budget: the pair must stay under 96px.
+   --------------------------------------------------------------------- */
+
+.clock-display {
+  font-size: var(--ftl-display-md);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  color: var(--ftl-ink);
+  margin: 0 0 var(--ftl-space-5);
+}
+
+.clock-display.frozen { color: var(--ftl-ink-muted); }
+
+.clock-track {
+  display: block;
+  width: 100%;
+  height: var(--ftl-timer-h);
+  border-radius: var(--ftl-radius-pill);
+  background: var(--ftl-surface-sunken);
+  overflow: hidden;
+  margin: 0 0 var(--ftl-space-5);
+}
+.clock-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--ftl-radius-pill);
+  background: var(--ftl-focus);
+  transition: width var(--ftl-dur-base) linear;
+}
+.clock-track.short   .clock-fill { background: var(--ftl-warn); }
+.clock-track.critical .clock-fill { background: var(--ftl-miss); }
+/* At critical the bar also grows, so the change is not carried by hue
+   alone — the bar is read peripherally, the worst case for colour. */
+.clock-track.critical { height: var(--ftl-timer-h-urgent); }
+
+
+/* ---------------------------------------------------------------------
+   RESULT CELL — one per answered question, on the results screen.
+   Same fill/border/glyph triad as the option row.
+   --------------------------------------------------------------------- */
+
+.grid-cell {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ftl-radius-sm);
+  border: var(--ftl-rail-w) solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--ftl-weight-bold) var(--ftl-text-md)/1 var(--ftl-font-ui);
+  color: var(--ftl-ink);
+}
+.grid-cell.hit     { background: var(--ftl-tint-hit);  border-color: var(--ftl-hit); }
+.grid-cell.miss    { background: var(--ftl-tint-miss); border-color: var(--ftl-miss); }
+.grid-cell.expired { background: var(--ftl-tint-idle); border-color: var(--ftl-idle); }
+
+.grid-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--ftl-space-2);
+  margin: 0 0 var(--ftl-space-5);
+}
+
+
+/* ---------------------------------------------------------------------
+   REVEAL SHEET — the only container that can never be pushed off-screen,
+   because it is anchored to the viewport instead of appended to the flow.
+   --------------------------------------------------------------------- */
+
+.reveal-sheet {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--ftl-z-sheet);
+  /* Literal pair, not a token — a var()-routed dvh value fails at
+     COMPUTED-VALUE time on browsers without dvh, collapsing max-height to
+     `none`, worse than no cap. Written literally, an unsupporting browser
+     discards the dvh line at PARSE time and keeps the vh line. */
+  max-height: 42vh;
+  max-height: 42dvh;
+  overflow-y: auto;
+  padding: var(--ftl-space-4) var(--ftl-gutter);
+  padding-bottom: calc(var(--ftl-space-4) + var(--ftl-safe-bottom));
+  background: var(--ftl-surface-raised);
+  border-top: var(--ftl-border-w) solid var(--ftl-border-strong);
+  border-radius: var(--ftl-radius-lg) var(--ftl-radius-lg) 0 0;
+  box-shadow: 0 -8px 32px var(--ftl-shadow-color);
+  animation: ftl-sheet-in var(--ftl-dur-base) var(--ftl-ease);
+}
+.reveal-sheet__inner { display: block; max-width: var(--ftl-measure); margin: 0 auto; }
+
+@keyframes ftl-sheet-in {
+  from { transform: translateY(100%); }
+  to   { transform: none; }
+}
+
+
+/* ---------------------------------------------------------------------
+   THE MARK — concept A, "Three Lines". No tile on the page; the tile form
+   is the favicon only. See logo-concepts.html.
+   --------------------------------------------------------------------- */
+
+.mark { display: block; margin: 0 0 var(--ftl-space-4); }
+.mark-true { fill: var(--ftl-ink); }
+.mark-fake { fill: var(--ftl-ink-muted); }
+
+
+/* ---------------------------------------------------------------------
+   FOCUS — three properties, or none. A ring is not one declaration.
+   --------------------------------------------------------------------- */
+
+.option-row:focus-visible,
+.ftl-focusable:focus-visible {
+  outline: var(--ftl-focus-w) solid var(--ftl-focus);
+  outline-offset: var(--ftl-focus-gap);
+}

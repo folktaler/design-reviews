@@ -1,0 +1,3 @@
+Inter is used under the SIL Open Font License 1.1 — https://github.com/rsms/inter
+Newsreader is used under the SIL Open Font License 1.1 — https://github.com/googlefonts/newsreader
+The .woff2 files here are the ones finishtheline.cc self-hosts, copied unmodified.

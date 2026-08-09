@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finish the Line — every page, every state</title>
+<link rel="stylesheet" href="faces-ftl.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+
+<!-- =====================================================================
+     EVERY SHIPPED SCREEN, AT 375px.
+
+     ⚠ WHAT THIS IS AND IS NOT. These are rebuilt from the shipped markup
+     and the shipped CSS, at the width that decides things. They are NOT
+     screenshots of the running app, and two things are deliberately
+     different:
+
+     1. The four vendored controls (button, radio, progress, spinner) paint
+        to a canvas inside a shadow root. They are drawn here as plain CSS
+        approximations, marked ⌗, because loading the bundle into a
+        specimen would make every one of these frames depend on a remote
+        script. Their real geometry and its traps are on system.html.
+     2. The two text roles the shipped file dims with `opacity` are shown
+        here in ink tokens instead — the system's version.
+
+     ⛔ CONTENT. Every string is one already public on the live site. The
+     three candidate lines are placeholder text written for this kit. No
+     dialogue from the show appears anywhere in this design system, and
+     none may be added — this is a shared URL.
+     ===================================================================== -->
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 26px 80px; background: var(--ftl-surface);
+         color: var(--ftl-ink); font-family: var(--ftl-font-ui); }
+  .page { max-width: 1180px; margin: 0 auto; }
+  a.back { color: var(--ftl-focus); text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 1.5rem; }
+  h1 { font-size: 30px; line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; margin: 0 0 8px; }
+  .lede { font-size: 15px; line-height: 1.55; color: var(--ftl-ink-muted); max-width: 72ch; margin: 0 0 8px; }
+  b { color: var(--ftl-ink); font-weight: 600; }
+  code { font: 400 0.92em ui-monospace, SFMono-Regular, Menlo, monospace; }
+  h2 { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+       color: var(--ftl-ink-subtle); margin: 40px 0 16px; padding-block-end: 8px;
+       border-block-end: 1px solid var(--ftl-border); }
+
+  .strip { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+  .frame { width: 375px; flex: none; }
+  .frame > .label { font-size: 12px; font-weight: 600; color: var(--ftl-ink); margin: 0 0 3px; }
+  .frame > .sub { font-size: 12px; line-height: 1.45; color: var(--ftl-ink-subtle); margin: 0 0 9px; }
+  /* 375 wide × 667 tall minus browser chrome ≈ the Telegram in-app viewport. */
+  .phone { width: 375px; height: 560px; overflow: hidden; position: relative;
+           border: 1px solid var(--ftl-border-strong); border-radius: 14px;
+           background: var(--ftl-surface); }
+  .phone .inner { position: absolute; inset: 0; overflow: hidden;
+                  padding: 24px 20px 48px; }
+
+  .lbl { font-size: var(--ftl-text-xs); line-height: 1rem; letter-spacing: 0.13em;
+         text-transform: uppercase; font-weight: 600; color: var(--ftl-ink-muted); margin: 0 0 20px; }
+  .nar { font-size: var(--ftl-text-md); line-height: 1.6; color: var(--ftl-ink-muted); margin: 0 0 12px; }
+  .dia { font-family: var(--ftl-font-quote); font-size: var(--ftl-text-lg); line-height: 1.5;
+         color: var(--ftl-ink); margin: 0 0 4px; }
+  .phone h3 { font-size: 22px; line-height: 1.25; font-weight: 600; margin: 0 0 10px; }
+
+  .btn { display: flex; align-items: center; justify-content: center; width: 100%;
+         min-height: var(--ftl-control-h); border-radius: var(--ftl-radius-md);
+         font: 600 var(--ftl-text-md)/1 var(--ftl-font-ui); border: 0; cursor: pointer;
+         margin-top: 20px; color: var(--ftl-on-solid); background: var(--ftl-hit); }
+  .btn--neutral { background: var(--ftl-fill-neutral); color: var(--ftl-ink); }
+  .btn--sm { display: inline-flex; width: auto; min-height: var(--ftl-control-h-sm);
+             padding: 0 18px; border-radius: var(--ftl-radius-pill); margin: 0;
+             font-size: var(--ftl-text-xs); letter-spacing: 0.06em;
+             text-transform: uppercase; background: var(--ftl-miss); }
+  .ctl { position: relative; }
+  .ctl::after { content: "⌗"; position: absolute; top: 2px; right: 4px; font-size: 11px;
+                color: var(--ftl-ink-subtle); }
+
+  .sheet { position: absolute; inset-inline: 0; bottom: 0; max-height: 42%;
+           background: var(--ftl-surface-raised); border-top: var(--ftl-border-w) solid var(--ftl-border-strong);
+           border-radius: var(--ftl-radius-lg) var(--ftl-radius-lg) 0 0;
+           box-shadow: 0 -8px 32px var(--ftl-shadow-color); padding: 16px 20px 20px; }
+  .center { text-align: center; }
+  .tab { font-variant-numeric: tabular-nums; }
+
+  .pw { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+  .pw input { flex: 1; min-width: 0; min-height: var(--ftl-option-min-h);
+              padding: 8px 12px; border-radius: var(--ftl-radius-md);
+              border: 1px solid var(--ftl-border-strong); background: transparent;
+              color: var(--ftl-ink); font: 400 var(--ftl-text-lg)/1.5 var(--ftl-font-quote); }
+  .dot { display: block; min-width: var(--ftl-tap-min); min-height: var(--ftl-tap-min);
+         line-height: 44px; text-align: center; background: transparent; border: 0;
+         color: var(--ftl-ink); font-size: var(--ftl-text-lg); cursor: pointer; margin-top: 28px; }
+
+  .thumb { width: 100%; aspect-ratio: 16/9; border-radius: var(--ftl-radius-md);
+           background: var(--ftl-surface-raised); border: 1px solid var(--ftl-border);
+           display: flex; align-items: center; justify-content: center;
+           color: var(--ftl-ink-subtle); font-size: 12px; letter-spacing: 0.08em;
+           text-transform: uppercase; }
+  .qrow { display: flex; gap: 12px; align-items: center; padding: 10px 0;
+          border-block-start: 1px solid var(--ftl-border); }
+  .qthumb { flex: none; width: 88px; height: 50px; border-radius: var(--ftl-radius-sm);
+            background: var(--ftl-surface-raised); }
+  .qbody { flex: 1; min-width: 0; }
+  .qspk { display: block; font: 600 var(--ftl-text-xs)/1 var(--ftl-font-ui);
+          text-transform: uppercase; letter-spacing: 0.13em; color: var(--ftl-ink-muted); }
+  .qline { display: block; font-family: var(--ftl-font-quote); font-size: var(--ftl-text-md);
+           color: var(--ftl-ink); margin-top: 3px; }
+
+  .note { font-size: 13px; line-height: 1.55; color: var(--ftl-ink-muted); max-width: 74ch; margin: 14px 0 0; }
+  .meas { font-size: 12px; color: var(--ftl-ink-subtle); margin: 8px 0 0; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back" href="./">← All Finish the Line pages</a>
+
+  <h1>Every page, every state</h1>
+  <p class="lede">All three routes at <b>375&nbsp;px</b> — a phone, which is what this game is played on.
+  The frames are 560&nbsp;px tall: roughly what Telegram's in-app browser leaves after its own chrome, and
+  the budget every round screen has to fit inside <b>without scrolling</b>.</p>
+  <p class="lede"><b>⌗ marks a vendored control drawn plainly.</b> The four Jelly components paint to a
+  canvas inside a shadow root; loading the real bundle would make every frame here depend on a remote
+  script. Their real geometry and its traps are on <a href="system.html">the design system page</a>.</p>
+  <p class="lede">Every string below is already public on the live site. <b>The three candidate lines are
+  placeholder text written for this kit</b> — no dialogue from the show appears in this design system, and
+  none may be added, because this is a shared URL.</p>
+
+  <h2>/ — the front door</h2>
+  <div class="strip">
+    <div class="frame">
+      <p class="label">Pitch, at rest</p>
+      <p class="sub">What a cold visitor sees. The passcode control is one dot, last in reading and tab order.</p>
+      <div class="phone"><div class="inner">
+        <svg class="mark" viewBox="0 0 32 32" width="52" height="52" aria-hidden="true">
+          <rect class="mark-fake" x="5" y="6" width="14" height="4" rx="0.5"/>
+          <rect class="mark-true" x="5" y="14" width="22" height="4" rx="0.5"/>
+          <rect class="mark-fake" x="5" y="22" width="11" height="4" rx="0.5"/>
+        </svg>
+        <h3>Finish the Line</h3>
+        <p class="dia">Three lines. Two are fakes. Pick the one they really said.</p>
+        <p class="nar">A daily game built from Friends.</p>
+        <p class="nar">The 60-second round opens 10 September.</p>
+        <button class="dot" aria-label="Enter tester code">·</button>
+      </div></div>
+      <p class="meas">Mark shown as concept A. Today this frame carries the hand-drawn stopwatch.</p>
+    </div>
+
+    <div class="frame">
+      <p class="label">Pitch, passcode row open</p>
+      <p class="sub">Swaps in <i>in place</i> — not a modal. A modal needs a focus trap and a dismiss for a control one person uses.</p>
+      <div class="phone"><div class="inner">
+        <svg class="mark" viewBox="0 0 32 32" width="52" height="52" aria-hidden="true">
+          <rect class="mark-fake" x="5" y="6" width="14" height="4" rx="0.5"/>
+          <rect class="mark-true" x="5" y="14" width="22" height="4" rx="0.5"/>
+          <rect class="mark-fake" x="5" y="22" width="11" height="4" rx="0.5"/>
+        </svg>
+        <h3>Finish the Line</h3>
+        <p class="dia">Three lines. Two are fakes. Pick the one they really said.</p>
+        <p class="nar">A daily game built from Friends.</p>
+        <p class="nar">The 60-second round opens 10 September.</p>
+        <div style="margin-top:24px">
+          <p class="lbl" style="margin-bottom:6px">Tester code</p>
+          <div class="pw">
+            <input type="text" placeholder="Enter it here" readonly>
+            <span class="btn btn--neutral btn--sm ctl" style="background:var(--ftl-fill-neutral);color:var(--ftl-ink)">Enter</span>
+          </div>
+        </div>
+      </div></div>
+      <p class="meas">Input 56px. The ⌗ button is forced to 44px — its own size preset ships at 42.</p>
+    </div>
+  </div>
+  <p class="note"><b>Why the dot is not the mark.</b> An <code>aria-label</code> announces wherever the
+  element sits, and the mark is the first thing on the page — making it the control would tell a screen
+  reader user "Enter tester code, button" before the heading, advertising the hidden thing first to the
+  audience least likely to want it. Hiding it is <b>not</b> security; the passcode and the route gate are
+  the entire protection.</p>
+
+  <h2>/quiz — the round</h2>
+  <div class="strip">
+    <div class="frame">
+      <p class="label">Landing</p>
+      <p class="sub">Three rules, one joke, one button.</p>
+      <div class="phone"><div class="inner">
+        <svg class="mark" viewBox="0 0 32 32" width="52" height="52" aria-hidden="true">
+          <rect class="mark-fake" x="5" y="6" width="14" height="4" rx="0.5"/>
+          <rect class="mark-true" x="5" y="14" width="22" height="4" rx="0.5"/>
+          <rect class="mark-fake" x="5" y="22" width="11" height="4" rx="0.5"/>
+        </svg>
+        <h3>Finish the Line</h3>
+        <p class="dia">Three Friends lines. Two are fakes. Pick the one they really said.</p>
+        <p class="nar">Sixty seconds. The clock stops while you read the answer.</p>
+        <p class="nar">Guess wrong and you lose 5 seconds off the clock.</p>
+        <p class="nar">Ross has the clipboard. The girls are already losing.</p>
+        <div class="btn ctl">Start</div>
+      </div></div>
+    </div>
+
+    <div class="frame">
+      <p class="label">Warm-up</p>
+      <p class="sub">The clock is present and frozen, so the real one is not the first time that part of the screen has anything in it.</p>
+      <div class="phone"><div class="inner">
+        <p class="clock-display frozen tab">60.0</p>
+        <div class="clock-track"><span class="clock-fill" style="width:100%"></span></div>
+        <p class="lbl">Warm-up · the clock isn't running yet</p>
+        <p class="dia">"Two of these are wrong."</p>
+        <p class="lbl" style="margin:10px 0 8px">Which one did they say?</p>
+        <div class="option-row"><span class="n">1</span><span class="option-text">"The third one is the one they said."</span></div>
+        <div class="option-row"><span class="n">2</span><span class="option-text">"The third one is what they said."</span></div>
+        <div class="option-row"><span class="n">3</span><span class="option-text">"The third one is the thing they said."</span></div>
+      </div></div>
+    </div>
+
+    <div class="frame">
+      <p class="label">Countdown</p>
+      <p class="sub">Between the warm-up and question one, once. The whole game is one lightning round, not one per question.</p>
+      <div class="phone"><div class="inner center" style="padding-top:64px">
+        <p class="lbl">Lightning round</p>
+        <p class="dia">Ready…</p>
+        <p class="tab" style="font-size:var(--ftl-display-lg);line-height:1.2;margin:8px 0 0">3</p>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="strip" style="margin-top:22px">
+    <div class="frame">
+      <p class="label">Round — unanswered</p>
+      <p class="sub">Clock, cue and all three options visible without scrolling. This is what the 96 + 440 budget buys.</p>
+      <div class="phone"><div class="inner">
+        <p class="clock-display tab">41.8</p>
+        <div class="clock-track"><span class="clock-fill" style="width:70%"></span></div>
+        <p class="lbl" style="margin-bottom:8px">The one with the placeholder</p>
+        <p class="nar" style="margin-bottom:4px">Everyone is in the kitchen and nobody is telling the truth.</p>
+        <p class="lbl" style="margin:10px 0 8px">Which one did they say?</p>
+        <div class="option-row"><span class="n">1</span><span class="option-text">"The third one is the one they said."</span></div>
+        <div class="option-row"><span class="n">2</span><span class="option-text">"The third one is what they said."</span></div>
+        <div class="option-row"><span class="n">3</span><span class="option-text">"The third one is the thing they said."</span></div>
+      </div></div>
+    </div>
+
+    <div class="frame">
+      <p class="label">Round — answered wrongly, sheet open</p>
+      <p class="sub">The only state with a sheet. A correct pick advances with nothing shown at all.</p>
+      <div class="phone"><div class="inner">
+        <p class="clock-display frozen tab">36.8</p>
+        <div class="clock-track"><span class="clock-fill" style="width:61%"></span></div>
+        <p class="lbl" style="margin-bottom:8px">The one with the placeholder</p>
+        <p class="nar" style="margin-bottom:4px">Everyone is in the kitchen and nobody is telling the truth.</p>
+        <p class="lbl" style="margin:10px 0 8px">Which one did they say?</p>
+        <div class="option-row miss"><span class="n">1</span><span class="option-text">"The third one is the one they said."</span><span class="pick-mark">✗</span></div>
+        <div class="option-row reveal-correct"><span class="n">2</span><span class="option-text">"The third one is what they said."</span></div>
+        <div class="option-row"><span class="n">3</span><span class="option-text">"The third one is the thing they said."</span></div>
+        <div class="sheet">
+          <p class="nar" style="font-style:italic;color:var(--ftl-ink);margin-bottom:14px">The fake changed one word. That is the whole trick.</p>
+          <span class="btn btn--sm ctl">Keep going</span>
+        </div>
+      </div></div>
+      <p class="meas">The sheet never restates the answer — the outlined row is the only place it appears.</p>
+    </div>
+
+    <div class="frame">
+      <p class="label">Results</p>
+      <p class="sub">The most-shared screen in the product. Centred — it is four short lines.</p>
+      <div class="phone"><div class="inner center">
+        <p class="clock-display frozen tab" style="margin-bottom:8px">0.0</p>
+        <p class="tab" style="font-family:var(--ftl-font-quote);font-size:var(--ftl-display-sm);margin:0 0 14px">7 lines in 60 seconds</p>
+        <div class="grid-row" role="list">
+          <span class="grid-cell hit" role="listitem">✓</span>
+          <span class="grid-cell hit" role="listitem">✓</span>
+          <span class="grid-cell miss" role="listitem">✗</span>
+          <span class="grid-cell hit" role="listitem">✓</span>
+          <span class="grid-cell expired" role="listitem">–</span>
+          <span class="grid-cell hit" role="listitem">✓</span>
+          <span class="grid-cell miss" role="listitem">✗</span>
+          <span class="grid-cell hit" role="listitem">✓</span>
+        </div>
+        <div class="btn ctl">Play again</div>
+        <div class="btn btn--neutral ctl">Share your score</div>
+      </div></div>
+      <p class="meas">⛔ The Share label ships as a dot-separated wordmark. Shown here as plain text — see the trademark boundary section on the system page.</p>
+    </div>
+  </div>
+
+  <h2>/tv — the teaser</h2>
+  <div class="strip">
+    <div class="frame">
+      <p class="label">No clip today</p>
+      <p class="sub">The date is the constant; the clip is the variable. With no clip there is no section at all — not an empty one.</p>
+      <div class="phone"><div class="inner">
+        <h3>Finish the Line</h3>
+        <p class="nar" style="color:var(--ftl-ink)">Opens 10 September</p>
+      </div></div>
+    </div>
+
+    <div class="frame">
+      <p class="label">With a clip</p>
+      <p class="sub">One player region at the top, the rest a queue below. At rest the player shows no photograph.</p>
+      <div class="phone"><div class="inner">
+        <h3>Finish the Line</h3>
+        <p class="nar" style="color:var(--ftl-ink);margin-bottom:18px">Opens 10 September</p>
+        <p class="dia" style="margin-bottom:12px">Watch the real thing</p>
+        <div class="thumb">Tap to play</div>
+        <div style="margin-top:12px">
+          <div class="qrow"><span class="qthumb"></span><span class="qbody">
+            <span class="qspk">Speaker · Episode</span>
+            <span class="qline">"The third one is what they said."</span></span></div>
+          <div class="qrow"><span class="qthumb"></span><span class="qbody">
+            <span class="qspk">Speaker · Episode</span>
+            <span class="qline">"The third one is the thing they said."</span></span></div>
+        </div>
+      </div></div>
+      <p class="meas">Queue is play order, not round order — a count above rows that will never play is a lie.</p>
+    </div>
+  </div>
+
+  <p class="note" style="margin-top:34px"><b>Measured in these frames, not asserted.</b> The content
+  column is <b>335px</b>; the timer block (number plus bar) is <b>84.8px</b> against its 96px budget; an
+  option row is <b>56px</b> on one line and <b>79px</b> on two; and the round frame's content ends
+  <b>467px</b> into 560px, so it fits without scrolling with 93px to spare — with two of its three options
+  already wrapped.</p>
+
+  <p class="note" style="margin-top:34px"><b>What is missing from this kit, deliberately.</b> The load-failure
+  and interrupted-round messages, which appear in a live region above every screen and are the only states
+  here that no design decision has ever been made about. They are the next thing to look at.</p>
+</div>
+</body>
+</html>

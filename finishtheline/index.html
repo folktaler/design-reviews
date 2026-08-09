@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finish the Line — design review, 2026-08-09</title>
+<link rel="stylesheet" href="faces-ftl.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: var(--ftl-font-ui); font-size: 17px; line-height: 1.5; margin: 0; padding: 3rem 1.5rem;
+         max-width: 40rem; margin-inline: auto; color: var(--ftl-ink); background: var(--ftl-surface); }
+  h1 { font-size: 1.75rem; margin: 0 0 .5rem; }
+  h2 { font-size: 1.1rem; margin: 2.5rem 0 .75rem; }
+  p { color: var(--ftl-ink-muted); }
+  ul { list-style: none; padding: 0; margin: 1rem 0 0; }
+  li { padding: .85rem 0; border-top: 1px solid var(--ftl-border); }
+  li:first-child { border-top: 0; }
+  a { color: var(--ftl-ink); }
+  small { display: block; margin-top: .15rem; color: var(--ftl-ink-muted); }
+  .gaps { padding: 0; margin: 1rem 0 0; }
+  .gaps li { border-top: 0; padding: 0 0 .85rem; }
+  code { font-size: .9em; background: var(--ftl-surface-sunken); padding: .1em .3em; border-radius: 2px; }
+</style>
+<h1>Finish the Line — screen design system</h1>
+<p>A screen system for a 60-second phone game built from Friends dialogue — three routes, ten
+  states, four owned components, no build step and no JavaScript beyond the two live demos on the
+  system page (a light/dark toggle and a contrast calculator, both purely local). Published so it
+  can be reviewed on a real phone and by people and models who are not on the machine it was built
+  on.</p>
+
+<h2>Known gaps — read this before reviewing</h2>
+<ul class="gaps">
+  <li>⭐ <b>One contrast pair fails deliberately, and it is shown on purpose.</b> On the
+    <a href="system.html#colour">system page</a>'s live contrast table, <code>ink-subtle on
+    surface-sunken</code> measures 4.35:1 in light mode — under the 4.5:1 AA floor — while passing
+    at 4.65:1 in dark. It is left failing there so a reviewer can see the exact pairing rather than
+    take a written claim for it; the fix (swapping to <code>ink-muted</code>) is already the one
+    this system's own component CSS uses.</li>
+  <li><b>Eight result cells orphan one on its own line at 375px.</b> A 335px column holds seven
+    40px cells per row; an eight-answer round wraps to two rows with a single cell alone on the
+    second, which reads as a mistake rather than a wrap. Not fixed — see the result grid section on
+    the system page.</li>
+  <li><b>The four vendored controls are drawn as plain-CSS stand-ins, marked ⌗, everywhere in this
+    review.</b> The real controls paint to a canvas inside a shadow root; loading that bundle here
+    would make every frame on this site depend on a remote script. Their real geometry and the
+    traps that came with it are written up on the system page instead of shown live.</li>
+  <li><b>The logo is four concepts awaiting a decision, not a chosen mark.</b> See
+    <a href="logo-concepts.html">the logo concepts page</a> — nothing there has shipped.</li>
+</ul>
+
+<h2>Pages</h2>
+<ul>
+  <li>
+    <a href="system.html"><b>Design system</b></a>
+    <small>Colour, type, layout, motion, the four owned components, the vendored-control rules,
+      voice, the shared text, and the trademark boundary — one page, start here.</small>
+  </li>
+  <li>
+    <a href="pages.html"><b>Every page, every state</b></a>
+    <small>All three routes — the front door, the round, the teaser — at 375px, every state each
+      one can be in.</small>
+  </li>
+  <li>
+    <a href="logo-concepts.html"><b>Logo concepts</b></a>
+    <small>Four concepts, each at real 16px in a real browser tab strip, dark and light, plus
+      share-card mockups at three sizes. Undecided.</small>
+  </li>
+</ul>
+</html>

@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finish the Line — logo concepts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="faces-ftl.css">
+
+<!-- =====================================================================
+     FINISH THE LINE — LOGO CONCEPTS
+     2026-08-09 · four concepts, shown at the sizes where logos die.
+
+     Every geometry below was rendered in Chrome at real 16px on a real tab
+     strip before anything on this page was written down. Two of them
+     changed as a result, and one stopwatch variant was killed outright.
+     Those edits are noted inline where they happened.
+
+     No mark has been chosen. This page exists to make the call by looking
+     at the concepts, not by reading a description of them.
+     ===================================================================== -->
+
+<style>
+:root {
+  --n0:#ffffff; --n25:#f8f7fb; --n100:#e4e0ed; --n300:#aaa2bf; --n400:#9890ae;
+  --n550:#6a6382; --n800:#2d283b; --n850:#1c1826; --n900:#14111b;
+  --azure:#2f6ba8; --violet:#8555a8; --sage:#41763f; --brick:#b5453a;
+  /* 55% white mixed into each brand fill. A solid hex, not an opacity — the
+     token system bans opacity for hierarchy, and a logo file that will be
+     rasterised has no cascade to composite against anyway, so the second
+     tone has to be a real value someone can measure. */
+  --azure-tint:#a1bcd8;
+  --violet-tint:#c8b3d8;
+
+  --ui: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --quote: Newsreader, "Iowan Old Style", Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 40px 28px 96px;
+  background: var(--n900); color: var(--n25);
+  font-family: var(--ui); font-size: 17px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1120px; margin: 0 auto; }
+
+h1 { font-size: 34px; line-height: 1.15; margin: 0 0 8px; font-weight: 600; letter-spacing: -0.02em; }
+h2 { font-size: 24px; line-height: 1.2; margin: 0 0 4px; font-weight: 600; letter-spacing: -0.01em; }
+h3 { font-size: 13px; letter-spacing: 0.13em; text-transform: uppercase; font-weight: 600;
+     color: var(--n400); margin: 0 0 12px; }
+p { margin: 0 0 14px; max-width: 62ch; color: var(--n300); }
+p.lede { color: var(--n25); }
+b { color: var(--n25); font-weight: 600; }
+code { font: 400 0.9em ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--n25); }
+
+hr { border: 0; border-top: 1px solid var(--n800); margin: 56px 0 40px; }
+
+.note { border-left: 3px solid var(--brick); padding: 2px 0 2px 16px; margin: 0 0 28px; max-width: 74ch; }
+.note.ok { border-left-color: var(--azure); }
+
+a.back { color: var(--n25); text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 1.5rem; }
+
+/* ---- the icon tile ------------------------------------------------- */
+.tile { display: block; border-radius: 18.75%; flex: none; }   /* 3px at 16px */
+.tile svg { display: block; width: 100%; height: 100%; }
+.az  { background: var(--azure);  --c1: var(--n0); --c2: var(--azure-tint); }
+.vi  { background: var(--violet); --c1: var(--n0); --c2: var(--violet-tint); }
+.mono-d { background: transparent; --c1: var(--n25);  --c2: var(--n400); }
+.mono-l { background: transparent; --c1: var(--n900); --c2: var(--n550); }
+
+.row { display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin: 0 0 20px; }
+.cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.cap { font-size: 11px; letter-spacing: 0.08em; color: var(--n400); text-transform: uppercase; }
+
+.panel { padding: 24px; border-radius: 12px; border: 1px solid var(--n800); margin: 0 0 20px; }
+.panel.light { background: var(--n25); border-color: var(--n100); }
+.panel.light .cap { color: var(--n550); }
+.panel.dark { background: var(--n900); }
+
+/* ---- browser tab simulation ---------------------------------------- */
+/* Real Chrome metrics: 34px tab, 16px favicon, #dee1e6 light strip and
+   #202124 dark strip. This is the only test on the page that decides
+   anything — everything else is a preference. */
+.tabstrip { display: flex; align-items: flex-end; padding: 8px 8px 0; border-radius: 10px 10px 0 0; gap: 2px; }
+.tabstrip.lt { background: #dee1e6; }
+.tabstrip.dk { background: #202124; }
+.tab { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px;
+       border-radius: 8px 8px 0 0; font-size: 12px; font-family: var(--ui); white-space: nowrap; }
+.tabstrip.lt .tab { background: #ffffff; color: #3c4043; }
+.tabstrip.dk .tab { background: #35363a; color: #e8eaed; }
+.tab .tile { border-radius: 3px; }
+
+/* ---- lockups -------------------------------------------------------- */
+.lock { display: flex; align-items: center; gap: 18px; }
+.lock .wm { font: 600 40px/1 var(--ui); letter-spacing: -0.025em; }
+.lock.serif .wm { font: 400 42px/1 var(--quote); letter-spacing: -0.005em; }
+.panel.light .lock .wm { color: var(--n900); }
+.panel.dark .lock .wm { color: var(--n25); }
+
+/* ---- share card ------------------------------------------------------ */
+/* Real 1200×630 geometry, then scaled down. Nothing is re-laid-out at the
+   small sizes — that is the point. A share card is authored once and
+   shrunk by the client, so it has to be authored to survive the shrink. */
+.card {
+  width: 1200px; height: 630px; flex: none;
+  background: var(--n900); color: var(--n25);
+  padding: 88px 90px; display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.card .head { display: flex; align-items: center; gap: 38px; }
+.card .wm { font: 600 84px/1 var(--ui); letter-spacing: -0.03em; }
+.card.serif .wm { font: 400 88px/1 var(--quote); letter-spacing: -0.01em; }
+.card .pitch { font: 400 40px/1.35 var(--quote); color: var(--n300); margin: 34px 0 0; max-width: 900px; }
+.card .foot { position: absolute; left: 90px; bottom: 84px;
+              font: 600 24px/1 var(--ui); letter-spacing: 0.1em; text-transform: uppercase; color: var(--n400); }
+.card .rule { position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: var(--azure); }
+
+.scaler { overflow: hidden; flex: none; border-radius: 8px; border: 1px solid var(--n800); }
+.scaler > .card { transform-origin: 0 0; }
+.s600 { width: 600px; height: 315px; } .s600 > .card { transform: scale(0.5); }
+.s330 { width: 330px; height: 173.25px; } .s330 > .card { transform: scale(0.275); }
+.s160 { width: 160px; height: 84px; } .s160 > .card { transform: scale(0.13333); }
+
+table { border-collapse: collapse; font-size: 15px; margin: 0 0 20px; max-width: 1000px; }
+th, td { text-align: left; padding: 10px 20px 10px 0; border-bottom: 1px solid var(--n800); vertical-align: top; }
+th { color: var(--n400); font-weight: 600; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+td { color: var(--n300); } td b { color: var(--n25); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="./">← All Finish the Line pages</a>
+
+<h1>Finish the Line — logo concepts</h1>
+<p class="lede">Four concepts, each from different thinking. Every one is shown at <b>16&nbsp;px in a real
+tab strip</b> and at size, in dark and light. That row is the test — most of the argument for a logo
+is settled there and nowhere else, and two of the four below changed shape because of what it showed.</p>
+
+<div class="note">
+<p><b>Before anything else: the current mark is a placeholder, and the current Share button label uses
+a pattern this work is deliberately not allowed to repeat</b> — a lettered wordmark evoking the show's
+own on-screen styling. That is a live decision the owner is reconsidering, on the one control whose
+entire job is to push text outward into other people's chats. It is not reproduced on this page, on
+purpose: showing it here would work against the reason it is flagged. Nothing below uses it, and the
+recommendation at the end includes removing it.</p>
+</div>
+
+<h3>Evolve the stopwatch, or replace it</h3>
+<p><b>Replace — and the reason is measured, not aesthetic.</b> The three obvious ways to redraw the
+stopwatch as a real icon all collide with a symbol every phone user already knows. Rendered at 16 and
+48&nbsp;px:</p>
+
+<div class="panel dark" id="stopwatch"></div>
+
+<p>A ring with a hand is the <b>power button</b>. A disc with a horizontal bar is the <b>no-entry
+sign</b> — and that one is worse than it looks, because the app's timer bar turns brick red at the
+critical mark, so a red-adjacent stopped-sign is the last thing this product should own. The third
+(a disc holding three lines) survives, but it is concept A wearing a circle, not a different idea.</p>
+
+<p>Set against that, the current mark's equity is close to nil in cost terms: the site is pre-launch
+and gated to testers, so nobody outside has learned it. The replacement keeps its one real virtue — a
+mark that costs no bytes and follows the page — and spends the idea budget on the premise instead:
+<b>three lines, one of them true</b>.</p>
+
+<hr>
+
+<h2>The 16&nbsp;px test, all four at once</h2>
+<p>The first tab in each strip is the site as it stands today —
+<code>&lt;link rel="icon" href="data:,"&gt;</code>, a literally empty icon, on all three pages.</p>
+
+<div id="tabs-lt"></div>
+<div style="height:12px"></div>
+<div id="tabs-dk"></div>
+
+<div style="height:28px"></div>
+<h3>16 · 20 · 32 · 64 px, brand tile and bare mark</h3>
+<div class="panel dark" id="sizes-dark"></div>
+<div class="panel light" id="sizes-light"></div>
+
+<div class="note ok">
+<p><b>Why the favicon gets a filled tile and the in-page mark does not.</b> A browser tab strip is
+<code>#dee1e6</code> in light Chrome and <code>#202124</code> in dark, and the site cannot know which.
+A bare stroke mark has to survive both; a tile only has to survive itself. So the favicon is a solid
+brand tile with white marks — Wordle's answer to the same problem — while the mark on the page stays
+two ink tones and follows <code>prefers-color-scheme</code> exactly as the stopwatch does now.</p>
+</div>
+
+<hr>
+<div id="concepts"></div>
+
+<hr>
+<h2>Share cards — 1200×630</h2>
+<p>Authored once at full size, then shrunk. 330&nbsp;px is roughly a WhatsApp in-chat preview;
+160&nbsp;px is a Telegram compact row. Two deliberate calls:</p>
+<p><b>No launch date on the card.</b> WhatsApp and Telegram cache an <code>og:image</code> hard and by
+URL, so a date baked into the picture becomes a stale asset on 11 September with no way to bust it
+short of renaming the file. The date belongs in the <code>og:description</code>, which is cheap to
+edit. <b>The pitch line breaks at the sentence, not at the box.</b> The string never changes, so the
+rag is a decision, not an outcome — left to the box width it puts "said." alone on line two.</p>
+<div id="cards"></div>
+
+<hr>
+<h2>Where each one stands, after looking at it</h2>
+<div id="verdicts"></div>
+
+<h3>What this page cannot do</h3>
+<p>An <code>og:image</code> has to be a PNG or JPEG — WhatsApp, Telegram and Twitter will not render
+an SVG. The cards above are HTML, so <b>somebody has to rasterise the chosen one at exactly
+1200×630</b> before the meta tag can be added. The favicon does not have this problem: a single
+<code>.svg</code> covers every modern browser, with a 32×32 <code>.ico</code> only for old Safari.</p>
+
+</div>
+
+<script>
+/* Geometry is authored ONCE per concept on a 32×32 grid and reused at every
+   size — so the 16px render and the 512px render are the same object, not
+   two drawings that happen to look alike. Even units throughout, so every
+   edge lands on a whole or half pixel when the grid halves to 16. */
+const MARKS = {
+  A: {
+    name: "Three Lines",
+    idea: "The choice, drawn. Two lines stop short; one runs the full width and is the only one at full strength.",
+    thinking: "Structural — the mechanic of the game as a diagram.",
+    serifWm: false,
+    /* CHANGED AFTER THE 16px RENDER: the bottom bar was 8 units. At 16px that
+       is a 4px stub and it read as a stray dot rather than a short line, so
+       the two fakes went to 14 and 11. The spread is still 0.64 / 1.0 / 0.5,
+       which is what keeps this off the hamburger-menu read — three EQUAL
+       bars is the icon this must never become. */
+    svg: `<rect x="5"  y="6"  width="14" height="4" rx="0.5" style="fill:var(--c2)"/>
+          <rect x="5"  y="14" width="22" height="4" rx="0.5" style="fill:var(--c1)"/>
+          <rect x="5"  y="22" width="11" height="4" rx="0.5" style="fill:var(--c2)"/>`
+  },
+  B: {
+    name: "The Caret",
+    idea: "The verb in the name. A line, and the point where you have to finish it.",
+    thinking: "Interface — the act, borrowed from the text cursor.",
+    serifWm: false,
+    /* CHANGED AFTER THE 16px RENDER, AND STILL NOT ENOUGH — see the verdict
+       table. The line originally ended at x20 with the caret starting at x22:
+       a 2-unit gap is 1px at 16px, and the two rectangles fused into a single
+       blob. Gap widened to 4 units. Four further variants were rendered
+       (thin caret, caret on the left, caret with I-beam serifs, caret at the
+       end of a second line); none of them reads as a caret at 16px. */
+    svg: `<rect x="5"  y="22" width="14" height="4"  rx="0.5" style="fill:var(--c2)"/>
+          <rect x="23" y="6"  width="5"  height="20" rx="0.5" style="fill:var(--c1)"/>`
+  },
+  C: {
+    name: "The Quote",
+    idea: "The premise. Getting the words exactly right is the whole game.",
+    thinking: "Voice — and the system's own rule, that the serif is worn by anything a character actually said.",
+    serifWm: true,
+    svg: `<path style="fill:var(--c1)" d="M15,11.2 C15,7.9 12.5,5.6 9.6,5.6 C6.6,5.6 4.2,8.1 4.2,11.3 C4.2,14.3 6.4,16.5 9.2,16.5 C10,16.5 10.7,16.35 11.3,16.1 C10.5,19.4 8.6,22 5.9,23.8 L7.6,26.3 C12.4,23.3 15,17.7 15,11.7 Z"/>
+          <path style="fill:var(--c1)" transform="translate(13,0)" d="M15,11.2 C15,7.9 12.5,5.6 9.6,5.6 C6.6,5.6 4.2,8.1 4.2,11.3 C4.2,14.3 6.4,16.5 9.2,16.5 C10,16.5 10.7,16.35 11.3,16.1 C10.5,19.4 8.6,22 5.9,23.8 L7.6,26.3 C12.4,23.3 15,17.7 15,11.7 Z"/>`
+  },
+  D: {
+    name: "The L",
+    idea: "The name as a letter. A stroke that turns and completes.",
+    thinking: "Lettermark — the most size-robust thing there is, and the least surprising.",
+    serifWm: false,
+    svg: `<path style="fill:var(--c1)" d="M6,5 H17.5 V8.5 H14 V22.5 H27 V26.5 H9.5 V8.5 H6 Z"/>`
+  }
+};
+const ORDER = ["A","B","C","D"];
+
+/* The three stopwatch evolutions, kept because the reason to replace the
+   current mark is what they show, not an opinion about clocks. */
+const EVO = {
+  "Ring and hand": '<rect x="13" y="2" width="6" height="4" rx="0.5" style="fill:var(--c1)"/><circle cx="16" cy="19" r="10.5" fill="none" stroke-width="3.5" style="stroke:var(--c1)"/><rect x="14.5" y="10" width="3" height="9.5" rx="0.5" style="fill:var(--c1)"/>',
+  "Disc and bar": '<rect x="13" y="2" width="6" height="4" rx="0.5" style="fill:var(--c1)"/><circle cx="16" cy="19" r="12" style="fill:var(--c1)"/><rect x="9" y="17.5" width="14" height="3" rx="0.5" fill="#2f6ba8"/>',
+  "Disc and lines": '<circle cx="16" cy="16" r="13" style="fill:var(--c1)"/><rect x="8" y="10" width="10" height="2.6" fill="#2f6ba8"/><rect x="8" y="14.7" width="15" height="2.6" fill="#2f6ba8"/><rect x="8" y="19.4" width="8" height="2.6" fill="#2f6ba8"/>'
+};
+const EVO_NOTE = {
+  "Ring and hand": "reads as a power button",
+  "Disc and bar": "reads as a no-entry sign",
+  "Disc and lines": "survives — but it is concept A in a circle"
+};
+
+function svgRaw(body, px) {
+  return '<svg viewBox="0 0 32 32" width="' + px + '" height="' + px + '" aria-hidden="true">' + body + '</svg>';
+}
+function svgFor(key, px) { return svgRaw(MARKS[key].svg, px); }
+function tileRaw(body, px, cls) {
+  return '<span class="tile ' + cls + '" style="width:' + px + 'px;height:' + px + 'px">' + svgRaw(body, px) + '</span>';
+}
+function tile(key, px, cls) { return tileRaw(MARKS[key].svg, px, cls); }
+function cell(inner, caption) { return '<div class="cell">' + inner + '<span class="cap">' + caption + '</span></div>'; }
+
+/* --- the stopwatch evidence ------------------------------------------ */
+document.getElementById("stopwatch").innerHTML = '<div class="row" style="align-items:center;margin:0">' +
+  Object.keys(EVO).map(function (n) {
+    return '<div class="cell"><div class="row" style="margin:0;align-items:center;gap:14px">' +
+           tileRaw(EVO[n], 16, "az") + tileRaw(EVO[n], 48, "az") + '</div>' +
+           '<span class="cap">' + n + ' — ' + EVO_NOTE[n] + '</span></div>';
+  }).join('') + '</div>';
+
+/* --- tab strips ------------------------------------------------------ */
+function strip(mode) {
+  const cls = mode === "lt" ? "lt" : "dk";
+  let h = '<div class="tabstrip ' + cls + '">';
+  h += '<span class="tab"><span class="tile" style="width:16px;height:16px;background:transparent"></span>' +
+       'Finish the Line — today</span>';
+  ORDER.forEach(function (k) { h += '<span class="tab">' + tile(k, 16, "az") + MARKS[k].name + '</span>'; });
+  return h + '</div>';
+}
+document.getElementById("tabs-lt").innerHTML = strip("lt");
+document.getElementById("tabs-dk").innerHTML = strip("dk");
+
+/* --- size ladders ---------------------------------------------------- */
+function ladder(cls, monoCls) {
+  let h = '<div class="row">';
+  ORDER.forEach(function (k) {
+    h += '<div class="cell"><div class="row" style="margin:0;align-items:flex-end;gap:12px">' +
+         tile(k, 16, cls) + tile(k, 20, cls) + tile(k, 32, cls) + tile(k, 64, cls) +
+         '</div><span class="cap">' + k + ' · ' + MARKS[k].name + '</span></div>';
+  });
+  h += '</div><div class="row">';
+  ORDER.forEach(function (k) {
+    h += '<div class="cell"><div class="row" style="margin:0;align-items:flex-end;gap:12px">' +
+         tile(k, 16, monoCls) + tile(k, 20, monoCls) + tile(k, 32, monoCls) + tile(k, 64, monoCls) +
+         '</div><span class="cap">' + k + ' · no tile</span></div>';
+  });
+  return h + '</div>';
+}
+document.getElementById("sizes-dark").innerHTML =
+  '<span class="cap">On the dark page — brand tile, then the bare mark in two ink tones</span>' +
+  '<div style="height:14px"></div>' + ladder("az", "mono-d");
+document.getElementById("sizes-light").innerHTML =
+  '<span class="cap">On a light page — the same two</span>' +
+  '<div style="height:14px"></div>' + ladder("az", "mono-l");
+
+/* --- per-concept blocks ---------------------------------------------- */
+let ch = "";
+ORDER.forEach(function (k) {
+  const m = MARKS[k];
+  ch += '<h2>' + k + ' · ' + m.name + '</h2>';
+  ch += '<p class="lede">' + m.idea + '</p>';
+  ch += '<p><b>Thinking:</b> ' + m.thinking + '</p>';
+  ch += '<div class="panel dark"><div class="row" style="align-items:center">' +
+        cell(tile(k, 128, "az"), "azure — shipped today") +
+        cell(tile(k, 128, "vi"), "violet — palette v3, unapproved") +
+        cell(tile(k, 128, "mono-d"), "bare mark") +
+        '<div class="cell"><div class="lock' + (m.serifWm ? " serif" : "") + '">' +
+        tile(k, 64, "az") + '<span class="wm">Finish the Line</span></div>' +
+        '<span class="cap">lockup — ' + (m.serifWm ? "Newsreader" : "Inter 600") + '</span></div>' +
+        '</div></div>';
+  ch += '<div class="panel light"><div class="row" style="align-items:center">' +
+        cell(tile(k, 128, "az"), "azure on light") +
+        cell(tile(k, 128, "mono-l"), "bare mark on light") +
+        '<div class="cell"><div class="lock' + (m.serifWm ? " serif" : "") + '">' +
+        tile(k, 64, "az") + '<span class="wm">Finish the Line</span></div>' +
+        '<span class="cap">lockup</span></div>' +
+        '</div></div>';
+});
+document.getElementById("concepts").innerHTML = ch;
+
+/* --- share cards ------------------------------------------------------ */
+function card(k) {
+  const m = MARKS[k];
+  return '<div class="card' + (m.serifWm ? " serif" : "") + '">' +
+         '<div><div class="head">' + tile(k, 132, "az") + '<span class="wm">Finish the Line</span></div>' +
+         '<p class="pitch">Three lines. Two are fakes.<br>Pick the one they really said.</p></div>' +
+         '<div class="foot">finishtheline.cc</div><div class="rule"></div></div>';
+}
+let cardHtml = "";
+ORDER.forEach(function (k) {
+  cardHtml += '<h3>' + k + ' · ' + MARKS[k].name + '</h3><div class="row" style="align-items:flex-start">' +
+    '<div class="cell"><div class="scaler s600">' + card(k) + '</div><span class="cap">600 px — desktop preview</span></div>' +
+    '<div class="cell"><div class="scaler s330">' + card(k) + '</div><span class="cap">330 px — WhatsApp in-chat</span></div>' +
+    '<div class="cell"><div class="scaler s160">' + card(k) + '</div><span class="cap">160 px — compact row</span></div>' +
+    '</div>';
+});
+document.getElementById("cards").innerHTML = cardHtml;
+
+/* --- verdict table ---------------------------------------------------- */
+const VERDICTS = [
+  ["A · Three Lines", "recommended",
+   "The only one of the four that carries the premise. Reads at 16 px as a short paragraph with one line at full length and full strength — which is the game.",
+   "Its nearest collision is a hamburger menu. Held off by the 0.64 / 1.0 / 0.5 length spread plus the tone step: three equal bars is what it must never become, so the spread is a rule, not a preference."],
+  ["B · The Caret", "not recommended",
+   "The idea is the best-written of the four — “finish the line” is a verb, and a caret is where you finish one.",
+   "It does not survive the test. At 16 px it reads as an abstract filled corner; five variants were rendered and the closest read was a letter T. A shape surviving is not the same as an idea surviving, and this is the difference."],
+  ["C · The Quote", "strong second",
+   "Says verbatim, which is the actual product, and is the cleanest read of the four at 16 px. Earns the Newsreader lockup by the system's own rule.",
+   "Quote marks are the most-used mark in this category — it will be legible everywhere and distinctive nowhere. Also the only concept whose favicon and large form want to be slightly different drawings."],
+  ["D · The L", "the safe one",
+   "Survives any size, any medium, print included, and will never need defending.",
+   "Carries no idea. It is a letter. Right choice only if the goal is never to think about this again before 10 September."]
+];
+let vh = '<table><tr><th>Concept</th><th></th><th>What it buys</th><th>What it costs</th></tr>';
+VERDICTS.forEach(function (r) {
+  vh += '<tr><td><b>' + r[0] + '</b></td><td>' + r[1] + '</td><td>' + r[2] + '</td><td>' + r[3] + '</td></tr>';
+});
+document.getElementById("verdicts").innerHTML = vh + '</table>';
+</script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+/* =========================================================================
+   FINISH THE LINE — DESIGN TOKENS
+   Values copied verbatim from the live design system, 2026-08-09. Colour,
+   type and layout in one file, matching the one-stylesheet shape the app
+   itself uses (fonts are in the sibling faces-ftl.css instead).
+   ========================================================================= */
+
+
+/* ---------------------------------------------------------------------
+   1 · COLOUR — the ramp, then the four state hues.
+   --------------------------------------------------------------------- */
+
+:root {
+  /* Neutrals, cool-tinted, so the page reads as "lights down", not newsprint. */
+  --ftl-c-n0:   #ffffff;
+  --ftl-c-n25:  #f8f7fb;
+  --ftl-c-n50:  #efedf5;
+  --ftl-c-n100: #e4e0ed;
+  --ftl-c-n200: #cbc4da;
+  --ftl-c-n300: #aaa2bf;
+  --ftl-c-n400: #9890ae;
+  --ftl-c-n500: #88809d;
+  --ftl-c-n550: #6a6382;
+  --ftl-c-n600: #524b66;
+  --ftl-c-n700: #3d374e;
+  --ftl-c-n800: #2d283b;
+  --ftl-c-n850: #1c1826;
+  --ftl-c-n900: #14111b;
+  --ftl-c-n950: #0e0b13;
+
+  /* THE STATE HUES — one value each, both modes, one white ink over all four. */
+  --ftl-c-sage:   #41763f;  /* correct — white-ink 5.40 */
+  --ftl-c-gold:   #806c1f;  /* clock short — 5.14 */
+  --ftl-c-brick:  #b5453a;  /* wrong / clock critical — 5.42 */
+  --ftl-c-azure:  #2f6ba8;  /* at rest and focus — 5.54 */
+  --ftl-c-slate:  #6b6e70;  /* the clock ran out on it — 5.14 */
+  --ftl-c-violet: #8555a8;  /* accent only, palette v3, unapproved — 5.44 */
+}
+
+/* ---------------------------------------------------------------------
+   2 · SEMANTIC — LIGHT (the default). Surface #f7f8fa-ish (n25).
+   --------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light dark;
+
+  --ftl-surface:        var(--ftl-c-n25);
+  --ftl-surface-raised: var(--ftl-c-n0);
+  --ftl-surface-sunken: var(--ftl-c-n100);
+
+  --ftl-ink:        var(--ftl-c-n900);   /* 17.32:1 */
+  --ftl-ink-muted:  var(--ftl-c-n600);   /*  7.70:1 */
+  --ftl-ink-subtle: var(--ftl-c-n550);   /*  4.81:1 — n500 measured 3.17 and failed */
+
+  --ftl-border:        var(--ftl-c-n100);
+  --ftl-border-strong: var(--ftl-c-n500); /* 3.17:1 · edge of a tappable thing */
+
+  /* ⚠ SURFACES DO NOT SEPARATE. surface-raised clears surface by only
+     1.06:1 light / 1.09:1 dark. An option row is a distinct object because
+     of its BORDER, never its fill. */
+
+  --ftl-hit:    var(--ftl-c-sage);
+  --ftl-miss:   var(--ftl-c-brick);
+  --ftl-warn:   var(--ftl-c-gold);
+  --ftl-accent: var(--ftl-c-violet);
+  --ftl-idle:   var(--ftl-c-slate);
+
+  --ftl-on-solid: var(--ftl-c-n0);
+  --ftl-focus:    var(--ftl-c-azure);
+
+  --ftl-fill-neutral: var(--ftl-c-n550);  /* fill 3.30:1 / label 5.29:1 */
+
+  /* Opaque mixes with the PAGE, never with transparent — a translucent tint
+     would composite over whatever ancestor sits behind it, so its measured
+     ratio would depend on something nobody is checking. ~1.1:1 against the
+     page BY DESIGN: the border carries the state, not this. */
+  --ftl-tint-hit:  color-mix(in srgb, var(--ftl-hit)  16%, var(--ftl-surface));
+  --ftl-tint-miss: color-mix(in srgb, var(--ftl-miss) 16%, var(--ftl-surface));
+  --ftl-tint-idle: color-mix(in srgb, var(--ftl-idle) 16%, var(--ftl-surface));
+
+  --ftl-scrim:        rgb(18 20 26 / 0.45);
+  --ftl-shadow-color: rgb(18 20 26 / 0.14);
+}
+
+/* ---------------------------------------------------------------------
+   3 · SEMANTIC — DARK. Only the neutrals move.
+   --------------------------------------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ftl-surface:        var(--ftl-c-n900);
+    --ftl-surface-raised: var(--ftl-c-n850);
+    --ftl-surface-sunken: var(--ftl-c-n850);
+
+    --ftl-ink:        var(--ftl-c-n25);   /* 17.32:1 */
+    --ftl-ink-muted:  var(--ftl-c-n300);  /*  7.67:1 */
+    --ftl-ink-subtle: var(--ftl-c-n500);  /*  5.46:1 — same hex passes here, fails in light */
+
+    --ftl-border:        var(--ftl-c-n800);
+    --ftl-border-strong: var(--ftl-c-n400); /* 6.68:1 vs the page */
+
+    --ftl-focus: var(--ftl-c-azure);
+
+    --ftl-scrim:        rgb(6 7 10 / 0.62);
+    --ftl-shadow-color: rgb(0 0 0 / 0.55);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   9 · FORCED MODE — the escape hatch this page uses for its light/dark
+   toggle. Two attributes together, because Jelly UI's own vendored
+   controls read data-jelly-mode and never color-scheme — irrelevant on
+   this static page (nothing here loads Jelly), kept for parity with the
+   real app's markup.
+   --------------------------------------------------------------------- */
+
+[data-ftl-mode="light"] {
+  color-scheme: light;
+  --ftl-tint-hit:  color-mix(in srgb, var(--ftl-hit)  16%, var(--ftl-surface));
+  --ftl-tint-miss: color-mix(in srgb, var(--ftl-miss) 16%, var(--ftl-surface));
+  --ftl-tint-idle: color-mix(in srgb, var(--ftl-idle) 16%, var(--ftl-surface));
+  --ftl-surface: var(--ftl-c-n25);
+  --ftl-surface-raised: var(--ftl-c-n0);
+  --ftl-surface-sunken: var(--ftl-c-n100);
+  --ftl-ink: var(--ftl-c-n900);
+  --ftl-ink-muted: var(--ftl-c-n600);
+  --ftl-ink-subtle: var(--ftl-c-n550);
+  --ftl-border: var(--ftl-c-n100);
+  --ftl-border-strong: var(--ftl-c-n500);
+  --ftl-focus: var(--ftl-c-azure);
+  --ftl-scrim: rgb(18 20 26 / 0.45);
+  --ftl-shadow-color: rgb(18 20 26 / 0.14);
+}
+
+[data-ftl-mode="dark"] {
+  color-scheme: dark;
+  --ftl-tint-hit:  color-mix(in srgb, var(--ftl-hit)  16%, var(--ftl-surface));
+  --ftl-tint-miss: color-mix(in srgb, var(--ftl-miss) 16%, var(--ftl-surface));
+  --ftl-tint-idle: color-mix(in srgb, var(--ftl-idle) 16%, var(--ftl-surface));
+  --ftl-surface: var(--ftl-c-n900);
+  --ftl-surface-raised: var(--ftl-c-n850);
+  --ftl-surface-sunken: var(--ftl-c-n850);
+  --ftl-ink: var(--ftl-c-n25);
+  --ftl-ink-muted: var(--ftl-c-n300);
+  --ftl-ink-subtle: var(--ftl-c-n500);
+  --ftl-border: var(--ftl-c-n800);
+  --ftl-border-strong: var(--ftl-c-n400);
+  --ftl-focus: var(--ftl-c-azure);
+  --ftl-scrim: rgb(6 7 10 / 0.62);
+  --ftl-shadow-color: rgb(0 0 0 / 0.55);
+}
+
+
+/* ---------------------------------------------------------------------
+   4 · TYPE
+   --------------------------------------------------------------------- */
+
+:root {
+  --ftl-font-ui:    Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ftl-font-quote: Newsreader, "Iowan Old Style", Georgia, "Times New Roman", serif;
+
+  --ftl-text-2xs:    0.6875rem; /* 11px · metadata. Almost never.            */
+  --ftl-text-xs:     0.8125rem; /* 13px · overline labels                    */
+  --ftl-text-sm:     0.9375rem; /* 15px · unclaimed                          */
+  --ftl-text-md:     1.0625rem; /* 17px · body default, button labels        */
+  --ftl-text-lg:     1.1875rem; /* 19px · DIALOGUE — the options, the setup  */
+  --ftl-text-xl:     1.375rem;  /* 22px · unclaimed                          */
+  --ftl-display-sm:  2rem;      /* 32px · the score                          */
+  --ftl-display-md:  2.75rem;   /* 44px · the clock                          */
+  --ftl-display-lg:  4rem;      /* 64px · the 3·2·1 countdown                */
+
+  --ftl-leading-tight:  1.1;
+  --ftl-leading-snug:   1.35;
+  --ftl-leading-normal: 1.55;
+
+  --ftl-tracking-label: 0.09em;
+
+  --ftl-weight-normal: 400;
+  --ftl-weight-bold:   600;
+}
+
+
+/* ---------------------------------------------------------------------
+   5 · SPACE, SIZE, SHAPE, MOTION, DEPTH — none differ by colour mode.
+   --------------------------------------------------------------------- */
+
+:root {
+  --ftl-space-1:  0.25rem;  /*  4px */
+  --ftl-space-2:  0.5rem;   /*  8px */
+  --ftl-space-3:  0.75rem;  /* 12px */
+  --ftl-space-4:  1rem;     /* 16px */
+  --ftl-space-5:  1.25rem;  /* 20px */
+  --ftl-space-6:  1.5rem;   /* 24px */
+  --ftl-space-8:  2rem;     /* 32px */
+  --ftl-space-10: 2.5rem;   /* 40px */
+  --ftl-space-12: 3rem;     /* 48px */
+  --ftl-space-16: 4rem;     /* 64px */
+
+  --ftl-gutter:  var(--ftl-space-5);
+  --ftl-measure: 34rem;
+
+  --ftl-budget-timer:    96px;
+  --ftl-budget-question: 440px;
+  --ftl-safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  --ftl-option-gap: 0.375rem;   /* 6px */
+
+  --ftl-tap-min:      44px;
+  --ftl-option-min-h: 56px;   /* min, never fixed — quotes wrap; measured 78px when they do */
+  --ftl-control-h:    52px;
+  --ftl-control-h-sm: 44px;
+  --ftl-icon-hit:     44px;
+
+  --ftl-timer-h:        12px;
+  --ftl-timer-h-urgent: 16px;
+  --ftl-meter-h:        14px;
+  --ftl-meter-gap:      3px;
+
+  --ftl-rail-w: 3px;
+
+  --ftl-radius-sm:   4px;    /* chips, result cells */
+  --ftl-radius-md:   8px;    /* option rows, cards  */
+  --ftl-radius-lg:   16px;   /* the sheet           */
+  --ftl-radius-pill: 999px;  /* timer track, badges */
+
+  --ftl-border-w: 1.5px;
+  --ftl-focus-w:  3px;
+  --ftl-focus-gap: 2px;
+
+  --ftl-dur-fast: 120ms;
+  --ftl-dur-base: 200ms;
+  --ftl-dur-slow: 400ms;
+  --ftl-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --ftl-z-timer: 50;
+  --ftl-z-toast: 1000;
+  --ftl-z-sheet: 2000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ftl-dur-fast: 1ms;
+    --ftl-dur-base: 1ms;
+    --ftl-dur-slow: 1ms;
+  }
+}
