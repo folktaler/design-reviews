@@ -48,12 +48,16 @@
   .links a:hover { text-decoration: underline; }
   .links .local { color: var(--slate-600); }
 
-  .tray { position: sticky; bottom: 0; margin-top: 2.5rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; box-shadow: 0 -4px 20px rgba(15,23,42,0.06); }
-  .tray h3 { margin: 0 0 0.5rem; font-size: 1rem; font-weight: 600; }
-  #picked { font-size: 0.875rem; color: var(--slate-700); margin: 0 0 0.875rem; }
-  #picked ol { margin: 0.5rem 0 0; padding-left: 1.25rem; }
+  .tray { position: sticky; bottom: 0; margin-top: 2.5rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0.875rem 1rem; box-shadow: 0 -4px 20px rgba(15,23,42,0.08); }
+  .tray summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+  .tray summary::-webkit-details-marker { display: none; }
+  .tray summary .count { font-weight: 600; font-size: 0.9375rem; }
+  .tray summary .hint { color: var(--muted-foreground); font-size: 0.8125rem; }
+  .tray details[open] summary .hint::after { content: ' — click to collapse'; }
+  .tray .row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-left: auto; }
+  #picked { font-size: 0.875rem; color: var(--slate-700); margin: 0.875rem 0 0; max-height: 34vh; overflow-y: auto; border-top: 1px solid var(--border); padding-top: 0.75rem; }
+  #picked ol { margin: 0; padding-left: 1.25rem; }
   #picked li { margin-bottom: 0.125rem; }
-  .tray .row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
   @media (max-width: 760px) { .fb { grid-template-columns: 1fr; gap: 0.75rem; } }
 </style>
 </head>
@@ -399,13 +403,18 @@
   </div>
 
   <div class="tray">
-    <h3>Your selection</h3>
-    <div id="picked"></div>
-    <div class="row">
-      <button class="btn btn-default btn-sm" id="copy">Copy this list</button>
-      <button class="btn btn-outline btn-sm" id="none">Clear all</button>
-      <button class="btn btn-outline btn-sm" id="all">Select everything</button>
-    </div>
+    <details>
+      <summary>
+        <span class="count" id="count">Your selection</span>
+        <span class="hint">click to see the list</span>
+        <span class="row">
+          <button class="btn btn-default btn-sm" id="copy">Copy this list</button>
+          <button class="btn btn-outline btn-sm" id="none">Clear all</button>
+          <button class="btn btn-outline btn-sm" id="all">Select everything</button>
+        </span>
+      </summary>
+      <div id="picked"></div>
+    </details>
   </div>
 </div>
 
@@ -417,8 +426,8 @@
   function render() {
     const on = boxes().filter(b => b.checked).map(b => b.dataset.name);
     const off = boxes().filter(b => !b.checked).map(b => b.dataset.name);
+    document.getElementById('count').textContent = on.length + ' of ' + boxes().length + ' modules selected';
     out.innerHTML =
-      '<strong>' + on.length + ' of ' + boxes().length + ' modules</strong>' +
       '<ol>' + on.map(n => '<li>' + n + '</li>').join('') + '</ol>' +
       (off.length ? '<p style="margin:0.75rem 0 0;color:var(--muted-foreground)"><strong>Leaving out:</strong> ' + off.join(' · ') + '</p>' : '');
   }
@@ -432,6 +441,7 @@
   }
 
   document.addEventListener('change', e => { if (e.target.matches('.mod input')) render(); });
+  document.querySelectorAll('.tray summary .btn').forEach(b => b.addEventListener('click', e => e.preventDefault()));
   document.getElementById('none').onclick = () => { boxes().forEach(b => { if (!b.disabled) b.checked = false; }); render(); };
   document.getElementById('all').onclick = () => { boxes().forEach(b => b.checked = true); render(); };
   document.getElementById('copy').onclick = async e => {
