@@ -27,6 +27,10 @@
   :root {
     --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
     --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    /* ⛔ --alert IS NOW UNUSED IN THIS KIT (owner review, 9 Aug 2026) and is
+       kept only so the colour stays nameable. It is a literal red. ⛔ Do not
+       reach for it to mark urgency, staleness or a refusal — none of those is
+       an error, and red is how a reader has been taught to read one. */
     --focus:#0b60c4; --alert:#a2191f;
     --serif: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
     --sans: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
@@ -46,7 +50,11 @@
          -webkit-text-size-adjust:100%; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
-  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
+     review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
+     ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
+     the link that advances the decision = ink + 2px --amber. Hover keeps amber. */
+  a { color:var(--ink); text-decoration:none; border-block-end:1px solid var(--rule); }
   a:hover { border-block-end-color:var(--amber-ink); }
   a:focus-visible,button:focus-visible,input:focus-visible {
     outline:3px solid var(--focus); outline-offset:2px; }
@@ -79,16 +87,38 @@
   .kicker { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
             color:var(--quiet); margin:0 0 var(--s3); font-family:var(--sans); }
 
+  /* ⛔ Was an AMBER fill — the "Pay ₹0,000" button (owner review, 9 Aug 2026).
+     ⭐ THE FILL IS RIGHT AND THE COLOUR WAS WRONG, and this is already decided
+     at the token tier rather than a taste call. `tokens/theme.css` sets the
+     button ladder after the Airbnb pivot:
+
+       --action-primary-bg   = ink    "the one thing to do here"      pill
+       --action-keep-bg      = amber  "⚠️ ONE per page" — keeping control
+       --action-secondary-bg = sunk                                   12px
+
+     ⛔ RANK IS SHAPE, NOT COLOUR — both are 52px pills, so a reader who cannot
+     see a hue difference in glare still ranks them. Amber's slot is the
+     *keeping-control* action (get this by email), NOT the primary one, so a
+     payment button in amber was using the newsletter's colour for the
+     highest-stakes click on the site. Ink also carries the better contrast for
+     that click: 16.9:1 against amber's 8.9:1.
+     ⭐ ui_kits/system already ships this ladder — `.btn--primary` there is
+     ink-filled. This kit predates it. */
   .btn { display:inline-flex; align-items:center; justify-content:center;
          border-radius:999px; min-height:var(--tap-comfortable,52px); padding:0 var(--s5) 1px;
          font-family:var(--sans); font-size:var(--small); font-weight:700;
-         border:1px solid var(--amber); background:var(--amber); color:var(--ink);
+         border:1px solid var(--ink); background:var(--ink); color:var(--paper);
          cursor:pointer; text-decoration:none; }
   .btn--ghost { background:transparent; border-color:var(--ink); color:var(--ink); }
 
   /* the price block */
-  .price { margin-block:var(--s6); padding:var(--s5); background:var(--amber-wash);
-           border-inline-start:4px solid var(--amber-ink); font-family:var(--sans); }
+  /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
+     2026). A price is ordinary content, and README.md:186-199 rules amber out
+     as a container twice over. Airbnb prices its listings in plain ink on a
+     near-white card and colours nothing to sell it (ui_kits/system:328). The
+     figure is already 33px serif with tabular figures — that is the emphasis. */
+  .price { margin-block:var(--s6); padding:var(--s5); background:var(--paper);
+           border:1px solid var(--rule); font-family:var(--sans); }
   .price__fig { font-family:var(--serif); font-size:var(--disp); line-height:1;
                 margin:0 0 var(--s2); font-variant-numeric:tabular-nums; }
   .price__note { margin:0 0 var(--s4); font-size:var(--small); color:var(--quiet); }
@@ -105,10 +135,17 @@
             display:block; margin-block-end:2px; color:var(--ink); }
 
   /* the living page when the weather turns */
-  .alert { margin-block:var(--s6); padding:var(--s4) var(--s5); background:var(--sunk);
-           border-inline-start:4px solid var(--alert); font-family:var(--sans); }
+  /* ⛔ Was a --sunk fill + a 4px RED left border, with a RED kicker (owner
+     review, 9 Aug 2026). ⚠️ The prose mentions an IMD red alert, but the
+     kicker says "Tuesday has changed" — so the colour was decorating a change
+     notice, not naming an official state, and a plan being rewritten for the
+     reader's benefit is the opposite of an error. What actually marks this
+     block is structural and already present: it sits directly above the day it
+     replaces, and that day carries `.struck`. Ink kicker, hairline card. */
+  .alert { margin-block:var(--s6); padding:var(--s4) var(--s5); background:var(--paper);
+           border:1px solid var(--rule); font-family:var(--sans); }
   .alert__k { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
-              color:var(--alert); margin:0 0 var(--s2); font-weight:700; }
+              color:var(--ink); margin:0 0 var(--s2); font-weight:700; }
   .alert p { margin:0 0 var(--s2); font-size:var(--small); line-height:1.5; }
   .alert p:last-child { margin-block-end:0; }
   .struck { text-decoration:line-through; color:var(--quiet); }
@@ -130,8 +167,11 @@
 
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0; flex-wrap:wrap;
            font-family:var(--sans); font-size:var(--micro); line-height:1; }
+  /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
+     of a legal disclaimer on the site's verification stamp. Sentence case,
+     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
-                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+                 font-weight:500; }
   .stamp__date { color:var(--quiet); }
   /* ⛔⛔ THE CORRECTION LINK WAS 155 x 14 — the least tappable thing on a page whose
      entire value is corrected facts. `.stamp` sets line-height:1 at micro size and
@@ -173,7 +213,10 @@
   .note-frame li { margin-block:var(--s2); }
   .was { background:var(--sunk); padding:var(--s4); font-size:var(--micro);
          line-height:1.5; margin-block:var(--s3); }
-  .ban { background:var(--amber-wash); border-inline-start:4px solid var(--alert);
+  /* ⛔ Was an --amber-wash fill + a 4px RED left border (owner review, 9 Aug
+     2026). Scaffolding, but the kits are read as specimens, so the wrong
+     pattern gets copied out of them. Hairline card, like `.was` above. */
+  .ban { background:var(--paper); border:1px solid var(--rule);
          padding:var(--s4); font-size:var(--micro); line-height:1.6; margin-block:var(--s3); }
 </style>
 

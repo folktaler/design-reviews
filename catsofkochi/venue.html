@@ -280,22 +280,39 @@
      honesty surface is not a caption — it was set in 14px caption grey twice. */
   .v-missing { color: var(--text-primary, #1c1a17); }
 
-  /* ⭐ THE ONE AMBER ON THIS PAGE. tokens/theme.css: "amber marks the thing the
-     reader came for", and on a place page that is the verification stamp. Ink
-     on amber is 8.91:1 — 1.98× Airbnb's white-on-Rausch CTA. */
-  /* ⛔ inline-BLOCK, not inline-flex. An inline-flex box sizes to max-content,
-     so a 250px stamp inside a 207px column overflows the document rather than
-     wrapping — a horizontal scrollbar produced by a chip. */
+  /* ⛔ WAS A FILLED AMBER PILL, and it was the loudest thing on the page —
+     louder than the hours and the closure dates it exists to support. Owner,
+     9 Aug 2026: *"are good but too loud i feel. provenance can be subtler.
+     look how airbnb does it?"* He likes the citation; he wants its weight down.
+
+     ⭐ THE DIAGNOSIS IS THAT ONE CLASS WAS DOING TWO JOBS. A verification
+     STAMP is two words and a date — short, singular, and the site's signature,
+     which is why it earns the amber fill. A PROVENANCE line is a sentence
+     naming a source, and it repeats under every known fact. Putting the second
+     in the first's clothes is what made it shout: this comment used to claim
+     "THE ONE AMBER ON THIS PAGE" while the element rendered twice.
+
+     ⭐ Airbnb's citation register is a small grey caption under the thing it
+     supports — never a filled block repeated down a page. So: 14px, secondary
+     grey (7.4:1 on paper, comfortably past the 4.5:1 AA floor at this size),
+     no fill, no padding, no radius. The fact stays 17px ink; the note about
+     where it came from sits a step below it, which is the correct order.
+
+     ⚠️ `font-variant-numeric` STAYS. `data-checked-on` makes this element a
+     stacking facts surface for the `tabular-figures` gate in check-kits.mjs —
+     dropping it here would turn that check red.
+     ⛔ AND THE LANDMARK IS ITSELF WRONG, which is a separate finding, NOT
+     fixed here: LANDMARKS.md:109 says a landmark that gates tabular figures
+     must not be put on a SENTENCE, and this is a sentence. It needs its own
+     `data-source-checked`, the way Highlights needed `data-highlight-checked`.
+     That changes the scorer contract, so it is reported rather than assumed. */
   .v-checked {
-    display: inline-block;
+    display: block;
     max-inline-size: 100%;
-    margin-block-start: var(--space-2, 8px);
-    padding: var(--space-1, 4px) var(--space-2, 8px);
-    border-radius: var(--radius-card, 8px);
-    background: var(--surface-stamp, #ffa700);
-    color: var(--text-on-stamp, #1c1a17);
+    margin-block-start: var(--space-1, 4px);
+    color: var(--text-secondary, #5a544c);
     font-size: var(--type-micro, 14px);
-    font-weight: var(--weight-medium, 500);
+    font-weight: var(--weight-regular, 400);
     line-height: var(--leading-tight, 1.375);
     font-variant-numeric: var(--figures-aligned, tabular-nums);
   }

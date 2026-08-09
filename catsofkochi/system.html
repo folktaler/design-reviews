@@ -147,9 +147,15 @@
                   background:var(--action-secondary-bg); color:var(--action-secondary-text); }
 
   /* ── the facts row ── */
+  /* ⛔ Was an amber wash + a --rule-leading amber left edge over the hairline
+     (owner review, 9 Aug 2026). ⚠️ Written in TOKEN names rather than raw
+     values, so a sweep for `var(--amber-wash)` or `4px solid` missed it —
+     twelve instances existed, nine were found by the obvious grep, and this
+     one was on the POST-pivot specimen sheet, the page a builder is most
+     likely to copy. The hairline was already here; it is now the whole
+     treatment, which is what this sheet's own line 328 says Airbnb does. */
   .facts { margin:0; border:var(--rule-hairline) solid var(--border-hairline);
-           border-inline-start:var(--rule-leading) solid var(--border-checked);
-           background:var(--surface-checked); padding:var(--space-2) var(--space-4); }
+           background:var(--surface-page); padding:var(--space-2) var(--space-4); }
   .row { display:grid; grid-template-columns:minmax(6.5rem,30%) 1fr;
          gap:var(--space-2) var(--space-4); padding-block:var(--space-3);
          align-items:baseline; }
@@ -335,7 +341,10 @@
     <li class="swatch" style="background:var(--cok-ink);color:var(--cok-paper)">ink 16.9:1<br>#1c1a17</li>
     <li class="swatch" style="background:var(--cok-paper);color:var(--cok-ink-quiet);border:1px solid var(--cok-rule)">quiet ink 7.4:1<br>#5a544c</li>
     <li class="swatch" style="background:var(--cok-amber);color:var(--cok-ink)">amber 8.9:1<br>#ffa700</li>
-    <li class="swatch" style="background:var(--cok-amber-wash);color:var(--cok-ink)">checked wash<br>#fdf2db</li>
+    <!-- ⛔ Labelled "checked wash" until 9 Aug 2026. That role is RETIRED — see
+         tokens/theme.css --surface-checked. The colour is kept nameable, the
+         way #ffd900 is; nothing may use it as a background. -->
+    <li class="swatch" style="background:var(--cok-amber-wash);color:var(--cok-ink)">amber wash — retired, unused<br>#fdf2db</li>
   </ul>
   <p>
     Two text greys, not three. Airbnb ships a third at two point one seven to one,

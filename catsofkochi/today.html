@@ -27,6 +27,10 @@
   :root {
     --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
     --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    /* ⛔ --alert IS NOW UNUSED IN THIS KIT (owner review, 9 Aug 2026) and is
+       kept only so the colour stays nameable. It is a literal red. ⛔ Do not
+       reach for it to mark urgency, staleness or a refusal — none of those is
+       an error, and red is how a reader has been taught to read one. */
     --focus:#0b60c4; --alert:#a2191f;
     --serif: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
     --sans: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
@@ -47,7 +51,11 @@
          -webkit-text-size-adjust:100%; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
-  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
+     review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
+     ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
+     the link that advances the decision = ink + 2px --amber. Hover keeps amber. */
+  a { color:var(--ink); text-decoration:none; border-block-end:1px solid var(--rule); }
   a:hover { border-block-end-color:var(--amber-ink); }
   a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
   [hidden] { display:none !important; }
@@ -80,8 +88,12 @@
 
   /* ⛔ THE PAGE IS OUT OF DATE. Shown only when the reader's day is not the
      page's day — a cached page opened next morning is the common case. */
-  .stale { margin-block:var(--s5); padding:var(--s4) var(--s5); background:var(--sunk);
-           border-inline-start:4px solid var(--alert); font-family:var(--sans);
+  /* ⛔ Was a --sunk fill + a 4px RED left border (owner review, 9 Aug 2026).
+     A cached page opened the next morning is the normal case, not a fault, and
+     red is the grammar of a fault. The words do the work; the hairline card
+     just separates them from the page they are about. */
+  .stale { margin-block:var(--s5); padding:var(--s4) var(--s5); background:var(--paper);
+           border:1px solid var(--rule); font-family:var(--sans);
            font-size:var(--small); line-height:1.5; }
   .stale p { margin:0 0 var(--s3); }
   .stale a { display:inline-flex; align-items:center; min-height:var(--tap-comfortable,52px);
@@ -90,8 +102,13 @@
              text-underline-offset:3px; }
 
   /* ⭐ THE FIRST SCREEN — weather answered, not linked */
+  /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
+     2026). Amber "never decorates" (README.md:186) and a wash used as a
+     container for the weather is decoration. This block is first on the page
+     and sets its answer in 20px serif — that is where its prominence comes
+     from. Hairline card, the shape TrustCard uses. */
   .now { margin-block:var(--s5) var(--s6); padding:var(--s4) var(--s5);
-         background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+         background:var(--paper); border:1px solid var(--rule);
          font-family:var(--sans); }
   .now__line { font-family:var(--serif); font-size:var(--sub); line-height:1.25;
                margin:0 0 var(--s3); color:var(--ink); }
@@ -106,16 +123,27 @@
                   font-variant-numeric:tabular-nums; font-weight:400; }
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0; flex-wrap:wrap;
            font-size:var(--micro); line-height:1; }
+  /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
+     of a legal disclaimer on the site's verification stamp. Sentence case,
+     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
-                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+                 font-weight:500; }
   .stamp__date { color:var(--quiet); }
 
   /* ⭐ THE SIX O'CLOCK ANSWER — appears only once part of the day has gone.
      Without JavaScript it never appears and nothing is lost: every block is
      on the page, in order, with its hours written in words. */
+  /* ⛔ Was a --sunk fill + a 4px BLACK left border (owner review, 9 Aug 2026).
+     ⚠️ Same decorative-container shape as the amber boxes, in a different
+     colour token — which is why a colour-based sweep missed it and a
+     shape-based one caught it. One line of text does not need a painted box.
+     ⭐ ASIDE FORM: a leading rule and NO fill — copied from the pull-quote in
+     ui_kits/venue (line ~438), which is the post-pivot reference. The system
+     now has exactly two container forms: a hairline CARD for facts, and a
+     leading RULE with no fill for an aside or a nudge. */
   .jump { display:flex; align-items:center; flex-wrap:wrap; gap:var(--s2) var(--s3);
-          margin-block:var(--s5); padding:var(--s3) var(--s5);
-          border-inline-start:4px solid var(--ink); background:var(--sunk);
+          margin-block:var(--s5); padding:var(--s3) 0 var(--s3) var(--s4);
+          border-inline-start:4px solid var(--rule);
           font-family:var(--sans); font-size:var(--small); }
   .jump__t { color:var(--quiet); }
   /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX. A 44px inline-flex link with
@@ -126,8 +154,12 @@
             text-decoration-thickness:2px; text-underline-offset:3px;
             display:inline-flex; align-items:center; min-height:var(--tap-comfortable,52px); }
 
-  .shut { margin-block:var(--s5); padding:var(--s4) var(--s5); background:var(--sunk);
-          border-inline-start:4px solid var(--ink); font-family:var(--sans); }
+  /* ⛔ Was a --sunk fill + a 4px BLACK left border (owner review, 9 Aug 2026) —
+     the same decorative container in a third colour. This one holds FACTS (the
+     places shut today and why), so it takes the CARD form, not the aside form:
+     hairline all round, like the facts strip and TrustCard. */
+  .shut { margin-block:var(--s5); padding:var(--s4) var(--s5); background:var(--paper);
+          border:1px solid var(--rule); font-family:var(--sans); }
   .shut__k { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
              color:var(--quiet); margin:0 0 var(--s2); font-weight:700; }
   .shut ul { list-style:none; margin:0; padding:0; }
@@ -200,10 +232,16 @@
        text-underline-offset:3px; }
 
   /* ⭐ the refusal — a first-class screen, not an error */
-  .dunno { margin-block:var(--s5); padding:var(--s4) var(--s5); background:var(--sunk);
-           border-inline-start:4px solid var(--alert); font-family:var(--sans); }
+  /* ⛔ Was a --sunk fill + a 4px RED left border, with a RED kicker (owner
+     review, 9 Aug 2026). This contradicted the component's own first line: a
+     refusal is "a first-class screen, not an error", and red is precisely how
+     a reader is taught to read an error. `Unchecked.prompt.md` already settles
+     the treatment — "Primary ink, body size, upright" — and the kicker was the
+     one part still disobeying it. Ink kicker, hairline card. */
+  .dunno { margin-block:var(--s5); padding:var(--s4) var(--s5); background:var(--paper);
+           border:1px solid var(--rule); font-family:var(--sans); }
   .dunno__k { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
-              color:var(--alert); font-weight:700; margin:0 0 var(--s2); }
+              color:var(--ink); font-weight:700; margin:0 0 var(--s2); }
   /* ⛔ WAS `--small`, and that contradicted the component's own rule.
      `Unchecked.prompt.md`: "Primary ink, body size, upright. Not grey, not
      small, not italic." The refusal is the site's honesty surface and the kit
@@ -283,7 +321,10 @@
   .note-frame li { margin-block:var(--s2); }
   .was { background:var(--sunk); padding:var(--s4); font-size:var(--micro);
          line-height:1.5; margin-block:var(--s3); }
-  .flag { background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+  /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
+     2026). Scaffolding, but the kits are read as specimens, so the wrong
+     pattern gets copied out of them. Hairline card, like `.was` above. */
+  .flag { background:var(--paper); border:1px solid var(--rule);
           padding:var(--s4); font-size:var(--micro); line-height:1.6; margin-block:var(--s3); }
 </style>
 

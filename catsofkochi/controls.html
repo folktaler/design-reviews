@@ -75,7 +75,11 @@
   h2 { font-size:var(--head); margin-block:var(--s10) var(--s3); }
   h3 { font-size:var(--sub); margin-block:var(--s7) var(--s2); }
   p { margin-block:var(--s4); }
-  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
+     review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
+     ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
+     the link that advances the decision = ink + 2px --amber. Hover keeps amber. */
+  a { color:var(--ink); text-decoration:none; border-block-end:1px solid var(--rule); }
   a:hover { border-block-end-color:var(--amber-ink); }
   a:focus-visible,button:focus-visible,input:focus-visible {
     outline:3px solid var(--focus); outline-offset:2px; }
@@ -137,6 +141,13 @@
          text-decoration:none; cursor:pointer; border:1px solid var(--ink);
          background:transparent; color:var(--ink); transition:background-color 120ms; }
   .btn:hover { background:var(--sunk); }
+  /* ⭐ THIS AMBER FILL IS CORRECT AND WAS CHECKED, 9 Aug 2026 — do not "fix" it
+     to ink along with the payment button in ui_kits/itinerary. Every use of it
+     on this sheet is a newsletter SIGN UP, which is the keeping-control action
+     that `tokens/theme.css` gives amber its own slot for (`--action-keep-bg`,
+     "⚠️ ONE per page"). ⚠️ The class NAME is the trap: "primary" here predates
+     the post-pivot ladder, where `--action-primary-bg` is INK. Renaming it to
+     `.btn--keep` is the right cleanup and belongs with the Figtree rebuild. */
   .btn--primary { background:var(--amber); color:var(--ink); border-color:var(--amber); }
   .btn--primary:hover { background:#e89600; border-color:#e89600; }
   .btn[disabled] { opacity:.45; cursor:not-allowed; }

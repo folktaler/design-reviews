@@ -52,7 +52,11 @@
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
 
-  a { color:var(--amber-ink); text-decoration:none;
+  /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
+     review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
+     ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
+     the link that advances the decision = ink + 2px --amber. Hover keeps amber. */
+  a { color:var(--ink); text-decoration:none;
       border-block-end:1px solid var(--rule); }
   a:hover { border-block-end-color:var(--amber-ink); }
   a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
@@ -108,8 +112,26 @@
   .pullquote figcaption { margin:var(--s3) 0 0; }
 
   /* ⭐ the new third cat position */
-  .cat-tip { margin-block:var(--s8); padding:var(--s4) var(--s5);
-             background:var(--sunk); border-inline-start:4px solid var(--rule);
+  /* ⛔ THE FILL IS GONE (design call, 9 Aug 2026, delegated by the owner after
+     he approved this card on one screenshot and flagged it on another — the CSS
+     was byte-identical in both, so it was the pattern he was reconsidering, not
+     a page).
+
+     ⭐ THE CALL: keep the leading rule, drop the background. A cat tip is a
+     VOICE ASIDE inside running prose — a pull-quote, not an object with facts
+     in it — and Airbnb sets an aside with type and space, never a tinted
+     container. The post-pivot reference kit already answers this: ui_kits/venue
+     line ~438 sets its pull-quote as `padding-inline-start` + a grey leading
+     rule and NO fill. This now matches it exactly.
+
+     ⭐ So the system has TWO container forms and they mean different things:
+       facts   → hairline CARD, all four sides   (.facts, .shut, TrustCard)
+       aside   → leading RULE, no fill           (.cat-tip, Note, .jump)
+     ⛔ Do not merge them. A card says "a discrete thing you can act on"; a rule
+     says "the same page, in a different voice". Flattening both to one form
+     was the temptation and it would lose the distinction the owner can see. */
+  .cat-tip { margin-block:var(--s8); padding:var(--s2) 0 var(--s2) var(--s5);
+             border-inline-start:4px solid var(--rule);
              font-family:var(--sans); }
   .cat-tip__label { display:flex; align-items:center; gap:var(--s2); margin:0 0 var(--s2);
                     font-size:var(--micro); text-transform:uppercase;
@@ -117,8 +139,13 @@
   .cat-tip__label a { color:inherit; border-block-end:1px solid var(--rule); }
   .cat-tip__text { margin:0; font-size:var(--body); line-height:1.45; color:var(--ink); }
 
+  /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
+     2026). Hours and fares are ordinary content; amber "never decorates"
+     (README.md:186). A wash behind the whole strip also flattens the one row
+     that should stand out — the observed-contradicts-official case. Hairline
+     card, hairline rows, as TrustCard does in ui_kits/venue. */
   .facts { margin-block:var(--s6); padding:var(--s4) var(--s5);
-           background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+           background:var(--paper); border:1px solid var(--rule);
            font-family:var(--sans); }
   .facts dl { margin:0 0 var(--s4); }
   .facts__row { display:grid; gap:var(--s1) var(--s4); padding-block:var(--s3);
@@ -130,8 +157,11 @@
   .facts dd { margin:0; line-height:1.45; }
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0;
            font-size:var(--micro); line-height:1; }
+  /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
+     of a legal disclaimer on the site's verification stamp. Sentence case,
+     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
-                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+                 font-weight:500; }
   .stamp__date { color:var(--quiet); }
 
   .readnext { margin-block-start:var(--s9); padding-block-start:var(--s4);

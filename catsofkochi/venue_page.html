@@ -102,7 +102,11 @@
   h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 1.33rem + .85vw, 1.75rem);
        line-height: 1.2; margin-block: var(--space-9) var(--space-2); }
   p { margin-block: var(--space-6); }
-  a { color: var(--cok-amber-ink); text-underline-offset: .15em; }
+  /* ⛔ Was `color: var(--cok-amber-ink)` — every link on the page amber (owner
+     review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
+     ⭐ Ordinary link = ink + underline; the link that advances the decision =
+     ink + a 2px amber underline, at most twice on a screen. */
+  a { color: var(--cok-ink); text-underline-offset: .15em; }
 
   .byline { font-size: .9rem; color: var(--cok-ink-quiet); margin-block: 0 var(--space-6);
             display: flex; gap: var(--space-2); flex-wrap: wrap; }
@@ -131,8 +135,13 @@
                margin-block-start: var(--space-2); }
 
   /* --- facts strip ---------------------------------------------------- */
+  /* ⛔ Was an amber wash + 4px amber left border (owner review, 9 Aug 2026).
+     ⚠️ This instance uses the --cok- prefix, so the first sweep for
+     `var(--amber-wash)` did not see it — nine kits were found, eleven existed.
+     Hours and fares are ordinary content; amber "never decorates"
+     (README.md:186). Hairline card, as TrustCard does in ui_kits/venue. */
   .facts { margin-block: var(--space-6); padding: var(--space-4) var(--space-5);
-           background: var(--cok-amber-wash); border-inline-start: 4px solid var(--cok-amber-ink); }
+           background: var(--cok-paper); border: 1px solid var(--cok-rule); }
   .facts dl { margin: 0 0 var(--space-4); }
   .facts__row { display: grid; gap: var(--space-1) var(--space-4);
                 padding-block: var(--space-3); border-block-end: 1px solid var(--cok-rule); }
@@ -148,10 +157,12 @@
 
   .stamp { display: flex; align-items: center; gap: var(--space-2); margin: 0;
            font-family: var(--font-text); font-size: .8rem; line-height: 1; }
+  /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
+     of a legal disclaimer on the site's verification stamp. Sentence case,
+     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
   .stamp__chip { background: var(--cok-amber); color: var(--cok-ink);
                  font-family: var(--font-text);
-                 padding: var(--space-1) var(--space-2); font-weight: 500;
-                 text-transform: uppercase; letter-spacing: var(--tracking-micro); }
+                 padding: var(--space-1) var(--space-2); font-weight: 500; }
   .stamp__date { color: var(--cok-ink-quiet); font-family: var(--font-text); }
 
   /* --- lists ---------------------------------------------------------- */

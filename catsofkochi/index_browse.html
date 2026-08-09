@@ -46,7 +46,19 @@
          -webkit-text-size-adjust:100%; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
-  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  /* ⛔ Was `color:var(--amber-ink)` (owner review, 9 Aug 2026) — which painted
+     EVERY link on the page amber: place names, "Map", navigation, everything.
+     That is amber as decoration, and README.md:186-199 forbids it twice over:
+     it "never decorates" and appears "at most twice per screen". By the time
+     every link is amber, the colour has stopped meaning "we checked this".
+
+     ⭐ THE LINK LADDER, and it ranks by WEIGHT not hue — the same principle as
+     rank-by-shape on buttons:
+       ordinary link          ink + a 1px --rule underline   (quiet, everywhere)
+       the link that advances
+       the reader's decision  ink + a 2px --amber underline  (at most twice)
+     Amber stays on hover, where it costs nothing and confirms the target. */
+  a { color:var(--ink); text-decoration:none; border-block-end:1px solid var(--rule); }
   a:hover { border-block-end-color:var(--amber-ink); }
   a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
 
@@ -127,9 +139,16 @@
   /* the onward block at the foot of an article */
   .onward { margin-block-start:var(--s9); padding-block-start:var(--s4);
             border-block-start:2px solid var(--ink); font-family:var(--sans); }
-  .onward__place { display:block; padding:var(--s4) var(--s5); background:var(--amber-wash);
-                   border-inline-start:4px solid var(--amber-ink);
-                   margin-block-end:var(--s5); border-block-end:0; }
+  /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
+     2026). This is a link to a nearby place — a card, and Airbnb's cards are
+     near-white with a hairline and ink text. Its primacy in the onward block
+     comes from being FIRST and from its 20px serif name, not from a colour
+     that README.md:199 rules out as a category signal. */
+  /* ⚠️ The `border-block-end:0` that used to sit here existed only to cancel
+     the base `a` underline. The full border now supersedes it — leaving it in
+     would have painted a three-sided box. */
+  .onward__place { display:block; padding:var(--s4) var(--s5); background:var(--paper);
+                   border:1px solid var(--rule); margin-block-end:var(--s5); }
   .onward__place b { display:block; font-family:var(--serif); font-size:var(--sub);
                      line-height:1.2; color:var(--ink); font-weight:400; }
   .onward__place span { display:block; margin-block-start:var(--s1);

@@ -46,7 +46,11 @@
          -webkit-text-size-adjust:100%; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
-  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
+     review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
+     ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
+     the link that advances the decision = ink + 2px --amber. Hover keeps amber. */
+  a { color:var(--ink); text-decoration:none; border-block-end:1px solid var(--rule); }
   a:hover { border-block-end-color:var(--amber-ink); }
   a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
 
@@ -89,8 +93,13 @@
   figcaption { font-family:var(--sans); font-size:var(--small); line-height:1.45;
                color:var(--quiet); margin:var(--s2) var(--gutter) 0; }
 
+  /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
+     2026). Hours and fares are ordinary content; amber "never decorates"
+     (README.md:186). A wash behind the whole strip also flattens `.facts__obs`
+     — the observed-contradicts-official row that is the moat — into the same
+     surface as the fare. Hairline card, as TrustCard does in ui_kits/venue. */
   .facts { margin-block:var(--s6); padding:var(--s4) var(--s5);
-           background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+           background:var(--paper); border:1px solid var(--rule);
            font-family:var(--sans); }
   .facts dl { margin:0 0 var(--s4); }
   .facts__row { display:grid; gap:var(--s1) var(--s4); padding-block:var(--s3);
@@ -107,8 +116,11 @@
   .unchecked:last-child { margin-block-end:0; }
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0; flex-wrap:wrap;
            font-size:var(--micro); line-height:1; }
+  /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
+     of a legal disclaimer on the site's verification stamp. Sentence case,
+     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
-                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+                 font-weight:500; }
   .stamp__date { color:var(--quiet); }
   /* ⛔⛔ THE CORRECTION LINK WAS THE HARDEST THING ON THE PAGE TO HIT — 14px tall,
      because `.stamp` sets line-height:1 at micro size and the link inherited it.
@@ -128,8 +140,12 @@
                            text-decoration-thickness:2px; text-underline-offset:3px; }
 
   /* a dated season block — fills during an edition, empties between */
-  .season { margin-block:var(--s7); padding:var(--s4) var(--s5); background:var(--sunk);
-            border-inline-start:4px solid var(--rule); font-family:var(--sans); }
+  /* ⛔ Was a --sunk fill + a 4px left border (owner review, 9 Aug 2026) — the
+     same decorative-container shape, in the grey token. This block holds dated
+     facts, so it takes the CARD form: hairline all round, like the facts strip
+     and TrustCard. (An aside would take the leading rule with no fill.) */
+  .season { margin-block:var(--s7); padding:var(--s4) var(--s5); background:var(--paper);
+            border:1px solid var(--rule); font-family:var(--sans); }
   .season h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
                margin:0 0 var(--s2); }
   .season p { margin:0 0 var(--s2); font-size:var(--small); line-height:1.5; }

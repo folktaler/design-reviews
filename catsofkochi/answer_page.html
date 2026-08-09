@@ -47,7 +47,11 @@
   img { display:block; max-width:100%; height:auto; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
-  a { color:var(--amber-ink); text-decoration:none; border-block-end:1px solid var(--rule); }
+  /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
+     review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
+     ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
+     the link that advances the decision = ink + 2px --amber. Hover keeps amber. */
+  a { color:var(--ink); text-decoration:none; border-block-end:1px solid var(--rule); }
   a:hover { border-block-end-color:var(--amber-ink); }
   a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
 
@@ -92,8 +96,17 @@
   .catline span { display:block; margin-block-start:var(--s1); font-size:var(--micro); color:var(--quiet); }
 
   /* THE ANSWER — first thing under the opener */
+  /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
+     2026). The facts strip is the most ordinary content on the site — hours,
+     fares, which boat — and painting a whole block amber breaks both README
+     rules at once: amber "never decorates" and is "never the only carrier of a
+     meaning". ⭐ It also spent the signal on the wrong thing. What deserves
+     marking on this page is the checked stamp and `.facts__obs`, the observed-
+     contradicts-official row that is the moat; a wash behind everything makes
+     those indistinguishable from the fare. Hairline card, hairline rows —
+     the shape TrustCard already uses in ui_kits/venue. */
   .facts { margin-block:var(--s6); padding:var(--s4) var(--s5);
-           background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+           background:var(--paper); border:1px solid var(--rule);
            font-family:var(--sans); }
   .facts dl { margin:0 0 var(--s4); }
   .facts__row { display:grid; gap:var(--s1) var(--s4); padding-block:var(--s3);
@@ -115,8 +128,11 @@
   .unchecked { margin:0; line-height:1.45; }
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0;
            font-size:var(--micro); line-height:1; flex-wrap:wrap; }
+  /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
+     of a legal disclaimer on the site's verification stamp. Sentence case,
+     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
-                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+                 font-weight:500; }
   .stamp__date { color:var(--quiet); }
   /* ⛔⛔ THE CORRECTION LINK WAS THE HARDEST THING ON THE PAGE TO HIT — 14px tall,
      because `.stamp` sets line-height:1 at micro size and the link inherited it.
@@ -136,7 +152,13 @@
                            border:0; text-decoration:underline;
                            text-decoration-color:var(--amber);
                            text-decoration-thickness:2px; text-underline-offset:3px; }
-  .stamp__tell { font-size:var(--micro); color:var(--amber-ink); }
+  /* ⛔ Was `color:var(--amber-ink)` — amber TEXT (owner review, 9 Aug 2026).
+     ⭐ This link is correctly in the upper tier: "Changed? Tell us" is the
+     correction mechanism, which is the thing the whole freshness contract runs
+     on, so it keeps the 2px amber underline set above. What it must not do is
+     ALSO tint the words — that was amber carrying the meaning twice and
+     dropping the text from 16.9:1 to 5.2:1 to do it. Ink text, amber underline. */
+  .stamp__tell { font-size:var(--micro); color:var(--ink); }
 
   /* routes as rows, not prose bullets */
   .routes { list-style:none; margin:0 0 var(--para); padding:0; font-family:var(--sans); }
@@ -146,7 +168,10 @@
   .routes b { font-weight:400; font-size:var(--body); }
   .routes span { font-size:var(--small); color:var(--quiet); white-space:nowrap; }
 
-  .cat-tip { margin-block:var(--s8); padding:var(--s4) var(--s5); background:var(--sunk);
+  /* ⛔ Fill removed (design call, 9 Aug 2026 — see the long note in
+     ui_kits/told_page, which carries the identical component). Aside form:
+     leading rule, no fill, matching the pull-quote in ui_kits/venue. */
+  .cat-tip { margin-block:var(--s8); padding:var(--s2) 0 var(--s2) var(--s5);
              border-inline-start:4px solid var(--rule); font-family:var(--sans); }
   .cat-tip__label { display:flex; align-items:center; gap:var(--s2); margin:0 0 var(--s2);
                     font-size:var(--micro); text-transform:uppercase;

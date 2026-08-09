@@ -27,6 +27,10 @@
   :root {
     --amber:#ffa700; --amber-ink:#946100; --amber-wash:#fdf2db;
     --paper:#fdfcf9; --sunk:#f4f1ea; --ink:#1c1a17; --quiet:#5a544c; --rule:#ddd7cb;
+    /* ⛔ --alert IS NOW UNUSED IN THIS KIT (owner review, 9 Aug 2026) and is
+       kept only so the colour stays nameable. It is a literal red. ⛔ Do not
+       reach for it to mark urgency, staleness or a refusal — none of those is
+       an error, and red is how a reader has been taught to read one. */
     --focus:#0b60c4; --alert:#a2191f;
     --serif: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
     --sans: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
@@ -156,7 +160,14 @@
   .list a::after { content:''; position:absolute; inset:0; }
 
   /* the practical block — the ~12 answer pages, deliberately plain */
-  .practical { background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink);
+  /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
+     2026). A coloured wash used as a container for ordinary content is what
+     README.md:190-199 forbids twice over — amber "never decorates" and is
+     "never the only carrier of a meaning". It is also not how Airbnb builds a
+     block: near-white surface, one hairline, colour spent almost nowhere.
+     The hairline card is the shape TrustCard already uses (ui_kits/venue,
+     .v-trust) and it is structure, not colour, doing the separating. */
+  .practical { background:var(--paper); border:1px solid var(--rule);
                padding:var(--s4) var(--s5); font-family:var(--sans); }
   .practical p { margin:0 0 var(--s3); font-size:var(--small); color:var(--quiet); }
   .practical ul { list-style:none; margin:0; padding:0; }
@@ -186,6 +197,13 @@
   .signup__input { flex:1 1 13rem; min-height:var(--tap-comfortable,52px); padding:var(--s2) var(--s3);
                    border-radius:0; border:1px solid var(--quiet); background:var(--paper);
                    font-family:var(--sans); font-size:var(--body); }
+  /* ⭐ THIS AMBER FILL IS CORRECT AND WAS CHECKED, 9 Aug 2026 — do not "fix" it
+     to ink along with the payment button in ui_kits/itinerary. `tokens/theme.css`
+     gives amber its own button slot, `--action-keep-bg`, marked "⚠️ ONE per
+     page", and it is for the KEEPING-CONTROL action — get this by email. That
+     is exactly what this is. The PRIMARY action is ink-filled; a signup is not
+     the primary action, it is the one the reader chooses to keep. Ink on amber
+     is 8.9:1 and it is how the live site's Subscribe button already works. */
   .btn { display:inline-flex; align-items:center; justify-content:center;
          border-radius:999px; min-height:var(--tap-comfortable,52px); padding:0 var(--s4) 1px;
          font-family:var(--sans); font-size:var(--small); font-weight:700;
@@ -217,7 +235,16 @@
      whose registry is real. ⭐ So today is at the front as PROOF at least as
      much as utility, which is why it is short and links away rather than
      trying to be the daily page. */
-  .today { background:var(--sunk); border-inline-start:4px solid var(--amber-ink);
+  /* ⛔ Was a --sunk fill + a 4px amber left border (owner review, 9 Aug 2026).
+     Its prominence has to come from POSITION and TYPE — it is the first thing
+     on the page and its line is 20px serif — not from being painted. Colouring
+     the container was also spending the page's amber budget on furniture: with
+     this and .practical fixed, the amber FILLS left on this screen are the
+     checked stamp and the signup button — two, which is the cap. Amber
+     underlines on links are not counted against it; they are the system's link
+     mechanism, the same way ui_kits/venue underlines .v-prose a in amber while
+     still calling its stamp "the one amber on this page". */
+  .today { background:var(--paper); border:1px solid var(--rule);
            padding:var(--s4) var(--s5); font-family:var(--sans);
            margin-block:var(--s5) var(--s7); }
   .today__k { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
@@ -251,7 +278,16 @@
      ⛔ And it is worse than useless without the second line: telling somebody
      a door shuts in forty minutes and stopping there strands them. The
      component is the pair — the state AND where to go instead. */
-  .st__soon { color:var(--alert); font-weight:700; }
+  /* ⛔ Was `color:var(--alert)` — #a2191f, a literal red (owner review, 9 Aug
+     2026). Red is the grammar of an error, and "shuts at 2, in 45 minutes" is
+     not an error: it is the most useful sentence on the page. Airbnb colours
+     nothing to signal urgency. The distinction is carried by STRUCTURE and
+     WORDS instead, and both are already here — bold ink against the grey
+     .st__state (16.9:1 vs 7.3:1, plus 400→700), and the .st__instead line
+     underneath, which appears ONLY on a row in this state. ⛔ Do not restore
+     the colour: a row that needs action is identifiable with the stylesheet
+     switched off, which a colour cue is not. */
+  .st__soon { color:var(--ink); font-weight:700; }
   .st__instead { display:block; margin-block-start:var(--s2); color:var(--ink); }
   .st__instead b { font-weight:700; }
 
@@ -259,8 +295,16 @@
                  flex-wrap:wrap; gap:var(--s2) var(--s4); margin:0; }
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0;
            font-size:var(--micro); line-height:1; color:var(--quiet); }
+  /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026). Small tracked
+     uppercase is the visual grammar of a legal disclaimer, and this is the
+     opposite — the verification stamp, the one component Airbnb has no
+     counterpart for. Sentence case at weight 500 is the form ui_kits/venue
+     already ships as `.v-checked`. The amber FILL stays: tokens/theme.css
+     defines --surface-stamp as the brand amber, ink on it is 8.91:1, and
+     README.md:196 names fill-behind-dark-content as the one legitimate amber.
+     ⚠️ Whether it should be filled AT ALL is an owner call — see README. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
-                 font-weight:500; text-transform:uppercase; letter-spacing:var(--track); }
+                 font-weight:500; }
   /* ⚠️ underline the TEXT, not the box — a 44px floor plus `border-block-end`
      leaves the rule hanging under the tap target. */
   .today__more { font-size:var(--small); font-weight:700; border:0;
