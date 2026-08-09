@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrusselsTogether — Dashboard — Open Collective</title>
+<link rel="stylesheet" href="faces-inter.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .shell { display: grid; grid-template-columns: 238px 1fr; min-height: 100vh; }
+  .side { border-right: 1px solid var(--border); background: var(--background); padding: 0.75rem; display: flex; flex-direction: column; }
+  .acct { display: flex; align-items: center; gap: 0.625rem; padding: 0.625rem 0.5rem; border-radius: var(--radius-md); }
+  .acct .av { width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--oc-blue); flex: none; }
+  .acct .nm { font-weight: 600; font-size: 0.8125rem; line-height: 1.2; }
+  .acct .role { font-size: 0.6875rem; color: var(--muted-foreground); }
+  .side nav { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 1px; }
+  .side a { display: flex; align-items: center; gap: 0.625rem; padding: 0.4375rem 0.5rem; border-radius: var(--radius-sm); color: var(--slate-700); text-decoration: none; font-size: 0.8125rem; font-weight: 500; }
+  .side a:hover { background: var(--slate-100); }
+  .side a[aria-current] { color: var(--primary); background: var(--blue-50); }
+  .side .dot { width: 14px; height: 14px; border-radius: 3px; background: var(--slate-300); flex: none; }
+  .side a[aria-current] .dot { background: var(--primary); }
+  .side .foot { margin-top: auto; padding-top: 1rem; }
+
+  .main { padding: 1.5rem 2rem 4rem; background: var(--background); }
+  .head { display: flex; align-items: center; margin-bottom: 1.5rem; }
+  .head h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; margin: 0; }
+  .head .right { margin-left: auto; display: flex; gap: 0.5rem; }
+
+  .filters { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .pill { border: 1px solid var(--input); border-radius: var(--radius-md); padding: 0.4375rem 0.75rem; font-size: 0.8125rem; font-weight: 500; background: var(--background); }
+  .filters .sep { color: var(--muted-foreground); font-size: 0.8125rem; }
+
+  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+  .metric { padding: 1rem 1.25rem 0; display: flex; flex-direction: column; min-height: 168px; }
+  .metric .cap { font-size: 0.8125rem; color: var(--slate-600); font-weight: 500; }
+  .metric .val { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin: 0.25rem 0 0.125rem; display: flex; align-items: center; gap: 0.5rem; }
+  .delta { font-size: 0.6875rem; font-weight: 600; border-radius: 999px; padding: 0.125rem 0.4375rem; background: color-mix(in oklch, var(--destructive) 12%, white); color: var(--destructive); }
+  .delta.up { background: var(--green-50); color: var(--green-700); }
+  .metric .prev { font-size: 0.8125rem; color: var(--muted-foreground); }
+  .spark { margin-top: auto; height: 62px; margin-left: -1.25rem; margin-right: -1.25rem; background: linear-gradient(to bottom, color-mix(in oklch, var(--primary) 45%, white), color-mix(in oklch, var(--primary) 8%, white)); border-top: 2px solid var(--primary); }
+
+  .cols { display: grid; grid-template-columns: 1.6fr 1fr; gap: 2rem; align-items: start; }
+  h2 { font-size: 1.125rem; font-weight: 600; margin: 0 0 0.75rem; }
+  .todo { display: flex; align-items: center; gap: 0.625rem; background: var(--slate-50); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0.875rem 1rem; font-size: 0.875rem; }
+  .todo a { color: var(--primary); font-weight: 600; text-decoration: none; }
+  .todo a:hover { text-decoration: underline; }
+
+  .activity { margin-top: 1.5rem; }
+  .act { display: flex; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+  .act .av { width: 28px; height: 28px; border-radius: 999px; background: var(--slate-200); flex: none; }
+  .act .when { margin-left: auto; color: var(--muted-foreground); font-size: 0.75rem; white-space: nowrap; }
+
+  .acctlist .row { display: flex; align-items: center; gap: 0.625rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+  .acctlist .row:last-child { border-bottom: 0; }
+  .acctlist .amt { margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .acctlist .cap { padding: 0.75rem 1rem; font-size: 0.75rem; color: var(--muted-foreground); border-bottom: 1px solid var(--border); }
+
+  .back { display: inline-block; padding: 1rem 1.5rem 0; color: var(--primary); text-decoration: none; font-weight: 500; }
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .side { display: none; }
+    .metrics { grid-template-columns: 1fr; }
+    .cols { grid-template-columns: 1fr; }
+    .main { padding: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← All Open Collective pages</a>
+
+<div class="shell">
+  <aside class="side">
+    <div class="acct">
+      <span class="av"></span>
+      <span><span class="nm">BrusselsTogether</span><br><span class="role">Collective admin</span></span>
+    </div>
+    <nav>
+      <a href="#" aria-current="page"><span class="dot"></span> Overview</a>
+      <a href="#"><span class="dot"></span> Accounts</a>
+      <a href="#"><span class="dot"></span> Outgoing Money</a>
+      <a href="#"><span class="dot"></span> Incoming Money</a>
+      <a href="#"><span class="dot"></span> Internal Transfers</a>
+      <a href="#"><span class="dot"></span> Transactions</a>
+      <a href="#"><span class="dot"></span> Contributors</a>
+      <a href="#"><span class="dot"></span> Reports</a>
+      <a href="#"><span class="dot"></span> Updates</a>
+      <a href="#"><span class="dot"></span> Tiers</a>
+      <a href="#"><span class="dot"></span> Team</a>
+      <a href="#"><span class="dot"></span> Settings</a>
+    </nav>
+    <div class="foot">
+      <a href="collective.html"><span class="dot"></span> Public profile</a>
+      <a href="#"><span class="dot"></span> Explore</a>
+      <a href="#"><span class="dot"></span> Help &amp; Support</a>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="head">
+      <h1>Overview</h1>
+      <div class="right">
+        <button class="btn btn-outline btn-sm">Give feedback</button>
+      </div>
+    </div>
+
+    <div class="filters">
+      <span class="pill">Last 4 weeks</span>
+      <span class="pill">12 Jul – 8 Aug</span>
+      <span class="sep">compared to</span>
+      <span class="pill">Previous period</span>
+      <span class="pill">Daily</span>
+    </div>
+
+    <div class="metrics">
+      <div class="card metric">
+        <div class="cap">Total Balance</div>
+        <div class="val">€5,496.86 <span class="delta">↘ 1%</span></div>
+        <div class="prev">€5,536.19 at start of period</div>
+        <div class="spark"></div>
+      </div>
+      <div class="card metric">
+        <div class="cap">Received</div>
+        <div class="val">€202.67 <span class="delta">↘ 34%</span></div>
+        <div class="prev">€305.13 previous period</div>
+      </div>
+      <div class="card metric">
+        <div class="cap">Spent</div>
+        <div class="val">€242.00 <span class="delta up">↗</span></div>
+        <div class="prev">€0.00 previous period</div>
+      </div>
+    </div>
+
+    <div class="cols">
+      <section>
+        <h2>To do</h2>
+        <div class="todo">
+          <span class="badge badge-warning">3</span>
+          <span><a href="expense.html">3 expenses</a> have not been reviewed</span>
+        </div>
+
+        <div class="activity">
+          <h2 style="margin-top:1.5rem">Recent activity</h2>
+          <div class="act"><span class="av"></span><span>Priya R. contributed <strong>€10.00</strong> monthly</span><span class="when">7 Aug</span></div>
+          <div class="act"><span class="av"></span><span>Venue hire — November community evening submitted for <strong>€245.00</strong></span><span class="when">6 Aug</span></div>
+          <div class="act"><span class="av"></span><span>Update published: <strong>Four projects funded this quarter</strong></span><span class="when">27 Jul</span></div>
+          <div class="act"><span class="av"></span><span>Marta K. contributed <strong>€150.00</strong></span><span class="when">28 Jul</span></div>
+        </div>
+      </section>
+
+      <aside>
+        <h2>Accounts</h2>
+        <div class="card acctlist" style="padding:0;overflow:hidden;">
+          <div class="cap">Main account</div>
+          <div class="row"><span class="av" style="width:22px;height:22px;border-radius:999px;background:var(--slate-200);display:inline-block"></span> BrusselsTogether <span class="amt">€5,496.86</span></div>
+          <div class="row"><span class="av" style="width:22px;height:22px;border-radius:999px;background:var(--slate-200);display:inline-block"></span> Meetup 6 <span class="amt">€120.00</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+</body>
+</html>

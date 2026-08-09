@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Collective — design review</title>
+<link rel="stylesheet" href="faces-inter.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body { background: var(--slate-50); }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 3.5rem 1.5rem 6rem; }
+  h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 0.5rem; }
+  .lede { color: var(--slate-700); max-width: 64ch; margin: 0 0 2rem; }
+  h2 { font-size: 1rem; font-weight: 600; margin: 2.5rem 0 0.75rem; }
+  .list { display: grid; gap: 0.75rem; }
+  a.item { display: block; padding: 1rem 1.25rem; text-decoration: none; color: inherit; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+  a.item:hover { border-color: var(--primary); }
+  a.item .nm { font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+  a.item .why { color: var(--muted-foreground); font-size: 0.875rem; margin-top: 0.1875rem; }
+  .warn { border-left: 3px solid var(--amber-700); background: var(--amber-100); padding: 1rem 1.25rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 0 0 2rem; }
+  .warn p { margin: 0 0 0.5rem; color: var(--amber-700); font-size: 0.875rem; }
+  .warn p:last-child { margin-bottom: 0; }
+  ul { padding-left: 1.1rem; color: var(--slate-700); font-size: 0.875rem; }
+  li { margin-bottom: 0.375rem; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; background: var(--slate-200); padding: 0.1em 0.35em; border-radius: 4px; }
+  .back { color: var(--primary); text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 2rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← All design reviews</a>
+
+  <h1>Open Collective</h1>
+  <p class="lede">
+    The design system behind a fork of Open Collective, and pages built on it. Published so it can
+    be opened on a real device and reviewed by people and models who are not on the machine
+    running the fork.
+  </p>
+
+  <div class="warn">
+    <p><strong>Read this before reporting anything.</strong></p>
+    <p>These are static HTML pages. Nothing is wired up — no data, no clicks that go anywhere, no dark mode, no icons (the product uses Lucide throughout and none are embedded here).</p>
+    <p>The design tokens are <em>not</em> approximations. Every colour, radius and type size is copied from the platform's own stylesheet, and the Inter font files are the ones it self-hosts. Where a page departs from upstream, it says so on the page.</p>
+  </div>
+
+  <h2>Start here</h2>
+  <div class="list">
+    <a class="item" href="system.html">
+      <span class="nm">Design system</span>
+      <span class="why">Colours, type, buttons, badges, form controls, shape, and the ledger row. This is the page to change things on — every other page reads from the same <code>tokens.css</code>.</span>
+    </a>
+  </div>
+
+  <h2>Faithful to what the fork renders today</h2>
+  <div class="list">
+    <a class="item" href="collective.html">
+      <span class="nm">Collective profile</span>
+      <span class="why">What the public sees: who runs it, what it's for, what money came in and went out, and how to give. Modelled on the running fork's BrusselsTogether page.</span>
+    </a>
+    <a class="item" href="dashboard.html">
+      <span class="nm">Admin dashboard</span>
+      <span class="why">What an admin sees on signing in — balance, money in and out against the previous period, and what is waiting for a decision.</span>
+    </a>
+  </div>
+
+  <h2>Proposals — these do not exist upstream</h2>
+  <div class="list">
+    <a class="item" href="contribute-upi.html">
+      <span class="nm">Contribute in rupees <span class="badge badge-warning">Proposal</span></span>
+      <span class="why">Open Collective has no Indian payment method. This is the contribution flow with UPI first, showing the fee without charging it. The page argues its own case at the bottom.</span>
+    </a>
+  </div>
+
+  <h2>Known gaps in this set</h2>
+  <ul>
+    <li><strong>Four pages, not thirteen.</strong> The expense detail, the transactions ledger, the fiscal-host dashboard, the event page and the sign-in flow are not here yet.</li>
+    <li><strong>No icons.</strong> Every place the product shows a Lucide icon, these pages show a plain shape or nothing.</li>
+    <li><strong>No photographs or avatars.</strong> Contributor faces are initials on a grey circle.</li>
+    <li><strong>No dark mode.</strong> The platform defines a full dark palette; none of it is exercised here.</li>
+    <li><strong>The hero arc is approximated.</strong> The product draws it as an SVG; here it is a radial gradient. It is close, not identical.</li>
+    <li><strong>No error, empty or loading states anywhere.</strong></li>
+  </ul>
+
+  <h2>How to change it</h2>
+  <p class="lede" style="margin-bottom:0.75rem">
+    <strong>Do not edit the copy you are reading.</strong> This folder is published output and gets
+    overwritten. The source is <code>~/opencollective/design-system/</code> on the machine running
+    the fork; changes are made there and republished.
+  </p>
+  <ul>
+    <li>Everything visual lives in <code>tokens.css</code>. Change <code>--primary</code> and every button, link and focus ring moves together.</li>
+    <li>Change <code>--radius</code> and every rounded corner in the system follows, because the medium and small radii are derived from it rather than set separately.</li>
+    <li>There is no build step. Edit a file, reload the page.</li>
+  </ul>
+</div>
+</body>
+</html>

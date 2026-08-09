@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Collective — design system</title>
+<link rel="stylesheet" href="faces-inter.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body { background: var(--slate-50); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+  h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 0.5rem; }
+  h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; margin: 3.5rem 0 0.25rem; }
+  h2:first-of-type { margin-top: 2.5rem; }
+  .note { color: var(--muted-foreground); max-width: 62ch; margin: 0 0 1.25rem; }
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; }
+  .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  .swatch { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: var(--card); }
+  .swatch .chip { height: 68px; }
+  .swatch .meta { padding: 0.625rem 0.75rem; }
+  .swatch .name { font-weight: 500; font-size: 0.8125rem; }
+  .swatch .val { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; color: var(--muted-foreground); word-break: break-all; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  th { text-align: left; font-weight: 500; color: var(--muted-foreground); padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; background: var(--slate-100); padding: 0.1em 0.35em; border-radius: 4px; }
+  .back { display: inline-block; margin-bottom: 2rem; color: var(--primary); text-decoration: none; font-weight: 500; }
+  .back:hover { text-decoration: underline; }
+  .warn { border-left: 3px solid var(--amber-700); background: var(--amber-100); padding: 0.875rem 1rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 1rem 0; max-width: 68ch; }
+  .stack > * + * { margin-top: 1rem; }
+  .radius-demo { width: 92px; height: 68px; background: var(--primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← All Open Collective pages</a>
+
+  <h1>Open Collective design system</h1>
+  <p class="note">
+    Every value on this page is copied from the platform's own stylesheet, not approximated by eye.
+    Open Collective defines its design system as Tailwind v4 variables in one file
+    (<code>public/static/styles/app.css</code>) and builds 44 components on top of it.
+    <strong>Edit <code>tokens.css</code> and every page in this folder changes with it.</strong>
+  </p>
+
+  <h2>Brand colour, and the trap in it</h2>
+  <p class="note">There are two blues and they are not interchangeable.</p>
+  <div class="warn">
+    <strong>The dark navy is the marketing colour. The bright blue is the product colour.</strong>
+    Buttons inside the product use the bright blue; only the marketing button variant uses navy.
+    Swapping them is the single easiest way to make a page stop looking like Open Collective.
+  </div>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--oc)"></div><div class="meta"><div class="name">Marketing navy</div><div class="val">hsla(222,78%,22%,1)</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--oc-blue)"></div><div class="meta"><div class="name">Brand blue</div><div class="val">hsla(218,92%,53%,1)</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--oc-blue-900)"></div><div class="meta"><div class="name">Blue 900</div><div class="val">hsla(220,71%,33%,1)</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--oc-blue-700)"></div><div class="meta"><div class="name">Blue 700</div><div class="val">hsla(220,85%,45%,1)</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--oc-blue-500)"></div><div class="meta"><div class="name">Blue 500</div><div class="val">hsla(213,100%,59%,1)</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--oc-primary-100)"></div><div class="meta"><div class="name">Primary 100</div><div class="val">hsla(208,100%,95%,1)</div></div></div>
+  </div>
+
+  <h2>Semantic colours</h2>
+  <p class="note">
+    No component ever names a raw colour. They name a role, and the role points at a colour.
+    That indirection is why a whole rebrand is a handful of lines rather than a search across 79 files.
+  </p>
+  <div class="grid">
+    <div class="swatch"><div class="chip" style="background:var(--primary)"></div><div class="meta"><div class="name">primary</div><div class="val">blue-600</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--secondary)"></div><div class="meta"><div class="name">secondary</div><div class="val">slate-100</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--muted)"></div><div class="meta"><div class="name">muted</div><div class="val">slate-100</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--destructive)"></div><div class="meta"><div class="name">destructive</div><div class="val">rose-500</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--success)"></div><div class="meta"><div class="name">success</div><div class="val">green-600</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--border)"></div><div class="meta"><div class="name">border / input</div><div class="val">slate-200</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--muted-foreground)"></div><div class="meta"><div class="name">muted-foreground</div><div class="val">slate-500</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--foreground)"></div><div class="meta"><div class="name">foreground</div><div class="val">slate-900</div></div></div>
+  </div>
+
+  <h2>Type</h2>
+  <p class="note">
+    Inter, self-hosted — these are the platform's own font files, not a web-font substitute.
+    Body text is 14px, which is smaller than most sites and is deliberate: these pages are dense
+    with figures.
+  </p>
+  <div class="panel stack">
+    <div style="font-size:2.25rem;font-weight:700;letter-spacing:-0.025em;">Display 36 / 700 — BrusselsTogether</div>
+    <div style="font-size:1.5rem;font-weight:600;letter-spacing:-0.015em;">Heading 24 / 600 — Transparent budget</div>
+    <div style="font-size:1.125rem;font-weight:600;">Subhead 18 / 600 — Recent activity</div>
+    <div style="font-size:0.875rem;">Body 14 / 400 — Every contribution and every expense is on this page. Nothing sits in a private spreadsheet.</div>
+    <div style="font-size:0.875rem;font-weight:500;">Body medium 14 / 500 — used for labels and buttons</div>
+    <div class="muted" style="font-size:0.75rem;">Caption 12 / 400 — Published on 27 July 2026 by Test User Admin</div>
+    <div class="amount" style="font-size:1.5rem;">₹5,000.00 &nbsp; €5,496.86 &nbsp; $1,240.00</div>
+    <p class="muted" style="margin:0;font-size:0.8125rem;">Figures are tabular: the digits sit on a fixed grid so columns of money align.</p>
+  </div>
+
+  <h2>Buttons</h2>
+  <p class="note">Ten variants and nine sizes exist. These are all ten variants, at the default size.</p>
+  <div class="panel">
+    <div class="row">
+      <button class="btn btn-default">Contribute</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-outline">Submit expense</button>
+      <button class="btn btn-ghost">Ghost</button>
+      <button class="btn btn-link">Link</button>
+      <button class="btn btn-success">Approve</button>
+      <button class="btn btn-outline-success">Outline success</button>
+      <button class="btn btn-destructive">Delete</button>
+      <button class="btn btn-outline-destructive">Reject</button>
+      <button class="btn btn-marketing">Marketing</button>
+    </div>
+    <div class="row" style="margin-top:1.25rem;">
+      <button class="btn btn-default btn-xs">Extra small</button>
+      <button class="btn btn-default btn-sm">Small</button>
+      <button class="btn btn-default">Default</button>
+      <button class="btn btn-default btn-lg">Large</button>
+      <button class="btn btn-default btn-xl">Extra large</button>
+    </div>
+    <div class="row" style="margin-top:1.25rem;">
+      <button class="btn btn-default" disabled>Disabled</button>
+      <span class="muted" style="font-size:0.8125rem;">Disabled is 50% opacity and ignores pointer events — it is not greyed out with a different colour.</span>
+    </div>
+  </div>
+
+  <h2>Status badges</h2>
+  <p class="note">
+    Expense and contribution states. Colour alone never carries the meaning — the word is always
+    there too, because roughly one man in twelve cannot separate the green from the amber.
+  </p>
+  <div class="panel row">
+    <span class="badge badge-warning">Pending</span>
+    <span class="badge badge-info">Approved</span>
+    <span class="badge badge-success">Paid</span>
+    <span class="badge badge-error">Rejected</span>
+    <span class="badge badge-neutral">Draft</span>
+    <span class="badge badge-neutral">Incomplete</span>
+    <span class="badge badge-success">Active</span>
+  </div>
+
+  <h2>Form controls</h2>
+  <div class="panel" style="max-width:420px;">
+    <label class="label" for="amt">Amount</label>
+    <input class="input" id="amt" value="5,000.00">
+    <div style="height:1rem;"></div>
+    <label class="label" for="desc">What is this for?</label>
+    <input class="input" id="desc" placeholder="Venue hire — November community evening">
+    <div style="height:1rem;"></div>
+    <button class="btn btn-default" style="width:100%;">Continue</button>
+  </div>
+
+  <h2>Shape</h2>
+  <p class="note">
+    One number drives every rounded corner. <code>--radius</code> is 12px; medium is 10px and small
+    is 6px, both derived from it. Change the one value and the entire product's softness changes.
+  </p>
+  <div class="panel row" style="gap:1.5rem;">
+    <div><div class="radius-demo" style="border-radius:var(--radius-lg)"></div><div class="muted" style="font-size:0.75rem;margin-top:0.5rem;">lg — 12px</div></div>
+    <div><div class="radius-demo" style="border-radius:var(--radius-md)"></div><div class="muted" style="font-size:0.75rem;margin-top:0.5rem;">md — 10px</div></div>
+    <div><div class="radius-demo" style="border-radius:var(--radius-sm)"></div><div class="muted" style="font-size:0.75rem;margin-top:0.5rem;">sm — 6px</div></div>
+    <div><div class="radius-demo" style="border-radius:9999px"></div><div class="muted" style="font-size:0.75rem;margin-top:0.5rem;">full — badges, avatars</div></div>
+  </div>
+
+  <h2>The ledger row</h2>
+  <p class="note">
+    The most important pattern in the product, and the one most likely to be got wrong. A single
+    contribution is not one row — it is a <em>group</em>: the money, and each fee taken out of it,
+    each as its own line. Collapsing them into one number is what makes a budget stop being
+    transparent.
+  </p>
+  <div class="panel" style="padding:0;">
+    <table>
+      <thead><tr><th>Date</th><th>Description</th><th>Kind</th><th style="text-align:right">Amount</th></tr></thead>
+      <tbody>
+        <tr><td class="muted">7 Aug 2026</td><td>Monthly contribution from Priya R.</td><td><span class="badge badge-neutral">Contribution</span></td><td style="text-align:right"><span class="amount amount-credit">+ ₹5,000.00</span></td></tr>
+        <tr><td class="muted">7 Aug 2026</td><td>Payment processor fee</td><td><span class="badge badge-neutral">Processor fee</span></td><td style="text-align:right"><span class="amount">− ₹118.00</span></td></tr>
+        <tr><td class="muted">7 Aug 2026</td><td>Host fee</td><td><span class="badge badge-neutral">Host fee</span></td><td style="text-align:right"><span class="amount">− ₹250.00</span></td></tr>
+        <tr><td class="muted">2 Aug 2026</td><td>Venue hire — November community evening</td><td><span class="badge badge-neutral">Expense</span></td><td style="text-align:right"><span class="amount">− ₹24,500.00</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What is missing from this page</h2>
+  <p class="note">
+    Said plainly so a reviewer does not spend their pass reporting it: no dark mode (the platform
+    defines one, these pages do not use it), no icons (the product uses Lucide throughout), no
+    loading or empty states, and no focus-visible walkthrough. Components here are the ones the
+    pages in this folder actually use — not all 44.
+  </p>
+</div>
+</body>
+</html>

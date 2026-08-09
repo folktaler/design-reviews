@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrusselsTogether — Open Collective</title>
+<link rel="stylesheet" href="faces-inter.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .topbar { height: 56px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 2rem; padding: 0 1.5rem; background: var(--background); }
+  .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: var(--oc); letter-spacing: -0.01em; }
+  .logo .mark { width: 22px; height: 22px; border-radius: 999px; border: 3px solid var(--oc-blue); border-right-color: transparent; transform: rotate(-45deg); }
+  .topnav { display: flex; gap: 1.5rem; margin-left: auto; margin-right: auto; font-weight: 500; color: var(--foreground); }
+  .topnav span { cursor: default; }
+  .topbar .auth { display: flex; gap: 0.5rem; }
+
+  /* Hero. The platform draws a soft blue arc from the top-right; reproduced with a
+     radial gradient rather than the SVG it actually ships. */
+  .hero { position: relative; overflow: hidden; background: var(--background); border-bottom: 1px solid var(--border); }
+  .hero::after { content: ''; position: absolute; inset: 0 0 auto auto; width: 70%; height: 300px;
+    background: radial-gradient(120% 120% at 80% -20%, var(--oc-blue-500) 0%, var(--oc-blue) 45%, transparent 72%);
+    opacity: 0.9; pointer-events: none; }
+  .hero-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 8rem 1.5rem 1.5rem; }
+  .hero h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 0.75rem; }
+  .tagrow { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .tag { border: 1px solid var(--border); background: var(--slate-50); border-radius: var(--radius-sm); padding: 0.125rem 0.5rem; font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--slate-600); }
+  .hostline { font-size: 0.8125rem; color: var(--slate-600); margin-bottom: 0.5rem; }
+  .hostline b { font-weight: 500; color: var(--foreground); }
+  .tagline { font-size: 1rem; margin: 0 0 1.5rem; max-width: 60ch; }
+
+  .sectionnav { display: flex; align-items: center; gap: 2rem; border-top: 1px solid var(--border); background: var(--background); position: sticky; top: 0; z-index: 5; }
+  .sectionnav .inner { max-width: 1100px; margin: 0 auto; width: 100%; padding: 0 1.5rem; display: flex; align-items: center; gap: 2rem; }
+  .sectionnav a { padding: 1rem 0; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--slate-600); text-decoration: none; border-bottom: 2px solid transparent; }
+  .sectionnav a[aria-current] { color: var(--primary); border-bottom-color: var(--primary); }
+  .sectionnav .actions { margin-left: auto; display: flex; gap: 0.5rem; padding: 0.625rem 0; }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+  h2 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 0.375rem; }
+  .sub { color: var(--muted-foreground); margin: 0 0 1.5rem; }
+  .rule { display: flex; align-items: center; gap: 1rem; margin: 3rem 0 1.5rem; }
+  .rule h2 { margin: 0; white-space: nowrap; }
+  .rule::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .tiers { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .tier { overflow: hidden; display: flex; flex-direction: column; }
+  .tier .cap { height: 96px; background: linear-gradient(135deg, var(--oc-blue-700), var(--oc-blue-500)); position: relative; }
+  .tier .kind { position: absolute; left: 0.75rem; bottom: 0.75rem; background: rgba(255,255,255,0.92); color: var(--slate-700); border-radius: var(--radius-sm); padding: 0.125rem 0.5rem; font-size: 0.625rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+  .tier .body { padding: 1rem; display: flex; flex-direction: column; flex: 1; }
+  .tier h3 { font-size: 1.125rem; font-weight: 600; margin: 0 0 0.5rem; }
+  .tier .price { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+  .tier .price small { font-size: 0.8125rem; font-weight: 400; color: var(--muted-foreground); }
+  .tier .desc { color: var(--muted-foreground); font-size: 0.8125rem; margin: 0.5rem 0 1rem; flex: 1; }
+  .tier .btn { width: 100%; }
+  .contributors { border-top: 1px solid var(--border); margin-top: 1rem; padding-top: 0.75rem; }
+  .contributors .cap2 { font-size: 0.625rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground); margin-bottom: 0.5rem; }
+  .faces { display: flex; align-items: center; }
+  .face { width: 28px; height: 28px; border-radius: 999px; background: var(--slate-300); border: 2px solid var(--card); margin-right: -6px; display: grid; place-items: center; font-size: 0.625rem; font-weight: 600; color: var(--slate-700); }
+  .more { margin-left: 12px; font-size: 0.75rem; color: var(--muted-foreground); }
+
+  .budget { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; align-items: start; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  th { text-align: left; font-weight: 500; color: var(--muted-foreground); font-size: 0.6875rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.625rem 1rem; border-bottom: 1px solid var(--border); }
+  td { padding: 0.875rem 1rem; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: 0; }
+  .balancecard { padding: 1.25rem; }
+  .balancecard .cap2 { font-size: 0.6875rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted-foreground); }
+  .balancecard .big { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin: 0.25rem 0 0.25rem; font-variant-numeric: tabular-nums; }
+
+  .updates { display: grid; gap: 0; }
+  .update { display: flex; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--border); }
+  .update .av { width: 40px; height: 40px; border-radius: 999px; background: var(--slate-200); flex: none; }
+  .update h3 { margin: 0 0 0.25rem; font-size: 1.0625rem; font-weight: 600; }
+  .update .meta { font-size: 0.75rem; color: var(--muted-foreground); margin-bottom: 0.5rem; }
+  .update p { margin: 0; color: var(--slate-700); }
+
+  .back { display: inline-block; padding: 1rem 1.5rem 0; color: var(--primary); text-decoration: none; font-weight: 500; }
+  @media (max-width: 820px) {
+    .budget { grid-template-columns: 1fr; }
+    .topnav { display: none; }
+    .hero-inner { padding-top: 5rem; }
+  }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← All Open Collective pages</a>
+
+<div class="topbar">
+  <div class="logo"><span class="mark"></span> open collective</div>
+  <nav class="topnav"><span>Solutions</span><span>Product</span><span>Organization</span><span>Search</span></nav>
+  <div class="auth"><button class="btn btn-marketing btn-sm">Sign Up</button><button class="btn btn-ghost btn-sm">Log In</button></div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <h1>BrusselsTogether</h1>
+    <div class="tagrow">
+      <span class="tag">Collective</span>
+      <span class="tag">community</span>
+      <span class="tag">brussels</span>
+      <span class="tag">civic</span>
+    </div>
+    <div class="hostline">Fiscal Host: <b>BrusselsTogether ASBL</b></div>
+    <p class="tagline">Citizens building a more welcoming Brussels, one project at a time</p>
+  </div>
+</header>
+
+<nav class="sectionnav">
+  <div class="inner">
+    <a href="#contribute" aria-current="page">Contribute</a>
+    <a href="#budget">Budget</a>
+    <a href="#connect">Connect</a>
+    <a href="#about">About</a>
+    <div class="actions">
+      <button class="btn btn-outline btn-sm">Submit expense</button>
+      <button class="btn btn-outline btn-sm">Contact</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <section id="contribute">
+    <h2>Contribute</h2>
+    <p class="sub">Become a financial contributor.</p>
+    <div class="tiers">
+      <article class="card tier">
+        <div class="cap"><span class="kind">Recurring contribution</span></div>
+        <div class="body">
+          <h3>Member</h3>
+          <div class="price">€10 <small>EUR / month</small></div>
+          <p class="desc">Come to anything we run, and help us say yes to a project without first running a fundraiser.</p>
+          <button class="btn btn-default">€10/month</button>
+          <div class="contributors">
+            <div class="cap2">Latest activity by</div>
+            <div class="faces"><span class="face">PR</span><span class="face">MK</span><span class="face">AD</span><span class="face">JL</span><span class="more">+ 14</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card tier">
+        <div class="cap"><span class="kind">One-time contribution</span></div>
+        <div class="body">
+          <h3>Donor</h3>
+          <div class="price">€1,000 <small>EUR</small></div>
+          <p class="desc">Fund a whole project outright — a repair workshop, a term of language cafés.</p>
+          <button class="btn btn-default">Contribute</button>
+          <div class="contributors">
+            <div class="cap2">Latest activity by</div>
+            <div class="faces"><span class="face">CB</span><span class="face">EK</span><span class="face">SV</span><span class="more">+ 16</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card tier">
+        <div class="cap"><span class="kind">Custom contribution</span></div>
+        <div class="body">
+          <h3>Donation</h3>
+          <div class="price">Any amount</div>
+          <p class="desc">Give what you like, once or every month.</p>
+          <button class="btn btn-default">Contribute</button>
+          <div class="contributors">
+            <div class="cap2">Latest activity by</div>
+            <div class="faces"><span class="more" style="margin-left:0">+ 31</span></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="rule" id="budget"><h2>Budget</h2></div>
+  <p class="sub">Everything that came in and everything that went out. Nothing is summarised away.</p>
+  <div class="budget">
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table>
+        <thead><tr><th>Date</th><th>Description</th><th style="text-align:right">Amount</th></tr></thead>
+        <tbody>
+          <tr><td class="muted">7 Aug</td><td>Monthly contribution from Priya R.</td><td style="text-align:right"><span class="amount amount-credit">+ €10.00</span></td></tr>
+          <tr><td class="muted">6 Aug</td><td>Payment processor fee</td><td style="text-align:right"><span class="amount">− €0.59</span></td></tr>
+          <tr><td class="muted">2 Aug</td><td>Venue hire — November community evening</td><td style="text-align:right"><span class="amount">− €245.00</span></td></tr>
+          <tr><td class="muted">28 Jul</td><td>One-time contribution from Marta K.</td><td style="text-align:right"><span class="amount amount-credit">+ €150.00</span></td></tr>
+          <tr><td class="muted">24 Jul</td><td>Printing: 500 flyers and 20 posters</td><td style="text-align:right"><span class="amount">− €87.00</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <aside class="card balancecard">
+      <div class="cap2">Today’s balance</div>
+      <div class="big">€5,496.86</div>
+      <div class="muted" style="font-size:0.8125rem;">Held by BrusselsTogether ASBL on this Collective’s behalf.</div>
+      <div style="height:1rem"></div>
+      <button class="btn btn-outline" style="width:100%">View all transactions</button>
+    </aside>
+  </div>
+
+  <div class="rule" id="connect"><h2>Updates</h2></div>
+  <div class="updates">
+    <article class="update">
+      <div class="av"></div>
+      <div>
+        <h3>Four projects funded this quarter</h3>
+        <div class="meta">Published on 27 July 2026 by Test User Admin</div>
+        <p>We closed the quarter having funded four projects: a Sunday language café in Molenbeek, a bike repair workshop, a shared tool library, and the winter clothing drive.</p>
+      </div>
+    </article>
+    <article class="update">
+      <div class="av"></div>
+      <div>
+        <h3>Our books, in public</h3>
+        <div class="meta">Published on 1 July 2026 by Test User Admin</div>
+        <p>Every contribution and every expense is on this page. Nothing sits in a private spreadsheet.</p>
+      </div>
+    </article>
+  </div>
+</main>
+</body>
+</html>

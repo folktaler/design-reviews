@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contribute in rupees — proposal — Open Collective</title>
+<link rel="stylesheet" href="faces-inter.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body { background: var(--slate-50); }
+  .topbar { height: 56px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 1.5rem; background: var(--background); }
+  .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: var(--oc); }
+  .logo .mark { width: 22px; height: 22px; border-radius: 999px; border: 3px solid var(--oc-blue); border-right-color: transparent; transform: rotate(-45deg); }
+
+  .banner { background: var(--amber-100); color: var(--amber-700); font-size: 0.8125rem; padding: 0.625rem 1.5rem; border-bottom: 1px solid color-mix(in oklch, var(--amber-700) 25%, white); }
+  .banner b { font-weight: 600; }
+
+  .wrap { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  .steps { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; font-size: 0.8125rem; }
+  .step { display: flex; align-items: center; gap: 0.5rem; color: var(--muted-foreground); }
+  .step .n { width: 22px; height: 22px; border-radius: 999px; display: grid; place-items: center; font-size: 0.6875rem; font-weight: 600; background: var(--slate-200); color: var(--slate-600); }
+  .step[aria-current] { color: var(--foreground); font-weight: 500; }
+  .step[aria-current] .n { background: var(--primary); color: var(--primary-foreground); }
+  .step.done .n { background: var(--success); color: white; }
+  .steps .bar { flex: 1; height: 1px; background: var(--border); }
+
+  .panel { padding: 1.75rem; }
+  h1 { font-size: 1.375rem; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 0.375rem; }
+  .lede { color: var(--muted-foreground); margin: 0 0 1.5rem; }
+
+  .amounts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.625rem; margin-bottom: 1rem; }
+  .amt-opt { border: 1px solid var(--input); background: var(--background); border-radius: var(--radius-md); padding: 0.75rem 0.5rem; font-size: 1rem; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; font-family: inherit; color: var(--foreground); }
+  .amt-opt[aria-pressed="true"] { border-color: var(--primary); background: var(--blue-50); color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); }
+
+  .freq { display: inline-flex; border: 1px solid var(--input); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 1.5rem; }
+  .freq button { border: 0; background: var(--background); padding: 0.5rem 1rem; font-size: 0.8125rem; font-weight: 500; font-family: inherit; cursor: pointer; color: var(--slate-600); }
+  .freq button[aria-pressed="true"] { background: var(--primary); color: var(--primary-foreground); }
+
+  .methods { display: grid; gap: 0.625rem; margin-bottom: 1.5rem; }
+  .method { display: flex; align-items: center; gap: 0.875rem; border: 1px solid var(--input); border-radius: var(--radius-md); padding: 0.875rem 1rem; cursor: pointer; background: var(--background); }
+  .method[aria-checked="true"] { border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); background: var(--blue-50); }
+  .method .radio { width: 18px; height: 18px; border-radius: 999px; border: 2px solid var(--slate-300); flex: none; display: grid; place-items: center; }
+  .method[aria-checked="true"] .radio { border-color: var(--primary); }
+  .method[aria-checked="true"] .radio::after { content: ''; width: 8px; height: 8px; border-radius: 999px; background: var(--primary); }
+  .method .txt { flex: 1; }
+  .method .nm { font-weight: 500; }
+  .method .hint { font-size: 0.75rem; color: var(--muted-foreground); }
+  .method .tagline { font-size: 0.6875rem; color: var(--muted-foreground); }
+
+  .summary { border-top: 1px solid var(--border); margin-top: 1.5rem; padding-top: 1.25rem; }
+  .line { display: flex; font-size: 0.875rem; padding: 0.3125rem 0; }
+  .line .r { margin-left: auto; font-variant-numeric: tabular-nums; }
+  .line.total { font-weight: 600; font-size: 1rem; border-top: 1px solid var(--border); margin-top: 0.5rem; padding-top: 0.75rem; }
+  .fineprint { font-size: 0.75rem; color: var(--muted-foreground); margin-top: 1rem; }
+
+  .notes { max-width: 680px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+  .notes h2 { font-size: 1rem; font-weight: 600; margin: 2rem 0 0.5rem; }
+  .notes p, .notes li { color: var(--slate-700); font-size: 0.875rem; }
+  .notes ul { padding-left: 1.1rem; }
+  .back { display: inline-block; padding: 1rem 1.5rem 0; color: var(--primary); text-decoration: none; font-weight: 500; }
+  @media (max-width: 560px) { .amounts { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← All Open Collective pages</a>
+
+<div class="topbar"><div class="logo"><span class="mark"></span> open collective</div></div>
+<div class="banner"><b>Proposal, not upstream.</b> Open Collective has no rupee payment method today — its four rails are Stripe, PayPal, Wise and internal transfers. This is what we would add.</div>
+
+<div class="wrap">
+  <div class="steps">
+    <span class="step done"><span class="n">✓</span> Profile</span>
+    <span class="bar"></span>
+    <span class="step" aria-current="step"><span class="n">2</span> Contribution</span>
+    <span class="bar"></span>
+    <span class="step"><span class="n">3</span> Payment</span>
+  </div>
+
+  <div class="card panel">
+    <h1>Contribute to Aikyam India</h1>
+    <p class="lede">Every rupee and every expense stays visible on the Collective’s page.</p>
+
+    <div class="freq">
+      <button aria-pressed="true">Monthly</button>
+      <button aria-pressed="false">One time</button>
+    </div>
+
+    <label class="label">Amount</label>
+    <div class="amounts">
+      <button class="amt-opt" aria-pressed="false">₹500</button>
+      <button class="amt-opt" aria-pressed="true">₹1,000</button>
+      <button class="amt-opt" aria-pressed="false">₹2,500</button>
+      <button class="amt-opt" aria-pressed="false">₹5,000</button>
+    </div>
+    <label class="label" for="other">Or another amount</label>
+    <input class="input" id="other" placeholder="₹">
+
+    <div style="height:1.75rem"></div>
+
+    <label class="label">How would you like to pay?</label>
+    <div class="methods" role="radiogroup" aria-label="Payment method">
+      <div class="method" role="radio" aria-checked="true" tabindex="0">
+        <span class="radio"></span>
+        <span class="txt">
+          <span class="nm">UPI</span>
+          <span class="hint">Google Pay, PhonePe, Paytm, or any UPI app</span>
+        </span>
+        <span class="badge badge-success">No fee to you</span>
+      </div>
+      <div class="method" role="radio" aria-checked="false" tabindex="-1">
+        <span class="radio"></span>
+        <span class="txt">
+          <span class="nm">Card</span>
+          <span class="hint">Visa, Mastercard, RuPay, Amex</span>
+        </span>
+      </div>
+      <div class="method" role="radio" aria-checked="false" tabindex="-1">
+        <span class="radio"></span>
+        <span class="txt">
+          <span class="nm">Net banking</span>
+          <span class="hint">All major Indian banks</span>
+        </span>
+      </div>
+      <div class="method" role="radio" aria-checked="false" tabindex="-1">
+        <span class="radio"></span>
+        <span class="txt">
+          <span class="nm">Bank transfer</span>
+          <span class="hint">We send you the account details. Shows on the page once it arrives.</span>
+        </span>
+        <span class="badge badge-neutral">Slower</span>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="line"><span>Contribution</span><span class="r">₹1,000.00</span></div>
+      <div class="line"><span>Payment processing <span class="muted">— paid by the Collective, not by you</span></span><span class="r muted">₹23.60</span></div>
+      <div class="line total"><span>You pay monthly</span><span class="r">₹1,000.00</span></div>
+    </div>
+
+    <div style="height:1.25rem"></div>
+    <button class="btn btn-default btn-lg" style="width:100%">Contribute ₹1,000 monthly</button>
+    <p class="fineprint">You can stop this any time from your own dashboard. Payments are handled by Razorpay; Aikyam India never sees your card or UPI details.</p>
+  </div>
+</div>
+
+<div class="notes">
+  <h2>Why this page looks the way it does</h2>
+  <ul>
+    <li><strong>UPI is first and card is second.</strong> Upstream leads with card because its rails are American. For an Indian contributor that ordering is backwards.</li>
+    <li><strong>The fee is shown but not added.</strong> The Collective absorbs it. Showing it keeps the promise of transparency; adding it to the total would make a ₹1,000 contribution cost ₹1,023.60, which nobody expects.</li>
+    <li><strong>Monthly is the default.</strong> Recurring contributions are what make a budget plannable. This is a deliberate nudge and worth arguing about.</li>
+    <li><strong>“No fee to you” is a badge, not a footnote.</strong> UPI genuinely costs the Collective nothing on most transactions, and that is a real reason to choose it.</li>
+  </ul>
+
+  <h2>Known gaps</h2>
+  <ul>
+    <li>No tier selection — this shows the custom-amount path only.</li>
+    <li>The final step, where Razorpay’s own payment sheet opens, is not drawn. That interface belongs to Razorpay and we cannot restyle it.</li>
+    <li>No error states: declined payment, expired UPI collect request, or a contributor who closes the tab mid-payment. All three happen and all three need designing.</li>
+    <li>Nothing here is wired up. It is HTML, not the product.</li>
+  </ul>
+</div>
+</body>
+</html>
