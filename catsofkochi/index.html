@@ -52,6 +52,49 @@
 
 <h2>Changelog</h2>
 <ul class="gaps">
+  <li>⭐ <b>9 Aug 2026 (later) — the colour-usage review, part two: links,
+    the payment button, red, and the checked stamp.</b> Five more findings
+    from the same owner review, fixed across every kit, the shared
+    components and <code>tokens/theme.css</code>, then reconciled onto the
+    live site (<code>src/styles/global.css</code>):
+    <ul style="margin-top:.5rem">
+      <li style="padding:.35rem 0">Amber removed from every ordinary link — nine
+        kits had <code>a { color: var(--amber-ink) }</code>, which painted
+        every link amber and stopped the colour meaning anything. Now a
+        two-tier ladder ranked by underline <i>weight</i>, not hue: ordinary
+        links get a 1px grey underline; the one link per screen that
+        genuinely advances a decision gets a 2px amber one, capped at two.
+        The live site's <code>global.css</code> had the same one-tier bug on
+        its own <code>a{}</code> rule and now carries the identical contract,
+        plus a <code>.link--decision</code> class for the amber tier (unused
+        today — no correction/"report a change" link is built on the live
+        site yet).</li>
+      <li style="padding:.35rem 0"><code>Pay ₹0,000</code> in the itinerary kit was
+        amber-filled — the newsletter signup's colour, on the highest-stakes
+        click on the site. Now ink, matching
+        <code>--action-primary-bg</code>; rank stays legible without colour
+        because both buttons are the same 52px pill height.</li>
+      <li style="padding:.35rem 0">Red removed from non-error states, including an
+        honest refusal — red is the grammar of an error, and "we don't know"
+        or "shuts in 40 minutes" are not errors.</li>
+      <li style="padding:.35rem 0">The "Checked" stamp and a provenance/source-citation
+        line no longer share one amber fill — they were competing for the
+        same signal. The citation now supports the stamp (ink text,
+        underline) instead of duplicating it.</li>
+      <li style="padding:.35rem 0">A landmark split: <code>data-source-checked</code> now
+        marks a source-citation sentence separately from
+        <code>data-checked-on</code>, which marks only a short, columnar
+        date stamp — so an accessibility scorer checking tabular figures
+        doesn't conflate "when we visited" with "when we read a citation."</li>
+      <li style="padding:.35rem 0"><b>Homepage's "Getting around" and "today" link-rows</b>
+        were showing a persistent underline under the link text stacked a
+        few px above the row's own divider line — two grey lines read as
+        clutter on every row. The divider already carries the separation;
+        the underline now shows on hover only.</li>
+    </ul>
+    Verified: <code>npm run build</code> and <code>node
+    scripts/check-kits.mjs</code> — 177 passed, 0 failed, 31 documented
+    skips.</li>
   <li>⭐ <b>9 Aug 2026 — a decorative amber wash, removed from every kit.</b>
     The owner caught it live on this site: a facts block sitting in a solid
     amber-fill panel with a 4px amber border, next to a specimen arguing for

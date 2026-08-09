@@ -298,14 +298,18 @@
      no fill, no padding, no radius. The fact stays 17px ink; the note about
      where it came from sits a step below it, which is the correct order.
 
-     ⚠️ `font-variant-numeric` STAYS. `data-checked-on` makes this element a
-     stacking facts surface for the `tabular-figures` gate in check-kits.mjs —
-     dropping it here would turn that check red.
-     ⛔ AND THE LANDMARK IS ITSELF WRONG, which is a separate finding, NOT
-     fixed here: LANDMARKS.md:109 says a landmark that gates tabular figures
-     must not be put on a SENTENCE, and this is a sentence. It needs its own
-     `data-source-checked`, the way Highlights needed `data-highlight-checked`.
-     That changes the scorer contract, so it is reported rather than assumed. */
+     ⭐ THE LANDMARK IS NOW `data-source-checked`, split 9 Aug 2026 (approved).
+     LANDMARKS.md says a landmark that gates tabular figures must not sit on a
+     SENTENCE, and this is a sentence — so it gets its own attribute, exactly as
+     `Highlights` got `data-highlight-checked`. `data-checked-on` now means only
+     what it says: the date on a short, columnar stamp.
+
+     ⚠️ `font-variant-numeric` STAYS, and the reason is NOT the attribute.
+     check-kits.mjs walks `[surface, ...surface.querySelectorAll('*')]`, so this
+     span is still measured as a DESCENDANT of its `[data-facts-row]` parent.
+     ⛔ Renaming the attribute does not remove it from the gate — only moving it
+     out of the row would, and that would break the reading order. Do not delete
+     this declaration on the theory that the rename made it unnecessary. */
   .v-checked {
     display: block;
     max-inline-size: 100%;
@@ -606,7 +610,7 @@
         <dt class="v-row__label">Hours</dt>
         <dd class="v-row__value v-row__value--aligned">
           <span data-fact-value>Sunday to Thursday, 10:00–18:00. Friday, 10:00–14:00.</span>
-          <span class="v-checked" data-checked-on="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
+          <span class="v-checked" data-source-checked="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
         </dd>
       </div>
 
@@ -620,7 +624,7 @@
         <dt class="v-row__label">Closed</dt>
         <dd class="v-row__value v-row__value--aligned">
           <span data-fact-value>Every Saturday. Also on seven Jewish holidays in 2026: 2–3 and 8–9 April, 22 May, 23 July, 12–13 September, 20–21 September, 27 September, and 3–4 October.</span>
-          <span class="v-checked" data-checked-on="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
+          <span class="v-checked" data-source-checked="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
         </dd>
       </div>
 

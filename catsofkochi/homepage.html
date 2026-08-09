@@ -175,12 +175,19 @@
                   position:relative; min-height:var(--tap-comfortable,52px);
                   display:flex; align-items:center; }
   .practical li:last-child { border-block-end:0; }
-  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX — same defect class documented in
-     ui_kits/today (finding #5, 2026-08-08): a floored row plus
-     border-block-end detaches the rule from short text. text-decoration
-     tracks the text instead. */
-  .practical a { font-size:var(--body); border:0; text-decoration:underline;
-                 text-decoration-color:var(--rule); text-underline-offset:3px; }
+  /* ⛔ Was ALSO `text-decoration:underline` on the link text (owner review, 9
+     Aug 2026, on the published homepage.html) — a persistent underline sitting
+     a few px under the words, with the row's own border-block-end a few px
+     below THAT: two grey lines stacked on every row, read as clutter. A list
+     row's divider already carries the separation; a permanent underline on
+     top of it repeats the signal. The affordance is the row (min-height,
+     ::after overlay, cursor) plus a hover underline, not a permanent one —
+     matching `.list a` and `.foot-cols a` below, which never had this defect
+     because they were never given the underline in the first place. */
+  .practical a { font-size:var(--body); border:0; text-decoration:none; }
+  .practical a:hover, .practical a:focus-visible {
+    text-decoration:underline; text-decoration-color:var(--rule);
+    text-underline-offset:3px; }
   /* the row is the target — these are the twelve answer pages, the most
      useful links on the site to somebody standing outside */
   .practical a::after { content:''; position:absolute; inset:0; }
@@ -259,8 +266,13 @@
            min-height:var(--tap-comfortable,52px); position:relative;
            font-size:var(--small); line-height:1.45; }
   .st li:last-child { border-block-end:0; }
-  .st a { font-weight:700; border:0; text-decoration:underline;
-          text-decoration-color:var(--rule); text-underline-offset:3px; }
+  /* ⛔ Same stacked-line defect as `.practical` above, same fix: the row's
+     border-block-end already separates rows, so the link underline moves to
+     hover instead of sitting permanently under the text. */
+  .st a { font-weight:700; border:0; text-decoration:none; }
+  .st a:hover, .st a:focus-visible {
+    text-decoration:underline; text-decoration-color:var(--rule);
+    text-underline-offset:3px; }
   /* ⛔ ONLY THE PLACE GETS THE ROW OVERLAY. The "instead" line holds a second
      link, and two `::after` overlays on one row means the later one wins — a
      tap on "Paradesi Synagogue" opened Jew Town. Child selector, and the
