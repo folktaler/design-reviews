@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-ftl-mode="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="tokens.css">
 <style>
   * { box-sizing: border-box; }
+  html { color-scheme: light; }
   body { margin: 0; background: var(--ftl-surface); color: var(--ftl-ink);
          font-family: var(--ftl-font-ui); font-size: var(--ftl-text-md); line-height: 1.5; }
   .wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem 5rem; }
@@ -18,10 +19,10 @@
   h1 { font-size: 1.8rem; letter-spacing: -0.02em; margin: 0 0 0.4rem; }
   h2 { font-size: 1.05rem; letter-spacing: 0.01em; margin: 3rem 0 0.25rem;
        padding-block-end: 0.5rem; border-block-end: 1px solid var(--ftl-border); }
-  h3 { font: 600 11px/1 var(--ftl-font-ui); letter-spacing: 0.1em; text-transform: uppercase;
-       color: var(--ftl-ink-subtle); margin: 0; }
   p.lede { color: var(--ftl-ink-muted); max-width: 68ch; }
   p.note { font-size: 13.5px; line-height: 1.55; color: var(--ftl-ink-muted); max-width: 70ch; margin: 0.5rem 0 0; }
+  p.aside { font-size: 13px; line-height: 1.5; color: var(--ftl-ink-subtle); font-style: italic;
+            max-width: 68ch; margin: 0.6rem 0 0; }
   .back { color: var(--ftl-focus); text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 2rem; }
 
   header.top { position: sticky; top: 0; background: var(--ftl-surface); z-index: 10;
@@ -44,33 +45,40 @@
               font-size: var(--ftl-display-sm); line-height: 1; color: var(--ftl-ink); }
   .tallylbl { font-size: 12px; color: var(--ftl-ink-muted); margin-top: 4px; }
 
-  ol.steps { list-style: none; margin: 1.25rem 0 0; padding: 0; counter-reset: none; }
-  .step { border: 1px solid var(--ftl-border); border-radius: 8px; padding: 14px 16px;
-          margin: 0 0 10px; scroll-margin-top: 64px; }
-  .step.judgement { border-color: var(--ftl-warn); background: var(--ftl-tint-idle); }
-  .step-head { display: flex; align-items: baseline; gap: 10px; }
-  .stepno { flex: none; font-family: var(--ftl-font-quote); font-variant-numeric: tabular-nums;
-            font-size: 13px; color: var(--ftl-ink-subtle); width: 1.4em; }
-  .step-head h3 { flex: 1; font: 600 15px/1.35 var(--ftl-font-ui); letter-spacing: normal;
-                  text-transform: none; color: var(--ftl-ink); }
-  .badge { flex: none; display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
-           padding: 2px 8px; border-radius: 999px; color: var(--ftl-on-solid); white-space: nowrap; }
-  .badge.free { background: var(--ftl-hit); }
-  .badge.judgement { background: var(--ftl-warn); }
-  .step p.note { margin-left: calc(1.4em + 10px); }
-  .step .tool { margin-left: calc(1.4em + 10px); font-size: 12px; color: var(--ftl-ink-subtle);
-                margin-top: 2px; }
-  .invented { margin-left: calc(1.4em + 10px); margin-top: 8px; border: 1px dashed var(--ftl-border-strong);
-              border-radius: 6px; padding: 8px 10px; font-size: 13px; }
-  .invented .tag { display: block; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
-                    font-weight: 600; color: var(--ftl-ink-subtle); margin-bottom: 4px; }
-
+  /* Generic table look, shared by the steps table and the evidence table. */
   table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 0.5rem 0 1rem; }
   th { text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
        color: var(--ftl-ink-subtle); font-weight: 600; padding: 0 12px 7px 0; }
-  td { padding: 7px 12px 7px 0; border-block-start: 1px solid var(--ftl-border);
-       color: var(--ftl-ink-muted); vertical-align: top; }
+  td { padding: 9px 12px 9px 0; border-block-start: 1px solid var(--ftl-border);
+       color: var(--ftl-ink-muted); vertical-align: top; word-wrap: break-word; overflow-wrap: break-word; }
   td b { color: var(--ftl-ink); }
+
+  /* The steps table. table-layout:fixed + explicit widths keeps three narrow/wide
+     columns from ever forcing the page to scroll sideways at 375px; the .scrolly
+     wrapper is a safety net in case a future row breaks that assumption. */
+  .scrolly { overflow-x: auto; margin: 1.25rem 0 0; }
+  table.steps { table-layout: fixed; margin: 0; }
+  table.steps col.n { width: 28px; }
+  table.steps col.marking { width: 92px; }
+  table.steps th { padding-bottom: 8px; }
+  table.steps tr { scroll-margin-top: 64px; }
+  table.steps tr.judgement td { border-left: 3px solid var(--ftl-warn); }
+  table.steps tr:not(.judgement) td:first-child { border-left: 3px solid transparent; }
+  table.steps td.n { color: var(--ftl-ink-subtle); font-variant-numeric: tabular-nums;
+                      font-family: var(--ftl-font-quote); padding-left: 10px; }
+  table.steps td.step b { display: block; color: var(--ftl-ink); font-size: 14px; margin-bottom: 3px; }
+  table.steps td.step span.detail { display: block; }
+  table.steps td.marking { text-align: left; }
+
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+           padding: 2px 8px; border-radius: 999px; color: var(--ftl-on-solid); white-space: nowrap; }
+  .badge.free { background: var(--ftl-hit); }
+  .badge.judgement { background: var(--ftl-warn); }
+
+  .invented { margin-top: 8px; border: 1px dashed var(--ftl-border-strong);
+              border-radius: 6px; padding: 8px 10px; font-size: 13px; }
+  .invented .tag { display: block; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+                    font-weight: 600; color: var(--ftl-ink-subtle); margin-bottom: 4px; }
 
   footer { margin-top: 3rem; padding-top: 1.5rem; border-block-start: 1px solid var(--ftl-border);
            font-size: 12.5px; color: var(--ftl-ink-subtle); }
@@ -98,6 +106,9 @@
   <p class="lede"><b>The marking is the point of this page — that's what's worth commenting on.</b>
   If a step you think is free actually needs judgement, or the reverse, that's exactly the kind of
   note this page is for.</p>
+  <p class="aside">This page is deliberately light while the rest of this design system is dark —
+  it's a document meant to be annotated, and Hypothesis's highlighter is built for dark text on
+  light paper. The other pages stay dark because they document a dark app as it actually ships.</p>
 
   <div class="tally">
     <div class="tallycell"><div class="tallynum">11 / 15</div><div class="tallylbl">steps are deterministic — a program, not a person</div></div>
@@ -106,108 +117,115 @@
   </div>
 
   <h2 id="steps">The 15 steps</h2>
-  <p class="note">Each step below carries a stable id, so a comment anchors to one specific step
+  <p class="note">Each row below carries a stable id, so a comment anchors to one specific step
   rather than drifting if the page changes later.</p>
 
-  <ol class="steps">
-    <li class="step" id="step-1">
-      <div class="step-head"><span class="stepno">1</span><h3>Pick an episode that's ready</h3><span class="badge free">Free</span></div>
-      <p class="note">It's a list — the next episode in the queue that has everything it needs.</p>
-    </li>
-
-    <li class="step judgement" id="step-2">
-      <div class="step-head"><span class="stepno">2</span><h3>Pick which clip to use</h3><span class="badge judgement">Judgement</span></div>
-      <p class="note">An episode's script has hundreds of lines. Choosing the handful of seconds
-      that will read well as a quiz clip — one clear speaker, not buried under overlapping
-      dialogue, not already a line everyone can recite on sight — is a taste call. Nothing ranks
-      clips by how good a quiz question they'll make.</p>
-    </li>
-
-    <li class="step" id="step-3">
-      <div class="step-head"><span class="stepno">3</span><h3>Fetch that clip's subtitles</h3><span class="badge free">Free</span></div>
-      <p class="note">A download, using yt-dlp.</p>
-    </li>
-
-    <li class="step" id="step-4">
-      <div class="step-head"><span class="stepno">4</span><h3>Find which lines are in the clip</h3><span class="badge free">Free</span></div>
-      <p class="note">Plain text matching between the subtitles and the aired script.</p>
-    </li>
-
-    <li class="step judgement" id="step-5">
-      <div class="step-head"><span class="stepno">5</span><h3>Pick which line makes a good question</h3><span class="badge judgement">Judgement</span></div>
-      <p class="note">Several lines from the clip are candidates. Deciding which single one is
-      worth building a question around — a complete sentence, not a fragment, not something that
-      gives itself away by how it's phrased — is a taste call a script can't apply.</p>
-    </li>
-
-    <li class="step" id="step-6">
-      <div class="step-head"><span class="stepno">6</span><h3>Prove the line is word-for-word in the aired script</h3><span class="badge free">Free</span></div>
-      <p class="note">A validation pass (validate_episode.py) checks the chosen line matches the
-      script exactly before anything is built on top of it.</p>
-    </li>
-
-    <li class="step" id="step-7">
-      <div class="step-head"><span class="stepno">7</span><h3>Generate candidate fakes</h3><span class="badge free">Free</span></div>
-      <p class="note">nlpaug plus plain slicing produces a shortlist of near-miss variants of the
-      real line — roughly ten per line. See the measured evidence below.</p>
-    </li>
-
-    <li class="step judgement" id="step-8">
-      <div class="step-head"><span class="stepno">8</span><h3>Pick the two best fakes</h3><span class="badge judgement">Judgement</span></div>
-      <p class="note">A person reads the ~10 generated candidates and keeps the two that are wrong
-      in a genuinely tempting way — close enough to make someone pause, not so close it's basically
-      a duplicate, not so far off it's obviously wrong. This is the step the measured evidence below
-      is about.</p>
-      <div class="invented">
-        <span class="tag">Invented example — not from the show</span>
-        Original: "I already told the landlord about it." A plausible fake keeps the sentence's
-        shape: "I already called the landlord about it." A nonsense fake changes what happened:
-        "I already forgot the landlord's number."
-      </div>
-    </li>
-
-    <li class="step" id="step-9">
-      <div class="step-head"><span class="stepno">9</span><h3>Write the cue</h3><span class="badge free">Free</span></div>
-      <p class="note">A template — "Chandler says…" — filled in from who actually said the line.</p>
-    </li>
-
-    <li class="step" id="step-10">
-      <div class="step-head"><span class="stepno">10</span><h3>Write the reveal, differing words bolded</h3><span class="badge free">Free</span></div>
-      <p class="note">A difflib diff between the real line and each fake decides which words get
-      bolded — no one writes this by hand.</p>
-    </li>
-
-    <li class="step judgement" id="step-11">
-      <div class="step-head"><span class="stepno">11</span><h3>Write the trap note</h3><span class="badge judgement">Judgement</span></div>
-      <p class="note">The trap note explains, after the reveal, why the fake was tempting. A
-      generated version can state the fact but reads flat — it needs the product's own dry voice,
-      and voice isn't something a deterministic step produces.</p>
-    </li>
-
-    <li class="step" id="step-12">
-      <div class="step-head"><span class="stepno">12</span><h3>Write the scene setup</h3><span class="badge free">Mostly free</span></div>
-      <p class="note">The setup line is quoted straight from the aired script — a lookup, not a
-      composition. Whether it reads cleanly out of context sometimes needs a light polish; that
-      smaller judgement never changes which line is quoted, which is why this step counts on the
-      free side of the tally above.</p>
-    </li>
-
-    <li class="step" id="step-13">
-      <div class="step-head"><span class="stepno">13</span><h3>Find the exact second for the clip link</h3><span class="badge free">Free</span></div>
-      <p class="note">Matches the chosen words to caption timings to produce a timestamped link.</p>
-    </li>
-
-    <li class="step" id="step-14">
-      <div class="step-head"><span class="stepno">14</span><h3>Validate the finished episode</h3><span class="badge free">Free</span></div>
-      <p class="note">An automated check of the completed episode before it goes anywhere near
-      publishing.</p>
-    </li>
-
-    <li class="step" id="step-15">
-      <div class="step-head"><span class="stepno">15</span><h3>Bundle and deploy</h3><span class="badge free">Free</span></div>
-      <p class="note">Packaging and shipping the finished episode.</p>
-    </li>
-  </ol>
+  <div class="scrolly">
+  <table class="steps">
+    <colgroup><col class="n"><col><col class="marking"></colgroup>
+    <thead><tr><th>#</th><th>Step</th><th>Marking</th></tr></thead>
+    <tbody>
+      <tr id="step-1">
+        <td class="n">1</td>
+        <td class="step"><b>Pick an episode that's ready</b><span class="detail">It's a list — the next episode in the queue that has everything it needs.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+      <tr id="step-2" class="judgement">
+        <td class="n">2</td>
+        <td class="step"><b>Pick which clip to use</b><span class="detail">An episode's script has hundreds of lines. Choosing the handful of seconds
+        that will read well as a quiz clip — one clear speaker, not buried under overlapping
+        dialogue, not already a line everyone can recite on sight — is a taste call. Nothing ranks
+        clips by how good a quiz question they'll make.</span></td>
+        <td class="marking"><span class="badge judgement">Judgement</span></td>
+      </tr>
+      <tr id="step-3">
+        <td class="n">3</td>
+        <td class="step"><b>Fetch that clip's subtitles</b><span class="detail">A download, using yt-dlp.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+      <tr id="step-4">
+        <td class="n">4</td>
+        <td class="step"><b>Find which lines are in the clip</b><span class="detail">Plain text matching between the subtitles and the aired script.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+      <tr id="step-5" class="judgement">
+        <td class="n">5</td>
+        <td class="step"><b>Pick which line makes a good question</b><span class="detail">Several lines from the clip are candidates. Deciding which single one is
+        worth building a question around — a complete sentence, not a fragment, not something that
+        gives itself away by how it's phrased — is a taste call a script can't apply.</span></td>
+        <td class="marking"><span class="badge judgement">Judgement</span></td>
+      </tr>
+      <tr id="step-6">
+        <td class="n">6</td>
+        <td class="step"><b>Prove the line is word-for-word in the aired script</b><span class="detail">A validation pass (validate_episode.py) checks the chosen line matches the
+        script exactly before anything is built on top of it.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+      <tr id="step-7">
+        <td class="n">7</td>
+        <td class="step"><b>Generate candidate fakes</b><span class="detail">nlpaug plus plain slicing produces a shortlist of near-miss variants of the
+        real line — roughly ten per line. See the measured evidence below.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+      <tr id="step-8" class="judgement">
+        <td class="n">8</td>
+        <td class="step"><b>Pick the two best fakes</b><span class="detail">A person reads the ~10 generated candidates and keeps the two that are wrong
+        in a genuinely tempting way — close enough to make someone pause, not so close it's basically
+        a duplicate, not so far off it's obviously wrong. This is the step the measured evidence below
+        is about.</span>
+        <div class="invented">
+          <span class="tag">Invented example — not from the show</span>
+          Original: "I already told the landlord about it." A plausible fake keeps the sentence's
+          shape: "I already called the landlord about it." A nonsense fake changes what happened:
+          "I already forgot the landlord's number."
+        </div></td>
+        <td class="marking"><span class="badge judgement">Judgement</span></td>
+      </tr>
+      <tr id="step-9">
+        <td class="n">9</td>
+        <td class="step"><b>Write the cue</b><span class="detail">A template — "Chandler says…" — filled in from who actually said the line.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+      <tr id="step-10">
+        <td class="n">10</td>
+        <td class="step"><b>Write the reveal, differing words bolded</b><span class="detail">A difflib diff between the real line and each fake decides which words get
+        bolded — no one writes this by hand.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+      <tr id="step-11" class="judgement">
+        <td class="n">11</td>
+        <td class="step"><b>Write the trap note</b><span class="detail">The trap note explains, after the reveal, why the fake was tempting. A
+        generated version can state the fact but reads flat — it needs the product's own dry voice,
+        and voice isn't something a deterministic step produces.</span></td>
+        <td class="marking"><span class="badge judgement">Judgement</span></td>
+      </tr>
+      <tr id="step-12">
+        <td class="n">12</td>
+        <td class="step"><b>Write the scene setup</b><span class="detail">The setup line is quoted straight from the aired script — a lookup, not a
+        composition. Whether it reads cleanly out of context sometimes needs a light polish; that
+        smaller judgement never changes which line is quoted, which is why this step counts on the
+        free side of the tally above.</span></td>
+        <td class="marking"><span class="badge free">Mostly free</span></td>
+      </tr>
+      <tr id="step-13">
+        <td class="n">13</td>
+        <td class="step"><b>Find the exact second for the clip link</b><span class="detail">Matches the chosen words to caption timings to produce a timestamped link.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+      <tr id="step-14">
+        <td class="n">14</td>
+        <td class="step"><b>Validate the finished episode</b><span class="detail">An automated check of the completed episode before it goes anywhere near
+        publishing.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+      <tr id="step-15">
+        <td class="n">15</td>
+        <td class="step"><b>Bundle and deploy</b><span class="detail">Packaging and shipping the finished episode.</span></td>
+        <td class="marking"><span class="badge free">Free</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
 
   <h2 id="judgement">The four judgement calls, together</h2>
   <p class="lede">Steps 2, 5, 8 and 11 are the ones that don't reduce to a program: <b>which clip,
