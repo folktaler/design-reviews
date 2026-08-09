@@ -34,9 +34,18 @@
     <ul class="sessions">
       <li class="session">
         <p class="session__when">Start here · the core of the decision</p>
-        <h3 class="session__name"><a href="homepage/">Homepage</a></h3>
-        <p class="session__body">The proposed front door: what is open today, what runs this
-          week, and the three clubs — instead of the monthly diary post that leads today.</p>
+        <h3 class="session__name"><a href="homepage/">Homepage v2</a></h3>
+        <p class="session__body">The proposed front door, carrying all four content types:
+          what is open today, the recurring club week, <b>Coming up</b> (one-off dated
+          events), <b>Latest from the clubs</b> (the daily entries, surfaced) and <b>Who works
+          here</b> (the partner organisations), then the clubs in full.</p>
+      </li>
+      <li class="session">
+        <p class="session__when">Superseded · for comparison only</p>
+        <h3 class="session__name"><a href="homepage_v1/">Homepage v1</a></h3>
+        <p class="session__body">The first pass. Surfaced only two of the four content types —
+          partners appeared as a small “With Mary Gracy” line, and the daily entries and
+          one-off events had no home at all.</p>
       </li>
       <li class="session">
         <p class="session__when">The definitive schedule</p>
@@ -125,6 +134,25 @@
         August. The live clubs page says the club is closed on Mondays. Two published pages
         disagree, and these mockups follow the clubs page. Somebody has to say which is right.</p>
     </div>
+    <div class="empty">
+      <h3>10. “Coming up” is empty, and that is the deliverable</h3>
+      <p>There is not one future-dated item anywhere on aikyam.space — <code>/tag/events/</code>
+        holds only the three monthly guides, <code>/event-status/</code> renders 28 characters.
+        No event has been invented to fill it. Tink Her Hack 3.0 is a <b>past</b> event and
+        stays in the stories section.</p>
+    </div>
+    <div class="empty">
+      <h3>11. “Latest from the clubs” is all Stitching, and that is real</h3>
+      <p>Of the nine days written up in August so far, Stitching is the only club with
+        substantive entries; Science has none and Dance has one. No filler row was added to
+        balance it — the imbalance is a writing question the component makes visible.</p>
+    </div>
+    <div class="empty">
+      <h3>12. Two facilitator records disagree</h3>
+      <p><code>/clubs/</code> credits Aparna N as a “Tiny Entrepreneur”, but the Tiny
+        Entrepreneurs list on <code>/team/</code> is Haseena, Nasini Asharaf and Mary Gracy —
+        Aparna N is not on it. One of the two pages is wrong.</p>
+    </div>
   </section>
 
   <section aria-labelledby="how-h">
@@ -146,6 +174,7 @@
           <tr><th scope="row">One typeface family</th><td>Figtree</td></tr>
           <tr><th scope="row">No horizontal page overflow</th><td>0px at 390 and 1280</td></tr>
           <tr><th scope="row">Reading prose ≥ 19px</th><td>pass</td></tr>
+          <tr><th scope="row">⭐ Line length ≤ 65 median / 75 max</th><td>pass — <b>added for v2</b>, and it immediately caught two defects in v1</td></tr>
           <tr><th scope="row">Text column</th><td>39 characters a line at 390px, 56 at 1280px</td></tr>
         </tbody>
       </table>
@@ -155,6 +184,16 @@
       inheriting the typeface, an invitation set in caption type, a card whose padding cut its
       line to 31 characters, and a session title whose tap target was 26px until an overlay
       took the row. All four are fixed and noted in <code>_kit.css</code>.</p>
+    <p class="kitnote">⭐ <b>The eleventh assertion is the interesting one, because it was
+      missing.</b> It was added while building v2 and immediately failed on components that had
+      already shipped and already been reviewed as clean: <code>.session__body</code> measured
+      <b>77 characters a line</b> at 1280px, and the story card excerpt 67 — both 16px text
+      inheriting a column sized for 20px body. <b>A gate that does not exist cannot fail, and
+      "it passed" only ever meant "nothing asked".</b> Fixed across every page by capping 16px
+      blocks at 27rem, the value <code>tokens/spacing.css</code> already carried.
+      <br><br>⚠️ And the first fault injected to test the new gate measured exactly <b>65</b>
+      against a <code>&gt; 65</code> threshold, so it passed and proved nothing. A self-test
+      that lands on the boundary is not a self-test. The real one measures 140.</p>
   </section>
 </main>
 

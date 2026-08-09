@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>aikyam space — proposed homepage (mockup)</title>
-<meta name="description" content="Mockup of a schedule-first aikyam.space homepage: what is on this week, built from the real club days, times, fees and facilitators published on aikyam.space/clubs/.">
+<title>aikyam space — proposed homepage v2 (mockup)</title>
+<meta name="description" content="Homepage v2 for aikyam.space: what is open today, the recurring club week, one-off events, the latest from the clubs, and the organisations who work from the space.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
@@ -15,10 +15,13 @@
 <p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
 
 <div class="kitbar">
-  <b>MOCKUP — not the live site.</b> Proposed aikyam.space homepage, schedule-first.
-  Club days, times, fees, facilitators and languages are the <b>real published values</b>
-  from <a href="https://aikyam.space/clubs/">aikyam.space/clubs/</a>, read 9 Aug 2026.
-  The week shown is Mon 10 – Sun 16 August 2026.
+  <b>MOCKUP v2 — not the live site.</b> Carries all four content types: partner organisations,
+  the clubs they run, the daily activity entries, and one-off dated events.
+  (<a href="../homepage_v1/">v1 is kept here</a> for comparison — it surfaced only two.)
+  Every club time, facilitator, organisation, description and activity entry below is a
+  <b>real published value</b> read off aikyam.space on 9 Aug 2026.
+  <b>⛔ Nothing has been invented — including the empty “Coming up”, which is empty because
+  the site publishes no future-dated anything.</b>
 </div>
 
 <header class="site-head">
@@ -42,12 +45,14 @@
 
 <main class="wrap">
 
+  <!-- 1 + 2 : status and hero, unchanged from v1 -->
   <section class="lede">
     <p class="kicker">Fort Kochi</p>
     <h1>A room you can walk into</h1>
     <p style="margin-block-start:var(--space-4);max-width:30rem">aikyam space runs free
-      community clubs — stitching, science and dance. Sessions are open to anyone from
-      Fort Kochi, Mattancherry and nearby.</p>
+      community clubs — stitching, science and dance — and gives room to the organisations
+      working alongside them. Sessions are open to anyone from Fort Kochi, Mattancherry and
+      nearby.</p>
 
     <div class="today">
       <p class="today__pill">Open today · 2–6 PM</p>
@@ -55,6 +60,7 @@
     </div>
   </section>
 
+  <!-- 3 : the recurring week -->
   <section aria-labelledby="week-h">
     <h2 id="week-h">This week</h2>
     <ol class="week" style="margin-block-start:var(--space-4)">
@@ -69,7 +75,135 @@
     </ol>
   </section>
 
-  <section aria-labelledby="clubs-h">
+  <!-- 4 : COMING UP — one-off dated events. Currently, honestly, empty. -->
+  <section aria-labelledby="up-h">
+    <h2 id="up-h">Coming up</h2>
+    <div class="empty" style="margin-block-start:var(--space-4)">
+      <h3>Nothing one-off announced yet</h3>
+      <p>The clubs above run every week without an announcement — you never need to check
+        for those. This is where a one-off lands: a performance, a workshop, a visiting
+        group. When something is set, it appears here with its date.</p>
+    </div>
+    <p class="kitnote">This section is <b>empty on purpose and it is the deliverable.</b>
+      Checked 9 Aug 2026: there is not one future-dated item anywhere on aikyam.space.
+      <code>/tag/events/</code> — the page the nav labels “Activities” — holds only the three
+      monthly guide posts, newest dated 8 Aug. <code>/event-status/</code> renders 28
+      characters. <code>/jobs/</code> renders 6, and its heading says “Events”.
+      <b>Tink Her Hack 3.0 is a past event</b> and stays in the stories section below; it has
+      not been promoted here.
+      <br><br><b>How this degrades, which is the real design question:</b> a permanently
+      empty “Coming up” must not make the page read abandoned. It does not, because the copy
+      points at the thing that is always true — the weekly clubs need no announcement. The
+      emptiness is a statement about a <i>kind</i> of event, not about the space. ⛔ Do not
+      replace this with a hidden section: hiding it means a reader who wondered has no answer,
+      and the heading is what tells them the question was understood.</p>
+  </section>
+
+  <!-- 5 : LATEST FROM THE CLUBS — the daily entries, surfaced -->
+  <section aria-labelledby="latest-h">
+    <h2 id="latest-h">Latest from the clubs</h2>
+    <p style="margin-block-start:var(--space-3);color:var(--text-secondary)">Short notes from
+      the sessions, written up as they happen.</p>
+
+    <ul class="latest">
+      <li>
+        <p class="latest__meta"><span>7 Aug</span><span class="latest__club">Stitching Lab</span></p>
+        <p>Our little cat friends continue to make themselves at home. As a pet-friendly
+          space we are looking at small ways to make it more welcoming for animals.</p>
+      </li>
+      <li>
+        <p class="latest__meta"><span>6 Aug</span><span class="latest__club">Stitching Lab</span></p>
+        <p>The team placed their cut-piece tote bags and duffle bags at Local Sustainable
+          Living, to see how they are received. If demand grows they will make more.</p>
+      </li>
+      <li>
+        <p class="latest__meta"><span>4 Aug</span><span class="latest__club">Stitching Lab</span></p>
+        <p>Five new bag designs are in progress for an upcoming Onam event by Local
+          Sustainable Living, in handloom fabric and cut pieces.</p>
+      </li>
+    </ul>
+
+    <p style="margin-block-start:var(--space-5)">
+      <a class="btn btn--secondary" href="#">Read the whole month</a></p>
+
+    <p class="kitnote">All three entries are <b>real, verbatim-ish, and dated</b>, taken from
+      the August 2026 monthly post — the writing already happens daily, it is just buried in a
+      12,854px scroll. That is why this strip costs no new discipline.
+      <br><br><b>Two things a reviewer should push on.</b>
+      <b>(1) All three rows are the Stitching Lab.</b> That is not a design choice — of the
+      nine days written up so far, Stitching is the only club with substantive entries;
+      Science has none and Dance has one (2 Aug, with Thudippu). ⛔ No filler row was added to
+      balance it. If that imbalance is wrong, it is a writing problem this component makes
+      visible rather than hides.
+      <b>(2) How it degrades:</b> every row carries its own date, so the strip ages in public.
+      Past roughly a fortnight the heading should change from “Latest from the clubs” to
+      <b>“Last written up on 7 August”</b> — the date is promoted to the headline and the word
+      “latest” is dropped, so a quiet fortnight reads as a fact rather than as a broken feed.
+      ⛔ Never pad to three rows.</p>
+  </section>
+
+  <hr class="band">
+
+  <!-- 6 : WHO WORKS HERE — the partner organisations -->
+  <section aria-labelledby="orgs-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="orgs-h">Who works here</h2>
+    <p style="margin-block-start:var(--space-3);color:var(--text-secondary)">Organisations and
+      researchers who use aikyam space as their base. Some of them also run a club.</p>
+
+    <ul class="orgs">
+      <li>
+        <h3>Olimalar Foundation</h3>
+        <p>Works with children and communities in Fort Kochi and Mattancherry on confidence,
+          emotional well-being and life skills.</p>
+        <span class="orgs__also">Runs the Science Club</span>
+      </li>
+      <li>
+        <h3>Thudippu Foundation</h3>
+        <p>Makes learning dance and other cultural art forms accessible, through performances
+          and learning spaces for artists.</p>
+        <span class="orgs__also">Works with the dance group</span>
+      </li>
+      <li>
+        <h3>Community 40</h3>
+        <p>Works with travellers and locals to preserve the culture and history of Fort Kochi
+          and Mattancherry — observing, recording and understanding the place and its people.</p>
+      </li>
+      <li>
+        <h3>Make A Difference</h3>
+        <p>Works with children in need of care and protection through education, mentoring
+          and life skills, building long-term support with volunteers.</p>
+      </li>
+      <li>
+        <h3>Sana Fathima</h3>
+        <p>A PhD researcher at the Delhi School of Economics, doing fieldwork in Kochi on the
+          social and cultural history of radio broadcasting.</p>
+      </li>
+    </ul>
+
+    <p style="margin-block-start:var(--space-5)">
+      <a class="btn btn--secondary" href="#">About the residency</a></p>
+
+    <p class="kitnote"><b>The count here is 5, and the live page shows 10. That gap is
+      deliberate.</b> <code>/change-makers-in-residence/</code> lists ten entries, but they are
+      three different kinds of thing: four external organisations (above), one individual
+      researcher (above), and <b>five of aikyam's own initiatives</b> — aikyam fellows, aikyam
+      jobs, aikyam school, PATTIC and OASIS. ⛔ Listing your own projects among your residents
+      doubles the apparent number of partners. They belong on the Residency or About page, not
+      on a “who works here” strip.
+      <br><br><b>And the two sets really are two sets.</b> “Partner organisation who works from
+      the space” and “club facilitator” overlap in exactly <b>one</b> place — Olimalar
+      Foundation. Mary Gracy and Aparna N are people in the Tiny Entrepreneurs programme, not
+      NGOs, so they stay in the club cards where they belong.
+      <br><br>⚠️ <b>One inconsistency found while checking:</b> <code>/clubs/</code> credits
+      Aparna N as a “Tiny Entrepreneur”, but the Tiny Entrepreneurs list on <code>/team/</code>
+      is Haseena, Nasini Asharaf and Mary Gracy — Aparna N is not on it. One of the two pages
+      is wrong.</p>
+  </section>
+
+  <hr class="band">
+
+  <!-- 7 : the clubs in full -->
+  <section aria-labelledby="clubs-h" style="margin-block-start:var(--pitch-rule-heading)">
     <h2 id="clubs-h">The three clubs</h2>
     <p style="color:var(--text-secondary);margin-block-start:var(--space-2)">All free. All in
       Malayalam. Limited seats, with preference for low-income and under-served households
@@ -127,6 +261,7 @@
 
   <hr class="band">
 
+  <!-- 8 : stories -->
   <section aria-labelledby="stories-h" style="margin-block-start:var(--pitch-rule-heading)">
     <h2 id="stories-h">What happened here</h2>
     <ul class="cards">

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aikyam space — homepage v1, superseded (mockup)</title>
+<meta name="description" content="Version 1 of the schedule-first aikyam.space homepage, kept for comparison. Superseded by v2, which adds upcoming events, daily activity entries and the partner organisations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>#css-guard{background:#b3261e;color:#fff;padding:16px;margin:0;font:600 16px/1.45 system-ui,sans-serif}</style>
+<link rel="stylesheet" href="../_kit.css">
+</head>
+<body>
+<p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
+
+<div class="kitbar">
+  <b>VERSION 1 — SUPERSEDED, kept for comparison.</b> See
+  <a href="../homepage/">homepage v2</a> for the current proposal.
+  <b>What v1 got wrong:</b> the site has <b>four</b> content types — partner organisations,
+  the clubs they run, daily activity entries, and one-off dated events — and this version
+  surfaces only two of them. Partners appear as a small “With Mary Gracy” line; daily
+  entries and upcoming events have no home at all.
+</div>
+
+<header class="site-head">
+  <div class="site-head__in">
+    <a class="brand" href="#">aikyam <span>space</span></a>
+    <button class="iconbtn" aria-label="Search">Search</button>
+    <a class="btn btn--secondary" href="#">Subscribe</a>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <ul>
+    <li><a href="#" aria-current="page">Clubs</a></li>
+    <li><a href="#">Stories</a></li>
+    <li><a href="#">Residency</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Team</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+
+  <section class="lede">
+    <p class="kicker">Fort Kochi</p>
+    <h1>A room you can walk into</h1>
+    <p style="margin-block-start:var(--space-4);max-width:30rem">aikyam space runs free
+      community clubs — stitching, science and dance. Sessions are open to anyone from
+      Fort Kochi, Mattancherry and nearby.</p>
+
+    <div class="today">
+      <p class="today__pill">Open today · 2–6 PM</p>
+      <p class="today__note">Sunday 9 August. Stitching, Science and Dance are all running.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="week-h">
+    <h2 id="week-h">This week</h2>
+    <ol class="week" style="margin-block-start:var(--space-4)">
+      <li data-shut><span class="week__day">Mon 10</span><span class="week__what">Closed — no
+        sessions on Mondays. The garden is open if you want to sit.</span></li>
+      <li><span class="week__day">Tue 11</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
+      <li><span class="week__day">Wed 12</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
+      <li><span class="week__day">Thu 13</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
+      <li><span class="week__day">Fri 14</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
+      <li><span class="week__day">Sat 15</span><span class="week__what">Stitching · Science · Dance — 2–6 PM</span></li>
+      <li><span class="week__day">Sun 16</span><span class="week__what">Stitching · Science · Dance — 2–6 PM</span></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="clubs-h">
+    <h2 id="clubs-h">The three clubs</h2>
+    <p style="color:var(--text-secondary);margin-block-start:var(--space-2)">All free. All in
+      Malayalam. Limited seats, with preference for low-income and under-served households
+      from Fort Kochi, Mattancherry and nearby areas.</p>
+
+    <ul class="sessions">
+      <li class="session">
+        <p class="session__when">Daily 2–6 PM · except Mondays</p>
+        <h3 class="session__name"><a href="#">Stitching Club</a></h3>
+        <p class="session__body">Fresh cut pieces collected before they reach landfill,
+          cleaned, arranged and stitched into tote bags. Part of the Tiny Entrepreneurs
+          Network.</p>
+        <ul class="session__facts">
+          <li>Fee <b>Free</b> — tools included</li>
+          <li>With <b>Mary Gracy</b></li>
+          <li>In <b>Malayalam</b></li>
+        </ul>
+        <p class="session__action">Just turn up</p>
+      </li>
+
+      <li class="session">
+        <p class="session__when">Daily 2–6 PM · except Mondays</p>
+        <h3 class="session__name"><a href="#">Science Club</a></h3>
+        <p class="session__body">Children and teachers exploring science by doing — asking
+          questions, experimenting, discovering together. Inspired by MOSAIC.</p>
+        <ul class="session__facts">
+          <li>Fee <b>Free</b></li>
+          <li>With <b>Olimalar Foundation</b></li>
+          <li>In <b>Malayalam</b></li>
+        </ul>
+        <p class="session__action">Just turn up</p>
+      </li>
+
+      <li class="session">
+        <p class="session__when">Saturday &amp; Sunday 2–6 PM</p>
+        <h3 class="session__name"><a href="#">Dance Club</a></h3>
+        <p class="session__body">Bharatanatyam — movement, rhythm and expression. A space to
+          learn and experience it together.</p>
+        <ul class="session__facts">
+          <li>Fee <b>Free</b></li>
+          <li>With <b>Aparna N</b></li>
+          <li>In <b>Malayalam</b></li>
+        </ul>
+        <p class="session__action">Just turn up</p>
+      </li>
+    </ul>
+
+    <div class="empty">
+      <h3>Teaching something else?</h3>
+      <p>Cooking, carpentry, robotics — if you can teach it, come and see the space. We are
+        looking for people who want to work with us over time, not for one session.</p>
+      <p style="margin-block-start:var(--space-4)"><a class="btn btn--primary" href="#">Write to us</a></p>
+    </div>
+  </section>
+
+  <hr class="band">
+
+  <section aria-labelledby="stories-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="stories-h">What happened here</h2>
+    <ul class="cards">
+      <li class="card">
+        <span class="card__img" role="img" aria-label="Photograph placeholder"></span>
+        <p class="card__kicker">Journeys of change</p>
+        <h3><a href="#">Stamping Through Time</a></h3>
+        <p>Chavittu Nadakam, one of Kerala's most distinctive performing arts traditions,
+          and the coastal communities that carry it.</p>
+        <p class="card__meta">Aparna R · 19 June 2026</p>
+      </li>
+      <li class="card">
+        <span class="card__img" role="img" aria-label="Photograph placeholder"></span>
+        <p class="card__kicker">Community programmes</p>
+        <h3><a href="#">Science Club</a></h3>
+        <p>Can you hold DNA in your hands? Extracting it from a kiwi, on a table in
+          Fort Kochi.</p>
+        <p class="card__meta">aikyam space · 2026</p>
+      </li>
+      <li class="card">
+        <span class="card__img" role="img" aria-label="Photograph placeholder"></span>
+        <p class="card__kicker">Changemakers</p>
+        <h3><a href="#">Tink Her Hack 3.0 at aikyam space</a></h3>
+        <p>A hackathon for women, hosted in the hall, the garden and the kitchen over one
+          weekend.</p>
+        <p class="card__meta">aikyam space · 2026</p>
+      </li>
+    </ul>
+    <p style="margin-block-start:var(--space-6)"><a class="btn btn--secondary" href="#">Read all 37 stories</a></p>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap--wide">
+    <div class="foot-cols">
+      <div>
+        <h2>When we are open</h2>
+        <ul class="hours">
+          <li><span>Monday</span><b>Closed</b></li>
+          <li><span>Tuesday – Friday</span><b>2–6 PM</b></li>
+          <li><span>Saturday – Sunday</span><b>2–6 PM</b></li>
+        </ul>
+        <p class="foot-note" style="margin-block-start:var(--space-3)">These are the club
+          session times. If you want to visit outside them, write first.</p>
+      </div>
+      <div>
+        <h2>Where we are</h2>
+        <p style="font-size:var(--type-small)">aikyam space, Fort Kochi</p>
+        <ul class="foot-links">
+          <li><a href="https://share.google/Xc0HN6lt65kULvdCg">Open in Maps</a></li>
+          <li><a href="#">Write to us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>More</h2>
+        <ul class="foot-links">
+          <li><a href="#">About the space</a></li>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">An aikyam project</a></li>
+          <li><a href="#">Our policies</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">a [ space ] for inspiring action · supported by Samagata Foundation ·
+      built with free and open source software</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -124,7 +124,11 @@ a{color:inherit}
    Verified with elementFromPoint at the row centre, not assumed from the CSS. */
 .session__name a{text-decoration:underline;text-decoration-color:var(--border-hairline);text-decoration-thickness:1px;text-underline-offset:3px}
 .session__name a::after{content:'';position:absolute;inset:0}
-.session__body{margin:var(--space-2) 0 0;font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
+/* ⛔⛔ `max-width` ADDED after v1 shipped. The line-length assertion did not exist during the
+   v1 pass, and when it was added for v2 it immediately caught this: .session__body measured
+   77 characters a line at 1280px on pages that had already been reviewed as clean. A gate
+   that does not exist cannot fail, and "it passed" meant "nothing asked". */
+.session__body{margin:var(--space-2) 0 0;max-width:27rem;font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
 .session__facts{margin:var(--space-3) 0 0;display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-5);font-size:var(--type-micro);font-weight:var(--weight-medium);font-variant-numeric:var(--figures-aligned);color:var(--text-secondary);list-style:none;padding:0}
 .session__facts b{color:var(--text-primary);font-weight:var(--weight-semibold)}
 .session__action{margin:var(--space-4) 0 0;font-size:var(--type-micro);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-primary)}
@@ -140,12 +144,14 @@ a{color:inherit}
 .empty p{margin:0;color:var(--text-secondary);font-size:var(--type-body)}
 
 .band{border:0;border-block-start:var(--rule-band) solid var(--border-hairline);margin-block:var(--space-9) 0}
-.cards{display:grid;gap:var(--grid-gap-row) var(--grid-gap-col);grid-template-columns:repeat(auto-fill,minmax(min(20.5rem,100%),1fr));list-style:none;margin:var(--space-6) 0 0;padding:0}
+/* ⛔ Capped track, same reason as .orgs — `1fr` stretched cards at 1280 and the 16px
+   excerpt inside ran 67 characters a line. Caught by the same v2 assertion. */
+.cards{display:grid;gap:var(--grid-gap-row) var(--grid-gap-col);grid-template-columns:repeat(auto-fill,minmax(min(20.5rem,100%),24rem));list-style:none;margin:var(--space-6) 0 0;padding:0}
 .card__img{aspect-ratio:var(--ratio-card);width:100%;border-radius:var(--radius-none);background:var(--surface-quiet) center/cover no-repeat;display:block;border:var(--rule-hairline) solid var(--border-hairline)}
 .card__kicker{font-size:var(--type-micro);font-weight:var(--weight-medium);letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-secondary);margin:var(--space-3) 0 var(--space-1)}
 .card h3{font-size:var(--type-subheading);margin:0}
 .card h3 a{text-decoration:none}
-.card p{margin:var(--space-2) 0 0;font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
+.card p{margin:var(--space-2) 0 0;max-width:27rem;font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
 .card__meta{margin:var(--space-3) 0 0;font-size:var(--type-micro);font-weight:var(--weight-medium);color:var(--text-secondary);font-variant-numeric:var(--figures-aligned)}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:var(--button-height);min-inline-size:var(--tap-comfortable);padding:0 var(--space-6);font:inherit;font-size:var(--type-ui);font-weight:var(--weight-medium);text-decoration:none;border:0;cursor:pointer}
@@ -169,6 +175,56 @@ a{color:inherit}
 .foot-links{list-style:none;margin:0;padding:0}
 .foot-links a{display:inline-flex;align-items:center;min-height:var(--tap-comfortable);font-size:var(--type-small);text-decoration:underline;text-decoration-color:var(--border-hairline);text-underline-offset:3px}
 .foot-note{margin-block-start:var(--space-7);font-size:var(--type-micro);color:var(--text-secondary)}
+
+/* ══ v2: the two new content types ══════════════════════════════════════
+   The site has FOUR content types, not two: partner organisations who work from
+   the space · clubs those partners run · daily activity entries · one-off dated
+   events. v1 surfaced only clubs and stories. These two components carry the
+   other two, and each has to survive going stale — see the notes on each. */
+
+/* LATEST FROM THE CLUBS — a dated strip, sourced from entries already written
+   daily in the monthly post. ⭐ It costs no new writing discipline; it surfaces
+   work that is currently buried in a 12,854px scroll.
+   ⚠️ HOW IT DEGRADES: every row carries its own date, so the strip AGES VISIBLY
+   instead of claiming freshness it does not have. If the newest entry passes ~14
+   days the heading becomes "Last written up on 7 August" — the date is promoted
+   to the headline and the word "latest" is dropped, so a quiet fortnight reads as
+   a fact rather than as a broken feed. ⛔ Never pad it to three rows. Two real
+   rows beat three with filler, and one is fine. */
+.latest{list-style:none;margin:var(--space-5) 0 0;padding:0;
+  border-block-start:var(--rule-hairline) solid var(--border-hairline)}
+.latest li{padding:var(--space-4) 0;border-block-end:var(--rule-hairline) solid var(--border-hairline)}
+.latest__meta{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-3);align-items:baseline;
+  font-size:var(--type-micro);font-weight:var(--weight-medium);
+  letter-spacing:var(--tracking-micro);text-transform:uppercase;
+  font-variant-numeric:var(--figures-aligned);color:var(--text-secondary);margin:0}
+.latest__club{color:var(--text-primary);font-weight:var(--weight-semibold)}
+/* ⛔ `max-width: 27rem` is NOT decoration. 16px text inheriting the 544px body column
+   renders 72-77 characters a line. tokens/spacing.css carries the measured answer:
+   16px needs ~27rem for ~58 characters. Every 16px block needs its own cap. */
+.latest p:last-child{margin:var(--space-2) 0 0;max-width:27rem;font-size:var(--type-small);
+  line-height:var(--leading-tight);color:var(--text-secondary)}
+
+/* WHO WORKS HERE — organisations and people who work FROM the space.
+   ⛔ This is NOT the club-facilitator list. Measured 9 Aug 2026, the overlap
+   between the two sets is exactly ONE (Olimalar Foundation). Merging them to
+   make the section easier would misrepresent both. */
+/* ⛔ The track has a MAX, not `1fr`. With `1fr` the grid stretched two cards to 544px each
+   at 1280 and the 16px text inside ran 67-72 characters a line. auto-fill + a capped track
+   removes the breakpoint ladder AND the overrun in one declaration. */
+.orgs{list-style:none;margin:var(--space-5) 0 0;padding:0;display:grid;
+  gap:var(--space-4);grid-template-columns:repeat(auto-fill,minmax(min(17rem,100%),22rem))}
+.orgs li{border:var(--rule-hairline) solid var(--border-hairline);
+  border-radius:var(--radius-card);padding:var(--space-4)}
+.orgs h3{font-size:var(--type-ui);font-weight:var(--weight-semibold);margin:0}
+.orgs p{margin:var(--space-2) 0 0;font-size:var(--type-small);
+  line-height:var(--leading-tight);color:var(--text-secondary)}
+/* ⛔ INK, not green. A cross-reference is not a way in, and the accent has one job.
+   The walked-down --text-green would have passed the checker (it gates the brand
+   green specifically) and still been wrong — a gate is not the rule. */
+.orgs__also{display:block;margin-block-start:var(--space-2);font-size:var(--type-micro);
+  font-weight:var(--weight-semibold);letter-spacing:var(--tracking-micro);
+  text-transform:uppercase;color:var(--text-primary)}
 
 /* system-kit only */
 /* ⛔ FIXED by rendering: the type specimen used a real <h1> to show the display step, so
