@@ -1,0 +1,970 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cats of Kochi — the checked-on stamp, three ways</title>
+<link rel="stylesheet" href="faces-figtree.css">
+<style>
+  /* ══ SYSTEM FACES — copied verbatim from design-system/fonts.css.
+     ⛔ Do not edit here. Edit fonts.css, then re-copy this whole block.
+     A kit that disagrees with fonts.css lies to whoever reviews it.
+
+     ⚠️ The real Figtree faces come from faces-figtree.css, linked above and
+     already vendored in this folder — the same arrangement every other kit here
+     uses. ⛔ CONSEQUENCE, stated rather than hidden: published anywhere that
+     cannot fetch that stylesheet — a Claude Artifact behind a CSP — this file
+     renders 'Figtree Fallback' and looks fine while doing it. That is exactly
+     what happened to the first version of this mockup, which is why it is here
+     instead.
+
+     ⛔⛔ DO NOT SPLICE ui_kits/_FACES_INLINE.css INTO THIS KIT. That file is
+     NOTICIA TEXT ONLY (3 faces, 83,368 B base64) and this kit styles for
+     FIGTREE. Pasting it adds ~81 KB of a family nothing here asks for and
+     changes nothing about what renders. ══ */
+
+
+  /* Figtree Fallback — REWRITTEN 2026-08-09 (F5/F7 sync).
+     design-system/ui_kits/_FACES.md: one @font-face per local font, real metrics,
+     no single number forced across Helvetica Neue/Roboto/Arial at once. Copied
+     verbatim from design-system/ui_kits/system/index.html, never retyped. */
+  @font-face { font-family:'Figtree Fallback: Helvetica Neue';
+    src:local('Helvetica Neue'),local('HelveticaNeue');
+    ascent-override:95.2116%; descent-override:25.0557%; line-gap-override:0%; size-adjust:99.7778%; }
+  @font-face { font-family:'Figtree Fallback: Roboto';
+    src:local('Roboto Regular'),local('Roboto-Regular');
+    ascent-override:94.1165%; descent-override:24.7675%; size-adjust:100.9387%; }
+  @font-face { font-family:'Figtree Fallback: Arial';
+    src:local('Arial'),local('ArialMT');
+    ascent-override:94.3231%; descent-override:24.8219%; line-gap-override:0%; size-adjust:100.7176%; }
+  /* ══ END SYSTEM FACES ══ */
+
+  /* ══ SYSTEM TOKENS — copied verbatim from design-system/tokens/*.css.
+     ⛔ Copy, never retype. Every value below is traceable to a token file.
+     ⚠️ Fallbacks are written on every var() BELOW, and they are exactly the
+     thing that makes a missing token invisible — `--tap` and `--measure-small`
+     were undefined for an unknown length of time because of one. So the tokens
+     are also DEFINED here. How you would notice the fallback firing:
+       getComputedStyle(document.documentElement).getPropertyValue('--tap')
+     The empty string is the answer. ══ */
+  :root {
+    color-scheme: light;
+
+    /* fonts.css / tokens/typography.css */
+    --font-ui: 'Figtree', 'Figtree Fallback: Helvetica Neue', 'Figtree Fallback: Roboto', 'Figtree Fallback: Arial', 'Helvetica Neue', Roboto, Arial, sans-serif;
+    --figures-aligned: tabular-nums;
+
+    --type-body: clamp(1.1875rem, 1.156rem + 0.17vw, 1.25rem);   /* 19 → 20px */
+    --leading-body: 1.5;
+    --type-display: clamp(1.875rem, 1.55rem + 1.65vw, 2.5rem);   /* 30 → 40px */
+    --type-heading: clamp(1.5625rem, 1.47rem + 0.5vw, 1.75rem);  /* 25 → 28px */
+    --type-subheading: clamp(1.3125rem, 1.26rem + 0.3vw, 1.4375rem);
+    --leading-display: 1.15;
+    --leading-heading: 1.2;
+    --type-ui: 1.0625rem;    /* 17px */
+    --type-small: 1rem;      /* 16px */
+    --type-micro: 0.875rem;  /* 14px — the floor of this system */
+    --leading-ui: 1.3;
+    --leading-tight: 1.375;
+    --paragraph-gap: 0.75em;
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+    --tracking-display: -0.01em;
+    --tracking-micro: 0.04em;
+
+    /* tokens/spacing.css */
+    --space-1: 0.25rem;  --space-2: 0.5rem;  --space-3: 0.75rem;
+    --space-4: 1rem;     --space-5: 1.25rem; --space-6: 1.5rem;
+    --space-7: 2rem;     --space-8: 2.5rem;  --space-9: 3rem; --space-10: 4rem;
+    --gutter: var(--space-6);                 /* 24px — Airbnb's measured gutter */
+    --pitch-rule-heading: 2.0625rem;          /* 33px, divider → heading */
+    --pitch-row: 1.25rem;                     /* 20px, row → row */
+    --measure: 32rem;                         /* 512px of TEXT, not of wrapper */
+    --radius-none: 0;
+    --radius-card: 0.5rem;                    /* 8px */
+    --radius-control: 0.75rem;                /* 12px */
+    --radius-pill: 999px;
+    --rule-hairline: 1px;
+    --rule-band: 8px;
+    --rule-leading: 4px;
+    --tap: 44px;                              /* what a check asserts */
+    --tap-comfortable: 52px;                  /* what CSS sets, BOTH axes */
+    --button-height: 3.25rem;                 /* 52px */
+    --button-pad: 0 var(--space-6);
+
+    /* tokens/colors.css */
+    --cok-amber: #ffa700;
+    --cok-amber-ink: #946100;
+    --cok-amber-wash: #fdf2db;
+    --cok-paper: #fdfcf9;
+    --cok-paper-sunk: #f4f1ea;
+    --cok-ink: #1c1a17;
+    --cok-ink-quiet: #5a544c;
+    --cok-rule: #ddd7cb;
+    --cok-focus: #0b60c4;
+
+    /* tokens/theme.css */
+    --surface-page: var(--cok-paper);
+    --surface-quiet: var(--cok-paper-sunk);
+    --surface-stamp: var(--cok-amber);
+    --text-primary: var(--cok-ink);         /* 16.90:1 on paper */
+    --text-secondary: var(--cok-ink-quiet); /* 7.38:1 on paper, 6.64 on quiet */
+    --text-on-stamp: var(--cok-ink);        /* 8.91:1 on amber */
+    --action-primary-bg: var(--cok-ink);
+    --action-primary-text: var(--cok-paper);
+    --border-hairline: var(--cok-rule);
+    --focus-ring: var(--cok-focus);
+    --focus-ring-width: 5px;
+    --focus-ring-offset: 3px;
+
+    /* tokens/motion.css */
+    --motion-quick: 120ms;
+    --motion-ease: cubic-bezier(0.2, 0, 0.38, 0.9);
+  }
+  /* ══ END SYSTEM TOKENS ══ */
+
+  /* ⚠️ NO ActionBar ON THIS PAGE, so no `--action-bar-height` and no matching
+     body padding. venue.html reserves that space because it ships a sticky bar;
+     copying the padding without the bar would leave 128px of dead air at the
+     foot and look like a layout bug. A token is copied because it is used. */
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--surface-page, #fdfcf9);
+    color: var(--text-primary, #1c1a17);
+    font-family: var(--font-ui, sans-serif);
+    font-size: var(--type-body, 19px);
+    line-height: var(--leading-body, 1.5);
+    overflow-wrap: break-word;
+  }
+
+  /* ⚠️ --measure IS THE TEXT COLUMN and .wrap is border-box, so the gutters go
+     ON TOP of it. Capping .wrap at --measure would render a column two gutters
+     NARROWER than the token claims. Ship the calc with the token, always. */
+  .wrap {
+    max-width: calc(var(--measure, 32rem) + var(--gutter, 24px) * 2);
+    margin-inline: auto;
+    padding-inline: var(--gutter, 24px);
+  }
+
+  :focus-visible {
+    outline: var(--focus-ring-width, 5px) solid var(--focus-ring, #0b60c4);
+    outline-offset: var(--focus-ring-offset, 3px);
+  }
+
+  /* ── header ─────────────────────────────────────────────────────────── */
+  /* ⚠️ TWO LINKS, ONE ROW. Measured at 375px, 9 Aug 2026: a three-link header
+     wraps to a second row and pushes the H1 down by 130px. venue_page_v2's
+     two-link header is the one to copy and this is a copy of it. */
+  .v-hd { border-block-end: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb); }
+  .v-hd__in { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2, 8px); }
+  /* ⭐ BOTH AXES. "Places" at 14px is 42.5px WIDE — height was signed off and
+     width was never measured. And raise the FLOOR, never pad it. */
+  .v-hd__name, .v-hd__link {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    color: var(--text-primary, #1c1a17);
+    text-decoration: none;
+  }
+  .v-hd__name { font-weight: var(--weight-semibold, 600); font-size: var(--type-ui, 17px); }
+  .v-hd__nav { display: flex; gap: var(--space-2, 8px); }
+  .v-hd__link { font-size: var(--type-micro, 14px); font-weight: var(--weight-medium, 500); }
+
+  /* ── the page's own framing ─────────────────────────────────────────── */
+  .fs-intro { padding-block: var(--space-7, 32px) var(--space-4, 16px); }
+  .fs-h1 {
+    margin: 0 0 var(--space-3, 12px);
+    font-size: var(--type-display, 31px);
+    line-height: var(--leading-display, 1.15);
+    font-weight: var(--weight-semibold, 600);
+    letter-spacing: var(--tracking-display, -0.01em);
+    text-wrap: balance;
+  }
+  .fs-intro p { margin: 0 0 var(--paragraph-gap, 0.75em); }
+
+  /* ⛔ THE PENDING NOTICE GOES ABOVE THE SPECIMENS, NOT UNDER THEM. A reviewer
+     who meets three finished-looking designs first has already formed a view by
+     the time a footnote tells him nothing is decided. Ink on the quiet surface,
+     16px — not a caption, not grey-on-grey. */
+  .fs-pending {
+    margin-block: var(--space-5, 20px);
+    padding: var(--space-4, 16px) var(--space-5, 20px);
+    background: var(--surface-quiet, #f4f1ea);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+  }
+  .fs-pending p { margin: 0 0 var(--space-2, 8px); }
+  .fs-pending p:last-child { margin-block-end: 0; }
+
+  /* ── a variant block ────────────────────────────────────────────────── */
+  .fs-variant { padding-block: var(--space-4, 16px) var(--space-7, 32px); }
+  /* The same ink pill venue_pages.html uses to label each shape. */
+  .fs-tag {
+    display: inline-block;
+    margin: 0 0 var(--space-4, 16px);
+    padding: var(--space-1, 4px) var(--space-2, 8px);
+    background: var(--cok-ink, #1c1a17);
+    color: var(--cok-paper, #fdfcf9);
+    font-size: var(--type-micro, 14px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-micro, 0.04em);
+  }
+  .fs-h2 {
+    margin: 0 0 var(--space-3, 12px);
+    font-size: var(--type-heading, 25px);
+    line-height: var(--leading-heading, 1.2);
+    font-weight: var(--weight-semibold, 600);
+    text-wrap: balance;
+  }
+  .fs-variant > p { margin: 0 0 var(--paragraph-gap, 0.75em); }
+
+  /* A specimen is a fragment of a venue page, framed so nobody mistakes it for
+     the whole page. Hairline card, the form the facts strip and TrustCard take. */
+  .fs-spec {
+    margin-block: var(--space-6, 24px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  .fs-spec__label {
+    margin: 0;
+    padding: var(--space-2, 8px) var(--space-4, 16px);
+    border-block-end: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    background: var(--surface-quiet, #f4f1ea);
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-primary, #1c1a17);
+  }
+  .fs-spec__in { padding: var(--space-4, 16px); }
+
+  .fs-ph {
+    aspect-ratio: 3 / 2;
+    background: var(--surface-quiet, #f4f1ea);
+    display: grid; place-items: center;
+    padding: var(--space-4, 16px);
+    text-align: center;
+    font-size: var(--type-small, 16px);
+    color: var(--text-secondary, #5a544c);
+    border-radius: var(--radius-none, 0);
+  }
+
+  .fs-name {
+    margin: var(--space-5, 20px) 0 var(--space-2, 8px);
+    font-size: var(--type-subheading, 21px);
+    line-height: var(--leading-heading, 1.2);
+    font-weight: var(--weight-semibold, 600);
+  }
+  .fs-what {
+    margin: 0;
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+  }
+  .fs-walk {
+    margin: var(--space-1, 4px) 0 0;
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+
+  .fs-next { margin-block-start: var(--space-6, 24px); }
+  .fs-next hr {
+    border: 0; block-size: var(--rule-hairline, 1px);
+    background: var(--border-hairline, #ddd7cb);
+    margin: 0 0 var(--space-4, 16px);
+  }
+  .fs-next h4 {
+    margin: 0 0 var(--space-1, 4px);
+    font-size: var(--type-subheading, 21px);
+    line-height: var(--leading-heading, 1.2);
+    font-weight: var(--weight-semibold, 600);
+  }
+  .fs-next p { margin: 0; color: var(--text-secondary, #5a544c); }
+
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX. A 52px floor on an inline link drops a
+     `border-block-end` ~18px below the words. text-decoration tracks the text. */
+  .fs-explain {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    margin-block-start: var(--space-2, 8px);
+    padding-inline: var(--space-2, 8px);
+    margin-inline-start: calc(var(--space-2, 8px) * -1);
+    font-size: var(--type-ui, 17px);
+    font-weight: var(--weight-medium, 500);
+    color: var(--text-primary, #1c1a17);
+    border: 0;
+    text-decoration: underline;
+    text-decoration-color: var(--cok-amber, #ffa700);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+
+  /* ⭐ THE VERIFICATION STAMP — the one amber on a specimen, and the owner's own
+     9 Aug 2026 correction is what fixes its size. He said the provenance line was
+     "too loud" and asked for Airbnb's register. So the two claims are ranked, and
+     they are NOT the same element:
+
+       "we went and looked"  → a STAMP. Two or three words and a date, once per
+                               place, amber fill. The site's signature.
+       "we read their site"  → a CITATION. A sentence naming a source, repeated
+                               under every known fact. 14px, secondary grey, no
+                               fill — `.fs-cite`, which is venue.html's .v-checked.
+
+     ⛔ The weaker claim must not wear the stronger one's clothes. That is the
+     whole two-verb rule and it is why there is no second amber here. */
+  .fs-stamp {
+    display: flex; align-items: baseline; flex-wrap: wrap;
+    gap: var(--space-2, 8px);
+    margin: var(--space-4, 16px) 0 0;
+    padding-block-start: var(--space-3, 12px);
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    font-size: var(--type-ui, 17px);
+    line-height: var(--leading-ui, 1.3);
+    font-weight: var(--weight-medium, 500);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .fs-stamp__chip {
+    background: var(--surface-stamp, #ffa700);
+    color: var(--text-on-stamp, #1c1a17);
+    padding: var(--space-1, 4px) var(--space-2, 8px);
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    white-space: nowrap;
+  }
+  .fs-cite {
+    display: block;
+    max-inline-size: 100%;
+    margin-block-start: var(--space-1, 4px);
+    color: var(--text-secondary, #5a544c);
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-regular, 400);
+    line-height: var(--leading-tight, 1.375);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+
+  /* ── VARIANT A: the shelf ───────────────────────────────────────────── */
+  .fs-hours-plain {
+    margin: var(--space-5, 20px) 0 0;
+    font-size: var(--type-ui, 17px);
+    line-height: var(--leading-tight, 1.375);
+    font-weight: var(--weight-medium, 500);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .fs-hours-plain .fs-day { font-weight: var(--weight-regular, 400); color: var(--text-secondary, #5a544c); }
+
+  .fs-shelf {
+    margin-block-start: var(--space-5, 20px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-card, 8px);
+    overflow: hidden;
+  }
+  .fs-shelf__cells { display: grid; grid-template-columns: repeat(3, 1fr); }
+  /* ⚠️ --space-1 of side padding, not --space-2: three cells across a 327px
+     column leave 109px each, and 16px of side padding takes the usable width
+     under 80. Even so the labels wrap — see the note at the foot. */
+  .fs-shelf__cell {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: var(--space-1, 4px);
+    padding: var(--space-3, 12px) var(--space-1, 4px);
+    text-align: center;
+  }
+  .fs-shelf__cell + .fs-shelf__cell {
+    border-inline-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  .fs-shelf__value {
+    font-size: var(--type-ui, 17px);
+    line-height: var(--leading-ui, 1.3);
+    font-weight: var(--weight-medium, 500);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .fs-shelf__cell--went .fs-shelf__value {
+    background: var(--surface-stamp, #ffa700);
+    color: var(--text-on-stamp, #1c1a17);
+    padding: var(--space-1, 4px) var(--space-2, 8px);
+  }
+  .fs-shelf__label {
+    font-size: var(--type-micro, 14px);
+    line-height: var(--leading-tight, 1.375);
+    font-weight: var(--weight-medium, 500);
+    color: var(--text-secondary, #5a544c);
+  }
+  /* ⛔ margin:0 IS LOAD-BEARING. A <p> here keeps its default 1em margin and
+     paints a stray white band under the footer, inside the rounded box. Found
+     by rendering; invisible in the source. */
+  .fs-shelf__foot {
+    margin: 0;
+    padding: var(--space-3, 12px) var(--space-4, 16px);
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    background: var(--surface-quiet, #f4f1ea);
+    font-size: var(--type-ui, 17px);
+    line-height: var(--leading-tight, 1.375);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .fs-posted { color: var(--text-secondary, #5a544c); }
+
+  /* ── VARIANT B: the correction ──────────────────────────────────────── */
+  .fs-corr { margin-block-start: var(--space-5, 20px); }
+  .fs-corr__hours {
+    margin: 0;
+    font-size: var(--type-subheading, 21px);
+    line-height: var(--leading-heading, 1.2);
+    font-weight: var(--weight-semibold, 600);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .fs-corr__day {
+    display: block;
+    margin-block-end: var(--space-1, 4px);
+    font-size: var(--type-ui, 17px);
+    font-weight: var(--weight-regular, 400);
+    color: var(--text-secondary, #5a544c);
+  }
+  .fs-corr__shut {
+    margin: var(--space-2, 8px) 0 0;
+    font-size: var(--type-ui, 17px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+  }
+  /* ⭐ THE BOARD GETS A RIGHT OF REPLY AND CANNOT OUT-SHOUT US. Airbnb draws a
+     host's response to a review with indentation and one type step down — no
+     fill, no border, no left rule. Pointed at the official source, that is
+     exactly the ranking this site needs: the sign is heard, and it is heard
+     second. ⛔ It is NOT set smaller than 16px and NOT set in the grey used for
+     captions only — a reader must be able to read what the sign claims. */
+  .fs-reply {
+    margin: var(--space-2, 8px) 0 0 var(--space-4, 16px);
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+
+  /* ── VARIANT C: the dateline ────────────────────────────────────────── */
+  .fs-dateline { margin-block-start: var(--space-5, 20px); }
+  .fs-dateline p { margin: 0; }
+  .fs-dateline__date {
+    text-decoration: underline;
+    text-decoration-color: var(--cok-amber, #ffa700);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 3px;
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .fs-table {
+    margin-block-start: var(--space-4, 16px);
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: var(--type-ui, 17px);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .fs-table th, .fs-table td {
+    text-align: start;
+    padding-block: var(--space-2, 8px);
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    vertical-align: baseline;
+    line-height: var(--leading-tight, 1.375);
+  }
+  .fs-table th { font-weight: var(--weight-regular, 400); color: var(--text-secondary, #5a544c); inline-size: 45%; }
+  .fs-table td { font-weight: var(--weight-medium, 500); }
+  .fs-table tr:first-child th, .fs-table tr:first-child td { border-block-start: 0; }
+
+  /* ── the four states ────────────────────────────────────────────────── */
+  .fs-states { display: grid; gap: var(--space-5, 20px); }
+  @media (min-width: 40rem) { .fs-states { grid-template-columns: 1fr 1fr; } }
+  .fs-state {
+    padding: var(--space-4, 16px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  /* ⛔ THE COUNT SITS AT THE TOP OF THE CARD, NOT UNDER IT. A disclaimer at the
+     foot loses to a checked stamp at the head — that has already cost this
+     project once. State 2 has no live instance and says so before its own
+     numbers are read. */
+  .fs-state__count {
+    display: block;
+    margin: 0 0 var(--space-3, 12px);
+    padding-block-end: var(--space-2, 8px);
+    border-block-end: var(--rule-hairline, 1px) dashed var(--border-hairline, #ddd7cb);
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-primary, #1c1a17);
+  }
+  /* ⛔ PRIMARY INK, BODY SIZE, UPRIGHT. Not grey, not small, not italic. The
+     honesty surface is not a caption, and this is 23 of the 26 records. */
+  .fs-refusal { margin: 0; color: var(--text-primary, #1c1a17); }
+  .fs-refusal-next {
+    margin: var(--space-2, 8px) 0 0;
+    font-size: var(--type-ui, 17px);
+    line-height: var(--leading-tight, 1.375);
+    font-weight: var(--weight-medium, 500);
+  }
+
+  .fs-div {
+    border: 0; block-size: var(--rule-hairline, 1px);
+    background: var(--border-hairline, #ddd7cb);
+    margin: var(--space-8, 40px) 0 var(--pitch-rule-heading, 33px);
+  }
+
+  /* ── the commentary band ────────────────────────────────────────────── */
+  .note-frame {
+    margin-block-start: var(--space-10, 64px);
+    border-block-start: var(--rule-band, 8px) solid var(--border-hairline, #ddd7cb);
+    background: var(--surface-quiet, #f4f1ea);
+  }
+  .note-frame .wrap { padding-block: var(--space-6, 24px); }
+  .note-frame h2 { font-size: var(--type-subheading, 21px); margin-block: var(--space-6, 24px) var(--space-3, 12px); }
+  .note-frame h2:first-child { margin-block-start: 0; }
+  .note-frame p, .note-frame li { font-size: var(--type-small, 16px); line-height: var(--leading-tight, 1.375); }
+  .note-frame li { margin-block-end: var(--space-3, 12px); }
+  .note-frame ul { padding-inline-start: 1.2rem; }
+</style>
+<body data-page-kind="venue">
+
+<header class="v-hd">
+  <div class="wrap v-hd__in">
+    <a class="v-hd__name" href="#top">cats of Kochi</a>
+    <nav class="v-hd__nav" aria-label="Main">
+      <a class="v-hd__link" href="#top">Places</a>
+      <a class="v-hd__link" href="#top">Today</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <section class="fs-intro">
+    <h1 class="fs-h1">The checked-on stamp, three ways</h1>
+
+    <p>Every fact on this site is going to carry the date somebody checked it, and
+      whether we stood outside the door or only read the venue's own website. Three
+      ways that could look on a phone, each shown twice — once where we know the
+      posted board is wrong, once where we have only read a website.</p>
+
+    <div class="fs-pending">
+      <p><b>Nothing here is approved.</b> A, B and C are alternatives, not stages.
+        The decision is one of them, or a change to one of them, or none of them.</p>
+      <p><b>Nothing here is invented.</b> Both places are real records in
+        <code>src/content/places/</code>. Bastion Bungalow is the one place on the
+        site where we know the posted hours are wrong. The synagogue's hours came
+        from its own website and nobody from here has stood there.</p>
+      <p><b>We have never gone to a place and found the board was right.</b> That
+        state is shown at the foot as wording only, labelled, rather than pinned on
+        a venue that has not earned it.</p>
+    </div>
+  </section>
+
+  <hr class="fs-div">
+
+  <!-- ══════════════════════════ VARIANT A ══════════════════════════ -->
+  <section class="fs-variant" aria-labelledby="h-a">
+    <p class="fs-tag">Variant A · the shelf</p>
+    <h2 class="fs-h2" id="h-a">The hours read as text, with a small box of provenance under them</h2>
+    <p>Airbnb's trust card, transplanted: a bordered strip split into three cells by
+      thin rules — how we checked, when, and what we found. The disagreement with the
+      board is the last line inside the box.</p>
+
+    <div class="fs-spec">
+      <p class="fs-spec__label">Real record · we went and the board is wrong</p>
+      <div class="fs-spec__in">
+        <div class="fs-ph">a real photograph — none exists for this place yet</div>
+
+        <h3 class="fs-name">District Heritage Museum, Bastion Bungalow</h3>
+        <p class="fs-what">A government heritage museum in Fort Kochi</p>
+        <p class="fs-walk">3 minutes on foot from Fort Kochi Water Metro</p>
+
+        <p class="fs-hours-plain">
+          <span class="fs-day">Tuesday to Sunday</span><br>
+          10:00–13:00, 14:00–16:30
+        </p>
+
+        <div class="fs-shelf" data-trust-card>
+          <div class="fs-shelf__cells">
+            <div class="fs-shelf__cell fs-shelf__cell--went" data-trust-cell="how we know">
+              <span class="fs-shelf__value">We went</span>
+              <span class="fs-shelf__label">How we know</span>
+            </div>
+            <div class="fs-shelf__cell" data-trust-cell="last checked">
+              <span class="fs-shelf__value">9 Aug 2026</span>
+              <span class="fs-shelf__label">When</span>
+            </div>
+            <div class="fs-shelf__cell" data-trust-cell="posted facts wrong">
+              <span class="fs-shelf__value">10:00</span>
+              <span class="fs-shelf__label">It opens</span>
+            </div>
+          </div>
+          <p class="fs-shelf__foot" data-facts-row="hours" data-fact="contradicts">
+            <span class="fs-posted" data-fact-posted>The board says 9.00.</span>
+            <span data-fact-actual>Nobody opens it before 10.</span>
+          </p>
+        </div>
+
+        <a class="fs-explain" href="#top">How we check things</a>
+
+        <div class="fs-next">
+          <hr>
+          <h4>Shut Mondays</h4>
+          <p>And on national holidays — 15 August, 2 October.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fs-spec">
+      <p class="fs-spec__label">Real record · we have only read their website</p>
+      <div class="fs-spec__in">
+        <h3 class="fs-name">Paradesi Synagogue</h3>
+        <p class="fs-what">A working synagogue in Jew Town, Mattancherry</p>
+        <p class="fs-walk">4 minutes on foot from Mattancherry Water Metro</p>
+
+        <p class="fs-hours-plain">
+          <span class="fs-day">Sunday to Thursday</span><br>
+          10:00–18:00<br>
+          <span class="fs-day">Friday</span><br>
+          10:00–14:00
+        </p>
+
+        <div class="fs-shelf" data-trust-card>
+          <div class="fs-shelf__cells">
+            <div class="fs-shelf__cell" data-trust-cell="how we know">
+              <span class="fs-shelf__value">We read</span>
+              <span class="fs-shelf__label">How we know</span>
+            </div>
+            <div class="fs-shelf__cell" data-trust-cell="last checked">
+              <span class="fs-shelf__value">7 Aug 2026</span>
+              <span class="fs-shelf__label">When</span>
+            </div>
+            <div class="fs-shelf__cell" data-trust-cell="source">
+              <span class="fs-shelf__value">Their site</span>
+              <span class="fs-shelf__label">Where from</span>
+            </div>
+          </div>
+          <p class="fs-shelf__foot">
+            <span class="fs-posted">Nobody from here has stood at this door.</span>
+          </p>
+        </div>
+
+        <a class="fs-explain" href="#top">How we check things</a>
+
+        <div class="fs-next">
+          <hr>
+          <h4>Shut Saturdays</h4>
+          <p>And on thirteen dated holidays this year, all published on their own site.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="fs-div">
+
+  <!-- ══════════════════════════ VARIANT B ══════════════════════════ -->
+  <section class="fs-variant" aria-labelledby="h-b">
+    <p class="fs-tag">Variant B · the correction</p>
+    <h2 class="fs-h2" id="h-b">The hours are the biggest thing, and the board answers underneath</h2>
+    <p>One stamped line says how we know. The board's own claim is indented below it,
+      one step down — it gets its say, and it can never shout louder than what we
+      found. Where we have only read a website there is no stamp at all, just the
+      grey source line the rest of the system already uses.</p>
+
+    <div class="fs-spec">
+      <p class="fs-spec__label">Real record · we went and the board is wrong</p>
+      <div class="fs-spec__in">
+        <div class="fs-ph">a real photograph — none exists for this place yet</div>
+
+        <h3 class="fs-name">District Heritage Museum, Bastion Bungalow</h3>
+        <p class="fs-what">A government heritage museum in Fort Kochi</p>
+        <p class="fs-walk">3 minutes on foot from Fort Kochi Water Metro</p>
+
+        <div class="fs-corr" data-facts-row="hours" data-fact="contradicts">
+          <p class="fs-corr__hours" data-fact-actual>
+            <span class="fs-corr__day">Tuesday to Sunday</span>
+            10:00–13:00<br>14:00–16:30
+          </p>
+          <p class="fs-corr__shut">Shut Mondays, and on national holidays.</p>
+
+          <p class="fs-stamp" data-checked-on="2026-08-09">
+            <span class="fs-stamp__chip">We went and looked</span>
+            <span>9 Aug 2026</span>
+          </p>
+          <p class="fs-reply" data-fact-posted>
+            The board outside says 9.00–1.00, 2.00–4.30. It does not open until 10.
+          </p>
+        </div>
+
+        <a class="fs-explain" href="#top">How we check things</a>
+
+        <div class="fs-next">
+          <hr>
+          <h4>What it costs to go in</h4>
+          <p>Nobody has told us. There is no price on the department's page.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fs-spec">
+      <p class="fs-spec__label">Real record · we have only read their website</p>
+      <div class="fs-spec__in">
+        <h3 class="fs-name">Paradesi Synagogue</h3>
+        <p class="fs-what">A working synagogue in Jew Town, Mattancherry</p>
+        <p class="fs-walk">4 minutes on foot from Mattancherry Water Metro</p>
+
+        <div class="fs-corr" data-facts-row="hours" data-fact="known">
+          <p class="fs-corr__hours" data-fact-value>
+            <span class="fs-corr__day">Sunday to Thursday</span>
+            10:00–18:00<br>
+            <span class="fs-corr__day">Friday</span>
+            10:00–14:00
+          </p>
+          <p class="fs-corr__shut">Shut Saturdays, and on thirteen dated holidays this year.</p>
+          <span class="fs-cite" data-source-checked="2026-08-07">Read from the synagogue's own site, 7 Aug 2026. Nobody from here has stood at this door.</span>
+        </div>
+
+        <a class="fs-explain" href="#top">How we check things</a>
+
+        <div class="fs-next">
+          <hr>
+          <h4>What it costs to go in</h4>
+          <p>Four sources give four different prices, two of them ours. We are not
+            going to pick one for you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="fs-div">
+
+  <!-- ══════════════════════════ VARIANT C ══════════════════════════ -->
+  <section class="fs-variant" aria-labelledby="h-c">
+    <p class="fs-tag">Variant C · the dateline</p>
+    <h2 class="fs-h2" id="h-c">No box — one sentence, then the hours as a short list</h2>
+    <p>The claim is written out at reading size with the date underlined in amber.
+      It reads like a person telling you something rather than a system reporting it,
+      and it never looks like an advertisement dropped into a story.</p>
+
+    <div class="fs-spec">
+      <p class="fs-spec__label">Real record · we went and the board is wrong</p>
+      <div class="fs-spec__in">
+        <div class="fs-ph">a real photograph — none exists for this place yet</div>
+
+        <h3 class="fs-name">District Heritage Museum, Bastion Bungalow</h3>
+        <p class="fs-what">A government heritage museum in Fort Kochi</p>
+        <p class="fs-walk">3 minutes on foot from Fort Kochi Water Metro</p>
+
+        <div class="fs-dateline" data-facts-row="hours" data-fact="contradicts">
+          <p data-source-checked="2026-08-09">
+            We went and looked on <span class="fs-dateline__date">9 August 2026</span>.
+            <span data-fact-posted>The board says it opens at 9.</span>
+            <b data-fact-actual>It opens at 10.</b>
+          </p>
+          <table class="fs-table">
+            <tr><th scope="row">Tuesday to Sunday</th><td>10:00–13:00<br>14:00–16:30</td></tr>
+            <tr><th scope="row">Monday</th><td>Shut</td></tr>
+            <tr><th scope="row">National holidays</th><td>Shut</td></tr>
+          </table>
+        </div>
+
+        <a class="fs-explain" href="#top">How we check things</a>
+
+        <div class="fs-next">
+          <hr>
+          <h4>What it costs to go in</h4>
+          <p>Nobody has told us. There is no price on the department's page.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fs-spec">
+      <p class="fs-spec__label">Real record · we have only read their website</p>
+      <div class="fs-spec__in">
+        <h3 class="fs-name">Paradesi Synagogue</h3>
+        <p class="fs-what">A working synagogue in Jew Town, Mattancherry</p>
+        <p class="fs-walk">4 minutes on foot from Mattancherry Water Metro</p>
+
+        <div class="fs-dateline" data-facts-row="hours" data-fact="known">
+          <p data-source-checked="2026-08-07">
+            We read this off the synagogue's own website on
+            <span class="fs-dateline__date">7 August 2026</span>. Nobody from here has
+            stood at the door.
+          </p>
+          <table class="fs-table">
+            <tr><th scope="row">Sunday to Thursday</th><td>10:00–18:00</td></tr>
+            <tr><th scope="row">Friday</th><td>10:00–14:00</td></tr>
+            <tr><th scope="row">Saturday</th><td>Shut</td></tr>
+          </table>
+        </div>
+
+        <a class="fs-explain" href="#top">How we check things</a>
+
+        <div class="fs-next">
+          <hr>
+          <h4>Thirteen days it is shut this year</h4>
+          <p>All published on their own site, all in our calendar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="fs-div">
+
+  <!-- ══════════════════════ THE FOUR STATES ══════════════════════ -->
+  <section class="fs-variant" aria-labelledby="h-states">
+    <p class="fs-tag">The part that decides it</p>
+    <h2 class="fs-h2" id="h-states">Four states, and the fourth one is most of the site</h2>
+    <p>Counted from <code>src/content/places/</code> on 9 August 2026: 26 records, and
+      <b>three have opening hours anybody has checked.</b> The other 23 have none.
+      Whichever shape is picked has to hold in all four of these, and the last one is
+      by far the most common.</p>
+
+    <div class="fs-states">
+      <div class="fs-state">
+        <span class="fs-state__count">State 1 · one place today · Bastion Bungalow</span>
+        <p class="fs-corr__hours">
+          <span class="fs-corr__day">Tuesday to Sunday</span>10:00–13:00
+        </p>
+        <p class="fs-stamp" data-checked-on="2026-08-09">
+          <span class="fs-stamp__chip">We went and looked</span>
+          <span>9 Aug 2026</span>
+        </p>
+        <p class="fs-reply">The board says 9.00. It does not open until 10.</p>
+      </div>
+
+      <div class="fs-state">
+        <span class="fs-state__count">State 2 · no place is in this state — the hours
+          and date below are made up, to show the wording</span>
+        <p class="fs-corr__hours">
+          <span class="fs-corr__day">Every day</span>09:00–17:00
+        </p>
+        <p class="fs-stamp">
+          <span class="fs-stamp__chip">We went and looked</span>
+          <span>1 Sep 2026</span>
+        </p>
+        <p class="fs-reply">The board says the same, and it was open when it said it would be.</p>
+      </div>
+
+      <div class="fs-state">
+        <span class="fs-state__count">State 3 · two places today · the synagogue and Mattancherry Palace</span>
+        <p class="fs-corr__hours">
+          <span class="fs-corr__day">Sunday to Thursday</span>10:00–18:00
+        </p>
+        <span class="fs-cite" data-source-checked="2026-08-07">Read from the synagogue's own site, 7 Aug 2026. Nobody from here has stood at this door.</span>
+      </div>
+
+      <div class="fs-state">
+        <span class="fs-state__count">State 4 · twenty-three places today</span>
+        <p class="fs-refusal" data-refusal>
+          <b>We do not know when this opens.</b> It opened for the Biennale, which
+          ended on 31 March 2026, and nothing has been posted since.
+        </p>
+        <p class="fs-refusal-next">There is nobody to ring. Look as you pass.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="note-frame">
+  <div class="wrap">
+    <h2>What this page is, and what in it is not real</h2>
+    <p>Everything above this band is what a traveller would see. Everything below it
+      is commentary about the mock and is excluded from every measurement, because
+      measuring a designer's own notes as if they were the design is the proxy error
+      this system exists to prevent.</p>
+
+    <h2>⛔ Nothing on this page is approved</h2>
+    <p>A, B and C are three answers to the same question. AIK-90 is open and the
+      choice has not been made. A reviewer's job here is to pick one, ask for a
+      change to one, or reject all three — not to assume B is the plan because it is
+      argued for below.</p>
+
+    <h2>Where every fact on this page comes from</h2>
+    <ul>
+      <li><b>Bastion Bungalow</b> — <code>src/content/places/bastion-bungalow.yaml</code>,
+        <code>hours_status: observed_contradicts_official</code>. The Kerala Department
+        of Archaeology's own page posts <em>"Visiting Time: 9.00-1.00, 2.00-4.30"</em>;
+        the owner went in person and found it opens at 10:00. This is the site's only
+        live instance of the moat, and the reason the whole component exists.</li>
+      <li><b>Paradesi Synagogue</b> — <code>src/content/places/paradesi-synagogue.yaml</code>,
+        <code>hours_status: official_only</code>, read from the venue's own site on
+        7 August 2026. ⛔ Its record says plainly that nobody has stood there, and this
+        page says the same. A lower-tier source disagreeing is not an observation
+        disagreeing.</li>
+      <li><b>The entry price is missing on purpose in both places.</b> Four sources
+        disagree about the synagogue's, two of them our own live pages. Printing a
+        number here would put a figure nobody can source under a checked stamp, which
+        is the exact failure this project has already had once.</li>
+      <li><b>The photographs are placeholders.</b> No photograph of Bastion Bungalow
+        exists in the repo. ⛔ Real images only, never AI-generated — an owner
+        constraint, so the slot stays empty and says so.</li>
+    </ul>
+
+    <h2>⭐ The two verbs, and why only one of them is amber</h2>
+    <p>The owner's own correction on 9 August 2026 — <em>"provenance can be subtler,
+      look how Airbnb does it"</em> — is what sets the ranking here, and it is the same
+      split <code>venue.html</code> already ships:</p>
+    <ul>
+      <li><b>"We went and looked" is a stamp.</b> Two or three words and a date, once
+        per place, amber fill. It is the site's signature and the one thing amber is
+        for.</li>
+      <li><b>"We read their own site" is a citation.</b> A sentence naming a source,
+        14px, secondary grey, no fill. Reading is a weaker claim and it must look like
+        one.</li>
+    </ul>
+    <p>⛔ So the "we read" case has <b>no stamp at all</b> in variants B and C. Giving
+      it an outlined box would have made the weaker claim wear the stronger one's
+      clothes, which is what the owner had already rejected once.</p>
+
+    <h2>What each shape costs, and one cost is measured</h2>
+    <ul>
+      <li><b>A, the shelf.</b> The most scannable of the three. ⚠️ But three cells in a
+        real 327px page column leave about <b>109px each</b> — the number
+        <code>venue.html</code> already records — and inside the specimen frame on this
+        page they measure <b>97px</b>. Either way <em>"How we know"</em> wraps to two
+        lines and so does the date. Measured in Chrome at 375px, not estimated. Airbnb
+        carry the same component because their labels are 10–12px; ours may not go
+        below 14px, for a reader in Kerala sun. And the disagreement — the thing
+        nobody else has — ends up as the last line in a box.</li>
+      <li><b>B, the correction.</b> The disagreement is the headline. Costs more
+        vertical space than A, and on a place with nothing surprising to report the
+        stamped line is a lot of ceremony for <em>"open ten to six"</em>.</li>
+      <li><b>C, the dateline.</b> Easiest to read outdoors, sounds most like the site.
+        ⚠️ But somebody skimming for an opening time scrolls straight past a sentence —
+        there is nothing for the eye to catch.</li>
+    </ul>
+    <p><b>The recommendation is B</b>, on one ground: it is the only shape where the
+      thing that makes this site different is the largest thing on the screen.</p>
+
+    <h2>⛔ State 4 is the design problem, not an edge case</h2>
+    <p>23 of 26 records have no hours. A strip that only looks right with hours in it
+      would look broken on 88% of the site. So the refusal is set at body size in
+      primary ink, the same weight as the facts around it — the moment it is set
+      smaller or greyer, the site starts to look like it is hiding something. The
+      refusal also ends with what to do next, because a refusal that just admits
+      ignorance is a shrug.</p>
+
+    <h2>What is deliberately absent</h2>
+    <ul>
+      <li><b>Stars, scores and review counts.</b> Airbnb have a crowd; this site has one
+        person who walks there. A number would be borrowed authority.</li>
+      <li><b>A green tick or a red cross.</b> Colour cannot carry the difference between
+        "we went" and "we read" for a reader who cannot see it, and red is the grammar
+        of an error — a door being shut is not an error.</li>
+      <li><b>The words "verified" and "correct".</b> The claim is about a process, not
+        about the world. We can say what we did and when; we cannot promise nothing has
+        changed since Tuesday.</li>
+      <li><b>A sticky action bar.</b> Nothing on this page is a decision between two
+        things, and a bar would cost 15% of a phone screen for nothing.</li>
+    </ul>
+
+    <h2>What has been measured, and what has not</h2>
+    <ul>
+      <li><b>Measured in real Chrome:</b> standards mode
+        (<code>document.compatMode === "CSS1Compat"</code>), no horizontal overflow at
+        375px, every tap target at least 44px on both axes, and the 108px shelf cell
+        above.</li>
+      <li><b>Not measured:</b> nobody has read this page on a real phone in real Kerala
+        sun, which is the only test that finally matters and cannot be run from here.</li>
+    </ul>
+  </div>
+</div>

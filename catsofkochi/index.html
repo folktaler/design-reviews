@@ -28,6 +28,14 @@
 
 <h2>Known gaps — read this before reviewing</h2>
 <ul class="gaps">
+  <li>⛔ <b><code>facts_strip</code> is three competing proposals, not a decision.</b>
+    Every other page here shows one settled design. That one shows <b>A, B and C</b>
+    as alternatives to the same problem, and the owner has not picked one
+    (AIK-90 is open). ⚠️ Do not
+    review it as if B were the plan — B is only the recommendation, argued for at the
+    foot of the page. It also contains the one deliberately fictional thing on this
+    site: a "we went and the board was right" specimen, labelled as made up, because
+    no venue has ever been in that state.</li>
   <li>⭐ <b><code>type_before_after</code> still shows Noticia Text, and stays
     that way on purpose.</b> The owner decided, 9 August 2026: Cats of Kochi
     is Figtree, all-sans — no second family (the other twelve kits carry that
@@ -52,6 +60,38 @@
 
 <h2>Changelog</h2>
 <ul class="gaps">
+  <li><b>9 Aug 2026 (latest) — a new page, <code>facts_strip</code>, awaiting a
+    decision.</b> The trust signal the site does not have yet: how a fact says who
+    checked it, when, and whether the posted board disagrees. Three shapes, drawn on
+    the two real records that carry hours — Bastion Bungalow
+    (<code>observed_contradicts_official</code>, the site's only instance of the
+    moat) and Paradesi Synagogue (<code>official_only</code>, read from the venue's
+    own site). Built on the Airbnb trust-card <i>grammar</i> and explicitly not its
+    machinery: no stars, no review counts, no "Guest favourite", because there is no
+    crowd here to average.
+    <ul style="margin-top:.5rem">
+      <li style="padding:.35rem 0"><b>The two verbs are ranked, and only one is
+        amber.</b> "We went and looked" is a stamp — two or three words, a date, an
+        amber fill, once per place. "We read their own site" is a citation — 14px,
+        secondary grey, no fill, the same <code>.v-checked</code> register
+        <code>venue.html</code> already ships. This follows the owner's own 9 Aug
+        correction that provenance was "too loud"; the weaker claim does not get the
+        stronger one's clothes.</li>
+      <li style="padding:.35rem 0"><b>The refusal is designed for first, not last.</b>
+        23 of the 26 place records have no hours, so the page shows all four states
+        and sets the refusal at body size in primary ink — the same weight as the
+        facts around it.</li>
+      <li style="padding:.35rem 0">⚠️ <b>A measurement that counts against variant A:</b>
+        three trust-card cells leave about 109px each in a 327px column, so the cell
+        labels and the date wrap to two lines. Airbnb carry the same component at
+        10–12px labels; this system's floor is 14px.</li>
+    </ul>
+    Verified in real Chrome at 375px before publishing:
+    <code>document.compatMode === "CSS1Compat"</code>, zero horizontal overflow, all
+    7 links at least 44px on <i>both</i> axes, tokens resolving from their
+    definitions rather than their fallbacks, and the type confirmed as real Figtree
+    against a negative control (1143.92px vs 1027.83px for a family nothing
+    declares). ⛔ Not verified: nobody has read it on a phone in Kerala sun.</li>
   <li>⭐ <b>9 Aug 2026 (later) — the colour-usage review, part two: links,
     the payment button, red, and the checked stamp.</b> Five more findings
     from the same owner review, fixed across every kit, the shared
@@ -163,6 +203,13 @@
   <li>
     <a href="venue_pages.html"><b>Venue pages — three shapes</b></a>
     <small>Known/missing/contradicted-hours states, side by side.</small>
+  </li>
+  <li>
+    <a href="facts_strip.html"><b>The checked-on stamp — three ways</b></a>
+    <small>How a fact says who checked it, when, and whether the posted board is
+      wrong — drawn three ways on two real records, plus all four states the
+      component has to hold (23 of 26 places have no hours at all).
+      <b>Pending owner approval: A, B and C, none picked.</b></small>
   </li>
 </ul>
 
