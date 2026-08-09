@@ -121,7 +121,13 @@
      about what it was comparing; the honest fix is the name, not an exemption. */
   td.num { font-variant-numeric:tabular-nums; white-space:nowrap; }
   .panel { background:var(--sunk); padding:var(--s5); margin-block:var(--s5); }
-  .panel--amber { background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink); }
+  /* ⛔ Was --amber-wash background + a 4px amber left border (owner review, 9
+     Aug 2026): a decorative colour-wash callout box is not how Airbnb designs
+     — near-white cards, thin grey hairlines, colour spent almost nowhere
+     (README.md:195-199: amber is "never the only carrier of a meaning",
+     "never a category colour"; filling a whole block for routine facts is
+     squarely that). Same neutral card the file already demonstrates. */
+  .panel--card { background:var(--paper); border:1px solid var(--rule); }
   .panel > :first-child { margin-block-start:0; } .panel > :last-child { margin-block-end:0; }
 
   /* --- the button, as specified --- */
@@ -199,7 +205,7 @@
   <p class="lede">Measured in a real browser on theguardian.com — the newsletter
   block, the buttons, the article furniture.</p>
 
-  <div class="panel panel--amber">
+  <div class="panel panel--card">
     <p style="margin:0"><strong>One decision inside, Shemeer.</strong> The
     Guardian is <em>not</em> all-square the way catsofkochi is — they use round
     shapes for things you press. We take exactly one of those. <a href="#shape">The
@@ -277,7 +283,7 @@
 
   <p class="lede">This is the one your 1,408 subscribers land in.</p>
 
-  <div class="panel panel--amber">
+  <div class="panel panel--card">
     <p style="margin-block-start:0"><strong>⭐ The Guardian puts how often they
     will email you ABOVE the newsletter's name.</strong></p>
     <p style="margin-block-end:0;font-family:var(--serif);font-size:var(--sub);line-height:1.3">

@@ -73,7 +73,13 @@
   .lede { font-size:var(--sub); line-height:1.2; font-family:var(--old-serif); }
   .fyi { font-size:var(--small); color:var(--quiet); }
   .panel { background:var(--sunk); padding:var(--s5); margin-block:var(--s5); }
-  .panel--amber { background:var(--amber-wash); border-inline-start:4px solid var(--amber-ink); }
+  /* ⛔ Was --amber-wash background + a 4px amber left border (owner review, 9
+     Aug 2026): a decorative colour-wash callout box is not how Airbnb designs
+     — near-white cards, thin grey hairlines, colour spent almost nowhere
+     (README.md:195-199: amber is "never the only carrier of a meaning",
+     "never a category colour"; filling a whole block for routine facts is
+     squarely that). Same neutral card the file already demonstrates. */
+  .panel--card { background:var(--paper); border:1px solid var(--rule); }
   .panel > :first-child { margin-block-start:0; } .panel > :last-child { margin-block-end:0; }
   .scroll { overflow-x:auto; margin-block:var(--s5); }
   table { border-collapse:collapse; width:100%; font-size:.95rem; line-height:1.45; }
@@ -126,7 +132,7 @@
   <p class="lede">The Guardian's arrangement, and the one font we now download
   to get it.</p>
 
-  <div class="panel panel--amber">
+  <div class="panel panel--card">
     <p style="margin-block-start:0"><strong>You said: use whatever the Guardian
     has proven, and change ours to fit.</strong> Two things follow, and the
     second reverses my earlier advice.</p>
@@ -204,7 +210,7 @@
   <p class="fyi">⛔ Still not bought: a second font for the small print (your
   phone's own is excellent there) and a separate headline font.</p>
 
-  <div class="panel panel--amber">
+  <div class="panel panel--card">
     <p style="margin-block-start:0">⭐ <strong>The best thing this pass turned up,
     and it is specific to you: this font has no ₹ sign.</strong> Checked twice —
     it has 227 characters and the rupee is not one of them. So every rupee symbol
@@ -268,7 +274,7 @@
   and the reasons are written into the files: <strong>your reader is outside in
   the sun</strong>, and <strong>your pieces are long reads, not news</strong>.</p>
 
-  <div class="panel panel--amber">
+  <div class="panel panel--card">
     <p style="margin:0">That is the rule now, for everything: <strong>take what
     the Guardian has proven, and only depart from it when we can name something
     about your reader that is genuinely different.</strong> “We do it differently”
