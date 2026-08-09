@@ -31,3 +31,11 @@ output. Editing them does nothing — each project's source lives elsewhere.
   would make every frame depend on a remote script. The logo is four concepts
   awaiting a decision, not a chosen mark. Source lives in
   `~/finishtheline/design-system/ds/`.
+- **[aikyam-space/](aikyam-space/)** — an Airbnb-faithful design system for
+  aikyam.space, a community room in Fort Kochi running clubs (stitching,
+  science, dance, more) for the neighbourhood. 5 pages, one shared `_kit.css`,
+  no build step. Proposes replacing the homepage's diary post with a real
+  schedule sourced from the live site's own `/clubs/` listings. Flags a live
+  contradiction between the site's own pages (August guide vs `/clubs/` on
+  whether Stitching runs Mondays) rather than silently picking one. Source
+  lives in `~/aikyam-space-design-system/`.
