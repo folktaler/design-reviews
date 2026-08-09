@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Razorpay row on the payment step — Open Collective</title>
+<link rel="stylesheet" href="faces-inter.css">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body { background: var(--slate-50); }
+  .topbar { height: 56px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 1.5rem; background: var(--background); }
+  .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: var(--oc); }
+  .logo .mark { width: 22px; height: 22px; border-radius: 999px; border: 3px solid var(--oc-blue); border-right-color: transparent; transform: rotate(-45deg); }
+  .banner { background: var(--blue-50); color: var(--blue-700); font-size: 0.8125rem; padding: 0.625rem 1.5rem; border-bottom: 1px solid color-mix(in oklch, var(--blue-700) 20%, white); }
+  .banner b { font-weight: 600; }
+  .back { display: inline-block; padding: 1rem 1.5rem 0; color: var(--primary); text-decoration: none; font-weight: 500; }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 0.5rem; }
+  h2 { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; margin: 2.75rem 0 0.75rem; }
+  h3 { font-size: 0.875rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+  .lede { color: var(--muted-foreground); font-size: 1rem; margin: 0 0 1.5rem; max-width: 62ch; }
+  p, li { max-width: 68ch; }
+  .bluf { border-left: 3px solid var(--primary); padding: 0.75rem 0 0.75rem 1rem; margin: 0 0 2rem; }
+  .bluf p { margin: 0.25rem 0; }
+  ul { padding-left: 1.1rem; }
+  li { margin-bottom: 0.5rem; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; background: var(--slate-100); padding: 0.1rem 0.3rem; border-radius: var(--radius-sm); }
+  pre { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem; overflow-x: auto; font-size: 0.78125rem; line-height: 1.55; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  pre .add { color: var(--green-700); }
+  pre .del { color: var(--destructive); }
+  pre .ctx { color: var(--slate-500); }
+  table { border-collapse: collapse; font-size: 0.8125rem; margin: 0.75rem 0; }
+  th, td { text-align: left; padding: 0.4rem 1rem 0.4rem 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-weight: 600; }
+  td.num { font-variant-numeric: tabular-nums; }
+
+  /* ---- Specimens ------------------------------------------------------- */
+  /* These rows are NOT the design-system idiom. Every value below is copied from
+     the shipping component so the specimen is what the donor will actually see:
+     PaymentMethodList.tsx (16px padding, 1px #EAEAEC divider, 26px icon slot,
+     15px/20px title, 12px/18px #9EA0A3 subtitle) and StyledRadioList. */
+  .specs { display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start; margin: 1rem 0 0; }
+  .spec { min-width: 0; max-width: 100%; }
+  .spec .cap { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-foreground); margin-bottom: 0.5rem; }
+  /* The inline widths below are the real card widths; max-width keeps the spec page
+     itself from scrolling sideways on a phone. */
+  .pmcard { background: #fff; border: 1px solid #EAEAEC; border-radius: 8px; overflow: hidden; font-family: 'Inter', sans-serif; max-width: 100%; }
+  .pmrow { display: flex; align-items: center; padding: 16px; background: #fff; border-top: 1px solid #EAEAEC; }
+  .pmrow:first-child { border-top: none; }
+  .pmrow .radio { width: 15px; height: 15px; border: 1px solid #C3C6CB; border-radius: 50%; margin-right: 16px; flex: none; }
+  .pmrow .radio.on { border: 5px solid #0061E0; }
+  .pmrow .ico { flex-basis: 26px; flex-shrink: 0; margin-right: 16px; display: flex; align-items: center; color: #141415; }
+  .pmrow .txt { display: flex; flex-direction: column; }
+  .pmrow .t { font-size: 15px; line-height: 20px; color: #141415; }
+  .pmrow .s { font-size: 12px; line-height: 18px; color: #9EA0A3; }
+  .flag { display: block; font-size: 0.75rem; color: var(--destructive); margin-top: 0.5rem; max-width: 40ch; }
+  .flag.ok { color: var(--green-700); }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← All Open Collective pages</a>
+
+<div class="topbar"><div class="logo"><span class="mark"></span> open collective</div></div>
+<div class="banner"><b>Spec for a patch, not a redesign.</b> One icon and two strings on the payment step of the running fork. Everything else on the step is left alone.</div>
+
+<div class="wrap">
+  <h1>The Razorpay row on the payment step</h1>
+  <p class="lede">This is the one screen where an Indian donor hands over money. Today the row that takes that money is drawn as a bank.</p>
+
+  <div class="bluf">
+    <p><b>What is wrong:</b> Razorpay renders with a solid bank-building icon, directly above a row called <i>Bank transfer</i> that carries an outline bank-building icon. Two rows, the same picture, opposite meanings. The label — <i>Razorpay (Cards, UPI &amp; more)</i> — leads with a company name most donors do not choose by, and buries the word they are looking for.</p>
+    <p><b>What I recommend:</b> lead with the method, not the processor. Title <i>UPI, cards &amp; netbanking</i>; a quiet rupee icon; and Razorpay named in the subtitle where it does its real job, which is telling the donor who handles their card details.</p>
+    <p><b>What I am not recommending:</b> the Razorpay logo. Reasons below — they are about this list's own grammar, not about squeamishness.</p>
+  </div>
+
+  <h2>Today</h2>
+  <p>Rendered at the two widths that matter: a phone column and the desktop card. The worst case is a host that has Stripe, PayPal, Razorpay and bank transfer all switched on.</p>
+
+  <div class="specs">
+    <div class="spec">
+      <div class="cap">Today — phone (335px)</div>
+      <div class="pmcard" style="width:335px">
+        <div class="pmrow"><span class="radio"></span><span class="ico"><svg width="26" height="18" viewBox="0 0 26 18" fill="none"><rect width="26" height="18" rx="3" fill="#D5DAE0"/><rect x="18" y="12" width="4" height="2" rx="1" fill="#A5ADB8"/><rect x="13" y="12" width="4" height="2" rx="1" fill="#A5ADB8"/><rect x="8" y="12" width="4" height="2" rx="1" fill="#A5ADB8"/><rect x="3" y="12" width="4" height="2" rx="1" fill="#A5ADB8"/><rect x="3" y="3" width="8" height="6" rx="2" fill="white"/></svg></span><span class="txt"><span class="t">New credit/debit card</span></span></div>
+        <div class="pmrow"><span class="radio"></span><span class="ico"><svg width="21" height="24" viewBox="0 0 21 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.5384 6.09749C18.8345 4.23054 18.5364 2.96019 17.515 1.80957C16.3906 0.542724 14.3592 0 11.7602 0H4.2158C3.68455 0 3.23226 0.382151 3.14949 0.900957L0.0080496 20.5971C-0.053923 20.9857 0.249824 21.337 0.647754 21.337H5.30521L4.9838 23.3526C4.92957 23.6926 5.19527 24 5.54346 24H9.4692C9.93386 24 10.3295 23.6657 10.4019 23.2119L10.4404 23.0147L11.18 18.3779L11.2277 18.1217C11.3 17.6679 11.6956 17.3336 12.1603 17.3336H12.7476C16.5508 17.3336 19.5287 15.8058 20.3989 11.3877C20.7625 9.54141 20.5745 8.00045 19.613 6.91715C19.3222 6.58942 18.9604 6.31853 18.5384 6.09749Z" fill="#E0E4EB"/><path fill-rule="evenodd" clip-rule="evenodd" d="M18.7472 6.12364C19.0466 4.24868 18.7451 2.97289 17.7123 1.81734C16.5751 0.545053 14.5209 0 11.8926 0H4.26327C3.72604 0 3.26865 0.38379 3.18496 0.904822L0.00814024 20.6854C-0.0545302 21.0757 0.252638 21.4286 0.655048 21.4286H5.36495L6.54813 14.0621L6.51144 14.293C6.59514 13.7721 7.04867 13.3883 7.58577 13.3883H9.82432C14.2207 13.3883 17.6632 11.6345 18.6691 6.56236C18.6989 6.41216 18.7243 6.26669 18.7472 6.12364Z" fill="#C4C9D1"/><path fill-rule="evenodd" clip-rule="evenodd" d="M7.81914 6.14861C7.86944 5.83513 8.07422 5.57859 8.35005 5.44877C8.47539 5.3898 8.61544 5.35701 8.76235 5.35701H14.7427C15.4512 5.35701 16.1117 5.40248 16.7157 5.49803C16.8884 5.52529 17.0563 5.55673 17.2194 5.59222C17.3826 5.62785 17.5409 5.66752 17.6943 5.71165C17.771 5.73351 17.8463 5.75659 17.9205 5.78074C18.2169 5.8775 18.493 5.99153 18.7472 6.12364C19.0466 4.24868 18.7451 2.97289 17.7123 1.81734C16.5751 0.545053 14.5209 0 11.8926 0H4.26327C3.72604 0 3.26865 0.38379 3.18496 0.904822L0.00814024 20.6854C-0.0545302 21.0757 0.252638 21.4286 0.655048 21.4286H5.36495L7.81914 6.14861Z" fill="#CFD2D7"/></svg></span><span class="txt"><span class="t">PayPal</span></span></div>
+        <div class="pmrow"><span class="radio"></span><span class="ico"><svg viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle"><path d="M2 8v4.001h1V18H2v3h16l3 .001V21h1v-3h-1v-5.999h1V8L12 2 2 8zm4 10v-5.999h2V18H6zm5 0v-5.999h2V18h-2zm7 0h-2v-5.999h2V18zM14 8a2 2 0 1 1-4.001-.001A2 2 0 0 1 14 8z"/></svg></span><span class="txt"><span class="t">Razorpay (Cards, UPI &amp; more)</span></span></div>
+        <div class="pmrow"><span class="radio"></span><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18v-7"/><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/></svg></span><span class="txt"><span class="t">Bank transfer</span><span class="s">Instructions to complete payment will be given on the next page.</span></span></div>
+      </div>
+      <span class="flag">The third and fourth rows carry the same building. One is a payment aggregator, the other is a manual NEFT transfer you finish somewhere else.</span>
+    </div>
+
+    <div class="spec">
+      <div class="cap">Measured, in the browser</div>
+      <table>
+        <tr><th>Row</th><th>Icon box</th><th>Weight</th></tr>
+        <tr><td>New credit/debit card</td><td class="num">26 × 18</td><td>grey fill</td></tr>
+        <tr><td>PayPal</td><td class="num">21 × 24</td><td>grey fill</td></tr>
+        <tr><td><b>Razorpay</b></td><td class="num"><b>26 × 26</b></td><td><b>solid black</b></td></tr>
+        <tr><td>Bank transfer</td><td class="num">20 × 20</td><td>outline</td></tr>
+      </table>
+      <p style="font-size:0.8125rem; color:var(--muted-foreground); max-width:44ch">The Razorpay icon is the largest and heaviest thing in the column. Not a styling choice — <code>getPaymentMethodIcon</code> is called without a <code>size</code>, so the SVG has no width or height attributes and fills the 26px slot. Every other row passes a size.</p>
+    </div>
+  </div>
+
+  <h2>Recommended</h2>
+
+  <div class="specs">
+    <div class="spec">
+      <div class="cap">Recommended — phone (335px)</div>
+      <div class="pmcard" style="width:335px">
+        <div class="pmrow"><span class="radio on"></span><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg></span><span class="txt"><span class="t">UPI, cards &amp; netbanking</span><span class="s">Handled by Razorpay — Aikyam India never sees your card details.</span></span></div>
+        <div class="pmrow"><span class="radio"></span><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18v-7"/><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/></svg></span><span class="txt"><span class="t">Bank transfer</span><span class="s">Instructions to complete payment will be given on the next page.</span></span></div>
+      </div>
+      <span class="flag ok">Icon 20 × 20, the same box and stroke weight as the row below it. Nothing in the column shouts.</span>
+    </div>
+
+    <div class="spec">
+      <div class="cap">Recommended — desktop card (566px)</div>
+      <div class="pmcard" style="width:566px">
+        <div class="pmrow"><span class="radio on"></span><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg></span><span class="txt"><span class="t">UPI, cards &amp; netbanking</span><span class="s">Handled by Razorpay — Aikyam India never sees your card details.</span></span></div>
+        <div class="pmrow"><span class="radio"></span><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18v-7"/><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/></svg></span><span class="txt"><span class="t">Bank transfer</span><span class="s">Instructions to complete payment will be given on the next page.</span></span></div>
+      </div>
+      <span class="flag ok">The subtitle wraps to two lines on a phone and one on desktop. Row height goes 59px → 89px on a phone, which is what the bank-transfer row already costs.</span>
+    </div>
+  </div>
+
+  <h3>Why the label reads this way</h3>
+  <ul>
+    <li><b>UPI first.</b> This is already the settled direction for this fork — see <a href="contribute-upi.html">Contribute in rupees</a>: “upstream leads with card because its rails are American; for an Indian contributor that ordering is backwards.” The current string has it the other way round.</li>
+    <li><b>“&amp; more” is where netbanking went.</b> A donor who banks with SBI and wants netbanking is looking for that word. Spelling it out costs three syllables.</li>
+    <li><b>Razorpay moves to the subtitle because that is where it earns its keep.</b> Nobody picks a payment method by its processor. What the processor's name genuinely buys is the answer to “who is getting my card number” — which is a trust sentence, not a title.</li>
+    <li><b>It becomes translatable.</b> The current title is a bare JavaScript string; every neighbour is a <code>FormattedMessage</code>. As written it can never be shown in Hindi or Malayalam.</li>
+  </ul>
+
+  <h3>Why not the Razorpay logo</h3>
+  <ul>
+    <li><b>This list de-brands on purpose.</b> PayPal's mark is in the repo already — and it is drawn in three greys (<code>#E0E4EB</code>, <code>#C4C9D1</code>, <code>#CFD2D7</code>), not PayPal blue. The house grammar is shape without brand colour. A brand-blue Razorpay mark would be the only advertisement in the column.</li>
+    <li><b>Recolouring somebody's trademark is worse than not using it.</b> Following the PayPal precedent means shipping a modified Razorpay mark. Razorpay's brand page (<code>razorpay.com/brand/</code>) returns 404 and the newsroom page states only that marks are “subject to Razorpay's Usage Agreement”, which I could not read. I will not hand over a trademark I could not verify the terms for.</li>
+    <li><b>It is off-direction.</b> The established mock for this flow uses words and no logos at all.</li>
+    <li>If someone later obtains the official asset and the usage terms, the unmodified mark in the subtitle position is the version to argue for — not a grey redraw in the icon slot.</li>
+  </ul>
+
+  <h3>Icons I tried and rejected</h3>
+  <ul>
+    <li><b>A credit card outline.</b> Clean, but it duplicates the “New credit/debit card” row above whenever a host runs Stripe as well, and it under-sells UPI.</li>
+    <li><b>A QR code.</b> Reads instantly as UPI in India — but a donor on a phone never scans anything; Razorpay hands off to their UPI app. An icon that promises a mechanism the donor will not get is the same class of error we are fixing.</li>
+    <li><b>A wallet.</b> Ambiguous at 20px; reads as an envelope.</li>
+    <li><b>A house-drawn card or phone with ₹ on it.</b> Rendered and looked at: at 26 × 18 the rupee sign is a grey smudge. Legible in the source, invisible on the screen.</li>
+    <li><b>The rupee sign alone (chosen).</b> It is the one claim on this row that can never be found false, it is the most legible of the set at 20px, and it collides with neither neighbour. The words carry the information; the icon just has to be quiet and true.</li>
+  </ul>
+
+  <h2>The change</h2>
+  <p>Two files. Everything is additive or in-place; no component is restructured.</p>
+
+  <h3>1. <code>lib/payment-method-utils.js</code> — stop drawing a bank</h3>
+<pre><span class="ctx">import React from 'react';
+import { Bank } from '@styled-icons/boxicons-solid/Bank';</span>
+<span class="add">+import { IndianRupee } from 'lucide-react';</span>
+<span class="ctx">…</span>
+<span class="ctx">  } else if (service === PAYMENT_METHOD_SERVICE.RAZORPAY) {</span>
+<span class="del">-    // No dedicated icon yet — Razorpay is a card/UPI aggregator, a bank icon reads closer
+-    // than a generic credit card would.
+-    return &lt;Bank size={size} /&gt;;</span>
+<span class="add">+    // Deliberately not a bank: the manual bank-transfer row already uses a Landmark icon,
++    // and Razorpay is UPI-first. Deliberately not the Razorpay mark either — this list
++    // de-brands (see the grey PayPal icon). ₹ is the one claim that is always true here.
++    return &lt;IndianRupee size={size || 20} className="h-5 w-5" /&gt;;</span>
+<span class="ctx">  } else if (type === PAYMENT_METHOD_TYPE.PREPAID) {</span></pre>
+  <p style="font-size:0.8125rem; color:var(--muted-foreground)"><code>lucide-react</code> is already a dependency and is what the manual payment providers in this same list use (<code>Landmark</code>, <code>HandCoins</code>). No new package.</p>
+
+  <h3>2. <code>components/contribution-flow/utils.js</code> — the words</h3>
+<pre><span class="ctx">    // Razorpay
+    if (hostHasRazorpay &amp;&amp; !disabledPaymentMethodTypes?.includes(PAYMENT_METHOD_TYPE.PAYMENT)) {
+      uniquePMs.push({
+        key: 'razorpay',</span>
+<span class="del">-        title: 'Razorpay (Cards, UPI &amp; more)',</span>
+<span class="add">+        title: (
++          &lt;FormattedMessage
++            id="ContributePayment.razorpay"
++            defaultMessage="UPI, cards &amp; netbanking"
++          /&gt;
++        ),
++        subtitle: (
++          &lt;FormattedMessage
++            id="ContributePayment.razorpaySubtitle"
++            defaultMessage="Handled by Razorpay — {collective} never sees your card details."
++            values={{ collective: collective.name }}
++          /&gt;
++        ),</span>
+<span class="ctx">        paymentMethod: {
+          service: PAYMENT_METHOD_SERVICE.RAZORPAY,</span></pre>
+  <p style="font-size:0.8125rem; color:var(--muted-foreground)"><code>FormattedMessage</code> is already imported in this file, and <code>subtitle</code> is already rendered by <code>PaymentMethodList.tsx</code> (the manual providers use it). Confirm the in-scope variable holding the collective before wiring <code>{collective}</code> — if it is awkward, drop the variable and use “Handled by Razorpay. Your card details are never shared with us.”</p>
+
+  <h2>Also wrong on this step, for an Indian donor</h2>
+  <ul>
+    <li><b>Razorpay is last, and the default selection is wrong because of it.</b> The options are built in order: Stripe element, saved cards, new card, PayPal, <i>then</i> Razorpay, then Alipay, then bank transfer. <code>PaymentMethodList</code> auto-selects the first enabled option — so on a host with both, an Indian donor lands with a card or PayPal pre-selected and has to notice and change it. Moving the Razorpay block above the “New credit card” block is a cut-and-paste of one block and fixes both the order and the default. I would do it as a separate commit from the icon.</li>
+    <li><b>“Payment info” is the step's name, but you enter no payment info here.</b> Minor, upstream, not worth a patch on its own.</li>
+    <li><b>Currency is right, grouping is the browser's.</b> <code>formatCurrency</code> passes no locale, so <code>toLocaleString</code> uses the visitor's. An Indian browser gets ₹1,00,000; an American one gets ₹100,000. Below ₹1 lakh the two agree, so this only bites on large gifts. Worth pinning to <code>en-IN</code> for INR eventually; not part of this patch.</li>
+    <li><b>“₹1,400.00 INR”</b> in the summary rail says rupees three times. Harmless, and out of scope for this step.</li>
+  </ul>
+
+  <h2>Two things I saw that are somebody else's call</h2>
+  <ul>
+    <li><b>The Razorpay sheet says the Collective is the merchant.</b> <code>PayWithRazorpayButton</code> passes <code>name: collective.name</code>, so the donor's payment sheet — and likely their bank SMS — names the Collective, while the money settles into the fiscal host's Razorpay account. If those are different legal entities, that is a mismatch on the most scrutinised screen in the flow. I could not check whose account the key belongs to.</li>
+    <li><b>Nothing is prefilled.</b> Razorpay Checkout accepts <code>prefill: { name, email, contact }</code>. The flow already collected name and email one step earlier, so the donor is retyping them into the sheet on a phone. Three lines of config, not a feature — but it is a change to the payment call, so it belongs to whoever owns that file.</li>
+  </ul>
+
+  <h2>What I could not check</h2>
+  <ul>
+    <li><b>I never saw the live payment step.</b> The running fork's frontend stopped hydrating partway through this session — the details and profile steps rendered, then the dev bundle stalled at seven JS chunks and the page went blank while a builder was editing the repo. Every specimen above is built from the shipping component's own values (<code>PaymentMethodList.tsx</code>, <code>payment-method-utils.js</code>, <code>lucide-react</code>, the repo's own icon SVGs) and rendered and measured in Chrome — but in a harness, not on the real page. <b>Somebody should look at the real step once the app is back up.</b> The prediction to check: the Razorpay icon measures 26 × 26 and the bank-transfer icon 20 × 20; after the patch both are 20 × 20.</li>
+    <li><b>Razorpay's trademark terms.</b> <code>razorpay.com/brand/</code> is a 404; the newsroom page names a Usage Agreement it does not show.</li>
+    <li><b>Whether any real Indian host runs Stripe alongside Razorpay.</b> That decides whether a card icon would have collided; it does not change the recommendation.</li>
+  </ul>
+</div>
+</body>
+</html>
