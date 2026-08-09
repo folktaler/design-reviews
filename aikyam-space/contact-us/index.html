@@ -96,17 +96,27 @@
         <input type="text" name="name" autocomplete="name">
       </label>
       <label class="field">
-        <span>How we reply to you</span>
-        <input type="text" name="reply" placeholder="Email or phone" autocomplete="email">
+        <span>Your email or phone number</span>
+        <input type="text" name="reply" autocomplete="off">
       </label>
       <label class="field">
         <span>What is this about?</span>
         <textarea name="message" rows="5"></textarea>
       </label>
-      <p><a class="btn btn--primary" href="#">Send</a></p>
+      <p><button type="submit" class="btn btn--primary">Send</button></p>
       <p style="font-size:var(--type-small);color:var(--text-secondary)">We read everything.
         You will get a reply from a person, not an automatic one.</p>
     </form>
+    <p class="kitnote">⛔ <b>Two fixes here, both found on a real device.</b> The Send control
+      was <code>&lt;a class="btn" href="#"&gt;</code> inside a <code>&lt;form&gt;</code> — a
+      link cannot submit a form, there was no <code>&lt;button&gt;</code> or
+      <code>input[type=submit]</code> anywhere on the page, and a screen reader announced it
+      as “link”. <b>The one control on the site's only form could not do its job.</b> It is now
+      a real <code>&lt;button type="submit"&gt;</code>.
+      <br><br>And the reply field was labelled “How we reply to you” with a placeholder
+      “Email or phone” while carrying <code>autocomplete="email"</code> — the wrong hint for
+      half the people who use it, and a placeholder is not a label. The label now says what to
+      type, and the wrong autofill hint is gone.</p>
   </section>
 
   <hr class="band">

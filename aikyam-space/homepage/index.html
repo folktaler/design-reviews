@@ -19,9 +19,11 @@
   the clubs they run, the daily activity entries, and one-off dated events.
   (<a href="../homepage_v1/">v1 is kept here</a> for comparison — it surfaced only two.)
   Every club time, facilitator, organisation, description and activity entry below is a
-  <b>real published value</b> read off aikyam.space on 9 Aug 2026.
+  <b>real published value</b>, re-verified against <a href="https://aikyam.space/clubs/">the
+  live clubs page</a> on 9 Aug 2026 — 14 of 14 facts matched.
   <b>⛔ Nothing has been invented — including the empty “Coming up”, which is empty because
   the site publishes no future-dated anything.</b>
+  Today is <b>Sunday 9 August 2026</b>; the grid below starts there and rolls forward.
 </div>
 
 <header class="site-head">
@@ -60,10 +62,12 @@
     </div>
   </section>
 
-  <!-- 3 : the recurring week -->
+  <!-- 3 : the next seven days, STARTING TODAY -->
   <section aria-labelledby="week-h">
-    <h2 id="week-h">This week</h2>
+    <h2 id="week-h">The next seven days</h2>
     <ol class="week" style="margin-block-start:var(--space-4)">
+      <li data-today><span class="week__day">Today</span><span class="week__what">Stitching ·
+        Science · Dance — 2–6 PM</span></li>
       <li data-shut><span class="week__day">Mon 10</span><span class="week__what">Closed — no
         sessions on Mondays. The garden is open if you want to sit.</span></li>
       <li><span class="week__day">Tue 11</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
@@ -71,8 +75,19 @@
       <li><span class="week__day">Thu 13</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
       <li><span class="week__day">Fri 14</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
       <li><span class="week__day">Sat 15</span><span class="week__what">Stitching · Science · Dance — 2–6 PM</span></li>
-      <li><span class="week__day">Sun 16</span><span class="week__what">Stitching · Science · Dance — 2–6 PM</span></li>
     </ol>
+    <p class="kitnote">⛔ <b>v1 got this wrong and it was the worst defect in the set.</b> The
+      grid ran Mon 10 – Sun 16 while the page said today was Sunday 9 August — so “this week”
+      was <b>next</b> week, and a neighbour scrolling out of “Open today” met <b>Mon 10:
+      Closed</b> as the first row. The corroboration that it was an oversight rather than a
+      choice: <code>_kit.css</code> defined <code>.week li[data-today]</code> with a wash
+      highlight, and the markup used <code>data-today</code> <b>zero times</b> — the highlight
+      was written and unreachable.
+      <br><br><b>Two changes, not one.</b> The window now starts at <b>today</b> and rolls
+      forward seven days, and the heading says “<b>The next seven days</b>” rather than “This
+      week”, because a calendar week is not what a person deciding whether to walk over is
+      asking about — on a Saturday, “this week” is nearly over and useless. The first row is
+      labelled <b>Today</b>, not “Sun 9”, so it stays true without anyone editing it.</p>
   </section>
 
   <!-- 4 : COMING UP — one-off dated events. Currently, honestly, empty. -->

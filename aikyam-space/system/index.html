@@ -187,6 +187,25 @@
       schedule that disappears teaches people to stop checking.</p>
   </section>
 
+  <section aria-labelledby="ml-h">
+    <h2 id="ml-h">⛔ Figtree has no Malayalam, and every club is taught in Malayalam</h2>
+    <div class="empty" style="margin-block-start:var(--space-4)">
+      <h3>The “one family” absolute breaks the moment one Malayalam word is published</h3>
+      <p>Verified from the source, not inferred: the Google Fonts response for Figtree declares
+        exactly two subsets — <code>latin</code> and <code>latin-ext</code> — and no declared
+        range touches the Malayalam block. Any Malayalam string falls through to an
+        unpredictable system face at unpredictable metrics, mid-sentence.</p>
+      <p>⚠️ A width test does not settle this. One Malayalam letter measures 123.88px in
+        Figtree against 125.78px under a deliberately bogus family name — different, which
+        looks like coverage and is not. Two fallback chains, two faces. The declared
+        unicode-range is the authority.</p>
+      <p>⭐ The answer is not to avoid Malayalam — the readers speak it. It is a second family
+        for a second script, each with its own range, chosen so the two sit at the same optical
+        size. <b>Not chosen here</b>: that needs the same measured bake-off Figtree won, and no
+        Malayalam copy exists yet to test against.</p>
+    </div>
+  </section>
+
   <section aria-labelledby="dark-h">
     <h2 id="dark-h">⚠️ Dark mode is real, and this is a correction</h2>
     <div class="empty" style="margin-block-start:var(--space-4)">

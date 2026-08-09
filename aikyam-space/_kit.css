@@ -92,7 +92,9 @@ a{color:inherit}
   letter-spacing:var(--tracking-micro);color:#b3261e;margin-block-end:var(--space-2)}
 
 .site-head{position:sticky;top:0;z-index:20;background:var(--surface-page);border-block-end:var(--rule-hairline) solid var(--border-hairline)}
-.site-head__in{display:flex;align-items:center;gap:var(--space-3);max-width:calc(var(--measure-wide) + var(--gutter)*2);margin-inline:auto;padding:var(--space-2) var(--gutter);min-height:64px}
+/* ⛔ `flex-wrap` ADDED — at 200% text zoom this row did not wrap and pushed Subscribe 37px
+   past the viewport edge on all five kits. WCAG 1.4.4. */
+.site-head__in{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);max-width:calc(var(--measure-wide) + var(--gutter)*2);margin-inline:auto;padding:var(--space-2) var(--gutter);min-height:64px}
 .brand{font-weight:var(--weight-bold);font-size:var(--type-ui);letter-spacing:-.01em;display:inline-flex;align-items:center;min-height:var(--tap-comfortable);text-decoration:none;margin-inline-end:auto}
 .brand span{font-weight:var(--weight-regular);color:var(--text-secondary)}
 .iconbtn{font:inherit;min-width:var(--tap-comfortable);min-height:var(--tap-comfortable);display:inline-flex;align-items:center;justify-content:center;border:0;background:none;border-radius:var(--radius-control);cursor:pointer;font-size:var(--type-ui);color:var(--text-primary)}
@@ -108,7 +110,9 @@ a{color:inherit}
 .today__note{margin:var(--space-3) 0 0;color:var(--text-secondary);font-size:var(--type-small)}
 
 .week{list-style:none;margin:0 0 var(--space-7);padding:0;border:var(--rule-hairline) solid var(--border-hairline);border-radius:var(--radius-card)}
-.week li{display:grid;grid-template-columns:5.5rem 1fr;gap:var(--space-3);padding:var(--space-4);border-block-end:var(--rule-hairline) solid var(--border-hairline);align-items:baseline}
+/* `minmax(0,5.5rem)` not `5.5rem` — a fixed rem track cannot shrink, and at 200% text zoom
+   5.5rem is 176px of a 360px viewport. The floor of 0 lets it give way instead of overflowing. */
+.week li{display:grid;grid-template-columns:minmax(0,5.5rem) 1fr;gap:var(--space-3);padding:var(--space-4);border-block-end:var(--rule-hairline) solid var(--border-hairline);align-items:baseline}
 .week li:last-child{border-block-end:0}
 .week__day{font-size:var(--type-ui);font-weight:var(--weight-semibold);font-variant-numeric:var(--figures-aligned)}
 .week__what{font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
@@ -138,6 +142,10 @@ a{color:inherit}
    The copy was shortened FIRST (the system's own rule: reach for the words before
    the token), then the padding stepped down. Now 34. */
 .empty{border:var(--rule-hairline) solid var(--border-hairline);border-radius:var(--radius-card);padding:var(--space-5);margin-block:var(--space-7)}
+/* ⛔ A measure cap, because `.empty` inherits its container. Inside `.wrap--wide` on the
+   specimen page it rendered a 950px column at 20px = **107.8 characters a line**. A component
+   that can sit in two containers must carry its own measure. */
+.empty h3,.empty p{max-width:var(--measure)}
 .empty h3{margin:0 0 var(--space-2)}
 /* ⛔ FIXED by rendering: this was --type-small. It is an invitation somebody reads,
    not a caption, so it is body size. */
@@ -150,14 +158,38 @@ a{color:inherit}
 .card__img{aspect-ratio:var(--ratio-card);width:100%;border-radius:var(--radius-none);background:var(--surface-quiet) center/cover no-repeat;display:block;border:var(--rule-hairline) solid var(--border-hairline)}
 .card__kicker{font-size:var(--type-micro);font-weight:var(--weight-medium);letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-secondary);margin:var(--space-3) 0 var(--space-1)}
 .card h3{font-size:var(--type-subheading);margin:0}
+/* ⛔⛔ THE ROW OVERLAY REACHED `.session` AND NOT `.card`, AND A GREEN GATE HID IT.
+   `.card h3 a` was a 238x26 box with no overlay and a `position:static` parent, so its real
+   hit height was 34px on three story cards — while the kit index claimed "0 under, measured
+   by hit area". The assertion probed only rows it could see in the viewport and, for the
+   rest, fell back to trusting the ANCESTOR'S SIZE. A card <li> is 384x376, so it passed on
+   size alone. ⛔ Never infer a tap target from a big ancestor: the ancestor being large is
+   exactly what an overlay is for, not evidence that one exists. */
+.cards li{position:relative}
 .card h3 a{text-decoration:none}
+.card h3 a::after{content:'';position:absolute;inset:0}
 .card p{margin:var(--space-2) 0 0;max-width:27rem;font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
 .card__meta{margin:var(--space-3) 0 0;font-size:var(--type-micro);font-weight:var(--weight-medium);color:var(--text-secondary);font-variant-numeric:var(--figures-aligned)}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:var(--button-height);min-inline-size:var(--tap-comfortable);padding:0 var(--space-6);font:inherit;font-size:var(--type-ui);font-weight:var(--weight-medium);text-decoration:none;border:0;cursor:pointer}
 .btn--primary{background:var(--action-primary-bg);color:var(--action-primary-text);border-radius:var(--radius-pill)}
-.btn--wayin{background:var(--action-way-in-bg);color:var(--action-way-in-text);border-radius:var(--radius-pill)}
-.btn--secondary{background:var(--action-secondary-bg);color:var(--action-secondary-text);border-radius:var(--radius-control)}
+/* ⛔ BORDER ADDED. #2eac6d on white is 2.90:1 — 0.10 short of the 3:1 WCAG 1.4.11 asks of a
+   control's boundary. The ink border is 15.13:1 against paper, so the control has an edge
+   even though its fill does not. (In the neighbour-facing pages green only ever appears on
+   `.today__pill`, which is a <p> and not a control, so this bites only the specimen — but a
+   component the system sanctions has to be usable where it is sanctioned.) */
+.btn--wayin{background:var(--action-way-in-bg);color:var(--action-way-in-text);
+  border:1px solid var(--action-way-in-text);border-radius:var(--radius-pill)}
+/* ⛔⛔ BORDER ADDED, AND IT OVERTURNS A RULE THIS SYSTEM INHERITED FROM AIRBNB.
+   theme.css said "no border on a secondary button — the fill is the affordance, and an
+   outline on top of a fill is two signals for one fact." Measured: #fafafa on #fff is
+   **1.04:1**. The fill is not a weak signal, it is NO signal — the button has no visible
+   boundary at all, on 7 instances across the kits. So the border is not a second signal, it
+   is the only one. Airbnb's own secondary (#F2F2F2 on white) measures 1.12:1 and fails the
+   same way; this is the third place their answer has been refused for our reader, after
+   14px body and their tap targets. */
+.btn--secondary{background:var(--action-secondary-bg);color:var(--action-secondary-text);
+  border:1px solid var(--border-control);border-radius:var(--radius-control)}
 
 .field{display:block;margin-block:var(--space-5)}
 .field span{display:block;font-size:var(--type-ui);font-weight:var(--weight-medium);margin-block-end:var(--space-2)}
@@ -167,14 +199,30 @@ a{color:inherit}
 
 .site-foot{margin-block-start:var(--space-10);border-block-start:var(--rule-hairline) solid var(--border-hairline);background:var(--surface-quiet);padding-block:var(--space-8) var(--space-9)}
 .site-foot h2{font-size:var(--type-subheading);margin:0 0 var(--space-3)}
-.foot-cols{display:grid;gap:var(--space-7);grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+/* ⛔⛔ THE DOMINANT 200%-ZOOM OVERFLOW — 122px on all five kits, and the guard was already
+   in this file 21 lines above, in `.cards`. A bare `minmax(15rem,1fr)` cannot go below 15rem,
+   which is 480px at a 32px root — wider than the viewport. `min(15rem,100%)` is the whole fix.
+   ⭐ Having the right pattern elsewhere in the same file is not the same as applying it. */
+.foot-cols{display:grid;gap:var(--space-7);grid-template-columns:repeat(auto-fit,minmax(min(15rem,100%),1fr))}
 .hours{list-style:none;margin:0;padding:0;font-variant-numeric:var(--figures-aligned)}
 .hours li{display:flex;justify-content:space-between;gap:var(--space-4);padding-block:var(--space-2);font-size:var(--type-small);border-block-end:var(--rule-hairline) solid var(--border-hairline)}
 .hours li:last-child{border-block-end:0}
 .hours b{font-weight:var(--weight-semibold)}
 .foot-links{list-style:none;margin:0;padding:0}
-.foot-links a{display:inline-flex;align-items:center;min-height:var(--tap-comfortable);font-size:var(--type-small);text-decoration:underline;text-decoration-color:var(--border-hairline);text-underline-offset:3px}
-.foot-note{margin-block-start:var(--space-7);font-size:var(--type-micro);color:var(--text-secondary)}
+/* ⛔ `min-inline-size` ADDED. This had the height floor and not the width one, so "Team"
+   rendered 38x52 — under 44 on the axis nobody measures. tokens/spacing.css carries this
+   as a named scar ("a target has two axes") and this file still only applied one of them.
+   ⚠️ `justify-content` stays default so short labels sit left in the column, not centred. */
+.foot-links a{display:inline-flex;align-items:center;min-height:var(--tap-comfortable);
+  min-inline-size:var(--tap-comfortable);font-size:var(--type-small);text-decoration:underline;
+  text-decoration-color:var(--border-hairline);text-underline-offset:3px}
+/* ⛔ 22rem, not `--measure`. Capping this at `--measure` (544px) still rendered **96
+   characters a line**, because `--measure` is sized for 20px body and this is 14px micro.
+   A MEASURE BELONGS TO A TYPE SIZE, not to a page — 14px needs ~22rem for ~58 characters. */
+.foot-note{margin-block-start:var(--space-7);max-width:22rem;font-size:var(--type-micro);color:var(--text-secondary)}
+/* Footer prose sits in `.wrap--wide` too — the kit index's closing paragraph ran 142.5
+   characters a line without this. Same defect as `.empty`, same fix. */
+.site-foot p{max-width:var(--measure)}
 
 /* ══ v2: the two new content types ══════════════════════════════════════
    The site has FOUR content types, not two: partner organisations who work from
