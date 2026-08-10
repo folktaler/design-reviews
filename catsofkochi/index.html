@@ -55,7 +55,14 @@
   <li><b>The Android fallback arm is unverified by rendering.</b> Fallback metrics
     for Noto Serif and Roboto are derived from <code>@capsizecss</code>'s published
     metrics, not measured on an Android device — nobody here has one to measure
-    against.</li>
+    against. Measured on macOS 10 August 2026: the Helvetica Neue and Arial arms
+    resolve; the Roboto arm reports <code>error</code>, which is the expected
+    reading and not a defect — every fallback face is declared <code>src:
+    local(...)</code>, and macOS does not ship Roboto. Android is the platform
+    where that arm is supposed to resolve, and it is the one neither reviewer can
+    see from here. ⭐ If that face ever read <code>loaded</code> on a Mac, THAT
+    would be the finding: it would mean <code>local('Roboto')</code> had matched
+    something that is not Roboto.</li>
   <li><b>This site renders in standards mode; the Claude Design preview does not.</b>
     Every kit published there reports <code>document.compatMode: "BackCompat"</code>
     (quirks) because that host's serve wrapper injects markup ahead of the
