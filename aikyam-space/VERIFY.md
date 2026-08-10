@@ -30,6 +30,25 @@ printf '%-46s %s\n' \
  "no stale autocomplete=email"       "$(grep -c 'autocomplete="email"' contact-us/index.html)" \
  "no open/closed adjacency"          "$(grep -c 'Every club is closed on Mondays.</p>' clubs/index.html)"
 
+# --- the second tester round. Every one must print 1 or more. ---
+printf '%-46s %s\n' \
+ "foot-note cap actually binds"      "$(grep -c 'site-foot .foot-note{max-width:22rem}' _kit.css)" \
+ "site-foot p declared BEFORE it"    "$(awk '/\.site-foot p\{max-width/{a=NR} /\.site-foot \.foot-note/{b=NR} END{print (a && b && a<b) ? 1 : 0}' _kit.css)" \
+ "code can break at zoom"            "$(grep -c 'code,kbd,samp{overflow-wrap:break-word' _kit.css)" \
+ "prose in wrap--wide capped"        "$(grep -c 'wrap--wide > p' _kit.css)" \
+ "line-length gate is 60 not 65"     "$(grep -c 'm.med > 60' ../SKILL.md)"
+
+# --- must print 0: the lede clause that cost the fold ---
+printf '%-46s %s\n' \
+ "no org clause in the lede"         "$(grep -c 'gives room to the organisations working alongside them. Sessions' homepage/index.html)"
+
+# --- the owner rulings of 10 Aug. First three must print 1+, last must print 0. ---
+printf '%-46s %s\n' \
+ "all 10 residents present"          "$(grep -c 'aikyam school\|PATTIC\|OASIS' homepage/index.html)" \
+ "residents split into two groups"   "$(grep -c 'From outside aikyam' homepage/index.html)" \
+ "whatsapp placeholder is dated"     "$(grep -c 'data-placeholder-added="2026-08-10"' contact-us/index.html)" \
+ "no time claim in whatsapp copy"    "$(grep -c 'shared soon\|coming soon' contact-us/index.html)"
+
 # --- CSS comment integrity: the two counts must be EQUAL, and the greps silent ---
 echo "open $(grep -o '/\*' _kit.css | wc -l)  close $(grep -o '\*/' _kit.css | wc -l)"
 grep -n '^\s*\*.*/\*' _kit.css ; grep -n '\*/.*\*/' _kit.css

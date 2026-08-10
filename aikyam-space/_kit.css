@@ -76,6 +76,14 @@ a{color:inherit}
 :focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring);outline-offset:var(--focus-ring-offset)}
 .wrap{max-width:calc(var(--measure) + var(--gutter)*2);margin-inline:auto;padding-inline:var(--gutter)}
 .wrap--wide{max-width:calc(var(--measure-wide) + var(--gutter)*2)}
+/* ⛔ `--measure-wide` (62rem) is a LAYOUT width for grids and rails, never a text column.
+   A paragraph placed directly in it ran 136–146 characters a line on the specimen page.
+   Prose inside a wide wrapper carries its own measure; only grids get the full width. */
+.wrap--wide > p,.wrap--wide > section > p,.wrap--wide > section > div > p{max-width:var(--measure)}
+/* ⛔ An unbreakable token — `autocomplete="email"` in a <code> — is 384px wide and cannot
+   wrap, so it pushed the page 59px past the viewport at 200% text zoom even after the grid
+   guards were fixed. A code span must be allowed to break. */
+code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
 
 /* kit chrome — NOT part of the system, present so a reviewer knows what they hold */
 .kitbar{background:#1d1d1d;color:#fff;font-size:14px;line-height:1.45;padding:10px 16px}
@@ -216,13 +224,25 @@ a{color:inherit}
 .foot-links a{display:inline-flex;align-items:center;min-height:var(--tap-comfortable);
   min-inline-size:var(--tap-comfortable);font-size:var(--type-small);text-decoration:underline;
   text-decoration-color:var(--border-hairline);text-underline-offset:3px}
-/* ⛔ 22rem, not `--measure`. Capping this at `--measure` (544px) still rendered **96
-   characters a line**, because `--measure` is sized for 20px body and this is 14px micro.
-   A MEASURE BELONGS TO A TYPE SIZE, not to a page — 14px needs ~22rem for ~58 characters. */
-.foot-note{margin-block-start:var(--space-7);max-width:22rem;font-size:var(--type-micro);color:var(--text-secondary)}
 /* Footer prose sits in `.wrap--wide` too — the kit index's closing paragraph ran 142.5
-   characters a line without this. Same defect as `.empty`, same fix. */
+   characters a line without this. Same defect as `.empty`, same fix.
+   ⚠️ DECLARED BEFORE `.foot-note` ON PURPOSE. See the specificity note below. */
 .site-foot p{max-width:var(--measure)}
+/* ⛔⛔ A FIX THAT NEVER APPLIED, AND THE CAUSE WAS SPECIFICITY INSIDE THIS FILE.
+   14px micro text needs ~22rem for ~58 characters — `--measure` is sized for 20px body,
+   and capping this at 544px still rendered 96 characters a line. The 22rem was written,
+   and then did nothing: `.foot-note` is (0,1,0) while `.site-foot p` above is (0,1,1),
+   one class plus one element, so it won on both specificity AND source order. Computed
+   `max-width` stayed 544px and the line only fell 96 → 87.6. `.site-foot .foot-note` is
+   (0,2,0) and actually binds.
+   ⭐ The lesson is not "watch specificity" — it is that a declaration you can read in the
+   file is not a declaration the element HAS. Verify `getComputedStyle(el).maxWidth`, not
+   the stylesheet.
+   ⚠️ AND THE SAMPLING TRAP UNDER IT: there are TWO `.foot-note` elements. The one inside
+   a `.foot-cols` column renders 309px and was always fine; only the full-width one at the
+   foot was broken. A check that samples the FIRST match passes while the defect stands. */
+.site-foot .foot-note{max-width:22rem}
+.foot-note{margin-block-start:var(--space-7);font-size:var(--type-micro);color:var(--text-secondary)}
 
 /* ══ v2: the two new content types ══════════════════════════════════════
    The site has FOUR content types, not two: partner organisations who work from

@@ -94,15 +94,19 @@
         decision.</p>
     </div>
     <div class="empty">
-      <h3>3. WhatsApp is deferred</h3>
-      <p>Deliberately absent. It is likely the channel most neighbours would actually use, so
-        it is worth deciding, but it is out of scope here.</p>
+      <h3>3. WhatsApp is a dated placeholder with no number</h3>
+      <p>Ruled in by the owner on 10 Aug 2026. The copy carries <b>no time claim</b> — “soon”
+        was refused because it is the same rot shape as a static schedule: true when written,
+        silently false later, and nothing prompts its replacement. The block is stamped
+        <code>data-placeholder-added="2026-08-10"</code> so a sweep could find it, but
+        <b>no sweep exists</b> — it needs a human.</p>
     </div>
     <div class="empty">
-      <h3>4. /membership/ pricing is unresolved</h3>
+      <h3>4. ✅ /membership/ — RESOLVED, unpublish</h3>
       <p>The live page prices in US dollars — “Free $0”, “Tiny Enterprise $50 /year” — for a
-        Kerala community space. No replacement is proposed; the page is listed for
-        unpublishing pending an owner decision.</p>
+        Kerala community space. <b>Owner ruled 10 Aug 2026: unpublish, not re-price.</b> It is
+        a <code>routes.yaml</code> template page so it goes through the Ghost admin UI, and it
+        is gone from the nav and from every link in these kits.</p>
     </div>
     <div class="empty">
       <h3>5. Nav labels are proposals, not final copy</h3>
@@ -135,15 +139,20 @@
         disagree, and these mockups follow the clubs page. Somebody has to say which is right.</p>
     </div>
     <div class="empty">
-      <h3>⛔ 0. The week grid is frozen at Sunday 9 August 2026</h3>
-      <p>Every date in these mockups is hand-written, so the homepage grid is correct on
-        9 August and wrong on 10 August. Expected in a drawing — but shipped static it would
-        rot exactly the way the monthly diary rots, which is the defect this redesign exists
-        to fix. The schedule is a <b>recurrence rule</b>; dates are a <b>projection</b> of it
-        that must be computed when the page is read, never typed and never baked. The full
+      <h3>⛔ 0. The week grid is frozen at Sunday 9 August 2026 — and it is now wrong</h3>
+      <p>Every date in these mockups is hand-written. The homepage says <b>“Open today · 2–6 PM
+        · Sunday 9 August”</b>, and today is <b>Monday 10 August</b> — the one day of the week
+        every club is <b>closed</b>. <b>The mockup is now telling a reader the space is open on
+        the day it is shut.</b></p>
+      <p>⭐ <b>That is not an embarrassment to fix by re-dating it; it is the argument.</b> This
+        page rotted in twenty-four hours, exactly as predicted, and re-typing the dates would
+        prove nothing except that someone was watching. The schedule is a <b>recurrence rule</b>
+        — “daily 2–6 PM except Mondays” never goes stale — and dates are a <b>projection</b> of
+        it that must be computed when the page is read, never typed and never baked. The full
         constraint, including how it layers so nothing false appears without JavaScript, is in
-        <code>COMPONENTS.md</code>. <b>Listed first because it is the one gap that could undo
-        the whole redesign at implementation time.</b></p>
+        <code>COMPONENTS.md</code>.</p>
+      <p><b>Listed first because it is the one gap that could undo the whole redesign at
+        implementation time</b> — and because the live proof is sitting one click away.</p>
     </div>
     <div class="empty">
       <h3>10. “Coming up” is empty, and that is the deliverable</h3>
