@@ -58,28 +58,32 @@
     <p class="kicker">Fort Kochi</p>
     <h1>A room you can walk into</h1>
     <p style="margin-block-start:var(--space-4);max-width:30rem">aikyam space runs free
-      community clubs — stitching, science, dance, reading and curiosity. Sessions are open to
+      community clubs — stitching, curiosity, reading and dance. Sessions are open to
       anyone from Fort Kochi, Mattancherry and nearby.</p>
 
     <div class="today">
       <p class="today__pill">Open today · 2–6 PM</p>
-      <p class="today__note">Sunday 9 August. Stitching, Science and Dance are all running.</p>
+      <p class="today__note">Sunday. Dance Club is running.</p>
     </div>
+    <p class="kitnote">⭐ <b>“Open every day, 2–6 PM · Sunday is Dance only.”</b> After the
+      10 August rewrite the four clubs between them cover all seven days — Stitching, Curiosity
+      and Reading run Monday to Saturday, Dance runs Saturday and Sunday. <b>There is no day
+      the room is shut</b>, so “except Mondays” is not wrong about the day, it is a shape that
+      no longer exists. ⭐ And “except” was hiding the two facts a neighbour actually needs:
+      <b>Saturday is the fullest day</b> and <b>Sunday is Dance only</b>.</p>
   </section>
 
   <!-- 3 : the next seven days, STARTING TODAY -->
   <section aria-labelledby="week-h">
     <h2 id="week-h">The next seven days</h2>
     <ol class="week" style="margin-block-start:var(--space-4)">
-      <li data-today><span class="week__day">Today</span><span class="week__what">Stitching ·
-        Science · Dance — 2–6 PM</span></li>
-      <li data-shut><span class="week__day">Mon 10</span><span class="week__what">Closed — no
-        sessions on Mondays. The garden is open if you want to sit.</span></li>
-      <li><span class="week__day">Tue 11</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
-      <li><span class="week__day">Wed 12</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
-      <li><span class="week__day">Thu 13</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
-      <li><span class="week__day">Fri 14</span><span class="week__what">Stitching · Science — 2–6 PM</span></li>
-      <li><span class="week__day">Sat 15</span><span class="week__what">Stitching · Science · Dance — 2–6 PM</span></li>
+      <li data-today><span class="week__day">Today</span><span class="week__what">Dance — 2–6 PM</span></li>
+      <li><span class="week__day">Mon 10</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Tue 11</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Wed 12</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Thu 13</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Fri 14</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Sat 15</span><span class="week__what">Stitching · Curiosity · Reading · Dance — 2–6 PM</span></li>
     </ol>
     <p class="kitnote">⛔ <b>v1 got this wrong and it was the worst defect in the set.</b> The
       grid ran Mon 10 – Sun 16 while the page said today was Sunday 9 August — so “this week”
@@ -93,15 +97,20 @@
       week”, because a calendar week is not what a person deciding whether to walk over is
       asking about — on a Saturday, “this week” is nearly over and useless. The first row is
       labelled <b>Today</b>, not “Sun 9”, so it stays true without anyone editing it.
-      <br><br>⛔⛔ <b>These rows are hand-written and this grid is frozen at Sunday 9 August
-      2026 — so from Monday 10 August onward this page says the space is open on a day it is
-      closed.</b> ⭐ That is the argument, not a thing to fix by re-typing the dates: it rotted
-      in twenty-four hours, in public, exactly as predicted. Correct today, wrong tomorrow. That is fine in a drawing and <b>must not
-      survive into the build</b> — shipped static, it would rot in exactly the way the August
-      diary rots, which is the defect this redesign exists to fix. A page that says “Today”
-      from a build made three days ago is worse than the diary, because the diary is at least
-      honestly dated. The schedule is a <b>recurrence rule</b> (“daily except Mondays”), and
-      dates are a <b>projection</b> of it that has to be computed when the page is read.
+      <br><br>⛔⛔ <b>These rows are hand-written and frozen, and in twenty-four hours they
+      rotted twice over — not once.</b> First the dates went stale, exactly as predicted. Then
+      on 10 August the schedule itself was rewritten: the closed day moved from Monday to
+      Sunday, Science became Curiosity, and Reading gained times. <b>Every row of this grid was
+      wrong in a different way from the one anybody was watching for.</b>
+      <br><br>⭐ <b>That is the argument, and it is stronger than the version this note used to
+      make.</b> A frozen grid does not only go stale as the calendar advances — <b>it goes
+      stale when the underlying rule changes</b>, and no amount of re-typing dates defends
+      against that. Only deriving the page from one stored schedule does. Correct today, wrong
+      tomorrow, and wrong in a way you did not anticipate. Fine in a drawing and <b>it must not
+      survive into the build</b>. A page that says “Today” from a build made three days ago is
+      worse than the diary, because the diary is at least honestly dated. The schedule is a
+      <b>recurrence rule</b> — now “Monday to Saturday” and “Saturday and Sunday” per club —
+      and dates are a <b>projection</b> of it that has to be computed when the page is read.
       Full constraint, including how it layers so nothing false appears without JavaScript:
       <code>COMPONENTS.md</code> § “the schedule is a RULE, not a list of dates”.</p>
   </section>
@@ -163,7 +172,8 @@
       <br><br><b>Two things a reviewer should push on.</b>
       <b>(1) All three rows are the Stitching Lab.</b> That is not a design choice — of the
       nine days written up so far, Stitching is the only club with substantive entries;
-      Science has none and Dance has one (2 Aug, with Thudippu). ⛔ No filler row was added to
+      Curiosity (written up then as Science) has none and Dance has one (2 Aug, with Thudippu).
+      ⛔ No filler row was added to
       balance it. If that imbalance is wrong, it is a writing problem this component makes
       visible rather than hides.
       <b>(2) How it degrades:</b> every row carries its own date, so the strip ages in public.
@@ -202,7 +212,7 @@
         <h3>Olimalar Foundation</h3>
         <p>Works with children and communities in Fort Kochi and Mattancherry on confidence,
           emotional well-being and life skills.</p>
-        <span class="orgs__also">Runs the Science Club</span>
+        <span class="orgs__also">Runs the Curiosity Club and the Reading Club</span>
       </li>
       <li>
         <h3>Thudippu Foundation</h3>
@@ -302,7 +312,7 @@
 
     <ul class="sessions">
       <li class="session">
-        <p class="session__when">Daily 2–6 PM · except Mondays</p>
+        <p class="session__when">Monday to Saturday, 2–6 PM</p>
         <h3 class="session__name"><a href="#">Stitching Club</a></h3>
         <p class="session__body">Fresh cut pieces collected before they reach landfill,
           cleaned, arranged and stitched into tote bags. Part of the Tiny Entrepreneurs
@@ -312,35 +322,53 @@
           <li>With <b>Mary Gracy</b></li>
           <li>In <b>Malayalam</b></li>
         </ul>
-        <p class="session__action">Just turn up</p>
       </li>
 
       <li class="session">
-        <p class="session__when">Daily 2–6 PM · except Mondays</p>
-        <h3 class="session__name"><a href="#">Science Club</a></h3>
-        <p class="session__body">Children and teachers exploring science by doing — asking
-          questions, experimenting, discovering together. Inspired by MOSAIC.</p>
+        <p class="session__when">Monday to Saturday, 2–6 PM</p>
+        <h3 class="session__name"><a href="#">Curiosity Club</a></h3>
+        <p class="session__body">Children and teachers exploring by doing — asking questions,
+          experimenting, discovering together. Inspired by MOSAIC.</p>
         <ul class="session__facts">
           <li>Fee <b>Free</b></li>
           <li>With <b>Olimalar Foundation</b></li>
-          <li>In <b>Malayalam</b></li>
+          <li>In <b>Malayalam and English</b></li>
         </ul>
-        <p class="session__action">Just turn up</p>
       </li>
 
       <li class="session">
-        <p class="session__when">Saturday &amp; Sunday 2–6 PM</p>
+        <p class="session__when">Monday to Saturday, 2–6 PM</p>
+        <h3 class="session__name"><a href="#">Reading Club</a></h3>
+        <p class="session__body">Reading together, at whatever level each person starts from.
+          Inspired by PRATHAM, using the Teaching at the Right Level approach.</p>
+        <ul class="session__facts">
+          <li>Fee <b>Free</b></li>
+          <li>With <b>Olimalar Foundation</b></li>
+          <li>In <b>Malayalam and English</b></li>
+        </ul>
+      </li>
+
+      <li class="session">
+        <p class="session__when">Saturday and Sunday, 2–6 PM</p>
         <h3 class="session__name"><a href="#">Dance Club</a></h3>
         <p class="session__body">Bharatanatyam — movement, rhythm and expression. A space to
           learn and experience it together.</p>
         <ul class="session__facts">
           <li>Fee <b>Free</b></li>
-          <li>With <b>Aparna N</b></li>
+          <li>With <b>Aparna NS</b></li>
           <li>In <b>Malayalam</b></li>
         </ul>
-        <p class="session__action">Just turn up</p>
       </li>
     </ul>
+    <p class="kitnote">⛔ <b>Every “Just turn up” was removed and the absence is deliberate.</b>
+      The rewritten live page says nothing about turning up versus writing first, for any club.
+      Every value we held was inferred — and the two clubs previously marked “write to us
+      first” were marked so <i>because their times were unknown</i>. Those times are now
+      published, so re-deriving the answer would reason from a premise that no longer exists.
+      Recorded as <code>dropin:?</code>; the page says nothing rather than guessing.
+      <br><br>⛔ <b>Aparna NS is left exactly as the live page has it</b> — <code>/team/</code>
+      was edited three minutes later and disagrees. Recording a published claim is not
+      endorsing it.</p>
 
     <div class="empty">
       <h3>Teaching something else?</h3>
@@ -367,7 +395,7 @@
       <li class="card">
         <span class="card__img" role="img" aria-label="Photograph placeholder"></span>
         <p class="card__kicker">Community programmes</p>
-        <h3><a href="#">Science Club</a></h3>
+        <h3><a href="#">Curiosity Club</a></h3>
         <p>Can you hold DNA in your hands? Extracting it from a kiwi, on a table in
           Fort Kochi.</p>
         <p class="card__meta">aikyam space · 2026</p>
@@ -391,9 +419,8 @@
       <div>
         <h2>When we are open</h2>
         <ul class="hours">
-          <li><span>Monday</span><b>Closed</b></li>
-          <li><span>Tuesday – Friday</span><b>2–6 PM</b></li>
-          <li><span>Saturday – Sunday</span><b>2–6 PM</b></li>
+          <li><span>Every day</span><b>2–6 PM</b></li>
+          <li><span>Sunday</span><b>Dance only</b></li>
         </ul>
         <p class="foot-note" style="margin-block-start:var(--space-3)">These are the club
           session times. If you want to visit outside them, write first.</p>

@@ -28,7 +28,9 @@ printf '%-46s %s\n' \
 # --- must print 0: the wrong autofill hint, and the clubs contradiction ---
 printf '%-46s %s\n' \
  "no stale autocomplete=email"       "$(grep -c 'autocomplete="email"' contact-us/index.html)" \
- "no open/closed adjacency"          "$(grep -c 'Every club is closed on Mondays.</p>' clubs/index.html)"
+ "no open/closed adjacency"          "$(grep -c 'Every club is closed on Mondays.</p>' clubs/index.html)" \
+ "no except-Mondays in page COPY"    "$(grep -c 'session__when\">Daily 2–6 PM · except Mondays' homepage/index.html clubs/index.html system/index.html homepage_v1/index.html | grep -v ':0' | wc -l)" \
+ "no Science Club as a club name"    "$(grep -c 'session__name\"><a href=\"#\">Science Club' homepage/index.html clubs/index.html homepage_v1/index.html | grep -v ':0' | wc -l)"
 
 # --- the second tester round. Every one must print 1 or more. ---
 printf '%-46s %s\n' \
