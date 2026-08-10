@@ -4,56 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>aikyam space — proposed /activities/ (mockup)</title>
-<meta name="description" content="Mockup of the daily activities feed for aikyam.space — one record per day, what happened, with the photograph that proves it.">
+<meta name="description" content="Mockup of the activities record for aikyam.space — what happened, day by day, with the photograph that proves it.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
 <style>#css-guard{background:#b3261e;color:#fff;padding:16px;margin:0;font:600 16px/1.45 system-ui,sans-serif}</style>
 <link rel="stylesheet" href="../_kit.css">
-<style>
-/* ⭐ MONTH SELECTOR, not a filter. Nobody browsing a diary wants to filter it; they want to
-   jump to a month. It is also the anchor that keeps a long feed navigable — and the months
-   carry the search traffic (May pulls 282 visitors all-time). */
-.months{display:flex;flex-wrap:wrap;gap:var(--space-2);list-style:none;margin:var(--space-5) 0 0;padding:0}
-.months a{display:inline-flex;align-items:center;min-height:var(--tap-comfortable);
-  padding-inline:var(--space-4);border:var(--rule-hairline) solid var(--border-hairline);
-  border-radius:var(--radius-pill);text-decoration:none;font-size:var(--type-ui);
-  font-weight:var(--weight-medium);font-variant-numeric:var(--figures-aligned)}
-.months a[aria-current="page"]{background:var(--surface-way-in);color:var(--text-on-way-in);
-  border-color:transparent;font-weight:var(--weight-semibold)}
-
-/* ⭐⭐ TWO FORMS, and the rule that chooses between them is "no slot without a guaranteed
-   filler". An entry WITH a photograph gets a card, because the photo fills the slot. An entry
-   WITHOUT one gets no container at all — the Airbnb review form, measured 10 Aug: background
-   transparent, border 0, radius 0px. ⛔ A card with an empty image well is the defect; a record
-   with no well has nothing to leave empty. */
-.day{margin:0;padding-block:var(--space-7);border-block-start:var(--rule-hairline) solid var(--border-hairline)}
-.day:first-of-type{border-block-start:0;padding-block-start:var(--space-5)}
-.day__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
-  display:block;margin:0 0 var(--space-4);background:var(--surface-quiet)}
-/* ⛔ The DATE is not the headline. Measured on Airbnb: in a dated record the person is the
-   headline at 16/20/500 and the date is 14px grey metadata beside the place. The headline here
-   is WHAT HAPPENED; the date is the quiet line under it. */
-.day__what{font-size:var(--type-subheading);font-weight:var(--weight-semibold);margin:0}
-.day__when{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-2) 0 0;
-  font-variant-numeric:var(--figures-aligned)}
-.day__body{margin:var(--space-3) 0 0;max-width:var(--measure-small)}
-.day--plan .day__what{font-weight:var(--weight-medium)}
-.feed{list-style:none;margin:0;padding:0}
-.feed > li{margin:0}
-</style>
 </head>
 <body>
 <p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
 
 <div class="kitbar">
-  <b>MOCKUP — not the live site.</b> Proposed <code>/activities/</code>. Every entry below is a
-  <b>real day</b> from
+  <b>MOCKUP — not the live site.</b> Proposed <code>/activities/</code>. Every entry is a
+  <b>real activity</b> from
   <a href="https://aikyam.space/the-ultimate-guide-to-aikyam-space-for-august-2026/">the August 2026 guide</a>,
-  read 10 Aug — <b>real bodies, real photographs, real dates.</b>
-  ⚠️ <b>The headlines are mine.</b> The source has no headlines — every day begins with the
-  schedule line — so distilling one sentence from each body is editorial work and is flagged
-  as such rather than passed off as found copy.
+  read 10 Aug — real bodies, real photographs, real dates.
+  ⚠️ <b>The headlines are mine</b>; the source has none, so distilling one sentence per entry is
+  editorial work and is flagged rather than passed off as found copy.
+  ⛔ <b>This page's styles now live in <code>_kit.css</code>, not in the page.</b>
 </div>
 
 <header class="site-head">
@@ -91,114 +59,107 @@
       <li><a href="#">March</a></li>
     </ul>
 
-    <p class="kitnote">⭐⭐ <b>The headline is what happened; the date is the quiet line under
-      it.</b> Measured on Airbnb, 10 Aug: in a dated record <b>the person is the headline at
-      16/20/500 and the date is 14px grey metadata.</b> ⛔ <b>That is the opposite of how a diary
-      is built</b> — and it is why the current guide's 30 date-headings scroll past saying
-      nothing. <i>“August 6”</i> tells a reader nothing; <i>“The bags went on sale”</i> tells
-      them everything.
-      <br><br>⭐ <b>Months are a selector, not a filter.</b> Nobody browsing a diary wants to
-      filter it — they want to jump. It is also what keeps a long feed navigable, and the months
-      carry real search traffic: <b>May pulls 282 visitors all-time.</b></p>
+    <p class="kitnote">⛔⛔ <b>Two rulings rebuilt this page after it was first drawn, and both
+      DELETED work.</b> ⭐ <b>The unit is an ACTIVITY, not a day</b> — several can share a date —
+      and ⭐ <b>there are no future entries at all.</b> Activities are a record of what happened.
+      <br><br>⭐⭐ <b>The source already proves the first ruling.</b> August 7's block in the
+      guide contains <i>two different things</i> — a stitching session and the cats — run
+      together under one date heading because the container had no room for a second entry.
+      <b>The owner was describing something the corpus was already doing.</b>
+      <br><br>⭐ <b>And multiple entries per date makes the headline inversion load-bearing
+      rather than merely better.</b> <i>“Friday 8 August”</i> cannot headline three different
+      things. <b>The date is a quiet group label; each activity keeps its own headline.</b>
+      ⛔ Stating the date once per group rather than under every entry avoids repeating it three
+      times — the count-in-prose problem in another costume.
+      <br><br>⭐ <b>Months are a selector, not a filter.</b> Nobody browsing a record wants to
+      filter it; they want to jump. <b>May pulls 282 six-month visitors</b>, so the months carry
+      real traffic.</p>
   </section>
 
   <hr class="band">
-
-  <section aria-labelledby="up-h" style="margin-block-start:var(--pitch-rule-heading)">
-    <h2 id="up-h">Coming up</h2>
-
-    <ul class="feed">
-      <li>
-        <article class="day day--plan">
-          <p class="day__what">Onam bags go to Local Sustainable Living</p>
-          <p class="day__when">Planned · Friday 5 September</p>
-          <p class="day__body">The stitching team's five new designs, made from handloom fabric
-            and cut pieces, for the Onam event.</p>
-        </article>
-      </li>
-    </ul>
-
-    <p class="kitnote">⛔⛔ <b>A planned day is not a card, and that is the same rule that makes a
-      past day one.</b> The rule is <b>“no slot without a guaranteed filler”</b> — an entry with
-      a photograph gets a card because the photo fills the well; an entry without one gets no
-      container at all. ⛔ <b>A card with an empty image well is the defect; a record with no
-      well has nothing to leave empty.</b>
-      <br><br>⛔⛔ <b>ONE planned entry, not thirty — and this is the whole trap.</b> The August
-      guide pre-created all 30 days and filled the future ones with the schedule line
-      <b>28 times</b>. ⭐ <b>Clubs are a RULE. They live on <code>/clubs/</code> and are said
-      once.</b> An activity is an <b>event</b>. <b>If the answer to “what is on Tuesday” is “the
-      usual clubs”, that is not an activity — it is the schedule, and it already has a page.</b>
-      A future entry has to be worth announcing.</p>
-  </section>
 
   <section aria-labelledby="aug-h" style="margin-block-start:var(--pitch-rule-heading)">
     <h2 id="aug-h">August</h2>
 
     <ul class="feed">
       <li>
-        <article class="day">
-          <img class="day__shot" loading="lazy" alt="Cats at aikyam space"
+        <p class="dayband">Thursday 7 August</p>
+        <article class="act">
+          <img class="act__shot" width="1600" height="1200" loading="lazy" alt="Cats at aikyam space"
             src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-15.42.47.jpeg">
-          <p class="day__what">The cats have moved in</p>
-          <p class="day__when">Thursday 7 August</p>
-          <p class="day__body">Our little cat friends continue to make themselves at home. As a
+          <h3 class="act__what"><a href="/activities/the-cats-have-moved-in/">The cats have moved in</a></h3>
+          <p class="act__meta">aikyam space</p>
+          <p class="act__body">Our little cat friends continue to make themselves at home. As a
             pet-friendly space we are exploring small ways to make it more welcoming for
             animals — a place where both people and pets can feel comfortable.</p>
         </article>
+        <article class="act">
+          <h3 class="act__what"><a href="/activities/stitching-lab-7-august/">Stitching Lab ran as usual</a></h3>
+          <p class="act__meta">2–6 PM · Stitching Club · with Mary Gracy</p>
+          <p class="act__body">Up-cycling session in the lab.</p>
+        </article>
       </li>
       <li>
-        <article class="day">
-          <img class="day__shot" loading="lazy" alt="Tote bags on display"
+        <p class="dayband">Wednesday 6 August</p>
+        <article class="act">
+          <img class="act__shot" width="1600" height="1200" loading="lazy" alt="Tote bags on display"
             src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-07-at-15.35.45-1.jpeg">
-          <p class="day__what">The bags went on sale</p>
-          <p class="day__when">Wednesday 6 August · Stitching Club</p>
-          <p class="day__body">The team placed their cut-piece tote bags and duffle bags at
+          <h3 class="act__what"><a href="/activities/the-bags-went-on-sale/">The bags went on sale</a></h3>
+          <p class="act__meta">Stitching Club · with Mary Gracy</p>
+          <p class="act__body">The team placed their cut-piece tote bags and duffle bags at
             Local Sustainable Living — a chance to see how the products are received. If demand
             grows, they plan to make more.</p>
         </article>
       </li>
       <li>
-        <article class="day">
-          <img class="day__shot" loading="lazy" alt="Stitching work in progress"
+        <p class="dayband">Monday 4 August</p>
+        <article class="act">
+          <img class="act__shot" width="1600" height="1200" loading="lazy" alt="Stitching work in progress"
             src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-14.23.37-1.jpeg">
-          <p class="day__what">Five new bag designs, for Onam</p>
-          <p class="day__when">Monday 4 August · Stitching Club</p>
-          <p class="day__body">The stitching team is working on five new designs for an Onam
+          <h3 class="act__what"><a href="/activities/five-new-bag-designs-for-onam/">Five new bag designs, for Onam</a></h3>
+          <p class="act__meta">Stitching Club · with Mary Gracy</p>
+          <p class="act__body">The stitching team is working on five new designs for an Onam
             event by Local Sustainable Living, using handloom fabric and cut pieces.</p>
         </article>
       </li>
       <li>
-        <article class="day">
-          <p class="day__what">The dance group talked about their first performance</p>
-          <p class="day__when">Saturday 2 August · 3–4 PM, Main Hall · with Thudippu</p>
-          <p class="day__body">After their first stage performance, the community dance group
+        <p class="dayband">Saturday 2 August</p>
+        <article class="act">
+          <h3 class="act__what"><a href="/activities/reflecting-on-the-first-performance/">The dance group talked about their first performance</a></h3>
+          <p class="act__meta">3–4 PM · Main Hall · with Thudippu</p>
+          <p class="act__body">After their first stage performance, the community dance group
             gathered to share how it went — what worked, and what they would do differently.</p>
         </article>
       </li>
       <li>
-        <article class="day">
-          <p class="day__what">Closed for heavy rain</p>
-          <p class="day__when">Friday 1 August</p>
-          <p class="day__body">All activities were paused for the day, for the safety of
+        <p class="dayband">Friday 1 August</p>
+        <article class="act">
+          <h3 class="act__what"><a href="/activities/closed-for-heavy-rain/">Closed for heavy rain</a></h3>
+          <p class="act__meta">aikyam space</p>
+          <p class="act__body">All activities were paused for the day, for the safety of
             community members, children and staff.</p>
         </article>
       </li>
     </ul>
 
-    <p class="kitnote">⛔⛔ <b>Two of these five happened and have NO photograph — and one of
-      them cannot ever have one.</b> The 1 August entry is a <b>rain closure</b>: nobody
-      photographs a day the room was shut. The 2 August entry is a discussion that simply was
-      not photographed.
-      <br><br>⛔ <b>So “a past entry always has a photograph” is not true of the real data</b> —
-      it is true of <b>three of the five written August days</b>, and the exceptions are not
-      edge cases: <b>a closure is a normal thing to record and a normal thing to have no picture
-      of.</b>
-      <br><br>⭐⭐ <b>This does not break the model — it is why the rule was written as “no slot
-      without a guaranteed filler” rather than “past entries are cards”.</b> The photograph does
-      not tell you whether a day is past or planned. <b>It tells you which FORM the entry
-      takes.</b> Both forms sit in one feed, in date order, and the reader notices nothing —
-      because neither form has a hole in it. ⚠️ <b>Had the card been the only form, those two
-      days would each show an empty 4:3 well, and the rain day would look like a bug.</b></p>
+    <p class="kitnote">⛔⛔ <b>Two of these six have NO photograph, and one of them never can.</b>
+      The 1 August entry is a <b>rain closure</b> — nobody photographs a day the room was shut —
+      and the 2 August discussion simply was not photographed.
+      <br><br>⭐⭐ <b>With future entries cut, this is the ONLY exception left, and the rule that
+      carries it is unchanged: “no slot without a guaranteed filler”.</b> An entry with a
+      photograph is a card; an entry without one has no container at all. <b>Both sit in one
+      feed and the reader notices nothing, because neither form has a hole in it.</b>
+      ⚠️ <b>Had the card been the only form, those two would each show an empty 4:3 well and the
+      rain day would look like a bug.</b>
+      <br><br>⛔ <b>The guard against pre-created noise is retired, not relaxed.</b> It read
+      <i>“a future activity must be worth announcing”</i> and existed to stop the August guide's
+      <b>28 pre-filled schedule lines</b> being rebuilt one post at a time. ⭐ <b>With no future
+      entries, that failure is structurally impossible rather than prevented by discipline</b> —
+      and a guard against something that cannot happen reads as a live risk. <b>Gone.</b>
+      <br><br>⚠️ <b>The site now has no surface for “something is coming up”, and that is
+      deliberate.</b> ⛔ It must not creep back in here. <b>The homepage's “Coming up” block
+      already exists and is already the right home for a one-off announcement</b> — the record
+      says what happened, and nothing else.</p>
   </section>
 
   <hr class="band">
@@ -211,48 +172,82 @@
       <p>The clubs still run every afternoon, 2–6 PM. <a href="#">See the week</a>.</p>
     </div>
 
-    <p class="kitnote">⭐ <b>Designed before the good state, as “Coming up” was — but designed as
-      an EXCEPTION, because the habit is measured.</b> June carries <b>29 written days of 30</b>
-      and July <b>23 of 31</b>. ⛔ <b>Quiet stretches are not the norm here</b>, which makes this
-      a smaller and calmer page than it would have been on an assumption.
+    <p class="kitnote">⭐ <b>Designed before the good state, as “Coming up” was — but as an
+      EXCEPTION, because the habit is measured:</b> June carries <b>29 written days of 30</b>,
+      July <b>23 of 31</b>. ⛔ Quiet stretches are not the norm here.
       <br><br>⛔ <b>It names the gap and hands over something true.</b> “Nothing written since
-      Tuesday” is honest and dated; ⛔ <b>never “no recent activity”</b>, which reads as *the room
-      is dead* when the room is open and full. <b>The clubs line is the fact that stays true on
-      the quietest possible day</b> — and it points at the page that owns it rather than
-      restating the schedule here.
-      <br><br>⚠️ <b>Still unanswered and it is not a design question:</b> who writes these, and
-      what happens when that person is away. <b>A homepage promises freshness in a way a diary
-      does not</b>, so if the daily record moves to the front page, this state moves with it.</p>
+      Tuesday” is honest and dated; ⛔ <b>never “no recent activity”</b>, which reads as
+      <i>the room is dead</i> when the room is open and full.
+      <br><br>⚠️ <b>Still unanswered and not a design question:</b> who writes these, and what
+      happens when that person is away.</p>
   </section>
 
   <section style="margin-block-start:var(--pitch-rule-heading)" aria-labelledby="gaps-h">
     <h2 id="gaps-h">⚠️ Reviewer notes — not page copy</h2>
 
     <div class="empty">
-      <h3>⛔ 1. The corpus has two shapes and a migration will silently drop one</h3>
-      <p>Measured across all six guides: <b>day headings exist only from May onward.</b>
-        <b>April and March have none</b> — while April carries <b>42 images</b>, the most
-        photographed month on the site. ⛔ <b>A migration written against June and July would
-        parse cleanly, exit zero, and lose April entirely</b>, because the parser would find no
-        days and conclude there was nothing there. <b>Assert a per-month count.</b></p>
+      <h3>⛔⛔ 1. This page was outside the design system for an hour</h3>
+      <p>Its component lived in a <code>&lt;style&gt;</code> block inside the page — so the
+        responsive rules, the measure caps, the kitnote cap and the <code>li</code> exception
+        list, <b>all of which live in <code>_kit.css</code>, reached every kit except this
+        one.</b></p>
+      <p>⭐⭐ <b>And the part nobody spotted: assertion 13 could never have caught anything
+        here</b>, because the check knows classes and this page was built from classes the
+        system had never seen. <b>A page outside the system passes the system's checks by being
+        invisible to them.</b> ⛔ <b>A clean measurement would have been meaningless and would
+        have read as a pass</b> — the "gate that cannot fail" pattern arriving through a door
+        nobody had shut. <b>Moved into <code>_kit.css</code>.</b></p>
     </div>
 
     <div class="empty">
-      <h3>⛔ 2. The bodies still carry the schedule line, and it must be stripped</h3>
-      <p>Every source day begins <code>2 PM–6 PM | Stitching Lab · Facilitated by…</code> before
-        it says anything. That prefix is <b>the schedule, repeated 22–28 times in every
-        month.</b> ⭐ <b>It is also the entire reason the page felt “too heavy”</b> — not the
-        photographs, which the owner removed to fix a weight problem the duplication was
-        causing. <b>The importer strips it; the feed shows what happened.</b></p>
+      <h3>⛔ 2. Every entry has its own URL, and it is nested</h3>
+      <p><b>Owner ruled: <code>/activities/{slug}/</code></b>, not root-level. ⭐ <b>The second
+        URL shape this project has chosen rather than inherited.</b> At ~30 entries a month,
+        deciding this a year from now means redirecting ~360 URLs; deciding it today costs a
+        <code>routes.yaml</code> collection. ⚠️ <b>Which is the Ghost Settings wall — a human in
+        admin, not a script</b> — and joins the paste-in package already pending.</p>
+      <p>⛔ <b>The individual entry page does not exist as a kit and is now the gap.</b>
+        ⭐ <b>Shareability is its primary requirement, not a property it happens to have:</b>
+        <b>direct traffic is 60.8% — 5,449 visitors — against 20.7% search.</b> This is already
+        a shared-link site whose pages contain nothing shareable. <b>A heading inside a
+        12,628px guide cannot be sent to anybody.</b> So the entry page is designed for the
+        moment it arrives in a WhatsApp thread, which makes <code>og:image</code>,
+        <code>og:title</code> and the description <b>product decisions, not metadata
+        hygiene</b>.</p>
+      <p>⚠️ <b>The floor is adequate and should be stated as such:</b> every post already has
+        <code>og_image</code>, <code>og_title</code>, <code>og_description</code>,
+        <code>meta_*</code> and <code>canonical_url</code> fields — all currently empty, so
+        Ghost falls back to the title and feature image. ⛔ <b>That fallback is fine. Nobody is
+        blocked on hand-writing 360 descriptions</b>; a hand-written one earns its keep only
+        where the headline alone would mislead.</p>
     </div>
 
     <div class="empty">
-      <h3>⚠️ 3. The headlines here are mine</h3>
-      <p>The source has none. Every body is real and every photograph is real, but <b>“The bags
-        went on sale” and “The cats have moved in” are distilled by me</b> from the entries
-        beneath them. ⛔ <b>Flagged rather than passed off as found copy</b> — and worth
-        deciding who writes them in the real thing, since a headline is the difference between
-        a day that scrolls past and a day somebody reads.</p>
+      <h3>⚠️ 3. The photographs now carry width and height — a defect I had already solved</h3>
+      <p>All three lacked both attributes, so <b>the feed reflowed as each image arrived</b> —
+        content jumping under a reader's thumb, on the page whose whole purpose is scrolling.
+        ⛔ <b>I got this right on <code>/team/</code> one page earlier</b> — “width/height on
+        every one so the grid does not reflow as thirteen images arrive” — <b>and did not carry
+        it here.</b> ⚠️ These are unresized WhatsApp originals, the worst case for it.</p>
+    </div>
+
+    <div class="empty">
+      <h3>⚠️ 4. What the import must guarantee — not mine to build</h3>
+      <p><b>The monthly guides stay</b>, and the duplicate-content worry does not apply: ⭐ <b>a
+        past record cannot drift.</b> “On 7 August we finished fourteen bags” is true forever.
+        The one real cost is Google splitting signals, solved by <b>setting each entry's
+        <code>canonical_url</code> to the guide it came from</b>.</p>
+      <p>⛔ <b>Three things will bite the splitter:</b> <b>April and March have no day
+        headings</b> while April carries <b>42 photographs</b> — a script written against
+        June/July exits zero and silently drops the most photographed month, so <b>assert a
+        per-month count</b>. <b>Matching each photograph to the right day</b> is the fuzzy-match
+        trap in a new place, and unlike a redirect map <b>a wrong answer here is invisible</b>.
+        And ⛔ <b>the newsletter: 796 subscribers.</b> Seven posts on this site already have
+        status <code>sent</code> — <b>prove, do not assume, that API-created posts do not
+        send.</b> A hundred creations with the wrong flag is a hundred emails.</p>
+      <p>⚠️ <b>Newsletter is publish-only by an existing team habit</b>, not by a setting —
+        <b>Ghost's default is the other way</b>, so the next person to join needs to know it is
+        a habit that can be broken by accident.</p>
     </div>
   </section>
 </main>

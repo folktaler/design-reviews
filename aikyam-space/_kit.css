@@ -154,6 +154,56 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    `.wrap--wide .kitnote` is (0,2,0) and wins. ⚠️ Any future per-component measure override
    needs the `.wrap--wide` prefix for the same reason. */
 .wrap--wide .kitnote{max-width:calc(var(--measure-small) + var(--space-4)*2)}
+
+/* ══ ACTIVITIES ═══════════════════════════════════════════════════════════════════════════
+   ⛔⛔ MOVED HERE FROM THE PAGE'S OWN <style> BLOCK, 10 Aug 2026, and the reason is the
+   important part. While the component lived inside `activities/index.html` the page had opted
+   out of the shared system: the responsive rules, the measure caps, the kitnote cap and the
+   `li` exception list all live in this file and none of them reached it.
+   ⭐⭐ Worse, and nobody spotted it for an hour: ASSERTION 13 COULD NEVER HAVE CAUGHT ANYTHING
+   THERE, because the check knows classes and the page's layout was built from classes the
+   system had never seen. **A page outside the system passes the system's checks by being
+   invisible to them** — the "gate that cannot fail" pattern arriving through a new door.
+   A clean measurement would have been meaningless and would have read as a pass. */
+
+/* ⭐ MONTH SELECTOR, not a filter. Nobody browsing a record wants to filter it; they want to
+   jump to a month. It is also what keeps a long feed navigable, and the months carry real
+   search traffic — May pulls 282 six-month visitors. */
+.months{display:flex;flex-wrap:wrap;gap:var(--space-2);list-style:none;margin:var(--space-5) 0 0;padding:0}
+.months a{display:inline-flex;align-items:center;min-height:var(--tap-comfortable);
+  padding-inline:var(--space-4);border:var(--rule-hairline) solid var(--border-hairline);
+  border-radius:var(--radius-pill);text-decoration:none;font-size:var(--type-ui);
+  font-weight:var(--weight-medium);font-variant-numeric:var(--figures-aligned)}
+.months a[aria-current="page"]{background:var(--surface-way-in);color:var(--text-on-way-in);
+  border-color:transparent;font-weight:var(--weight-semibold)}
+
+/* ⭐ THE UNIT IS AN ACTIVITY, NOT A DAY — owner, 10 Aug 2026: several can share a date. So the
+   date is a quiet GROUP LABEL and each activity keeps its own headline beneath it.
+   ⛔ The date is never a headline: measured on Airbnb, a dated record puts the person at
+   16/20/500 and the date at 14px grey. Here the headline is WHAT HAPPENED. ⭐ Multiple entries
+   per date makes that load-bearing rather than merely better — "Saturday 8 August" cannot
+   headline three different things. And a group label states the date ONCE instead of repeating
+   it under every entry, which would be the count-in-prose problem in another costume. */
+.dayband{font-size:var(--type-small);color:var(--text-secondary);font-weight:var(--weight-semibold);
+  font-variant-numeric:var(--figures-aligned);margin:var(--space-7) 0 var(--space-3);
+  padding-block-start:var(--space-5);border-block-start:var(--rule-hairline) solid var(--border-hairline)}
+.dayband:first-of-type{margin-block-start:var(--space-5);padding-block-start:0;border-block-start:0}
+
+/* ⭐ ONE FORM, not two — owner cut future entries entirely, so every activity is a record.
+   ⛔ The photograph is still not guaranteed: measured in the real corpus, the 1 August rain
+   closure has none and never can. So the rule stands and now covers the ONLY exception rather
+   than one of two systematic states: an entry with a photograph is a card; an entry without
+   one has no container at all. NO SLOT WITHOUT A GUARANTEED FILLER. */
+.act{margin:0 0 var(--space-6)}
+.act__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
+  display:block;margin:0 0 var(--space-4);background:var(--surface-quiet)}
+.act__what{font-size:var(--type-subheading);font-weight:var(--weight-semibold);margin:0}
+.act__what a{text-decoration:underline;text-decoration-color:var(--border-hairline);
+  text-decoration-thickness:1px;text-underline-offset:3px}
+.act__meta{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-2) 0 0;
+  font-variant-numeric:var(--figures-aligned)}
+.act__body{margin:var(--space-3) 0 0;max-width:var(--measure-small)}
+.feed{list-style:none;margin:0;padding:0}
 .kitnote::before{content:'REVIEWER NOTE — not page copy';display:block;
   font-size:var(--type-micro);font-weight:var(--weight-semibold);
   letter-spacing:var(--tracking-micro);color:#b3261e;margin-block-end:var(--space-2)}
