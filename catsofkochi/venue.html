@@ -544,17 +544,59 @@
      the LATER one wins — a tap on the place would open the alternative. */
   .v-nn__name::after { content: ''; position: absolute; inset: 0; }
   .v-nn__dist, .v-nn__state { color: var(--text-secondary, #5a544c); }
-  .v-nn__instead { display: block; margin-block-start: var(--space-2, 8px); color: var(--text-primary, #1c1a17); }
-  /* Lifted above the row overlay, or the overlay swallows it.
-     ⛔ This rule used to carry ONLY the z-index, and this kit has no base `a`
-     rule — so the one link the reader is actually being sent to rendered in
-     the browser default #0000EE, measured, while every other link in the same
-     component was ink. Same treatment as `.v-prose a` below: ink + amber
-     underline, because the destination IS the thing the reader came for. */
-  .v-nn__instead a { position: relative; z-index: 1;
-                     color: var(--text-primary, #1c1a17); text-decoration: underline;
-                     text-decoration-color: var(--cok-amber, #ffa700);
-                     text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  /* ⛔⛔ THE DESTINATION IS OUT OF THE SENTENCE — restructured 10 Aug 2026, and
+     this is a SHAPE change, not styling. It was one running sentence: "Open now:
+     Mattancherry Palace, five minutes further down the same lane, until five."
+     Three findings landed on it in one day — an 83-character line, a 19px tap
+     target, and caption type for the whole component.
+     ⚠️ The tap target is why it had to be the shape and not the CSS. An inline
+     link inside prose cannot take a 44px floor without breaking the line it sits
+     in — this file's own note said so and was right. So the destination gets its
+     own line and becomes a control instead of a phrase.
+     ⭐ WCAG 2.2 SC 2.5.8's inline exemption genuinely covers the old form. It
+     describes what is PERMITTED; the question is what the design INTENDS. This
+     is the payload of the only component on the page that catches a traveller at
+     a locked gate, so a thumb aims for it. The exemption is true and irrelevant.
+     ⭐ The grammar is the site's own, not a new invention: a quiet kicker, the
+     thing you act on, then the detail — same three-part shape as `.cat-tip`. */
+  .v-nn__instead { display: block; margin-block-start: var(--space-3, 12px);
+                   color: var(--text-primary, #1c1a17); }
+  .v-nn__instead-k {
+    display: block;
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+  }
+  /* ⛔ `position:relative; z-index:1` IS LOAD-BEARING and must survive any edit
+     here: `.v-nn__name::after` covers the whole row, and without the lift the
+     overlay swallows this control entirely — a tap on the alternative would open
+     the place it is redirecting away from.
+     ⛔ And the colour is load-bearing too. This rule once carried only the
+     z-index, and because the kit has no base `a` rule the one link the reader is
+     being sent to rendered in the browser default #0000EE — measured — while
+     every other link in the component was ink.
+     ⚠️ UNDERLINE THE TEXT, NOT THE BOX. `text-decoration` tracks the words; a
+     border on a 52px inline-flex would float a rule ~18px beneath them. */
+  .v-nn__instead-go {
+    position: relative; z-index: 1;
+    display: inline-flex; align-items: center;
+    min-block-size: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    font-size: var(--type-ui, 17px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-ui, 1.3);
+    color: var(--text-primary, #1c1a17);
+    text-decoration: underline;
+    text-decoration-color: var(--cok-amber, #ffa700);
+    text-decoration-thickness: 2px; text-underline-offset: 3px;
+  }
+  .v-nn__instead-d {
+    display: block;
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+  }
 
   /* ── the writing ────────────────────────────────────────────────────── */
   .v-prose p { margin: 0 0 var(--paragraph-gap, 0.75em); }
@@ -966,7 +1008,14 @@
              10-6 straight through, so the real NotNow case here is a Saturday (or
              one of the thirteen dated holiday closures), when it is shut all day. -->
         <a class="v-nn__name" href="#top">Paradesi Synagogue</a><span class="v-nn__dist"> · 4 minutes on foot</span><span class="v-nn__state"> — <span class="v-nn__clock" data-closed-today>closed all day — it is a Saturday</span>.</span>
-        <span class="v-nn__instead" data-not-now-instead data-until="17"><b>Open now:</b> <a href="#top">Mattancherry Palace</a>, five minutes further down the same lane, until five.</span>
+        <!-- ⭐ THREE PARTS, NOT ONE SENTENCE. The destination is a control on its
+             own line so it can carry a real tap target; the kicker says why it is
+             worth reading and the detail carries the alternative's OWN closing
+             hour, which is the thing that stops this component sending somebody
+             to a second locked door.
+             ⛔ `data-not-now-instead` and `data-until` stay on the WRAPPER — the
+             script reads them there to decide whether to show the line at all. -->
+        <span class="v-nn__instead" data-not-now-instead data-until="17"><span class="v-nn__instead-k">Open now</span><a class="v-nn__instead-go" href="#top">Mattancherry Palace</a><span class="v-nn__instead-d">Five minutes down the same lane, until five.</span></span>
       </li>
     </ul>
   </section>
