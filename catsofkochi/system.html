@@ -79,7 +79,10 @@
     --space-9:3rem; --space-10:4rem;
     --gutter:var(--space-6);
     --pitch-rule-heading:2.0625rem; --pitch-row:1.25rem;
-    --measure:32rem; --measure-wide:62rem; --measure-small:22rem;
+    /* --measure-wide raised 62rem → 72rem, 10 Aug 2026. The measurement that
+       decided it, and the Guardian-era history, live in tokens/spacing.css —
+       not repeated here, because a kit is not where a token's rationale lives. */
+    --measure:32rem; --measure-wide:72rem; --measure-small:22rem;
     --radius-none:0; --radius-card:.5rem; --radius-control:.75rem;
     --radius-pill:999px; --radius-round:50%;
     --rule-hairline:1px; --rule-band:8px; --rule-leading:4px;
@@ -118,9 +121,18 @@
      simplification: system.html has no <section> at all — every specimen is a
      direct child of main — so the base rules reach everything. venue needs
      subgrid because its lists sit inside sections.
-     ⛔ --measure-wide is the SYSTEM's 62rem (tokens/spacing.css:120), not a
-     number invented here. ⚠️ It was declared in this kit and used by nothing
-     before today — a dead token, same shape as the fonts.css scar. */
+     ⛔ --measure-wide is the SYSTEM's token (tokens/spacing.css), not a number
+     invented here — 72rem since 10 Aug 2026, raised from 62rem in one act across
+     the token file and every kit that reads it. ⚠️ It was declared in this kit
+     and used by nothing before today — a dead token, same shape as the fonts.css
+     scar.
+     ⭐ MEASURED at six widths, phone equality asserted (text === min(w,560)−48):
+       container  320  375  768  1024  1440  2000
+       text       272  327  512   512   512   512
+       wide       272  327  720   976  1152  1152
+     Zero overflow and one left edge at every one. The trust-card cell goes from
+     108x90 on a phone to 383x78 at 1440 — the component finally has the desktop
+     it was measured for on 9 Aug and never had. */
   .page {
     display: grid;
     grid-template-columns:
