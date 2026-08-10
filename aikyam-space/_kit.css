@@ -78,8 +78,30 @@ a{color:inherit}
 .wrap--wide{max-width:calc(var(--measure-wide) + var(--gutter)*2)}
 /* ⛔ `--measure-wide` (62rem) is a LAYOUT width for grids and rails, never a text column.
    A paragraph placed directly in it ran 136–146 characters a line on the specimen page.
-   Prose inside a wide wrapper carries its own measure; only grids get the full width. */
-.wrap--wide > p,.wrap--wide > section > p,.wrap--wide > section > div > p{max-width:var(--measure)}
+   Prose inside a wide wrapper carries its own measure; only grids get the full width.
+
+   ⛔⛔ REWRITTEN 10 Aug 2026. This was three DEPTH-LIMITED selectors — `> p`, `> section > p`,
+   `> section > div > p` — so a paragraph one level deeper than anyone anticipated lost its
+   measure silently, and the page still passed every check because nothing measures a line
+   that is merely too long on desktop. Depth-limited selectors encode the markup you happened
+   to write, not the rule you meant. A blanket descendant cap is safe: grid items are already
+   ≤24rem, so capping them at 34rem is a no-op. */
+.wrap--wide :is(p,li,dd,blockquote,h1,h2,h3,h4){max-width:var(--measure)}
+/* ⛔ `h1` was missing from this list on the first attempt and measured **992px wide** in the
+   browser. It looked fine only because "Clubs" is one short word — a long title would have
+   run the full width with nothing to catch it. Found by measuring, not by reading. */
+/* ⭐ …except the things that ARE the structure. A grid's own children must keep the full
+   width, or the grid can never form a second column — see `.set` below. */
+.wrap--wide :is(.cards,.orgs,.foot-cols,.week,.set)>li{max-width:none}
+/* ⛔⛔ TRIED AND REJECTED, 10 Aug 2026: centring the capped prose inside the wide wrapper
+   (`margin-inline:auto`). The numbers were perfect — 583px of gutter each side, symmetric,
+   zero overflow — and the RENDERED PAGE was incoherent: `h1` and the pill kept the left edge
+   while paragraphs centred, so the page had TWO competing left edges. Caught by looking at a
+   screenshot, invisible to every measurement taken. ⭐ The page keeps ONE left edge: prose
+   capped and left-aligned, structure taking the extra width beneath it.
+   ⚠️ Known and deliberate: the intro region still leaves dead space to the right on a very
+   wide screen. Filling it means pairing the intro with the today-status — a design change,
+   not part of making the page responsive, so it is proposed rather than done. */
 /* ⛔ An unbreakable token — `autocomplete="email"` in a <code> — is 384px wide and cannot
    wrap, so it pushed the page 59px past the viewport at 200% text zoom even after the grid
    guards were fixed. A code span must be allowed to break. */
@@ -126,6 +148,22 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
 .week__what{font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
 .week li[data-shut] .week__what{color:var(--text-primary)}
 .week li[data-today]{background:var(--surface-wash)}
+
+/* ⭐⭐ THE WEEK IS THE ONE GENUINE REARRANGEMENT, so it gets the one media query.
+   Everything else here responds intrinsically — `auto-fill` + `minmax(min(X,100%),Y)` —
+   because breakpoints create widths nobody tested between. This case cannot: a phone needs
+   7 ROWS (day beside what), a laptop needs 7 COLUMNS (day above what), and the item's own
+   internal axis flips. No single intrinsic rule yields 1-column-at-335px and 7-at-992px —
+   any `minmax` floor small enough for seven columns also gives two on a phone.
+   ⛔ So this is the sanctioned exception, not permission for more: a REARRANGEMENT, not a
+   reflow. ⭐ And a week is a horizontal structure — stacking it is the one case where narrow
+   actively destroys the meaning, which is why it is worth an exception at all. */
+@media (min-width: 48rem){
+  .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+  .week li{grid-template-columns:minmax(0,1fr);align-content:start;gap:var(--space-2);
+           border-block-end:0;border-inline-end:var(--rule-hairline) solid var(--border-hairline)}
+  .week li:last-child{border-inline-end:0}
+}
 
 .sessions{margin-block:var(--space-8);padding:0;list-style:none}
 .session{position:relative;padding:var(--space-5) 0;border-block-start:var(--rule-hairline) solid var(--border-hairline)}

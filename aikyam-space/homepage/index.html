@@ -45,7 +45,13 @@
   </ul>
 </nav>
 
-<main class="wrap">
+<!-- ⛔ WAS `class="wrap"` (34rem). That was the whole desktop defect: `.cards` and `.orgs`
+     already carry `repeat(auto-fill, minmax(min(20.5rem,100%),24rem))`, so the responsive
+     machinery existed — a 544px container simply never gave it room for a second column.
+     ⭐ The grids were correct and STARVED, which is why no check saw it: nothing overflowed,
+     no line was too long, and a narrow ribbon passes both. Prose keeps `--measure` via the
+     cap rule in _kit.css, so widening the container does not lengthen a single line. -->
+<main class="wrap wrap--wide">
 
   <!-- 1 + 2 : status and hero, unchanged from v1 -->
   <section class="lede">
