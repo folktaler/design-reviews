@@ -89,10 +89,20 @@
     --pitch-rule-heading: 2.0625rem;          /* 33px, divider → heading */
     --pitch-row: 1.25rem;                     /* 20px, row → row */
     --measure: 32rem;                         /* 512px of TEXT, not of wrapper */
-    /* ⭐ 72rem = 1152px, the ceiling for LISTS AND GRIDS, never for prose.
-       Measured, not preferred: at 1152 the card grid gives 3 columns of 368px
-       against Airbnb's measured 376px card; at 60rem it gives 304px. */
-    --measure-wide: 72rem;
+    /* ⛔⛔ 62rem BECAUSE THE SYSTEM ALREADY SAYS SO — design-system/tokens/
+       spacing.css:120, "index pages, galleries, the footer". I proposed 72rem
+       from a card measurement having NOT grepped for an existing token; three
+       other kits (system, itinerary_v2, homepage_registry) already carry 62rem.
+       A page that redefines a system token to a different number is the
+       documents-versus-renders trap, so this follows the token.
+       ⚠️ THE 72rem CASE IS REAL AND RAISED SEPARATELY, not settled here: 62rem is
+       pre-pivot, chosen against the Guardian's 980px desktop step
+       (tokens/breakpoints.css --bp-desk), while this system has been
+       Airbnb-faithful since 6 Aug. Measured, auto-fit minmax(17rem,1fr) gap 24:
+       1152 gives 3 columns of 368px against Airbnb's measured 376px card, 992
+       gives ~314px. Changing it is one deliberate act across the token file and
+       every kit — never a fork inside one page. */
+    --measure-wide: 62rem;
     --radius-none: 0;
     --radius-card: 0.5rem;                    /* 8px */
     --radius-control: 0.75rem;                /* 12px */
@@ -193,17 +203,21 @@
 
      ⭐ MEASURED, and the phone equality was ASSERTED, not eyeballed — the text
      column equals min(container,560)−48 at every phone width, which is exactly
-     what it was before this change:
-       container  320  375  428   768  1024  1440  2000
-       text       272  327  380   512   512   512   512
-       wide       272  327  380   720   976  1152  1152
+     what it was before this change. Re-measured at --measure-wide: 62rem, the
+     system value; an earlier table here read 1152 and was taken at 72rem:
+       container  320  375  768  1024  1440  2000
+       text       272  327  512   512   512   512
+       wide       272  327  720   976   992   992
+       photo      320  375  768  1024  1440  2000  (height 180 211 432 480 480 480)
+     Zero horizontal overflow at every one; one left edge at every one.
      On a phone `wide` and `text` are the same number, so marking something wide
      reflows nothing and costs nothing.
 
-     ⛔ --measure-wide IS 72rem AND THAT IS MEASURED, NOT PREFERRED. With the
-     card grid below, 72rem yields 3 columns of 368px against Airbnb's measured
-     376px card; 60rem yields 304px, visibly smaller than the system we are
-     faithful to. See docs/research/airbnb-study.md §4. */
+     ⛔ THE 40rem QUERY BELOW IS THE SYSTEM'S OWN --bp-wide (tokens/breakpoints.css).
+     That file's convention is written down and followed here: a custom property
+     cannot be used inside a media condition, so write the rem value and name the
+     token in a comment. It also says three breakpoints is the honest number for
+     this site; this change adds none. */
   /* ⛔ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS. The obvious version
      centres `text` inside `wide`, and rendering it killed that idea: at 1440 the
      H1 landed at left 464 and the facts strip at 144, so the page had TWO left
@@ -216,7 +230,7 @@
     grid-template-columns:
       [full-start] minmax(var(--gutter, 24px), 1fr)
       [wide-start text-start] min(100% - var(--gutter, 24px) * 2, var(--measure, 32rem))
-      [text-end]   minmax(0, calc(var(--measure-wide, 72rem) - var(--measure, 32rem)))
+      [text-end]   minmax(0, calc(var(--measure-wide, 62rem) - var(--measure, 32rem)))
       [wide-end]   minmax(var(--gutter, 24px), 1fr)
       [full-end];
   }
@@ -347,9 +361,10 @@
   .v-row:first-child { border-block-start: 0; }
   /* ⛔ THE LABEL TRACK IS CAPPED IN rem, NOT IN %. It was `minmax(6.5rem, 30%)`,
      tuned when the widest this row could ever be was 512px — 30% of that is
-     154px, which is right. Once the strip claims the wide track, 30% of 1152 is
-     **345px**, and the word "Hours" sat alone in a third of the page with a
-     245px gap before its value. Measured at 1440 before the fix. 10rem = 160px
+     154px, which is right. Once the strip claims the wide track the same 30%
+     becomes **345px** at a 1152px track, or 298px at the 62rem track this kit
+     now uses — either way the word "Hours" sits alone in most of a column with
+     a ~245px gap before its value. Measured at 1440 before the fix. 10rem = 160px
      keeps the desktop looking like a wider version of the phone rather than a
      different design. ⚠️ The lesson generalises: a percentage inside a container
      that just learned to grow is a defect waiting for the first wide screen. */
@@ -593,7 +608,7 @@
   }
   .v-bar > * {
     inline-size: 100%;
-    max-inline-size: var(--measure-wide, 72rem);
+    max-inline-size: var(--measure-wide, 62rem);
     margin-inline: auto;
   }
   .v-bar__context {
