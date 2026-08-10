@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aikyam space — proposed homepage v2 (mockup)</title>
+<meta name="description" content="Homepage v2 for aikyam.space: what is open today, the recurring club week, one-off events, the latest from the clubs, and the organisations who work from the space.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>#css-guard{background:#b3261e;color:#fff;padding:16px;margin:0;font:600 16px/1.45 system-ui,sans-serif}</style>
+<link rel="stylesheet" href="../_kit.css">
+</head>
+<body>
+<p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
+
+<div class="kitbar">
+  <b>MOCKUP v2 — not the live site.</b> Carries all four content types: partner organisations,
+  the clubs they run, the daily activity entries, and one-off dated events.
+  (<a href="../homepage_v1/">v1 is kept here</a> for comparison — it surfaced only two.)
+  Every club time, facilitator, organisation, description and activity entry below is a
+  <b>real published value</b>, re-verified against <a href="https://aikyam.space/clubs/">the
+  live clubs page</a> on 9 Aug 2026 — 14 of 14 facts matched.
+  <b>⛔ Nothing has been invented — including the empty “Coming up”, which is empty because
+  the site publishes no future-dated anything.</b>
+  Today is <b>Sunday 9 August 2026</b>; the grid below starts there and rolls forward.
+</div>
+
+<header class="site-head">
+  <div class="site-head__in">
+    <a class="brand" href="#">aikyam <span>space</span></a>
+    <button class="iconbtn" aria-label="Search">Search</button>
+    <a class="btn btn--secondary" href="#">Subscribe</a>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <ul>
+    <li><a href="#" aria-current="page">Clubs</a></li>
+    <li><a href="#">Stories</a></li>
+    <li><a href="#">Who we are</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Team</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ⛔ WAS `class="wrap"` (34rem). That was the whole desktop defect: `.cards` and `.orgs`
+     already carry `repeat(auto-fill, minmax(min(20.5rem,100%),24rem))`, so the responsive
+     machinery existed — a 544px container simply never gave it room for a second column.
+     ⭐ The grids were correct and STARVED, which is why no check saw it: nothing overflowed,
+     no line was too long, and a narrow ribbon passes both. Prose keeps `--measure` via the
+     cap rule in _kit.css, so widening the container does not lengthen a single line. -->
+<main class="wrap wrap--wide">
+
+  <!-- 1 + 2 : status and hero, unchanged from v1 -->
+  <section class="lede">
+    <p class="kicker">Fort Kochi</p>
+    <h1>A room you can walk into</h1>
+    <p style="margin-block-start:var(--space-4);max-width:30rem">aikyam space runs free
+      community clubs — stitching, curiosity, reading and dance. Sessions are open to
+      anyone from Fort Kochi, Mattancherry and nearby.</p>
+
+    <div class="today">
+      <p class="today__pill">Open today · 2–6 PM</p>
+      <p class="today__note">Sunday. Dance Club is running.</p>
+    </div>
+    <p class="kitnote">⭐ <b>“Open every day, 2–6 PM · Sunday is Dance only.”</b> After the
+      10 August rewrite the four clubs between them cover all seven days — Stitching, Curiosity
+      and Reading run Monday to Saturday, Dance runs Saturday and Sunday. <b>There is no day
+      the room is shut</b>, so “except Mondays” is not wrong about the day, it is a shape that
+      no longer exists. ⭐ And “except” was hiding the two facts a neighbour actually needs:
+      <b>Saturday is the fullest day</b> and <b>Sunday is Dance only</b>.</p>
+  </section>
+
+  <!-- 3 : the next seven days, STARTING TODAY -->
+  <section aria-labelledby="week-h">
+    <h2 id="week-h">The next seven days</h2>
+    <ol class="week" style="margin-block-start:var(--space-4)">
+      <li data-today><span class="week__day">Today</span><span class="week__what">Dance — 2–6 PM</span></li>
+      <li><span class="week__day">Mon 10</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Tue 11</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Wed 12</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Thu 13</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Fri 14</span><span class="week__what">Stitching · Curiosity · Reading — 2–6 PM</span></li>
+      <li><span class="week__day">Sat 15</span><span class="week__what">Stitching · Curiosity · Reading · Dance — 2–6 PM</span></li>
+    </ol>
+    <p class="kitnote">⛔ <b>v1 got this wrong and it was the worst defect in the set.</b> The
+      grid ran Mon 10 – Sun 16 while the page said today was Sunday 9 August — so “this week”
+      was <b>next</b> week, and a neighbour scrolling out of “Open today” met <b>Mon 10:
+      Closed</b> as the first row. The corroboration that it was an oversight rather than a
+      choice: <code>_kit.css</code> defined <code>.week li[data-today]</code> with a wash
+      highlight, and the markup used <code>data-today</code> <b>zero times</b> — the highlight
+      was written and unreachable.
+      <br><br><b>Two changes, not one.</b> The window now starts at <b>today</b> and rolls
+      forward seven days, and the heading says “<b>The next seven days</b>” rather than “This
+      week”, because a calendar week is not what a person deciding whether to walk over is
+      asking about — on a Saturday, “this week” is nearly over and useless. The first row is
+      labelled <b>Today</b>, not “Sun 9”, so it stays true without anyone editing it.
+      <br><br>⛔⛔ <b>These rows are hand-written and frozen, and in twenty-four hours they
+      rotted twice over — not once.</b> First the dates went stale, exactly as predicted. Then
+      on 10 August the schedule itself was rewritten: the closed day moved from Monday to
+      Sunday, Science became Curiosity, and Reading gained times. <b>Every row of this grid was
+      wrong in a different way from the one anybody was watching for.</b>
+      <br><br>⭐ <b>That is the argument, and it is stronger than the version this note used to
+      make.</b> A frozen grid does not only go stale as the calendar advances — <b>it goes
+      stale when the underlying rule changes</b>, and no amount of re-typing dates defends
+      against that. Only deriving the page from one stored schedule does. Correct today, wrong
+      tomorrow, and wrong in a way you did not anticipate. Fine in a drawing and <b>it must not
+      survive into the build</b>. A page that says “Today” from a build made three days ago is
+      worse than the diary, because the diary is at least honestly dated. The schedule is a
+      <b>recurrence rule</b> — now “Monday to Saturday” and “Saturday and Sunday” per club —
+      and dates are a <b>projection</b> of it that has to be computed when the page is read.
+      Full constraint, including how it layers so nothing false appears without JavaScript:
+      <code>COMPONENTS.md</code> § “the schedule is a RULE, not a list of dates”.</p>
+  </section>
+
+  <!-- 4 : COMING UP — one-off dated events. Currently, honestly, empty. -->
+  <section aria-labelledby="up-h">
+    <h2 id="up-h">Coming up</h2>
+    <div class="empty" style="margin-block-start:var(--space-4)">
+      <h3>Nothing one-off announced yet</h3>
+      <p>The clubs above run every week without an announcement — you never need to check
+        for those. This is where a one-off lands: a performance, a workshop, a visiting
+        group. When something is set, it appears here with its date.</p>
+    </div>
+    <p class="kitnote">This section is <b>empty on purpose and it is the deliverable.</b>
+      Checked 9 Aug 2026: there is not one future-dated item anywhere on aikyam.space.
+      <code>/tag/events/</code> — the page the nav labels “Activities” — holds only the three
+      monthly guide posts, newest dated 8 Aug. <code>/event-status/</code> renders 28
+      characters. <code>/jobs/</code> renders 6, and its heading says “Events”.
+      <b>Tink Her Hack 3.0 is a past event</b> and stays in the stories section below; it has
+      not been promoted here.
+      <br><br><b>How this degrades, which is the real design question:</b> a permanently
+      empty “Coming up” must not make the page read abandoned. It does not, because the copy
+      points at the thing that is always true — the weekly clubs need no announcement. The
+      emptiness is a statement about a <i>kind</i> of event, not about the space. ⛔ Do not
+      replace this with a hidden section: hiding it means a reader who wondered has no answer,
+      and the heading is what tells them the question was understood.</p>
+  </section>
+
+  <!-- 5 : LATEST FROM THE CLUBS — the daily entries, surfaced -->
+  <section aria-labelledby="latest-h">
+    <h2 id="latest-h">Latest from the clubs</h2>
+    <p style="margin-block-start:var(--space-3);color:var(--text-secondary)">Short notes from
+      the sessions, written up as they happen.</p>
+
+    <ul class="latest">
+      <li>
+        <p class="latest__meta"><span>7 Aug</span><span class="latest__club">Stitching Lab</span></p>
+        <p>Our little cat friends continue to make themselves at home. As a pet-friendly
+          space we are looking at small ways to make it more welcoming for animals.</p>
+      </li>
+      <li>
+        <p class="latest__meta"><span>6 Aug</span><span class="latest__club">Stitching Lab</span></p>
+        <p>The team placed their cut-piece tote bags and duffle bags at Local Sustainable
+          Living, to see how they are received. If demand grows they will make more.</p>
+      </li>
+      <li>
+        <p class="latest__meta"><span>4 Aug</span><span class="latest__club">Stitching Lab</span></p>
+        <p>Five new bag designs are in progress for an upcoming Onam event by Local
+          Sustainable Living, in handloom fabric and cut pieces.</p>
+      </li>
+    </ul>
+
+    <p style="margin-block-start:var(--space-5)">
+      <a class="btn btn--secondary" href="#">Read the whole month</a></p>
+
+    <p class="kitnote">All three entries are <b>real, verbatim-ish, and dated</b>, taken from
+      the August 2026 monthly post — the writing already happens daily, it is just buried in a
+      12,854px scroll. That is why this strip costs no new discipline.
+      <br><br><b>Two things a reviewer should push on.</b>
+      <b>(1) All three rows are the Stitching Lab.</b> That is not a design choice — of the
+      nine days written up so far, Stitching is the only club with substantive entries;
+      Curiosity (written up then as Science) has none and Dance has one (2 Aug, with Thudippu).
+      ⛔ No filler row was added to
+      balance it. If that imbalance is wrong, it is a writing problem this component makes
+      visible rather than hides.
+      <b>(2) How it degrades:</b> every row carries its own date, so the strip ages in public.
+      Past roughly a fortnight the heading should change from “Latest from the clubs” to
+      <b>“Last written up on 7 August”</b> — the date is promoted to the headline and the word
+      “latest” is dropped, so a quiet fortnight reads as a fact rather than as a broken feed.
+      ⛔ Never pad to three rows.</p>
+  </section>
+
+  <hr class="band">
+
+  <!-- 6 : WHO WORKS HERE — the partner organisations -->
+  <section aria-labelledby="orgs-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="orgs-h">Who works here</h2>
+    <p style="margin-block-start:var(--space-3);color:var(--text-secondary)">Ten organisations
+      and researchers use aikyam space as their base — five from outside aikyam, and five of
+      aikyam's own initiatives. Some of them also run a club.</p>
+    <p class="kitnote">⛔ <b>That first clause used to be in the lede, and it cost the
+      neighbour their first screen.</b> Adding “— and gives room to the organisations working
+      alongside them” grew the opening paragraph to 178px and pushed the today-note down 59px,
+      so at 360×640 “Sunday 9 August. Stitching, Science and Dance are all running” — the line
+      that says <i>which</i> clubs — was cut mid-sentence. “Open today” still landed, so the
+      page half-worked, which is the dangerous kind of regression.
+      <br><br>⭐ <b>The clause is organisation-facing and it was being paid for out of the
+      neighbour's first screen.</b> The partner layer earns its own section; it does not get
+      to tax the lede. Moved here, where a reader who has scrolled this far is asking exactly
+      this question.
+      <br><br>⚠️ The fold budget is real and thin: header + nav is 174px, <b>27% of a 640px
+      screen</b>, with the nav wrapping to two rows. One more line of intro copy pushes the
+      note off again. Chrome height is the lever if more is ever needed above the fold — a
+      deliberate change, not something to absorb by trimming words twice.</p>
+
+    <h3 style="margin-block-start:var(--space-6)">From outside aikyam</h3>
+    <ul class="orgs">
+      <li>
+        <h3>Olimalar Foundation</h3>
+        <p>Works with children and communities in Fort Kochi and Mattancherry on confidence,
+          emotional well-being and life skills.</p>
+        <span class="orgs__also">Runs the Curiosity Club and the Reading Club</span>
+      </li>
+      <li>
+        <h3>Thudippu Foundation</h3>
+        <p>Makes learning dance and other cultural art forms accessible, through performances
+          and learning spaces for artists.</p>
+        <span class="orgs__also">Works with the dance group</span>
+      </li>
+      <li>
+        <h3>Community 40</h3>
+        <p>Works with travellers and locals to preserve the culture and history of Fort Kochi
+          and Mattancherry — observing, recording and understanding the place and its people.</p>
+      </li>
+      <li>
+        <h3>Make A Difference</h3>
+        <p>Works with children in need of care and protection through education, mentoring
+          and life skills, building long-term support with volunteers.</p>
+      </li>
+      <li>
+        <h3>Sana Fathima</h3>
+        <p>A PhD researcher at the Delhi School of Economics, doing fieldwork in Kochi on the
+          social and cultural history of radio broadcasting.</p>
+      </li>
+    </ul>
+
+    <h3 style="margin-block-start:var(--space-8)">aikyam's own initiatives</h3>
+    <p style="margin-block-start:var(--space-2);color:var(--text-secondary);max-width:27rem;
+       font-size:var(--type-small)">These are aikyam's own work, and they are based here too.</p>
+    <ul class="orgs">
+      <li>
+        <h3>aikyam fellows</h3>
+        <p>Peer learning, coaching and access to tools for people working on education,
+          conservation, public health, art and culture.</p>
+      </li>
+      <li>
+        <h3>aikyam jobs</h3>
+        <p>Matches social impact organisations tackling inequality and climate change with
+          the right people.</p>
+      </li>
+      <li>
+        <h3>aikyam school</h3>
+        <p>A free, open forum for anyone working in the nonprofit sector in India —
+          compliance, finance, HR, fundraising, whatever comes up.</p>
+      </li>
+      <li>
+        <h3>PATTIC</h3>
+        <p>A support and knowledge platform helping Indian NGOs become more transparent,
+          legally compliant and professionally managed.</p>
+      </li>
+      <li>
+        <h3>OASIS</h3>
+        <p>A tech-for-good ecosystem helping social impact organisations use open-source
+          tools and collaboration to solve real problems.</p>
+      </li>
+    </ul>
+
+    <p style="margin-block-start:var(--space-6)">
+      <a class="btn btn--secondary" href="#">About the residency</a></p>
+
+    <p class="kitnote">⛔ <b>OVERTURNED 10 Aug 2026, and my premise was factually wrong.</b>
+      An earlier version showed <b>5</b> of the 10 residents and cut aikyam fellows, jobs,
+      school, PATTIC and OASIS, on the grounds that listing your own projects among your
+      residents inflates the partner count. The owner's ruling: <i>“my own five initiatives can
+      be moved to the co-impact section. we also work from there.”</i> <b>They genuinely occupy
+      the space</b>, so they were never padding and the live page's count of ten is accurate.
+      <br><br>⭐ <b>But the worry was real and only the remedy was wrong — so this distinguishes
+      instead of excluding.</b> Two labelled groups, and the intro states both numbers, so a
+      reader gets the true total <i>and</i> cannot mistake five in-house initiatives for five
+      independent partners. Excluding hid a fact; labelling keeps it and removes the wrong
+      inference. The heading “Who works here” is now more accurate than it was, not less.
+      <br><br><b>The two sets still really are two sets.</b> “Works from the space” and “runs a
+      club” overlap in exactly <b>one</b> place — Olimalar Foundation. Facilitators are people,
+      not organisations, so they stay in the club cards where they belong.
+      <br><br>✅ <b>RESOLVED 10 Aug 2026, and the disagreement was the useful part.</b>
+      <code>/clubs/</code> credited Aparna N as a “Tiny Entrepreneur” while <code>/team/</code>
+      listed only Haseena, Nasini Asharaf and Mary Gracy. Two pages disagreed and the owner
+      settled it: <b><code>/clubs/</code> is wrong</b> — she is the writer and a team member.
+      The label is gone from the clubs kit. ⛔ Still open and <b>not guessed at</b>: whether she
+      facilitates the Dance Club, and whether “Aparna N” and the “Aparna R” byline are one
+      person. That credit is left exactly as <code>/clubs/</code> has it.</p>
+  </section>
+
+  <hr class="band">
+
+  <!-- 7 : the clubs in full -->
+  <section aria-labelledby="clubs-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="clubs-h">The clubs</h2>
+    <p style="color:var(--text-secondary);margin-block-start:var(--space-2)">All free. All in
+      Malayalam. Limited seats, with preference for low-income and under-served households
+      from Fort Kochi, Mattancherry and nearby areas.</p>
+    <p class="kitnote">⛔ <b>“The three clubs” — the number was wrong, and writing it into a
+      heading was the mistake.</b> Owner, 10 Aug 2026: Reading Club and Curiosity Club are real
+      and active; <code>/clubs/</code> lists three and is incomplete. “Three” had been baked
+      into a heading, a lede and an intro, so a content fact became a design constant.
+      <b>The section now holds any number</b>, and the two clubs whose times are unpublished
+      appear on the clubs page as rows with the unknown named, not as omissions.
+      ⛔ Never write a count into a heading.</p>
+
+    <ul class="sessions">
+      <li class="session">
+        <p class="session__when">Monday to Saturday, 2–6 PM</p>
+        <h3 class="session__name"><a href="#">Stitching Club</a></h3>
+        <p class="session__body">Fresh cut pieces collected before they reach landfill,
+          cleaned, arranged and stitched into tote bags. Part of the Tiny Entrepreneurs
+          Network.</p>
+        <ul class="session__facts">
+          <li>Fee <b>Free</b> — tools included</li>
+          <li>With <b>Mary Gracy</b></li>
+          <li>In <b>Malayalam</b></li>
+        </ul>
+      </li>
+
+      <li class="session">
+        <p class="session__when">Monday to Saturday, 2–6 PM</p>
+        <h3 class="session__name"><a href="#">Curiosity Club</a></h3>
+        <p class="session__body">Children and teachers exploring by doing — asking questions,
+          experimenting, discovering together. Inspired by MOSAIC.</p>
+        <ul class="session__facts">
+          <li>Fee <b>Free</b></li>
+          <li>With <b>Olimalar Foundation</b></li>
+          <li>In <b>Malayalam and English</b></li>
+        </ul>
+      </li>
+
+      <li class="session">
+        <p class="session__when">Monday to Saturday, 2–6 PM</p>
+        <h3 class="session__name"><a href="#">Reading Club</a></h3>
+        <p class="session__body">Reading together, at whatever level each person starts from.
+          Inspired by PRATHAM, using the Teaching at the Right Level approach.</p>
+        <ul class="session__facts">
+          <li>Fee <b>Free</b></li>
+          <li>With <b>Olimalar Foundation</b></li>
+          <li>In <b>Malayalam and English</b></li>
+        </ul>
+      </li>
+
+      <li class="session">
+        <p class="session__when">Saturday and Sunday, 2–6 PM</p>
+        <h3 class="session__name"><a href="#">Dance Club</a></h3>
+        <p class="session__body">Bharatanatyam — movement, rhythm and expression. A space to
+          learn and experience it together.</p>
+        <ul class="session__facts">
+          <li>Fee <b>Free</b></li>
+          <li>With <b>Aparna NS</b></li>
+          <li>In <b>Malayalam</b></li>
+        </ul>
+      </li>
+    </ul>
+    <p class="kitnote">⛔ <b>Every “Just turn up” was removed and the absence is deliberate.</b>
+      The rewritten live page says nothing about turning up versus writing first, for any club.
+      Every value we held was inferred — and the two clubs previously marked “write to us
+      first” were marked so <i>because their times were unknown</i>. Those times are now
+      published, so re-deriving the answer would reason from a premise that no longer exists.
+      Recorded as <code>dropin:?</code>; the page says nothing rather than guessing.
+      <br><br>⛔ <b>Aparna NS is left exactly as the live page has it</b> — <code>/team/</code>
+      was edited three minutes later and disagrees. Recording a published claim is not
+      endorsing it.</p>
+
+    <div class="empty">
+      <h3>Teaching something else?</h3>
+      <p>Cooking, carpentry, robotics — if you can teach it, come and see the space. We are
+        looking for people who want to work with us over time, not for one session.</p>
+      <p style="margin-block-start:var(--space-4)"><a class="btn btn--primary" href="#">Write to us</a></p>
+    </div>
+  </section>
+
+  <hr class="band">
+
+  <!-- 8 : stories -->
+  <section aria-labelledby="stories-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="stories-h">What happened here</h2>
+    <ul class="cards">
+      <li class="card">
+        <span class="card__img" role="img" aria-label="Photograph placeholder — real photographs exist on the live site"></span>
+        <p class="card__kicker">Journeys of change</p>
+        <h3><a href="#">Stamping Through Time</a></h3>
+        <p>Chavittu Nadakam, one of Kerala's most distinctive performing arts traditions,
+          and the coastal communities that carry it.</p>
+        <p class="card__meta">Aparna R · 19 June 2026</p>
+      </li>
+      <li class="card">
+        <span class="card__img" role="img" aria-label="Photograph placeholder"></span>
+        <p class="card__kicker">Community programmes</p>
+        <h3><a href="#">Curiosity Club</a></h3>
+        <p>Can you hold DNA in your hands? Extracting it from a kiwi, on a table in
+          Fort Kochi.</p>
+        <p class="card__meta">aikyam space · 2026</p>
+      </li>
+      <li class="card">
+        <span class="card__img" role="img" aria-label="Photograph placeholder"></span>
+        <p class="card__kicker">Changemakers</p>
+        <h3><a href="#">Tink Her Hack 3.0 at aikyam space</a></h3>
+        <p>A hackathon for women, hosted in the hall, the garden and the kitchen over one
+          weekend.</p>
+        <p class="card__meta">aikyam space · 2026</p>
+      </li>
+    </ul>
+    <p style="margin-block-start:var(--space-6)"><a class="btn btn--secondary" href="#">Read all 37 stories</a></p>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap--wide">
+    <div class="foot-cols">
+      <div>
+        <h2>When we are open</h2>
+        <ul class="hours">
+          <li><span>Every day</span><b>2–6 PM</b></li>
+          <li><span>Sunday</span><b>Dance only</b></li>
+        </ul>
+        <p class="foot-note" style="margin-block-start:var(--space-3)">These are the club
+          session times. If you want to visit outside them, write first.</p>
+      </div>
+      <div>
+        <h2>Where we are</h2>
+        <p style="font-size:var(--type-small)">aikyam space, Fort Kochi</p>
+        <ul class="foot-links">
+          <li><a href="https://share.google/Xc0HN6lt65kULvdCg">Open in Maps</a></li>
+          <li><a href="#">Write to us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>More</h2>
+        <ul class="foot-links">
+          <li><a href="#">About the space</a></li>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">An aikyam project</a></li>
+          <li><a href="#">Our policies</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">a [ space ] for inspiring action · supported by Samagata Foundation ·
+      built with free and open source software</p>
+  </div>
+</footer>
+
+</body>
+</html>

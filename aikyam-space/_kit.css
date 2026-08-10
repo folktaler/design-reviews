@@ -204,6 +204,37 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    gone — that is the real cost of a decorative element, and the dependency only shows when it
    is taken away. ⛔ Dead CSS kept "in case" is how a system accumulates rules nobody can
    explain; it is in the history if anyone wants it back. */
+/* ── THE HOMEPAGE LEAD AND GRID ───────────────────────────────────────────────────────────
+   ⭐⭐ "Featured activities" is the owner's phrase and the design answer is that NOTHING IS
+   CURATED. A homepage needing weekly curation decays the moment somebody is busy — the same
+   failure as the quiet state, and this project has already solved it once by refusing to
+   depend on an action.
+   ⭐ So featuring is DERIVED: an activity with a photograph leads, an activity without one is
+   a record line. Somebody already made that judgement when they decided the thing was worth
+   photographing — 69 of 105 days had one — and it costs nobody a weekly decision. */
+.lead__shot{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius-card);
+  display:block;margin:0 0 var(--space-4);background:var(--surface-quiet)}
+.lead h2{font-size:var(--type-display);line-height:var(--leading-display);margin:0}
+.acts{list-style:none;margin:var(--space-6) 0 0;padding:0;display:grid;
+  gap:var(--grid-gap-row) var(--grid-gap-col);
+  grid-template-columns:repeat(auto-fill,minmax(min(20.5rem,100%),24rem))}
+/* ⛔ A record with no photograph is NOT a card and never gets an empty well. It sits in the
+   same grid, same width, and simply has less in it — no border, no background, nothing to
+   leave blank. NO SLOT WITHOUT A GUARANTEED FILLER. */
+.acts li{margin:0}
+.acts__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
+  display:block;margin:0 0 var(--space-3);background:var(--surface-quiet)}
+.acts h3{font-size:var(--type-subheading);font-weight:var(--weight-semibold);margin:0}
+.acts h3 a{text-decoration:underline;text-decoration-color:var(--border-hairline);
+  text-decoration-thickness:1px;text-underline-offset:3px}
+.acts__when{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-2) 0 0;
+  font-variant-numeric:var(--figures-aligned)}
+/* ⭐ The open-today line is ONE SENTENCE, not a section. "Ignore other bits" was about
+   emphasis, not deletion — a neighbour still comes for this, and /clubs/ is the second-busiest
+   page on the site. It gets a line at the top and a link, not a panel. */
+.todayline{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-2) var(--space-3);
+  margin:var(--space-5) 0 0;font-size:var(--type-ui)}
+.todayline b{font-weight:var(--weight-semibold)}
 .act{margin:0 0 var(--space-6)}
 .act__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
   display:block;margin:0 0 var(--space-4);background:var(--surface-quiet)}
