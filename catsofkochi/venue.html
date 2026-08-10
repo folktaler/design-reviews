@@ -89,6 +89,10 @@
     --pitch-rule-heading: 2.0625rem;          /* 33px, divider → heading */
     --pitch-row: 1.25rem;                     /* 20px, row → row */
     --measure: 32rem;                         /* 512px of TEXT, not of wrapper */
+    /* ⭐ 72rem = 1152px, the ceiling for LISTS AND GRIDS, never for prose.
+       Measured, not preferred: at 1152 the card grid gives 3 columns of 368px
+       against Airbnb's measured 376px card; at 60rem it gives 304px. */
+    --measure-wide: 72rem;
     --radius-none: 0;
     --radius-card: 0.5rem;                    /* 8px */
     --radius-control: 0.75rem;                /* 12px */
@@ -156,12 +160,91 @@
 
   /* ⚠️ --measure IS THE TEXT COLUMN and .wrap is border-box, so the gutters go
      ON TOP of it. Capping .wrap at --measure would render a column two gutters
-     NARROWER than the token claims. Ship the calc with the token, always. */
+     NARROWER than the token claims. Ship the calc with the token, always.
+     ⭐ .wrap still centres the HEADER and the note frame. The page body uses
+     .page below. */
   .wrap {
     max-width: calc(var(--measure, 32rem) + var(--gutter, 24px) * 2);
     margin-inline: auto;
     padding-inline: var(--gutter, 24px);
   }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
+     after he opened a 560px strip in a 2000px window. ═══════════════════════
+
+     ⛔ THE CAP ON PROSE IS NOT THE BUG. 512px of text is real typography; a
+     150-character line is unreadable. Raising --measure would trade one defect
+     for a worse one. What was missing is that LISTS, GRIDS AND FACT ROWS had no
+     way to use the space the prose correctly refuses.
+
+     ⭐ ONE GRID, THREE TRACKS, ZERO MEDIA QUERIES. A child picks a track with
+     `data-span`; everything else lands in `text` by default.
+       (default)          → the 512px prose column
+       data-span="wide"   → up to --measure-wide, for lists and rows
+       data-span="full"   → edge to edge, for photographs
+
+     ⭐ WHY NO BREAKPOINT, AND THIS IS THE LOAD-BEARING REASON: min()/minmax()
+     key off the CONTAINER, not the viewport. So the phone downloads and
+     evaluates nothing extra — and, just as important, this pattern can be
+     VERIFIED by constraining a container, which a media query cannot. The
+     project's own scar (a narrow desktop window is not a phone) does not apply
+     to it. Choosing the mechanism you can prove over the one that is merely
+     conventional is the point.
+
+     ⭐ MEASURED, and the phone equality was ASSERTED, not eyeballed — the text
+     column equals min(container,560)−48 at every phone width, which is exactly
+     what it was before this change:
+       container  320  375  428   768  1024  1440  2000
+       text       272  327  380   512   512   512   512
+       wide       272  327  380   720   976  1152  1152
+     On a phone `wide` and `text` are the same number, so marking something wide
+     reflows nothing and costs nothing.
+
+     ⛔ --measure-wide IS 72rem AND THAT IS MEASURED, NOT PREFERRED. With the
+     card grid below, 72rem yields 3 columns of 368px against Airbnb's measured
+     376px card; 60rem yields 304px, visibly smaller than the system we are
+     faithful to. See docs/research/airbnb-study.md §4. */
+  /* ⛔ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS. The obvious version
+     centres `text` inside `wide`, and rendering it killed that idea: at 1440 the
+     H1 landed at left 464 and the facts strip at 144, so the page had TWO left
+     edges alternating down it — 320px apart, and it read as a mistake. Putting
+     the whole surplus on the right gives every block one left edge at every
+     width (measured: 24 / 24 / 144 / 424 at 375 / 1024 / 1440 / 2000, one
+     distinct value each time). Alignment beats balance. */
+  .page {
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter, 24px), 1fr)
+      [wide-start text-start] min(100% - var(--gutter, 24px) * 2, var(--measure, 32rem))
+      [text-end]   minmax(0, calc(var(--measure-wide, 72rem) - var(--measure, 32rem)))
+      [wide-end]   minmax(var(--gutter, 24px), 1fr)
+      [full-end];
+  }
+  .page > *                    { grid-column: text; }
+  .page > [data-span="wide"]   { grid-column: wide; }
+  .page > [data-span="full"]   { grid-column: full; }
+
+  /* ⭐ A SECTION IS A SUBGRID, and this is the part that is easy to get wrong.
+     The grid's children are the SECTIONS, not the lists inside them — so a
+     `<dl>` two levels down cannot claim a track by itself. Subgrid lets the
+     section span `full` while its own children align to the page's tracks, so
+     an h2 stays in the prose column and the list beside it goes wide.
+     ⛔ Capping the h2 at --measure inside a `wide` section instead does NOT
+     work: the wide track is centred, so a 512px h2 inside it starts ~320px left
+     of the body text at 1440. Verified in Chrome — with subgrid the h2 and a
+     direct text child both land at left 464 / width 512 at 1440, and both at
+     left 24 / width 327 at 375. `CSS.supports('grid-template-columns','subgrid')`
+     confirmed true before this shipped. */
+  .page > section,
+  .page > nav {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: full;
+  }
+  .page > section > *,
+  .page > nav > *                  { grid-column: text; }
+  .page > section > [data-span="wide"],
+  .page > nav > [data-span="wide"] { grid-column: wide; }
 
   :focus-visible {
     outline: var(--focus-ring-width, 5px) solid var(--focus-ring, #0b60c4);
@@ -189,10 +272,22 @@
   /* ⭐ Full bleed, and therefore SQUARE. A photograph that runs to the edge of
      the page has no corner; only a photograph inside a card takes the card's.
      ⛔ AND THE CONTENT SHEET DOES NOT RISE OVER IT — see the note at the foot. */
-  .v-photo { margin: 0; margin-inline: calc(var(--gutter, 24px) * -1); }
+  /* ⛔ THE NEGATIVE MARGIN IS GONE. Full bleed used to be `margin-inline:
+     calc(var(--gutter) * -1)`, which only reaches the edge because the wrapper
+     stopped at 560px. Under the grid the photograph claims the `full` track
+     instead — same result on a phone, and it actually reaches the edge of a
+     1440px window instead of the edge of a 560px strip. */
+  .v-photo { margin: 0; }
   .v-photo img {
     display: block; inline-size: 100%; block-size: auto;
     aspect-ratio: 16 / 9;
+    /* ⚠️ A CAP THE PHONE NEVER MEETS. 16/9 full-bleed is 211px on a 375px phone
+       — the measured, deliberate choice, because the fold has to end in an
+       opening time. At 1440 the same ratio is 810px, taller than most laptop
+       viewports, so the hero would push every fact below the fold on exactly
+       the screen this change exists to serve. 480px binds only above ~853px
+       wide; at 375 it is inert. object-fit already crops. */
+    max-block-size: 30rem;
     object-fit: cover;
     border-radius: var(--radius-none, 0);
     background: var(--surface-quiet, #f4f1ea); /* what a slow connection sees first */
@@ -250,9 +345,17 @@
     border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
   }
   .v-row:first-child { border-block-start: 0; }
+  /* ⛔ THE LABEL TRACK IS CAPPED IN rem, NOT IN %. It was `minmax(6.5rem, 30%)`,
+     tuned when the widest this row could ever be was 512px — 30% of that is
+     154px, which is right. Once the strip claims the wide track, 30% of 1152 is
+     **345px**, and the word "Hours" sat alone in a third of the page with a
+     245px gap before its value. Measured at 1440 before the fix. 10rem = 160px
+     keeps the desktop looking like a wider version of the phone rather than a
+     different design. ⚠️ The lesson generalises: a percentage inside a container
+     that just learned to grow is a defect waiting for the first wide screen. */
   @media (min-width: 40rem) {
     .v-row {
-      grid-template-columns: minmax(6.5rem, 30%) 1fr;
+      grid-template-columns: minmax(6.5rem, 10rem) 1fr;
       gap: var(--space-2, 8px) var(--space-4, 16px);
       align-items: baseline;
     }
@@ -263,8 +366,14 @@
     font-weight: var(--weight-medium, 500);
     line-height: var(--leading-ui, 1.3);
   }
+  /* ⛔ A VALUE IS PROSE AND KEEPS THE READING MEASURE. Without this the refusal
+     sentences ran the full wide track — measured 103 characters at 1440 against
+     the system's own 65 ceiling. The row goes wide; the sentence inside it does
+     not. ⚠️ See the note at the foot: --measure yields 66–74 characters rather
+     than 65, so this caps the damage without closing that gap. */
   .v-row__value {
     margin: 0;
+    max-inline-size: var(--measure, 32rem);
     font-size: var(--type-ui, 17px);
     line-height: var(--leading-tight, 1.375);
     color: var(--text-primary, #1c1a17);
@@ -350,6 +459,19 @@
   .v-ttk__row + .v-ttk__row {
     border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
   }
+  /* ⭐ TWO LABEL/VALUE LISTS ON ONE PAGE MUST NOT USE TWO LAYOUTS. The facts
+     strip goes side-by-side at 40rem and this one stayed stacked, so at desktop
+     the page carried the same shape drawn two different ways, one above the
+     other. Same query, same label track. */
+  @media (min-width: 40rem) {
+    .v-ttk__row {
+      display: grid;
+      grid-template-columns: minmax(6.5rem, 10rem) 1fr;
+      gap: var(--space-2, 8px) var(--space-4, 16px);
+      align-items: baseline;
+    }
+    .v-ttk__label { margin-block-end: 0; }
+  }
   .v-ttk__label {
     margin: 0 0 var(--space-1, 4px);
     font-size: var(--type-ui, 17px);
@@ -358,6 +480,7 @@
   }
   .v-ttk__value {
     margin: 0;
+    max-inline-size: var(--measure, 32rem);
     font-size: var(--type-small, 16px);
     line-height: var(--leading-tight, 1.375);
     color: var(--text-secondary, #5a544c);
@@ -452,6 +575,13 @@
   }
 
   /* ── the sticky bar. ⛔ This is the ONE page type allowed one. ───────── */
+  /* ⚠️ THE BAR SPANS THE WINDOW, ITS CONTENTS MUST NOT. Fixed + inset-inline:0
+     is right — the hairline should run edge to edge — but at 1440 the context
+     line and the button were pinned to opposite ends of the screen, a metre
+     apart on a monitor. The bar stays full width; its CONTENT is capped at the
+     same wide track as the page and centred, so the button sits under the page
+     it belongs to. ⭐ Inert on a phone: min() picks the 100%−48px branch below
+     1200px, which is what it already did. */
   .v-bar {
     position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 10;
     display: flex; flex-direction: column; gap: var(--space-2, 8px);
@@ -460,6 +590,11 @@
     background: var(--surface-page, #fdfcf9);
     /* ⭐ A hairline, not a shadow. This system ships no shadow tokens at all. */
     border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  .v-bar > * {
+    inline-size: 100%;
+    max-inline-size: var(--measure-wide, 72rem);
+    margin-inline: auto;
   }
   .v-bar__context {
     margin: 0;
@@ -514,7 +649,11 @@
   </div>
 </header>
 
-<main class="wrap" id="top">
+<!-- ⭐ `page`, not `wrap`. The grid supplies its own gutters through its outer
+     tracks, so it needs no max-width and no padding of its own — that is what
+     lets a child claim the full window. `.wrap` still centres the header above
+     and the note frame below. -->
+<main class="page" id="top">
 
   <!-- ⭐ The photograph first, full bleed, square-cornered. 16/9 and not
        Airbnb's 1.05/1 hero: their fold ends in a price and ours has to end in
@@ -526,7 +665,7 @@
        the same document. The builder sets the true dimensions from the file.
        (The live site's header <img> has no width, no height and no srcset at
        all, which is why the logo shifts the page as it loads.) -->
-  <figure class="v-photo" data-photograph="bleed">
+  <figure class="v-photo" data-photograph="bleed" data-span="full">
     <img
       src="water-metro-jetty.jpg"
       alt="The water metro boat at the Fort Kochi jetty, where most visitors land before the walk through to Jew Town"
@@ -546,7 +685,10 @@
   <!-- ── the facts strip ─────────────────────────────────────────────── -->
   <section aria-labelledby="h-facts">
     <h2 class="v-h2" id="h-facts">Before you walk over</h2>
-    <dl class="v-dl">
+    <!-- ⭐ WIDE. The facts strip is the reason this job exists: label-and-value
+         rows stack on a phone because there is no room, and on a laptop they sat
+         in a 512px column with 900px of empty page beside them. -->
+    <dl class="v-dl" data-span="wide">
 
       <!-- ⛔⛔ THIS ROW WAS `contradicts` AND THE CONTRADICTION WAS NOT REAL.
            It showed "Posted: 10:00–17:00 / Actually 10:00–13:00, then
@@ -683,7 +825,7 @@
          of this page. It has no honest content on this venue. -->
   </section>
 
-  <hr class="v-div" data-divider="hairline">
+  <hr class="v-div" data-divider="hairline" data-span="wide">
 
   <!-- ⛔⛔ "WHAT WE ONLY KNOW BECAUSE WE WENT" IS GONE — 10 Aug 2026, and the
        heading is the reason. Nobody has been to this synagogue. The record says
@@ -721,7 +863,7 @@
        for keeping one is stated at the strip above. -->
   <section data-things-to-know aria-labelledby="h-ttk">
     <h2 class="v-h2" id="h-ttk">What a photograph will not tell you</h2>
-    <dl class="v-ttk">
+    <dl class="v-ttk" data-span="wide">
       <div class="v-ttk__row" data-thing="shoes">
         <dt class="v-ttk__label">Shoes</dt>
         <dd class="v-ttk__value" data-thing-value>They come off before the prayer hall. There is a rack inside the gate and the floor is tiled, not sand.</dd>
@@ -753,7 +895,7 @@
     </dl>
   </section>
 
-  <hr class="v-div" data-divider="hairline">
+  <hr class="v-div" data-divider="hairline" data-span="wide">
 
   <!-- ── not now ─────────────────────────────────────────────────────── -->
   <!-- ⛔ AN ALTERNATIVE IS A FACT WITH HOURS, NOT A PIECE OF COPY. The first
@@ -777,7 +919,7 @@
          verdict and any cat line may use it freely. Voice is not a fact, and the
          ruling is scoped to strings a reader acts on. -->
     <h2 class="v-h2" id="h-nn">It is closed right now</h2>
-    <ul class="v-nn__list">
+    <ul class="v-nn__list" data-span="wide">
       <li class="v-nn__row" data-not-now>
         <!-- ⛔ WAS `data-from="15"` / "shut until three" — the mid-day break from
              the test fixture, which does not exist. Sunday to Thursday it runs
@@ -789,7 +931,7 @@
     </ul>
   </section>
 
-  <hr class="v-div" data-divider="hairline">
+  <hr class="v-div" data-divider="hairline" data-span="wide">
 
   <!-- ── the writing ─────────────────────────────────────────────────── -->
   <section class="v-prose" aria-labelledby="h-prose">
@@ -850,12 +992,12 @@
     </p>
   </section>
 
-  <hr class="v-div" data-divider="hairline">
+  <hr class="v-div" data-divider="hairline" data-span="wide">
 
   <!-- ── read next ───────────────────────────────────────────────────── -->
   <nav class="v-rn" aria-labelledby="h-rn">
     <h2 class="v-h2" id="h-rn">The long version</h2>
-    <ul class="v-rn__list">
+    <ul class="v-rn__list" data-span="wide">
       <li class="v-rn__row">
         <a class="v-rn__name" href="#top">450 years of spice, prayer and hand-painted tiles</a>
         <span class="v-rn__kicker">Told page · Ginger · about 1,100 words</span>
@@ -1038,6 +1180,30 @@
         it there.
       </li>
     </ul>
+
+    <h2>⚠️ A system finding this page surfaced and did not fix</h2>
+    <p>
+      <b>The measure token and the measure ceiling disagree, and they always have.</b>
+      <code>--measure: 32rem</code> is 512px, and at this system's body size that renders
+      <b>66 to 69 characters</b> — against a stated ceiling of 65 in
+      <code>scripts/check-kits.mjs</code>. Worse in a smaller cell: the things-to-know value
+      is 16px in the same 512px box and reaches <b>74</b>, because a character count belongs
+      to a type size, not to a pixel width.
+    </p>
+    <p>
+      ⛔ <b>This is not caused by the responsive change and is not fixed by it.</b> The prose
+      column is 512px before and after — measured on the published page at 1440 before any of
+      this landed. What the change did was make it visible, because a desktop width was never
+      looked at before. It reads as clean today only because the checker gates the
+      <i>median</i> line length, not the longest one.
+    </p>
+    <p>
+      Two honest options, and both are system-wide across nineteen kits rather than one page's
+      call: narrow <code>--measure</code> until it delivers the 65 it promises, or raise the
+      ceiling to the number the token actually produces and say so. ⭐ Capping individual
+      components in <code>ch</code> was tried and rejected — it papers over a token that
+      disagrees with its own rule, which is the failure this project already has a name for.
+    </p>
 
     <h2>What is deliberately not measured, and by what</h2>
     <ul>
