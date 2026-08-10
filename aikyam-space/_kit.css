@@ -253,7 +253,18 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    looks like a hole, because it has side-by-side neighbours to be unequal with. The owner's
    preferred `/activities/` layout is a SINGLE COLUMN, where the question cannot arise —
    adopting it IS the fix rather than a workaround. */
-.acts{align-items:stretch}
+/* ⭐⭐ THE GRID IS BACK, and the reason it was dropped turns out to be a bug rather than a
+   design finding. Sequence: he said "the cards are all different sizes" → I found
+   `height="1200"` defeating `aspect-ratio`, photo cards 1300px against 88px → we concluded a
+   photo-less entry reads as a hole beside its neighbours and went single-column → I fixed the
+   bug. ⛔⛔ NOBODY RE-TESTED THE GRID AFTER THE FIX. Post-fix the spread is 3×, not 15×.
+   ⚠️ And the single column cost 70% of a 2000px screen.
+   ⭐ What makes the grid work now is the excerpt: a photo-less entry has a real paragraph where
+   the photograph would have been, so it fills its cell because it IS full — the same finding
+   that retired the typographic-headline hack.
+   ⛔ Intrinsic columns, not breakpoints: one on a phone, three at desktop, from one rule. */
+.acts{align-items:stretch;
+  grid-template-columns:repeat(auto-fill,minmax(min(19rem,100%),1fr))}
 .acts li{margin:0;display:flex;flex-direction:column}
 .acts__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
   display:block;margin:0 0 var(--space-3);background:var(--surface-quiet)}
@@ -271,7 +282,12 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    whichever form the card takes. */
 .acts__when{font-size:var(--type-small);color:var(--text-secondary);
   margin:var(--space-2) 0 0;font-variant-numeric:var(--figures-aligned)}
-.acts li:not([data-no-photo]) .acts__when{margin-block-start:auto;padding-block-start:var(--space-2)}
+/* ⭐ The excerpt fills a photo-less cell, and the date pins to the bottom of every cell so the
+   baselines agree across a row whichever form the cell takes. ⛔ No empty image well anywhere:
+   an entry without a photograph simply starts with its headline. */
+.acts__body{margin:var(--space-2) 0 0;font-size:var(--type-small);
+  color:var(--text-secondary);line-height:var(--leading-tight)}
+.acts li .acts__when{margin-block-start:auto;padding-block-start:var(--space-3)}
 /* ⭐ The open-today line is ONE SENTENCE, not a section. "Ignore other bits" was about
    emphasis, not deletion — a neighbour still comes for this, and /clubs/ is the second-busiest
    page on the site. It gets a line at the top and a link, not a panel. */

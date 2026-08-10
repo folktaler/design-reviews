@@ -15,10 +15,10 @@
 <p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
 
 <div class="kitbar">
-  <b>MOCKUP — not the live site.</b> The homepage in the <code>/activities/</code> shape, per
-  the owner. ⭐ <b>Twelve real consecutive activities, 9–13 May</b> — real headlines, bodies,
-  dates and photograph URLs, in order. ⛔ <b>No filler.</b> ⚠️ <b>Includes the real four-entry
-  run with no photograph</b>, which is the case the layout has to survive.
+  <b>MOCKUP — not the live site.</b> The homepage as a <b>three-column grid</b>, rebuilt after
+  the aspect-ratio bug was fixed. ⭐ <b>Twelve real activities</b> — real headlines, bodies,
+  dates and photograph URLs. ⚠️ <b>Contains a genuine four-entry photo-less run</b>, which is
+  the case the layout argument rests on and which had never been tested.
 </div>
 
 <header class="site-head">
@@ -50,113 +50,107 @@
 
   <h1 style="margin-block-start:var(--space-6)">What happened here</h1>
 
-  <ul class="feed">
+  <ul class="acts">
     <li>
-      <p class="dayband">Wednesday 13 May</p>
-      <article class="act">
-        <a class="act__shotlink" href="#"><img class="act__shot" width="1600" height="1200"
-          loading="lazy" alt="Children at the resist dyeing session"
-          src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.54.42-1-1-1.jpeg"></a>
-        <h3 class="act__what"><a href="#">Campers tried resist dyeing along with dance and games</a></h3>
-        <p class="act__body">Day 3 of the summer camp focused on movement, dance, and “Resist
-          Dyeing” activities. Through games, expression, and group sessions, children were
-          encouraged to move freely, think creatively, and participate with confidence.</p>
-      </article>
-      <article class="act">
-        <h3 class="act__what"><a href="#">Members followed a product through the whole process</a></h3>
-        <p class="act__body">The stitching class continued with members getting to know the
-          complete process behind making a product. From handling fabric carefully to
-          practicing clean stitching, each session is helping turn learning into confidence.</p>
-      </article>
+      <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200"
+        loading="lazy" alt="Children at the resist dyeing session"
+        src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.54.42-1-1-1.jpeg"></a>
+      <h3><a href="#">Campers tried resist dyeing along with dance and games</a></h3>
+      <p class="acts__body">Day 3 of the summer camp focused on movement, dance, and “Resist
+        Dyeing” activities. Children were encouraged to move freely and participate with
+        confidence.</p>
+      <p class="acts__when">Wednesday 13 May</p>
     </li>
     <li>
-      <p class="dayband">Tuesday 12 May</p>
-      <article class="act">
-        <a class="act__shotlink" href="#"><img class="act__shot" width="1600" height="1200"
-          loading="lazy" alt="Summer camp storytelling session"
-          src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.59.20-1-1.jpeg"></a>
-        <h3 class="act__what"><a href="#">Summer campers learned storytelling and basic sign language</a></h3>
-        <p class="act__body">Day 2 of the summer camp focused on storytelling and learning basic
-          sign language. Through stories, expressions, and simple hand signs, children learned
-          new ways to communicate, listen, and understand each other.</p>
-      </article>
-      <article class="act">
-        <h3 class="act__what"><a href="#">Fabric slowly turned into bags and pouches</a></h3>
-        <p class="act__body">The stitching class continued with students spending time on
-          practice, patience, and small improvements in every step. As fabrics slowly turn into
-          bags and pouches, the space becomes a place of learning, support, and shared
-          creativity.</p>
-      </article>
-      <article class="act">
-        <h3 class="act__what"><a href="#">Shemeer and Rohit discussed fundraising for early-stage non-profits</a></h3>
-        <p class="act__body">Shemeer and Rohit spent time discussing fundraising challenges for
-          early stage non profits and how to navigate the challenges.</p>
-      </article>
-      <article class="act">
-        <h3 class="act__what"><a href="#">A visitor wrote down how the space felt</a></h3>
-        <blockquote class="said">
-          <p>“aikyam felt like a mini world where people of different ages and backgrounds came
-            together to learn, create, and feel a sense of belonging.”</p>
-          <footer>Rohit Sharma</footer>
-        </blockquote>
-      </article>
+      <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200"
+        loading="lazy" alt="Summer camp storytelling session"
+        src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.59.20-1-1.jpeg"></a>
+      <h3><a href="#">Summer campers learned storytelling and basic sign language</a></h3>
+      <p class="acts__body">Day 2 focused on storytelling and basic sign language. Through
+        stories, expressions and simple hand signs, children learned new ways to communicate
+        and understand each other.</p>
+      <p class="acts__when">Tuesday 12 May</p>
     </li>
     <li>
-      <p class="dayband">Monday 11 May</p>
-      <article class="act">
-        <a class="act__shotlink" href="#"><img class="act__shot" width="1600" height="1200"
-          loading="lazy" alt="Summer camp opening session"
-          src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.59.23--1-.jpeg"></a>
-        <h3 class="act__what"><a href="#">The summer camp opened with yoga and vegetable painting</a></h3>
-        <p class="act__body">The summer camp began with an ice-breaking session, followed by
-          animal flow movements, games, and group activities that helped children feel
-          comfortable together. The day continued with yoga and ended with a fun vegetable
-          painting session on cloth.</p>
-      </article>
-      <article class="act">
-        <a class="act__shotlink" href="#"><img class="act__shot" width="1600" height="1200"
-          loading="lazy" alt="Stitching class in progress"
-          src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.55.09-1.jpeg"></a>
-        <h3 class="act__what"><a href="#">Students grew more confident handling fabric</a></h3>
-        <p class="act__body">The stitching class continued with students learning how to work
-          with fabric more confidently each day. From cutting cloth to finishing small details,
-          the sessions are helping the community slowly build practical skills.</p>
-      </article>
-      <article class="act">
-        <h3 class="act__what"><a href="#">Magic Bus visited to learn what happens here</a></h3>
-        <p class="act__body">Members from Magic Bus visited the space to understand more about
-          the activities happening within the community and explore possibilities for future
-          engagement. The interaction became a chance to share experiences and ideas.</p>
-      </article>
-      <article class="act">
-        <h3 class="act__what"><a href="#">Pranava Institute surveyed technology barriers in Fort Kochi</a></h3>
-        <p class="act__body">We interacted with Dhanyashri from Pranava Institute, Delhi, to
-          help with their survey on technology barriers faced by NGOs, Kudumbashree members,
-          ASHA and ICDS workers in Fort Kochi. After the discussion the team went around the
-          community.</p>
-      </article>
+      <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200"
+        loading="lazy" alt="Summer camp opening session"
+        src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.59.23--1-.jpeg"></a>
+      <h3><a href="#">The summer camp opened with yoga and vegetable painting</a></h3>
+      <p class="acts__body">An ice-breaking session, animal flow movements, games and group
+        activities helped children feel comfortable together. The day ended with vegetable
+        painting on cloth.</p>
+      <p class="acts__when">Monday 11 May</p>
+    </li>
+
+    <li>
+      <h3><a href="#">Members followed a product through the whole process</a></h3>
+      <p class="acts__body">The stitching class continued with members getting to know the
+        complete process behind making a product. From handling fabric carefully to practicing
+        clean stitching, each session is helping turn learning into confidence.</p>
+      <p class="acts__when">Wednesday 13 May</p>
     </li>
     <li>
-      <p class="dayband">Sunday 10 May</p>
-      <article class="act">
-        <a class="act__shotlink" href="#"><img class="act__shot" width="1600" height="1200"
-          loading="lazy" alt="Bharatanatyam class"
-          src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.42.07-1-1.jpeg"></a>
-        <h3 class="act__what"><a href="#">Bharatanatyam students learned to tell stories without words</a></h3>
-        <p class="act__body">The Bharatanatyam class was filled with energy as students
-          practiced expressions, postures, and movements together. With every step and hand
-          gesture, the children are getting to know how dance can tell stories without words.</p>
-      </article>
+      <h3><a href="#">Fabric slowly turned into bags and pouches</a></h3>
+      <p class="acts__body">Students spent time on practice, patience and small improvements in
+        every step. As fabrics slowly turn into bags and pouches, the space becomes a place of
+        learning, support and shared creativity.</p>
+      <p class="acts__when">Tuesday 12 May</p>
     </li>
     <li>
-      <p class="dayband">Saturday 9 May</p>
-      <article class="act">
-        <h3 class="act__what"><a href="#">Children and adults practised Bharatanatyam side by side</a></h3>
-        <p class="act__body">The Bharatanatyam class brought together children and community
-          members to practice steps, postures, and rhythm as a group. With every session, the
-          space is slowly growing into a place where learning, discipline, and art come
-          together.</p>
-      </article>
+      <h3><a href="#">Shemeer and Rohit discussed fundraising for early-stage non-profits</a></h3>
+      <p class="acts__body">Shemeer and Rohit spent time discussing fundraising challenges for
+        early stage non profits and how to navigate the challenges.</p>
+      <p class="acts__when">Tuesday 12 May</p>
+    </li>
+    <li>
+      <h3><a href="#">Magic Bus visited to learn what happens here</a></h3>
+      <p class="acts__body">Members from Magic Bus visited to understand more about the
+        activities happening within the community and explore possibilities for future
+        engagement. A chance to share experiences and ideas.</p>
+      <p class="acts__when">Monday 11 May</p>
+    </li>
+
+    <li>
+      <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200"
+        loading="lazy" alt="Stitching class in progress"
+        src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.55.09-1.jpeg"></a>
+      <h3><a href="#">Students grew more confident handling fabric</a></h3>
+      <p class="acts__body">Students learned to work with fabric more confidently each day.
+        From cutting cloth to finishing small details, the sessions are building practical
+        skills.</p>
+      <p class="acts__when">Monday 11 May</p>
+    </li>
+    <li>
+      <h3><a href="#">Pranava Institute surveyed technology barriers in Fort Kochi</a></h3>
+      <p class="acts__body">We helped Dhanyashri from Pranava Institute, Delhi, with a survey on
+        technology barriers faced by NGOs, Kudumbashree members, ASHA and ICDS workers in Fort
+        Kochi. The team then went around the community.</p>
+      <p class="acts__when">Monday 11 May</p>
+    </li>
+    <li>
+      <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200"
+        loading="lazy" alt="Bharatanatyam class"
+        src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.42.07-1-1.jpeg"></a>
+      <h3><a href="#">Bharatanatyam students learned to tell stories without words</a></h3>
+      <p class="acts__body">The class was filled with energy as students practiced expressions,
+        postures and movements together — learning how dance can tell stories without words.</p>
+      <p class="acts__when">Sunday 10 May</p>
+    </li>
+    <li>
+      <h3><a href="#">Children and adults practised Bharatanatyam side by side</a></h3>
+      <p class="acts__body">The class brought together children and community members to
+        practice steps, postures and rhythm as a group. The space is slowly growing into a
+        place where learning, discipline and art come together.</p>
+      <p class="acts__when">Saturday 9 May</p>
+    </li>
+    <li>
+      <h3><a href="#">A visitor wrote down how the space felt</a></h3>
+      <blockquote class="said">
+        <p>“aikyam felt like a mini world where people of different ages and backgrounds came
+          together to learn, create, and feel a sense of belonging.”</p>
+        <footer>Rohit Sharma</footer>
+      </blockquote>
+      <p class="acts__when">Tuesday 12 May</p>
     </li>
   </ul>
 
@@ -177,72 +171,44 @@
     <h2 id="gaps-h">⚠️ Reviewer notes — not page copy</h2>
 
     <div class="empty">
-      <h3>⛔⛔ 1. The "different sizes" defect was a bug of mine, not a layout choice</h3>
-      <p><b>Every photograph was rendering 1200px tall instead of 288px</b>, making photo cards
-        1300px against 88px for a photo-less one — <b>a 15× difference.</b> ⭐ <code>aspect-ratio:
-        4/3</code> was <b>computing correctly and being ignored</b>, because the
-        <code>height="1200"</code> attribute I added to stop the feed reflowing becomes a
-        presentational height, <b>and aspect-ratio only sizes a box when the other axis is
-        <code>auto</code></b>.</p>
-      <p>⛔⛔ <b>So the fix for one real defect silently created a worse one, and both
-        measurements looked right</b> — computed style reported <code>4 / 3</code> and
-        <code>cover</code>, exactly as intended. ⭐ <b>Only the rendered height showed it.</b>
-        Fixed with <code>height:auto</code>; the attributes stay, so reflow is still
-        prevented.</p>
+      <h3>⛔⛔ 1. The grid was rejected on evidence gathered while a bug was live</h3>
+      <p><b>Sequence:</b> he reported “the cards are all different sizes” → I found
+        <code>height="1200"</code> defeating <code>aspect-ratio</code>, <b>photo cards 1300px
+        against 88px</b> → we concluded a photo-less entry reads as a hole beside its
+        neighbours and went single-column → <b>I fixed the bug.</b></p>
+      <p>⛔⛔ <b>Nobody re-tested the grid after the fix.</b> ⭐ <b>Post-fix the spread is 3×, not
+        15×</b> — and the single column was costing <b>70% of a 2000px screen.</b> <b>The
+        single column was a fix for a bug, not for a design problem.</b></p>
+      <p>⭐⭐ <b>And the thing that makes the grid work now is the excerpt.</b> A photo-less entry
+        has a real paragraph where the photograph would have been, <b>so it fills its cell
+        because it IS full</b> — the same finding that retired the typographic-headline hack.
+        ⛔ <b>No empty image well anywhere.</b></p>
     </div>
 
     <div class="empty">
-      <h3>⭐⭐ 2. Single column, so "equal heights" is not a problem to solve</h3>
-      <p><b>A photo-less entry in a multi-column grid always looks like a hole</b>, because it
-        has side-by-side neighbours to be unequal with. ⭐ <b>In a single column there are no
-        neighbours, so the question cannot arise.</b> <i>“This is better for the home page”</i>
-        and <i>“the cards are all different sizes”</i> turned out to be <b>the same
-        observation.</b></p>
-      <p>⚠️ <b>An equal-height grid was built and rejected.</b> It equalised perfectly —
-        tallest 388, shortest 388 — and <b>my own metric told me it cost only 8px of
-        whitespace, which was wrong</b>: I measured the card against its text <i>elements</i>,
-        and the headline was itself <code>flex:1</code>, so the box had already absorbed the
-        empty space. ⭐ <b>A screenshot settled it in one look — headlines adrift in large empty
-        boxes.</b> <b>Equal heights were geometrically achievable and looked worse than the
-        problem.</b></p>
+      <h3>⭐ 2. The four-entry photo-less run is finally in view</h3>
+      <p>Entries 4–7 — <b>Members followed a product · Fabric slowly turned into bags · Shemeer
+        and Rohit · Magic Bus</b> — are four consecutive real entries with no photograph.
+        ⚠️ <b>This is the case the whole layout argument rested on and it had never been
+        tested.</b> <b>It fills a full row and most of another, and reads as text entries rather
+        than as damage — because each one is complete.</b></p>
     </div>
 
     <div class="empty">
-      <h3>⭐ 3. The excerpt is what makes a photo-less entry look deliberate</h3>
-      <p><b>Measured on the live 195: shortest body 82 characters, median 227, longest 531.</b>
-        ⭐ <b>Cut at 300 and 83% show in full — the card simply ends.</b> Only the longest sixth
-        is trimmed, <b>which is exactly when a “more” link is informative rather than
-        decorative.</b></p>
-      <p>⛔ <b>So the trade I flagged — “equal heights cost you the excerpt” — does not
-        exist.</b> My “60 to 3,400 characters” came from the day-level extraction and died with
-        it; <b>per-activity bodies are a fifth of that.</b> ⭐ <b>And a photo-less entry now has
-        a real paragraph where the photograph would have been, so it looks deliberate because
-        it is full.</b></p>
+      <h3>⛔ 3. Intrinsic columns, not breakpoints</h3>
+      <p><code>repeat(auto-fill, minmax(min(19rem,100%), 1fr))</code> — <b>one column on a
+        phone, three at desktop, from a single rule.</b> ⛔ <b>Breakpoints create widths nobody
+        tested between</b>, and the one media query in this system is on the photo-less indent
+        of the horizontal card, which this layout does not use.</p>
     </div>
 
     <div class="empty">
-      <h3>⛔ 4. No "read more" — and the reason is a ruling he already made</h3>
-      <p><b>The card is already a link, so “read more” is a second affordance for the same
-        action</b> — and he objected to whole sections being clickable, which produced the
-        <i>grow the link, do not extend it over things that are not the link</i> fix.</p>
-      <p>⭐ <b>So the photograph and the headline are both links to the same entry, and nothing
-        else is.</b> That is Airbnb's own pattern, and it honours his objection exactly: <b>the
-        excerpt stays selectable, because nothing is laid over it.</b> ⚠️ <b>The cost, stated:
-        a reader must aim at the headline or the picture rather than anywhere in the block.</b>
-        With the headline padded to 44px that is a comfortable target and the photograph is a
-        large one.</p>
-    </div>
-
-    <div class="empty">
-      <h3>⭐ 5. The quotation entry uses the review form, not a card</h3>
-      <p><b>12 May carries an entry that is nothing but Rohit Sharma's sentence.</b> ⛔ <b>A card
-        frames a thing that happened; a quotation is somebody speaking.</b> ⭐ It uses the same
-        component as the residents' testimonials — <b>no container, no border, radius 0</b> —
-        <b>and the headline never borrows its words.</b></p>
-      <p>⚠️ <b>Four of these twelve are not club sessions</b> — a visiting organisation, a
-        researcher's survey, a one-to-one fundraising conversation, and this quotation. <b>The
-        extraction is right to include them; whether they belong on the front page is an
-        editorial question nobody has been asked.</b></p>
+      <h3>⚠️ 4. The quotation entry in a grid is an unresolved question</h3>
+      <p><b>A bordered-nothing sitting in a single column is one thing; sitting in a column of
+        cards it is another.</b> ⭐ It is rendered here as the review form — no container, no
+        border, radius 0 — <b>and it now sits beside cards rather than beneath them.</b>
+        ⚠️ <b>Worth a look specifically</b>: it may read as a missing card rather than as a
+        different kind of thing.</p>
     </div>
   </section>
 </main>
