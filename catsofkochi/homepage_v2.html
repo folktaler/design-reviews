@@ -264,7 +264,7 @@
      on the place would open the alternative. */
   .h-st > li > .h-st__name::after { content: ''; position: absolute; inset: 0; }
   .h-st__dist, .h-st__state { color: var(--text-secondary, #5a544c); }
-  /* ⛔ NOT RED. "Shuts at 2, in 45 minutes" is the most useful sentence on the
+  /* ⛔ NOT RED. "Shuts at 2pm, in 45 minutes" is the most useful sentence on the
      page, not an error, and Airbnb colours nothing to signal urgency. The
      distinction is carried by weight and by the line underneath — both of
      which survive the stylesheet being switched off, which a colour does not. */
@@ -559,10 +559,10 @@
 <!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE. -->
 <div class="demo">
   <b>Mockup control — not part of the page. Pretend the time is:</b>
-  <button data-t="2026-08-07T05:30:00Z">11 am</button>
-  <button data-t="2026-08-07T07:45:00Z">1.15 pm</button>
-  <button data-t="2026-08-07T09:30:00Z">3 pm</button>
-  <button data-t="2026-08-07T12:30:00Z">6 pm</button>
+  <button data-t="2026-08-07T05:30:00Z">11am</button>
+  <button data-t="2026-08-07T07:45:00Z">1.15pm</button>
+  <button data-t="2026-08-07T09:30:00Z">3pm</button>
+  <button data-t="2026-08-07T12:30:00Z">6pm</button>
   <button data-t="">your own clock</button>
 </div>
 
@@ -614,17 +614,22 @@
        and is persuaded entirely by its existence: a site that knows the
        synagogue shuts at two, today, is a site whose registry is real. -->
   <section class="h-today" aria-label="Fort Kochi today">
-    <p class="h-today__k">Fort Kochi, right now — <span class="h-clock">Friday, 1.15 pm</span></p>
+    <p class="h-today__k">Fort Kochi, right now — <span class="h-clock">Friday, 1.15pm</span></p>
     <p class="h-today__line">Heavy rain from mid-afternoon. Do the outdoor
     things before two.</p>
 
-    <!-- ⚠️ Every row must be TRUE WITH NO SCRIPT. "Shuts at 2" is a posted
+    <!-- ⚠️ Every row must be TRUE WITH NO SCRIPT. "Shuts at 2pm" is a posted
          fact; "in 45 minutes" is not, so it is never written into the HTML —
          the enhancement adds it, and only while it is true. -->
     <ul class="h-st">
       <li>
         <a class="h-st__name" href="#top">Paradesi Synagogue</a><span class="h-st__dist"> · 20 minutes on foot</span>
-        <span class="h-st__state"> — <span class="cl" data-until="14">open, shuts at 2</span>.</span>
+        <!-- ⚠️ The meridiem is on the STATIC string too, not only on the one the
+             script writes. This cell is rewritten to "shut since 2pm" after two
+             o'clock, so a bare "shuts at 2" here made one component print the
+             hour two different ways depending on the time of day. And "opens at
+             5" below is genuinely ambiguous to someone reading it at breakfast. -->
+        <span class="h-st__state"> — <span class="cl" data-until="14">open, shuts at 2pm</span>.</span>
         <!-- ⛔ The alternative carries ITS OWN closing hour. Without this the
              row recommended Jew Town at six o'clock, when Jew Town is also
              shut — the component reproducing the exact failure it exists to
@@ -638,7 +643,7 @@
       </li>
       <li>
         <a class="h-st__name" href="#top">Kerala Kathakali Centre</a>
-        <span class="h-st__state"> — <span class="cl" data-from="17" data-to="19">opens at 5</span>. Indoors, and it runs wet or dry.</span>
+        <span class="h-st__state"> — <span class="cl" data-from="17" data-to="19">opens at 5pm</span>. Indoors, and it runs wet or dry.</span>
         <span class="h-st__instead" data-while="closed"><b>Until then:</b>
         <a href="#top">Pepper House</a>, two minutes, better in rain than in sun.</span>
       </li>
@@ -646,7 +651,7 @@
 
     <p class="h-today__foot">
       <span class="h-stamp"><span class="h-stamp__chip">Checked</span>
-      <time datetime="2026-08-07T06:00">today, 6 am</time></span>
+      <time datetime="2026-08-07T06:00">today, 6am</time></span>
       <a class="h-more" href="#top">Everything for today and tomorrow</a>
     </p>
   </section>
@@ -878,7 +883,15 @@
   var cells   = Array.prototype.slice.call(document.querySelectorAll('.cl'));
   cells.forEach(function (c) { c.dataset.base = c.textContent.replace(/\s+/g, ' ').trim(); });
 
-  function say(h) { return ((h % 12) || 12) + (h < 12 ? ' am' : ' pm'); }
+  /* ⭐ THE HOUSE CLOCK FORMAT, owner's decision 10 Aug 2026: `10am – 1pm, 2 – 4.30pm`.
+     Lowercase, no space before the meridiem, no minutes on a round hour, a full
+     stop rather than a colon. `say()` only ever receives a whole hour — data-until
+     and data-from are integers — so there are no minutes to suppress here. The
+     round-hour rule that DOES bite lives in the clock line below.
+     ⚠️ The range rule ("2 – 4.30pm", meridiem dropped from the first half when
+     both halves share it) is NOT implemented, because nothing on this page prints
+     a range. src/lib/registry/openingHours.ts is the formatter that needs it. */
+  function say(h) { return ((h % 12) || 12) + (h < 12 ? 'am' : 'pm'); }
 
   /* ⛔ An alternative that is itself shut is worse than no alternative. */
   function instead(cell, show, now) {
@@ -897,8 +910,14 @@
       .forEach(function (x) { p[x.type] = x.value; });
 
     var h = Number(p.hour), now = h + Number(p.minute) / 60;
-    clockEl.textContent = p.weekday + ', ' + ((h % 12) || 12) + '.' + p.minute +
-                          (h < 12 ? ' am' : ' pm');
+    /* ⛔ p.minute IS A ZERO-PADDED STRING from formatToParts, so the round-hour
+       test is against '00' and never against 0. `Number(p.minute) === 0` also
+       works, but `p.minute === 0` is false at every hour and silently keeps the
+       ".00" the owner asked us to drop — which is the failure this comment
+       exists to stop the next person reintroducing. */
+    clockEl.textContent = p.weekday + ', ' + ((h % 12) || 12) +
+                          (p.minute === '00' ? '' : '.' + p.minute) +
+                          (h < 12 ? 'am' : 'pm');
 
     cells.forEach(function (c) {
       c.classList.remove('h-st__soon');
@@ -956,7 +975,7 @@
       apply(b.dataset.t || null);
     });
   });
-  var start = buttons[1];                      /* 1.15 pm — the closing case */
+  var start = buttons[1];                      /* 1.15pm — the closing case */
   buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(x === start)); });
   apply(start.dataset.t);
 })();
@@ -986,7 +1005,7 @@
       <li>Every <code>href</code> is <code>#top</code>. Nothing navigates.</li>
       <li>The <strong>today</strong> block's three places, hours and weather line
       are the same demonstration data as the previous homepage kit. The
-      synagogue's Friday close at 2 is real and sourced; the rain line is not.</li>
+      synagogue's Friday close at 2pm is real and sourced; the rain line is not.</li>
       <li><strong>No counts are printed anywhere.</strong> The "everything we
       keep current" link carries <code>data-count-slot="answer_pages"</code>
       instead of a number, because nobody has counted those pages and a number

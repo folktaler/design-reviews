@@ -296,7 +296,7 @@
      a door shuts in forty minutes and stopping there strands them. The
      component is the pair — the state AND where to go instead. */
   /* ⛔ Was `color:var(--alert)` — #a2191f, a literal red (owner review, 9 Aug
-     2026). Red is the grammar of an error, and "shuts at 2, in 45 minutes" is
+     2026). Red is the grammar of an error, and "shuts at 2pm, in 45 minutes" is
      not an error: it is the most useful sentence on the page. Airbnb colours
      nothing to signal urgency. The distinction is carried by STRUCTURE and
      WORDS instead, and both are already here — bold ink against the grey
@@ -400,10 +400,10 @@
 
 <div class="demo">
   <b>Mockup control — not part of the page. Pretend it is:</b>
-  <button data-t="2026-08-07T05:30:00Z">11 am</button>
-  <button data-t="2026-08-07T07:45:00Z">1.15 pm</button>
-  <button data-t="2026-08-07T09:30:00Z">3 pm</button>
-  <button data-t="2026-08-07T12:30:00Z">6 pm</button>
+  <button data-t="2026-08-07T05:30:00Z">11am</button>
+  <button data-t="2026-08-07T07:45:00Z">1.15pm</button>
+  <button data-t="2026-08-07T09:30:00Z">3pm</button>
+  <button data-t="2026-08-07T12:30:00Z">6pm</button>
   <button data-t="">your own clock</button>
 </div>
 
@@ -421,11 +421,11 @@
        daily page — its job here is as much proof as utility. -->
   <section class="today" aria-label="Fort Kochi today">
     <p class="today__k">Fort Kochi, right now — <span class="today__clock">Friday,
-    1.15 pm</span></p>
+    1.15pm</span></p>
     <p class="today__line">Heavy rain from mid-afternoon. Do the outdoor things
     before two.</p>
 
-    <!-- ⚠️ Every row must be TRUE WITH NO SCRIPT. "Shuts at 2" is a posted fact;
+    <!-- ⚠️ Every row must be TRUE WITH NO SCRIPT. "Shuts at 2pm" is a posted fact;
          "in 45 minutes" is not, so it is never written into the HTML — the
          enhancement adds it, and only while it is true. -->
     <ul class="st">
@@ -433,7 +433,7 @@
         <a href="#">Paradesi Synagogue</a><span class="st__dist"> · 20 minutes on
         foot</span>
         <!-- ⚠️ the distance sits with the PLACE, not the state. It was after the
-             state, and at 3 pm the row read "shut since 2 pm. Twenty minutes away
+             state, and at 3pm the row read "shut since 2pm. Twenty minutes away
              on foot" — sending somebody to a locked door. A property of the place
              survives every rewrite; a property of the hour does not. -->
         <!-- ⭐ 14:00 is correct AND it is a Friday in this mockup: the synagogue
@@ -441,7 +441,7 @@
              read 7 Aug 2026). The clock at the top of this page says Friday, so the
              early close is the right thing to be warning about. -->
         <span class="st__state"> — <span class="cl" data-until="14">open, shuts at
-        2</span>.</span>
+        2pm</span>.</span>
         <!-- ⛔ the alternative carries ITS OWN closing hour. Without this the
              row recommended Jew Town at six o'clock, when Jew Town is also
              shut — the component reproducing the exact failure it exists to
@@ -456,10 +456,10 @@
       <li>
         <a href="#">Kerala Kathakali Centre</a>
         <!-- ⛔ data-to IS NOT OPTIONAL. With data-from alone this row read
-             "open now" at nine o'clock at night — measured. 5–7 pm is the
+             "open now" at nine o'clock at night — measured. 5 – 7pm is the
              site's own posted fact, repeated on both pillar guides. -->
         <span class="st__state"> — <span class="cl" data-from="17" data-to="19">opens at
-        5</span>. Indoors, and it runs wet or dry.</span>
+        5pm</span>. Indoors, and it runs wet or dry.</span>
         <span class="st__instead" data-while="closed"><b>Until then:</b>
         <a href="#">Pepper House</a>, two minutes, better in rain than in sun.</span>
       </li>
@@ -467,7 +467,7 @@
 
     <p class="today__foot">
       <span class="stamp"><span class="stamp__chip">Checked</span>
-      <time datetime="2026-08-07T06:00">today, 6 am</time></span>
+      <time datetime="2026-08-07T06:00">today, 6am</time></span>
       <a class="today__more" href="#">Everything for today and tomorrow</a>
     </p>
   </section>
@@ -613,7 +613,9 @@
   var cells   = Array.prototype.slice.call(document.querySelectorAll('.cl'));
   cells.forEach(function (c) { c.dataset.base = c.textContent.replace(/\s+/g, ' ').trim(); });
 
-  function say(h) { return ((h % 12) || 12) + (h < 12 ? ' am' : ' pm'); }
+  /* ⭐ House clock format, owner 10 Aug 2026: `10am – 1pm, 2 – 4.30pm`. `say()`
+     only ever receives a whole hour, so there are no minutes to suppress here. */
+  function say(h) { return ((h % 12) || 12) + (h < 12 ? 'am' : 'pm'); }
 
   /* ⛔ An alternative that is itself shut is worse than no alternative. If the
      "instead" carries its own closing hour, it must clear it too. When it does
@@ -634,8 +636,12 @@
       .forEach(function (x) { p[x.type] = x.value; });
 
     var h = Number(p.hour), now = h + Number(p.minute) / 60;
-    clockEl.textContent = p.weekday + ', ' + ((h % 12) || 12) + '.' + p.minute +
-                          (h < 12 ? ' am' : ' pm');
+    /* ⛔ p.minute IS A ZERO-PADDED STRING from formatToParts, so the round-hour
+       test is against '00', never against 0. `p.minute === 0` is false at every
+       hour and silently keeps the ".00" the owner asked us to drop. */
+    clockEl.textContent = p.weekday + ', ' + ((h % 12) || 12) +
+                          (p.minute === '00' ? '' : '.' + p.minute) +
+                          (h < 12 ? 'am' : 'pm');
 
     cells.forEach(function (c) {
       c.classList.remove('st__soon');
@@ -690,7 +696,7 @@
       apply(b.dataset.t || null);
     });
   });
-  var start = buttons[1];                      /* opens at 1.15 pm — the closing case */
+  var start = buttons[1];                      /* opens at 1.15pm — the closing case */
   buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(x === start)); });
   apply(start.dataset.t);
 })();
@@ -728,11 +734,11 @@
   somebody a door shuts in forty minutes and stopping there strands them. So the
   component is a <em>pair</em> — the state and where to go instead — and the
   "instead" line is bound to the state: it appears when the door is closing or
-  shut, and disappears when there is no problem to solve. Press <strong>11 am</strong>
-  on the black bar and it goes away; press <strong>3 pm</strong> and the row
-  rewrites itself to "shut since 2 pm".</p>
+  shut, and disappears when there is no problem to solve. Press <strong>11am</strong>
+  on the black bar and it goes away; press <strong>3pm</strong> and the row
+  rewrites itself to "shut since 2pm".</p>
 
-  <p>⚠️ Every row is <strong>true with no JavaScript</strong>. "Shuts at 2" is a
+  <p>⚠️ Every row is <strong>true with no JavaScript</strong>. "Shuts at 2pm" is a
   posted fact and lives in the HTML. <em>"In 45 minutes"</em> is not a posted
   fact and is never written there — it is computed at read time, or not at all.</p>
 
