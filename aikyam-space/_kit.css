@@ -204,6 +204,34 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
   font-variant-numeric:var(--figures-aligned)}
 .act__body{margin:var(--space-3) 0 0;max-width:var(--measure-small)}
 .feed{list-style:none;margin:0;padding:0}
+
+/* ── THE SINGLE ENTRY ─────────────────────────────────────────────────────────────────────
+   ⭐⭐ This is the ARRIVAL case and it is bigger than the feed: direct traffic is 60.8% of this
+   site, and the owner's words are "activity entries are very shareable". Most readers reach an
+   entry from a message, not by browsing. So it is designed for the moment a link lands in a
+   WhatsApp thread — which makes the preview card the first impression and the page the second. */
+.entry__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
+  display:block;margin:0 0 var(--space-5);background:var(--surface-quiet)}
+.entry__meta{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-3) 0 0;
+  font-variant-numeric:var(--figures-aligned)}
+.entry__body{margin:var(--space-5) 0 0;font-size:var(--type-body)}
+/* ⛔ The no-photo entry (the rain closure) must not look broken, and a lone entry has no feed
+   around it to carry the rhythm. It gets no image well at all — same rule as the feed — and the
+   headline simply starts the page. NO SLOT WITHOUT A GUARANTEED FILLER. */
+
+/* ⭐ A SPECIMEN of the link preview, so the thing that is actually the first impression can be
+   reviewed instead of imagined. ⚠️ Not page furniture — it renders in WhatsApp, not here. */
+.preview{max-width:22rem;border:var(--rule-hairline) solid var(--border-hairline);
+  border-radius:var(--radius-card);overflow:hidden;margin:var(--space-4) 0 0;
+  background:var(--surface-page)}
+.preview img{width:100%;aspect-ratio:1.91/1;object-fit:cover;display:block;background:var(--surface-quiet)}
+.preview__t{margin:0;padding:var(--space-3) var(--space-4) 0;font-size:var(--type-ui);
+  font-weight:var(--weight-semibold)}
+.preview__d{margin:var(--space-1) 0 0;padding:0 var(--space-4);font-size:var(--type-small);
+  color:var(--text-secondary)}
+.preview__u{margin:var(--space-2) 0 0;padding:0 var(--space-4) var(--space-3);
+  font-size:var(--type-micro);letter-spacing:var(--tracking-micro);
+  text-transform:uppercase;color:var(--text-secondary)}
 .kitnote::before{content:'REVIEWER NOTE — not page copy';display:block;
   font-size:var(--type-micro);font-weight:var(--weight-semibold);
   letter-spacing:var(--tracking-micro);color:#b3261e;margin-block-end:var(--space-2)}
