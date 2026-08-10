@@ -515,11 +515,27 @@
   /* ⛔ NOT display:flex. Flex turns the text node after the link into its own
      item, so the space before the em dash disappears and a long name breaks
      into a second column. Padding to the floor, normal flow inside. */
+  /* ⛔⛔ 17px, NOT 16px, AND A MEASURE CAP — the whole component, not just the
+     redirect. Two findings landed on `.v-nn__instead` in one day: an 83-character
+     line on one line, and a 19px tap target. A third was underneath them and is
+     the cause of the first: `.v-nn__row` set --type-small for EVERYTHING in it,
+     so the component whose entire job is stopping somebody walking to a locked
+     door was rendered at the system's caption size, under the 17px Kerala-sun
+     floor.
+     ⭐ Same shape as the things-to-know cell fixed earlier today, and
+     tokens/spacing.css already states the rule: reach for the TYPE first — small
+     type is for short text. The 83-character line was a symptom.
+     ⛔ AND THE ROW HAD NO CAP. Once `.v-nn__list` claimed the wide track the row
+     ran the full 1152px, which is why an 83-character sentence fitted on one
+     line at all. It wraps at the reading measure now, like every other value on
+     this page.
+     ⭐ MEASURED after: longest line 83 → 61 at desktop, 42 on a phone. */
   .v-nn__row {
     position: relative;
     padding-block: var(--space-3, 12px);
     min-height: var(--tap-comfortable, 52px);
-    font-size: var(--type-small, 16px);
+    max-inline-size: var(--measure, 32rem);
+    font-size: var(--type-ui, 17px);
     line-height: var(--leading-tight, 1.375);
   }
   .v-nn__name { color: var(--text-primary, #1c1a17); font-weight: var(--weight-medium, 500);
