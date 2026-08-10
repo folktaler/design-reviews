@@ -57,6 +57,21 @@ printf '%-46s %s\n' \
  "Aparna N not called Tiny Entrep."   "$(grep -c 'Aparna N</b>, Tiny Entrepreneur' clubs/index.html)" \
  "no invented times for the two"      "$(grep -c 'Reading Club</a></h3>\s*<p class="session__body">[^<]*[0-9] PM' clubs/index.html)"
 
+# --- ₹ coverage. The kits load Figtree from Google; the URL MUST NOT pin a subset. ---
+# A `&subset=latin` or a text= param would drop U+20B9, which lives in latin-ext.
+printf '%-46s %s\n' \
+ "no subset pinned in any kit"       "$(grep -ho 'fonts.googleapis.com/css2[^"]*' */index.html index.html | grep -c 'subset=\|text=')" \
+ "all kits request the same family"  "$(grep -ho 'family=Figtree[^&\"]*' */index.html index.html | sort -u | wc -l)"
+# Expected: 0 subsets pinned, 1 unique family string.
+# ⚠️ Verify ₹ on the SERVED page, not from this file — in the console:
+#   s=document.createElement('span');s.style.cssText='position:absolute;font-size:100px';
+#   document.body.appendChild(s);
+#   w=(c,f)=>{s.style.fontFamily=f;s.textContent=c;return s.getBoundingClientRect().width};
+#   w('₹','Figtree') !== w('₹','__NoSuchFamily__')   // must be TRUE
+# ⛔ Do NOT compare ₹ against a private-use tofu in the same family — that passes
+# every time when the family lacks both, and it is how ₹ was certified present
+# while it was actually falling back.
+
 # --- CSS comment integrity: the two counts must be EQUAL, and the greps silent ---
 echo "open $(grep -o '/\*' _kit.css | wc -l)  close $(grep -o '\*/' _kit.css | wc -l)"
 grep -n '^\s*\*.*/\*' _kit.css ; grep -n '\*/.*\*/' _kit.css
