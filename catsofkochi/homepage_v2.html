@@ -1044,6 +1044,65 @@
     down to 0.25 MB, for no visible change.</strong> Until that exists, this
     page is a design proof and not a shippable homepage.</p>
 
+    <h2>⭐ Six defects that only rendering found — the record</h2>
+    <p>All six were invisible in the source, and several of them <em>passed every
+    check that was run before somebody looked at the page</em>. They are listed
+    so the next person to touch this kit does not reintroduce them, and so the
+    cost of reviewing a design by reading its CSS is on the record.</p>
+    <ol>
+      <li><strong>The lead headline rendered in browser-default
+      <code>#0000EE</code> blue.</strong> The kit had no base <code>a</code>
+      rule, and the lead card's <code>&lt;a&gt;</code> wraps the headline. It
+      scored <strong>9.16:1</strong> — so a contrast audit passed it. Passing
+      contrast and being the wrong colour are different questions. Fixed with
+      one base rule; the venue kit learned the same thing on its "instead" link.</li>
+
+      <li><strong>A 4/3 lead photograph cut a third off both panoramas.</strong>
+      4/3 is Airbnb's <em>measured</em> card ratio, so it looked like the
+      faithful choice. Both lead photographs in the library are
+      <strong>2.05:1</strong> (2000×974 and 2000×980): a centre crop to 4/3
+      removed the left-hand fish seller from the mural and the two outer frames
+      from the salon wall. ⭐ A grid needs a constant ratio; a single card does
+      not. The lead now keeps the photograph's own shape.</li>
+
+      <li><strong>Four "other ways in" links were 19px tall.</strong> Inline
+      links in a flowing sentence — the smallest targets on the page, in the
+      band whose entire job is sending people somewhere. Padding cannot fix an
+      inline <code>&lt;a&gt;</code> without its hit box overlapping the lines
+      above and below. They became chips, the same component as the chooser.</li>
+
+      <li><strong>The "Instead:" link was 19px tall, and the first fix was
+      worse than the defect.</strong> Giving the link <code>inline-flex</code>
+      and a 52px minimum <em>passed the tap check</em> and opened a 30px hole
+      through the middle of a two-line sentence. Rendering showed that; the
+      measurement did not. The overlay moved out to the whole "Instead:" line,
+      layered above the row's own overlay and probed with
+      <code>elementFromPoint</code> at nine points.</li>
+
+      <li><strong>Leading drift at a single type size.</strong> 14px was
+      rendering at <strong>16.8, 19.25 and 21px</strong> and 16px at 22 and
+      24px, because some elements set a line-height and others silently
+      inherited the body's 1.5. Nothing looks broken; the page just reads as
+      unedited.</li>
+
+      <li><strong>A 96px square thumbnail was a stain, not a photograph.</strong>
+      The Pepper House image is a dark gallery interior (mean luma 47). Cropped
+      to 96×96 it was a brown-black rectangle, and <em>the ceiling its own card
+      line tells you to come for was invisible.</em> Every measurement passed.
+      The cards became Airbnb's full-width 4/3 card — measured at 245px for the
+      photograph and ~360px for a whole card, so three of them are 1.3 screens,
+      not the three screens the original objection assumed.</li>
+    </ol>
+    <p>⚠️ <strong>And one trap in the checking, not the page.</strong> Four of
+    the five photographs sit below the fold with <code>loading="lazy"</code>, so
+    on a first measurement they report <code>naturalWidth: 0</code> — never
+    requested, which is indistinguishable from a 404. The fail-loud guard below
+    cannot fire on them either, because it hooks <code>onerror</code> and no
+    request was made. <strong>Force every image eager before measuring, and read
+    the canvas pixel range rather than trusting <code>naturalWidth</code> or a
+    screenshot</strong> — two screenshots showed blank grey for images whose
+    bitmaps were verifiably present.</p>
+
     <h2>What was cut, and what was borrowed unmeasured</h2>
     <ul>
       <li><strong>Cut: the "This week" band.</strong> It needed a human to
