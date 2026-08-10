@@ -168,14 +168,23 @@
           <li>With <b>Mary Gracy</b></li>
           <li>In <b>Malayalam</b></li>
         </ul>
-        <p class="session__action">Just turn up</p>
+        <p class="session__action"><a href="#">Contact us</a></p>
       </li>
     </ul>
-    <p style="font-size:var(--type-small);color:var(--text-secondary)">The whole row is the tap
-      target, not the words — the title is a 26px inline box, so an overlay owns the row and
-      it is verified with <code>elementFromPoint</code>, never assumed. The action is one of
-      exactly three, and it is a fact about the session, not a design choice:
-      <b>Just turn up</b> · <b>Write to us first</b> · <b>Full — the next one is …</b></p>
+    <p style="font-size:var(--type-small);color:var(--text-secondary)">⛔ <b>The tap target is
+      the LINK, not the row.</b> The title is a 26px inline box, so the anchor pads itself to
+      44px — same target, text selection still works, and the boundary is visible. An overlay
+      covering the whole row was the earlier fix and the owner objected to it on 10 Aug: a
+      section is several unrelated things sharing a box, and covering them makes it unclear
+      what the link even is. Verified with <code>elementFromPoint</code>, never assumed.
+      <br><br>⛔ <b>The action is now a single link to <code>/contact-us/</code>, and the
+      three-state list this note used to carry is gone.</b> It read
+      <i>Just turn up · Write to us first · Full — the next one is …</i>, and the first two were
+      <b>unsourced</b>: the live page says nothing about turning up versus writing first for any
+      club, and the two “write first” values had been inferred from times that are now
+      published. ⭐ <b>A specimen that demonstrates a state we cannot source teaches the state
+      as if it were real</b> — which is how an invented fact gets into a component library and
+      then into every page built from it.</p>
 
     <h3 style="margin-block-start:var(--space-8)">And its empty state, which is the common case</h3>
     <div class="empty" style="margin-block-start:var(--space-4)">

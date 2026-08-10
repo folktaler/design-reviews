@@ -163,21 +163,24 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
 .week li[data-shut] .week__what{color:var(--text-primary)}
 .week li[data-today]{background:var(--surface-wash)}
 
-/* ⭐⭐ THE WEEK IS THE ONE GENUINE REARRANGEMENT, so it gets the one media query.
-   Everything else here responds intrinsically — `auto-fill` + `minmax(min(X,100%),Y)` —
-   because breakpoints create widths nobody tested between. This case cannot: a phone needs
-   7 ROWS (day beside what), a laptop needs 7 COLUMNS (day above what), and the item's own
-   internal axis flips. No single intrinsic rule yields 1-column-at-335px and 7-at-992px —
-   any `minmax` floor small enough for seven columns also gives two on a phone.
-   ⛔ So this is the sanctioned exception, not permission for more: a REARRANGEMENT, not a
-   reflow. ⭐ And a week is a horizontal structure — stacking it is the one case where narrow
-   actively destroys the meaning, which is why it is worth an exception at all. */
-@media (min-width: 48rem){
-  .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
-  .week li{grid-template-columns:minmax(0,1fr);align-content:start;gap:var(--space-2);
-           border-block-end:0;border-inline-end:var(--rule-hairline) solid var(--border-hairline)}
-  .week li:last-child{border-inline-end:0}
-}
+/* ⛔⛔ THE 7-COLUMN WEEK IS REVERTED. Owner, 10 Aug 2026: "can we keep this vertical instead
+   of horizontal?" — and with it goes the one media query in this stylesheet, so the file is
+   back to zero breakpoints and responds entirely through intrinsic layout.
+
+   ⭐ My argument for horizontal was "a week is a horizontal structure, and stacking it is the
+   one case where narrow destroys the meaning." I still think that is true of a week in the
+   abstract. It was overruled, and the ruling costs less than it would have this morning:
+   the argument rested on the rows being SIX IDENTICAL LINES, which made vertical feel like
+   wasted space. After the 10 August rewrite the rows genuinely differ — Mon–Fri carry three
+   clubs, Saturday four, Sunday only Dance — and seven differing rows read perfectly well
+   stacked. ⭐ The reason the vertical version was weak has gone away on its own.
+
+   ⚠️ He also reported the 7-column table clipping its Sunday column. I could NOT reproduce it:
+   measured at 780, 900, 1024, 1280 and 1440px, the week's box equals its container at every
+   width, `scrollWidth - clientWidth` is 0, and the last column overhangs by -1px. His
+   screenshot is equally consistent with a cropped region capture, which is what shottr
+   produces. ⛔ It is not fixed here because it was not found — reverting to vertical makes the
+   question moot rather than answering it. If it recurs, it recurs with evidence. */
 
 .sessions{margin-block:var(--space-8);padding:0;list-style:none}
 .session{position:relative;padding:var(--space-5) 0;border-block-start:var(--rule-hairline) solid var(--border-hairline)}
