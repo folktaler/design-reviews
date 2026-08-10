@@ -99,6 +99,12 @@
        then raised deliberately across the token file and all four kits that use
        it. The order matters — token first, kits follow. */
     --measure-wide: 72rem;
+    /* ⭐ The widest real ROW on this page — a 10rem label track, one gap, and the
+       reading column. Added 10 Aug 2026 because the wide track at 72rem/1152px
+       ran every hairline 465px past the last glyph: the value was capped for
+       reading, correct, and nobody asked what the rule around it should then do.
+       Synced from ui_kits/venue, where it was measured. Overhang after: 1px. */
+    --measure-row: calc(10rem + var(--space-4) + var(--measure));
     --radius-none: 0;
     --radius-card: 0.5rem;                    /* 8px */
     --radius-control: 0.75rem;                /* 12px */
@@ -183,7 +189,7 @@
      two-left-edges defect the grid comment above says it killed; it killed it for
      the content and nobody measured the chrome. It passed zero-overflow and every
      type gate. Uses --gutter so it is correct on 20px and 24px kits alike. */
-  .wrap--wide { max-width: calc(var(--measure-wide) + var(--gutter) * 2); }
+  .wrap--wide { max-width: calc(var(--measure-row) + var(--gutter) * 2); }
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. ═══════════════════════
@@ -237,7 +243,7 @@
     grid-template-columns:
       [full-start] minmax(var(--gutter, 24px), 1fr)
       [wide-start text-start] min(100% - var(--gutter, 24px) * 2, var(--measure, 32rem))
-      [text-end]   minmax(0, calc(var(--measure-wide, 72rem) - var(--measure, 32rem)))
+      [text-end]   minmax(0, calc(var(--measure-row) - var(--measure, 32rem)))
       [wide-end]   minmax(var(--gutter, 24px), 1fr)
       [full-end];
   }
@@ -272,22 +278,282 @@
     outline-offset: var(--focus-ring-offset, 3px);
   }
 
-  /* ── header ─────────────────────────────────────────────────────────── */
-  .v-hd { border-block-end: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb); }
-  .v-hd__in { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2, 8px); }
-  /* ⭐ BOTH AXES. "Places" at 14px is 42.5px WIDE — height was signed off and
-     width was never measured. And raise the FLOOR, never pad it: min-height is
-     a floor, not an addend, so padding on a 17px link still lands on 44. */
-  .v-hd__name, .v-hd__link {
-    display: inline-flex; align-items: center; justify-content: center;
+  /* ── header — the site chrome, six elements, settled 10 Aug 2026 ─────── */
+  /* ⛔ NOT STICKY, AND THAT IS A MEASUREMENT, NOT A PREFERENCE. Airbnb pins
+     64px on an 844px phone — 7.6% — and every one of their pages ends in a
+     booking, so they can afford it. This header is three rows, because six
+     elements were chosen, and it renders about 190px. Pinned, that plus this
+     page type's 104px action bar would hold roughly 294px of a 667px phone
+     PERMANENTLY: 44% of the screen given to chrome, on a page whose whole job
+     is to print an opening time. It scrolls away instead, so it costs its
+     height once rather than always.
+     ⭐ RE-ARGUE THIS THE DAY THE SEARCH FIELDS WORK. A control worth scrolling
+     back up for is worth pinning; an inert one is not. And the honest pinned
+     version is a COMPACT bar — wordmark plus search — never this whole stack. */
+  .v-hd {
+    border-block-end: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    background: var(--surface-page, #fdfcf9);
+  }
+  /* ⭐ EACH ROW IS ITS OWN .wrap.wrap--wide, so all three start on the page's
+     left edge — the same edge as the H1, the facts rows and the sticky bar's
+     contents. One box around all three would also have worked; three let a row
+     change its vertical rhythm without moving anybody's left edge. */
+  /* ⭐ `flex-wrap` + `margin-inline-start:auto` ON THE TOOLS, not
+     `justify-content: space-between`, and that pairing is the whole safety net.
+     ⛔ THE DEFECT IT ANSWERS, measured at 320px before it went in: the row's
+     three items needed 290.8px inside a 272px column, so `space-between` ran
+     the globe and the menu 18.8px into the right gutter. **No check saw it.**
+     Document overflow read zero; the per-element spill walk read zero, because
+     `.wrap`'s clientWidth counts its own 24px padding and the content stopped
+     6px short of the viewport; and the one-left-edge check was clean, because
+     nothing on the LEFT had moved. A right gutter is only found by asserting
+     it. ⛔ And a breakpoint is not the fix available here: tokens/breakpoints.css
+     names 320px as a width this system TESTS at and never bends at.
+     ⭐ So the row is sized to fit at 320 (measured below), and wrapping is what
+     happens if anything ever outgrows it — a longer wordmark, a translated
+     label — instead of the gutter quietly absorbing it. */
+  .v-hd__row {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: var(--space-2, 8px);
+    padding-block: var(--space-1, 4px);
+  }
+  /* buttons and <summary> in the chrome: strip the UA look, keep the family */
+  .v-hd__tool, .v-search__field, .v-search__go {
+    font-family: inherit; letter-spacing: inherit;
+    border: 0; background: none; appearance: none;
+  }
+
+  /* ── the wordmark, and the space held for a mark that does not exist ─── */
+  .v-hd__brand {
+    display: inline-flex; align-items: center; gap: var(--space-2, 8px);
     min-height: var(--tap-comfortable, 52px);
-    min-inline-size: var(--tap-comfortable, 52px);
     color: var(--text-primary, #1c1a17);
     text-decoration: none;
   }
-  .v-hd__name { font-weight: var(--weight-semibold, 600); font-size: var(--type-ui, 17px); }
-  .v-hd__nav { display: flex; gap: var(--space-2, 8px); }
-  .v-hd__link { font-size: var(--type-micro, 14px); font-weight: var(--weight-medium, 500); }
+  /* ⭐ A RESERVED, EMPTY, SILENT SLOT. The cropped cat mark drops in here at
+     24px and nothing on the row moves. It draws NOTHING today — no border, no
+     dashed box, no placeholder glyph — because a box that is not the logo
+     reads as a broken image, and a broken image is a worse first impression
+     than a little space.
+     ⛔ CONSEQUENCE FOR THE ONE-LEFT-EDGE CHECK, and it has to be written down
+     or the next check gets it wrong: the element sitting on the page's left
+     edge is `.v-hd__brand`, not the wordmark. The wordmark starts 32px in
+     (24 + the 8px gap), today and after the artwork lands. Assert the LINK's
+     box, not the text. */
+  .v-hd__mark { inline-size: 24px; block-size: 24px; flex: 0 0 auto; }
+  /* ⚠️ 16px AT 320 IS NOT A STYLE PREFERENCE, IT IS THE FIT. At 320 the content
+     column is 272px and the row's three items measured 290.8 with an 18px
+     wordmark and a 28px slot. At 16px with a 24px slot the row measures 269.9 —
+     2.1px of headroom, which is thin and is why `flex-wrap` is under it. 49.4px
+     of headroom at 375. Still larger than the 17px flat size this header
+     carried before, at every width above 320. */
+  .v-hd__name {
+    font-size: clamp(1rem, 0.55rem + 2.4vw, 1.375rem);   /* 16 → 22px */
+    font-weight: var(--weight-bold, 700);
+    letter-spacing: var(--tracking-display, -0.01em);
+    white-space: nowrap;
+  }
+
+  /* ── the two controls on the right, and nothing else ─────────────────── */
+  /* ⛔ NOTHING SITS BETWEEN THE WORDMARK AND THESE TWO. Airbnb's "Become a
+     host" text link has no equivalent here, and the owner chose to leave the
+     space empty rather than fill it with a sale. */
+  .v-hd__tools {
+    position: relative; display: flex; align-items: center;
+    gap: var(--space-1, 4px);
+    margin-inline-start: auto;   /* right-aligned on whichever row it lands on */
+  }
+  .v-hd__tool {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: var(--space-1, 4px);
+    min-height: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    padding-inline: var(--space-1, 4px);
+    border-radius: var(--radius-pill, 999px);
+    color: var(--text-primary, #1c1a17);
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    cursor: pointer;
+    list-style: none;          /* it is a <summary>: kill the disclosure marker */
+  }
+  .v-hd__tool::-webkit-details-marker { display: none; }
+  .v-hd__ico {
+    inline-size: 20px; block-size: 20px; flex: 0 0 auto;
+    fill: none; stroke: currentColor; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  /* ⛔ A CLOSED <details> DOES NOT ZERO AN ABSOLUTE CHILD'S BOX, and this cost a
+     false reading before it was found. Chrome hides closed content with
+     `content-visibility: hidden` on `::details-content`, which establishes
+     CONTAINMENT — so that pseudo becomes the containing block, and the panel
+     reported a real 272px rect hanging 13px off the left of a 320px screen
+     while being painted nowhere. An overflow walk cannot tell that phantom
+     from a genuine spill. `display: none` on the element itself collapses the
+     box outright, and when open the containing block is `.v-hd__tools` again,
+     which is where it belongs. */
+  .v-hd__pop:not([open]) .v-hd__panel { display: none; }
+  /* ⭐ ANCHORED TO THE TOOLS GROUP, NOT TO ITS OWN <details>. The group's right
+     edge IS the page's right gutter, so a panel pinned to it can never reach
+     past the page. Pinned to the globe's own box instead, the 304px panel hung
+     9px off the left of a 375px screen — a real overflow, and one that only
+     exists while the panel is open, so a closed-state overflow walk cannot see
+     it. ⭐ The width cap is the gutter arithmetic rather than a round number,
+     so at 320px it lands exactly on the page's left edge. */
+  .v-hd__panel {
+    position: absolute; z-index: 20;
+    inset-block-start: calc(100% + var(--space-1, 4px));
+    inset-inline-end: 0;
+    inline-size: min(19rem, calc(100vw - var(--gutter, 24px) * 2));
+    padding: var(--space-2, 8px);
+    background: var(--surface-page, #fdfcf9);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-control, 12px);
+    text-align: start;
+  }
+  .v-hd__panel p { margin: 0; }
+  .v-hd__panel-h {
+    padding: var(--space-2, 8px);
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-semibold, 600);
+    color: var(--text-secondary, #5a544c);
+  }
+  .v-hd__panel-p {
+    padding: 0 var(--space-2, 8px) var(--space-2, 8px);
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+  }
+  .v-hd__mi {
+    display: flex; flex-direction: column; justify-content: center;
+    gap: var(--space-1, 4px);
+    min-height: var(--tap-comfortable, 52px);
+    padding: var(--space-2, 8px);
+    border-radius: var(--radius-card, 8px);
+    color: var(--text-primary, #1c1a17);
+    font-size: var(--type-small, 16px);
+    text-decoration: none;
+  }
+  /* ⛔ THE ROW FOR A PAGE THAT DOES NOT EXIST. "How we check our facts" is the
+     only surface where this site is still allowed to explain why its hours
+     disagree with a posted board, and it has never been written. It is NOT a
+     link — a link to a 404 is the worst of the three options. It is not
+     deleted either, because then the menu is quietly short of the one thing
+     every venue page is supposed to point at. So it says so, and it carries
+     the sentence that page would open with, which is most of the value anyway.
+     ⭐ `data-page-missing` is greppable: the day the page lands, this row
+     becomes an <a href> and the attribute goes with the note. */
+  /* ⚠️ IT HAS TO LOOK UNTAPPABLE, and flat text does not. Rendered without the
+     fill it sat at the same weight and colour as About, The monthly email and
+     Contact — a row that reads as a link, is not one, and would have taught a
+     reader that this menu ignores taps. `--surface-quiet` is this system's
+     ground for voice and asides, which is exactly what this row is: a note
+     about a missing thing, not an action. */
+  .v-hd__mi--todo {
+    color: var(--text-secondary, #5a544c); cursor: default;
+    background: var(--surface-quiet, #f4f1ea);
+  }
+  .v-hd__mi--todo > span:first-child { color: var(--text-primary, #1c1a17); }
+  .v-hd__mi-note { font-size: var(--type-micro, 14px); line-height: var(--leading-tight, 1.375); }
+
+  /* ── the search pill — two fields and the round button ───────────────── */
+  /* ⛔ WHAT IS NOT HERE, and both absences are decisions. Airbnb's WHERE is
+     dropped because the whole site IS Fort Kochi and Mattancherry. Airbnb's
+     WHO is dropped because across the registry the twelve fields such a filter
+     would read hold ONE filled value in total — a control that promises a
+     filter the data cannot compute is a lie the interface tells by itself.
+     ⚠️ AND THE WORDS ARE LEGALLY LOAD-BEARING. "available", "book", "reserve",
+     "check in" and "check out" are on COMMERCE-TERMS.md's banned list: they
+     read as friendly and they make this business a travel agent. The second
+     field asks "When are you here?" for that reason, not for tone. */
+  .v-search {
+    display: flex; align-items: center; gap: var(--space-1, 4px);
+    margin-block: var(--space-2, 8px) var(--space-3, 12px);
+    padding: var(--space-1, 4px);
+    background: var(--surface-page, #fdfcf9);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-pill, 999px);
+  }
+  /* ⛔ NO `white-space: nowrap`, AND THAT ABSENCE IS THE FIX. With it, at 320px
+     the two prompts needed 192px of text in a 157px space and simply painted
+     outside their buttons, over the divider and each other — 9px and 30px of
+     spill, invisible to a document-level overflow check because the button's
+     own overflow-x is visible. The alternative was shrinking the type; 16px on
+     two lines beats 14px on one for a reader in bright sun, and it costs no
+     height at all: two 16px lines at 1.375 are 44px inside a 52px floor.
+     ⭐ Measured: it wraps only at 320. One line at 360 and everything above. */
+  /* ⭐ `1 0 auto` — GROW TOGETHER, SHRINK SEPARATELY. Both fields take an equal
+     share of a wide pill, but only the long question gives ground when the pill
+     is short. Left proportional (`1 1 auto`), flex shrank BOTH at 375 and broke
+     "What kind" across two lines — a two-word control reading as two controls,
+     on the site's reference width. Measured: with this, "What kind" is one line
+     at every width from 320 up. */
+  .v-search__field {
+    flex: 1 0 auto; min-inline-size: 0;
+    display: inline-flex; align-items: center;
+    min-height: var(--tap-comfortable, 52px);
+    padding-inline: var(--space-2, 8px);
+    border-radius: var(--radius-pill, 999px);
+    color: var(--text-primary, #1c1a17);
+    font-size: var(--type-small, 16px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    text-align: start;
+    cursor: pointer;
+  }
+  /* ⚠️ The only field allowed to wrap. Below ~368px "When are you here?" sets on
+     two lines inside the same box — measured, and it costs NO height: two 16px
+     lines at 1.375 are 44px inside a 52px floor, so the pill is 62px tall at
+     320 and at 2000 alike. Two lines of a question is not a defect; 14px type
+     in Kerala sun would have been. */
+  .v-search__field--wide { flex: 1 1 auto; }
+  .v-search__div {
+    flex: 0 0 auto; inline-size: 1px; block-size: 1.5rem;
+    background: var(--border-hairline, #ddd7cb);
+  }
+  /* ⭐ INK, NOT AMBER. Amber marks the one thing the reader came for and it has
+     a single job on this site; a search button is not it. Round, because in
+     this system controls are round and photographs are square. */
+  .v-search__go {
+    flex: 0 0 auto;
+    display: inline-flex; align-items: center; justify-content: center;
+    inline-size: 48px; block-size: 48px;
+    border-radius: 50%;
+    background: var(--action-primary-bg, #1c1a17);
+    color: var(--action-primary-text, #fdfcf9);
+    cursor: pointer;
+  }
+
+  /* ── the section tabs ────────────────────────────────────────────────── */
+  /* ⛔ NO ICONS. Airbnb's category row is icon-led because their categories are
+     distinct products; ours are three generic nouns, and a generic icon beside
+     a generic word is noise that costs bytes and height and explains nothing.
+     ⛔ AND THESE ARE NOT THE COUNTED CHIPS from the browse page: a chip filters
+     one page, a tab moves between sections of a whole site. */
+  .v-hd__tabs { display: flex; gap: var(--space-5, 20px); }
+  /* ⭐ LEFT-ALIGNED, NOT CENTRED, AND THAT ONE WORD IS A LEFT EDGE. The tap
+     floor is 52px wide; "Places" sets about 40px, so centring it inside the
+     floor would start the first glyph ~6px right of every other left edge on
+     the page — a defect a majority-value check would never see, because it is
+     one element. The surplus hit area goes to the right, into the gap. */
+  .v-hd__tab {
+    display: inline-flex; align-items: center; justify-content: flex-start;
+    min-height: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    color: var(--text-primary, #1c1a17);
+    font-size: var(--type-small, 16px);
+    font-weight: var(--weight-medium, 500);
+    text-decoration: none;
+  }
+  /* ⭐ THE MARK GOES UNDER THE WORD, NOT UNDER THE BOX. The box is 52px tall
+     because a thumb needs it; a border-block-end on the box would float the
+     mark ~16px below the label, where it reads as a stray rule rather than as
+     a tab. 16px, not 14px, because these three words are the doors to the
+     whole site and they are read in bright sun. */
+  .v-hd__tab-label { position: relative; }
+  .v-hd__tab[aria-current="page"] { font-weight: var(--weight-semibold, 600); }
+  .v-hd__tab[aria-current="page"] .v-hd__tab-label::after {
+    content: ""; position: absolute; inset-inline: 0; inset-block-end: -6px;
+    block-size: 2px; background: var(--text-primary, #1c1a17);
+  }
 
   /* ── the photograph ─────────────────────────────────────────────────── */
   /* ⭐ Full bleed, and therefore SQUARE. A photograph that runs to the edge of
@@ -685,11 +951,16 @@
   }
   .v-bar > * {
     inline-size: 100%;
-    max-inline-size: var(--measure-wide, 72rem);
+    max-inline-size: var(--measure-row);
     margin-inline: auto;
   }
   .v-bar__context {
-    margin: 0;
+    /* ⛔ WAS `margin: 0`, and the shorthand wiped the auto inline margins that
+       centre this on the page's own left edge. At 1440 the caption sat at x=24
+       while its button sat at x=376 — 120px apart, two left edges, permanently
+       on screen. Fixed in ui_kits/venue and never synced here until 10 Aug 2026.
+       margin-block, not margin: only the block axis is being zeroed. */
+    margin-block: 0;
     font-size: var(--type-micro, 14px);
     font-weight: var(--weight-medium, 500);
     line-height: var(--leading-tight, 1.375);
@@ -732,13 +1003,100 @@
 <body data-page-kind="venue">
 
 <header class="v-hd">
-  <div class="wrap wrap--wide v-hd__in">
-    <a class="v-hd__name" href="#top">cats of Kochi</a>
-    <nav class="v-hd__nav" aria-label="Main">
-      <a class="v-hd__link" href="#top">Places</a>
-      <a class="v-hd__link" href="#top">Today</a>
-    </nav>
+
+  <div class="wrap wrap--wide v-hd__row">
+    <a class="v-hd__brand" href="#top">
+      <!-- ⭐ Held for the cropped cat mark, which does not exist yet. Empty on
+           purpose; the CSS says why, and why the left-edge check must assert
+           this link rather than the wordmark inside it. -->
+      <span class="v-hd__mark" aria-hidden="true"></span>
+      <span class="v-hd__name">cats of Kochi</span>
+    </a>
+
+    <div class="v-hd__tools">
+      <!-- ⚠️ ONE LANGUAGE BEHIND A GLOBE. The owner was told plainly that a
+           globe with a single language behind it reads as broken to whoever
+           taps it, and chose it anyway — so the job is to make the tap honest,
+           not to argue it again. Two things do that. The control is LABELLED
+           with the language the page is already in, so it tells the truth
+           before anybody touches it. And it opens on a sentence that says
+           English is all there is.
+           ⛔ NO "COMING SOON" AND NO DATE. Languages ship over time by the
+           owner's own ruling, so any date here would be invented, and a
+           promise with no date is what makes a reader stop believing the rest
+           of the page. The sentence makes no time claim at all. -->
+      <details class="v-hd__pop" name="v-hd-pop">
+        <summary class="v-hd__tool" aria-label="Language: English">
+          <svg class="v-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+            <path d="M2 12h20"/>
+          </svg>
+          <span>English</span>
+        </summary>
+        <div class="v-hd__panel">
+          <p class="v-hd__panel-h">Language</p>
+          <p class="v-hd__panel-p">
+            English is the only language this site is written in. More will
+            appear in this list as they are finished, so there is nothing else
+            to choose today.
+          </p>
+        </div>
+      </details>
+
+      <!-- ⭐ ICON ONLY, AT EVERY WIDTH, and the globe keeps its word. An
+           unlabelled hamburger is understood everywhere; an unlabelled globe
+           is the thing that promises a language switcher and then has none.
+           So the word goes where it is load-bearing and not where it is
+           decoration. Measured reason as well: at 320px the row cannot carry
+           both words and the wordmark without overflowing. -->
+      <details class="v-hd__pop" name="v-hd-pop">
+        <summary class="v-hd__tool" aria-label="Menu">
+          <svg class="v-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+          </svg>
+        </summary>
+        <div class="v-hd__panel">
+          <a class="v-hd__mi" href="#top">About</a>
+          <div class="v-hd__mi v-hd__mi--todo" data-page-missing="how-we-check-our-facts">
+            <span>How we check our facts</span>
+            <span class="v-hd__mi-note">
+              Not written yet. Until it is: we print the hours we believe, and
+              where we do not know them we say so instead of guessing.
+            </span>
+          </div>
+          <a class="v-hd__mi" href="#top">The monthly email</a>
+          <a class="v-hd__mi" href="#top">Contact</a>
+        </div>
+      </details>
+    </div>
   </div>
+
+  <!-- ⚠️ INERT. Both fields and the button are real controls with nothing
+       behind them: the front door has not been designed, and this kit exists
+       to settle the CONTROL, not the panel it will open. They are ordinary
+       buttons with no handler rather than `disabled` ones, because a disabled
+       control is greyed and skipped by the keyboard, which is not what this
+       will be. `data-inert` marks every one of them for whoever wires it. -->
+  <div class="wrap wrap--wide">
+    <div class="v-search" role="search">
+      <button class="v-search__field" type="button" data-inert="front-door-undecided">What kind</button>
+      <span class="v-search__div" aria-hidden="true"></span>
+      <button class="v-search__field v-search__field--wide" type="button" data-inert="front-door-undecided">When are you here?</button>
+      <button class="v-search__go" type="button" aria-label="Search" data-inert="front-door-undecided">
+        <svg class="v-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav class="wrap wrap--wide v-hd__tabs" aria-label="Sections">
+    <a class="v-hd__tab" href="#top" aria-current="page"><span class="v-hd__tab-label">Places</span></a>
+    <a class="v-hd__tab" href="#top"><span class="v-hd__tab-label">Getting around</span></a>
+    <a class="v-hd__tab" href="#top"><span class="v-hd__tab-label">Writing</span></a>
+  </nav>
+
 </header>
 
 <!-- ⭐ `page`, not `wrap`. The grid supplies its own gutters through its outer
@@ -1133,6 +1491,64 @@
       commentary about the mock and is excluded from every measurement, because
       measuring a designer's own notes as if they were the design is the proxy error
       this system exists to prevent.
+    </p>
+
+    <h2>The header — six elements, and three of them have a catch</h2>
+    <p>
+      Built 10 August 2026 to the six decisions the owner made one at a time. Wordmark
+      only, with the space to its left held for the cropped cat mark. Three section tabs
+      with the current one underlined. A search pill with two fields and a round button.
+      Nothing in the right-hand text-link slot. A language globe. A menu at every width.
+    </p>
+    <h4>⚠️ What is inert</h4>
+    <ul>
+      <li>
+        <b>Both search fields and the search button do nothing.</b> The front door has not
+        been designed, and this page settles the control, not the panel behind it. They
+        are ordinary buttons with no handler — not <code>disabled</code> ones, because a
+        disabled control is greyed out and skipped by the keyboard, which is not what this
+        will become. Every one carries <code>data-inert="front-door-undecided"</code>.
+      </li>
+      <li>
+        <b>Every link in the header points at <code>#top</code>.</b> Places, Getting
+        around, Writing, the wordmark, About, The monthly email and Contact are all
+        stand-ins for pages that exist elsewhere or not yet.
+      </li>
+    </ul>
+    <h4>⛔ The two dead ends, and what was done about each</h4>
+    <ul>
+      <li>
+        <b>A globe with one language behind it.</b> The owner was told plainly that this
+        reads as broken to whoever taps it and chose it anyway, so the work was to make
+        the tap honest rather than to argue it again. The control is labelled
+        <b>English</b>, so it states the truth before anybody touches it, and it opens on
+        one sentence saying English is all there is. <b>It makes no time claim</b> — no
+        "coming soon", no date — because languages ship over time by the owner's own
+        ruling and any date here would be invented.
+      </li>
+      <li>
+        <b>"How we check our facts" points at a page nobody has written.</b> It is in the
+        menu and it is <b>not a link</b>: a link to a 404 is worse than either alternative,
+        and deleting the row would leave the menu quietly short of the one surface where
+        this site is still allowed to explain why its hours disagree with a posted board.
+        So the row says it is not written yet and carries the sentence that page would
+        open with. It sits on the quiet surface so it cannot be mistaken for something
+        tappable, and it is marked
+        <code>data-page-missing="how-we-check-our-facts"</code> so the day the page lands
+        it becomes an ordinary link.
+      </li>
+    </ul>
+    <h4>⚠️ What it costs the phone, measured at 375 × 667</h4>
+    <p>
+      The header is <b>195px</b> where the old one was <b>53px</b>. The H1 moves from 288
+      to 430 and <b>the first fact row moves from 424 to 566</b> — and the fixed action bar
+      covers everything below 563, so <b>on a 667px-tall phone the first opening-hours row
+      is now behind the bar</b> where before it was in plain sight. It is above the fold on
+      a 390 × 844 phone. The header is deliberately <b>not sticky</b>, so this is a
+      one-time scroll cost rather than a permanent one.
+      ⭐ <b>The single lever, quantified:</b> the search pill row is 82px of that 142px
+      increase and it is the part that does nothing yet. Held back until it works, the
+      first fact row lands at 484 and stays visible on the small phone.
     </p>
 
     <h2>⛔ What on this page is real, and what is not</h2>
