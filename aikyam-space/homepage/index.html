@@ -52,12 +52,13 @@
 
   <ul class="acts">
     <li>
-      <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200" loading="lazy"
+      <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200"
+        loading="eager" fetchpriority="high"
         alt="Cats at aikyam space" src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-15.42.47.jpeg"></a>
       <h3><a href="#">The cats have made themselves at home</a></h3>
       <p class="acts__body">Our little cat friends continue to make themselves at home. As a
         pet-friendly space we are exploring small ways to make it more welcoming for animals.</p>
-      <p class="acts__when">Thursday 7 August</p>
+      <p class="acts__when">Friday 7 August</p>
     </li>
     <li>
       <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200" loading="lazy"
@@ -65,7 +66,7 @@
       <h3><a href="#">Tote and duffle bags placed at Local Sustainable Living</a></h3>
       <p class="acts__body">A chance to see how the products are received. If demand grows, the
         team plans to continue making more bags.</p>
-      <p class="acts__when">Wednesday 6 August</p>
+      <p class="acts__when">Thursday 6 August</p>
     </li>
     <li>
       <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200" loading="lazy"
@@ -73,7 +74,7 @@
       <h3><a href="#">Five new bag designs started for an Onam event</a></h3>
       <p class="acts__body">Made with handloom fabric and cut pieces, for an Onam event by Local
         Sustainable Living, to showcase sustainable craftsmanship.</p>
-      <p class="acts__when">Monday 4 August</p>
+      <p class="acts__when">Tuesday 4 August</p>
     </li>
     <li>
       <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200" loading="lazy"
@@ -82,7 +83,7 @@
       <p class="acts__body">The reading programme follows an approach adapted from ASER and
         Teaching at the Right Level, building a reading habit based on each child's current
         ability rather than their age.</p>
-      <p class="acts__when">Friday 4 July</p>
+      <p class="acts__when">Saturday 4 July</p>
     </li>
     <li>
       <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200" loading="lazy"
@@ -90,7 +91,7 @@
       <h3><a href="#">The stitching team pushed on with new products</a></h3>
       <p class="acts__body">Work continued on new products while improving quality and exploring
         better production techniques.</p>
-      <p class="acts__when">Friday 4 July</p>
+      <p class="acts__when">Saturday 4 July</p>
     </li>
     <li>
       <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200" loading="lazy"
@@ -98,7 +99,7 @@
       <h3><a href="#">The community dance class practised together again</a></h3>
       <p class="acts__body">Participants practising together and building confidence through
         regular learning and teamwork.</p>
-      <p class="acts__when">Friday 4 July</p>
+      <p class="acts__when">Saturday 4 July</p>
     </li>
     <li>
       <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200" loading="lazy"
@@ -106,7 +107,7 @@
       <h3><a href="#">Chapter leaders met for a quarterly district meeting</a></h3>
       <p class="acts__body">Chapter leaders from across cities presented updates, discussed
         challenges and planned future initiatives.</p>
-      <p class="acts__when">Friday 4 July</p>
+      <p class="acts__when">Saturday 4 July</p>
     </li>
     <li>
       <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200" loading="lazy"
@@ -114,7 +115,7 @@
       <h3><a href="#">After the second batch, work began on new designs</a></h3>
       <p class="acts__body">The focus is now on making better use of fabric cut pieces by turning
         them into useful items instead of letting them go to waste.</p>
-      <p class="acts__when">Wednesday 2 July</p>
+      <p class="acts__when">Thursday 2 July</p>
     </li>
     <li>
       <a class="act__shotlink" href="#"><img class="acts__shot" width="1600" height="1200" loading="lazy"
@@ -214,6 +215,28 @@
       <p>⭐ <b>The bordered element in his first screenshot is the reserve panel — a form you act
         inside, not a content card.</b> ⛔ <b>“Airbnb does it” was true and about the wrong
         element.</b> Three treatments, three jobs, one product.</p>
+    </div>
+
+    <div class="empty">
+      <h3>⛔⛔ 5. Every July and August weekday on this page was WRONG, and it was mine</h3>
+      <p><b>Checked against the real 2026 calendar:</b> 7 August is a <b>Friday</b>, not a
+        Thursday. 6 August is a <b>Thursday</b>. 4 August is a <b>Tuesday</b>. 4 July is a
+        <b>Saturday</b>, not a Friday. <b>Five of the eight dates on this page named the wrong
+        day of the week.</b> All are corrected above.</p>
+      <p>⚠️ <b>And it was not a uniform off-by-one, which is why it survived.</b> The three May
+        dates were <b>right</b>. A consistent slip is visible; a slip in one stretch of a list
+        looks like data. ⛔ <b>Nothing on the page could have caught it</b> — every weekday name
+        is a valid string, correctly styled, in the right place.</p>
+      <p>⛔⛔ <b>This is the worst defect found today, and it is not a layout defect.</b> The whole
+        claim of this page is <i>this happened, on this day</i>. <b>A record that names the wrong
+        weekday is not a smaller version of the truth, it is a different statement.</b> ⭐ Someone
+        who was in the room on Saturday reads “Friday” and stops believing the rest.</p>
+      <p>⭐⭐ <b>For the importer: derive the weekday from the date, never transcribe it.</b> The
+        source guides carry <i>“July 4”</i> with no weekday at all, so every weekday on this site
+        will be computed. <b>Compute it once, in one place, and the whole class of error
+        disappears.</b> ⚠️ <b>Fix the timezone at <code>Asia/Kolkata</code> when you do</b> — a
+        date rendered in UTC lands on the previous evening and shifts the weekday back by one,
+        which is exactly the error above, mechanised.</p>
     </div>
   </section>
 </main>

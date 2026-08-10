@@ -15,13 +15,15 @@
 <p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
 
 <div class="kitbar">
-  <b>MOCKUP — not the live site.</b> Proposed <code>/activities/</code>. Every entry is a
-  <b>real activity</b> from
-  <a href="https://aikyam.space/the-ultimate-guide-to-aikyam-space-for-august-2026/">the August 2026 guide</a>,
-  read 10 Aug — real bodies, real photographs, real dates.
+  <b>MOCKUP — not the live site.</b> Proposed <code>/activities/</code>, <b>three columns</b>, per
+  the owner. Every entry is a <b>real activity</b> from the
+  <a href="https://aikyam.space/the-ultimate-guide-to-aikyam-space-for-august-2026/">August</a>,
+  <a href="https://aikyam.space/the-ultimate-guide-to-aikyam-space-for-july-2026/">July</a> and
+  <a href="https://aikyam.space/the-ultimate-guide-to-aikyam-space-for-june-2026/">June 2026</a>
+  guides, read 10 Aug — real bodies, real photographs, real dates.
   ⚠️ <b>The headlines are mine</b>; the source has none, so distilling one sentence per entry is
   editorial work and is flagged rather than passed off as found copy.
-  ⛔ <b>This page's styles now live in <code>_kit.css</code>, not in the page.</b>
+  ⛔ <b>No daybands</b> — see the note under June, and the whole corpus was counted to decide it.
 </div>
 
 <header class="site-head">
@@ -47,8 +49,8 @@
   <section class="lede">
     <p class="kicker">Day by day</p>
     <h1>What happened here</h1>
-    <p style="margin-block-start:var(--space-4)">A record of most days at aikyam space — what
-      was made, who came, what worked. Written by the people who were there.</p>
+    <p style="margin-block-start:var(--space-4)">What was made here, who came, what worked.
+      Written by the people who were there.</p>
 
     <ul class="months" aria-label="Jump to a month">
       <li><a href="#" aria-current="page">August</a></li>
@@ -56,7 +58,6 @@
       <li><a href="#">June</a></li>
       <li><a href="#">May</a></li>
       <li><a href="#">April</a></li>
-      <li><a href="#">March</a></li>
     </ul>
 
     <p class="kitnote">⛔⛔ <b>Two rulings rebuilt this page after it was first drawn, and both
@@ -67,10 +68,16 @@
       together under one date heading because the container had no room for a second entry.
       <b>The owner was describing something the corpus was already doing.</b>
       <br><br>⭐ <b>And multiple entries per date makes the headline inversion load-bearing
-      rather than merely better.</b> <i>“Friday 8 August”</i> cannot headline three different
-      things. <b>The date is a quiet group label; each activity keeps its own headline.</b>
-      ⛔ Stating the date once per group rather than under every entry avoids repeating it three
-      times — the count-in-prose problem in another costume.
+      rather than merely better.</b> <i>“Saturday 4 July”</i> cannot headline three different
+      things; each activity keeps its own.
+      ⛔⛔ <b>The date was a group label until 10 Aug and is now a field on each card</b> — the
+      grouping did not survive the move to three columns, and the reason is measured in the note
+      under June. ⚠️ <b>Repeating the date on three sibling cards is the cost, and it is the right
+      cost:</b> each of these is a shareable URL that will arrive somewhere with no neighbours
+      to inherit a heading from.
+      <br><br>⛔ <b>The months are a selector, not a filter</b>, and <b>March is not in it</b> —
+      the March guide covers five days and carries no activity lines at all. <b>An empty month in
+      a jump list is a dead end that looks like a bug.</b>
       <br><br>⛔⛔ <b>A club label was added above every headline and removed four minutes
       later — and the part worth keeping is what happened in between.</b> The owner read the
       first headlines and found them incomplete: <i>“moved in where? who pulled out the DNA?
@@ -111,83 +118,159 @@
   <section aria-labelledby="aug-h" style="margin-block-start:var(--pitch-rule-heading)">
     <h2 id="aug-h">August</h2>
 
-    <ul class="feed">
+    <ul class="acts">
       <li>
-        <p class="dayband">Thursday 7 August</p>
-        <article class="act">
-          <img class="act__shot" width="1600" height="1200" loading="lazy" alt="Cats at aikyam space"
-            src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-15.42.47.jpeg">
-          <h3 class="act__what"><a href="/activities/the-cats-have-moved-in/">The cats have moved into the garden</a></h3>
-          <p class="act__body">Our little cat friends continue to make themselves at home. As a
-            pet-friendly space we are exploring small ways to make it more welcoming for
-            animals — a place where both people and pets can feel comfortable.</p>
-        </article>
-        <article class="act">
-          <h3 class="act__what"><a href="/activities/stitching-lab-7-august/">The stitching lab ran all afternoon</a></h3>
-          <p class="act__meta">2–6 PM · with Mary Gracy</p>
-          <p class="act__body">The usual afternoon session.</p>
-        </article>
+        <a class="act__shotlink" href="/activities/the-cats-have-moved-in/"><img class="acts__shot"
+          width="1600" height="1200" loading="eager" fetchpriority="high" alt="Cats at aikyam space"
+          src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-15.42.47.jpeg"></a>
+        <h3><a href="/activities/the-cats-have-moved-in/">The cats have moved into the garden</a></h3>
+        <p class="acts__body">Our little cat friends continue to make themselves at home. As a
+          pet-friendly space we are exploring small ways to make it more welcoming for animals.</p>
+        <p class="acts__when">Friday 7 August</p>
       </li>
       <li>
-        <p class="dayband">Wednesday 6 August</p>
-        <article class="act">
-          <img class="act__shot" width="1600" height="1200" loading="lazy" alt="Tote bags on display"
-            src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-07-at-15.35.45-1.jpeg">
-          <h3 class="act__what"><a href="/activities/the-bags-went-on-sale/">The stitching team's bags went on sale at Local Sustainable Living</a></h3>
-          <p class="act__meta">with Mary Gracy</p>
-          <p class="act__body">The team placed their cut-piece tote bags and duffle bags at
-            Local Sustainable Living — a chance to see how the products are received. If demand
-            grows, they plan to make more.</p>
-        </article>
+        <a class="act__shotlink" href="/activities/the-bags-went-on-sale/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="Tote bags on display at a shop counter"
+          src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-07-at-15.35.45-1.jpeg"></a>
+        <h3><a href="/activities/the-bags-went-on-sale/">The stitching team's bags went on sale at Local Sustainable Living</a></h3>
+        <p class="acts__body">A chance to see how the products are received. If demand grows, the
+          team plans to make more.</p>
+        <p class="acts__when">Thursday 6 August</p>
       </li>
       <li>
-        <p class="dayband">Monday 4 August</p>
-        <article class="act">
-          <img class="act__shot" width="1600" height="1200" loading="lazy" alt="Stitching work in progress"
-            src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-14.23.37-1.jpeg">
-          <h3 class="act__what"><a href="/activities/five-new-bag-designs-for-onam/">The stitching team started five new bag designs for Onam</a></h3>
-          <p class="act__meta">with Mary Gracy</p>
-          <p class="act__body">The stitching team is working on five new designs for an Onam
-            event by Local Sustainable Living, using handloom fabric and cut pieces.</p>
-        </article>
+        <a class="act__shotlink" href="/activities/five-new-bag-designs-for-onam/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="Stitching work in progress"
+          src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-14.23.37-1.jpeg"></a>
+        <h3><a href="/activities/five-new-bag-designs-for-onam/">The stitching team started five new bag designs for Onam</a></h3>
+        <p class="acts__body">Made with handloom fabric and cut pieces, for an Onam event by
+          Local Sustainable Living.</p>
+        <p class="acts__when">Tuesday 4 August</p>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="jul-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="jul-h">July</h2>
+
+    <ul class="acts">
+      <li>
+        <a class="act__shotlink" href="/activities/reading-corner-opened/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="Children at the Reading Corner"
+          src="https://aikyam.space/content/images/2026/07/WhatsApp-Image-2026-07-06-at-10.14.24--1--1.jpeg"></a>
+        <h3><a href="/activities/reading-corner-opened/">Children began using the new Reading Corner</a></h3>
+        <p class="acts__body">The reading programme follows an approach adapted from ASER and
+          Teaching at the Right Level, built on each child's current ability rather than age.</p>
+        <p class="acts__when">Saturday 4 July</p>
       </li>
       <li>
-        <p class="dayband">Saturday 2 August</p>
-        <article class="act">
-          <h3 class="act__what"><a href="/activities/reflecting-on-the-first-performance/">The dance group talked about their first performance, in the Main Hall</a></h3>
-          <p class="act__meta">3–4 PM · with Thudippu</p>
-          <p class="act__body">After their first stage performance, the community dance group
-            gathered to share how it went — what worked, and what they would do differently.</p>
-        </article>
+        <a class="act__shotlink" href="/activities/dance-club-4-july/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="Community dance class in the Main Hall"
+          src="https://aikyam.space/content/images/2026/07/WhatsApp-Image-2026-07-06-at-10.14.24-1.jpeg"></a>
+        <h3><a href="/activities/dance-club-4-july/">The community dance class practised together again</a></h3>
+        <p class="acts__body">Participants practising together and building confidence through
+          regular learning and teamwork.</p>
+        <p class="acts__when">Saturday 4 July</p>
       </li>
       <li>
-        <p class="dayband">Friday 1 August</p>
-        <article class="act">
-          <h3 class="act__what"><a href="/activities/closed-for-heavy-rain/">Everything paused for heavy rain</a></h3>
-          <p class="act__body">All activities were paused for the day, for the safety of
-            community members, children and staff.</p>
-        </article>
+        <a class="act__shotlink" href="/activities/district-meeting-4-july/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="Chapter leaders meeting at the space"
+          src="https://aikyam.space/content/images/2026/07/WhatsApp-Image-2026-07-06-at-10.14.25-1.jpeg"></a>
+        <h3><a href="/activities/district-meeting-4-july/">Chapter leaders met for a quarterly district meeting</a></h3>
+        <p class="acts__body">Leaders from across cities presented updates, discussed challenges
+          and planned what comes next.</p>
+        <p class="acts__when">Saturday 4 July</p>
+      </li>
+      <li>
+        <a class="act__shotlink" href="/activities/cut-pieces-practice/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="Fabric cut pieces on a work table"
+          src="https://aikyam.space/content/images/2026/07/20260706_125822-2---1--1-1.jpg"></a>
+        <h3><a href="/activities/cut-pieces-practice/">The stitching team practised with leftover fabric</a></h3>
+        <p class="acts__body">Exercises to improve skills while finding creative ways to turn
+          leftover fabric into useful products.</p>
+        <p class="acts__when">Monday 6 July</p>
+      </li>
+      <li>
+        <a class="act__shotlink" href="/activities/a-seed-in-a-cup/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="A child holding a seedling cup"
+          src="https://aikyam.space/content/images/2026/07/WhatsApp-Image-2026-07-14-at-08.31.57.jpeg"></a>
+        <h3><a href="/activities/a-seed-in-a-cup/">Every child took home a fruit seed to grow</a></h3>
+        <p class="acts__body">Water it, watch it, come back and report. The team tracks the
+          progress with them, so the learning comes from their own observations.</p>
+        <p class="acts__when">Saturday 11 July</p>
+      </li>
+      <li>
+        <a class="act__shotlink" href="/activities/reading-club-11-july/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="Children reading with volunteers on the verandah"
+          src="https://aikyam.space/content/images/2026/07/WhatsApp-Image-2026-07-14-at-08.31.21-1-1.jpeg"></a>
+        <h3><a href="/activities/reading-club-11-july/">Children read together and with volunteers on the verandah</a></h3>
+        <p class="acts__body">The session encouraged regular reading and helped children become
+          more comfortable with books.</p>
+        <p class="acts__when">Saturday 11 July</p>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="jun-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="jun-h">June</h2>
+
+    <ul class="acts">
+      <li>
+        <a class="act__shotlink" href="/activities/grouped-by-skill-level/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="Stitching session in progress"
+          src="https://aikyam.space/content/images/2026/06/WhatsApp-Image-2026-06-02-at-10.11.50-1.jpeg"></a>
+        <h3><a href="/activities/grouped-by-skill-level/">The stitching group split by skill level so members could teach each other</a></h3>
+        <p class="acts__body">Beginners alongside experienced members who can support them. The
+          group also worked out roles for an upcoming bag order.</p>
+        <p class="acts__when">Monday 1 June</p>
+      </li>
+      <li>
+        <a class="act__shotlink" href="/activities/sorting-fabric/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="Sorting fabric pieces at a table"
+          src="https://aikyam.space/content/images/2026/06/WhatsApp-Image-2026-06-02-at-16.45.03-1.jpeg"></a>
+        <h3><a href="/activities/sorting-fabric/">An afternoon of sorting fabric and talking about what it could become</a></h3>
+        <p class="acts__body">A relaxed session of teamwork and shared learning, preparing
+          materials and practising together.</p>
+        <p class="acts__when">Tuesday 2 June</p>
+      </li>
+      <li>
+        <a class="act__shotlink" href="/activities/one-to-one-at-the-machine/"><img class="acts__shot"
+          width="1600" height="1200" loading="lazy" alt="One-to-one guidance at a sewing machine"
+          src="https://aikyam.space/content/images/2026/06/WhatsApp-Image-2026-06-03-at-16.04.48-1.jpeg"></a>
+        <h3><a href="/activities/one-to-one-at-the-machine/">One-to-one guidance at the machines</a></h3>
+        <p class="acts__body">Basic techniques, machine handling, and confidence built through
+          regular practice.</p>
+        <p class="acts__when">Wednesday 3 June</p>
       </li>
     </ul>
 
-    <p class="kitnote">⛔⛔ <b>Two of these six have NO photograph, and one of them never can.</b>
-      The 1 August entry is a <b>rain closure</b> — nobody photographs a day the room was shut —
-      and the 2 August discussion simply was not photographed.
-      <br><br>⭐⭐ <b>With future entries cut, this is the ONLY exception left, and the rule that
-      carries it is unchanged: “no slot without a guaranteed filler”.</b> An entry with a
-      photograph is a card; an entry without one has no container at all. <b>Both sit in one
-      feed and the reader notices nothing, because neither form has a hole in it.</b>
-      ⚠️ <b>Had the card been the only form, those two would each show an empty 4:3 well and the
-      rain day would look like a bug.</b>
-      <br><br>⛔ <b>The guard against pre-created noise is retired, not relaxed.</b> It read
-      <i>“a future activity must be worth announcing”</i> and existed to stop the August guide's
-      <b>28 pre-filled schedule lines</b> being rebuilt one post at a time. ⭐ <b>With no future
-      entries, that failure is structurally impossible rather than prevented by discipline</b> —
-      and a guard against something that cannot happen reads as a live risk. <b>Gone.</b>
-      <br><br>⚠️ <b>The site now has no surface for “something is coming up”, and that is
-      deliberate.</b> ⛔ It must not creep back in here. <b>The homepage's “Coming up” block
-      already exists and is already the right home for a one-off announcement</b> — the record
-      says what happened, and nothing else.</p>
+    <p class="kitnote">⛔⛔ <b>THE DAYBAND IS GONE, and the record killed it — not a preference.</b>
+      The owner asked for three columns here as well. <b>The obvious way to keep both was a
+      full-width date heading with that day's activities gridded beneath it.</b> Measured against
+      all six monthly guides — <b>157 days, 250 activities, March 27 to August 30</b> — that
+      option does not survive:
+      <br><br>⛔ <b>92 of 157 days (59%) have no photographed activity at all</b>, so they never
+      appear in a photo-only feed. <b>A dayband claims a day-by-day record this page no longer
+      is.</b>
+      <br>⛔ <b>Of the 65 days that DO appear, 45 (69%) contribute exactly one card</b> — a
+      full-width heading over one card and two empty cells, two times in three, all the way down.
+      <br>⭐ <b>And the owner already ruled the day is not the unit</b> — <i>“there could be more
+      than one activity entry per day”</i>. <b>The dayband was a holdover from the single column;
+      it contradicts a decision already made.</b>
+      <br><br>⭐⭐ <b>So the date lives on the card, where it is already, and the month stays as
+      the heading.</b> A month heading is honest about being a container of a <i>selection</i>; a
+      day heading is not. <b>Nothing new was added to <code>_kit.css</code> — this page now uses
+      the homepage's grid component unchanged.</b>
+      <br><br>⚠️ <b>The repeated date survives and is deliberate.</b> Three cards read
+      <i>Saturday 4 July</i> above — that is what that Saturday was. ⭐ <b>Only 14 of 65 days
+      contribute more than one card, so this is the uncommon case, not the page.</b> ⛔ Suppressing
+      the repeat would leave a card that cannot be read on its own, and every one of these is a
+      shareable URL that will arrive somewhere with no neighbours.
+      <br><br>⭐ <b>What makes the grid work here is the same thing that made it work on the
+      homepage: the excerpt.</b> Measured — <b>100 of the 109 photographed activities carry real
+      prose</b> (median 248 characters). <b>Nine do not</b>, and those are the pre-filled schedule
+      lines. ⚠️ <b>Those nine will render as a headline and a date in a cell sized for more</b> —
+      acceptable at 8%, and a reason for the importer to prefer entries that have something to
+      say.</p>
   </section>
 
   <hr class="band">
@@ -265,10 +348,16 @@
         past record cannot drift.</b> “On 7 August we finished fourteen bags” is true forever.
         The one real cost is Google splitting signals, solved by <b>setting each entry's
         <code>canonical_url</code> to the guide it came from</b>.</p>
-      <p>⛔ <b>Three things will bite the splitter:</b> <b>April and March have no day
-        headings</b> while April carries <b>42 photographs</b> — a script written against
-        June/July exits zero and silently drops the most photographed month, so <b>assert a
-        per-month count</b>. <b>Matching each photograph to the right day</b> is the fuzzy-match
+      <p>⛔⛔ <b>CORRECTED 10 Aug — March and April DO have day headings, in a different
+        tag.</b> This note previously said they had none. They use <b><code>h3</code></b> where
+        May onward uses <b><code>h2</code></b>, and a parser keyed on <code>h2</code> finds
+        <b>zero days</b> in them and exits clean. ⭐ <b>April holds 30 days, 41 activities and 30
+        photographed ones</b> — the second-best-photographed month in the corpus — <b>and it is
+        precisely the month a working script would silently drop.</b> ⚠️ <b>“No day headings” and
+        “day headings I did not look for” produce the identical output;</b> only reading the
+        markup separates them. <b>Accept both tags, and assert a per-month day count.</b></p>
+      <p>⛔ <b>Two more will bite the splitter:</b>
+        <b>Matching each photograph to the right day</b> is the fuzzy-match
         trap in a new place, and unlike a redirect map <b>a wrong answer here is invisible</b>.
         And ⛔ <b>the newsletter: 796 subscribers.</b> Seven posts on this site already have
         status <code>sent</code> — <b>prove, do not assume, that API-created posts do not
@@ -276,6 +365,51 @@
       <p>⚠️ <b>Newsletter is publish-only by an existing team habit</b>, not by a setting —
         <b>Ghost's default is the other way</b>, so the next person to join needs to know it is
         a habit that can be broken by accident.</p>
+    </div>
+
+    <div class="empty">
+      <h3>⛔⛔ 5. Every July and August weekday in these mockups was WRONG</h3>
+      <p><b>Against the real 2026 calendar:</b> 4 July is a <b>Saturday</b>, not a Friday.
+        7 August is a <b>Friday</b>, 6 August a <b>Thursday</b>, 4 August a <b>Tuesday</b>.
+        <b>Corrected here and on the homepage.</b> ⚠️ <b>The May dates were right</b>, so it was
+        not a uniform slip — <b>a wrong stretch inside a correct list looks like data.</b></p>
+      <p>⛔ <b>This is not a layout defect and no layout check could see it.</b> The whole claim of
+        this page is <i>this happened, on this day</i>; <b>naming the wrong weekday is a different
+        statement, not a smaller one.</b> Someone who was in the room on Saturday reads “Friday”
+        and stops believing everything else on the page.</p>
+      <p>⭐⭐ <b>The source guides carry no weekday at all</b> — they say <i>“July 4”</i>. <b>So
+        every weekday on this site is computed, and it must be computed in one place, from the
+        date, at <code>Asia/Kolkata</code>.</b> ⛔ A date rendered in UTC lands on the previous
+        evening and shifts the weekday back by one — <b>which is this exact error, mechanised and
+        applied to all 250 entries.</b></p>
+    </div>
+
+    <div class="empty">
+      <h3>⛔ 6. The no-photo form is out of view, and must not be deleted</h3>
+      <p><b>The owner ruled the mockups pull only photographed entries for now</b>, so the two
+        exemplars that were on this page are gone from it: <b>1 August, a rain closure</b> — nobody
+        photographs a shut room, so that one can never have a picture — and <b>2 August, a dance
+        group meeting</b> that simply was not photographed. ⭐ <b>92 of 157 days are in the same
+        position.</b></p>
+      <p>⛔⛔ <b>The CSS for that form stays in <code>_kit.css</code> and stays documented.</b> The
+        rule behind it is unchanged and is the reason the grid has no holes: <b>no slot without a
+        guaranteed filler</b> — an entry with a photograph is a card, an entry without one has no
+        container at all. <b>The failure to guard against is somebody later reading “we never see
+        this” as “this cannot happen”</b>, deleting it as dead code, and rediscovering it as an
+        empty 4:3 well on the day a rain closure ships.</p>
+      <p>⚠️ <b>The site still has no surface for “something is coming up”, and that is
+        deliberate</b> — future entries were cut. ⛔ It must not creep back in here. <b>The record
+        says what happened, and nothing else.</b></p>
+    </div>
+
+    <div class="empty">
+      <h3>⚠️ 7. The source has a typo the importer will trip on</h3>
+      <p>July 11 reads <b><code>Faclilitated by Olimalar Foundation</code></b>. ⛔ <b>A
+        schedule-prefix stripper matching <code>Facilitated by</code> exactly will leave that
+        string in the body of a published entry</b>, where it reads as our error rather than the
+        source's. ⭐ <b>Match loosely, then assert that no published body still contains a time
+        range or the word <i>lab</i>-prefixed room name</b> — a check on the output, not on the
+        pattern.</p>
     </div>
   </section>
 </main>
