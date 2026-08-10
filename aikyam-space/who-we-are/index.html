@@ -18,8 +18,24 @@
 .said{margin:var(--space-4) 0 0;padding:0;border:0;background:none;border-radius:0}
 .said p{margin:0;max-width:var(--measure-small);color:var(--text-primary)}
 .said footer{margin-block-start:var(--space-2);font-size:var(--type-small);color:var(--text-secondary)}
-.res__logo{width:56px;height:56px;object-fit:contain;display:block;margin:0 0 var(--space-3);
-  background:var(--surface-quiet);border-radius:var(--radius-card);padding:6px}
+/* ⭐ THE QUIET LIST — owner's pick over a logo-led card grid, 10 Aug 2026. Words lead; the
+   logo is a small mark in a left rail, not the headline. ⛔ No boxes and no 4:3 frames: nine
+   logos of mixed quality in identical containers would have looked like a directory, and the
+   testimonials — the reason to read the page — would have been demoted below them.
+   ⭐⭐ And a list with no container looks identical whether an organisation has a testimonial
+   or not. Thudippu has none and NOTHING LOOKS MISSING — the same property that made the review
+   component right for the daily record, now chosen by an owner over the more obviously
+   "designed" option. */
+.roll{list-style:none;margin:var(--space-6) 0 0;padding:0}
+.roll li{display:grid;grid-template-columns:28px minmax(0,1fr);column-gap:var(--space-4);
+  row-gap:var(--space-2);align-items:start;padding-block:var(--space-6);
+  border-block-start:var(--rule-hairline) solid var(--border-hairline)}
+.roll li:first-child{border-block-start:0;padding-block-start:0}
+.roll li > *:not(.roll__mark){grid-column:2}
+.roll__mark{grid-column:1;grid-row:1;width:28px;height:28px;object-fit:contain;
+  border-radius:4px;margin:0}
+.roll h3{margin:0}
+.roll p{margin:0}
 </style>
 </head>
 <body>
@@ -56,14 +72,37 @@
 
 <main class="wrap wrap--wide">
   <section class="lede">
-    <p class="kicker">Ten organisations</p>
+    <p class="kicker">Nine organisations</p>
     <h1>The people working out of this room</h1>
-    <p style="margin-block-start:var(--space-4)">Ten organisations use aikyam space — five that
-      came from outside and five that aikyam runs itself. They are here because the room is
-      collaborative and psychologically safe, and because they are all working on social impact
-      in Fort Kochi and Mattancherry.</p>
+    <p style="margin-block-start:var(--space-4)">Nine organisations use aikyam space. They are
+      here because the room is collaborative and psychologically safe, and because they are all
+      working on social impact in Fort Kochi and Mattancherry.</p>
 
-    <p class="kitnote">⛔ <b>The nav label is “Who we are” and the owner has fixed it, so this
+    <p class="kitnote">⛔⛔ <b>The two labelled groups are gone — owner, 10 Aug 2026: “no need to
+      separate aikyam and others. just one list is good.”</b> One flat list of ten.
+      <br><br>⚠️ <b>An argument is retired here and it is worth recording rather than quietly
+      dropping.</b> The case for grouping was: <i>excluding aikyam's own five hid a true fact;
+      labelling them keeps the fact and kills the wrong inference — that ten unrelated
+      organisations independently chose this room.</i> <b>He has heard that and decided the
+      inference does not worry him.</b> ⛔ <b>That is his to decide, and it is not a defect to be
+      designed around.</b>
+      <br><br>⚠️ <b>Sana Fathima removed on his instruction — nine, not ten.</b> Every count in
+      the copy moved with her. ⛔ <b>A count in prose has to be found and changed by hand every
+      time the list changes, which is the second time today it has needed doing</b> — in the
+      build it is derived from the list and this stops being a task.
+      <br><br>⭐ <b>What survives is the part that mattered: the original exclusion was still
+      wrong.</b> The correction was to <i>show all ten</i>; the grouping was the mechanism, not
+      the point. <b>He kept the fix and dropped the scaffolding.</b>
+      <br><br>⛔ <b>And the distinction is not preserved by other means.</b> No visual weighting,
+      no “aikyam” doing the labelling's job quietly, and ⭐ <b>the order is the live page's own
+      published sequence</b> — which interleaves them — <b>not outside-then-aikyam.</b> A first
+      attempt at this edit put all five aikyam entries last, which would have been the grouping
+      rebuilt out of ordering. One list means one list.
+      <br><br>⭐ <b><code>run_by_kind</code> is untouched.</b> It distinguishes <i>a person you
+      meet</i> from <i>an organisation behind it</i> — a different axis from <i>ours versus
+      theirs</i>, and this ruling does not reach it. Olimalar is still an organisation here and
+      still the name beside two clubs there.
+      <br><br>⛔ <b>The nav label is “Who we are” and the owner has fixed it, so this
       page has to disambiguate itself.</b> Three items in that bar all answer “who?”, and a
       reader scanning it cannot tell which one holds the organisations. ⭐ <b>So the H1 and the
       first sentence do the job the label cannot</b> — “Ten organisations”, “the people working
@@ -79,13 +118,11 @@
   <hr class="band">
 
   <section aria-labelledby="out-h" style="margin-block-start:var(--pitch-rule-heading)">
-    <h2 id="out-h">From outside aikyam</h2>
-    <p style="color:var(--text-secondary);margin-block-start:var(--space-2)">Organisations that
-      came to the space and stayed.</p>
+    <h2 id="out-h">Working out of aikyam space</h2>
 
-    <ul class="orgs">
+    <ul class="roll">
       <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="Community 40"
+        <img class="roll__mark" width="28" height="28" loading="lazy" alt="Community 40"
           src="https://aikyam.space/content/images/2026/04/WhatsApp-Image-2026-04-22-at-15.17.32--1-.jpeg">
         <h3>Community 40</h3>
         <p>Works with travellers and locals to preserve the culture and history of Fort Kochi
@@ -100,14 +137,14 @@
         </blockquote>
       </li>
       <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="Thudippu Foundation"
+        <img class="roll__mark" width="28" height="28" loading="lazy" alt="Thudippu Foundation"
           src="https://aikyam.space/content/images/2026/04/Thudippu-logo.webp">
         <h3>Thudippu Foundation</h3>
         <p>Makes learning dance and other cultural art forms accessible to everyone, through
           performances and learning spaces for artists.</p>
       </li>
       <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="Olimalar Foundation"
+        <img class="roll__mark" width="28" height="28" loading="lazy" alt="Olimalar Foundation"
           src="https://aikyam.space/content/images/2026/04/SCR-20260422-rfyw.png">
         <h3>Olimalar Foundation</h3>
         <p>Works with children and communities in Fort Kochi and Mattancherry to build
@@ -120,7 +157,45 @@
         </blockquote>
       </li>
       <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="Make A Difference"
+        <img class="roll__mark" width="28" height="28" loading="lazy" alt="aikyam fellows"
+          src="https://aikyam.space/content/images/2026/05/aikyam-fellow.png">
+        <h3>aikyam fellows</h3>
+        <p>Work on urgent needs of the planet and of underserved communities — education,
+          environmental conservation, poverty alleviation, public health, art and culture — and
+          help each other through peer learning, coaching and access to tools.</p>
+      </li>
+      <li>
+        <img class="roll__mark" width="28" height="28" loading="lazy" alt="aikyam jobs"
+          src="https://aikyam.space/content/images/2026/05/aikyam-jobs.png">
+        <h3>aikyam jobs</h3>
+        <p>A not-for-profit initiative matching social impact organisations tackling inequality
+          and climate change with the right talent.</p>
+      </li>
+      <li>
+        <img class="roll__mark" width="28" height="28" loading="lazy" alt="aikyam school"
+          src="https://aikyam.space/content/images/2026/05/aikyam-school.webp">
+        <h3>aikyam school</h3>
+        <p>A free, open forum for anyone working in the nonprofit sector in India — compliance,
+          finance, HR, PoSH, technology, fundraising, storytelling, team management, or anything
+          else that comes up when you are building an organisation from the ground up.</p>
+      </li>
+      <li>
+        <img class="roll__mark" width="28" height="28" loading="lazy" alt="PATTIC"
+          src="https://aikyam.space/content/images/2026/05/PATTIC.png">
+        <h3>PATTIC</h3>
+        <p>A support and knowledge platform for NGOs and civil society organisations in India,
+          helping them become more transparent, legally compliant and professionally managed.</p>
+      </li>
+      <li>
+        <img class="roll__mark" width="28" height="28" loading="lazy" alt="OASIS"
+          src="https://aikyam.space/content/images/2026/05/Oasis.jpg">
+        <h3>OASIS</h3>
+        <p>A collaborative tech-for-good ecosystem helping social impact organisations, NGOs and
+          community initiatives use technology, open-source tools and collaboration to solve
+          real problems.</p>
+      </li>
+      <li>
+        <img class="roll__mark" width="28" height="28" loading="lazy" alt="Make A Difference"
           src="https://aikyam.space/content/images/2026/04/SCR-20260422-rhmp.png">
         <h3>Make A Difference</h3>
         <p>Works with children in need of care and protection through education, mentoring and
@@ -130,19 +205,6 @@
             open conversations. We didn’t need to plan additional exposure activities for the
             participants — the space itself provided the inspiration.”</p>
           <footer>Make A Difference</footer>
-        </blockquote>
-      </li>
-      <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="Sana Fathima"
-          src="https://aikyam.space/content/images/2026/04/WhatsApp-Image-2026-04-23-at-11.00.39--1-.jpeg">
-        <h3>Sana Fathima</h3>
-        <p>A PhD research scholar in Sociology at the Delhi School of Economics, working on the
-          social and cultural history of radio broadcasting through the memories of listeners.
-          Her fieldwork is in Kochi.</p>
-        <blockquote class="said">
-          <p>“aikyam serves as a safe, comfortable, and intellectually nurturing space to work
-            on my thesis and build connections with the local community.”</p>
-          <footer>Sana Fathima</footer>
         </blockquote>
       </li>
     </ul>
@@ -161,66 +223,15 @@
       is the proof of everything <code>/about/</code> merely asserts — and it has never been
       anywhere a stranger would see it. ⭐ <b>Same shape as the diary: the evidence exists and is
       filed where nobody arrives.</b>
-      <br><br>⚠️ <b>Five residents, four testimonials.</b> Thudippu has none, and no filler was
-      written. The card simply ends after the description — <b>the absence costs nothing because
-      the component has no quote slot to leave empty</b>, which is the same property that makes
-      it right for the daily record.</p>
-  </section>
-
-  <section aria-labelledby="own-h" style="margin-block-start:var(--pitch-rule-heading)">
-    <h2 id="own-h">aikyam's own initiatives</h2>
-    <p style="color:var(--text-secondary);margin-block-start:var(--space-2)">Also run from this
-      room, by aikyam itself.</p>
-
-    <ul class="orgs">
-      <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="aikyam fellows"
-          src="https://aikyam.space/content/images/2026/05/aikyam-fellow.png">
-        <h3>aikyam fellows</h3>
-        <p>Work on urgent needs of the planet and of underserved communities — education,
-          environmental conservation, poverty alleviation, public health, art and culture — and
-          help each other through peer learning, coaching and access to tools.</p>
-      </li>
-      <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="aikyam jobs"
-          src="https://aikyam.space/content/images/2026/05/aikyam-jobs.png">
-        <h3>aikyam jobs</h3>
-        <p>A not-for-profit initiative matching social impact organisations tackling inequality
-          and climate change with the right talent.</p>
-      </li>
-      <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="aikyam school"
-          src="https://aikyam.space/content/images/2026/05/aikyam-school.webp">
-        <h3>aikyam school</h3>
-        <p>A free, open forum for anyone working in the nonprofit sector in India — compliance,
-          finance, HR, PoSH, technology, fundraising, storytelling, team management, or anything
-          else that comes up when you are building an organisation from the ground up.</p>
-      </li>
-      <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="PATTIC"
-          src="https://aikyam.space/content/images/2026/05/PATTIC.png">
-        <h3>PATTIC</h3>
-        <p>A support and knowledge platform for NGOs and civil society organisations in India,
-          helping them become more transparent, legally compliant and professionally managed.</p>
-      </li>
-      <li>
-        <img class="res__logo" width="56" height="56" loading="lazy" alt="OASIS"
-          src="https://aikyam.space/content/images/2026/05/Oasis.jpg">
-        <h3>OASIS</h3>
-        <p>A collaborative tech-for-good ecosystem helping social impact organisations, NGOs and
-          community initiatives use technology, open-source tools and collaboration to solve
-          real problems.</p>
-      </li>
-    </ul>
-
-    <p class="kitnote">⭐ <b>Both groups are shown and both are labelled — the owner overturned
-      an earlier decision to exclude aikyam's own five, and he was right.</b> Hiding them hid a
-      true fact; labelling them keeps the fact and kills the wrong inference, which is that ten
-      unrelated organisations independently chose this room. <b>Five did. Five are aikyam's own,
-      and saying so is more convincing than a bigger number would have been.</b>
-      <br><br>⚠️ <b>Olimalar appears here as an organisation and on the clubs page as the runner
-      of two clubs.</b> That is <code>run_by_kind</code> doing its job: <b>the same fact framed
-      twice, deliberately</b> — a partner behind the room here, a name beside a session there.</p>
+      <br><br>⭐⭐ <b>Nine organisations, three testimonials — and that ratio is why the owner
+      chose this layout over a logo-led card grid.</b> Thudippu has none, no filler was written,
+      the entry simply ends after its description, and <b>nothing looks missing.</b> ⛔ <b>A card
+      grid would have made the absence visible six times over</b>, because a card has a slot and
+      a slot can be empty. <b>A list has neither.</b>
+      <br><br>⚠️ <b>The logos are a small mark in a left rail, not the headline.</b> Nine logos
+      of mixed quality — a WhatsApp screenshot, a webp, a PNG — in identical 4:3 frames would
+      have read as a directory, <b>and pushed the testimonials below the fold under the least
+      interesting thing on the page.</b> ⭐ <b>Words lead because the words are the asset.</b></p>
   </section>
 
   <hr class="band">
