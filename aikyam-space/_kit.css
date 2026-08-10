@@ -218,17 +218,60 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
 .acts{list-style:none;margin:var(--space-6) 0 0;padding:0;display:grid;
   gap:var(--grid-gap-row) var(--grid-gap-col);
   grid-template-columns:repeat(auto-fill,minmax(min(20.5rem,100%),24rem))}
-/* ⛔ A record with no photograph is NOT a card and never gets an empty well. It sits in the
-   same grid, same width, and simply has less in it — no border, no background, nothing to
-   leave blank. NO SLOT WITHOUT A GUARANTEED FILLER. */
-.acts li{margin:0}
+/* ⛔⛔ EQUAL HEIGHTS, 10 Aug 2026 — owner: "the card size and layouts need to be fixed, right
+   now they are all different sizes." He is right, and the cause was my own no-slot rule: a
+   photo-less entry was simply a shorter card, which reads as deliberate in a note and as
+   BROKEN in a grid. ⭐ Worse with real data, where photo-less entries arrive in RUNS — a block
+   of short cards after a block of tall ones, not an occasional gap.
+
+   ⭐⭐ The resolution, and it costs nothing the system refused: an entry WITHOUT a photograph
+   uses the image area FOR ITS WORDS. Same box, headline set larger, filling the space the
+   photograph would have occupied. ⛔ No invented image, no placeholder, no truncated body —
+   and the card never rendered a body anyway, so body length was never the cause.
+   ⭐ It also makes a run of photo-less entries read as deliberate variety rather than damage. */
+/* ⛔⛔ THE ACTUAL CAUSE OF "the cards are all different sizes", and it was mine. Every photo
+   was rendering at 1200px tall instead of 288px, making photo cards 1300px against 88px for a
+   photo-less one — a 15× difference the owner correctly read as broken layout.
+   ⭐ `aspect-ratio` was computing as `4 / 3` and being IGNORED, because the `height="1200"`
+   attribute — which I added three pages ago to stop the feed reflowing as images arrive —
+   becomes a presentational `height: 1200px`, and aspect-ratio only sizes the box when the
+   other axis is `auto`.
+   ⛔⛔ So the fix for one real defect silently created a worse one, and BOTH measurements
+   looked right: `getComputedStyle` reported `aspect-ratio: 4 / 3` and `object-fit: cover`.
+   ⭐ Only the rendered height showed it. Keep the attributes — they still prevent reflow — and
+   set `height:auto` so the CSS wins. */
+.acts__shot,.act__shot,.day__shot,.entry__shot,.lead__shot,.preview img{height:auto}
+/* ⛔⛔ `grid-auto-rows:1fr` WAS TRIED AND REJECTED, and the reason is a measurement of mine
+   that lied. It equalised every card — tallest 388, shortest 388 — and I computed "only 8px of
+   slack", which made it look free. ⛔ The 8px was the difference between the CARD and its
+   text ELEMENTS, and the h3 was itself `flex:1` — so I was measuring a box that had already
+   absorbed the empty space, not the ink inside it.
+   ⭐ The screenshot settled it in one look: the photo-less cards read as large empty boxes with
+   a headline adrift in the middle. **Equal heights are geometrically achievable and look
+   worse than the problem.**
+   ⭐⭐ And the real conclusion is bigger: a photo-less entry in a MULTI-COLUMN grid always
+   looks like a hole, because it has side-by-side neighbours to be unequal with. The owner's
+   preferred `/activities/` layout is a SINGLE COLUMN, where the question cannot arise —
+   adopting it IS the fix rather than a workaround. */
+.acts{align-items:stretch}
+.acts li{margin:0;display:flex;flex-direction:column}
 .acts__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
   display:block;margin:0 0 var(--space-3);background:var(--surface-quiet)}
 .acts h3{font-size:var(--type-subheading);font-weight:var(--weight-semibold);margin:0}
 .acts h3 a{text-decoration:underline;text-decoration-color:var(--border-hairline);
   text-decoration-thickness:1px;text-underline-offset:3px}
-.acts__when{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-2) 0 0;
-  font-variant-numeric:var(--figures-aligned)}
+/* ⭐ The typographic card: no image, so the headline takes the space. `flex:1` makes it fill
+   whatever the row's tallest card set, and `align-content:center` keeps short headlines from
+   stranding at the top of a tall box. */
+.acts li[data-no-photo] h3{font-size:var(--type-heading);line-height:var(--leading-tight);
+  flex:1;display:flex;align-items:center;
+  border-block-start:var(--rule-hairline) solid var(--border-hairline);
+  padding-block-start:var(--space-4)}
+/* ⛔ The date is pushed to the bottom of every card so the baselines agree across a row,
+   whichever form the card takes. */
+.acts__when{font-size:var(--type-small);color:var(--text-secondary);
+  margin:var(--space-2) 0 0;font-variant-numeric:var(--figures-aligned)}
+.acts li:not([data-no-photo]) .acts__when{margin-block-start:auto;padding-block-start:var(--space-2)}
 /* ⭐ The open-today line is ONE SENTENCE, not a section. "Ignore other bits" was about
    emphasis, not deletion — a neighbour still comes for this, and /clubs/ is the second-busiest
    page on the site. It gets a line at the top and a link, not a panel. */
@@ -239,10 +282,32 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
 .act__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
   display:block;margin:0 0 var(--space-4);background:var(--surface-quiet)}
 .act__what{font-size:var(--type-subheading);font-weight:var(--weight-semibold);margin:0}
+/* ⛔ NO "READ MORE", and the reason is a ruling he already made. The card is already a link, so
+   "read more" is a SECOND affordance for the same action — and he objected to whole sections
+   being clickable, which produced the "grow the link, do not extend it over things that are
+   not the link" fix.
+   ⭐ So: the PHOTOGRAPH and the HEADLINE are both links to the same entry, and nothing else is.
+   That is Airbnb's own pattern — image and title clickable, body not — and it honours his
+   objection exactly: the excerpt stays selectable, because nothing is laid over it.
+   ⚠️ The cost, stated: a reader who wants the rest must aim at the headline or the picture
+   rather than anywhere in the block. ⭐ With the headline padded to 44px that is a comfortable
+   target, and the photograph is a large one. */
 .act__what a{text-decoration:underline;text-decoration-color:var(--border-hairline);
-  text-decoration-thickness:1px;text-underline-offset:3px}
+  text-decoration-thickness:1px;text-underline-offset:3px;
+  display:inline-block;min-height:var(--tap-min,44px);
+  padding-block:calc((var(--tap-min,44px) - 1lh) / 2)}
+a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden}
 .act__meta{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-2) 0 0;
   font-variant-numeric:var(--figures-aligned)}
+/* ⭐⭐ THE EXCERPT IS WHAT SOLVES THE EMPTY CARD, and the real numbers made it free. Measured
+   on the live 195: shortest body 82 characters, MEDIAN 227, longest 531. Cut at 300 and
+   **83% of entries show in full** — the card simply ends. Only the longest sixth is trimmed,
+   which is exactly when "read more" is informative rather than decorative.
+   ⛔ So the trade I flagged — "equal heights cost you the excerpt" — DOES NOT EXIST at these
+   lengths. My figure of "60 to 3,400 characters" came from the day-level extraction and died
+   with it; per-activity bodies are a fifth of that.
+   ⭐ And it retires the typographic-headline hack: a photo-less entry now has a real paragraph
+   where the photograph would have been, so it looks deliberate because it IS full. */
 .act__body{margin:var(--space-3) 0 0;max-width:var(--measure-small)}
 .feed{list-style:none;margin:0;padding:0}
 
