@@ -44,10 +44,11 @@
 
 <main class="wrap wrap--wide">
   <article>
-    <img class="entry__shot" width="1600" height="1200" alt="Cats at aikyam space"
-      src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-15.42.47.jpeg">
     <h1>The cats have moved into the garden</h1>
-    <p class="entry__meta">Thursday 7 August 2026 · Fort Kochi</p>
+    <p class="entry__meta">Friday 7 August 2026 · Fort Kochi</p>
+    <img class="entry__shot" width="960" height="1280" loading="eager" fetchpriority="high"
+      alt="A ginger cat stretched out on a mat in the garden"
+      src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-15.42.47.jpeg">
     <p class="entry__body">Our little cat friends continue to make themselves at home at aikyam
       space. As a pet-friendly space, we are exploring small ways to make the environment even
       more welcoming for animals — creating a place where both people and pets can feel
@@ -136,7 +137,7 @@
     <article style="margin-block-start:var(--space-5)">
       <h3 style="font-size:var(--type-heading);margin:0">The dance group talked about their
         first performance, in the Main Hall</h3>
-      <p class="entry__meta">Saturday 2 August 2026 · 3–4 PM · with Thudippu</p>
+      <p class="entry__meta">Sunday 2 August 2026 · 3–4 PM · with Thudippu</p>
       <p class="entry__body">After their first stage performance, the community dance group
         gathered at aikyam space to share their experiences and feedback. The discussion gave
         everyone a chance to celebrate what went well and to reflect on what they would do
@@ -167,6 +168,43 @@
 
   <section style="margin-block-start:var(--pitch-rule-heading)" aria-labelledby="gaps-h">
     <h2 id="gaps-h">⚠️ Reviewer notes — not page copy</h2>
+
+    <div class="empty">
+      <h3>⛔⛔ 0. AUDITED 10 Aug — this page opened on a blurry cat and no words</h3>
+      <p><b>Measured on the served page, then looked at.</b> The photograph was
+        <b><code>aspect-ratio: 4/3</code> + <code>object-fit: cover</code> at container
+        width</b>, which rendered <b>992×744</b>. On a 1280×871 laptop <b>the entire first screen
+        was one image</b> — the headline began at <b>y=947</b>, below the fold — and because the
+        source is a <b>960×1280 portrait</b>, the crop threw away most of the frame <i>and</i>
+        scaled what was left past its own pixel width. <b>It was soft.</b></p>
+      <p>⛔ <b>This is the arrival page for 60.8% direct traffic.</b> Someone opening a WhatsApp
+        link saw a cropped, blurry cat and <b>not one word</b> — no headline, no date, no place.
+        ⚠️ <b>Every geometric check passed:</b> zero overflow at 390 and 1280, prose on
+        <code>--measure</code>, no border anywhere. <b>Only the screenshot found it.</b></p>
+      <p>⭐⭐ <b>Airbnb, measured live the same hour</b> (listing 23572181, 1710px viewport):
+        <b>the title sits ABOVE the gallery</b> — TITLE at y=96, HERO at y=150 — and <b>the whole
+        hero is 483px tall in a 1120px column</b>, a mosaic of 560×459 plus four ~272×225 tiles.
+        <b>They never let one image be 4:3 at full column width.</b></p>
+      <p>⭐ <b>So the defect was never the photo's WIDTH.</b> Ours was 992 against 544 of prose,
+        a 1.8× ratio; Airbnb runs 1120 against 653, which is the same. <b>It was the HEIGHT.</b>
+        ⛔ <b>Fixed by bounding height and removing the forced ratio</b> — <code>max-height:
+        32rem</code>, <code>width: auto</code>, no crop. A portrait now renders <b>384×512</b>, a
+        landscape a wide band, <b>and neither is ever scaled past its intrinsic width.</b></p>
+      <p>⭐⭐ <b>And the reason it is a crop rather than a fit is a product argument, not a
+        taste one: in a listing the photograph SELLS, in a record it is EVIDENCE.</b> Cropping a
+        phone snapshot to a tidy landscape strip removes the thing it is evidence of. <b>The card
+        in the feed may crop — it is an index. This page must not.</b></p>
+      <p>⚠️ <b>Two smaller faults found in the same pass, both fixed:</b> the
+        <code>width</code>/<code>height</code> attributes said <b>1600×1200</b> for a
+        <b>960×1280</b> image — <b>so the reserved box had the wrong shape and the browser used
+        the wrong ratio</b> — and the date read <b>“Thursday 7 August”</b> when 7 August 2026 is a
+        <b>Friday</b>. ⛔ <b>For the importer: take both dimensions from Ghost's own image
+        metadata per image, never a constant</b>, and derive the weekday from the date.</p>
+      <p>⚠️ <b>Deliberate trade, stated:</b> a portrait now occupies 384px of a 992px column,
+        left-aligned with the headline. <b>One left edge is the house rule and it reads
+        correctly</b>, but it is quieter than a full-width hero. ⭐ <b>The alternative — Airbnb's
+        multi-photo mosaic — needs several photographs per entry, and the corpus has one.</b></p>
+    </div>
 
     <div class="empty">
       <h3>⭐ 1. Headlines: Claude backfills, the writer takes over</h3>

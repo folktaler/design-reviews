@@ -390,8 +390,22 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
    site, and the owner's words are "activity entries are very shareable". Most readers reach an
    entry from a message, not by browsing. So it is designed for the moment a link lands in a
    WhatsApp thread — which makes the preview card the first impression and the page the second. */
-.entry__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
-  display:block;margin:0 0 var(--space-5);background:var(--surface-quiet)}
+/* ⛔⛔ THE ENTRY PHOTOGRAPH IS BOUNDED BY HEIGHT, NOT CROPPED TO A RATIO — and the screenshot is
+   the only thing that found this. Measured 10 Aug on the served page: `aspect-ratio:4/3` +
+   `object-fit:cover` at container width rendered **992×744**, so the ENTIRE first screen of a
+   1280×871 laptop was one photograph — h1 at y=947, below the fold — and the 960×1280 PORTRAIT
+   source was cropped to a strip and upscaled past its own pixel width. **The arrival page for
+   60.8%-direct traffic opened on a blurry cat and no words.**
+   ⭐⭐ Airbnb, measured live the same hour: their whole hero gallery is **483px tall in a 1120px
+   column** and the **title sits ABOVE it** (TITLE top=96, HERO top=150). They never let one image
+   be 4:3 at full column width. **The defect was never the photo's WIDTH — 992/544 is a 1.8×
+   ratio and Airbnb runs 1120/653, the same. It was its HEIGHT.**
+   ⛔ So no forced ratio here: a record's photograph is EVIDENCE, and cropping a portrait phone
+   snapshot to a landscape strip removes the thing it is evidence of. Cap the height, let the
+   image keep its own shape, and never scale it past its intrinsic width. */
+.entry__shot{max-width:100%;width:auto;max-height:32rem;
+  border-radius:var(--radius-card);
+  display:block;margin:var(--space-5) 0;background:var(--surface-quiet)}
 .entry__meta{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-3) 0 0;
   font-variant-numeric:var(--figures-aligned)}
 .entry__body{margin:var(--space-5) 0 0;font-size:var(--type-body)}
