@@ -194,6 +194,16 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    closure has none and never can. So the rule stands and now covers the ONLY exception rather
    than one of two systematic states: an entry with a photograph is a card; an entry without
    one has no container at all. NO SLOT WITHOUT A GUARANTEED FILLER. */
+/* ⭐ THE CLUB LABEL — owner, 10 Aug 2026: "moved in where? who pulled out the DNA? which
+   dance?" A headline alone cannot carry who, what, where and when without becoming a
+   paragraph. So the label takes WHO, the headline takes WHAT AND WHERE, the date takes WHEN —
+   nothing crammed, nothing missing. ⭐ And a label is FILTERABLE; a club name buried in a
+   sentence is not.
+   ⛔ It reuses the kicker already on `/clubs/` and `/contact-us/` rather than inventing a
+   component — same shape, doing the job it was made for. */
+.act__label{font-size:var(--type-micro);font-weight:var(--weight-medium);
+  letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-secondary);
+  margin:0 0 var(--space-1)}
 .act{margin:0 0 var(--space-6)}
 .act__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
   display:block;margin:0 0 var(--space-4);background:var(--surface-quiet)}
