@@ -296,6 +296,15 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
   text-decoration-thickness:1px;text-underline-offset:3px;
   display:inline-block;min-height:var(--tap-min,44px);
   padding-block:calc((var(--tap-min,44px) - 1lh) / 2)}
+/* ⛔⛔ THE PHOTO IS CAPPED AT `--measure`, NOT THE WRAPPER WIDTH — measured 10 Aug at 1280px.
+   In a single column the image takes the full 992px container, which at 4:3 is **744px tall**:
+   one entry fills a laptop screen, and the whole twelve-entry feed ran **7.5 screens**.
+   ⭐ Capped at 544px the photo is 408px tall, the card 663px, and the feed 5.6 screens — a 25%
+   reduction with nothing removed.
+   ⭐⭐ And it is the same rule as the prose: an image column and a text column belong to the
+   same reading measure. A photograph twice as wide as the sentence under it is not a lead, it
+   is an interruption. ⚠️ The phone is unaffected — 358px there, viewport-bound. */
+a.act__shotlink,.act__shot{max-width:var(--measure)}
 a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden}
 .act__meta{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-2) 0 0;
   font-variant-numeric:var(--figures-aligned)}
