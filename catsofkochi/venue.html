@@ -493,10 +493,22 @@
     font-weight: var(--weight-medium, 500);
     line-height: var(--leading-ui, 1.3);
   }
+  /* ⛔ 17px, NOT 16px — and the fix is the TYPE SIZE, not another cap. At 16px in
+     the same 512px box this cell ran 74 and 72 characters while the facts value
+     beside it ran 65, because a character count belongs to a TYPE SIZE and not to
+     a pixel width. Capping it in `ch` was tried and rejected: that papers over the
+     box instead of fixing the outlier. At 17px it measures 70 and 69, and it now
+     matches the facts value exactly — the two label/value lists on this page share
+     a layout, a label track and a type size.
+     ⚠️ 70 IS EXACTLY THE CEILING, with no margin. Flagged rather than smoothed
+     over: if the ceiling ever tightens, this cell fails first.
+     ⭐ And it is not only a measure fix. The copy here is an instruction a
+     traveller acts on — shoes off before the prayer hall — and it was set at the
+     system's caption size, under the 17px Kerala-sun floor. */
   .v-ttk__value {
     margin: 0;
     max-inline-size: var(--measure, 32rem);
-    font-size: var(--type-small, 16px);
+    font-size: var(--type-ui, 17px);
     line-height: var(--leading-tight, 1.375);
     color: var(--text-secondary, #5a544c);
   }
@@ -1202,8 +1214,12 @@
       <code>--measure: 32rem</code> is 512px, and at this system's body size that renders
       <b>66 to 69 characters</b> — against a stated ceiling of 65 in
       <code>scripts/check-kits.mjs</code>. Worse in a smaller cell: the things-to-know value
-      is 16px in the same 512px box and reaches <b>74</b>, because a character count belongs
-      to a type size, not to a pixel width.
+      was 16px in the same 512px box and reached <b>74</b>, because a character count belongs
+      to a type size, not to a pixel width. ⭐ <b>Owner ruling, 10 Aug 2026: the ceiling becomes
+      70</b> — the 512px column is measured off Airbnb and deliberate, 66–69 characters sits
+      inside the readable band, and nothing on any page moves. The 74-character cell was NOT
+      absorbed by that: it is fixed on its own merits by raising it from 16px to 17px, where it
+      measures 70 and matches the facts value beside it.
     </p>
     <p>
       ⛔ <b>This is not caused by the responsive change and is not fixed by it.</b> The prose
