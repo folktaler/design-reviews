@@ -196,13 +196,43 @@
      treatment, which is what this sheet's own line 328 says Airbnb does. */
   .facts { margin:0; border:var(--rule-hairline) solid var(--border-hairline);
            background:var(--surface-page); padding:var(--space-2) var(--space-4); }
-  .row { display:grid; grid-template-columns:minmax(6.5rem,30%) 1fr;
-         gap:var(--space-2) var(--space-4); padding-block:var(--space-3);
-         align-items:baseline; }
+  /* ⛔⛔ TWO DEFECTS, AND THIS IS THE SHEET A BUILDER COPIES FROM — its own note
+     above says so. `grid-template-columns: minmax(6.5rem, 30%) 1fr` was
+     UNCONDITIONAL and percentage-based, so it failed at both ends. Measured:
+
+       container   320   375   768  1024  1440
+       label       104   104   206   283   335     ← the word "Fare"
+       value       118   173   464   643   767
+
+     1. ⛔ NO STACK ON A PHONE. A 118px value column at 320 and 173px at 375.
+        ui_kits/venue fixed exactly this and its comment records why: at 375 an
+        unconditional two-column row leaves ~207px, about 22 characters at 17px,
+        which tears an hours string across lines. This sheet was still showing
+        the version venue had already rejected.
+     2. ⛔ A PERCENTAGE THAT BLEW OUT WITH THE WIDE TRACK. 30% was fine while
+        this row could never exceed 512px; once `.facts` claimed the wide track
+        it became 335px of empty column beside a four-letter label.
+
+     ⭐ Now identical to `.v-row` in ui_kits/venue: stacked below --bp-wide
+     (40rem, tokens/breakpoints.css), label capped in rem above it. A specimen
+     sheet that demonstrates the bug the real kit already fixed is worse than no
+     specimen — it teaches it. ⚠️ The checker passed this kit throughout: a
+     label-track width is gated by nothing. */
+  .row { display:grid; gap:var(--space-1); padding-block:var(--space-3); }
+  @media (min-width:40rem){                        /* --bp-wide */
+    .row { grid-template-columns:minmax(6.5rem,10rem) 1fr;
+           gap:var(--space-2) var(--space-4); align-items:baseline; }
+  }
   .row + .row { border-block-start:var(--rule-hairline) solid var(--border-hairline); }
   .row__label { margin:0; font-size:var(--type-ui);
                 font-weight:var(--weight-medium); line-height:var(--leading-ui); }
-  .row__value { margin:0; font-size:var(--type-ui); line-height:var(--leading-tight); }
+  /* ⛔ AND THE VALUE KEEPS THE READING MEASURE, matching `.v-row__value` in
+     ui_kits/venue. Without it the value ran 942px at 1440 — fine for this
+     sheet's four-word specimens, and wrong for the sheet a builder copies:
+     venue's real refusal sentences hit 103 characters that way. The row goes
+     wide; the sentence inside it does not. */
+  .row__value { margin:0; max-inline-size:var(--measure); font-size:var(--type-ui);
+                line-height:var(--leading-tight); }
   .row__value--aligned { font-variant-numeric:var(--figures-aligned); }
   .row__posted { color:var(--text-secondary); }
   .row__checked { display:block; margin-block-start:var(--space-1);
