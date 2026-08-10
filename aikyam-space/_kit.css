@@ -288,6 +288,29 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
 .acts__body{margin:var(--space-2) 0 0;font-size:var(--type-small);
   color:var(--text-secondary);line-height:var(--leading-tight)}
 .acts li .acts__when{margin-block-start:auto;padding-block-start:var(--space-3)}
+/* ⭐⭐ SAYS — a quotation from someone who was here. Airbnb's review treatment, re-measured live
+   10 Aug on listing 23572181: border 0, radius 0, background transparent, NO shadow, PADDING
+   ONLY. Text 16/400 #222222 at line-height 24 in a 450px column inside a 1120px section — i.e.
+   they constrain the quotation's measure independently of its container, which is what
+   `--measure-small` does here.
+   ⛔ NO quotation marks drawn in CSS, no oversized curly glyph, no card. A quotation that needs
+   decoration to read as a quotation is not being trusted to be one.
+   ⛔⛔ THE ATTRIBUTION IS OPTIONAL BY DESIGN, and this is the load-bearing property. Several of
+   the best lines here are unattributed in the source — "shared one of the students" — and
+   consent to appear is NOT consent to be named. A card with an author slot would sit there
+   empty and invite someone to fill it; this component simply has no slot when there is no name.
+   ⛔ Never attach a photograph to an unattributed quotation. */
+.says{margin:var(--space-6) 0 0;max-width:var(--measure-small)}
+.says p{margin:0;font-size:var(--type-body);line-height:var(--leading-body)}
+.says cite{display:block;margin-block-start:var(--space-3);font-style:normal;
+  font-size:var(--type-small);color:var(--text-secondary)}
+.wrap--wide .says{max-width:var(--measure-small)}
+/* ⭐ Beside a club, the quotation belongs to THAT club — so it sits inside the session, not in a
+   strip of its own. A testimonial section is a page about praise; a line under the club is
+   evidence about the club. */
+.session .says{margin-block-start:var(--space-4);
+  border-block-start:var(--rule-hairline) solid var(--border-hairline);
+  padding-block-start:var(--space-4)}
 /* ⭐ The open-today line is ONE SENTENCE, not a section. "Ignore other bits" was about
    emphasis, not deletion — a neighbour still comes for this, and /clubs/ is the second-busiest
    page on the site. It gets a line at the top and a link, not a panel. */
