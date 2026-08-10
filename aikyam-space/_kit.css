@@ -145,8 +145,15 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    size, and `--measure` is sized for 20px body. */
 .kitnote{border:1px dashed #b3261e;border-radius:var(--radius-card);padding:var(--space-4);
   margin-block:var(--space-5);font-size:var(--type-small);line-height:var(--leading-tight);
-  color:var(--text-primary);background:var(--surface-page);
-  max-width:calc(var(--measure-small) + var(--space-4)*2)}
+  color:var(--text-primary);background:var(--surface-page)}
+/* ⛔⛔ SEPARATE RULE, and the selector is deliberate. `.kitnote` is a <p>, so the blanket cap
+   `.wrap--wide :is(p,…)` — specificity (0,1,1) — BEATS a bare `.kitnote` at (0,1,0), and the
+   cap silently resolved to `--measure` instead. Measured: still 85 characters after the fix
+   "landed". ⭐ SECOND time this exact collision has happened in this file — `.foot-note` was
+   the first, this morning — and both times the broad rule looked narrower than it was.
+   `.wrap--wide .kitnote` is (0,2,0) and wins. ⚠️ Any future per-component measure override
+   needs the `.wrap--wide` prefix for the same reason. */
+.wrap--wide .kitnote{max-width:calc(var(--measure-small) + var(--space-4)*2)}
 .kitnote::before{content:'REVIEWER NOTE — not page copy';display:block;
   font-size:var(--type-micro);font-weight:var(--weight-semibold);
   letter-spacing:var(--tracking-micro);color:#b3261e;margin-block-end:var(--space-2)}
