@@ -342,10 +342,10 @@
 
 <div class="demo">
   <b>Mockup control — not part of the page. Pretend it is:</b>
-  <button data-t="2026-08-07T03:30:00Z">9 am</button>
-  <button data-t="2026-08-07T09:00:00Z">2.30 pm</button>
-  <button data-t="2026-08-07T13:10:00Z">6.40 pm</button>
-  <button data-t="2026-08-07T17:00:00Z">10.30 pm</button>
+  <button data-t="2026-08-07T03:30:00Z">9am</button>
+  <button data-t="2026-08-07T09:00:00Z">2.30pm</button>
+  <button data-t="2026-08-07T13:10:00Z">6.40pm</button>
+  <button data-t="2026-08-07T17:00:00Z">10.30pm</button>
   <button data-t="2026-08-08T04:00:00Z">next morning</button>
   <button data-t="">your own clock</button>
 </div>
@@ -376,19 +376,19 @@
       <p class="now__line">Heavy rain from mid-afternoon. Do the outdoor things
       before two.</p>
       <div class="now__facts">
-        <div><b>6.44 pm</b>sunset</div>
+        <div><b>6.44pm</b>sunset</div>
         <div><b>31°</b>high, feels 38°</div>
-        <div><b>4.10 pm</b>high tide</div>
+        <div><b>4.10pm</b>high tide</div>
       </div>
       <p class="stamp">
         <span class="stamp__chip">Checked</span>
-        <time class="stamp__date" datetime="2026-08-07T06:00">today, 6 am</time>
+        <time class="stamp__date" datetime="2026-08-07T06:00">today, 6am</time>
       </p>
     </section>
 
     <!-- ⭐ THE SIX O'CLOCK ANSWER -->
     <p class="jump" hidden>
-      <span class="jump__t">It is 6.40 pm.</span>
+      <span class="jump__t">It is 6.40pm.</span>
       <a href="#evening">Skip to this evening</a>
     </p>
 
@@ -397,19 +397,23 @@
       <p class="shut__k">Shut today, because it is a Friday</p>
       <ul>
         <li><a href="#">Mattancherry Palace</a> — closed every Friday</li>
-        <li><a href="#">Paradesi Synagogue</a> — 10 am to 2 pm on Fridays, not the usual 6</li>
+        <!-- ⭐ CLOCK FORMAT, owner's decision 10 Aug 2026: "10am – 1pm, 2 – 4.30pm".
+             Lowercase, no space before the meridiem, no minutes on a round hour, a
+             full stop rather than a colon, and the meridiem dropped from the first
+             half of a range when both halves share it. -->
+        <li><a href="#">Paradesi Synagogue</a> — 10am to 2pm on Fridays, not the usual 6</li>
       </ul>
     </section>
 
     <!-- data-label names THIS block: the jump line reads "Skip to <label>" when
          this is the first block still to come. -->
     <section class="part" id="morning" data-to="14" data-label="this morning">
-      <h3>Before the rain <span class="hrs">until 2 pm</span></h3>
+      <h3>Before the rain <span class="hrs">until 2pm</span></h3>
       <ul>
         <li>
           <span class="k">Walk</span>
           <span class="b"><span class="n"><a href="#">St Francis Church</a></span>
-          <span class="d">9 am – 5 pm. Ten minutes on foot from the jetty.</span></span>
+          <span class="d">9am – 5pm. Ten minutes on foot from the jetty.</span></span>
           <a class="m" href="#" aria-label="St Francis Church on the map">Map</a>
         </li>
         <li>
@@ -422,12 +426,12 @@
     </section>
 
     <section class="part" id="afternoon" data-to="18" data-label="the afternoon">
-      <h3>When it turns <span class="hrs">2 to 6 pm</span></h3>
+      <h3>When it turns <span class="hrs">2 – 6pm</span></h3>
       <ul>
         <li>
           <span class="k">Indoors</span>
           <span class="b"><span class="n"><a href="#">Kerala Kathakali Centre</a></span>
-          <span class="d">Runs wet or dry. The 5 pm show is the one.</span></span>
+          <span class="d">Runs wet or dry. The 5pm show is the one.</span></span>
           <a class="m" href="#" aria-label="Kerala Kathakali Centre on the map">Map</a>
         </li>
         <li>
@@ -454,7 +458,7 @@
          appear: midnight is also the date rollover, so the stale banner would
          always fire first. The evening ends when the food does. -->
     <section class="part" id="evening" data-to="22" data-label="this evening">
-      <h3>This evening <span class="hrs">after 6 pm</span></h3>
+      <h3>This evening <span class="hrs">after 6pm</span></h3>
       <ul>
         <li>
           <span class="k">Eat</span>
@@ -471,7 +475,7 @@
           <a class="m" href="#" aria-label="Chinese net fish stalls on the map">Map</a>
         </li>
         <li>
-          <span class="k">7 pm</span>
+          <span class="k">7pm</span>
           <span class="b"><span class="n"><a href="#">Mattanchère: Summer Art Salon</a></span>
           <span class="d">Last night of the week. Indoors.</span></span>
           <a class="m" href="#" aria-label="Summer Art Salon on the map">Map</a>
@@ -486,16 +490,16 @@
       than today was.</p>
 
       <div class="now__facts">
-        <div><b>6.12 am</b>sunrise</div>
+        <div><b>6.12am</b>sunrise</div>
         <div><b>29°</b>high, feels 34°</div>
-        <div><b>5.05 am</b>low tide</div>
+        <div><b>5.05am</b>low tide</div>
       </div>
 
       <section class="shut" aria-label="Closed tomorrow">
         <p class="shut__k">Shut tomorrow, because it is a Saturday</p>
         <ul>
           <li><a href="#">Paradesi Synagogue</a> — closed every Saturday</li>
-          <li><a href="#">St Francis Church</a> — 9 am to 1 pm only on Saturdays</li>
+          <li><a href="#">St Francis Church</a> — 9am to 1pm only on Saturdays</li>
         </ul>
       </section>
 
@@ -546,8 +550,15 @@
       .forEach(function (p) { parts[p.type] = p.value; });
 
     var hour  = Number(parts.hour) + Number(parts.minute) / 60;
-    var clock = ((Number(parts.hour) % 12) || 12) + '.' + parts.minute +
-                (Number(parts.hour) < 12 ? ' am' : ' pm');
+    /* ⭐ CLOCK FORMAT, owner's decision 10 Aug 2026: "10am – 1pm, 2 – 4.30pm".
+       Lowercase meridiem with NO space before it, a full stop rather than a
+       colon, and NO minutes at all when the hour is round — this used to print
+       "9.00 am", which is three characters of noise on the one number a reader
+       glances at. ⛔ `parts.minute` is a zero-padded STRING here, so the test
+       is against '00', not 0. */
+    var clock = ((Number(parts.hour) % 12) || 12) +
+                (parts.minute === '00' ? '' : '.' + parts.minute) +
+                (Number(parts.hour) < 12 ? 'am' : 'pm');
     var today = parts.weekday + ' ' + parts.day + ' ' + parts.month;
 
     if (document.querySelector('[data-date]').dataset.date !== today) {
@@ -606,13 +617,13 @@
   <p>So the page keeps one shape and <strong>changes where it starts you</strong>:</p>
 
   <ul>
-    <li>Blocks carry their hours in words — <em>until 2 pm</em>, <em>2 to 6
-    pm</em>, <em>after 6 pm</em>. That is readable with no JavaScript at all.</li>
+    <li>Blocks carry their hours in words — <em>until 2pm</em>, <em>2 –
+    6pm</em>, <em>after 6pm</em>. That is readable with no JavaScript at all.</li>
     <li>Once a block's hours have passed it is marked <strong>over</strong>.
     ⛔ It is <em>not</em> hidden and <em>not</em> faded: fading costs contrast
     in sunlight to say what a two-word label says outright, and hiding it would
     make the page's content depend on a script.</li>
-    <li>A single line near the top says <em>"It is 6.40 pm — skip to this
+    <li>A single line near the top says <em>"It is 6.40pm — skip to this
     evening"</em>. After the last block it says <strong>"Today is done.
     Tomorrow starts here."</strong></li>
   </ul>
@@ -624,7 +635,7 @@
   <div class="flag">
     ⚠️ <strong>The clock is computed in Asia/Kolkata, never read from the
     device.</strong> A traveller's phone is often still on the zone they flew
-    from. A page that says "it is 2 pm, do the outdoor things" to somebody
+    from. A page that says "it is 2pm, do the outdoor things" to somebody
     standing in the dark is worse than a page with no clock.
   </div>
 
@@ -737,7 +748,7 @@
 
   <p><strong>The black bar at the top is scaffolding</strong>, not page
   furniture — the page behaves differently at different hours and nobody should
-  have to wait until ten at night to review the last state. It opens on 6.40 pm
+  have to wait until ten at night to review the last state. It opens on 6.40pm
   because that is the hard one. It ships with the page removed.</p>
 
   <p>⚠️ Rendered in Figtree, the real face — inlined as base64, it downloads

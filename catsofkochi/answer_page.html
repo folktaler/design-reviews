@@ -168,16 +168,34 @@
   .routes b { font-weight:400; font-size:var(--body); }
   .routes span { font-size:var(--small); color:var(--quiet); white-space:nowrap; }
 
-  /* ⛔ Fill removed (design call, 9 Aug 2026 — see the long note in
-     ui_kits/told_page, which carries the identical component). Aside form:
-     leading rule, no fill, matching the pull-quote in ui_kits/venue. */
-  .cat-tip { margin-block:var(--s8); padding:var(--s2) 0 var(--s2) var(--s5);
-             border-inline-start:4px solid var(--rule); font-family:var(--sans); }
-  .cat-tip__label { display:flex; align-items:center; gap:var(--s2); margin:0 0 var(--s2);
-                    font-size:var(--micro); text-transform:uppercase;
-                    letter-spacing:var(--track); color:var(--quiet); }
-  .cat-tip__label a { color:var(--ink); border-block-end:1px solid var(--rule); }
-  .cat-tip__text { margin:0; font-size:var(--body); line-height:1.45; }
+  /* ⛔⛔ REBUILT 10 Aug 2026 — owner flagged this component "not airbnb
+     faithful" on three pages at once. See the full diagnosis in
+     ui_kits/told_page, which carries the identical component. Four faults,
+     all measured against docs/research/airbnb-study.md:
+       1. a paw glyph — a cat mark in content, banned outright 5 Aug 2026;
+       2. an UPPERCASE letter-spaced micro label — zero of Airbnb's 463 text
+          elements do this, and the identical treatment was already killed on
+          `.stamp__chip` in this same stylesheet by owner review 9 Aug;
+       3. a 4px leading rule + 20px inset — Airbnb's separator vocabulary is
+          exactly TWO (1px inset hairline, 8px full-bleed band, §3) and it
+          never insets body text inside the column;
+       4. the cat's name was the heading and the fact was the body — the
+          narrator position, which CLAUDE.md forbids ("a byline, never the
+          narrator").
+     ⭐ The replacement is Airbnb's own value-above / label-below grammar,
+     measured twice on their page (trust card: 18px/500 number over a 12px/500
+     label; host block: 16px/500 name over a 14px grey qualifier). The fact
+     leads at body/500 — §1: "Airbnb separates by weight and space, not size" —
+     and the attribution drops under it in ordinary grey sentence case.
+     The band is the 1px hairline, the one separator weight the study measured,
+     which also makes this the same shape as `.pullquote`. */
+  .cat-tip { margin-block:var(--s8); padding-block:var(--s4);
+             border-block:1px solid var(--rule); font-family:var(--sans); }
+  .cat-tip__text { margin:0; font-size:var(--body); line-height:1.45;
+                   font-weight:500; color:var(--ink); }
+  .cat-tip__by { margin:var(--s2) 0 0; font-size:var(--small); line-height:1.45;
+                 color:var(--quiet); }
+  .cat-tip__by a { color:var(--ink); border-block-end:1px solid var(--rule); }
 
   figure { margin:var(--s7) calc(var(--gutter)*-1); }
   figure .ph { aspect-ratio:1/1.01; background:var(--sunk); display:grid; place-items:center;
@@ -236,7 +254,7 @@
 
     <h1>Kochi Water Metro: times, fares and which boat to Fort Kochi</h1>
 
-    <p class="standfirst">The boats run 8 am to 7 pm. Here is which one goes where,
+    <p class="standfirst">The boats run 8am to 7pm. Here is which one goes where,
     what a pass costs, and when it is worth avoiding.</p>
 
     <div class="catline">
@@ -252,9 +270,13 @@
          paragraph 4, after ~400 words. -->
     <section class="facts" aria-label="Kochi Water Metro — the practical facts">
       <dl>
-        <div class="facts__row"><dt>Runs</dt><dd>8 am – 7 pm, every day</dd></div>
+        <!-- ⭐ CLOCK FORMAT, owner's decision 10 Aug 2026: "10am – 1pm, 2 – 4.30pm".
+             Lowercase, no space before the meridiem, no minutes on a round hour, a
+             full stop rather than a colon, and the meridiem dropped from the first
+             half of a range when both halves share it. -->
+        <div class="facts__row"><dt>Runs</dt><dd>8am – 7pm, every day</dd></div>
         <div class="facts__row"><dt>How often</dt>
-          <dd>Every 15–20 min at peak (8–10 am, 5–7 pm)
+          <dd>Every 15–20 min at peak (8 – 10am, 5 – 7pm)
             <span class="facts__more">Every 30 min the rest of the day.</span></dd></div>
         <div class="facts__row"><dt>To Fort Kochi</dt>
           <dd>From High Court. 25–35 minutes</dd></div>
@@ -306,27 +328,20 @@
     <p>Even full, the boats are air-conditioned and the crossing is short. Staff
     move people on and off quickly.</p>
 
+    <!-- ⭐ THE FACT LEADS, THE CAT SIGNS IT. Do not put the attribution back
+         above the sentence: that is the narrator position and CLAUDE.md makes
+         cats a byline. -->
     <aside class="cat-tip" aria-label="Tip from Luna">
-      <p class="cat-tip__label">
-        <span aria-hidden="true" style="display:inline-flex">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
-            <ellipse cx="6.3" cy="10.6" rx="2.4" ry="3.1" transform="rotate(-22 6.3 10.6)"/>
-            <ellipse cx="10.5" cy="7.7" rx="2.5" ry="3.3" transform="rotate(-8 10.5 7.7)"/>
-            <ellipse cx="15.3" cy="7.9" rx="2.5" ry="3.3" transform="rotate(8 15.3 7.9)"/>
-            <ellipse cx="19.1" cy="11.2" rx="2.3" ry="3" transform="rotate(22 19.1 11.2)"/>
-            <path d="M12.6 12.4c3.5 0 6.5 2.4 6.5 5.3 0 2.4-2.1 3.8-4.3 3.4a13.6 13.6 0 0 0-4.5 0c-2.2.4-4.3-1-4.3-3.4 0-2.9 3-5.3 6.6-5.3Z"/>
-          </svg>
-        </span>
-        <!-- ⛔ DO NOT "FIX" THIS TO 44px. Measured 37.9 x 20.5 and flagged as a tap
-             target; it is not one. WCAG 2.2 SC 2.5.8 exempts a target "in a sentence
-             or block of text" by name, and this link sits inside the words "Tip from
-             Luna". Growing it would break the line it lives in to satisfy a rule that
-             excludes it. The rule is about controls a thumb aims for, not words a
-             reader happens to be able to tap. -->
-        Tip from <a href="#">Luna</a>
-      </p>
       <p class="cat-tip__text">Take the last boat back and you will be standing.
       Everyone leaves the fort at the same time.</p>
+      <!-- ⛔ DO NOT "FIX" THIS TO 44px. Re-measured 10 Aug 2026 in real Chrome
+           after the rebuild: 30 x 18px. It will be flagged as a tap target; it is
+           not one. WCAG 2.2 SC 2.5.8 exempts a target "in a sentence or block of
+           text" by name, and this link sits inside the words "Tip from Luna".
+           Growing it would break the line it lives in to satisfy a rule that
+           excludes it. The rule is about controls a thumb aims for, not words a
+           reader happens to be able to tap. -->
+      <p class="cat-tip__by">Tip from <a href="#">Luna</a></p>
     </aside>
 
     <h2>Tickets and passes</h2>

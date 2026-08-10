@@ -72,7 +72,68 @@
 
 <h2>Changelog</h2>
 <ul class="gaps">
-  <li>⭐ <b>9 Aug 2026 (latest) — a new page, <code>reviews-workflow</code>: visitor
+  <li>⭐ <b>10 Aug 2026 (latest) — three owner decisions, applied.</b>
+    <ul style="margin-top:.5rem">
+      <li style="padding:.35rem 0"><b>The cat tip block is rebuilt</b> —
+        <code>answer_page</code>, <code>told_page</code>,
+        <code>told_page_listing</code>. The owner flagged it on all three pages and
+        said only "not airbnb faithful", so the diagnosis was ours to make. Four
+        faults, and the fourth is the one that mattered: <b>the cat outranked the
+        fact.</b> "TIP FROM GINGER" was the header — a paw glyph, uppercase, letter
+        spacing, a link — and the useful sentence sat underneath as body text. That is
+        the narrator position, and the house rule is that cats are a byline, never the
+        narrator. The other three: a paw glyph at all (banned outright, 5 Aug); a 13px
+        uppercase label with 0.78px tracking (measured — Airbnb has none of this
+        across 463 text elements, and the identical treatment was killed on the
+        Checked chip on 9 Aug and never fixed here); and a 4px leading rule with a
+        20px inset, which set the tip's text at 488px against a 512px paragraph — 24px
+        narrower than the column it sat in.
+        <br><b>Now:</b> the fact leads at body size in medium weight, and the cat signs
+        it underneath in ordinary grey. Two hairlines, top and bottom, which is
+        Airbnb's one measured separator and the same shape as the pull quote. No paw,
+        no tracking, no inset.</li>
+      <li style="padding:.35rem 0"><b><code>venue.html</code>: four invented things
+        removed.</b> The owner asked for the trust block to go; checking the registry
+        found three more of the same kind. Gone: the trust card ("We went and looked
+        ourselves / 1 of 5 posted facts were wrong / 3 Aug 2026" — nobody has visited
+        this synagogue, its record is <code>official_only</code>, this site holds
+        exactly one posted-versus-observed fact and it is Bastion Bungalow, and the
+        record's date is 7 Aug); the section headed "What we only know because we
+        went"; a sentence about tiles carried from Canton in the eighteenth century;
+        and two "things to know" rows (a photography ban and a dress code) that no
+        source states. The walk time was wrong three times over — "12 minutes from
+        Mattancherry Jetty" against a registry record of 4 minutes from Mattancherry
+        Water Metro Station, routed 7 Aug.
+        <br>⭐ <b>And the page's own disclaimer band was inverted.</b> It apologised
+        for the hours, closing days, entry price and walk time as "plausible and
+        unverified" — three of which are real sourced records — while saying nothing
+        about any of the four inventions above. It is rewritten to describe what is
+        actually not real.</li>
+      <li style="padding:.35rem 0"><b>The clock format is the owner's:</b>
+        <code>10am – 1pm, 2 – 4.30pm</code>. Lowercase, no space before the meridiem,
+        no minutes on a round hour, a full stop rather than a colon, and the meridiem
+        dropped from the first half of a range when both halves share it. Applied to
+        every kit that prints an opening time, and to the live-clock formatter in
+        <code>today</code>, which used to print "9.00 am".
+        <br>⚠️ <b>It costs the alignment argument, so it is written down rather than
+        discovered later.</b> "10am – 1pm" and "2 – 4.30pm" are not the same width, so
+        a stack of opening hours down a listing page no longer forms the clean column
+        a stack of "10:00–13:00" did. Tabular figures stay on — they still stop the
+        numerals jittering, and the fares still need them — but they can no longer
+        square an hours column. The specimen in <code>system</code> now says so.</li>
+    </ul>
+    Measured in real Chrome on the published page before and after, 10 Aug 2026:
+    Figtree confirmed against a negative control (1833.15px on the test string, against
+    1655.52 for a family nothing declares and 1825.79 for the metric-matched fallback),
+    <code>document.compatMode === "CSS1Compat"</code>, zero horizontal overflow with the
+    column constrained to a 375px phone. The rebuilt tip: fact 19px/500 ink at 16.92:1,
+    byline 14px/400 grey at 7.29:1, zero paw glyphs, and a text column identical to the
+    paragraph above it (44 characters against the body's 42, so it reads as part of the
+    column rather than an inset panel). ⛔ <b>Not verified:</b> nobody has read any of
+    this on a phone in Kerala sun, and the homepage kits still print "11 am" / "1.15 pm"
+    — they were being edited by another session at the same time and were left alone
+    deliberately rather than risk clobbering that work.</li>
+  <li>⭐ <b>9 Aug 2026 — a new page, <code>reviews-workflow</code>: visitor
     reviews, proposed.</b> A feature that does not exist — no code, no ticket, nothing
     built. Three screens drawn against two owner decisions taken the same day: anyone
     with an account may review any place (no proof of visit, unlike Airbnb), and a
@@ -310,8 +371,14 @@
 <ul>
   <li>
     <a href="venue.html"><b>Venue page</b></a>
-    <small>Paradesi Synagogue — the Airbnb-faithful venue page, with the real
-      hero photograph and the posted-vs-observed hours moat.</small>
+    <small>Paradesi Synagogue — the Airbnb-faithful venue page. ⛔ <b>This listing
+      used to say "the posted-vs-observed hours moat", and that was never true of
+      this venue.</b> Nobody has visited the synagogue; its record is
+      <code>official_only</code>, read off the venue's own website. The site's only
+      posted-versus-observed fact is Bastion Bungalow. Rebuilt 10 Aug 2026 with the
+      trust card, the "what we only know because we went" section and two unsourced
+      claims removed — the page's own note at the foot lists what is real, what is a
+      stand-in, and what was taken out.</small>
   </li>
   <li>
     <a href="venue_page.html"><b>Venue page (UI kit)</b></a>
@@ -327,7 +394,9 @@
       drawn on two real records. <b>Decided 9 Aug 2026: full hide.</b> Our times,
       plainly, with no date stamp, no source and no mention of the posted board;
       one quiet footer link, <em>How we check our facts</em>, for the whole
-      site.</small>
+      site. ⭐ <b>This is where the clock format was flagged</b> — it now reads
+      <code>10am – 1pm, 2 – 4.30pm</code>, the owner's own wording, set 10 Aug
+      2026.</small>
   </li>
 </ul>
 

@@ -111,33 +111,75 @@
                           line-height:1.25; text-wrap:balance; }
   .pullquote figcaption { margin:var(--s3) 0 0; }
 
-  /* ⭐ the new third cat position */
-  /* ⛔ THE FILL IS GONE (design call, 9 Aug 2026, delegated by the owner after
-     he approved this card on one screenshot and flagged it on another — the CSS
-     was byte-identical in both, so it was the pattern he was reconsidering, not
-     a page).
+  /* ⭐ the third cat position */
+  /* ⛔⛔ REBUILT 10 Aug 2026. THE CANONICAL NOTE FOR THIS COMPONENT — the
+     identical block lives in ui_kits/answer_page and ui_kits/told_page_listing
+     and their comments point here.
 
-     ⭐ THE CALL: keep the leading rule, drop the background. A cat tip is a
-     VOICE ASIDE inside running prose — a pull-quote, not an object with facts
-     in it — and Airbnb sets an aside with type and space, never a tinted
-     container. The post-pivot reference kit already answers this: ui_kits/venue
-     line ~438 sets its pull-quote as `padding-inline-start` + a grey leading
-     rule and NO fill. This now matches it exactly.
+     The owner flagged this on all three pages at once and said only "not
+     airbnb faithful". Diagnosis, measured against docs/research/airbnb-study.md:
 
-     ⭐ So the system has TWO container forms and they mean different things:
-       facts   → hairline CARD, all four sides   (.facts, .shut, TrustCard)
-       aside   → leading RULE, no fill           (.cat-tip, Note, .jump)
-     ⛔ Do not merge them. A card says "a discrete thing you can act on"; a rule
-     says "the same page, in a different voice". Flattening both to one form
-     was the temptation and it would lose the distinction the owner can see. */
-  .cat-tip { margin-block:var(--s8); padding:var(--s2) 0 var(--s2) var(--s5);
-             border-inline-start:4px solid var(--rule);
+     1. ⛔ A PAW GLYPH. 13x13, first thing in the block. Owner ruling 5 Aug 2026,
+        FINAL and to be read broadly: no cat marks anywhere. This was the last
+        one left in the kit set. Airbnb's own icons are entirely functional.
+
+     2. ⛔ AN UPPERCASE, LETTER-SPACED MICRO LABEL. Measured on the published
+        page: 13px, `text-transform: uppercase`, `letter-spacing: 0.78px`,
+        weight 400, grey. §1 measured 463 text elements on a live Airbnb page
+        and found none of this — their 12px labels are sentence case at weight
+        500, so they separate by WEIGHT where ours separated by TRACKING.
+        Worse, the identical treatment was already killed on `.stamp__chip` by
+        owner review on 9 Aug — "the grammar of a legal disclaimer" — and the
+        fix was applied one class away and never here.
+
+     3. ⛔ A 4px LEADING RULE AND A 20px INSET. §3 measured Airbnb's separator
+        vocabulary and it is exactly TWO: a 1px hairline inset to the gutter
+        ("next section of the same page") and an 8px full-bleed band
+        ("different kind of content entirely"). A 4px vertical rule is neither
+        — it is a Guardian-era blockquote idiom that survived the pivot.
+        ⭐ MEASURED in real Chrome on the published page, 10 Aug 2026: the tip's
+        BOX was 512px, the same as a paragraph, but its TEXT ran at 488px —
+        4px of border plus 20px of padding, so the aside was set 24px NARROWER
+        than every paragraph around it. Airbnb never insets body text inside
+        the column. After the rebuild the text measures 512px, identical to the
+        paragraph above it.
+
+     4. ⛔ AND THE REAL ONE: THE CAT OUTRANKED THE FACT. "TIP FROM GINGER" was
+        the header — glyph, tracking, a link — and the useful sentence was the
+        body underneath it. That is the narrator position. CLAUDE.md: cats are
+        "a byline, never the narrator". The reader standing in the sun needs
+        the sentence, not who said it.
+
+     ⭐ THE REPLACEMENT is Airbnb's own value-above / label-below grammar,
+     measured twice on their page: the trust card sets an 18px/500 number over
+     a 12px/500 label, and the host block a 16px/500 name over a 14px grey
+     qualifier. So the fact leads at body/500 — §1: "Airbnb separates by weight
+     and space, not size" — and the attribution drops under it in ordinary grey
+     sentence case, which is literally what a byline is.
+     ⭐ MEASURED after the rebuild, real Chrome, 10 Aug 2026: fact 19px/500 ink
+     at 16.92:1; byline 14px/400 grey at 7.29:1, no tracking, no uppercase; the
+     cat's name an ordinary ink link at 16.92:1; zero paw glyphs; the text
+     column identical to the paragraph above it. Nothing in the block is under
+     the 14px Kerala-sun floor.
+
+     ⭐ The band is the 1px hairline, the one separator weight the study
+     measured, top and bottom. That makes the cat tip the same shape as
+     `.pullquote` directly above, which is correct: both are voice, neither is
+     a fact you act on. The system's two container forms survive and get
+     cleaner —
+       facts → hairline CARD, all four sides   (.facts, .shut, TrustCard)
+       voice → hairline BAND, top and bottom   (.cat-tip, .pullquote)
+     ⛔ Do not merge them, and do not restore the leading rule: `.jump` in
+     ui_kits/today still uses that form for navigation, where it means
+     "shortcut out of here", not "a different voice". */
+  .cat-tip { margin-block:var(--s8); padding-block:var(--s4);
+             border-block:1px solid var(--rule);
              font-family:var(--sans); }
-  .cat-tip__label { display:flex; align-items:center; gap:var(--s2); margin:0 0 var(--s2);
-                    font-size:var(--micro); text-transform:uppercase;
-                    letter-spacing:var(--track); color:var(--quiet); }
-  .cat-tip__label a { color:var(--ink); border-block-end:1px solid var(--rule); }
-  .cat-tip__text { margin:0; font-size:var(--body); line-height:1.45; color:var(--ink); }
+  .cat-tip__text { margin:0; font-size:var(--body); line-height:1.45;
+                   font-weight:500; color:var(--ink); }
+  .cat-tip__by { margin:var(--s2) 0 0; font-size:var(--small); line-height:1.45;
+                 color:var(--quiet); }
+  .cat-tip__by a { color:var(--ink); border-block-end:1px solid var(--rule); }
 
   /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
      2026). Hours and fares are ordinary content; amber "never decorates"
@@ -282,22 +324,14 @@
     somebody ordered a minute ago, and it is the thing they make most.</p>
 
     <!-- ⭐ ONE tip, two-thirds down, where the practical part begins.
-         Carries a rhythm, never a schedule. -->
+         Carries a rhythm, never a schedule.
+         ⭐ THE FACT LEADS, THE CAT SIGNS IT. Do not put the attribution back
+         above the sentence: that is the narrator position and CLAUDE.md makes
+         cats a byline. -->
     <aside class="cat-tip" aria-label="Tip from Ginger">
-      <p class="cat-tip__label">
-        <span aria-hidden="true" style="display:inline-flex">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
-            <ellipse cx="6.3" cy="10.6" rx="2.4" ry="3.1" transform="rotate(-22 6.3 10.6)"/>
-            <ellipse cx="10.5" cy="7.7" rx="2.5" ry="3.3" transform="rotate(-8 10.5 7.7)"/>
-            <ellipse cx="15.3" cy="7.9" rx="2.5" ry="3.3" transform="rotate(8 15.3 7.9)"/>
-            <ellipse cx="19.1" cy="11.2" rx="2.3" ry="3" transform="rotate(22 19.1 11.2)"/>
-            <path d="M12.6 12.4c3.5 0 6.5 2.4 6.5 5.3 0 2.4-2.1 3.8-4.3 3.4a13.6 13.6 0 0 0-4.5 0c-2.2.4-4.3-1-4.3-3.4 0-2.9 3-5.3 6.6-5.3Z"/>
-          </svg>
-        </span>
-        Tip from <a href="#">Ginger</a>
-      </p>
       <p class="cat-tip__text">Go before lunch — the mutton goes early, and the
       good stall stops when it stops.</p>
+      <p class="cat-tip__by">Tip from <a href="#">Ginger</a></p>
     </aside>
 
     <p>After that the walk turns back toward the water and there is nothing
@@ -306,9 +340,13 @@
 
     <section class="facts" aria-label="The practical facts">
       <dl>
-        <div class="facts__row"><dt>Best time</dt><dd>10 am – 12.30 pm</dd></div>
+        <!-- ⭐ CLOCK FORMAT, owner's decision 10 Aug 2026: "10am – 1pm, 2 – 4.30pm".
+             Lowercase, no space before the meridiem, no minutes on a round hour, a
+             full stop rather than a colon, and the meridiem dropped from the first
+             half of a range when both halves share it. -->
+        <div class="facts__row"><dt>Best time</dt><dd>10am – 12.30pm</dd></div>
         <div class="facts__row"><dt>Cost</dt><dd>₹300–500 a head, cash</dd></div>
-        <div class="facts__row"><dt>Closed</dt><dd>Fridays, 12.30 – 2 pm</dd></div>
+        <div class="facts__row"><dt>Closed</dt><dd>Fridays, 12.30 – 2pm</dd></div>
       </dl>
       <p class="stamp"><span class="stamp__chip">Checked</span>
         <time class="stamp__date" datetime="2026-08-03">3 Aug 2026</time></p>

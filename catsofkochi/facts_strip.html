@@ -305,13 +305,17 @@
     font-variant-numeric: var(--figures-aligned, tabular-nums);
   }
   /* ⭐ DECLARE WHERE A BREAK IS ALLOWED, not where it is forbidden. A range
-     torn across two lines — "10:00–13:00, 14:00–" / "16:30" — passes every
+     torn across two lines — "10am – 1pm, 2 –" / "4.30pm" — passes every
      measurement this project runs and is the worst thing on the page. Each
      range is one unbreakable unit, so the line can only break at the comma.
      ⛔ Scoped to .fs-hours__range, NOT to every span in the block: `span`
      alone also caught .fs-hours__day, and a day label can legitimately be
      long enough to need wrapping ("Monday to Thursday, Saturday and Sunday").
-     Measured: each range is 130.8px, the pair fits one line at 375px. */
+     ⚠️ RE-MEASURE AFTER THE 10 Aug FORMAT CHANGE. The old 24-hour pair measured
+     130.8px each and fitted one line at 375px. "10am – 1pm" and "2 – 4.30pm"
+     are shorter in characters but no longer the same length as each other, so
+     the pair is not a column any more — see the note at the foot. The nowrap
+     still holds each range together, which is the part that matters. */
   .fs-hours__range { white-space: nowrap; }
   /* ⛔ THE SHUT LINE IS INK, NOT GREY. It is the fact that strands somebody —
      a reader who misses it walks to a locked door — so it may not be set
@@ -489,7 +493,7 @@
           <p class="fs-hours__label">Opening hours</p>
           <p class="fs-hours__time" data-fact-value>
             <span class="fs-hours__day">Tuesday to Sunday</span>
-            <span class="fs-hours__range">10:00–13:00</span>, <span class="fs-hours__range">14:00–16:30</span>
+            <span class="fs-hours__range">10am – 1pm</span>, <span class="fs-hours__range">2 – 4.30pm</span>
           </p>
           <p class="fs-hours__shut">Shut Mondays, and on public holidays.</p>
         </div>
@@ -650,7 +654,24 @@
         <code>entry_price: null</code>. “Shut Mondays” is the <code>Tu-Su</code> range;
         “public holidays” is <code>PH off</code>, which the build substitutes with the
         real dated Kerala list at read time. ⛔ No holiday dates are printed here
-        because I have not read that list myself.</li>
+        because I have not read that list myself.
+        <br>⭐ <b>The clock format is the owner’s, set 10 August 2026:</b>
+        <code>10am – 1pm, 2 – 4.30pm</code>. Lowercase meridiem with no space, no
+        minutes on a round hour, a full stop rather than a colon, and the meridiem
+        dropped from the first half of a range when both halves share it — which is
+        why it is “2 – 4.30pm” and not “2pm – 4.30pm”. The record still stores
+        <code>10:00-13:00,14:00-16:30</code>; this is a display decision only and the
+        machine syntax above is untouched.
+        <br>⚠️ <b>And it costs something, so say it rather than discover it later.</b>
+        The 24-hour form was a COLUMN — every string the same width, which is the
+        whole reason this system puts <code>tabular-nums</code> on times. “10am – 1pm”
+        and “2 – 4.30pm” are different widths, so a stack of hours down a listing page
+        will no longer line up on the digits the way a stack of “10:00–13:00” did.
+        Tabular figures still stop the numerals jittering between rows and stay on.
+        The owner chose readability for a first-time reader over alignment down a
+        list; that is a defensible trade and it is his to make, but the alignment
+        argument in <code>system.html</code>’s specimen no longer describes what a
+        real hours row looks like.</li>
       <li><b>Aspinwall House</b> — <code>src/content/places/aspinwall-house.yaml</code>:
         <code>hours_status: unknown</code>, <code>phone: null</code>,
         <code>walk_minutes: 6</code>. The refusal sentence is the record’s own
