@@ -333,6 +333,16 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    last media query in this file was removed deliberately and this does not bring one back. */
 a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
   flex:none;width:clamp(96px, 28%, 168px)}
+/* ⛔⛔ THE THUMBNAIL CLAMP LEAKED INTO THE GRID, and only a screenshot caught it. Every
+   measurement was clean — 3 cards per row, identical heights within each row, zero overflow —
+   and the photographs rendered at **96×72px postage stamps** in a 315px cell, because the
+   horizontal card's `clamp(96px,28%,168px)` matched `.acts a.act__shotlink` too.
+   ⭐ FOURTH time today that looking beat measuring, and the sharpest: the numbers were not
+   merely silent, they were REASSURING. A grid of tiny images passes every geometric check
+   ever written for it.
+   ⛔ A component-scoped rule needs a component-scoped selector — `a.act__shotlink` names the
+   element, not the context, so it applied wherever the element appeared. */
+.acts a.act__shotlink{width:100%;max-width:none}
 .act:has(a.act__shotlink){display:flex;gap:var(--space-4);align-items:flex-start}
 .act:has(a.act__shotlink) .act__text{flex:1;min-width:0}
 .act__shot{width:100%}
