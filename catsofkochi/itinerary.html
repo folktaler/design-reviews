@@ -367,9 +367,21 @@
   /* the divider between two screens. Its own top margin was zeroed above and
      the article before it contributes nothing, so it states the whole gap. */
   .page > .div                               { margin-block-start:var(--s10); }
-  /* an article's trailing margin now sits INSIDE its grid, where it would add
-     to the divider's gap instead of collapsing into it */
-  .page > [data-subgrid] > :last-child       { margin-block-end:0; }
+  /* ⛔⛔ A `:last-child { margin-block-end: 0 }` RULE LIVED HERE AND WAS WRONG.
+     It was written on the reasoning that an article's trailing margin now sits
+     inside its grid, where it would add to the divider's gap instead of
+     collapsing into it. That reasoning does not hold for THIS kit: an article
+     carries `padding-block`, and padding stops a child's margin escaping in
+     block layout too. The margins were never getting out, so there was nothing
+     to correct — and zeroing them made every article shorter than it had been.
+     ⭐ Caught at the one boundary a scan of grid containers cannot see: the gap
+     between the last block inside `main` and the sibling that follows `main`,
+     which is not a grid item at all. Measured 64px before and 40px with the
+     rule — 24px of air removed from the end of the page.
+     ⚠️ The lesson generalises past this file: before correcting for margins
+     that "can no longer escape", check whether the container's own padding was
+     already stopping them. A correction for a problem the page does not have is
+     still a change to the page. */
   /* the pairs the page deliberately separates more than their own margins do */
   .page > [data-subgrid] > *:has(+ h2)       { margin-block-end:var(--s9); }
   .page > [data-subgrid] > *:has(+ .price),
