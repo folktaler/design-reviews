@@ -487,17 +487,38 @@
      While `main` was a block container the gap between two sections was the
      LARGER of their two margins. The moment it became a grid, every gap became
      the SUM. This kit's rhythm is symmetric — five bands at `margin-block:40px`
-     in a row — so it doubled, and MEASURED at 375px the page grew from 7,554px
-     to 7,878px: eight pairs, 276px inside the grid, plus 48px more where the
-     signup block's bottom margin used to collapse straight through the bottom
-     of `main` and merge with the footer's own top margin.
+     in a row — so it doubled: eight pairs, 276px inside the grid, plus 48px
+     more where the signup block's bottom margin used to collapse straight
+     through the bottom of `main` and merge with the footer's own top margin.
      ⛔ This is PHONE reflow, on the primary case, introduced by a change made
      for desktop. It is not a desktop nicety.
 
-     ⭐ THE RULE: the block ABOVE owns the whole gap. Every item's
+     ⚠️ WHAT THE TWO NUMBERS BELOW ARE, PRECISELY, because an earlier draft of
+     this comment overstated them. Both are real renders at 375px: 7,878px is
+     this page with the grid and WITHOUT the correction, 7,554px is it with the
+     correction. So 324px is what the correction removes, and that is the only
+     claim being made. ⛔ 7,554 is NOT the height of this page before the
+     responsive pass and must not be read as one — that pass also dropped the
+     hairline between the place cards, widened the card gap and stopped the lead
+     photograph bleeding, and each of those moves the height on its own. Nobody
+     measured the original, and toggling `display:block` would not recover it
+     either: the grid container carries no padding where the old wrapper had a
+     gutter, so the toggle renders full-bleed text, fewer lines and a shorter
+     page. A sibling kit took that shortcut today and read +377px where the
+     truth was +31px.
+
+     ⭐ THE RULE: the block ABOVE owns the whole gap. The named items'
      margin-block-start goes to zero, and where the page deliberately wanted
      more air than the block above supplies, the difference is added back with
      the arithmetic written down rather than a number typed in.
+
+     ⛔ NAMED ITEMS, NEVER A BLANKET `.page > * { margin-block-start:0 }`, and
+     that is not tidiness. A block that pulls itself up under its own heading
+     with a NEGATIVE top margin already collapses to nothing under block layout
+     AND sums to nothing under grid — it needs no correction, and zeroing it
+     would drop the element and break a deliberate coupling. This page has one
+     (the stance line, -12px) and its sibling kit has two. A blanket rule that
+     assumes every margin is positive is the trap inside the fix for this trap.
 
        pair                     wanted   above gives   this block adds
        today   → orient           32         32              —
@@ -511,9 +532,11 @@
      the footer is not a grid item — it is `main`'s sibling. Zeroing the signup
      block's bottom margin hands that gap back to the footer, which already
      carries 48.
-     ⭐ RE-MEASURED after the fix: the page is 7,554px at 375px again, and every
-     gap reads 32 / 40 / 40 / 40 / 40 / 40 / 48 / 48 / 48 — the block-flow
-     values, one for one. */
+     ⭐ AND THE CHECK WORTH TRUSTING IS THE GAPS, NOT THE HEIGHT. Measured one
+     by one after the fix they read 32 / 40 / 40 / 40 / 40 / 40 / 48 / 48 / 48,
+     which is `max(above, below)` for every pair — exactly what a block
+     container gives. That is a per-pair identity; unlike a page total, nothing
+     else in this pass can contaminate it. */
   main.page > .orient { margin-block-start:0; margin-block-end:var(--s8); }
   main.page > .band   { margin-block-start:0; }
   /* 40 from the band above + 8 = the 48 this section always had. */
