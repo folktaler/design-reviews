@@ -99,7 +99,15 @@ a{color:inherit}
    run the full width with nothing to catch it. Found by measuring, not by reading. */
 /* ⭐ …except the things that ARE the structure. A grid's own children must keep the full
    width, or the grid can never form a second column — see `.set` below. */
-.wrap--wide :is(.cards,.orgs,.foot-cols,.week,.set,.sessions,.latest,.nav,.doors)>li{max-width:none}
+.wrap--wide :is(.cards,.orgs,.foot-cols,.week,.set,.sessions,.latest,.nav,.doors,.roll,.months,.feed)>li{max-width:none}
+/* ⛔⛔ `.roll` was missing and assertion 13 caught it at 1280px — the quiet list's rows measured
+   55% of their own container, which is precisely the "narrow item in a wide container" shape the
+   assertion exists to find. SECOND time this list has failed by omission, and the second time
+   the gate caught my own new component on its first run.
+   ⭐ That is the gate working, and it is also the argument for retiring the list: a
+   hand-maintained enumeration of structural classes cannot know about a class invented after it
+   was written. The durable fix is the `.set` convention in RESPONSIVE.md — structural lists
+   declare themselves — and every addition here is evidence for it rather than an alternative. */
 /* ⛔ `.sessions` and `.latest` were missing on the first attempt, and capping their rows at
    544px inside a wider container made them 52% of their own list — which is exactly the
    "narrow item in a wide container" shape assertion 13 exists to catch. ⭐ My new assertion
@@ -128,9 +136,17 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    for page copy, so it labels itself and wears a colour the system does not own. The
    check battery excludes .kitnote for the same reason it excludes .kitbar — neither is
    the design. ⛔ Never put real page copy in one to dodge a check. */
+/* ⛔ `max-width` added 10 Aug 2026. Measured at 1280px: every line over 80 characters on every
+   kit was a KITNOTE, never page copy — page copy measured 53–61 across all ten. The notes are
+   `--type-small` (16px) in a wide wrapper, so they ran 80–87 characters.
+   ⭐ Worth fixing precisely because they are not product copy: the owner reads these notes on a
+   laptop more than anyone reads the mockup text, so the reviewer surface was the one failing
+   our own line-length rule. ⚠️ 22rem at 16px ≈ 57 characters — a measure belongs to a type
+   size, and `--measure` is sized for 20px body. */
 .kitnote{border:1px dashed #b3261e;border-radius:var(--radius-card);padding:var(--space-4);
   margin-block:var(--space-5);font-size:var(--type-small);line-height:var(--leading-tight);
-  color:var(--text-primary);background:var(--surface-page)}
+  color:var(--text-primary);background:var(--surface-page);
+  max-width:calc(var(--measure-small) + var(--space-4)*2)}
 .kitnote::before{content:'REVIEWER NOTE — not page copy';display:block;
   font-size:var(--type-micro);font-weight:var(--weight-semibold);
   letter-spacing:var(--tracking-micro);color:#b3261e;margin-block-end:var(--space-2)}
