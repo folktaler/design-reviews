@@ -355,6 +355,11 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
 /* ⛔ The track has a MAX, not `1fr`. With `1fr` the grid stretched two cards to 544px each
    at 1280 and the 16px text inside ran 67-72 characters a line. auto-fill + a capped track
    removes the breakpoint ladder AND the overrun in one declaration. */
+/* A face is 88px, not the live page's 64px. This page's job is "who you will meet", and 64px
+   is a thumbnail — too small to recognise somebody by. ⛔ `width`/`height` attributes are on
+   the element as well, so the row does not reflow as thirteen images arrive. */
+.person__face{width:88px;height:88px;border-radius:var(--radius-card);object-fit:cover;
+  display:block;margin:0 0 var(--space-3);background:var(--surface-quiet)}
 .orgs{list-style:none;margin:var(--space-5) 0 0;padding:0;display:grid;
   gap:var(--space-4);grid-template-columns:repeat(auto-fill,minmax(min(17rem,100%),22rem))}
 .orgs li{border:var(--rule-hairline) solid var(--border-hairline);
