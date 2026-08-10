@@ -71,27 +71,36 @@
       things. <b>The date is a quiet group label; each activity keeps its own headline.</b>
       ⛔ Stating the date once per group rather than under every entry avoids repeating it three
       times — the count-in-prose problem in another costume.
-      <br><br>⭐⭐ <b>Every entry carries a CLUB LABEL, and it exists because the owner read the
-      headlines and found them incomplete:</b> <i>“moved in where? who pulled out the DNA?
-      which dance?”</i> ⛔ He is right — <i>“The cats have moved in”</i> does not say where.
-      <b>A headline alone cannot carry who, what, where and when without becoming a
-      paragraph.</b>
-      <br><br>⭐ <b>So: WHO from the label · WHAT and WHERE from the headline · WHEN from the
-      date.</b> Nothing crammed, nothing missing — and <b>a label is filterable, which a club
-      name buried in a sentence is not.</b> ⛔ It reuses the kicker already on
-      <code>/clubs/</code> and <code>/contact-us/</code> rather than inventing a component.
-      <br><br>⚠️ <b>One thing the label does NOT answer, and it should not be asked to:</b> he
-      wrote <i>“who pulled out the DNA”</i>. <b>The label is the club, not the person.</b>
-      ⛔ Naming a participant is a different field with a different problem — <b>most entries do
-      not record who was there, and naming people raises the same consent question as the
-      testimonials.</b> <b>“Curiosity Club” is answerable from the source; “Fathima, aged 9” is
-      not.</b>
-      <br><br>⭐ <b>And the label is derivable from the thing we were about to throw away.</b>
-      <code>2 PM–6 PM | Stitching Lab · Facilitated by Mary Gracy</code> is the schedule prefix
-      the importer strips — <b>and it contains the answer. Extract before discarding.</b>
-      ⚠️ <b><code>AIKYAM SPACE</code> is the label where an entry is not a club session</b> —
-      the cats, a visiting group, a closure. ⛔ <b>Not everything is a club, and forcing one
-      would be the invented-fact problem again.</b>
+      <br><br>⛔⛔ <b>A club label was added above every headline and removed four minutes
+      later — and the part worth keeping is what happened in between.</b> The owner read the
+      first headlines and found them incomplete: <i>“moved in where? who pulled out the DNA?
+      which dance?”</i> <b>He was right.</b> A label was proposed to carry the <i>who</i>.
+      <br><br>⭐⭐ <b>He then ruled the label out — and the completeness stayed, because it had
+      been fixed in the HEADLINES rather than propped up by something above them.</b>
+      <i>“The cats have moved <b>into the garden</b>”</i>, <i>“<b>The stitching team's</b> bags
+      went on sale <b>at Local Sustainable Living</b>”</i>, <i>“<b>The dance group</b> talked
+      about their first performance, <b>in the Main Hall</b>”</i>. ⛔ <b>Removing the label must
+      not take the completeness with it, or we are back at his original complaint with an extra
+      round trip.</b>
+      <br><br>⭐ <b>Checking that found two that did NOT survive.</b> <i>“Up-cycling in the
+      lab”</i> and <i>“The group talked about…”</i> both leaned on the label above them and read
+      as fragments without it. <b>Rewritten.</b> ⚠️ <b>That is the real cost of a decorative
+      element: things quietly start depending on it</b>, and the dependency only shows when it
+      is taken away.
+      <br><br>⭐ <b>The feed is back to headline + date and nothing above</b> — which is closer
+      to what was measured on Airbnb in the first place: <b>their dated record has no kicker
+      either.</b>
+      <br><br>⚠️ <b>What he wants instead is a different thing, later:</b> Ghost tags for
+      <i>categories</i> — Education (science), Livelihood (stitching) — <b>a layer above the
+      club</b>, added <b>by the team, not the import</b>, and shown <b>on the entry page
+      only</b>. ⛔ <b>So do not design filtering on it: a category that appears only on the
+      entry page cannot be browsed by.</b>
+      <br><br>⭐ <b>PROPOSAL, not ruled — have the importer capture the club as an internal tag
+      anyway</b> (<code>#club-stitching</code>). It is derivable from the schedule prefix the
+      importer already strips, <b>so keeping it costs one line and recovering it later means
+      re-parsing 150 guides.</b> ⛔ It displays nothing, it is not the category he described,
+      and it commits nobody to anything — <b>it only means the answer still exists when somebody
+      asks.</b>
       <br><br>⭐ <b>Months are a selector, not a filter.</b> Nobody browsing a record wants to
       filter it; they want to jump. <b>May pulls 282 six-month visitors</b>, so the months carry
       real traffic.</p>
@@ -108,15 +117,13 @@
         <article class="act">
           <img class="act__shot" width="1600" height="1200" loading="lazy" alt="Cats at aikyam space"
             src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-15.42.47.jpeg">
-          <p class="act__label">aikyam space</p>
           <h3 class="act__what"><a href="/activities/the-cats-have-moved-in/">The cats have moved into the garden</a></h3>
           <p class="act__body">Our little cat friends continue to make themselves at home. As a
             pet-friendly space we are exploring small ways to make it more welcoming for
             animals — a place where both people and pets can feel comfortable.</p>
         </article>
         <article class="act">
-          <p class="act__label">Stitching Club</p>
-          <h3 class="act__what"><a href="/activities/stitching-lab-7-august/">Up-cycling in the lab</a></h3>
+          <h3 class="act__what"><a href="/activities/stitching-lab-7-august/">The stitching lab ran all afternoon</a></h3>
           <p class="act__meta">2–6 PM · with Mary Gracy</p>
           <p class="act__body">The usual afternoon session.</p>
         </article>
@@ -126,8 +133,7 @@
         <article class="act">
           <img class="act__shot" width="1600" height="1200" loading="lazy" alt="Tote bags on display"
             src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-07-at-15.35.45-1.jpeg">
-          <p class="act__label">Stitching Club</p>
-          <h3 class="act__what"><a href="/activities/the-bags-went-on-sale/">The bags went on sale at Local Sustainable Living</a></h3>
+          <h3 class="act__what"><a href="/activities/the-bags-went-on-sale/">The stitching team's bags went on sale at Local Sustainable Living</a></h3>
           <p class="act__meta">with Mary Gracy</p>
           <p class="act__body">The team placed their cut-piece tote bags and duffle bags at
             Local Sustainable Living — a chance to see how the products are received. If demand
@@ -139,8 +145,7 @@
         <article class="act">
           <img class="act__shot" width="1600" height="1200" loading="lazy" alt="Stitching work in progress"
             src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-14.23.37-1.jpeg">
-          <p class="act__label">Stitching Club</p>
-          <h3 class="act__what"><a href="/activities/five-new-bag-designs-for-onam/">Five new bag designs, for an Onam event</a></h3>
+          <h3 class="act__what"><a href="/activities/five-new-bag-designs-for-onam/">The stitching team started five new bag designs for Onam</a></h3>
           <p class="act__meta">with Mary Gracy</p>
           <p class="act__body">The stitching team is working on five new designs for an Onam
             event by Local Sustainable Living, using handloom fabric and cut pieces.</p>
@@ -149,8 +154,7 @@
       <li>
         <p class="dayband">Saturday 2 August</p>
         <article class="act">
-          <p class="act__label">Dance Club · Bharatanatyam</p>
-          <h3 class="act__what"><a href="/activities/reflecting-on-the-first-performance/">The group talked about their first performance, in the Main Hall</a></h3>
+          <h3 class="act__what"><a href="/activities/reflecting-on-the-first-performance/">The dance group talked about their first performance, in the Main Hall</a></h3>
           <p class="act__meta">3–4 PM · with Thudippu</p>
           <p class="act__body">After their first stage performance, the community dance group
             gathered to share how it went — what worked, and what they would do differently.</p>
@@ -159,7 +163,6 @@
       <li>
         <p class="dayband">Friday 1 August</p>
         <article class="act">
-          <p class="act__label">aikyam space</p>
           <h3 class="act__what"><a href="/activities/closed-for-heavy-rain/">Everything paused for heavy rain</a></h3>
           <p class="act__body">All activities were paused for the day, for the safety of
             community members, children and staff.</p>

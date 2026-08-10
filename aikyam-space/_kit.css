@@ -194,16 +194,16 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    closure has none and never can. So the rule stands and now covers the ONLY exception rather
    than one of two systematic states: an entry with a photograph is a card; an entry without
    one has no container at all. NO SLOT WITHOUT A GUARANTEED FILLER. */
-/* ⭐ THE CLUB LABEL — owner, 10 Aug 2026: "moved in where? who pulled out the DNA? which
-   dance?" A headline alone cannot carry who, what, where and when without becoming a
-   paragraph. So the label takes WHO, the headline takes WHAT AND WHERE, the date takes WHEN —
-   nothing crammed, nothing missing. ⭐ And a label is FILTERABLE; a club name buried in a
-   sentence is not.
-   ⛔ It reuses the kicker already on `/clubs/` and `/contact-us/` rather than inventing a
-   component — same shape, doing the job it was made for. */
-.act__label{font-size:var(--type-micro);font-weight:var(--weight-medium);
-  letter-spacing:var(--tracking-micro);text-transform:uppercase;color:var(--text-secondary);
-  margin:0 0 var(--space-1)}
+/* ⛔ `.act__label` LIVED HERE FOR FOUR MINUTES AND IS DELETED, not commented out. A club
+   kicker was added above every headline to answer "moved in where? which dance?", and the
+   owner then ruled it out — categories will come later as Ghost tags, on the entry page only.
+   ⭐ The completeness it was carrying moved into the headlines and stayed there, which is why
+   removing it cost nothing: "The cats have moved INTO THE GARDEN", "THE STITCHING TEAM'S bags
+   went on sale AT LOCAL SUSTAINABLE LIVING".
+   ⚠️ Two headlines had quietly started depending on it and read as fragments once it was
+   gone — that is the real cost of a decorative element, and the dependency only shows when it
+   is taken away. ⛔ Dead CSS kept "in case" is how a system accumulates rules nobody can
+   explain; it is in the history if anyone wants it back. */
 .act{margin:0 0 var(--space-6)}
 .act__shot{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-card);
   display:block;margin:0 0 var(--space-4);background:var(--surface-quiet)}
