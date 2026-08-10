@@ -361,7 +361,18 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
    with it; per-activity bodies are a fifth of that.
    ⭐ And it retires the typographic-headline hack: a photo-less entry now has a real paragraph
    where the photograph would have been, so it looks deliberate because it IS full. */
-.act__body{margin:var(--space-3) 0 0;max-width:var(--measure-small)}
+/* ⛔⛔ THE CARD READ FLAT BECAUSE OF THIS ONE LINE. Measured 10 Aug: `.act__body` was 20px /
+   400 / #262626 — **the same colour as the headline and only 3px smaller**, so the excerpt
+   competed with the headline instead of receding.
+   ⭐ Measured on the page the owner linked, Airbnb's card carries exactly THREE treatments:
+   title 15/500 #222222, secondary 15/400 #6C6C6C, price 15/500 #222222. ⭐⭐ **One type size.
+   Two weights. Two colours. The hierarchy is entirely weight and colour — they do not vary
+   size at all**, and three consecutive lines share one treatment.
+   ⛔ So the answer to "is it flat because the two are too similar, or because the grey is not
+   grey enough" is BOTH, in one element. The excerpt now takes the secondary treatment and
+   shares it with the meta line — which is the pattern, not a compromise. */
+.act__body{margin:var(--space-3) 0 0;max-width:var(--measure-small);
+  font-size:var(--type-small);color:var(--text-secondary);line-height:var(--leading-tight)}
 .feed{list-style:none;margin:0;padding:0}
 
 /* ── THE SINGLE ENTRY ─────────────────────────────────────────────────────────────────────
