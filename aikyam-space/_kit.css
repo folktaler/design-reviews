@@ -87,12 +87,26 @@ a{color:inherit}
    to write, not the rule you meant. A blanket descendant cap is safe: grid items are already
    ≤24rem, so capping them at 34rem is a no-op. */
 .wrap--wide :is(p,li,dd,blockquote,h1,h2,h3,h4){max-width:var(--measure)}
+/* ⛔⛔ A MEASURE BELONGS TO A TYPE SIZE, and this system has said so since the footer fix
+   without ever applying it here. Measured 10 Aug 2026: `.session__body` is 16px prose in a
+   544px column — `--measure` is sized for 20px body — giving **88 characters a line** at
+   6.18px/char. ⭐ It measured 88 BEFORE the wide-wrapper change too, because the cap was
+   already 544px: widening the page did not cause this and does not worsen it.
+   22rem at 16px is ~57 characters, inside the 45–75 band. */
+.wrap--wide .session__body{max-width:var(--measure-small)}
 /* ⛔ `h1` was missing from this list on the first attempt and measured **992px wide** in the
    browser. It looked fine only because "Clubs" is one short word — a long title would have
    run the full width with nothing to catch it. Found by measuring, not by reading. */
 /* ⭐ …except the things that ARE the structure. A grid's own children must keep the full
    width, or the grid can never form a second column — see `.set` below. */
-.wrap--wide :is(.cards,.orgs,.foot-cols,.week,.set)>li{max-width:none}
+.wrap--wide :is(.cards,.orgs,.foot-cols,.week,.set,.sessions,.latest,.nav,.doors)>li{max-width:none}
+/* ⛔ `.sessions` and `.latest` were missing on the first attempt, and capping their rows at
+   544px inside a wider container made them 52% of their own list — which is exactly the
+   "narrow item in a wide container" shape assertion 13 exists to catch. ⭐ My new assertion
+   caught my new defect on its first run, which is the only real proof a gate works.
+   ⚠️ This list is hand-maintained and therefore the same species as the depth-limited
+   selectors above. It is enumerated from the kits and verified, not guessed — but the durable
+   fix is the `.set` convention in RESPONSIVE.md, so structural lists declare themselves. */
 /* ⛔⛔ TRIED AND REJECTED, 10 Aug 2026: centring the capped prose inside the wide wrapper
    (`margin-inline:auto`). The numbers were perfect — 583px of gutter each side, symmetric,
    zero overflow — and the RENDERED PAGE was incoherent: `h1` and the pill kept the left edge
