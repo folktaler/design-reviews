@@ -54,7 +54,13 @@
        size now, so nothing depends on this any more. It is a real question and
        it deserves deciding on its own merits rather than as a side effect. */
     --micro:.8125rem; --small:.9375rem;
-    --measure-small:21rem;
+    /* ⛔ `--measure-small:21rem` DELETED 10 Aug 2026, and it was two defects in
+       one line. It was wired to NOTHING in this file — a token naming a job it
+       never did — AND it disagreed with the system, which sets 22rem in
+       design-system/tokens/spacing.css. Inert is survivable; inert-and-wrong is
+       a trap, because the next person to reach for a small-block measure here
+       inherits a value that contradicts the token file while looking local and
+       deliberate. If this page ever needs one, read it from the system. */
     --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
     --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
     --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);

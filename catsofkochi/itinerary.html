@@ -342,13 +342,23 @@
      ⭐ THE FIX IS TO STATE THE RHYTHM ONCE, ON ONE SIDE. Top margins are zeroed
      on every grid item and the gap is carried by the block above it.
 
-     ⚠️ WRITTEN WITH :has() HERE, and with plain arithmetic in the two `today`
-     kits, because the paragraph margins on this page are em-based. An em
-     resolves against whichever element the calc is attached to, so a heading
-     subtracting a paragraph's bottom margin would subtract the wrong number.
-     `:has(+ x)` says what collapsing said — the gap belongs to the PAIR — and
-     needs no arithmetic at all. It is the only use of the selector in the repo;
-     flagged rather than slipped in.
+     ⛔ THE `:has()` RULES BELOW ARE LOAD-BEARING. DO NOT DELETE THEM AS AN
+     ODDITY. This is the only use of the selector anywhere in the repo, and it
+     is deliberate, approved and here for a reason that cannot be written any
+     other way:
+       · The paragraph margins on this page are em-based (--para is .75em). An
+         em resolves against whichever element you attach the calc to, so a
+         heading subtracting a paragraph's bottom margin subtracts the wrong
+         number. The plain arithmetic used in the two `today` kits — where every
+         margin is a px token — cannot be written correctly here.
+       · `:has(+ x)` states what collapsing stated: the gap belongs to the PAIR.
+         A rounded pixel approximation would be a frozen number nobody can
+         re-derive, which is the exact failure this project spent a day
+         removing from its comments and token files.
+       · Support is not the objection it was: it is baseline in every engine
+         these kits render in, and these pages are standards-mode with a
+         viewport meta.
+     Remove these and the phone silently grows by tens of pixels per section.
 
      ⚠️ THIS BLOCK MUST STAY LAST. It matches at the same specificity as the
      component rules it corrects and wins on order alone. ═════════════════════ */

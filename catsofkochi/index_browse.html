@@ -292,8 +292,22 @@
                    margin-block-end:var(--s5); }
   .onward__place b { display:block; font-family:var(--serif); font-size:var(--sub);
                      line-height:1.2; color:var(--ink); font-weight:400; }
+  /* ⛔ WAS 14px, AND IT IS THE MOST ACTIONABLE LINE IN THE BLOCK. It reads
+     "Opening hours, the ticket, and everything else we have written about it —
+     checked 3 Aug 2026": the sentence that tells a reader standing outside the
+     church that the venue page holds the opening time. The whole onward block
+     exists to carry them to it, and it was set two steps below body, in grey,
+     under a 20px name — the payload styled as the footnote.
+     ⚠️ NOT A LINE-LENGTH FIX. Measured at 61 characters before the change, well
+     inside the band. The defect was the SIZE alone, against the system's 17px
+     floor for anything a reader acts on in Kerala sun.
+     17px literal because this kit predates the post-pivot scale and has no
+     `--type-ui`; 1.0625rem is that token's value. ⛔ Not --body: at 19px it
+     collides with the 20px name above it and the card loses its hierarchy —
+     17 keeps the name first and still clears the floor. */
   .onward__place span { display:block; margin-block-start:var(--s1);
-                        font-size:var(--small); color:var(--quiet); }
+                        font-size:1.0625rem; line-height:1.4;
+                        color:var(--quiet); }
   .stack { list-style:none; margin:0; padding:0; }
   .stack li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
               position:relative; }

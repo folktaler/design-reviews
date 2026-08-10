@@ -180,9 +180,10 @@
   .now { margin-block:var(--s5) var(--s6); padding:var(--s4) var(--s5);
          background:var(--paper); border:1px solid var(--rule);
          font-family:var(--sans); }
-  /* ⛔ CAPPED AT THE READING MEASURE. The card around it claims the wide track
-     so the facts strip below can spread; this is a sentence and does not get
-     wider because the strip did. Uncapped it ran the full card interior. */
+  /* ⚠️ CAPPED AT THE READING MEASURE, AND CURRENTLY INERT. The card holding it
+     stays in the reading column — see the note on the markup for why — so this
+     cap never binds today. It is here so that the day the card does go wide,
+     the sentence inside it does not: a strip may spread, a sentence may not. */
   .now__line { font-family:var(--serif); font-size:var(--sub); line-height:1.25;
                margin:0 0 var(--s3); max-width:var(--measure,32rem); color:var(--ink); }
   /* ⚠️ The facts strip carries its OWN face. It was inheriting sans from `.now`,
@@ -497,10 +498,23 @@
     </div>
 
     <!-- ⭐ FIRST SCREEN. The weather is ANSWERED, not linked away. -->
-    <!-- ⭐ WIDE. The three-fact strip is the answer at the top of the page; at
-         the reading measure it wraps onto two rows, on the wide track it sits
-         on one. The sentence above it is capped back to the reading measure. -->
-    <section class="now" data-span="wide" aria-label="Today at a glance">
+    <!-- ⛔ DELIBERATELY NOT WIDE, and this is the one place on the page where a
+         content rule outranks the layout one. This strip carries two tide
+         times, which FRESHNESS-SPEC §5 forbids outright — a Kochi tide needs
+         station constants nobody publishes, so a printed one is invented. They
+         are logged for removal and are not this pass's job, but widening the
+         box they sit in is the sort of thing that quietly promotes them.
+         ⭐ MEASURED BEFORE DECIDING, because "wider looks louder" is a feeling
+         and this project runs on numbers. Wide would have changed nothing a
+         reader can see: 18.4px, weight 400, the same ink, the same third
+         position in the strip, and the same vertical offset on the page — only
+         the empty space around the figure grew, 143px of cell to 357px. So this
+         is not a correction of a defect. It is declining to spend a desktop
+         improvement on a fact that should not be printed at all.
+         ⚠️ The three time-band lists below DO take the wide track, and they are
+         what the page is mostly made of, so the desktop still uses its screen.
+         Restore this line if and when the tide rows go. -->
+    <section class="now" aria-label="Today at a glance">
       <p class="now__line">Heavy rain from mid-afternoon. Do the outdoor things
       before two.</p>
       <div class="now__facts">
@@ -624,16 +638,17 @@
     </section>
 
     <!-- ⭐ TOMORROW — the second and last day this page will look at -->
-    <!-- ⭐ SUBGRID. Tomorrow mixes both tracks — a kicker and two sentences in
-         the reading column, a facts strip on the wide one — and its 3px top
-         rule has to run the width of the strip under it, not the width of the
-         sentence. A section cannot do both without subgrid. -->
+    <!-- ⭐ SUBGRID. Tomorrow mixes both tracks — its 3px top rule has to run the
+         width of the page's lists, not the width of a sentence, while the
+         kicker and the two sentences stay in the reading column.
+         ⛔ Its facts strip is NOT wide, for the same reason as the one at the
+         top of the page: it carries a tide time. See that note. -->
     <section class="tmw" data-subgrid id="tomorrow" aria-label="Tomorrow">
       <p class="tmw__k">Tomorrow — Saturday 8 August</p>
       <p class="tmw__line">Dry until late afternoon. A better day for the boats
       than today was.</p>
 
-      <div class="now__facts" data-span="wide">
+      <div class="now__facts">
         <div><b>6.12am</b>sunrise</div>
         <div><b>29°</b>high, feels 34°</div>
         <div><b>5.05am</b>low tide</div>
