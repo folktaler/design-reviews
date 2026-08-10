@@ -64,7 +64,19 @@
   </section>
 
   <section aria-labelledby="all-h">
-    <h2 id="all-h">The three clubs</h2>
+    <h2 id="all-h">The clubs</h2>
+    <p class="kitnote">⛔ <b>This heading said “The three clubs” and the number was wrong —
+      there are five.</b> Owner, 10 Aug 2026: <b>Reading Club and Curiosity Club are real and
+      active</b>, named three and four times respectively in the July guide and again in
+      August. So <code>/clubs/</code>, which lists three, is <b>incomplete</b> — the guides are
+      right and the schedule page is missing two clubs.
+      <br><br>⭐ <b>The lesson is about the component, not the copy.</b> “Three” had been
+      written into a heading, a lede and an intro sentence, so a true count became a design
+      constant and the layout quietly asserted something only the content should say. <b>The
+      section now holds any number of clubs</b> — the grid is <code>auto-fill</code>, nothing
+      counts them, and adding a sixth is a content edit with no CSS change.
+      <br><br>⛔ <b>Never write a count into a heading.</b> If a number is worth showing, it is
+      worth deriving from the thing being counted.</p>
     <ul class="sessions">
 
       <li class="session">
@@ -101,12 +113,22 @@
           learn and experience it together, whatever you have done before.</p>
         <ul class="session__facts">
           <li>Fee <b>Free</b></li>
-          <li>With <b>Aparna N</b>, Tiny Entrepreneur</li>
+          <li>With <b>Aparna N</b></li>
           <li>In <b>Malayalam</b></li>
         </ul>
         <p class="session__action">Just turn up</p>
       </li>
     </ul>
+
+    <p class="kitnote">⚠️ <b>“Tiny Entrepreneur” removed from Aparna N's credit, and the rest
+      of that credit deliberately left alone.</b> Owner, 10 Aug 2026: she is <b>not</b> a Tiny
+      Entrepreneur — she is the writer and a team member, and <code>/clubs/</code> credits her
+      wrongly. That much is settled, so the label is gone.
+      <br><br>⛔ <b>What is NOT settled, and is not being guessed at:</b> whether she actually
+      facilitates the Dance Club, and whether “Aparna N” here and the <b>“Aparna R”</b> byline
+      on a June story are one person or two. <b>The Dance credit is left exactly as
+      <code>/clubs/</code> has it</b> until somebody who knows says otherwise. Correcting half
+      a fact because the other half is wrong is how a second wrong fact gets published.</p>
   </section>
 
   <section aria-labelledby="week-h">
@@ -145,12 +167,36 @@
   </section>
 
   <section aria-labelledby="gap-h">
-    <h2 id="gap-h">What we do not run yet</h2>
-    <div class="empty" style="margin-block-start:var(--space-4)">
-      <h3>Reading Club and Curiosity Club</h3>
-      <p>Both started in July 2026 and neither has a fixed time yet. When they do, they will
-        appear on this page and nowhere else.</p>
-    </div>
+    <h2 id="gap-h">Also running, times not published yet</h2>
+
+    <ul class="sessions">
+      <li class="session">
+        <p class="session__when">Times not published yet</p>
+        <h3 class="session__name"><a href="#">Reading Club</a></h3>
+        <p class="session__body">Running since July. We have not put its times on this page
+          yet — ask when you visit, or write to us and we will tell you.</p>
+        <p class="session__action">Write to us first</p>
+      </li>
+      <li class="session">
+        <p class="session__when">Times not published yet</p>
+        <h3 class="session__name"><a href="#">Curiosity Club</a></h3>
+        <p class="session__body">Running since July. We have not put its times on this page
+          yet — ask when you visit, or write to us and we will tell you.</p>
+        <p class="session__action">Write to us first</p>
+      </li>
+    </ul>
+
+    <p class="kitnote">⭐ <b>These two used to sit under “What we do not run yet”, which was
+      wrong — they run.</b> They are simply missing from the schedule page. So they are now
+      <b>club rows like any other</b>, with the unknown named in the slot where the time
+      goes and the action changed from “Just turn up” to “Write to us first”, because turning
+      up for a session whose time nobody published is advice that strands somebody.
+      <br><br>This is the same grammar as the empty “Coming up”: <b>the heading survives and
+      the missing value is replaced by the reason</b>, never by silence. A club that exists
+      and is invisible on the schedule page is worse than one shown as incompletely known —
+      the first looks like it does not exist.
+      <br><br>⚠️ <b>No times have been invented.</b> The guides mention both clubs but publish
+      no recurring schedule for either, and that gap is theirs to close, not mine to fill.</p>
     <div class="empty">
       <h3>Can you teach cooking, carpentry or robotics?</h3>
       <p>If you can, come and see the space. We are looking for people who want to work with
@@ -165,11 +211,19 @@
     <h2>Why this page is the schedule</h2>
     <p style="margin-block-start:var(--space-3)">One page carries the times, and everything
       else links to it. When a time changes it changes here, once.</p>
-    <p class="kitnote">On 9 Aug 2026 the live monthly guide listed “Stitching Lab, 2 PM–6 PM”
-      on Monday 10, Monday 17 and Monday 24 August, while this page says the club is closed
-      on Mondays. Two published pages, one contradiction. The point of a single schedule page
-      is that this cannot happen — but somebody has to say which one is right before either
-      is rebuilt.</p>
+    <p class="kitnote">✅ <b>RESOLVED 10 Aug 2026 — and the live site is the thing that is
+      wrong.</b> The monthly guide lists “Stitching Lab, 2 PM–6 PM” on Monday 10, Monday 17 and
+      Monday 24 August; this page says the club is closed on Mondays. The owner has confirmed
+      <b><code>/clubs/</code> is right</b>. These mockups already followed it, so nothing here
+      changes.
+      <br><br>⛔ <b>But two of those Mondays are still in the future, and the guide is live
+      right now.</b> A neighbour reading it will walk to a shut room on 17 or 24 August. That
+      is not a mockup problem and it is not waiting for a redesign — <b>it is a correction
+      somebody should make to the published guide today</b>, independently of everything else
+      in this review.
+      <br><br>⭐ <b>This is the argument for one schedule page in a single sentence.</b> Two
+      hand-maintained copies disagreed, the disagreement went unnoticed for weeks because
+      nothing compares them, and the wrong one is the one people read first.</p>
   </section>
 </main>
 

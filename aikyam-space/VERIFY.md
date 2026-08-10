@@ -49,6 +49,14 @@ printf '%-46s %s\n' \
  "whatsapp placeholder is dated"     "$(grep -c 'data-placeholder-added="2026-08-10"' contact-us/index.html)" \
  "no time claim in whatsapp copy"    "$(grep -c 'shared soon\|coming soon' contact-us/index.html)"
 
+# --- owner rulings of 10 Aug, round two. First two 1+, last three MUST print 0. ---
+printf '%-46s %s\n' \
+ "Reading + Curiosity are club rows"  "$(grep -c 'Curiosity Club</a>' clubs/index.html)" \
+ "unpublished times get an action"    "$(grep -c 'Times not published yet' clubs/index.html)" \
+ "no count in a HEADING (not prose)"  "$(grep -h '<h[123][^>]*>' homepage/index.html clubs/index.html system/index.html | grep -c 'three clubs')" \
+ "Aparna N not called Tiny Entrep."   "$(grep -c 'Aparna N</b>, Tiny Entrepreneur' clubs/index.html)" \
+ "no invented times for the two"      "$(grep -c 'Reading Club</a></h3>\s*<p class="session__body">[^<]*[0-9] PM' clubs/index.html)"
+
 # --- CSS comment integrity: the two counts must be EQUAL, and the greps silent ---
 echo "open $(grep -o '/\*' _kit.css | wc -l)  close $(grep -o '\*/' _kit.css | wc -l)"
 grep -n '^\s*\*.*/\*' _kit.css ; grep -n '\*/.*\*/' _kit.css
