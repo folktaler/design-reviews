@@ -489,6 +489,43 @@
   }
   .note-table thead th { border-block-start: 0; font-weight: var(--weight-semibold, 600); }
   .note-table code { font-size: 0.95em; overflow-wrap: anywhere; }
+
+  /* ══ TWO THINGS GRID DOES TO ITS CHILDREN THAT NO WIDTH TABLE SHOWS ══════
+
+     ⛔⛔ 1. GRID BLOCKIFIES `display:inline-block`. `.fs-tag` is the ink-filled
+     state label — "State one", "State two · 23 of 26 places". As a child of a
+     subgrid section it stopped being a chip and stretched to the full reading
+     column: 512px of solid ink above each specimen, against about 90px of
+     actual text. On a page whose whole argument is that the quiet things carry
+     the value, the loudest object became a label. `justify-self: start` gives
+     the item back its content width without touching `display`.
+     ⚠️ I measured this element's left edge at 24px and read that as a pass. The
+     left edge WAS right. I never asked what its WIDTH should be — which is this
+     project's own proxy trap in one line: a correct measurement of the wrong
+     property.
+
+     ⛔⛔ 2. GRID ITEMS DO NOT COLLAPSE MARGINS. In a block container the gap
+     between two blocks was the LARGER of their two margins; in a grid it is the
+     SUM. Only three pairs on this page carry margins on both sides, and all
+     three are a paragraph running into a bordered box, so the correction here
+     is small — but it is the same defect the sibling kits carry at +156 and
+     +165px on a phone, and it is corrected the same way rather than waved
+     through because it happens to be minor.
+
+     ⭐ THE RULE: zero every grid item's top margin, let the block above carry
+     the whole gap, then add back where the page wanted more air. The add-backs
+     subtract the paragraph gap as an em, so they track the type rather than
+     baking in a figure measured at one width.
+
+     ⚠️ THIS BLOCK MUST STAY LAST IN THE FILE — it matches at the same
+     specificity as the rules it corrects and wins on source order alone. ══ */
+  .page > section > .fs-tag { justify-self: start; }
+
+  .page > *,
+  .page > section > *               { margin-block-start: 0; }
+  .page > * + .fs-div               { margin-block-start: var(--space-8, 40px); } /* 40 wanted − 0: a section carries none */
+  .page > section > p + .fs-decided { margin-block-start: calc(var(--space-5, 20px) - var(--paragraph-gap, 0.75em)); }
+  .page > section > p + .fs-spec    { margin-block-start: calc(var(--space-6, 24px) - var(--paragraph-gap, 0.75em)); }
 </style>
 <body data-page-kind="venue">
 

@@ -283,6 +283,41 @@
   .note-frame li { margin-block:var(--s2); }
   .was { background:var(--sunk); padding:var(--s4); font-size:var(--micro);
          line-height:1.5; margin-block:var(--s3); }
+
+  /* ══ TWO THINGS GRID DOES TO ITS CHILDREN THAT NO WIDTH TABLE SHOWS ══════
+     Both measured on the served kit at 375px. Neither overflows, neither
+     changes a column width, and both are wrong on sight.
+
+     ⛔⛔ 1. GRID BLOCKIFIES `display:inline-block`. `.shape` is the ink-filled
+     label above each specimen — "New short page · ~350 words". As a direct
+     child of `.page` it stopped being a chip and became a **335px black bar
+     across the whole reading column**: measured box 335px against 225px of
+     actual text. An ink fill at full width is the loudest thing on a page whose
+     accent is spent elsewhere. `justify-self: start` gives the item back its
+     content width without touching `display`.
+
+     ⛔⛔ 2. GRID ITEMS DO NOT COLLAPSE MARGINS, and this is PHONE reflow. In a
+     block container the gap between two blocks was the LARGER of their two
+     margins; in a grid it is the SUM. Measured: 5146 → 5311 at 375 and
+     5707 → 5873 at 320, **+165px on a phone.**
+
+     ⭐ THE RULE: zero every grid item's top margin, let the block above carry
+     the whole gap, then add back only where the page deliberately wanted more
+     air. Each value is `wanted − previous bottom margin`, read off the rendered
+     page. The two `p + section` cases subtract `--para`, which is an em and so
+     tracks the fluid body size rather than baking in a 375px measurement.
+
+     ⚠️ THIS BLOCK MUST STAY LAST IN THE FILE — it matches at the same
+     specificity as the rules it corrects and wins on source order alone. ══ */
+  .page > .shape { justify-self:start; }
+
+  .page > * { margin-block-start:0; }
+  .page > h1 + .catline           { margin-block-start:var(--s3); } /* 24 wanted − 12 from the h1 */
+  .page > .byline + figure        { margin-block-start:var(--s2); } /* 32 wanted − 24 from the byline */
+  .page > p + .facts              { margin-block-start:calc(var(--s6) - var(--para)); } /* 24 wanted − the paragraph gap */
+  .page > .facts + h2             { margin-block-start:var(--s6); } /* 48 wanted − 24 from the facts card */
+  .page > .facts + .season        { margin-block-start:var(--s2); } /* 32 wanted − 24 from the facts card */
+  .page > .season + h2            { margin-block-start:var(--s4); } /* 48 wanted − 32 from the season card */
 </style>
 
 <!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.

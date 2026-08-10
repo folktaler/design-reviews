@@ -38,7 +38,15 @@
     --s7:2rem;--s8:2.5rem;--s9:3rem;--s10:4rem;
     --micro:.8125rem; --small:.875rem; --track:.06em;
     --body: clamp(1.125rem,1.09rem + .17vw,1.1875rem);
-    --measure:32rem; --measure-small:21rem;
+    --measure:32rem; --measure-wide:72rem; --measure-small:21rem;
+    /* ⚠️ THIS KIT'S GUTTER IS 20px, NOT THE SYSTEM'S 24px, and that is why its
+       numbers will not match the other homepage kits. It is a property of the
+       older look, not of the responsive pass: `.wrap` here has always been
+       32rem + 2×20 = 552px, so its phone text column is 335px where a 24px kit
+       gives 327. The grid below inherits the same gutter deliberately, so the
+       phone renders byte-for-byte as it did. Unifying it would narrow this
+       kit's phone column by 8px, which is a reflow, and the ruling says the
+       phone pays for nothing. Raised as a question, not decided here. */
     --gutter:var(--s5); --tap:44px; --tap-comfortable:52px;
 
     /* ⭐ The Guardian's front-page ladder, measured on theguardian.com/uk.
@@ -56,6 +64,58 @@
   img { display:block; max-width:100%; height:auto; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive".
+     Same three-track grid as ui_kits/venue and ui_kits/system, which carry the
+     full rationale. A child opts into a wider track with `data-span`;
+     everything else lands in `text`. No media query is added — min() and
+     minmax() key off the CONTAINER, so the phone evaluates nothing extra.
+     ⭐ The text track STARTS where the wide track starts; all surplus goes
+     right, so there is one left edge at every width.
+     ⚠️ THE CONSTANTS HERE ARE THIS KIT'S, NOT THE SYSTEM'S — see the gutter
+     note in :root. Phone equality therefore reads `text === min(w,552) − 40`,
+     not the 560/48 the 24px kits assert. Same pattern, different gutter, and
+     the difference is older than this change.
+     MEASURED in Chrome at six widths:
+       container  320  375  768  1024  1440  2000
+       text       280  335  512   512   512   512
+       wide       280  335  728   984  1152  1152
+     ⚠️ A container constraint verifies these tracks and fires no media query;
+     the `--body` clamp and the footer's 30rem query still need a real
+     viewport. */
+  .page {
+    display:grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter)*2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+  }
+  .page > *                  { grid-column:text; }
+  .page > [data-span="wide"] { grid-column:wide; }
+  .page > [data-span="full"] { grid-column:full; }
+  /* A section is a subgrid, so a list two levels down can still claim a track. */
+  .page > section { display:grid; grid-template-columns:subgrid; grid-column:full; }
+  .page > section > *                  { grid-column:text; }
+  .page > section > [data-span="wide"] { grid-column:wide; }
+  .page > section > [data-span="full"] { grid-column:full; }
+
+  /* ⛔ THREE SECTIONS ARE NOT CONTAINERS AND MUST NOT SPAN `full`. Today is a
+     bordered card; the trip and signup blocks are open-sided, with a hairline
+     above and below and nothing at the ends. Spanning them full draws that
+     hairline across the whole window, and the system's own rule is that a rule
+     is either inset-and-thin or full-bleed-and-8px — a full-width hairline
+     reads as a mistake. None of the three holds a list, so none of them wants
+     the width: they are prose, a form, and a decision panel whose foot puts a
+     stamp and a link at opposite ends of one `space-between` row. */
+  .page > .today, .page > .trip, .page > .signup { display:block; grid-column:text; }
+
+  /* ⛔ A grid item is blockified and stretched, so an inline-flex button placed
+     straight into a section fills its whole track. `justify-self` is ignored on
+     anything that is not a grid item. */
+  .page .btn { justify-self:start; }
+
   a { color:var(--ink); text-decoration:none; }
   a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
 
@@ -104,17 +164,43 @@
         text-align:center; padding:var(--s2); margin-block-end:var(--s3); }
 
   .lead { margin-block-end:var(--s6); }
-  .lead .ph { margin-inline:calc(var(--gutter)*-1); }
+  /* ⛔ THE NEGATIVE INLINE MARGIN IS GONE. It reached the screen edge only
+     because the wrapper stopped at 552px; under the grid it would keep working
+     to about a 1192px window and then leave a fixed-width band sitting 20px to
+     the LEFT of its own headline. The lead now fills the wide track and shares
+     the headline's left edge at every width. On a phone that is 335px instead
+     of 375px — the one visible thing the phone gives up for this pass, and it
+     reflows no text and changes no tap target.
+     ⛔ AND IT NEEDS A HEIGHT CAP, WHICH THE PHONE NEVER MEETS. `.ph` is 5:4, so
+     at the 1152px wide track it would be 922px tall and push the headline off
+     a laptop screen entirely — venue's hero learned this at 16/9. 480px binds
+     only above a ~620px container; at 375 the box is 268px and the cap is
+     inert. Measured 224 / 268 / 480 / 480 / 480 / 480 at the six widths.
+     The second-tier card takes the width on the same terms, and needs the same
+     cap for the same reason.
+     ⛔ `inline-size:100%` IS LOAD-BEARING, not tidying, and rendering is what
+     found it. On a box with `aspect-ratio` and an auto width, a max-BLOCK-size
+     transfers back to the INLINE axis: the cap was making the picture 600px
+     wide inside a 728px track instead of 728 × 480. Measured, not reasoned —
+     the CSS looked correct. A definite width stops the transfer, and the
+     height is then clamped on its own axis where it was meant to be. */
+  .lead .ph, .tier2 .ph { max-block-size:30rem; inline-size:100%; }
   .lead, .cards li, .tier2 { position:relative; }
   .lead > a::after, .cards li > a::after, .tier2 > a::after {
     content:''; position:absolute; inset:0; }
+  /* ⛔ CAPPED, BECAUSE THE ARTICLE AROUND IT IS NOT. The lead spans the wide
+     track so its picture can; a 28px headline left uncapped in it runs 1152px.
+     Only the picture takes the width — everything that is words stops at the
+     reading measure, on the same left edge. */
   .lead h3 { font-family:var(--serif); font-size:var(--t-lead); font-weight:500;
-             line-height:1.15; margin:0; text-wrap:balance; }
+             line-height:1.15; margin:0; text-wrap:balance;
+             max-width:var(--measure); }
   .lead p { margin:var(--s2) 0 0; font-family:var(--sans); font-size:var(--small);
             color:var(--quiet); line-height:1.45; }
 
   .tier2 h3 { font-family:var(--serif); font-size:var(--t-2); font-weight:500;
-              line-height:1.2; margin:0; text-wrap:balance; }
+              line-height:1.2; margin:0; text-wrap:balance;
+              max-width:var(--measure); }
   .tier3 h3 { font-family:var(--serif); font-size:var(--t-3); font-weight:500;
               line-height:1.2; margin:0; }
 
@@ -124,14 +210,24 @@
      The fix is the Guardian's own mobile card: a small square thumbnail
      BESIDE the headline, not above it. Weight is preserved because the
      picture is small, and three venues stop costing three screens.
-     ⛔ Was mobile-only (`@media max-width:33.99rem`), with a 3-equal-column
-     grid taking over above that. `.wrap`'s max-width is `--measure` (32rem)
-     + gutters — it does not grow past ~552px at ANY viewport, so three
-     columns inside it are 155px wide on a 1440px screen: narrower than a
-     phone card, with titles like "Muziris Contemporary" wrapping and ~928px
-     of empty page either side (found in a responsiveness sweep, 9 Aug 2026).
-     The row layout is correct at every width the wrap actually reaches, so
-     it now applies unconditionally instead of the 3-column grid. */
+     ⛔ Was mobile-only, with a 3-equal-column grid taking over above that. The
+     wrapper's max-width could not grow past ~552px at ANY viewport, so those
+     three columns were 155px wide on a 1440px screen — narrower than a phone
+     card, with the longest venue name wrapping, and ~928px of empty page
+     either side (found in a responsiveness sweep, 9 Aug 2026). The row layout
+     was made unconditional as the fix.
+     ⚠️⚠️ AND THE RESPONSIVE PASS OF 10 Aug 2026 REPEALED THAT REASON. It was
+     never "columns are wrong here", it was "the container cannot supply a
+     column worth having", and the wide track now supplies 1152px. Measured:
+     three cards of 368px, against the 155px that was rejected. So the columns
+     come back — but as `auto-fit`, so the count is a consequence of the width
+     rather than a device guess, and the ROW LAYOUT INSIDE each card is
+     untouched, which is what actually fixed the phone. One column at 320 and
+     375, two from ~608, three from ~880.
+     ⭐ The card is still a small square thumbnail beside the headline at every
+     width. That is this kit's look and the comparison depends on it; the newer
+     homepage kit replaced it with a full-width photograph for reasons recorded
+     there, and this pass is not the place to settle that. */
   .cards--3 .tier3 a { display:grid; grid-template-columns:5.5rem 1fr;
                        column-gap:var(--s3); align-content:start; }
   /* The photo occupies column 1 and spans every text row. Without the
@@ -142,13 +238,22 @@
   .cards--3 .tier3 .kicker { grid-column:2; grid-row:1; }
   .cards--3 .tier3 h3 { grid-column:2; grid-row:2; }
   .cards--3 .tier3 p { grid-column:2; grid-row:3; }
-  .cards--3 { gap:var(--s4); }
-  .cards--3 li { padding-block-end:var(--s4); border-block-end:1px solid var(--rule); }
-  .cards--3 li:last-child { border-block-end:0; padding-block-end:0; }
+  /* ⛔ THE HAIRLINE UNDER EACH CARD IS GONE, and it had to be. A rule that says
+     "next item down" when the cards are stacked says "table edge" when three
+     sit in a row, and the last-child exception then leaves two cards ruled and
+     one not. There is no selector for "not in the last row" without asking how
+     many columns there are, which is the one question this pattern refuses to
+     ask. The gap separates them instead — 24px between rows, the same air the
+     16px padding plus the rule used to make. */
+  .cards--3 { gap:var(--s6) var(--s6); }
   .tier2 p, .tier3 p { margin:var(--s1) 0 0; font-family:var(--sans);
                        font-size:var(--small); color:var(--quiet); line-height:1.45; }
 
-  .cards { display:grid; gap:var(--s6); margin:0; padding:0; list-style:none; }
+  /* ⭐ `auto-fit` with a rem floor, not a breakpoint: the 17rem track and the
+     24px gap are the pair tokens/spacing.css measured when it settled
+     --measure-wide at 72rem, and they land three 368px cards at 1152. */
+  .cards { display:grid; gap:var(--s6); margin:0; padding:0; list-style:none;
+           grid-template-columns:repeat(auto-fit, minmax(17rem, 1fr)); }
 
   /* the list tier — no image, 14px, a run of links */
   .list { list-style:none; margin:0; padding:0; font-family:var(--sans); }
@@ -228,7 +333,12 @@
   .site-footer { border-block-start:1px solid var(--rule); margin-block-start:var(--s9);
                  padding-block:var(--s7) var(--s9); font-family:var(--sans);
                  font-size:var(--small); }
-  .foot-cols { display:grid; gap:var(--s6); }
+  /* ⭐ Capped in rem. In the wide track two `1fr` columns are 564px each at
+     1440 — two short link lists marooned half a screen apart. 48rem holds them
+     at the width they were drawn for, on the page's own left edge.
+     ⚠️ The 30rem query is PRE-EXISTING and is the only media query in this
+     kit; the responsive pass added none. */
+  .foot-cols { display:grid; gap:var(--s6); max-width:48rem; }
   @media (min-width:30rem){ .foot-cols { grid-template-columns:1fr 1fr; } }
   .foot-cols h4 { margin:0 0 var(--s2); font-size:var(--micro); text-transform:uppercase;
                   letter-spacing:var(--track); color:var(--quiet); font-family:var(--sans); }
@@ -238,7 +348,13 @@
   .foot-cols li { padding-block:var(--s2); position:relative; min-height:var(--tap-comfortable,52px); }
   .foot-cols a { border-block-end:1px solid var(--rule); }
   .foot-cols a::after { content:''; position:absolute; inset:0; }
-  .foot-note { margin-block-start:var(--s6); color:var(--quiet); }
+  /* ⛔ 76 CHARACTERS ON ONE LINE, measured at 1440 and it predates this pass.
+     14px inheriting a column derived for 19–20px body: a measure belongs to a
+     TYPE SIZE, and this one had no cap of its own. It never showed on a phone,
+     where 335px is its own cap, and no width above 552 existed until today.
+     Same line, same size, same fix as the newer homepage kit's footer note. */
+  .foot-note { margin-block-start:var(--s6); color:var(--quiet);
+               max-width:var(--measure-small,21rem); }
 
   /* ⭐ THE FRONT DOOR LEADS WITH TODAY — and it is doing two jobs at once.
      Someone standing on Bazaar Road can use it. Someone in Berlin planning a
@@ -407,14 +523,20 @@
   <button data-t="">your own clock</button>
 </div>
 
-<header class="site-header">
-  <div class="wrap site-header__in">
+<!-- ⭐ The masthead sits on the same grid as the body. Left on `.wrap` it
+     centres at 552px while the content runs to 1152, which puts the wordmark
+     300px to the right of the first headline at 2000px — the two-left-edges
+     defect, in the chrome. On a phone both mechanisms give the identical box. -->
+<header class="site-header page">
+  <div class="site-header__in" data-span="wide">
     <a class="site-name" href="#">cats of Kochi</a>
     <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
   </div>
 </header>
 
-<main class="wrap">
+<!-- ⭐ `page`, not `wrap`. The grid's outer tracks are the gutters, so nothing
+     has to escape a padded container with a negative margin any more. -->
+<main class="page">
   <h1 class="vh">Cats of Kochi — Fort Kochi and Mattancherry</h1>
 
   <!-- ⭐ TODAY LEADS. Short, and it links away rather than trying to be the
@@ -482,7 +604,7 @@
   <!-- ⭐ LEAD. One per page, the largest headline and the largest picture. -->
   <section class="band band--lead">
     <h2 class="band__label">This week</h2>
-    <article class="lead">
+    <article class="lead" data-span="wide">
       <a href="#">
         <div class="ph">the lead photograph — the whole screen wide</div>
         <span class="kicker">Mattancherry</span>
@@ -496,7 +618,7 @@
   <!-- practical: the ~12 answer pages, plain and amber because they are checked -->
   <section class="band">
     <h2 class="band__label">Getting around</h2>
-    <div class="practical">
+    <div class="practical" data-span="wide">
       <p>Checked on the ground, and dated.</p>
       <ul>
         <li><a href="#">Water metro — times, fares, which boat</a></li>
@@ -513,7 +635,7 @@
     <p class="stance"><b>A stance, not a ranking.</b> Written for two days and no
     plan. Somebody else would choose differently, and we would rather say so than
     call this "the best".</p>
-    <ul class="cards cards--3">
+    <ul class="cards cards--3" data-span="wide">
       <li class="tier3"><a href="#">
         <div class="ph">photo</div><span class="kicker">Fort Kochi</span>
         <h3>Pepper House</h3><p>Come for the ceiling, not the coffee.</p></a></li>
@@ -531,13 +653,13 @@
 
   <section class="band">
     <h2 class="band__label">What's on</h2>
-    <article class="tier2" style="margin-block-end:var(--s6)">
+    <article class="tier2" data-span="wide" style="margin-block-end:var(--s6)">
       <a href="#">
         <div class="ph">photo</div><span class="kicker">Until 14 September</span>
         <h3>Mattanchère: Summer Art Salon</h3>
         <p>Wed–Sun, and Tuesdays if you ask.</p></a>
     </article>
-    <ul class="list">
+    <ul class="list" data-span="wide">
       <li><span class="kicker">Every Saturday</span><a href="#">Beach clean at Fort Kochi</a></li>
       <li><span class="kicker">31 December</span><a href="#">Pappanji burns at midnight</a></li>
     </ul>
@@ -545,7 +667,7 @@
 
   <section class="band">
     <h2 class="band__label">Newest writing</h2>
-    <ul class="list">
+    <ul class="list" data-span="wide">
       <li><span class="kicker">Fort Kochi</span><a href="#">Meet the guardians — the Fearless Collective mural</a></li>
       <li><span class="kicker">Kochi</span><a href="#">The science behind the glowing water at Kavaru</a></li>
       <li><span class="kicker">Mattancherry</span><a href="#">Inside the viewing room</a></li>
@@ -580,9 +702,10 @@
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="foot-cols">
+<!-- ⭐ Same grid as the masthead and the body; a footer centred at 552px under
+     content that runs to 1152 would put a third left edge on the page. -->
+<footer class="site-footer page">
+    <div class="foot-cols" data-span="wide">
       <div>
         <h4>Start here</h4>
         <ul>
@@ -604,7 +727,6 @@
     </div>
     <p class="foot-note">Fort Kochi and Mattancherry · every fact carries the date
     it was checked</p>
-  </div>
 </footer>
 
 <script>

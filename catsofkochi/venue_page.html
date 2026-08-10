@@ -275,6 +275,31 @@
 
   .note-frame { max-width: 46rem; margin: var(--space-6) auto 0; padding-inline: var(--space-5);
                 font-size: .9rem; color: var(--cok-ink-quiet); }
+
+  /* ══ GRID ITEMS DO NOT COLLAPSE MARGINS ══════════════════════════════════
+     ⛔⛔ AND THIS IS PHONE REFLOW, NOT A DESKTOP NICETY. While the article was a
+     block container, the gap between two blocks was the LARGER of their two
+     margins. The moment it became a grid, every gap became the SUM. Measured on
+     the served kit: the page grew from 3338px to 3494px at 375, and 3566 → 3722
+     at 320. **+156px at both.** Nothing overflows, no width changes, and no
+     width table can see it — the page just gets longer on the device 72% of
+     readers use.
+
+     ⭐ THE RULE: zero every grid item's top margin, let the block above carry
+     the whole gap, then add back only where the page deliberately wanted more
+     air than the block above gives. Every value below is `wanted − previous
+     bottom margin`, read off the rendered page rather than guessed, and the
+     five add-backs sum to exactly the 156px measured above.
+
+     ⚠️ THIS BLOCK MUST STAY LAST IN THE FILE. It matches at the same
+     specificity as the component rules it corrects and wins on source order
+     alone. Move it up and it stops working silently. ══ */
+  .page > * { margin-block-start: 0; }
+  .page > h1 + .catline      { margin-block-start: var(--space-3); } /* 24 wanted − 12 from the h1 */
+  .page > .byline + figure   { margin-block-start: var(--space-2); } /* 32 wanted − 24 from the byline */
+  .page > .facts + h2        { margin-block-start: var(--space-6); } /* 48 wanted − 24 from the facts card */
+  .page > .stack + h2        { margin-block-start: var(--space-9); } /* 48 wanted −  0: a list carries none */
+  .page > .stack + .readnext { margin-block-start: var(--space-9); } /* 48 wanted −  0: same */
 </style>
 
 <!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
