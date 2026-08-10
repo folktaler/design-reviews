@@ -38,6 +38,9 @@
     --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
     --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
     --measure:32rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
+    /* 1152px. Lists, card rows, facts strips, photographs — everything that is
+       a LIST rather than a paragraph. ⛔ Never running prose. */
+    --measure-wide:72rem;
   }
   html { color-scheme:light; background:var(--paper); }
   * { box-sizing:border-box; }
@@ -46,6 +49,50 @@
          -webkit-text-size-adjust:100%; overflow-wrap:break-word; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
+  /* The same box capped at the wide track instead of the reading column. Page
+     chrome takes it so the wordmark starts on the same left edge as the H1. */
+  .wrap--wide { max-width:calc(var(--measure-wide) + var(--gutter)*2); }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, after he opened a page on a
+     2000px desktop and got a 560px strip. ═══════════════════════════════════
+
+     ⛔ THE CAP ON PROSE IS NOT THE BUG. 512px of text is real typography. What
+     was missing is that the facts card, the dated season block, the lists and
+     the photographs had no way to use the space prose correctly refuses.
+
+     ⭐ ONE GRID, THREE TRACKS, NO NEW MEDIA QUERIES. A child picks a track with
+     `data-span`; everything else lands in `text`. min()/minmax() key off the
+     CONTAINER, not the viewport, so the phone evaluates nothing extra.
+
+     ⭐ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS — all the surplus goes
+     right. Centring text inside wide gives two left edges alternating down the
+     page. Alignment beats balance.
+
+     ⛔ NO SUBGRID IN THIS KIT, unlike ui_kits/venue — checked rather than
+     assumed. Both `<section>`s here are bordered CARDS (`.facts`, `.season`),
+     and a subgrid child spans `full`, which would dissolve the card into a
+     full-bleed band. They claim `wide` as single items instead, which is what
+     they wanted. There is no `<nav>` inside an article to consider.
+
+     ⭐ MEASURED at six container widths. This kit's gutter is --s5 (20px), NOT
+     the 24px of the newer kits, so the phone equality here is
+     text === min(container, 552) − 40:
+       container  320  375  768  1024  1440  2000
+       text       280  335  512   512   512   512
+       wide       280  335  728   984  1152  1152
+     Zero horizontal overflow and ONE left edge at every one. ══ */
+  .page {
+    display:grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter)*2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+  }
+  .page > *                  { grid-column:text; }
+  .page > [data-span="wide"] { grid-column:wide; }
+  .page > [data-span="full"] { grid-column:full; }
   /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
      review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
      ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
@@ -86,12 +133,28 @@
   .catline p { margin:0; font-size:var(--small); line-height:1.5; }
   .catline span { display:block; margin-block-start:var(--s1); font-size:var(--micro); color:var(--quiet); }
 
-  figure { margin:var(--s7) calc(var(--gutter)*-1); }
+  /* ⛔ THE NEGATIVE MARGIN IS GONE. Bleeding used to be a negative inline
+     margin, which only reached anything because the wrapper stopped at 552px.
+     The figure claims the `wide` track instead — the same result on a phone,
+     and a real width on a desktop. The caption's matching `var(--gutter)` inline
+     margin went with it: it existed only to push the caption back inside a
+     figure that had escaped the column, and there is nothing to escape now.
+     ⚠️ AND THE 3/2 NEEDED A CEILING: at 1152 it is 768px tall and at a 2000px
+     window it would have been 1333px, a placeholder taller than the viewport.
+     480px binds only above 720px of track; at 375 the box is 335 × 223 and the
+     cap is inert. ⭐ `inline-size:100%` is load-bearing — without it
+     `aspect-ratio` honours the clamped HEIGHT and shrinks the box out of its
+     own track. */
+  figure { margin:var(--s7) 0; }
   figure .ph { aspect-ratio:3/2; background:var(--sunk); display:grid; place-items:center;
+               inline-size:100%; max-block-size:30rem;
                font-family:var(--sans); font-size:var(--small); color:var(--quiet);
                text-align:center; padding:var(--s4); }
+  /* ⛔ A CAPTION IS PROSE AND KEEPS A READING MEASURE. The figure went wide; the
+     sentence under it did not. 14px, so 22rem — the measured 14px tier in
+     tokens/spacing.css, not --measure, which is a column for 19px body. */
   figcaption { font-family:var(--sans); font-size:var(--small); line-height:1.45;
-               color:var(--quiet); margin:var(--s2) var(--gutter) 0; }
+               color:var(--quiet); margin:var(--s2) 0 0; max-inline-size:22rem; }
 
   /* ⛔ Was an --amber-wash fill + a 4px amber left border (owner review, 9 Aug
      2026). Hours and fares are ordinary content; amber "never decorates"
@@ -106,13 +169,27 @@
                 border-block-end:1px solid var(--rule); }
   .facts__row:first-child { padding-block-start:0; }
   .facts__row:last-child { border-block-end:0; padding-block-end:0; }
-  @media (min-width:30rem){ .facts__row { grid-template-columns:6.5rem 1fr; } }
+  /* ⛔ WAS 30rem, RAISED TO 40rem (--bp-wide) — the one media query this kit is
+     allowed, at the width the system's own token records. At 480px the two
+     columns left the VALUE 276px, and ui_kits/venue measured the same layout at
+     207px on a 375px screen and rejected it: a label is two words, a value is
+     the thing the reader walked over for. Stacked below the breakpoint, side by
+     side only when there is room for both.
+     ⚠️ A custom property cannot be used inside a media condition, so the rem
+     value is written out and the token named here — breakpoints.css's own
+     convention. */
+  @media (min-width:40rem){ .facts__row { grid-template-columns:6.5rem 1fr; } }
   .facts dt { margin:0; color:var(--quiet); font-size:var(--small); line-height:1.45; }
-  .facts dd { margin:0; line-height:1.45; }
+  /* ⛔ A VALUE IS PROSE AND KEEPS THE READING MEASURE. The card goes wide; the
+     sentence inside it does not. Uncapped, the Open value ran the full width of
+     a 1112px card at a 2000px window. */
+  .facts dd { margin:0; line-height:1.45; max-inline-size:var(--measure); }
   .facts__obs { display:block; margin-block-start:var(--s2); font-weight:500; }
   .facts__unchecked { margin-block:0 var(--s4); padding-block-start:var(--s3);
                       border-block-start:1px solid var(--rule); }
-  .unchecked { margin:0 0 var(--s2); line-height:1.45; }
+  /* Same rule as `.facts dd`: the refusal is the honesty surface, it is body
+     size, and it keeps the body's measure inside a card that now goes wide. */
+  .unchecked { margin:0 0 var(--s2); line-height:1.45; max-inline-size:var(--measure); }
   .unchecked:last-child { margin-block-end:0; }
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0; flex-wrap:wrap;
            font-size:var(--micro); line-height:1; }
@@ -148,7 +225,10 @@
             border:1px solid var(--rule); font-family:var(--sans); }
   .season h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
                margin:0 0 var(--s2); }
-  .season p { margin:0 0 var(--s2); font-size:var(--small); line-height:1.5; }
+  /* 14px prose inside a card that now goes wide — 22rem, the measured 14px tier
+     in tokens/spacing.css. */
+  .season p { margin:0 0 var(--s2); font-size:var(--small); line-height:1.5;
+              max-inline-size:22rem; }
   .season p:last-child { margin-block-end:0; }
   /* ⛔ 18px tall on real device measurement (WCAG 2.5.8 needs 44px) — a bare
      link pair with only a middle dot between them, no surrounding prose. The
@@ -173,11 +253,24 @@
   .stack h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2; margin:0 0 var(--s1); }
   .stack h3 a { color:var(--ink); border:0; }
   .stack h3 a::after { content:''; position:absolute; inset:0; }
-  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45; }
+  /* The list row goes wide; its standfirst does not. 14px → 22rem. */
+  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45;
+             max-inline-size:22rem; }
   .kicker { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
             color:var(--quiet); margin:0 0 var(--s3); font-family:var(--sans); }
 
-  hr.div { border:0; border-block-start:1px solid var(--rule); margin-block:var(--s10); }
+  /* ⛔ THIS RULE HAD NO WRAPPER AT ALL and ran edge to edge — 2000px of hairline
+     across a desktop window. tokens/spacing.css is explicit that a rule is never
+     full-width AND thin: an inset hairline reads as a pause, a full-bleed one
+     reads as a mistake. It separates two articles, so it belongs on the same
+     track they do.
+     ⭐ It sits under a bare <main>, not inside a `.page`, so it cannot claim a
+     grid track and reproduces one instead. `min(100% - 2 gutters, wide)` is the
+     wide track's width by construction, and `margin-inline:auto` puts it on the
+     wide track's left edge — measured identical at all six widths. */
+  hr.div { border:0; border-block-start:1px solid var(--rule); margin-block:var(--s10);
+           inline-size:min(100% - var(--gutter)*2, var(--measure-wide));
+           margin-inline:auto; }
   .shape { font-family:var(--sans); font-size:var(--micro); text-transform:uppercase;
            letter-spacing:var(--track); color:var(--paper); background:var(--ink);
            display:inline-block; padding:var(--s1) var(--s2); margin-block-end:var(--s4); }
@@ -205,7 +298,7 @@
 </div>
 
 <header class="site-header">
-  <div class="wrap site-header__in">
+  <div class="wrap wrap--wide site-header__in">
     <a class="site-name" href="#">cats of Kochi</a>
     <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
   </div>
@@ -214,7 +307,7 @@
 <main>
 
   <!-- ============================ C: NEW SHORT PAGE, verdict exists -->
-  <article class="post wrap">
+  <article class="post page">
     <p class="shape">New short page · ~350 words</p>
 
     <h1>Seagull</h1>
@@ -231,7 +324,7 @@
 
     <p class="byline">Fort Kochi · on the water</p>
 
-    <figure>
+    <figure data-span="wide">
       <div class="ph">a real photograph — none exists yet</div>
       <figcaption>Nothing has been shot here. The page ships without one.</figcaption>
     </figure>
@@ -242,7 +335,7 @@
 
     <p>In the monsoon the container ships come close enough that you stop talking.</p>
 
-    <section class="facts" aria-label="Seagull — the practical facts">
+    <section class="facts" data-span="wide" aria-label="Seagull — the practical facts">
       <dl>
         <div class="facts__row"><dt>Where</dt>
           <dd>Harbour side, past the jetty. Fort Kochi</dd></div>
@@ -268,7 +361,7 @@
   <hr class="div">
 
   <!-- ============================ B: EVERGREEN + DATED SEASON, no verdict -->
-  <article class="post wrap">
+  <article class="post page">
     <p class="shape">Evergreen page · dated Biennale section</p>
 
     <h1>Aspinwall House</h1>
@@ -279,7 +372,7 @@
 
     <p class="byline">Fort Kochi · a 19th-century trading compound</p>
 
-    <figure>
+    <figure data-span="wide">
       <div class="ph">a real photograph</div>
       <figcaption>The seaward warehouses, from the lawn.</figcaption>
     </figure>
@@ -288,7 +381,7 @@
     largest surviving piece of that trade in Fort Kochi. It is the main Biennale
     venue and the reason most people have heard of it.</p>
 
-    <section class="facts" aria-label="Aspinwall House — the practical facts">
+    <section class="facts" data-span="wide" aria-label="Aspinwall House — the practical facts">
       <dl>
         <div class="facts__row"><dt>Open</dt>
           <dd>During the Biennale only
@@ -310,7 +403,7 @@
     </section>
 
     <!-- the dated block: fills during an edition, empties between -->
-    <section class="season">
+    <section class="season" data-span="wide">
       <h3>Biennale 2025–26</h3>
       <p>The edition closed on 31 March 2026. Aspinwall carried the main
       exhibition across both floors of the seaward warehouses.</p>
@@ -318,7 +411,7 @@
     </section>
 
     <h2>What we've written about here</h2>
-    <ul class="stack">
+    <ul class="stack" data-span="wide">
       <li><h3><a href="#">The Biennale year that nearly did not happen</a></h3>
         <p>Three weeks before opening, half the rooms were still a warehouse.</p></li>
     </ul>

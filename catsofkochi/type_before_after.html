@@ -57,14 +57,71 @@
     --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
     --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
     --measure:32rem; --gutter:var(--s5);
+    /* ⭐ 72rem, and it is the SYSTEM's token — design-system/tokens/spacing.css,
+       raised there from 62rem on 10 Aug 2026 with the measurement and the
+       reasoning recorded in that file. Mirrored here, not invented here.
+       ⚠️ This kit is deliberately frozen in the PRE-PIVOT typeface (it is a
+       dated 5 Aug argument for Noticia Text and repointing its faces would
+       destroy what it argues). A layout token is not a typeface: the freeze
+       covers what the page says, not whether it fits the window. */
+    --measure-wide:72rem;
   }
   html { color-scheme:light; background:var(--paper); }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
          font-size:var(--body); line-height:1.5; -webkit-text-size-adjust:100%;
          overflow-wrap:break-word; }
-  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
-          margin-inline:auto; padding:var(--s6) var(--gutter) var(--s10); }
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
+     after he opened a 560px strip in a 2000px window. Pattern copied from
+     ui_kits/venue (full rationale there); ui_kits/system is the flat sheet
+     version and the closer model for this page.
+
+     ⛔ THE CAP ON PROSE IS NOT THE BUG, and on this page of all pages: it is an
+     argument ABOUT reading, so a 150-character line here would refute its own
+     subject. The prose keeps 512px. What was missing is room for the three
+     comparison TABLES, the three-figure SWATCH ROW, and — the one that matters
+     — the BEFORE/AFTER PAIR.
+
+     ⭐ THE PAIR IS THE POINT OF THE PAGE AND IT COULD NOT BE COMPARED. Two type
+     specimens stacked one under the other on a 2000px screen have to be
+     compared from memory across a scroll. Side by side, the difference the page
+     spends 300 words arguing is visible in one look. check-kits.mjs's own
+     threshold comment already describes this kit as "two specimens side by
+     side"; until today the markup did not do it.
+
+     ⭐ Three tracks, opt in with `data-span`, ZERO media queries — min() and
+     minmax() key off the CONTAINER, so the phone evaluates nothing extra.
+     ⭐ No subgrid: every block is a direct child of the grid, except the two
+     specimen cards, which is what `.pair` below is for.
+
+     ⭐ MEASURED at six widths. ⚠️ THIS KIT'S GUTTER IS 20px, not the 24px venue
+     and system use, so the phone equality here is text === min(container, 552)
+     − 40, not the − 48 those two assert:
+       container  320  375  768  1024  1440  2000
+       text       280  335  512   512   512   512
+       wide       280  335  728   984  1152  1152
+     Zero horizontal overflow at every one; one left edge at every one.
+
+     ⛔ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS. All the surplus goes
+     right; centring text inside wide renders as two left edges alternating down
+     the page.
+
+     ⚠️ `.wrap` is gone: this page had exactly one and it is now the grid. A
+     layout class left behind with nothing using it reads as a system decision
+     while doing nothing. */
+  .page {
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter) * 2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+    padding-block: var(--s6) var(--s10);
+  }
+  .page > *                  { grid-column: text; }
+  .page > [data-span="wide"] { grid-column: wide; }
+  .page > [data-span="full"] { grid-column: full; }
   h1,h2 { font-family:var(--old-serif); line-height:1.15; margin:0; text-wrap:balance; }
   h1 { font-size:var(--disp); letter-spacing:-.015em; }
   h2 { font-size:var(--head); margin-block:var(--s10) var(--s3); }
@@ -72,7 +129,18 @@
   .kicker { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
             color:var(--quiet); margin:0 0 var(--s2); }
   .lede { font-size:var(--sub); line-height:1.2; font-family:var(--old-serif); }
-  .fyi { font-size:var(--small); color:var(--quiet); }
+  /* ⛔ WAS `--small` (14px), and this is the same fault ui_kits/controls found in
+     its own `.fyi` and wrote down: these are multi-line explanatory paragraphs,
+     not labels, and small type is for SHORT text. A block long enough to need
+     its own measure is a block set too small, not a column set too wide. Two
+     kits carried the identical rule and only one of them was fixed.
+     ⭐ Worst here of anywhere, because this page's whole argument is that 15%
+     smaller letters are measurably harder to read in Kerala sun — and it was
+     making that argument in 14px lines running about 87 characters.
+     Body size; `--quiet` keeps it subordinate without shrinking it. 29rem is
+     controls' measured cap for 19px sans, which is what this is. */
+  .fyi { font-family:var(--sans); font-size:var(--body); color:var(--quiet);
+         max-width:29rem; }
   .panel { background:var(--sunk); padding:var(--s5); margin-block:var(--s5); }
   /* ⛔ Was --amber-wash background + a 4px amber left border (owner review, 9
      Aug 2026): a decorative colour-wash callout box is not how Airbnb designs
@@ -83,11 +151,48 @@
   .panel--card { background:var(--paper); border:1px solid var(--rule); }
   .panel > :first-child { margin-block-start:0; } .panel > :last-child { margin-block-end:0; }
   .scroll { overflow-x:auto; margin-block:var(--s5); }
-  table { border-collapse:collapse; width:100%; font-size:.95rem; line-height:1.45; }
+  /* ⛔ WAS `width:100%`. A percentage inside a container that could only ever be
+     512px wide is a defect waiting for the first wide screen — on the wide track
+     it drew a four-column table 1152px across holding cells like "1.5". Sized by
+     CONTENT instead, so the table is exactly as wide as it needs at every width
+     and no number had to be invented to cap it. The narrow case is unchanged:
+     the nowrap numeric cells still set a min-content floor, so `.scroll` catches
+     it below about 400px exactly as before. */
+  table { border-collapse:collapse; inline-size:max-content; max-inline-size:100%;
+          font-size:.95rem; line-height:1.45; }
   th,td { border-bottom:1px solid var(--rule); padding:var(--s2) var(--s3); text-align:left; vertical-align:top; }
   th { font-weight:600; } td.n { font-variant-numeric:tabular-nums; white-space:nowrap; }
 
   /* --- the two specimens --- */
+  /* ⭐ SIDE BY SIDE THE MOMENT THERE IS ROOM, AND STACKED WHEN THERE IS NOT.
+     Same auto-fill mechanism ui_kits/index_browse_v2 argues for: a breakpoint is
+     a guess about a screen, a measure is a fact about reading.
+
+     ⛔⛔ AND THE FIRST VERSION OF THIS RULE DID NOT DO WHAT ITS ARITHMETIC SAID,
+     which was caught by rendering it and would not have been caught by reading
+     it. `auto-fill` counts repetitions against the MAX track sizing function
+     whenever that max is definite — not against the floor. A 34rem max
+     therefore needs 34rem + gap of room per column, so a 984px track gave ONE
+     column, and the page still could not be compared on a 1024px laptop, which
+     is the commonest desktop this site sees. 30rem is the largest max that
+     fits two columns there: floor((984+16)/(480+16)) = 2.
+     Measured after the change, card width at each container:
+       320 / 375   →  1 column of 280 / 335   (the floor resolves to 100%)
+       768         →  1 column of 480
+       1024 / 1440 / 2000  →  2 columns of 480
+     ⛔ BOTH CAPS ARE LOAD-BEARING AND THE PAGE FAILS WITHOUT EITHER. Drop the
+     26rem floor and a narrow tablet gives two ~350px cards — about 38 characters
+     of text inside, confetti, on the one page that exists to argue about line
+     length. Drop the 30rem ceiling and a single column at 768 gives 680px of
+     18px text, about 85 characters, the same fault the other way. Between them
+     every card holds 55-62 characters, inside the readable band.
+     ⭐ `align-items:start` rather than the default stretch, and it is not
+     cosmetic: "the after is tighter and shorter" is the page's own claim, and
+     two equal-height boxes hide it by turning the saving into slack at the
+     bottom of the shorter one. Ragged bottoms ARE the evidence. */
+  .pair { display:grid; gap:var(--s4); align-items:start; justify-content:start;
+          grid-template-columns:repeat(auto-fill, minmax(min(26rem,100%), 30rem)); }
+  .pair > .card { margin-block:0; }
   .card { border:1px solid var(--rule); padding:var(--s5); margin-block:var(--s4); }
   .card__tag { font-size:var(--micro); text-transform:uppercase; letter-spacing:var(--track);
                margin:0 0 var(--s4); }
@@ -126,7 +231,10 @@
   <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
 </div>
 
-<div class="wrap">
+<!-- ⭐ `page`, not `wrap`. The grid supplies its own gutters through its outer
+     tracks, so it needs no max-width and no inline padding of its own — that is
+     what lets the specimen pair sit side by side on a desktop window. -->
+<div class="page">
 
   <p class="kicker">Cats of Kochi · the type change · 5 August 2026</p>
   <h1>Serif body, sans captions</h1>
@@ -151,6 +259,14 @@
   actually shows. <strong>82% of your readers are in India, overwhelmingly on
   Android.</strong></p>
 
+  <!-- ⛔ NO `data-span="wide"` ON EITHER TABLE, AND BOTH WERE TRIED AND REVERTED.
+       A table is data rather than prose, so the wide track is where one belongs
+       by rule — but these are content-sized and MEASURE 468px and 443px, which
+       both fit the 512px reading column. The span changed nothing at any of the
+       six widths. An attribute that declares an intention it never carries out
+       reads as a decision and does nothing, which is worse than its absence.
+       ⚠️ Below about 500px they exceed the column and `.scroll` takes over,
+       exactly as before. That is the fix working, not a failure. -->
   <div class="scroll">
     <table>
       <thead><tr><th>Same sentence, 18px</th><th>Line width</th><th>x-height</th></tr></thead>
@@ -170,7 +286,10 @@
 
   <h2>What it costs, and what it buys</h2>
 
-  <div class="swatch">
+  <!-- ⭐ Wide. Three figures in a row is a list, not a paragraph: each item is
+       `flex:1 1 8rem`, so on the reading column they crowd and on the wide track
+       they space out. Nothing inside them is running prose. -->
+  <div class="swatch" data-span="wide">
     <div><b>61.1 KB</b>the whole download — regular, bold and italic</div>
     <div><b>3</b>files, already downloaded and committed</div>
     <div><b>0</b>extra connections — they ride the one already open</div>
@@ -231,6 +350,7 @@
   fallback CSS in place if the face has not landed yet (F5, F6, 2026-08-08) — the
   page never claims a font state it has not measured; see the note at the foot.</p>
 
+  <div class="pair" data-span="wide">
   <div class="card card--before">
     <p class="card__tag">Before — sans body, 1.6 leading, full-line gaps</p>
     <p class="before-h">Pepper House</p>
@@ -251,6 +371,7 @@
     <p class="after-p">Inside, the courtyard opens up and the noise of Bazaar
     Road stops completely. That is the thing worth coming for.</p>
     <p class="after-cap">The courtyard from the first-floor landing.</p>
+  </div>
   </div>
 
   <p>The after is <strong>tighter and shorter</strong> — same words, less

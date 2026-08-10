@@ -80,6 +80,7 @@
     --pitch-rule-heading: 2.0625rem;          /* 33px, divider → heading */
     --pitch-row: 1.25rem;                     /* 20px, row → row */
     --measure: 32rem;                         /* 512px of TEXT, not of wrapper */
+    --measure-wide: 72rem;                    /* 1152px — page chrome and rules */
     --radius-none: 0;
     --radius-card: 0.5rem;                    /* 8px */
     --radius-control: 0.75rem;                /* 12px */
@@ -149,6 +150,64 @@
     margin-inline: auto;
     padding-inline: var(--gutter, 24px);
   }
+  /* The same box capped at the wide track instead of the reading column. Page
+     chrome takes it so the wordmark starts on the same left edge as the H1. */
+  .wrap--wide { max-width: calc(var(--measure-wide, 72rem) + var(--gutter, 24px) * 2); }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, after he opened a page on a
+     2000px desktop and got a 560px strip. ═══════════════════════════════════
+
+     ⭐ ONE GRID, THREE TRACKS, NO NEW MEDIA QUERIES. A child picks a track with
+     `data-span`; everything else lands in `text`. min()/minmax() key off the
+     CONTAINER, not the viewport, so the phone evaluates nothing extra. The text
+     track STARTS where the wide track starts — all the surplus goes right, so
+     there is one left edge rather than two alternating down the page.
+
+     ⛔⛔ AND THIS PAGE DELIBERATELY PUTS ALMOST NOTHING IN THE WIDE TRACK. That
+     is the design decision, not an omission, and it is the opposite of what the
+     other kits needed.
+
+     This is a SPECIMEN SHEET. Its content is running prose plus two framed
+     fragments of a venue page, and neither wants a wider column:
+       · The prose is prose. A longer line does not become easier to read
+         because the window got bigger — the system says so in breakpoints.css.
+       · ⭐ THE SPECIMENS DEPICT A PAGE READ ON A PHONE IN FORT KOCHI. Stretching
+         `.fs-spec` to 1152px would show a reviewer an hours block 1104px wide,
+         which is a layout no traveller will ever see, and he would be judging
+         the wrong artefact. A specimen has a natural size the way a photograph
+         does. It keeps the reading column at every width, on purpose.
+
+     What DOES take the width is everything that is page rather than content:
+     the header, the footer and the section rules. The result is an editorial
+     page — a wide masthead over a left-aligned reading column — instead of a
+     560px strip floating in the middle of a desktop window.
+
+     ⭐ MEASURED at six container widths, gutter 24px, so the phone equality is
+     text === min(container, 560) − 48:
+       container  320  375  768  1024  1440  2000
+       text       272  327  512   512   512   512
+       wide       272  327  720   976  1152  1152
+     Zero horizontal overflow and ONE left edge at every one. ══ */
+  .page {
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter, 24px), 1fr)
+      [wide-start text-start] min(100% - var(--gutter, 24px) * 2, var(--measure, 32rem))
+      [text-end]   minmax(0, calc(var(--measure-wide, 72rem) - var(--measure, 32rem)))
+      [wide-end]   minmax(var(--gutter, 24px), 1fr)
+      [full-end];
+  }
+  .page > *                            { grid-column: text; }
+  .page > [data-span="wide"]           { grid-column: wide; }
+  .page > [data-span="full"]           { grid-column: full; }
+  /* ⭐ Safe here — checked rather than assumed. Both `<section>`s in this kit
+     are bare semantic wrappers with padding only: no border, no background, no
+     radius. The kits whose sections are CARDS ship no subgrid rule at all,
+     because a subgrid child spans `full` and that dissolves a card. */
+  .page > section                      { display: grid; grid-template-columns: subgrid;
+                                         grid-column: full; }
+  .page > section > *                  { grid-column: text; }
+  .page > section > [data-span="wide"] { grid-column: wide; }
 
   :focus-visible {
     outline: var(--focus-ring-width, 5px) solid var(--focus-ring, #0b60c4);
@@ -434,7 +493,7 @@
 <body data-page-kind="venue">
 
 <header class="v-hd">
-  <div class="wrap v-hd__in">
+  <div class="wrap wrap--wide v-hd__in">
     <a class="v-hd__name" href="#top">cats of Kochi</a>
     <nav class="v-hd__nav" aria-label="Main">
       <a class="v-hd__link" href="#top">Places</a>
@@ -443,7 +502,7 @@
   </div>
 </header>
 
-<main class="wrap" id="top">
+<main class="page" id="top">
 
   <section class="fs-intro">
     <h1 class="fs-h1">The hours, and nothing about how we got them</h1>
@@ -471,7 +530,7 @@
     </div>
   </section>
 
-  <hr class="fs-div">
+  <hr class="fs-div" data-span="wide">
 
   <!-- ══════════════ STATE ONE — HOURS WE HAVE ══════════════ -->
   <section class="fs-section" aria-labelledby="h-known">
@@ -520,7 +579,7 @@
     </div>
   </section>
 
-  <hr class="fs-div">
+  <hr class="fs-div" data-span="wide">
 
   <!-- ══════════════ STATE TWO — NO HOURS ══════════════ -->
   <section class="fs-section" aria-labelledby="h-unknown">

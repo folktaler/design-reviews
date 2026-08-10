@@ -40,7 +40,11 @@
     --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
     --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
     --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
-    --measure:32rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px;
+    /* ⛔ --measure-wide is the SYSTEM's token (tokens/spacing.css), 72rem since
+       10 Aug 2026 — not a number invented here. It is what LISTS may use; running
+       prose may not, and that rule is older than the token (tokens/breakpoints.css).
+       ⛔ On THIS page almost nothing qualifies: it is Shemeer's writing end to end. */
+    --measure:32rem; --measure-wide:72rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px;
     --lead:1.5; --para:.75em;
   }
   html { color-scheme:light; background:var(--paper); }
@@ -51,6 +55,60 @@
   img { display:block; max-width:100%; height:auto; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
+     after he opened a 560px strip in a 2000px window. Same pattern as
+     ui_kits/venue, which carries the full rationale; ui_kits/system carries the
+     flat variant. This kit is the flat variant.
+
+     ⛔⛔ AND THIS IS THE PAGE WHERE RESPONSIVE MUST NOT MEAN WIDER TEXT. A told
+     page is a memoir. Every paragraph, the standfirst, both cat lines, the pull
+     quote and the cat tip keep the 512px reading column at every width, because a
+     longer line does not become easier to read because the window got bigger
+     (tokens/breakpoints.css says it in those words). Four things take the width:
+     the photograph, the facts strip, the read-next stack and the page chrome.
+     That is the whole of it, and it is deliberately a short list.
+
+     ⭐ ONE GRID, THREE TRACKS, ZERO MEDIA QUERIES. A child opts out of the reading
+     column with `data-span`; everything else lands in `text` by default.
+     ⭐ WHY NO BREAKPOINT: min() and minmax() key off the CONTAINER, so the phone
+     evaluates nothing extra, and the result can be verified by constraining a box
+     — which a media query cannot.
+     ⭐ NO SUBGRID FOR SECTIONS: this page's section and nav are bordered
+     containers, not transparent groupings, so each takes a track whole. The one
+     subgrid is the full-bleed figure, so its caption drops back into the text
+     column and the page keeps one left edge.
+
+     ⛔ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS. Centring text inside
+     wide gives two left edges alternating down the page. All surplus goes right. */
+  .page {
+    display:grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter) * 2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+  }
+  .page > *                  { grid-column:text; }
+  .page > [data-span="wide"] { grid-column:wide; }
+  .page > [data-span="full"] { grid-column:full; }
+
+  /* ⭐ THE CHROME TRACKS THE WIDE COLUMN, so the page has ONE left edge at every
+     width. Without this the header rule and the footer keep the 552px reading
+     wrapper while the article runs to 1152, and the logo sits 320px right of the
+     headline under it. The mechanism is the one venue already ships for its
+     sticky bar — the band spans the window, its contents do not. */
+  .wrap--wide { max-width:calc(var(--measure-wide) + var(--gutter)*2); }
+
+  /* ⭐ A FULL-BLEED FIGURE IS A SUBGRID, so the photograph reaches both edges and
+     the caption still starts where the prose starts. Placed by the grid, not by a
+     margin: the old negative inline margin only looked like full bleed because
+     the wrapper stopped at 552px, and under the grid it would push the picture
+     past the edge of the window and open horizontal overflow. */
+  figure[data-span="full"] { display:grid; grid-template-columns:subgrid; }
+  figure[data-span="full"] > :not(figcaption) { grid-column:full; }
+  figure[data-span="full"] > figcaption { grid-column:text; }
 
   /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
      review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
@@ -100,10 +158,30 @@
   .catline span { display:block; margin-block-start:var(--s1);
                   font-size:var(--micro); color:var(--quiet); }
 
-  figure { margin:var(--s7) calc(var(--gutter)*-1); }
-  figure .ph { display:block; inline-size:100%; block-size:auto; background:var(--sunk); }
+  figure { margin-block:var(--s7); margin-inline:0; }
+  /* ⚠️ A CAP THE PHONE NEVER MEETS. The file is 2:1, which is 188px on a 375px
+     phone — the deliberate choice, because the fold has to reach the first
+     paragraph. The same ratio at 2000 is 1000px, a screen and a half of jetty
+     before a word of the walk. 480px binds only above ~960px wide; at 320 and 375
+     it is inert, measured 160 and 188. `cover` because this is a photograph and
+     the alternative letterboxes it.
+     ⛔⛔ AND A HEIGHT CAP IS A CROP, WHICH THE CAP ON ITS OWN FORGETS. Every number
+     passed with the default centred crop and the desktop picture was wrong: at
+     1440 the cap discards the top and bottom sixth of the frame, and the top sixth
+     is where the jetty canopy is — the thing the caption underneath names. A
+     reader on a laptop got a boat on open water under a caption about a jetty,
+     which is the caption-describes-a-different-picture defect this kit already
+     carries a note about, reintroduced by a layout change. 32% keeps the canopy.
+     ⚠️ THE VALUE BELONGS TO THE FILE, NOT TO THE COMPONENT. Swap the photograph
+     and this number is meaningless until somebody looks at the crop again at a
+     width above 960px, where the cap starts to bind. */
+  figure .ph { display:block; inline-size:100%; block-size:auto;
+               max-block-size:30rem; object-fit:cover; object-position:center 32%;
+               background:var(--sunk); }
+  /* The inline margin is gone: the caption is placed in the text track by the
+     figure's subgrid, which puts it on the page's one left edge at every width. */
   figcaption { font-family:var(--sans); font-size:var(--small); line-height:1.45;
-               color:var(--quiet); margin:var(--s2) var(--gutter) 0; }
+               color:var(--quiet); margin:var(--s2) 0 0; }
 
   .pullquote { margin-block:var(--s8); padding-block:var(--s4);
                border-block:1px solid var(--rule); }
@@ -194,9 +272,18 @@
                 border-block-end:1px solid var(--rule); }
   .facts__row:first-child { padding-block-start:0; }
   .facts__row:last-child { border-block-end:0; padding-block-end:0; }
+  /* ⚠️ 30rem is this kit's own step and is NOT one of the three in
+     tokens/breakpoints.css (40rem / 61.25rem / 81.25rem). It predates the token
+     file and is left alone rather than moved, because moving it would reflow
+     every screen between 480 and 640px for no reader benefit. Flagged, not fixed.
+     ⭐ The label track is capped in rem, not in a percentage: a percentage inside
+     a container that just learned to grow is a defect waiting for the first wide
+     screen — venue measured a 30% label track land on 345px at 1440. */
   @media (min-width:30rem){ .facts__row { grid-template-columns:7.5rem 1fr; } }
   .facts dt { margin:0; color:var(--quiet); font-size:var(--small); line-height:1.45; }
-  .facts dd { margin:0; line-height:1.45; }
+  /* ⛔ A VALUE IS PROSE AND KEEPS THE READING MEASURE. The card goes wide; the
+     sentence inside it does not. Same rule as `.v-row__value` in ui_kits/venue. */
+  .facts dd { margin:0; line-height:1.45; max-inline-size:var(--measure); }
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0;
            font-size:var(--micro); line-height:1; }
   /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
@@ -217,11 +304,15 @@
   .stack li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
               position:relative; }
   .stack li:last-child { border-block-end:0; }
+  /* ⛔ THE ROW GOES WIDE, THE WORDS DO NOT. The stack takes the wide track so its
+     hairlines and its tap rows span the page; a headline and a one-line summary
+     uncapped inside a 1152px row would set ~135 and ~180 characters. */
   .stack h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
-              margin:0 0 var(--s1); }
+              margin:0 0 var(--s1); max-inline-size:var(--measure); }
   .stack h3 a { color:var(--ink); border:0; }
   .stack h3 a::after { content:''; position:absolute; inset:0; }
-  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45; }
+  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45;
+             max-inline-size:var(--measure); }
 
   .site-footer { border-block-start:1px solid var(--rule); margin-block-start:var(--s10);
                  padding-block:var(--s7) var(--s9); font-family:var(--sans);
@@ -243,14 +334,14 @@
 </div>
 
 <header class="site-header">
-  <div class="wrap site-header__in">
+  <div class="wrap wrap--wide site-header__in">
     <a class="site-name" href="#">cats of Kochi</a>
     <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
   </div>
 </header>
 
 <main>
-  <article class="post wrap">
+  <article class="post page">
 
     <h1>The mutton walk</h1>
 
@@ -267,7 +358,7 @@
 
     <p class="byline">Written by Shemeer · Mattancherry · 3 August 2026</p>
 
-    <figure>
+    <figure data-span="full">
       <!-- ⭐ A REAL PHOTOGRAPH, not a grey box. Kochi Water Metro, from
            src/assets/images/water-metro-hero.jpg, 2160px wide, resized to
            900 and inlined so the kit stays one portable file.
@@ -338,7 +429,7 @@
     else worth stopping for, which is the point. Finish on the ferry side and
     sit down.</p>
 
-    <section class="facts" aria-label="The practical facts">
+    <section class="facts" data-span="wide" aria-label="The practical facts">
       <dl>
         <!-- ⭐ CLOCK FORMAT, owner's decision 10 Aug 2026: "10am – 1pm, 2 – 4.30pm".
              Lowercase, no space before the meridiem, no minutes on a round hour, a
@@ -369,7 +460,7 @@
       </div>
     </div>
 
-    <nav class="readnext" aria-label="Read next">
+    <nav class="readnext" data-span="wide" aria-label="Read next">
       <p class="kicker">Read next</p>
       <ul class="stack">
         <li><h3><a href="#">Pepper House</a></h3>
@@ -383,7 +474,7 @@
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">cats of Kochi · Fort Kochi and Mattancherry · every fact
+  <div class="wrap wrap--wide">cats of Kochi · Fort Kochi and Mattancherry · every fact
   carries the date it was checked</div>
 </footer>
 

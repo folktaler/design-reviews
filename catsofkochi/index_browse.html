@@ -38,14 +38,98 @@
     --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
     --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
     --measure:32rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
+    /* ⭐ 72rem, and it is the SYSTEM's token — design-system/tokens/spacing.css,
+       raised there from 62rem on 10 Aug 2026 with the measurement and the
+       reasoning recorded in that file. Mirrored here, not invented here.
+       ⭐ breakpoints.css wrote this page's own permission on 5 Aug, before this
+       token existed: "index pages and galleries may use --measure-wide; running
+       prose still does not." An index IS the case the rule was written for. */
+    --measure-wide:72rem;
+    /* 22rem, matching tokens/spacing.css. ⚠️ For SHORT 14-16px blocks only —
+       the row verdict and the piece count below, and nothing else. The token
+       file is blunt about it: it is not a licence to set long text small. */
+    --measure-small:22rem;
   }
   html { color-scheme:light; background:var(--paper); }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--paper); color:var(--ink);
          font-family:var(--serif); font-size:var(--body); line-height:1.5;
          -webkit-text-size-adjust:100%; overflow-wrap:break-word; }
+  /* ⚠️ --measure IS THE TEXT COLUMN and .wrap is border-box, so the gutters go
+     ON TOP of it. Capping .wrap at --measure alone renders a column two gutters
+     narrower than the token claims. Ship the calc with the token, always. */
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
+  /* ⭐ THE BAR VARIANT ALIGNS TO THE PAGE GRID'S OUTER EDGES instead of centring
+     on the reading column: wide plus two gutters, which is the one width whose
+     inner edge lands on the grid's text-start at EVERY container width. A header
+     left on the reading wrap puts the wordmark on a second left edge — 320px in
+     from the page's own at 2000px — and the whole point of this pass is that
+     there is exactly one left edge on the page.
+     ⚠️ It also stops the nav flying to the far side of a 2000px window, which is
+     the fault ui_kits/venue's action bar hit and fixed the same way. */
+  .wrap--bar { max-width:calc(var(--measure-wide) + var(--gutter)*2); }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
+     after he opened a 560px strip in a 2000px window. Pattern copied from
+     ui_kits/venue, which carries the full rationale.
+
+     ⛔ THE CAP ON PROSE IS NOT THE BUG. 512px of text is real typography and the
+     memoir keeps it. What was missing is that the LISTS had no way to use the
+     space the prose correctly refuses — and on an index page the list is the
+     entire product.
+
+     ⭐ THREE TRACKS, opt in with `data-span`, ZERO media queries for the width
+     escape: min() and minmax() key off the CONTAINER, so the phone evaluates
+     nothing extra and the result can be verified without a device.
+     ⚠️ The one media query in this file, at 30rem, is older than this pass and
+     is untouched: it decides whether a place row stacks or runs as three
+     columns, which is a different question from how wide the list is.
+
+     ⭐ SUBGRID, because this page nests. The grid's children are the ARTICLES,
+     so a `<ul>` two levels down cannot claim a track by itself; each article
+     passes the page's tracks through to its own children, and the onward nav
+     inside one article passes them through again.
+
+     ⭐ MEASURED at six widths. ⚠️ THIS KIT'S GUTTER IS 20px, not the 24px venue
+     and system use, so the phone equality here is text === min(container, 552)
+     − 40 and not the − 48 those two assert:
+       container  320  375  768  1024  1440  2000
+       text       280  335  512   512   512   512
+       wide       280  335  728   984  1152  1152
+     Zero horizontal overflow at every one; one left edge at every one.
+
+     ⛔ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS. All the surplus goes
+     right. Centring text inside wide is the obvious version and it renders as
+     two left edges alternating down the page. Alignment beats balance. */
+  .page {
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter) * 2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+  }
+  .page > *                  { grid-column: text; }
+  .page > [data-span="wide"] { grid-column: wide; }
+  .page > [data-span="full"] { grid-column: full; }
+  /* An article spans the whole grid and re-serves the same tracks to its own
+     children, so a list inside it can reach `wide` while its headings do not. */
+  .page > article {
+    display: grid; grid-template-columns: subgrid; grid-column: full;
+  }
+  .page > article > *                  { grid-column: text; }
+  .page > article > [data-span="wide"] { grid-column: wide; }
+  /* ⛔ The onward nav spans `wide`, NOT `full`, and the reason is its 2px rule.
+     tokens/spacing.css: a full-bleed thin rule reads as a mistake — the weights
+     mean something, an inset rule is a pause and only the 8px band goes edge to
+     edge. Spanning wide keeps the rule the width of the content it separates. */
+  .page > article > nav {
+    display: grid; grid-template-columns: subgrid; grid-column: wide;
+  }
+  .page > article > nav > *                  { grid-column: text; }
+  .page > article > nav > [data-span="wide"] { grid-column: wide; }
   /* ⛔ Was `color:var(--amber-ink)` (owner review, 9 Aug 2026) — which painted
      EVERY link on the page amber: place names, "Map", navigation, everything.
      That is amber as decoration, and README.md:186-199 forbids it twice over:
@@ -58,22 +142,40 @@
        the link that advances
        the reader's decision  ink + a 2px --amber underline  (at most twice)
      Amber stays on hover, where it costs nothing and confirms the target. */
-  a { color:var(--ink); text-decoration:none; border-block-end:1px solid var(--rule); }
-  a:hover { border-block-end-color:var(--amber-ink); }
+  /* ⛔⛔ THE UNDERLINE MOVED FROM THE BOX TO THE TEXT. It read
+     `text-decoration:none; border-block-end:1px solid`, which paints the quiet
+     rule on the BOX — correct only while the box is exactly the text. The
+     moment anything gives a link a tap floor the box becomes 52px, the word
+     centres in it, and the rule detaches and hangs underneath. That already
+     happened in this file: `.pm` below carries the scar and 13px was the
+     measured gap. tokens/spacing.css gives the fault its own section and
+     check-kits.mjs gates it at 6px. `text-decoration` tracks the text by
+     construction, so the fault cannot come back with the next tap fix — and it
+     renders the same 1px quiet rule, so nothing about the link ladder changes:
+     ink plus a --rule underline is the ordinary link, ink plus 2px amber is the
+     one that advances the reader's decision, at most twice a screen. */
+  a { color:var(--ink); text-decoration:underline;
+      text-decoration-color:var(--rule); text-decoration-thickness:1px;
+      text-underline-offset:3px; }
+  a:hover { text-decoration-color:var(--amber-ink); }
   a:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
 
   .site-header { border-block-end:1px solid var(--rule); padding-block:var(--s3); }
   .site-header__in { display:flex; align-items:center; justify-content:space-between;
                      gap:var(--s4); flex-wrap:wrap; }
+  /* ⚠️ `text-decoration:none` where `border:0` used to sit. Both cancel the base
+     link rule; only one of them cancels the rule the base now uses. Chrome and
+     the wordmark: a nav item that is a destination rather than a sentence does
+     not carry the reading-underline. */
   .site-name { font-family:var(--serif); font-weight:700; font-size:1.15rem; color:var(--ink);
-               border:0; min-height:var(--tap-comfortable,52px); display:inline-flex; align-items:center; }
+               text-decoration:none; min-height:var(--tap-comfortable,52px); display:inline-flex; align-items:center; }
   .site-nav { display:flex; gap:var(--s5); font-family:var(--sans); font-size:var(--small); }
   /* ⚠️ RAISE THE FLOOR, DO NOT PAD IT — `min-height` is a floor, not an addend,
      so 17px of label + 4px padding still loses to it and lands on exactly 44.
      Fallback included: an undefined token resolves to nothing, silently. */
   /* ⚠️ BOTH AXES. "Places" is 42.5px WIDE at 14px — a floor on height alone
      leaves a target that fails on the axis nobody measured. */
-  .site-nav a { color:var(--ink); border:0;
+  .site-nav a { color:var(--ink); text-decoration:none;
                 min-height:var(--tap-comfortable,52px);
                 min-inline-size:var(--tap-comfortable,52px);
                 display:inline-flex; align-items:center; justify-content:center; }
@@ -99,9 +201,22 @@
                gap:var(--s1) var(--s4); padding-block:var(--s4);
                border-block-end:1px solid var(--rule); }
   .places li:last-child { border-block-end:0; }
+  /* ⛔ `1fr` FOR THE BODY TRACK WAS SAFE AT 512px AND IS NOT SAFE ON THE WIDE
+     TRACK. A fraction has no ceiling: at 1440 it drew a 990px body column and
+     pinned "Map" a thousand pixels from the place it belongs to, which is the
+     same fault ui_kits/venue's action bar hit — the bar may span the window,
+     its contents may not. `minmax(0, --measure)` gives the body the reading
+     column and no more, and the 0 floor lets it shrink so a 592px wide track
+     still fits without overflowing.
+     ⚠️ `justify-content:start` is load-bearing, not tidying: the default is
+     `normal`, which stretches AUTO tracks to eat the free space — so without it
+     the `map` track absorbs the surplus and Map flies right again, undoing the
+     cap above while the CSS looks correct. The row's hairline still runs the
+     full width of the list; only its contents stop. */
   @media (min-width:30rem){
-    .places li { grid-template-columns:4.5rem 1fr auto;
-                 grid-template-areas:'kind body map'; align-items:baseline; }
+    .places li { grid-template-columns:4.5rem minmax(0,var(--measure)) auto;
+                 grid-template-areas:'kind body map'; align-items:baseline;
+                 justify-content:start; }
   }
 
   /* ⭐ THE ROW IS THE TARGET, not the words.
@@ -113,24 +228,40 @@
      above the overlay and given its own height, or the overlay swallows it. */
   .places li { position:relative; }
   .pn a::after { content:''; position:absolute; inset:0; }
-  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX. `.pm` sets no border of its own, so it
-     inherited the site-wide `a { border-block-end }` — and once the box is 52px
-     with the word centred in it, that rule paints 13px BELOW "Map". Measured.
+  /* ⚠️ UNDERLINE THE TEXT, NOT THE BOX — and this rule is the reason the whole
+     page now does it. `.pm` set no border of its own and inherited what the
+     site-wide rule then was, `a { border-block-end }`; once the box became 52px
+     with the word centred in it, that painted 13px BELOW "Map". Measured. It
+     was fixed here and left everywhere else, so the defect survived in every
+     other link on the page waiting for the next tap floor. The base rule is now
+     text-decoration too, and this block no longer has to cancel anything.
      ⚠️ And both axes: it was 44 wide, which is the boundary, not clearance. */
   .pm { position:relative; z-index:1;
         min-height:var(--tap-comfortable,52px);
         min-inline-size:var(--tap-comfortable,52px);
         display:inline-flex; align-items:center; justify-content:center;
-        border:0; text-decoration:underline;
+        text-decoration:underline;
         text-decoration-color:var(--rule); text-underline-offset:3px; }
   .pk { grid-area:kind; font-size:var(--micro); text-transform:uppercase;
         letter-spacing:var(--track); color:var(--quiet); line-height:1.45; }
   .pb { grid-area:body; min-width:0; }
-  .pn { display:block; font-size:var(--body); line-height:1.35; }
+  /* ⭐ A MEASURE BELONGS TO A TYPE SIZE, NOT TO A ROW. Three different sizes sit
+     in this one cell and capping the cell would give all three the same column,
+     which is how a 13px line ends up at 87 characters. The numbers are the
+     measured table in tokens/spacing.css, each read at the row for its own size
+     and the column that delivers ~58 characters:
+       .pn  19px  →  --measure       (32rem)
+       .pv  14px  →  --measure-small (22rem)
+       .pc  13px  →  21rem
+     ⚠️ Below the 30rem query the body cell is the full row and these caps do
+     nothing — at 375 the widest of them is 335px, so this is inert on a phone
+     and binds only where the list has room to hurt. */
+  .pn { display:block; font-size:var(--body); line-height:1.35;
+        max-inline-size:var(--measure); }
   .pv { display:block; margin-block-start:var(--s1); font-size:var(--small);
-        line-height:1.45; }
+        line-height:1.45; max-inline-size:var(--measure-small); }
   .pc { display:block; margin-block-start:var(--s1); font-size:var(--micro);
-        color:var(--quiet); }
+        color:var(--quiet); max-inline-size:21rem; }
   /* ⚠️ second `.pm` block — grid placement written separately from tap sizing.
      `align-self:start` pinned it to the top of a tall row; centred reads as a
      row action. */
@@ -146,9 +277,15 @@
      that README.md:199 rules out as a category signal. */
   /* ⚠️ The `border-block-end:0` that used to sit here existed only to cancel
      the base `a` underline. The full border now supersedes it — leaving it in
-     would have painted a three-sided box. */
+     would have painted a three-sided box.
+     ⚠️ AND ITS REPLACEMENT HAD TO COME BACK IN ANOTHER FORM. The base rule now
+     underlines with `text-decoration`, which a border cannot cancel, so this
+     whole-card link needed `text-decoration:none` of its own. The card is the
+     target — an underline under a 20px name inside a bordered box reads as two
+     competing affordances. */
   .onward__place { display:block; padding:var(--s4) var(--s5); background:var(--paper);
-                   border:1px solid var(--rule); margin-block-end:var(--s5); }
+                   border:1px solid var(--rule); text-decoration:none;
+                   margin-block-end:var(--s5); }
   .onward__place b { display:block; font-family:var(--serif); font-size:var(--sub);
                      line-height:1.2; color:var(--ink); font-weight:400; }
   .onward__place span { display:block; margin-block-start:var(--s1);
@@ -159,7 +296,7 @@
   .stack li:last-child { border-block-end:0; }
   .stack h4 { font-family:var(--serif); font-size:var(--sub); line-height:1.2;
               margin:0 0 var(--s1); font-weight:400; }
-  .stack h4 a { color:var(--ink); border:0; }
+  .stack h4 a { color:var(--ink); text-decoration:none; }
   .stack h4 a::after { content:''; position:absolute; inset:0; }
   .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45; }
 
@@ -168,7 +305,19 @@
            letter-spacing:var(--track); color:var(--paper); background:var(--ink);
            display:inline-block; padding:var(--s1) var(--s2); margin-block-end:var(--s4); }
 
-  .note-frame { max-width:46rem; margin:var(--s6) auto 0; padding-inline:var(--gutter);
+  /* ⛔ THE NOTE FRAME WAS THE SECOND LEFT EDGE. It centred its own 46rem column
+     while the page centred a different one, so at 2000px the kit's commentary
+     started 208px to the right of everything above it — the exact fault this
+     pass exists to remove, on the block a reviewer reads last and trusts most.
+     It is on the page grid now, so its prose starts where the memoir's does.
+     ⭐ And 46rem was wrong on its own terms: 736px of 14px text is about 105
+     characters a line. The text track gives it 512, which is still generous for
+     this size and is at least a number the system has measured. ⚠️ The honest
+     fix is the TYPE — tokens/spacing.css is blunt that a small block long
+     enough to need its own measure is a block set too small — but that is a
+     decision about what this frame IS, not about how it fits a window, and it
+     is left for whoever takes that up. Recorded rather than quietly done. */
+  .note-frame { margin-block-start:var(--s6);
                 font-family:var(--sans); font-size:var(--small); color:var(--quiet); }
   .note-frame h4 { font-family:var(--serif); color:var(--ink); font-size:1.1rem;
                    margin:var(--s5) 0 var(--s2); }
@@ -186,21 +335,30 @@
      will never look. This says it where he will.
      ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
      that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
-<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
+<div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 0">
+  <!-- 1192px = --measure-wide (1152) + two 20px gutters: the one width whose
+       inner edge lands on the page grid's text-start at every window size. The
+       bar itself stays edge to edge; only its sentence lines up. Literal,
+       because this block deliberately uses no var(). -->
+  <span style="display:block;max-width:1192px;margin-inline:auto;padding-inline:20px">
   <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  </span>
 </div>
 
 <header class="site-header">
-  <div class="wrap site-header__in">
+  <div class="wrap wrap--bar site-header__in">
     <a class="site-name" href="#">cats of Kochi</a>
     <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
   </div>
 </header>
 
-<main>
+<!-- ⭐ `page`, not `wrap`. The grid supplies its own gutters through its outer
+     tracks, which is what lets a list claim more width than the memoir. `.wrap`
+     still runs the header above and, with the bar modifier, aligns it. -->
+<main class="page">
 
   <!-- ============ 1. THE FOOT OF THE MEMOIR — the actual question -->
-  <article class="post wrap">
+  <article class="post">
     <p class="shape">Foot of a 2,000-word memoir</p>
 
     <p style="color:var(--quiet);font-style:italic">…and four days before the
@@ -217,7 +375,7 @@
 
       <!-- SECOND: what else is on that walk. Geographic, not topical. -->
       <p class="kicker">A few minutes' walk away</p>
-      <ul class="places">
+      <ul class="places" data-span="wide">
         <li>
           <span class="pk">Church</span>
           <span class="pb">
@@ -248,7 +406,7 @@
   <hr class="div">
 
   <!-- ============ 2. THE PLACE INDEX — the browse surface -->
-  <article class="post wrap">
+  <article class="post">
     <p class="shape">Index · everywhere we have written about</p>
 
     <h1>Places</h1>
@@ -256,7 +414,11 @@
     written about, and what we think of it.</p>
 
     <h3>Fort Kochi</h3>
-    <ul class="places">
+    <!-- ⭐ THE WIDE TRACK, and this list is the strongest case for it on the
+         site. breakpoints.css wrote the permission before the track existed:
+         "index pages and galleries may use --measure-wide; running prose still
+         does not." The heading, the standfirst and the memoir keep 512px. -->
+    <ul class="places" data-span="wide">
       <li>
         <span class="pk">Gallery</span>
         <span class="pb">
@@ -294,7 +456,7 @@
     </ul>
 
     <h3>Mattancherry</h3>
-    <ul class="places">
+    <ul class="places" data-span="wide">
       <li>
         <span class="pk">Gallery</span>
         <span class="pb">
@@ -318,7 +480,7 @@
 
 </main>
 
-<div class="note-frame">
+<div class="note-frame page">
 
   <h4>⭐ The Guardian's answer, measured — and it is a negative one</h4>
 

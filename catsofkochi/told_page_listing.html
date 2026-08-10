@@ -37,7 +37,12 @@
     --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
     --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
     --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
-    --measure:32rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
+    /* ⛔ --measure-wide is the SYSTEM's token (tokens/spacing.css), 72rem since
+       10 Aug 2026 — not a number invented here. It is what LISTS may use; running
+       prose may not, and that rule is older than the token (tokens/breakpoints.css).
+       ⭐ This kit is the one told page that HAS a list, so it is the one that uses
+       it for something other than furniture. */
+    --measure:32rem; --measure-wide:72rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
   }
   html { color-scheme:light; background:var(--paper); }
   * { box-sizing:border-box; }
@@ -47,6 +52,58 @@
   img { display:block; max-width:100%; height:auto; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
+     after he opened a 560px strip in a 2000px window. Same pattern as
+     ui_kits/venue, which carries the full rationale; ui_kits/system carries the
+     flat variant. This kit is the flat variant.
+
+     ⛔ THE CAP ON PROSE IS NOT THE BUG and does not move. The standfirst, the
+     paragraphs, both cat lines and the cat tip keep the 512px reading column at
+     every width. What takes the width is the PLACE ROWS, the list's stamp, the
+     photograph, the read-next stack and the page chrome — and a place row is the
+     clearest case in the kit set, because a row is a table line, not a sentence.
+
+     ⭐ ONE GRID, THREE TRACKS, ZERO MEDIA QUERIES. A child opts out of the reading
+     column with `data-span`; everything else lands in `text` by default.
+     ⭐ WHY NO BREAKPOINT: min() and minmax() key off the CONTAINER, so the phone
+     evaluates nothing extra, and the result can be verified by constraining a box
+     — which a media query cannot.
+     ⭐ NO SUBGRID FOR SECTIONS: this page's lists and nav are direct children of
+     the grid, so the base rules reach them. The one subgrid is the full-bleed
+     figure, so its caption drops back into the text column.
+
+     ⛔ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS. Centring text inside
+     wide gives two left edges alternating down the page. All surplus goes right. */
+  .page {
+    display:grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter) * 2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+  }
+  .page > *                  { grid-column:text; }
+  .page > [data-span="wide"] { grid-column:wide; }
+  .page > [data-span="full"] { grid-column:full; }
+
+  /* ⭐ THE CHROME TRACKS THE WIDE COLUMN, so the page has ONE left edge at every
+     width. Without this the header rule and the footer keep the 552px reading
+     wrapper while the article runs to 1152, and the logo sits 320px right of the
+     headline under it. The mechanism is the one venue already ships for its
+     sticky bar — the band spans the window, its contents do not. */
+  .wrap--wide { max-width:calc(var(--measure-wide) + var(--gutter)*2); }
+
+  /* ⭐ A FULL-BLEED FIGURE IS A SUBGRID, so the photograph reaches both edges and
+     the caption still starts where the prose starts. Placed by the grid, not by a
+     margin: the old negative inline margin only looked like full bleed because
+     the wrapper stopped at 552px, and under the grid it would push the picture
+     past the edge of the window and open horizontal overflow. */
+  figure[data-span="full"] { display:grid; grid-template-columns:subgrid; }
+  figure[data-span="full"] > :not(figcaption) { grid-column:full; }
+  figure[data-span="full"] > figcaption { grid-column:text; }
+
   /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
      review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
      ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
@@ -89,11 +146,26 @@
   .catline p { margin:0; font-size:var(--small); line-height:1.5; }
   .catline span { display:block; margin-block-start:var(--s1); font-size:var(--micro); color:var(--quiet); }
 
-  figure { margin:var(--s7) calc(var(--gutter)*-1); }
-  figure .ph { aspect-ratio:3/2; background:var(--sunk); display:grid; place-items:center;
+  figure { margin-block:var(--s7); margin-inline:0; }
+  /* ⚠️ A CAP THE PHONE NEVER MEETS. 3:2 is 250px on a 375px phone — the deliberate
+     choice. The same ratio at 1440 is 960px, taller than a laptop viewport, so the
+     picture would push the first place row off the screen on exactly the display
+     this change exists to serve. 480px binds only above 720px wide; at 320 and 375
+     it is inert, measured 213 and 250. `cover` because this is a photograph. */
+  /* ⛔⛔ `inline-size:100%` IS LOAD-BEARING AND LOOKS LIKE NOISE. Without it the
+     box has no definite width, so `aspect-ratio` runs the other way and the
+     height cap DRIVES THE WIDTH DOWN: measured 720px wide at 1440 and at 2000,
+     a "full-bleed" figure that stopped half way across and sat off the page's
+     left edge. The real photograph in ui_kits/told_page never showed this
+     because it already carried the declaration. An explicit width makes the
+     width definite, the ratio derives the height, and the cap clamps only that. */
+  figure .ph { aspect-ratio:3/2; inline-size:100%; max-block-size:30rem; object-fit:cover;
+               background:var(--sunk); display:grid; place-items:center;
                font-family:var(--sans); font-size:var(--small); color:var(--quiet); }
+  /* The inline margin is gone: the caption is placed in the text track by the
+     figure's subgrid, which puts it on the page's one left edge at every width. */
   figcaption { font-family:var(--sans); font-size:var(--small); line-height:1.45;
-               color:var(--quiet); margin:var(--s2) var(--gutter) 0; }
+               color:var(--quiet); margin:var(--s2) 0 0; }
 
   /* ⭐ THE LISTING MODE — a place row. The human sentence is the reason the
      row exists, so it is the row's main line, not its small print. */
@@ -103,6 +175,14 @@
                gap:var(--s1) var(--s4); padding-block:var(--s4);
                border-block-end:1px solid var(--rule); }
   .places li:last-child { border-block-end:0; }
+  /* ⚠️ 30rem is this kit's own step and is NOT one of the three in
+     tokens/breakpoints.css (40rem / 61.25rem / 81.25rem). It predates the token
+     file and is left alone rather than moved, because moving it would reflow
+     every screen between 480 and 640px for no reader benefit. Flagged, not fixed.
+     ⭐ The kind track is capped in rem, not in a percentage. A percentage inside a
+     container that just learned to grow is a defect waiting for the first wide
+     screen — venue measured a 30% label track land on 345px at 1440, with the
+     word alone in a third of the page. */
   @media (min-width:30rem){
     .places li { grid-template-columns:4.5rem 1fr auto;
                  grid-template-areas:'kind body map'; align-items:baseline; }
@@ -129,11 +209,27 @@
   .pk { grid-area:kind; font-size:var(--micro); text-transform:uppercase;
         letter-spacing:var(--track); color:var(--quiet); line-height:1.45; }
   .pb { grid-area:body; min-width:0; }
-  .pn { display:block; font-size:var(--body); line-height:1.35; color:var(--ink); }
+  /* ⛔ THE ROW GOES WIDE, THE WORDS DO NOT — and the cap goes on the WORDS, not on
+     the track. Capping the body track instead would leave the Map link floating in
+     the middle of a 1152px row with 500px of nothing to its right; capping the text
+     keeps Map on the row's own edge, where a row action belongs, and keeps the
+     verdict at reading width. Same rule as `.v-row__value` in ui_kits/venue. */
+  .pn { display:block; font-size:var(--body); line-height:1.35; color:var(--ink);
+        max-inline-size:var(--measure); }
   .pv { display:block; margin-block-start:var(--s1); font-size:var(--small);
-        line-height:1.45; color:var(--ink); }
-  .ph2 { display:block; margin-block-start:var(--s1); font-size:var(--micro);
-         color:var(--quiet); }
+        line-height:1.45; color:var(--ink); max-inline-size:var(--measure); }
+  /* ⛔⛔ THIS LINE CARRIES THE HOURS AND THE PRICE AND IT WAS THE SMALLEST TYPE ON
+     THE PAGE. 13px, under the system's own 14px floor, on the two facts a reader
+     standing in the sun actually acts on — whether the place is open, and what a
+     meal costs. The note frame at the foot of this kit says the live site's defect
+     is that "the most useful line is styled as the least important"; the kit was
+     doing the same thing one component along. Raised to the small tier, which is
+     where the verdict above it already sits, and left grey so the verdict still
+     leads. ⚠️ 14px is the floor, not the target — the 17px Kerala-sun size would
+     mean giving hours their own fact row, which is a component decision and not
+     this one. Recorded so nobody reads 14 as settled. */
+  .ph2 { display:block; margin-block-start:var(--s1); font-size:var(--small);
+         line-height:1.45; color:var(--quiet); max-inline-size:var(--measure); }
   /* ⚠️ second `.pm` block — it exists because the grid placement was written
      separately from the tap sizing. `align-self:start` here was pinning it to
      the top of a tall row; centred reads as a row action. Kept separate rather
@@ -192,11 +288,16 @@
   .stack li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
               position:relative; }
   .stack li:last-child { border-block-end:0; }
-  .stack h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2; margin:0 0 var(--s1); }
+  /* ⛔ THE ROW GOES WIDE, THE WORDS DO NOT. The stack takes the wide track so its
+     hairlines and its tap rows span the page; a headline and a one-line summary
+     uncapped inside a 1152px row would set ~135 and ~180 characters. */
+  .stack h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2; margin:0 0 var(--s1);
+              max-inline-size:var(--measure); }
   .stack h3 a { color:var(--ink); border:0; }
   /* ⚠️ ROW IS THE TARGET — these onward links measured 28px and had no overlay */
   .stack h3 a::after { content:''; position:absolute; inset:0; }
-  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45; }
+  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45;
+             max-inline-size:var(--measure); }
 
   .site-footer { border-block-start:1px solid var(--rule); margin-block-start:var(--s10);
                  padding-block:var(--s7) var(--s9); font-family:var(--sans);
@@ -224,14 +325,14 @@
 </div>
 
 <header class="site-header">
-  <div class="wrap site-header__in">
+  <div class="wrap wrap--wide site-header__in">
     <a class="site-name" href="#">cats of Kochi</a>
     <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
   </div>
 </header>
 
 <main>
-  <article class="post wrap">
+  <article class="post page">
 
     <h1>Where to eat in Mattancherry</h1>
 
@@ -255,7 +356,7 @@
 
     <p>Walk it once without stopping. Then go back.</p>
 
-    <figure>
+    <figure data-span="full">
       <div class="ph">a real photograph — full-bleed on a phone</div>
       <figcaption>Palace Road, before the shutters go up.</figcaption>
     </figure>
@@ -263,7 +364,7 @@
     <h2>The lassi end</h2>
 
     <!-- ⭐ LISTING MODE. The human sentence is the row's main line. -->
-    <ul class="places">
+    <ul class="places" data-span="wide">
       <li>
         <span class="pk">Lassi</span>
         <span class="pb">
@@ -284,7 +385,7 @@
 
     <h2>The sweet end</h2>
 
-    <ul class="places">
+    <ul class="places" data-span="wide">
       <li>
         <span class="pk">Sweets</span>
         <span class="pb">
@@ -339,7 +440,7 @@
          14px tall live, despite the fix reading correct in source. Both
          classes are kept: `.liststamp` for anyone searching for "the one
          stamp per list" variant, `.stamp` so the shared rules actually apply. -->
-    <p class="liststamp stamp">
+    <p class="liststamp stamp" data-span="wide">
       <span class="stamp__chip">Checked</span>
       <time class="stamp__date" datetime="2026-08-03">3 Aug 2026</time>
       <a href="#">Changed? Tell us</a>
@@ -370,7 +471,7 @@
       </div>
     </div>
 
-    <nav class="readnext" aria-label="Read next">
+    <nav class="readnext" data-span="wide" aria-label="Read next">
       <p class="kicker">Read next</p>
       <ul class="stack">
         <li><h3><a href="#">The mutton walk</a></h3>
@@ -384,7 +485,7 @@
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">cats of Kochi · Fort Kochi and Mattancherry · every fact
+  <div class="wrap wrap--wide">cats of Kochi · Fort Kochi and Mattancherry · every fact
   carries the date it was checked</div>
 </footer>
 

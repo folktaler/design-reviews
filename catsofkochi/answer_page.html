@@ -37,7 +37,10 @@
     --sub: clamp(1.25rem,1.1rem + .75vw,1.5rem);
     --head: clamp(1.5rem,1.33rem + .85vw,1.75rem);
     --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
-    --measure:32rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
+    /* ⛔ --measure-wide is the SYSTEM's token (tokens/spacing.css), 72rem since
+       10 Aug 2026 — not a number invented here. It is what LISTS may use; running
+       prose may not, and that rule is older than the token (tokens/breakpoints.css). */
+    --measure:32rem; --measure-wide:72rem; --gutter:var(--s5); --tap:44px;--tap-comfortable:52px; --para:.75em;
   }
   html { color-scheme:light; background:var(--paper); }
   * { box-sizing:border-box; }
@@ -47,6 +50,60 @@
   img { display:block; max-width:100%; height:auto; }
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
+     after he opened a 560px strip in a 2000px window. Same pattern as
+     ui_kits/venue, which carries the full rationale; ui_kits/system carries the
+     flat variant. This kit is the flat variant.
+
+     ⛔ THE CAP ON PROSE IS NOT THE BUG and does not move. This is a writing page:
+     the answer paragraph, the standfirst, the cat lines and the cat tip keep the
+     512px reading column at every width. What was missing is that the ROUTES
+     TABLE, the FACTS CARD and the READ-NEXT STACK had no way to use the space the
+     prose correctly refuses.
+
+     ⭐ ONE GRID, THREE TRACKS, ZERO MEDIA QUERIES. A child opts out of the reading
+     column with `data-span`; everything else lands in `text` by default.
+     ⭐ WHY NO BREAKPOINT: min() and minmax() key off the CONTAINER, so the phone
+     evaluates nothing extra, and the result can be verified by constraining a box
+     — which a media query cannot.
+     ⭐ NO SUBGRID FOR SECTIONS, and that is a property of this page: its section
+     and its nav are BORDERED CONTAINERS, not transparent groupings, so each one
+     takes a track whole. venue needs subgrid because its lists sit inside
+     transparent sections. The one subgrid here is the full-bleed figure, so the
+     caption can drop back into the text column.
+
+     ⛔ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS. Centring text inside
+     wide gives two left edges alternating down the page. All surplus goes right. */
+  .page {
+    display:grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter) * 2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+  }
+  .page > *                  { grid-column:text; }
+  .page > [data-span="wide"] { grid-column:wide; }
+  .page > [data-span="full"] { grid-column:full; }
+
+  /* ⭐ THE CHROME TRACKS THE WIDE COLUMN, so the page has ONE left edge at every
+     width. Without this the header rule and the footer keep the 552px reading
+     wrapper while the article runs to 1152, and the logo sits 320px right of the
+     headline under it. The mechanism is the one venue already ships for its
+     sticky bar — the band spans the window, its contents do not. */
+  .wrap--wide { max-width:calc(var(--measure-wide) + var(--gutter)*2); }
+
+  /* ⭐ A FULL-BLEED FIGURE IS A SUBGRID, so the picture reaches both edges and the
+     caption still starts where the prose starts. Placed by the grid, not by a
+     margin: the old negative inline margin only looked like full bleed because
+     the wrapper stopped at 552px, and under the grid it would push the picture
+     past the edge of the window and open horizontal overflow. */
+  figure[data-span="full"] { display:grid; grid-template-columns:subgrid; }
+  figure[data-span="full"] > :not(figcaption) { grid-column:full; }
+  figure[data-span="full"] > figcaption { grid-column:text; }
+
   /* ⛔ Was `color:var(--amber-ink)` — every link on the page amber (owner
      review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
      ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
@@ -113,9 +170,34 @@
                 border-block-end:1px solid var(--rule); }
   .facts__row:first-child { padding-block-start:0; }
   .facts__row:last-child { border-block-end:0; padding-block-end:0; }
-  @media (min-width:30rem){ .facts__row { grid-template-columns:8rem 1fr; } }
+  /* ⚠️ 30rem is this kit's own step and is NOT one of the three in
+     tokens/breakpoints.css (40rem / 61.25rem / 81.25rem). It predates the token
+     file and is left alone rather than moved, because moving it would reflow
+     every screen between 480 and 640px for no reader benefit. Flagged, not fixed. */
+  @media (min-width:30rem){
+    .facts__row { grid-template-columns:8rem 1fr; }
+    /* ⛔ STACKED ON A PHONE. The route name and its qualifier were a two-column
+       grid at every width, and the qualifier is `white-space:nowrap` so it takes
+       whatever it needs first. Measured before the fix: the longest qualifier is
+       188px, which left the route beside it 76px at 320 and 131px at 375 — the
+       name broke over four lines and two lines respectively while four other
+       rows fitted comfortably. Stacked below this step, the name gets the whole
+       column and the qualifier sits under it, the same shape `.facts__row`
+       directly above already uses.
+       ⛔⛔ AND THE NAME TRACK IS CAPPED, WHICH NO MEASUREMENT CAUGHT. With `1fr`
+       the row filled the wide track and pushed the duration to the far right:
+       at 1440 "25–35 min" sat about a thousand pixels from the route it belongs
+       to, so pairing a route with its time took a full sweep of the eye. Every
+       number passed — zero overflow, one left edge, 63 characters a line — and
+       the page was wrong. Found by looking at it. The hairline still spans the
+       wide track, which is what makes the section read as a table; the two
+       columns stay one glance apart. */
+    .routes li { grid-template-columns:minmax(0, var(--measure)) auto; }
+  }
   .facts dt { margin:0; color:var(--quiet); font-size:var(--small); line-height:1.45; }
-  .facts dd { margin:0; line-height:1.45; }
+  /* ⛔ A VALUE IS PROSE AND KEEPS THE READING MEASURE. The card goes wide; the
+     sentence inside it does not. Same rule as `.v-row__value` in ui_kits/venue. */
+  .facts dd { margin:0; line-height:1.45; max-inline-size:var(--measure); }
   /* ⚠️ .facts__obs is RESERVED for "they post X, it opens at Y" — the
      observed-contradicts-official case, which is the moat. Medium weight is
      what makes it stand out. Do not use it for a second line that merely
@@ -125,7 +207,9 @@
   .facts__more { display:block; margin-block-start:var(--s1); }
   .facts__unchecked { margin-block:0 var(--s4); padding-block-start:var(--s3);
                       border-block-start:1px solid var(--rule); }
-  .unchecked { margin:0; line-height:1.45; }
+  /* The honest-gap sentence is the longest thing in the card at 120 characters.
+     Uncapped inside the wide card it runs one line of ~110 at 1440. */
+  .unchecked { margin:0; line-height:1.45; max-inline-size:var(--measure); }
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0;
            font-size:var(--micro); line-height:1; flex-wrap:wrap; }
   /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
@@ -162,7 +246,8 @@
 
   /* routes as rows, not prose bullets */
   .routes { list-style:none; margin:0 0 var(--para); padding:0; font-family:var(--sans); }
-  .routes li { display:grid; grid-template-columns:1fr auto; gap:var(--s1) var(--s4);
+  /* The two-column form lives in the media query below — see the note there. */
+  .routes li { display:grid; gap:var(--s1) var(--s4);
                padding-block:var(--s3); border-block-end:1px solid var(--rule); margin:0; }
   .routes li:last-child { border-block-end:0; }
   .routes b { font-weight:400; font-size:var(--body); }
@@ -197,12 +282,30 @@
                  color:var(--quiet); }
   .cat-tip__by a { color:var(--ink); border-block-end:1px solid var(--rule); }
 
-  figure { margin:var(--s7) calc(var(--gutter)*-1); }
-  figure .ph { aspect-ratio:1/1.01; background:var(--sunk); display:grid; place-items:center;
+  figure { margin-block:var(--s7); margin-inline:0; }
+  /* ⚠️ A CAP THE PHONE NEVER MEETS. The map is near-square on purpose, which is
+     right at 375px — 379px tall, and the reader scrolls past it in one flick. The
+     same ratio at 1440 is 1454px, taller than any laptop screen, so the figure
+     would push every fact below the fold on exactly the screen this change exists
+     to serve. 480px binds only above ~475px wide; at 320 and 375 it is inert.
+     ⛔ WHEN THE REAL MAP LANDS IT TAKES `object-fit:contain`, NOT `cover`. This
+     is the one figure in the kit set that is a diagram: cropping a photograph
+     loses framing, cropping a map loses places. */
+  /* ⛔⛔ `inline-size:100%` IS LOAD-BEARING AND LOOKS LIKE NOISE. Without it the
+     box has no definite width, so `aspect-ratio` runs the other way and the
+     height cap DRIVES THE WIDTH DOWN: measured 475px wide at 1440 and at 2000,
+     a "full-bleed" figure that stopped a third of the way across and sat off
+     the page's left edge. The real photograph in ui_kits/told_page never showed
+     this because it already carried the declaration. An explicit width makes the
+     width definite, the ratio derives the height, and the cap clamps only that. */
+  figure .ph { aspect-ratio:1/1.01; inline-size:100%; max-block-size:30rem;
+               background:var(--sunk); display:grid; place-items:center;
                font-family:var(--sans); font-size:var(--small); color:var(--quiet);
                text-align:center; padding:var(--s4); }
+  /* The inline margin is gone: the caption is placed in the text track by the
+     figure's subgrid, which puts it on the page's one left edge at every width. */
   figcaption { font-family:var(--sans); font-size:var(--small); line-height:1.45;
-               color:var(--quiet); margin:var(--s2) var(--gutter) 0; }
+               color:var(--quiet); margin:var(--s2) 0 0; }
 
   .readnext { margin-block-start:var(--s9); padding-block-start:var(--s4);
               border-block-start:1px solid var(--rule); font-family:var(--sans); }
@@ -215,10 +318,15 @@
   .stack li { padding-block:var(--s3); border-block-end:1px solid var(--rule);
               position:relative; }
   .stack li:last-child { border-block-end:0; }
-  .stack h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2; margin:0 0 var(--s1); }
+  /* ⛔ THE ROW GOES WIDE, THE WORDS DO NOT. The stack takes the wide track so its
+     hairlines and its tap rows span the page; a headline and a one-line summary
+     uncapped inside a 1152px row would set ~135 and ~180 characters. */
+  .stack h3 { font-family:var(--serif); font-size:var(--sub); line-height:1.2; margin:0 0 var(--s1);
+              max-inline-size:var(--measure); }
   .stack h3 a { color:var(--ink); border:0; }
   .stack h3 a::after { content:''; position:absolute; inset:0; }
-  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45; }
+  .stack p { margin:0; font-size:var(--small); color:var(--quiet); line-height:1.45;
+             max-inline-size:var(--measure); }
 
   .site-footer { border-block-start:1px solid var(--rule); margin-block-start:var(--s10);
                  padding-block:var(--s7) var(--s9); font-family:var(--sans);
@@ -243,14 +351,14 @@
 </div>
 
 <header class="site-header">
-  <div class="wrap site-header__in">
+  <div class="wrap wrap--wide site-header__in">
     <a class="site-name" href="#">cats of Kochi</a>
     <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
   </div>
 </header>
 
 <main>
-  <article class="post wrap">
+  <article class="post page">
 
     <h1>Kochi Water Metro: times, fares and which boat to Fort Kochi</h1>
 
@@ -268,7 +376,7 @@
 
     <!-- ⭐ THE ANSWER, immediately. On the live page these facts are in
          paragraph 4, after ~400 words. -->
-    <section class="facts" aria-label="Kochi Water Metro — the practical facts">
+    <section class="facts" data-span="wide" aria-label="Kochi Water Metro — the practical facts">
       <dl>
         <!-- ⭐ CLOCK FORMAT, owner's decision 10 Aug 2026: "10am – 1pm, 2 – 4.30pm".
              Lowercase, no space before the meridiem, no minutes on a round hour, a
@@ -302,7 +410,7 @@
 
     <h2>Which routes run</h2>
 
-    <ul class="routes">
+    <ul class="routes" data-span="wide">
       <li><b>High Court – Fort Kochi</b><span>25–35 min</span></li>
       <li><b>High Court – Vypin</b><span>~20 min</span></li>
       <li><b>High Court – Mattancherry</b><span>~30 min</span></li>
@@ -314,7 +422,7 @@
     <p>For Fort Kochi you want the High Court terminal. It is the busiest of the
     six and the only one most visitors ever use.</p>
 
-    <figure>
+    <figure data-span="full">
       <div class="ph">the network map — full-bleed on a phone,<br>keeping its own shape</div>
       <figcaption>The six routes. Drawn for us, not lifted from the operator.</figcaption>
     </figure>
@@ -363,7 +471,7 @@
       </div>
     </div>
 
-    <nav class="readnext" aria-label="Read next">
+    <nav class="readnext" data-span="wide" aria-label="Read next">
       <p class="kicker">Read next</p>
       <ul class="stack">
         <li><h3><a href="#">A day in Fort Kochi, off the boat</a></h3>
@@ -377,7 +485,7 @@
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">cats of Kochi · Fort Kochi and Mattancherry · every fact
+  <div class="wrap wrap--wide">cats of Kochi · Fort Kochi and Mattancherry · every fact
   carries the date it was checked</div>
 </footer>
 

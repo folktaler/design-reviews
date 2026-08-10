@@ -61,6 +61,13 @@
     --disp: clamp(1.75rem,1.15rem + 3vw,2.625rem);
     --track:.06em; --tap:44px; --tap-comfortable:52px;
     --measure:32rem; --gutter:var(--s5);
+    /* ⭐ 72rem, and it is the SYSTEM's token — design-system/tokens/spacing.css,
+       raised there from 62rem on 10 Aug 2026 with the measurement and the
+       reasoning recorded in that file. Mirrored here the way every other value
+       in this block is; read the token file rather than this line. ⚠️ Grepped
+       for an existing token before adding it, because a kit that invents a
+       number the system already owns is the one page that disagrees. */
+    --measure-wide:72rem;
   }
   html { color-scheme: light; background: var(--paper); }
   * { box-sizing: border-box; }
@@ -69,8 +76,59 @@
   body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--serif);
          font-size:var(--body); line-height:1.6; -webkit-text-size-adjust:100%;
          overflow-wrap:break-word; }
-  .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
-          margin-inline:auto; padding:var(--s6) var(--gutter) var(--s10); }
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
+     after he opened a 560px strip in a 2000px window. The pattern is copied from
+     ui_kits/venue, which carries the full rationale; ui_kits/system is the flat
+     specimen-sheet version and is the closer model for this page.
+
+     ⛔ THE CAP ON PROSE IS NOT THE BUG. Nine tenths of this page is running
+     prose and 512px of it is real typography — a 150-character line is
+     unreadable. What was missing is a way for the two COMPARISON TABLES to use
+     the width the prose correctly refuses.
+
+     ⛔ AND THE COMPONENT SPECIMENS DELIBERATELY DO NOT TAKE IT, which is a
+     decision rather than an omission. A button, a signup block and a pull quote
+     are only worth judging at the width they ship at, and on the real page that
+     is the reading column. Widening them here would document a component that
+     does not exist — and this is the sheet a builder copies from.
+
+     ⭐ Three tracks, opt in with `data-span`, and ZERO media queries: min() and
+     minmax() key off the CONTAINER, so the phone evaluates nothing extra and the
+     result can be verified without a device.
+     ⭐ NO SUBGRID, and that is a property of this page: every block is a direct
+     child of the grid. venue needs subgrid because its lists sit inside sections.
+
+     ⭐ MEASURED at six widths, phone equality asserted. ⚠️ THIS KIT'S GUTTER IS
+     20px, not the 24px venue and system use, so the equality here is
+     text === min(container, 552) − 40 and not the − 48 those two assert:
+       container  320  375  768  1024  1440  2000
+       text       280  335  512   512   512   512
+       wide       280  335  728   984  1152  1152
+     Zero horizontal overflow at every one; one left edge at every one.
+
+     ⛔ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS — all the surplus goes
+     right. Centring text inside wide is the obvious version and it renders as
+     two left edges alternating down the page. Alignment beats balance.
+
+     ⚠️ `.wrap` used to be here and is gone: this page had exactly one, it is now
+     the grid, and a layout class left behind with nothing using it is a rule
+     that reads as a system decision while doing nothing. The calc it carried
+     (measure + two gutters, because .wrap is border-box and the gutters sit ON
+     TOP of the text column) is recorded in tokens/spacing.css, which is where a
+     token's rules belong. */
+  .page {
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter) * 2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+    padding-block: var(--s6) var(--s10);
+  }
+  .page > *                  { grid-column: text; }
+  .page > [data-span="wide"] { grid-column: wide; }
+  .page > [data-span="full"] { grid-column: full; }
   h1,h2,h3 { font-family:var(--serif); line-height:1.15; margin:0; text-wrap:balance; }
   h1 { font-size:var(--disp); letter-spacing:-.015em; }
   h2 { font-size:var(--head); margin-block:var(--s10) var(--s3); }
@@ -80,8 +138,22 @@
      review, 9 Aug 2026). Amber "never decorates", "at most twice per screen".
      ⭐ The ladder ranks by WEIGHT: ordinary link = ink + 1px --rule underline;
      the link that advances the decision = ink + 2px --amber. Hover keeps amber. */
-  a { color:var(--ink); text-decoration:none; border-block-end:1px solid var(--rule); }
-  a:hover { border-block-end-color:var(--amber-ink); }
+  /* ⛔⛔ THE MECHANISM CHANGED, AND THE REASON IS THAT THIS SHEET WAS TEACHING A
+     REJECTED ONE. It read `text-decoration:none; border-block-end:1px solid`,
+     which draws the quiet rule on the BOX. tokens/spacing.css has a whole
+     section on why that is wrong — "UNDERLINE THE TEXT, NOT THE BOX" — because
+     the box is the text only until something gives the link a tap floor, and
+     then the rule detaches and hangs 15-20px under the word. It has already
+     happened twice on this site, and check-kits.mjs gates the gap at 6px.
+     ⭐ A token file that is wrong is inert; a SPECIMEN that is wrong is
+     infectious, and the prose further down this page recommends this mechanism
+     by name to whoever is building the link component. `text-decoration` tracks
+     the text by construction and renders the same quiet 1px rule, so what the
+     page argues stays true and what it demonstrates is now what ships. */
+  a { color:var(--ink); text-decoration:underline;
+      text-decoration-color:var(--rule); text-decoration-thickness:1px;
+      text-underline-offset:3px; }
+  a:hover { text-decoration-color:var(--amber-ink); }
   a:focus-visible,button:focus-visible,input:focus-visible {
     outline:3px solid var(--focus); outline-offset:2px; }
   code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.85em;
@@ -115,8 +187,15 @@
                  color:var(--quiet); margin:0 0 var(--s4); }
   .row { display:flex; flex-wrap:wrap; gap:var(--s4); align-items:center; }
   .scroll { overflow-x:auto; margin-block:var(--s5); }
-  table { border-collapse:collapse; width:100%; font-family:var(--sans);
-          font-size:.95rem; line-height:1.45; }
+  /* ⛔ WAS `width:100%`, and a percentage inside a container that could only ever
+     be 512px wide is a defect waiting for the first wide screen. On the wide
+     track it drew a three-column table 1152px across holding two-word cells.
+     ⭐ Sized by CONTENT instead: the table is exactly as wide as it needs to be
+     at every width and no number had to be invented to cap it. The narrow case
+     is unchanged — the nowrap numeric cells still set a min-content floor above
+     320px, so `.scroll` catches it exactly as before. */
+  table { border-collapse:collapse; inline-size:max-content; max-inline-size:100%;
+          font-family:var(--sans); font-size:.95rem; line-height:1.45; }
   th,td { border-bottom:1px solid var(--rule); padding:var(--s2) var(--s3); text-align:left; vertical-align:top; }
   th { font-weight:600; }
   /* ⛔ RENAMED FROM `.n`. `itinerary` uses `.n` for a place NAME; this was a
@@ -136,8 +215,16 @@
   .panel > :first-child { margin-block-start:0; } .panel > :last-child { margin-block-end:0; }
 
   /* --- the button, as specified --- */
+  /* ⛔ A TARGET HAS TWO AXES, and this sheet floored only one. Every short label
+     on it happens to clear 52px through padding alone, so nothing measured red
+     — but the sheet a builder copies a button from was showing the one-axis
+     pattern that tokens/spacing.css records as the fourth defect to come out of
+     this token, found when the word "Places" measured 42.5px wide at 14px with
+     a correct height. A label shorter than "Sign up" inherits the fault, not
+     the fix. Both floors, always. */
   .btn { display:inline-flex; align-items:center; justify-content:center;
-         border-radius:999px; min-height:var(--tap-comfortable,52px); padding:0 var(--s4) 1px;
+         border-radius:999px; min-height:var(--tap-comfortable,52px);
+         min-inline-size:var(--tap-comfortable,52px); padding:0 var(--s4) 1px;
          font-family:var(--sans); font-size:var(--small); font-weight:700; line-height:1.3;
          text-decoration:none; cursor:pointer; border:1px solid var(--ink);
          background:transparent; color:var(--ink); transition:background-color 120ms; }
@@ -210,7 +297,10 @@
   <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
 </div>
 
-<div class="wrap">
+<!-- ⭐ `page`, not `wrap`. The grid supplies its own gutters through its outer
+     tracks, so it needs no max-width and no inline padding of its own — that is
+     what lets a table claim more width than the reading column. -->
+<div class="page">
 
   <p class="kicker">Cats of Kochi · controls &amp; furniture · 5 August 2026</p>
   <h1>What the Guardian does, and what we take</h1>
@@ -227,6 +317,15 @@
   <!-- ================================================= SHAPE -->
   <h2 id="shape">The shape rule</h2>
 
+  <!-- ⛔ NO `data-span="wide"` HERE, AND IT WAS TRIED AND REMOVED. A comparison
+       table is data rather than prose, so the wide track is where it belongs by
+       rule — but this table is content-sized and MEASURES 433px, which fits the
+       512px reading column with room to spare. The span made not one pixel of
+       difference at any of the six widths. An attribute that declares an
+       intention it never carries out is the same species of defect as a token
+       wired to nothing: it reads as a decision and does nothing.
+       ⚠️ Below about 470px the table exceeds the column and `.scroll` takes
+       over, exactly as it did before. That is the fix working, not a failure. -->
   <div class="scroll">
     <table>
       <thead><tr><th></th><th>catsofkochi today</th><th>The Guardian</th></tr></thead>

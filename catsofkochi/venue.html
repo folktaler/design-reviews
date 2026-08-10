@@ -175,6 +175,16 @@
     padding-inline: var(--gutter, 24px);
   }
 
+  /* The same box, capped at the wide track instead of the reading column. Page
+     chrome takes it so the wordmark starts on the same left edge as the H1.
+     ⛔ Added 10 Aug 2026: the responsive pass moved the BODY onto the three-track
+     grid and left the header and footer on .wrap at 560px. The two boxes coincide
+     only below 560px — at 1440 the wordmark sat 320px right of the H1. That is the
+     two-left-edges defect the grid comment above says it killed; it killed it for
+     the content and nobody measured the chrome. It passed zero-overflow and every
+     type gate. Uses --gutter so it is correct on 20px and 24px kits alike. */
+  .wrap--wide { max-width: calc(var(--measure-wide) + var(--gutter) * 2); }
+
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. ═══════════════════════
 
@@ -722,7 +732,7 @@
 <body data-page-kind="venue">
 
 <header class="v-hd">
-  <div class="wrap v-hd__in">
+  <div class="wrap wrap--wide v-hd__in">
     <a class="v-hd__name" href="#top">cats of Kochi</a>
     <nav class="v-hd__nav" aria-label="Main">
       <a class="v-hd__link" href="#top">Places</a>

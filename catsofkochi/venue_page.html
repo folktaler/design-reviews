@@ -31,6 +31,9 @@
     --space-5: 1.25rem; --space-6: 1.5rem; --space-7: 2rem; --space-8: 2.5rem;
     --space-9: 3rem; --space-10: 4rem;
     --measure: 32rem; /* 512px of TEXT = 59 characters at 19px */
+    /* 1152px. Lists, card rows, facts strips, photographs — everything that is
+       a LIST rather than a paragraph. ⛔ Never running prose. */
+    --measure-wide: 72rem;
     --gutter: var(--space-5);
     --tracking-micro: .06em; --tap: 44px;
   }
@@ -73,6 +76,54 @@
      of it — border-box would otherwise silently shave 40px off every column. */
   .wrap { width: 100%; max-width: calc(var(--measure) + var(--gutter) * 2);
           margin-inline: auto; padding-inline: var(--gutter); }
+  /* The same box, capped at the wide track instead of the reading column. Page
+     chrome takes it so the wordmark starts on the same left edge as the H1. */
+  .wrap--wide { max-width: calc(var(--measure-wide) + var(--gutter) * 2); }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, after he opened a page on a
+     2000px desktop and got a 560px strip. ═══════════════════════════════════
+
+     ⛔ THE CAP ON PROSE IS NOT THE BUG. 512px of text is real typography and a
+     150-character line is unreadable. What was missing is that lists, the facts
+     card and the photograph had no way to use the space prose correctly refuses.
+
+     ⭐ ONE GRID, THREE TRACKS, NO NEW MEDIA QUERIES. A child picks a track with
+     `data-span`; everything else lands in `text`. min()/minmax() key off the
+     CONTAINER, not the viewport, so the phone evaluates nothing extra.
+
+     ⭐ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS — all the surplus goes
+     right. Centring text inside wide is the obvious version and it gives two
+     left edges alternating down the page. Alignment beats balance.
+
+     ⛔ NO SUBGRID IN THIS KIT AT ALL, unlike ui_kits/venue — checked per kit
+     rather than assumed, which is what that kit's own note asks for. Both
+     candidates carry a BORDER, and a subgrid child spans `full`:
+       · `.facts` is a bordered card. A full-bleed subgrid dissolves the card.
+       · `.readnext` owns a top hairline. Spanning `full` would draw a 2000px
+         hairline across the window, and tokens/spacing.css is explicit that a
+         rule is never full-width AND thin — inset reads as a pause, full-bleed
+         reads as a mistake.
+     Both claim `wide` as a single item instead, which is what they wanted.
+
+     ⭐ MEASURED at six container widths. This kit's gutter is --space-5 (20px),
+     NOT the 24px of the newer kits, so the phone equality here is
+     text === min(container, 552) − 40:
+       container  320  375  768  1024  1440  2000
+       text       280  335  512   512   512   512
+       wide       280  335  728   984  1152  1152
+     Zero horizontal overflow and ONE left edge at every one. ══ */
+  .page {
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter) * 2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+  }
+  .page > *                  { grid-column: text; }
+  .page > [data-span="wide"] { grid-column: wide; }
+  .page > [data-span="full"] { grid-column: full; }
 
   /* --- chrome --------------------------------------------------------- */
   .site-header { border-block-end: 1px solid var(--cok-rule); padding-block: var(--space-3); }
@@ -129,10 +180,22 @@
      kit are sans — the facts-strip mechanism again, one kit out of step. A
      component that only looks right inside a particular parent is not a
      component. */
+  /* ⚠️ A CAP THE PHONE NEVER MEETS. Once the figure claims the wide track, 3/2
+     is 768px tall at 1152 and 1333px at a 2000px window — a placeholder taller
+     than the laptop viewport, pushing every fact below the fold on exactly the
+     screen this change exists to serve. 480px binds only above 720px of track;
+     at 375 the box is 335 × 223 and the cap is inert. ⭐ `inline-size: 100%` is
+     load-bearing: without it `aspect-ratio` honours the clamped HEIGHT and
+     shrinks the box to 720px wide, so the figure stops filling its own track. */
   .ph { aspect-ratio: 3 / 2; background: var(--cok-paper-sunk);
+        inline-size: 100%; max-block-size: 30rem;
         display: grid; place-items: center; color: var(--cok-ink-quiet);
         font-family: var(--font-text); font-size: .9rem; }
+  /* ⛔ A CAPTION IS PROSE AND KEEPS A READING MEASURE. The figure went wide; the
+     sentence under it did not. 13.6px, so 21rem — the measured 13px tier in
+     tokens/spacing.css, not --measure, which is a column for 19px body text. */
   figcaption { font-size: .85rem; line-height: 1.45; color: var(--cok-ink-quiet);
+               max-inline-size: 21rem;
                margin-block-start: var(--space-2); }
 
   /* --- facts strip ---------------------------------------------------- */
@@ -148,13 +211,28 @@
                 padding-block: var(--space-3); border-block-end: 1px solid var(--cok-rule); }
   .facts__row:first-child { padding-block-start: 0; }
   .facts__row:last-child { border-block-end: 0; padding-block-end: 0; }
-  @media (min-width: 30rem) { .facts__row { grid-template-columns: 7.5rem 1fr; } }
+  /* ⛔ WAS 30rem, RAISED TO 40rem (--bp-wide) — the one media query this kit is
+     allowed, at the width the system's own token records. At 480px the two
+     columns left the VALUE 264px, and ui_kits/venue measured the same layout at
+     207px on a 375px screen and rejected it: a label is two words, a value is
+     the thing the reader walked over for. Stacked below the breakpoint, side by
+     side only when there is room for both.
+     ⚠️ A custom property cannot be used inside a media condition, so the rem
+     value is written out and the token named here — breakpoints.css's own
+     convention. */
+  @media (min-width: 40rem) { .facts__row { grid-template-columns: 7.5rem 1fr; } }
   .facts dt { margin: 0; color: var(--cok-ink-quiet); font-size: .9rem; line-height: 1.45; }
-  .facts dd { margin: 0; line-height: 1.45; }
+  /* ⛔ A VALUE IS PROSE AND KEEPS THE READING MEASURE. The card goes wide; the
+     sentence inside it does not. Uncapped, the hours value ran the full 1112px
+     of card at a 2000px window. */
+  .facts dd { margin: 0; line-height: 1.45; max-inline-size: var(--measure); }
   .facts__observed { display: block; margin-block-start: var(--space-2); font-weight: 500; }
   .facts__unchecked { margin-block: 0 var(--space-4); padding-block-start: var(--space-3);
                       border-block-start: 1px solid var(--cok-rule); }
-  .unchecked { margin: 0; line-height: 1.45; font-family: var(--font-text); }
+  /* Same rule as `.facts dd`: the refusal is the honesty surface, it is body
+     size, and it keeps the body's measure inside a card that now goes wide. */
+  .unchecked { margin: 0; line-height: 1.45; font-family: var(--font-text);
+               max-inline-size: var(--measure); }
 
   .stamp { display: flex; align-items: center; gap: var(--space-2); margin: 0;
            font-family: var(--font-text); font-size: .8rem; line-height: 1; }
@@ -179,7 +257,10 @@
   .stack h3 a { color: var(--cok-ink); text-decoration: none; }
   .stack h3 a::after { content: ''; position: absolute; inset: 0; }
   .stack h3 a:hover { text-decoration: underline; text-decoration-color: var(--cok-amber-ink); }
-  .stack p { margin: 0; font-size: .9rem; line-height: 1.45; color: var(--cok-ink-quiet); }
+  /* The list row goes wide; its standfirst does not. 14.4px, so 22rem — the
+     measured 14px tier in tokens/spacing.css. */
+  .stack p { margin: 0; font-size: .9rem; line-height: 1.45; color: var(--cok-ink-quiet);
+             max-inline-size: 22rem; }
 
   .kicker { font-family: var(--font-text); font-size: .8rem;
             text-transform: uppercase; letter-spacing: var(--tracking-micro);
@@ -209,7 +290,7 @@
 </div>
 
 <header class="site-header">
-  <div class="wrap site-header__inner">
+  <div class="wrap wrap--wide site-header__inner">
     <!-- The name is REAL TEXT. The live header renders the wordmark inside the
          logo artwork at ~9px, where nobody reads it. The cropped cat mark goes
          to the left of this text once the artwork exists — see
@@ -224,7 +305,7 @@
 </header>
 
 <main>
-  <article class="post wrap">
+  <article class="post page">
 
     <h1>Pepper House</h1>
 
@@ -244,7 +325,7 @@
 
     <p class="byline"><span>Fort Kochi</span> <span>·</span> <span>Written by Shemeer</span></p>
 
-    <figure>
+    <figure data-span="wide">
       <div class="ph">a real photograph</div>
       <figcaption>The courtyard from the first-floor landing, before the
       Biennale crowds arrive.</figcaption>
@@ -266,7 +347,7 @@
     locked door.</p>
 
     <!-- Only what expires. Stamped. -->
-    <section class="facts" aria-label="Pepper House — the practical facts">
+    <section class="facts" data-span="wide" aria-label="Pepper House — the practical facts">
       <dl>
         <div class="facts__row">
           <dt>Hours</dt>
@@ -310,7 +391,7 @@
     </section>
 
     <h2>What we've written about here</h2>
-    <ul class="stack">
+    <ul class="stack" data-span="wide">
       <li>
         <h3><a href="#">The Biennale year that nearly did not happen</a></h3>
         <p>Three weeks before opening, half the rooms were still a warehouse.</p>
@@ -333,7 +414,7 @@
     <p class="unchecked"><strong>Times here are illustrative.</strong> This is the
     shape of the what's-on list, not a researched programme — events are not
     recorded yet. Check with the venue before you go.</p>
-    <ul class="stack">
+    <ul class="stack" data-span="wide">
       <li>
         <h3><a href="#">Mattanchère: Summer Art Salon</a></h3>
         <!-- ⭐ En dash, not "to" — the formatter always renders a range as
@@ -345,7 +426,7 @@
 
     <!-- No closing cat line: a page ending in a list has nothing to sign off. -->
 
-    <nav class="readnext" aria-label="Read next">
+    <nav class="readnext" data-span="wide" aria-label="Read next">
       <p class="kicker">Read next</p>
       <ul class="stack">
         <li>
@@ -363,7 +444,7 @@
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">cats of Kochi · Fort Kochi and Mattancherry · every fact
+  <div class="wrap wrap--wide">cats of Kochi · Fort Kochi and Mattancherry · every fact
   carries the date it was checked</div>
 </footer>
 
