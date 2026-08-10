@@ -179,7 +179,52 @@
     </div>
 
     <div class="empty">
-      <h3>⚠️ 2. What this page cannot answer</h3>
+      <h3>⭐ 2. Three image states, and only a tag can tell two of them apart</h3>
+      <p><b>Owner ruled: a placeholder image and a <code>needs-photo</code> tag on every entry
+        waiting for a photograph.</b></p>
+      <table style="width:100%;border-collapse:collapse;margin-block-start:var(--space-3)">
+        <thead><tr><th scope="col" style="text-align:left">state</th><th scope="col" style="text-align:left">image</th><th scope="col" style="text-align:left">tag</th></tr></thead>
+        <tbody>
+          <tr><td>photo pending</td><td><b>placeholder</b></td><td><b><code>needs-photo</code></b></td></tr>
+          <tr><td>photo added</td><td>the real photograph, which becomes <code>og:image</code></td><td>tag removed</td></tr>
+          <tr><td>⭐ <b>genuinely no photo, ever</b></td><td><b>none</b></td><td><b>none</b></td></tr>
+        </tbody>
+      </table>
+      <p>⭐⭐ <b>The third row is why the tag exists rather than the image.</b> <i>“Waiting for a
+        photograph”</i> and <i>“there will never be a photograph”</i> are different states, and
+        <b>the image cannot distinguish them — only the tag can.</b> ⛔ <b>The 2 August entry
+        above stays image-less and untagged</b>: a placeholder there would promise a photograph
+        that is never coming.</p>
+      <p>⛔ <b>A placeholder is a PRE-LAUNCH state that cannot survive launch by
+        construction</b> — see the build gate below. <b>Nobody should design this page around
+        the placeholder looking good</b>, because on the day it goes live none exists.</p>
+      <p>⚠️ <b>I recommended against the placeholder and was overruled, and the override was
+        right.</b> My objection was that a placeholder becomes <code>og:image</code>, so
+        <b>every shared link renders a grey “coming soon” card in a WhatsApp thread</b> — a bad
+        image card in place of a clean text one, on the 60.8% who arrive that way. ⭐ <b>The
+        owner's answer was operational: his team cannot add photographs to entries they cannot
+        find, and the tag is how they find them.</b> He knows how his team works and I do not.
+        ⭐ <b>The build gate is what makes “it will be changed before live” true rather than
+        assumed</b> — so the objection is answered by a mechanism instead of by trust.</p>
+    </div>
+
+    <div class="empty">
+      <h3>⛔ 3. The launch gate — the build fails while any placeholder remains</h3>
+      <p><b>The placeholder is one known URL, so it is a count.</b> ⭐ <b>The failure is never
+        that people are careless — it is that nothing tells them.</b> If three entries in 150
+        keep the placeholder, <b>nobody notices by eye and the check notices every time.</b></p>
+      <p>⛔ <b>Break it on purpose before trusting it</b>: point one entry at the placeholder,
+        watch the build go red, revert, watch it go green. <b>A gate that has never failed is
+        not known to work</b> — and this project has produced two gates today that could not
+        fail at all.</p>
+      <p>⚠️ <b>Count the <code>needs-photo</code> tag as well as the image URL.</b> They can
+        disagree — an entry given a real photograph with the tag left on, or tagged with the
+        placeholder already replaced — and <b>a gate that checks one of two fields passes on the
+        state where they diverge.</b></p>
+    </div>
+
+    <div class="empty">
+      <h3>⚠️ 4. What this page cannot answer</h3>
       <p><b>Whether the slug is stable.</b> If a headline is edited after publication and the
         slug follows it, <b>every link already shared in a WhatsApp thread breaks</b> — and
         those are exactly the 60.8% this page is designed for. ⛔ <b>The slug must be frozen at
