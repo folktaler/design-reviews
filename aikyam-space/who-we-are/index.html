@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aikyam space — proposed /who-we-are/ (mockup)</title>
+<meta name="description" content="Mockup of the Who we are page for aikyam.space — the organisations working in the space, in their own words.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>#css-guard{background:#b3261e;color:#fff;padding:16px;margin:0;font:600 16px/1.45 system-ui,sans-serif}</style>
+<link rel="stylesheet" href="../_kit.css">
+<style>
+/* ⭐ THE TESTIMONIAL IS AN AIRBNB REVIEW, and the measurements are today's, from
+   airbnb.co.in: their dated record has NO card — background transparent, border 0, radius
+   0px — the person is the headline and the metadata is 14px grey. A resident saying what the
+   room was like IS a review, so it gets that component rather than an invented quote box. */
+.said{margin:var(--space-4) 0 0;padding:0;border:0;background:none;border-radius:0}
+.said p{margin:0;max-width:var(--measure-small);color:var(--text-primary)}
+.said footer{margin-block-start:var(--space-2);font-size:var(--type-small);color:var(--text-secondary)}
+.res__logo{width:56px;height:56px;object-fit:contain;display:block;margin:0 0 var(--space-3);
+  background:var(--surface-quiet);border-radius:var(--radius-card);padding:6px}
+</style>
+</head>
+<body>
+<p id="css-guard">Stylesheet did not load — you are NOT looking at the design. Check that <code>../_kit.css</code> is reachable from this page.</p>
+
+<div class="kitbar">
+  <b>MOCKUP — not the live site.</b> Proposed <code>/who-we-are/</code>, replacing
+  <a href="https://aikyam.space/change-makers-in-residence/">/change-makers-in-residence/</a>
+  (last edited <b>20 May 2026</b>, read 10 Aug). All ten organisations, their descriptions,
+  their logos and <b>all four testimonials are the real published values — quoted verbatim,
+  nothing invented and nothing paraphrased.</b>
+  ⛔ <b>The source URL carries 95 visitors in six months and 301s here</b> — recorded in
+  <code>ASTRO-PLAN.md</code> §0b as a decided move.
+</div>
+
+<header class="site-head">
+  <div class="site-head__in">
+    <a class="brand" href="#">aikyam <span>space</span></a>
+    <button class="iconbtn" aria-label="Search">Search</button>
+    <a class="btn btn--secondary" href="#">Subscribe</a>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <ul>
+    <li><a href="#">Clubs</a></li>
+    <li><a href="#">Stories</a></li>
+    <li><a href="#" aria-current="page">Who we are</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Team</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<main class="wrap wrap--wide">
+  <section class="lede">
+    <p class="kicker">Ten organisations</p>
+    <h1>The people working out of this room</h1>
+    <p style="margin-block-start:var(--space-4)">Ten organisations use aikyam space — five that
+      came from outside and five that aikyam runs itself. They are here because the room is
+      collaborative and psychologically safe, and because they are all working on social impact
+      in Fort Kochi and Mattancherry.</p>
+
+    <p class="kitnote">⛔ <b>The nav label is “Who we are” and the owner has fixed it, so this
+      page has to disambiguate itself.</b> Three items in that bar all answer “who?”, and a
+      reader scanning it cannot tell which one holds the organisations. ⭐ <b>So the H1 and the
+      first sentence do the job the label cannot</b> — “Ten organisations”, “the people working
+      out of this room”, and the count named immediately.
+      <br><br>⭐ <b>Three openings, three subjects, and none of them begins “aikyam space
+      is…”:</b> <b>About</b> opens on the place (“A hall, a garden and a kitchen”), <b>Team</b>
+      on people (“Thirteen people keep aikyam space running”), <b>this</b> on organisations.
+      <br><br>⚠️ <b>“Ten” is in the lede and it is a count in prose</b> — the same soft version
+      of the rule broken on <code>/team/</code>. ⛔ <b>In the build it is derived from the list,
+      never typed.</b></p>
+  </section>
+
+  <hr class="band">
+
+  <section aria-labelledby="out-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="out-h">From outside aikyam</h2>
+    <p style="color:var(--text-secondary);margin-block-start:var(--space-2)">Organisations that
+      came to the space and stayed.</p>
+
+    <ul class="orgs">
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="Community 40"
+          src="https://aikyam.space/content/images/2026/04/WhatsApp-Image-2026-04-22-at-15.17.32--1-.jpeg">
+        <h3>Community 40</h3>
+        <p>Works with travellers and locals to preserve the culture and history of Fort Kochi
+          and Mattancherry — bringing people together to observe, record and understand the
+          place and its people.</p>
+        <blockquote class="said">
+          <p>“We have been using aikyam Space for multiple purposes, from our internal meetings
+            to full team monthly gatherings. What really stands out is the space itself. It
+            feels like an open home, making it a very comfortable place to spend time and work
+            together.”</p>
+          <footer>Community 40</footer>
+        </blockquote>
+      </li>
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="Thudippu Foundation"
+          src="https://aikyam.space/content/images/2026/04/Thudippu-logo.webp">
+        <h3>Thudippu Foundation</h3>
+        <p>Makes learning dance and other cultural art forms accessible to everyone, through
+          performances and learning spaces for artists.</p>
+      </li>
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="Olimalar Foundation"
+          src="https://aikyam.space/content/images/2026/04/SCR-20260422-rfyw.png">
+        <h3>Olimalar Foundation</h3>
+        <p>Works with children and communities in Fort Kochi and Mattancherry to build
+          confidence, emotional well-being and life skills.</p>
+        <span class="orgs__also">Runs the Curiosity Club and the Reading Club</span>
+        <blockquote class="said">
+          <p>“aikyam space felt like home because they truly let it be. They looked after us
+            like family.”</p>
+          <footer>Olimalar Foundation</footer>
+        </blockquote>
+      </li>
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="Make A Difference"
+          src="https://aikyam.space/content/images/2026/04/SCR-20260422-rhmp.png">
+        <h3>Make A Difference</h3>
+        <p>Works with children in need of care and protection through education, mentoring and
+          life skills — building long-term support systems with volunteers.</p>
+        <blockquote class="said">
+          <p>“aikyam space offers unmatched positivity that creates a conducive environment for
+            open conversations. We didn’t need to plan additional exposure activities for the
+            participants — the space itself provided the inspiration.”</p>
+          <footer>Make A Difference</footer>
+        </blockquote>
+      </li>
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="Sana Fathima"
+          src="https://aikyam.space/content/images/2026/04/WhatsApp-Image-2026-04-23-at-11.00.39--1-.jpeg">
+        <h3>Sana Fathima</h3>
+        <p>A PhD research scholar in Sociology at the Delhi School of Economics, working on the
+          social and cultural history of radio broadcasting through the memories of listeners.
+          Her fieldwork is in Kochi.</p>
+        <blockquote class="said">
+          <p>“aikyam serves as a safe, comfortable, and intellectually nurturing space to work
+            on my thesis and build connections with the local community.”</p>
+          <footer>Sana Fathima</footer>
+        </blockquote>
+      </li>
+    </ul>
+
+    <p class="kitnote">⭐⭐ <b>The testimonials are rendered as Airbnb renders a review, and that
+      is a measured decision rather than a stylistic one.</b> Measured on
+      <code>airbnb.co.in</code> today: their dated record has <b>no card at all</b> — background
+      transparent, border <code>0px</code>, radius <code>0px</code> — while the photo-led
+      listing card has a 4:3 image and a 20px radius. <b>A card is for a thing you can book; a
+      record of something that happened is text on the page with space around it.</b>
+      <br><br>⭐ <b>A resident saying what the room was like IS a review</b>, so it uses the
+      component that already exists rather than an invented quote treatment with rules nobody
+      measured. ⛔ <b>No quotation-mark graphic, no tinted panel, no italic block.</b>
+      <br><br>⛔⛔ <b>These four sentences are the strongest writing on the entire site and they
+      sit on a page with 95 visitors in six months.</b> <i>“They looked after us like family”</i>
+      is the proof of everything <code>/about/</code> merely asserts — and it has never been
+      anywhere a stranger would see it. ⭐ <b>Same shape as the diary: the evidence exists and is
+      filed where nobody arrives.</b>
+      <br><br>⚠️ <b>Five residents, four testimonials.</b> Thudippu has none, and no filler was
+      written. The card simply ends after the description — <b>the absence costs nothing because
+      the component has no quote slot to leave empty</b>, which is the same property that makes
+      it right for the daily record.</p>
+  </section>
+
+  <section aria-labelledby="own-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="own-h">aikyam's own initiatives</h2>
+    <p style="color:var(--text-secondary);margin-block-start:var(--space-2)">Also run from this
+      room, by aikyam itself.</p>
+
+    <ul class="orgs">
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="aikyam fellows"
+          src="https://aikyam.space/content/images/2026/05/aikyam-fellow.png">
+        <h3>aikyam fellows</h3>
+        <p>Work on urgent needs of the planet and of underserved communities — education,
+          environmental conservation, poverty alleviation, public health, art and culture — and
+          help each other through peer learning, coaching and access to tools.</p>
+      </li>
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="aikyam jobs"
+          src="https://aikyam.space/content/images/2026/05/aikyam-jobs.png">
+        <h3>aikyam jobs</h3>
+        <p>A not-for-profit initiative matching social impact organisations tackling inequality
+          and climate change with the right talent.</p>
+      </li>
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="aikyam school"
+          src="https://aikyam.space/content/images/2026/05/aikyam-school.webp">
+        <h3>aikyam school</h3>
+        <p>A free, open forum for anyone working in the nonprofit sector in India — compliance,
+          finance, HR, PoSH, technology, fundraising, storytelling, team management, or anything
+          else that comes up when you are building an organisation from the ground up.</p>
+      </li>
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="PATTIC"
+          src="https://aikyam.space/content/images/2026/05/PATTIC.png">
+        <h3>PATTIC</h3>
+        <p>A support and knowledge platform for NGOs and civil society organisations in India,
+          helping them become more transparent, legally compliant and professionally managed.</p>
+      </li>
+      <li>
+        <img class="res__logo" width="56" height="56" loading="lazy" alt="OASIS"
+          src="https://aikyam.space/content/images/2026/05/Oasis.jpg">
+        <h3>OASIS</h3>
+        <p>A collaborative tech-for-good ecosystem helping social impact organisations, NGOs and
+          community initiatives use technology, open-source tools and collaboration to solve
+          real problems.</p>
+      </li>
+    </ul>
+
+    <p class="kitnote">⭐ <b>Both groups are shown and both are labelled — the owner overturned
+      an earlier decision to exclude aikyam's own five, and he was right.</b> Hiding them hid a
+      true fact; labelling them keeps the fact and kills the wrong inference, which is that ten
+      unrelated organisations independently chose this room. <b>Five did. Five are aikyam's own,
+      and saying so is more convincing than a bigger number would have been.</b>
+      <br><br>⚠️ <b>Olimalar appears here as an organisation and on the clubs page as the runner
+      of two clubs.</b> That is <code>run_by_kind</code> doing its job: <b>the same fact framed
+      twice, deliberately</b> — a partner behind the room here, a name beside a session there.</p>
+  </section>
+
+  <hr class="band">
+
+  <section style="margin-block-start:var(--pitch-rule-heading)" aria-labelledby="gaps-h">
+    <h2 id="gaps-h">⚠️ Reviewer notes — not page copy</h2>
+
+    <div class="empty">
+      <h3>⛔ 1. This page should not have been the last one built</h3>
+      <p>Its nav label was argued over three times in one day while <b>the page itself did not
+        exist.</b> ⭐ <b>Worth naming as a pattern: a label is easy to discuss and a page is
+        work</b>, so a review will happily spend its attention on the cheaper of the two and
+        feel productive.</p>
+    </div>
+
+    <div class="empty">
+      <h3>⚠️ 2. Verify against the live page before this ships</h3>
+      <p>The source was last edited <b>20 May 2026</b> — nearly three months ago, and
+        <code>/clubs/</code> and <code>/team/</code> both changed <b>during this review</b>.
+        ⛔ <b>Nothing here should be trusted as current without a re-read</b>, particularly
+        whether all ten are still in residence.</p>
+    </div>
+
+    <div class="empty">
+      <h3>⭐ 3. The URL is a decision, not archaeology</h3>
+      <p><code>/change-makers-in-residence/</code> → this page, <b>95 visitors in six months</b>,
+        already recorded in <code>ASTRO-PLAN.md</code> §0b. ⛔ <b>The first URL this project has
+        moved on purpose</b> — every other entry in that section is a URL somebody moved and
+        left behind.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap--wide">
+    <div class="foot-cols">
+      <div>
+        <h2>When we are open</h2>
+        <ul class="hours">
+          <li><span>Every day</span><b>2–6 PM</b></li>
+          <li><span>Sunday</span><b>Dance only</b></li>
+        </ul>
+        <p class="foot-note" style="margin-block-start:var(--space-3)">These are the club
+          session times. To visit outside them, <a href="#">contact us</a>.</p>
+      </div>
+      <div>
+        <h2>Where we are</h2>
+        <p>aikyam space, Fort Kochi.</p>
+        <p style="margin-block-start:var(--space-3)"><a href="https://share.google/Xc0HN6lt65kULvdCg">Open the map</a></p>
+      </div>
+      <div>
+        <h2>More</h2>
+        <ul class="foot-links">
+          <li><a href="#">Clubs</a></li>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
