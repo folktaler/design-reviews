@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aikyam space — horizontal card + a real four-run (test)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>#css-guard{background:#b3261e;color:#fff;padding:16px;margin:0;font:600 16px/1.45 system-ui,sans-serif}</style>
+<link rel="stylesheet" href="../_kit.css">
+<style>
+/* Local only while the horizontal card is under test — moves to _kit.css if it is adopted. */
+a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
+  flex:none;width:clamp(96px, 28%, 168px)}
+.act:has(a.act__shotlink){display:flex;gap:var(--space-4);align-items:flex-start}
+.act:has(a.act__shotlink) .act__text{flex:1;min-width:0}
+.act__shot{width:100%;max-width:none}
+.act__what a{min-height:0;padding-block:0}
+</style>
+</head>
+<body>
+<p id="css-guard">Stylesheet did not load — you are NOT looking at the design.</p>
+
+<div class="kitbar">
+  <b>TEST — not a page proposal.</b> The <b>horizontal card</b>, and <b>a genuine four-entry
+  photo-less run</b>. ⚠️ <b>The run is ASSEMBLED:</b> all five text-only entries below are real
+  and unedited, but <b>their adjacency is constructed</b> — the natural May slice tops out at
+  three because the quotation entry breaks it. ⛔ <b>Said plainly because an assembled adjacency
+  is not a measurement of the corpus; it is a stress test of the layout.</b>
+</div>
+
+<main class="wrap wrap--wide" style="padding-block:var(--space-6)">
+  <h1>Horizontal card</h1>
+  <p style="margin-block-start:var(--space-3)">Two photographed entries, then four without.</p>
+
+  <ul class="feed">
+    <li>
+      <p class="dayband">Wednesday 13 May</p>
+      <article class="act">
+        <a class="act__shotlink" href="#"><img class="act__shot" width="1600" height="1200"
+          loading="eager" alt="Children at the resist dyeing session"
+          src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.54.42-1-1-1.jpeg"></a>
+        <div class="act__text">
+          <h3 class="act__what"><a href="#">Campers tried resist dyeing along with dance and games</a></h3>
+          <p class="act__body">Day 3 of the summer camp focused on movement, dance, and “Resist
+            Dyeing” activities. Through games, expression, and group sessions, children were
+            encouraged to move freely and participate with confidence.</p>
+        </div>
+      </article>
+      <article class="act">
+        <a class="act__shotlink" href="#"><img class="act__shot" width="1600" height="1200"
+          loading="eager" alt="Stitching class in progress"
+          src="https://aikyam.space/content/images/2026/05/WhatsApp-Image-2026-05-14-at-14.55.09-1.jpeg"></a>
+        <div class="act__text">
+          <h3 class="act__what"><a href="#">Students grew more confident handling fabric</a></h3>
+          <p class="act__body">The stitching class continued with students learning how to work
+            with fabric more confidently each day. From cutting cloth to finishing small
+            details, the sessions are helping the community build practical skills.</p>
+        </div>
+      </article>
+    </li>
+    <li>
+      <p class="dayband">Tuesday 12 May</p>
+      <article class="act">
+        <h3 class="act__what"><a href="#">Members followed a product through the whole process</a></h3>
+        <p class="act__body">The stitching class continued with members getting to know the
+          complete process behind making a product. From handling fabric carefully to
+          practicing clean stitching, each session is helping turn learning into confidence.</p>
+      </article>
+      <article class="act">
+        <h3 class="act__what"><a href="#">Fabric slowly turned into bags and pouches</a></h3>
+        <p class="act__body">The stitching class continued with students spending time on
+          practice, patience, and small improvements in every step. As fabrics slowly turn into
+          bags and pouches, the space becomes a place of learning and shared creativity.</p>
+      </article>
+      <article class="act">
+        <h3 class="act__what"><a href="#">Magic Bus visited to learn what happens here</a></h3>
+        <p class="act__body">Members from Magic Bus visited the space to understand more about
+          the activities happening within the community and explore possibilities for future
+          engagement. The interaction became a chance to share experiences and ideas.</p>
+      </article>
+      <article class="act">
+        <h3 class="act__what"><a href="#">Pranava Institute surveyed technology barriers in Fort Kochi</a></h3>
+        <p class="act__body">We interacted with Dhanyashri from Pranava Institute, Delhi, to
+          help with their survey on technology barriers faced by NGOs, Kudumbashree members,
+          ASHA and ICDS workers in Fort Kochi.</p>
+      </article>
+    </li>
+  </ul>
+</main>
+</body>
+</html>

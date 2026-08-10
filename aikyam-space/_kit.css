@@ -304,8 +304,36 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    ⭐⭐ And it is the same rule as the prose: an image column and a text column belong to the
    same reading measure. A photograph twice as wide as the sentence under it is not a lead, it
    is an interruption. ⚠️ The phone is unaffected — 358px there, viewport-bound. */
-a.act__shotlink,.act__shot{max-width:var(--measure)}
-a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden}
+/* ⭐⭐ HORIZONTAL CARD — owner, 10 Aug: "the cards are too big! we should use a grid, 3 per
+   row?" He is right about the size and wrong about the remedy, and both halves matter.
+   ⛔ A 3-across grid reinstates exactly what the single column solved: a photo-less entry
+   beside a photographed one reads as a hole, and they arrive in RUNS of four. He is reacting
+   to SIZE, not to columns.
+   ⭐⭐ So the card turns on its side instead: small image left, words right. Entry height drops
+   from ~600px to ~140px — the quarter he actually asked for — AND the hole problem stays
+   solved, because an entry with no photograph uses the full width for its text. There is no
+   slot beside it to be empty. Same property as the single column, at a quarter the size.
+   ⭐ The thumbnail is `clamp()`, not a breakpoint: ~100px on a phone, ~152px at desktop. The
+   last media query in this file was removed deliberately and this does not bring one back. */
+a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
+  flex:none;width:clamp(96px, 28%, 168px)}
+.act:has(a.act__shotlink){display:flex;gap:var(--space-4);align-items:flex-start}
+.act:has(a.act__shotlink) .act__text{flex:1;min-width:0}
+.act__shot{width:100%}
+/* ⛔⛔ ONE LEFT EDGE — and this is a DECLARED media query, the only one in the file, added
+   deliberately after the last one was removed deliberately.
+   Measured at 1280 without it: TWO left edges, 144px for a photo-less entry and 328px for a
+   photographed one, so the column zigzags. ⭐ That is the same defect found on `/about/` this
+   morning, and the same fix: the page keeps one left edge.
+   ⚠️ But indenting costs real width, and on a phone it costs too much — measured at 390 the
+   feed grows 4,113 → 4,805px (4.6 → 5.3 screens) and the text column narrows to 242px.
+   ⛔ So the indent applies only where there is room. A breakpoint is the honest mechanism here
+   because the answer genuinely differs by available width rather than reflowing — the same
+   test the week grid was held to, and the reason it failed it. */
+@media (min-width: 48rem){
+  .act:not(:has(a.act__shotlink)){
+    padding-inline-start:calc(clamp(96px, 28%, 168px) + var(--space-4))}
+}
 .act__meta{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-2) 0 0;
   font-variant-numeric:var(--figures-aligned)}
 /* ⭐⭐ THE EXCERPT IS WHAT SOLVES THE EMPTY CARD, and the real numbers made it free. Measured
