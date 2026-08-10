@@ -99,7 +99,7 @@ a{color:inherit}
    run the full width with nothing to catch it. Found by measuring, not by reading. */
 /* ⭐ …except the things that ARE the structure. A grid's own children must keep the full
    width, or the grid can never form a second column — see `.set` below. */
-.wrap--wide :is(.cards,.orgs,.foot-cols,.week,.set,.sessions,.latest,.nav,.doors,.roll,.months,.feed)>li{max-width:none}
+.wrap--wide :is(.cards,.orgs,.foot-cols,.week,.set,.sessions,.latest,.nav,.doors,.roll,.months,.feed,.sayslist)>li{max-width:none}
 /* ⛔⛔ `.roll` was missing and assertion 13 caught it at 1280px — the quiet list's rows measured
    55% of their own container, which is precisely the "narrow item in a wide container" shape the
    assertion exists to find. SECOND time this list has failed by omission, and the second time
@@ -305,6 +305,21 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
 .says cite{display:block;margin-block-start:var(--space-3);font-style:normal;
   font-size:var(--type-small);color:var(--text-secondary)}
 .wrap--wide .says{max-width:var(--measure-small)}
+/* ⛔⛔ A STACK OF QUOTATIONS RUNS TOGETHER, and only the rendered page showed it. Four in a
+   column, each the same width with a grey name between them, and the name reads ambiguously —
+   is it the end of the quote above or the start of the one below? Every measurement was clean.
+   ⭐ The fix is a RATIO, not a bigger number: the gap BETWEEN quotations must be visibly larger
+   than the gap between a quotation and its own name. Airbnb spaces their reviews 48px apart
+   while the attribution sits tight under its text — measured on listing 23572181.
+   ⭐⭐ And two columns, because that is what Airbnb actually does: their review section is a
+   1120px band holding 450px text columns, i.e. two. Ours was one 352px column in the left third
+   of a 1540px screen on a site that is 62% desktop. ⛔ Intrinsic, not a breakpoint — one column
+   on a phone, two when there is room, from one rule. */
+.sayslist{list-style:none;margin:var(--space-6) 0 0;padding:0;display:grid;
+  gap:var(--space-7) var(--space-6);
+  grid-template-columns:repeat(auto-fill,minmax(min(22rem,100%),1fr))}
+.sayslist>li{margin:0}
+.sayslist .says{margin:0;max-width:none}
 /* ⭐ Beside a club, the quotation belongs to THAT club — so it sits inside the session, not in a
    strip of its own. A testimonial section is a page about praise; a line under the club is
    evidence about the club. */
