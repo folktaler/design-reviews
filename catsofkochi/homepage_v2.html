@@ -625,18 +625,18 @@
       <li>
         <a class="h-st__name" href="#top">Paradesi Synagogue</a><span class="h-st__dist"> · 20 minutes on foot</span>
         <!-- ⚠️ The meridiem is on the STATIC string too, not only on the one the
-             script writes. This cell is rewritten to "closed since 2pm" after two
-             o'clock, so a bare hour here made one component print the time two
+             script writes. The script rewrites this cell to a closed-state line
+             after two o'clock, so a bare hour here made one component print it two
              different ways depending on when you read it. The row below is
              ambiguous for the same reason at breakfast without its meridiem.
              ⚠️ Deliberately no quoted string in this comment: it has already
              drifted twice as the copy changed, and a comment quoting a string
              it no longer matches teaches the next reader something false. -->
-        <!-- ⭐ "closes at", not "shuts at" — owner ruling 10 Aug 2026 on fact
-             strings. ⚠️ The two `'closed since '` literals in the script below were
-             changed in the SAME pass. Changing only the static string would have
-             recreated the exact fault the comment above records: one component
-             printing two vocabularies depending on the hour. -->
+        <!-- ⭐ Closed, not shut, in fact strings — owner ruling 10 Aug 2026. ⚠️ The
+             script's two closed-state literals below were changed in the SAME pass.
+             Changing only the static string would have recreated the exact fault the
+             comment above records: one component using two vocabularies for one idea,
+             depending on the hour. -->
         <span class="h-st__state"> — <span class="cl" data-until="14">open, closes at 2pm</span>.</span>
         <!-- ⛔ The alternative carries ITS OWN closing hour. Without this the
              row recommended Jew Town at six o'clock, when Jew Town is also

@@ -433,17 +433,17 @@
         <a href="#">Paradesi Synagogue</a><span class="st__dist"> · 20 minutes on
         foot</span>
         <!-- ⚠️ the distance sits with the PLACE, not the state. It was after the
-             state, and at 3pm the row read "closed since 2pm. Twenty minutes away
-             on foot" — sending somebody to a locked door. A property of the place
+             state, and in the afternoon the row read as a closed-state line followed
+             by the walking distance — sending somebody to a locked door. A property of the place
              survives every rewrite; a property of the hour does not. -->
         <!-- ⭐ 14:00 is correct AND it is a Friday in this mockup: the synagogue
              runs 10-6 Sunday to Thursday and 10-2 on Fridays (paradesisynagogue.com,
              read 7 Aug 2026). The clock at the top of this page says Friday, so the
              early close is the right thing to be warning about. -->
-        <!-- ⭐ "closes at", not "shuts at" — owner ruling 10 Aug 2026 on fact
-             strings. The two `'closed since '` literals in the script below were
-             changed in the same pass; changing only the static string would have
-             the component print two vocabularies depending on the hour. -->
+        <!-- ⭐ Closed, not shut, in fact strings — owner ruling 10 Aug 2026. The
+             script's two closed-state literals below were changed in the same pass;
+             changing only the static string would have the component use two
+             vocabularies for one idea, depending on the hour. -->
         <span class="st__state"> — <span class="cl" data-until="14">open, closes at
         2pm</span>.</span>
         <!-- ⛔ the alternative carries ITS OWN closing hour. Without this the
