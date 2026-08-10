@@ -106,6 +106,33 @@
      the token says. Ship the calc with the value, always. */
   .wrap { max-width: calc(var(--measure) + var(--gutter) * 2);
           margin-inline:auto; padding-inline:var(--gutter); }
+
+  /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive".
+     Same pattern as ui_kits/venue, which carries the full rationale. Short form:
+     the 512px prose cap is correct typography and stays; what was missing is a
+     way for SPECIMENS, GRIDS AND SWATCHES to use the width prose refuses.
+     ⭐ Three tracks, opt in with `data-span`, and ZERO media queries — min() and
+     minmax() key off the CONTAINER, so the phone evaluates nothing extra and the
+     result can be verified without a device.
+     ⭐ NO SUBGRID HERE, and that is a property of this page rather than a
+     simplification: system.html has no <section> at all — every specimen is a
+     direct child of main — so the base rules reach everything. venue needs
+     subgrid because its lists sit inside sections.
+     ⛔ --measure-wide is the SYSTEM's 62rem (tokens/spacing.css:120), not a
+     number invented here. ⚠️ It was declared in this kit and used by nothing
+     before today — a dead token, same shape as the fonts.css scar. */
+  .page {
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter), 1fr)
+      [wide-start text-start] min(100% - var(--gutter) * 2, var(--measure))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure)))
+      [wide-end]   minmax(var(--gutter), 1fr)
+      [full-end];
+  }
+  .page > *                  { grid-column: text; }
+  .page > [data-span="wide"] { grid-column: wide; }
+  .page > [data-span="full"] { grid-column: full; }
   h1,h2,h3 { margin:0 0 var(--space-4); font-weight:var(--weight-semibold); }
   h1 { font-size:var(--type-display); line-height:var(--leading-display);
        letter-spacing:var(--tracking-display); }
@@ -268,7 +295,9 @@
   </div>
 </header>
 
-<main class="wrap">
+<!-- ⭐ `page`, not `wrap`: the grid supplies its own gutters through its outer
+     tracks. `.wrap` still centres the header and the note frame. -->
+<main class="page">
   <h1>The system, not the pages</h1>
   <p>
     Everything below is a token or a component. There is no page here on purpose:
@@ -289,7 +318,7 @@
     could. What is kept is the discipline rather than the count.
   </p>
 
-  <div class="spec">
+  <div class="spec" data-span="wide">
     <span class="spec__label">display · 30 → 40 · 600</span>
     <span style="font-size:var(--type-display);line-height:var(--leading-display);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-display)">The last ferry leaves at nine</span>
     <span class="spec__label">heading · 25 → 28 · 600</span>
@@ -316,7 +345,7 @@
     zero, so a column of departure times drifts sideways as you read down it, and
     a drifting column reads as an estimate rather than a fact.
   </p>
-  <div class="grid2">
+  <div class="grid2" data-span="wide">
     <div>
       <p class="spec__label">default figures — the times do not line up</p>
       <p style="font-size:var(--type-ui);line-height:1.6;margin:0">21:00<br>11:00<br>17:45<br>&#8377;110<br>&#8377;40</p>
@@ -355,7 +384,7 @@
     is not selling: it marks the thing the reader came for, which on a page about
     a place is the date we last went and looked.
   </p>
-  <ul class="swatches">
+  <ul class="swatches" data-span="wide">
     <li class="swatch" style="background:var(--cok-paper);border:1px solid var(--cok-rule)">paper<br>#fdfcf9</li>
     <li class="swatch" style="background:var(--cok-paper-sunk)">quiet panel<br>#f4f1ea</li>
     <li class="swatch" style="background:var(--cok-ink);color:var(--cok-paper)">ink 16.9:1<br>#1c1a17</li>
@@ -376,7 +405,7 @@
 
   <hr class="divider divider--hairline" id="shape">
   <h2>Shape — five values, each with one job</h2>
-  <ul class="shapes">
+  <ul class="shapes" data-span="wide">
     <li class="shape" style="border-radius:var(--radius-none)">0<br>full-bleed photo,<br>chrome</li>
     <li class="shape" style="border-radius:var(--radius-card)">8<br>a card, and a<br>photo inside one</li>
     <li class="shape" style="border-radius:var(--radius-control)">12<br>secondary button,<br>map, chip</li>
@@ -393,7 +422,7 @@
     a media query, so the corner belongs to the component&rsquo;s job rather than to
     the width of the screen.
   </p>
-  <div class="grid2">
+  <div class="grid2" data-span="wide">
     <figure class="photo photo--card">
       <div class="photo__box"><span class="badge badge--on-photo">3 / 7</span></div>
       <figcaption class="spec__label">inside a card — 8px, and 4:3</figcaption>
@@ -432,7 +461,7 @@
     A fact that disagrees with the sign on the door gets both halves and a date,
     because knowing the posted hours are wrong is the thing nobody else has.
   </p>
-  <dl class="facts">
+  <dl class="facts" data-span="wide">
     <div class="row" data-facts-row="fare" data-fact="known">
       <dt class="row__label">Fare</dt>
       <dd class="row__value row__value--aligned"><span data-fact-value>&#8377;40 each way</span></dd>
@@ -459,7 +488,12 @@
     and no colour anywhere in it. What sits on the shelf is a record of our own
     work rather than anyone&rsquo;s opinion.
   </p>
-  <div class="trust" data-trust-card>
+  <!-- ⭐ WIDE, and this one earns it. Measured 9 Aug: at a 327px phone column
+       Airbnb's three-cell trust card leaves 108px a cell, "How we checked" wraps
+       to two lines and the cells equalise at 90.8px tall. Their labels are
+       10–12px and our floor is 14px. The card was a desktop component all along
+       and never had a desktop to sit on. -->
+  <div class="trust" data-trust-card data-span="wide">
     <div class="trust__cell" data-trust-cell="last checked">
       <span class="trust__value">3 Aug</span><span class="trust__label">last checked</span>
     </div>
@@ -478,7 +512,7 @@
     is deciding rather than recognising, and this is the row order a travel index
     has needed all along. The live site does the opposite.
   </p>
-  <div class="grid2">
+  <div class="grid2" data-span="wide">
     <article class="card" data-place-card>
       <figure class="photo photo--card"><div class="photo__box"></div></figure>
       <p class="card__kind" data-card-row="kind">Synagogue in Mattancherry</p>
@@ -514,7 +548,7 @@
     page and on the itinerary and nowhere else, because a told place has nothing to
     pin and a hundred and ninety of our pages are told places.
   </p>
-  <div class="bar" data-action-bar="venue">
+  <div class="bar" data-action-bar="venue" data-span="wide">
     <!-- ⚠️ "Closes at", not "Shuts at" — MY EXTENSION of the owner's 10 Aug ruling,
          flagged rather than assumed. He ruled on the state word ("Closed" not
          "Shut") for fact strings. The verb form is the same legibility argument,
@@ -534,7 +568,7 @@
     masthead is set both ways below. There is no wrong answer, and the honest
     argument for each is one sentence.
   </p>
-  <div class="grid2">
+  <div class="grid2" data-span="wide">
     <div>
       <p class="spec__label">A — one family, all sans</p>
       <p style="font-size:var(--type-display);line-height:var(--leading-display);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-display);margin:0 0 var(--space-2)">Cats of Kochi</p>
