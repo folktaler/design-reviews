@@ -264,7 +264,7 @@
      on the place would open the alternative. */
   .h-st > li > .h-st__name::after { content: ''; position: absolute; inset: 0; }
   .h-st__dist, .h-st__state { color: var(--text-secondary, #5a544c); }
-  /* ⛔ NOT RED. "Shuts at 2pm, in 45 minutes" is the most useful sentence on the
+  /* ⛔ NOT RED. "closes at 2pm, in 45 minutes" is the most useful sentence on the
      page, not an error, and Airbnb colours nothing to signal urgency. The
      distinction is carried by weight and by the line underneath — both of
      which survive the stylesheet being switched off, which a colour does not. */
@@ -618,18 +618,26 @@
     <p class="h-today__line">Heavy rain from mid-afternoon. Do the outdoor
     things before two.</p>
 
-    <!-- ⚠️ Every row must be TRUE WITH NO SCRIPT. "Shuts at 2pm" is a posted
+    <!-- ⚠️ Every row must be TRUE WITH NO SCRIPT. "closes at 2pm" is a posted
          fact; "in 45 minutes" is not, so it is never written into the HTML —
          the enhancement adds it, and only while it is true. -->
     <ul class="h-st">
       <li>
         <a class="h-st__name" href="#top">Paradesi Synagogue</a><span class="h-st__dist"> · 20 minutes on foot</span>
         <!-- ⚠️ The meridiem is on the STATIC string too, not only on the one the
-             script writes. This cell is rewritten to "shut since 2pm" after two
-             o'clock, so a bare "shuts at 2" here made one component print the
-             hour two different ways depending on the time of day. And "opens at
-             5" below is genuinely ambiguous to someone reading it at breakfast. -->
-        <span class="h-st__state"> — <span class="cl" data-until="14">open, shuts at 2pm</span>.</span>
+             script writes. This cell is rewritten to "closed since 2pm" after two
+             o'clock, so a bare hour here made one component print the time two
+             different ways depending on when you read it. The row below is
+             ambiguous for the same reason at breakfast without its meridiem.
+             ⚠️ Deliberately no quoted string in this comment: it has already
+             drifted twice as the copy changed, and a comment quoting a string
+             it no longer matches teaches the next reader something false. -->
+        <!-- ⭐ "closes at", not "shuts at" — owner ruling 10 Aug 2026 on fact
+             strings. ⚠️ The two `'closed since '` literals in the script below were
+             changed in the SAME pass. Changing only the static string would have
+             recreated the exact fault the comment above records: one component
+             printing two vocabularies depending on the hour. -->
+        <span class="h-st__state"> — <span class="cl" data-until="14">open, closes at 2pm</span>.</span>
         <!-- ⛔ The alternative carries ITS OWN closing hour. Without this the
              row recommended Jew Town at six o'clock, when Jew Town is also
              shut — the component reproducing the exact failure it exists to
@@ -639,7 +647,7 @@
       </li>
       <li>
         <a class="h-st__name" href="#top">Mattancherry Palace</a>
-        <span class="h-st__state"> — shut all day. It is a Friday.</span>
+        <span class="h-st__state"> — closed all day. It is a Friday.</span>
       </li>
       <li>
         <a class="h-st__name" href="#top">Kerala Kathakali Centre</a>
@@ -926,7 +934,7 @@
       if (c.dataset.until) {
         var u = Number(c.dataset.until), mins = Math.round((u - now) * 60);
         if (mins <= 0) {
-          c.textContent = 'shut since ' + say(u);
+          c.textContent = 'closed since ' + say(u);
           c.classList.add('h-st__soon');
           instead(c, true, now);
         } else if (mins <= 90) {
@@ -946,7 +954,7 @@
         if (open) {
           c.textContent = 'open now, until ' + say(to);
         } else if (to !== null && now >= to) {
-          c.textContent = 'shut since ' + say(to);
+          c.textContent = 'closed since ' + say(to);
           c.classList.add('h-st__soon');
         }
         instead(c, now < from, now);

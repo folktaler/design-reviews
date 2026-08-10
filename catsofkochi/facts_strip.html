@@ -495,7 +495,13 @@
             <span class="fs-hours__day">Tuesday to Sunday</span>
             <span class="fs-hours__range">10am – 1pm</span>, <span class="fs-hours__range">2 – 4.30pm</span>
           </p>
-          <p class="fs-hours__shut">Shut Mondays, and on public holidays.</p>
+          <!-- ⭐ "Closed", not "Shut" — owner ruling 10 Aug 2026. "Shut" is
+               British-informal; "Closed" is the word on shop shutters and station
+               boards worldwide, and most Fort Kochi visitors do not have English
+               as a first language. ⛔ The class name stays `fs-hours__shut` — an
+               internal identifier is not reader text, and renaming it would touch
+               the CSS to no reader's benefit. -->
+          <p class="fs-hours__shut">Closed Mondays, and on public holidays.</p>
         </div>
 
         <div class="fs-next">
@@ -651,7 +657,7 @@
       <li><b>Bastion Bungalow</b> — <code>src/content/places/bastion-bungalow.yaml</code>:
         <code>opening_hours: Tu-Su 10:00-13:00,14:00-16:30; PH off</code>,
         <code>walk_minutes: 3</code> from Fort Kochi Water Metro,
-        <code>entry_price: null</code>. “Shut Mondays” is the <code>Tu-Su</code> range;
+        <code>entry_price: null</code>. “Closed Mondays” is the <code>Tu-Su</code> range;
         “public holidays” is <code>PH off</code>, which the build substitutes with the
         real dated Kerala list at read time. ⛔ No holiday dates are printed here
         because I have not read that list myself.

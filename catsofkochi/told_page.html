@@ -346,6 +346,14 @@
              half of a range when both halves share it. -->
         <div class="facts__row"><dt>Best time</dt><dd>10am – 12.30pm</dd></div>
         <div class="facts__row"><dt>Cost</dt><dd>₹300–500 a head, cash</dd></div>
+        <!-- ⚠️ THE LABEL STAYS "Closed" HERE, and the reason matters if anyone
+             extends this kit. The 10 Aug ruling makes the formatter print "Closed"
+             as an hours VALUE, which doubles the word wherever a "Closed" label
+             sits under an Hours row — that is ui_kits/venue, and its label is now
+             "Closed days". This kit has no Hours row (its rows are Best time /
+             Cost / Closed), so nothing doubles. And "Closed days" would be wrong
+             here anyway: the value carries a time window, not only a day.
+             ⛔ Add an Hours row to this kit and this label must change too. -->
         <div class="facts__row"><dt>Closed</dt><dd>Fridays, 12.30 – 2pm</dd></div>
       </dl>
       <p class="stamp"><span class="stamp__chip">Checked</span>

@@ -588,7 +588,12 @@
            Tuesday in May. They are published by the community itself, so they
            belong here with the weekly closure rather than in a footnote. -->
       <div class="v-row" data-facts-row="closed" data-fact="known">
-        <dt class="v-row__label">Closed</dt>
+        <!-- ⭐ "Closed days", not "Closed" — owner ruling 10 Aug 2026 makes the
+             formatter print "Closed" as an HOURS VALUE for a shut day. This page
+             carries an Hours row directly above, so on a Saturday the pair would
+             have read "Hours: Closed / Closed: Every Saturday…". The label names
+             the days, the value lists them, and the two rows stop competing. -->
+        <dt class="v-row__label">Closed days</dt>
         <dd class="v-row__value v-row__value--aligned">
           <!-- ⛔ THE COUNT IS GONE. This read "Also on seven Jewish holidays in
                2026:" followed by seven date groups, and a reader maps those 1:1.
@@ -765,14 +770,20 @@
        N minutes" has nothing to offer here, and the alternative below is doing
        all the work. -->
   <section aria-labelledby="h-nn">
-    <h2 class="v-h2" id="h-nn">It is shut right now</h2>
+    <!-- ⭐ "closed", not "shut", in every FACT string on this page — owner ruling
+         10 Aug 2026. "Shut" is British-informal; "Closed" is the word on shop
+         shutters and station boards worldwide, and most Fort Kochi visitors do
+         not have English as a first language. ⛔ Prose keeps "shut": Shemeer's
+         verdict below still says "if the door is shut when you get there", and a
+         cat may say it too. Voice is not a fact. -->
+    <h2 class="v-h2" id="h-nn">It is closed right now</h2>
     <ul class="v-nn__list">
       <li class="v-nn__row" data-not-now>
         <!-- ⛔ WAS `data-from="15"` / "shut until three" — the mid-day break from
              the test fixture, which does not exist. Sunday to Thursday it runs
              10-6 straight through, so the real NotNow case here is a Saturday (or
              one of the thirteen dated holiday closures), when it is shut all day. -->
-        <a class="v-nn__name" href="#top">Paradesi Synagogue</a><span class="v-nn__dist"> · 4 minutes on foot</span><span class="v-nn__state"> — <span class="v-nn__clock" data-closed-today>shut all day — it is a Saturday</span>.</span>
+        <a class="v-nn__name" href="#top">Paradesi Synagogue</a><span class="v-nn__dist"> · 4 minutes on foot</span><span class="v-nn__state"> — <span class="v-nn__clock" data-closed-today>closed all day — it is a Saturday</span>.</span>
         <span class="v-nn__instead" data-not-now-instead data-until="17"><b>Open now:</b> <a href="#top">Mattancherry Palace</a>, five minutes further down the same lane, until five.</span>
       </li>
     </ul>
@@ -869,7 +880,7 @@
   <!-- One line, and it has to stay one line: at 375px a second line pushes the
        bar to 123px, which is Airbnb's 127px — the height this component exists
        to refuse. -->
-  <p class="v-bar__context" data-action-context>Shut all day Saturday · 4 minutes on foot</p>
+  <p class="v-bar__context" data-action-context>Closed all day Saturday · 4 minutes on foot</p>
   <a class="v-bar__button" href="#top" data-button="primary">See what is open now</a>
 </div>
 
