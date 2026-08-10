@@ -283,6 +283,53 @@
              border:1px solid var(--rule); margin-bottom:var(--s2); }
   .shape--pill i { border-radius:999px; }
   .shape--round i { border-radius:50%; width:44px; height:44px; margin-inline:auto; }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     ⛔⛔ GRID CORRECTIONS — LAST IN THE FILE ON PURPOSE.
+     These undo two things the three-track grid introduces that no width table
+     shows. Both were MEASURED on the served file at 375px, not reasoned from
+     the CSS, and one of them is invisible to `getComputedStyle`.
+     ⚠️ This block must stay last: it shares specificity with the rules it
+     corrects and wins on source order alone. Move it up and it stops working.
+     ══════════════════════════════════════════════════════════════════════════
+
+     1. ⛔ AN `<hr>` IN A GRID CAN RENDER ZERO PIXELS WIDE. The browser's own
+        stylesheet gives `hr` `margin-inline: auto`. On a grid item an auto
+        inline margin ABSORBS the free space instead of letting the item
+        stretch, so the rule sizes to its content — and an `hr` has none. This
+        page's divider writes `margin-block` only, so it had nothing to cancel
+        the auto and MEASURED 0px wide: a section break that silently vanished.
+        ⚠️ AND A COMPUTED-STYLE CHECK CANNOT SEE IT. An auto margin that has
+        absorbed the space reports `margin-inline: 0px`, identical to a healthy
+        rule. The rendered WIDTH is the only tell. Assert the width. */
+  .page > hr { margin-inline: 0; }
+
+  /* 2. ⛔⛔ GRID ITEMS DO NOT COLLAPSE MARGINS, AND THAT IS PHONE REFLOW.
+        Between two blocks the gap used to be the LARGER of their two margins;
+        between two grid items it is the SUM. Measured on this page at 375px
+        against the pre-grid geometry reconstructed in the browser (same block
+        flow, same 335px column, so margins were the only variable):
+
+            before  7284px      after the grid  7726px      +442px
+
+        442px is more than a screen of extra scrolling on the phone the site is
+        built for, added by a change made for desktop — which the owner's own
+        ruling forbids. Thirteen distinct pairs doubled; the biggest were a
+        20px panel meeting a 64px h2, and every 16px paragraph meeting the
+        next 16px block.
+
+        ⭐ THE ONE-LINE FIX WORKS HERE BECAUSE OF WHICH SIDE THIS STYLESHEET
+        WRITES ITS RHYTHM ON. Every rule above is `margin-block: TOP BOTTOM`
+        with the intent in the TOP — an h2 asks for 64 above and 12 below. So
+        dropping the BOTTOM leaves each gap equal to the next block's top
+        margin, which is the number that used to win the collapse anyway.
+        Measured result: 7233px, 51px under the original over a 7284px page —
+        under one percent, and tighter rather than looser.
+        ⛔ Do not copy this line to a kit that writes `margin: 0 0 X` instead.
+        There the intent is in the BOTTOM and this rule deletes the whole
+        rhythm — measured 321px too short on ui_kits/index_browse, which needs
+        the mirror-image correction. Read the stylesheet before choosing. */
+  .page > * { margin-block-end: 0; }
 </style>
 
 <!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.

@@ -336,6 +336,39 @@
   .note-frame h4 { font-family:var(--serif); color:var(--ink); font-size:1.1rem; margin:var(--s5) 0 var(--s2); }
   .note-frame ol { padding-inline-start:1.2rem; }
   .note-frame li { margin-block:var(--s2); }
+
+  /* ══ MARGIN COLLAPSE — the correction, and it MUST STAY LAST IN THIS FILE. ═══
+     ⛔⛔ GRID ITEMS DO NOT COLLAPSE MARGINS, AND THAT IS A PHONE REGRESSION, not
+     a desktop nicety. While the article was a block container the gap between two
+     blocks was the LARGER of their two margins; the moment it became a grid every
+     gap became the SUM. Measured on this kit before the correction: the article
+     grew 205px at 320 and 204px at 375. Every width was still correct, one left
+     edge, no overflow, characters per line unchanged — a width table cannot see
+     this, and this page is the worst case in the kit set because it stacks the
+     most big blocks (a facts card, a routes table, a figure, a cat tip, two cat
+     lines, a read-next) in among running prose.
+
+     THE MECHANISM: tops are zero, so the block ABOVE owns the whole gap, and a
+     `:has(+ x)` rule sets that gap to whatever the pair used to collapse to. Where
+     the block below wants no particular air, the block above simply keeps its own
+     bottom margin — which is what the pair collapsed to anyway. Seventeen
+     adjacencies checked pair by pair against block flow; every gap identical.
+
+     Verified: article height 3801 at 320 and 3542 at 375, the same as this file
+     laid out as a block container. Deficit 0.
+
+     ⚠️ IT WINS ON ORDER ALONE — same specificity as the rules it corrects. Move it
+     up the file and the doubling comes back without a sound.
+     ⚠️ There is no `<hr>` on this page and no `inline-block`; the two other known
+     grid traps (an `hr` collapsing to zero width on `margin-inline:auto`, and grid
+     blockifying an inline chip) do not apply. Add either and check them. */
+  .page > *                  { margin-block-start:0; }
+  .page > *:has(+ .catline)  { margin-block-end:var(--s6); }
+  .page > *:has(+ .facts)    { margin-block-end:var(--s6); }
+  .page > *:has(+ figure)    { margin-block-end:var(--s7); }
+  .page > *:has(+ .cat-tip)  { margin-block-end:var(--s8); }
+  .page > *:has(+ h2)        { margin-block-end:var(--s9); }
+  .page > *:has(+ .readnext) { margin-block-end:var(--s9); }
 </style>
 
 <!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.

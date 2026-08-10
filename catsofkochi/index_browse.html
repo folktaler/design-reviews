@@ -60,15 +60,19 @@
      narrower than the token claims. Ship the calc with the token, always. */
   .wrap { width:100%; max-width:calc(var(--measure) + var(--gutter)*2);
           margin-inline:auto; padding-inline:var(--gutter); }
-  /* ⭐ THE BAR VARIANT ALIGNS TO THE PAGE GRID'S OUTER EDGES instead of centring
-     on the reading column: wide plus two gutters, which is the one width whose
-     inner edge lands on the grid's text-start at EVERY container width. A header
-     left on the reading wrap puts the wordmark on a second left edge — 320px in
-     from the page's own at 2000px — and the whole point of this pass is that
-     there is exactly one left edge on the page.
+  /* ⭐ THE CHROME VARIANT ALIGNS TO THE PAGE GRID'S OUTER EDGES instead of
+     centring on the reading column: wide plus two gutters, which is the one
+     width whose inner edge lands on the grid's text-start at EVERY container
+     width. A header left on the reading wrap puts the wordmark on a second left
+     edge — 320px in from the page's own at 2000px — and the whole point of this
+     pass is that there is exactly one left edge on the page.
      ⚠️ It also stops the nav flying to the far side of a 2000px window, which is
-     the fault ui_kits/venue's action bar hit and fixed the same way. */
-  .wrap--bar { max-width:calc(var(--measure-wide) + var(--gutter)*2); }
+     the fault ui_kits/venue's action bar hit and fixed the same way.
+     ⚠️ It uses `--gutter`, so it is correct whether a kit is on 20px or 24px.
+     ⛔ Never hardcode the number: two gutter values are live across the kits.
+     ⚠️ Named `--wide` to match the rest of the corpus. It was briefly `--bar`
+     here, which is the same rule under a name nobody else would grep for. */
+  .wrap--wide { max-width:calc(var(--measure-wide) + var(--gutter)*2); }
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. Pattern copied from
@@ -325,6 +329,82 @@
   .note-frame li { margin-block:var(--s2); }
   .was { background:var(--sunk); padding:var(--s4); font-size:var(--micro);
          line-height:1.5; margin-block:var(--s3); }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     ⛔⛔ GRID CORRECTIONS — LAST IN THE FILE ON PURPOSE.
+     Three things the three-track grid introduces that no width table shows.
+     All three MEASURED on the served file at 375px; two of them are invisible
+     to `getComputedStyle` and one is invisible to any width check.
+     ⚠️ This block must stay last: it shares specificity with the rules it
+     corrects and wins on source order alone.
+     ══════════════════════════════════════════════════════════════════════════
+
+     1. ⛔ AN `<hr>` IN A GRID CAN RENDER ZERO PIXELS WIDE. The browser's own
+        stylesheet gives `hr` `margin-inline: auto`, and on a grid item an auto
+        inline margin ABSORBS the free space instead of letting the item
+        stretch — so the rule sizes to its content, and an `hr` has none.
+        `hr.div` writes `margin-block` only, so nothing cancelled the auto and
+        it MEASURED 0px: the divider between the memoir and the index, gone.
+        ⚠️ A COMPUTED-STYLE CHECK CANNOT SEE THIS. An auto margin that has
+        absorbed the space reports `margin-inline: 0px`, identical to a healthy
+        rule. Only the rendered width tells you. */
+  .page > hr { margin-inline: 0; }
+
+  /* 2. ⛔⛔ GRID BLOCKIFIES `display: inline-block`, AND HERE THAT PAINTED A
+        BLACK BAR. `.shape` is the small ink-filled label reading "Index ·
+        everywhere we have written about" — an inline-block chip that hugs its
+        text. As a grid item its display computed to `block` and it MEASURED
+        335px wide on a 375px phone: a solid black band across the column,
+        twice on this page, on the first thing a reader sees in each section.
+        ⚠️ Nothing in the responsive brief could have caught it — no overflow,
+        no wrong width, no failed measure. It is only wrong on sight.
+        `justify-self:start` restores the hug without touching the display. */
+  .shape { justify-self: start; }
+
+  /* 3. ⛔⛔ GRID ITEMS DO NOT COLLAPSE MARGINS, AND THAT IS PHONE REFLOW.
+        Between two blocks the gap is the LARGER of their two margins; between
+        two grid items it is the SUM. Measured at 375px against the pre-grid
+        geometry reconstructed in the browser (same block flow, same 335px
+        column, so margins were the only variable):
+
+            before  4246px      after the grid  4384px      +138px
+
+        ⭐ THE MIRROR IMAGE OF THE FIX IN ui_kits/controls, AND THE DIFFERENCE
+        IS WHICH SIDE THE STYLESHEET WRITES ON. This file is written
+        `margin: 0 0 X` — the rhythm lives in the BOTTOM margin, and a
+        paragraph's ONLY margin is its bottom. Zeroing bottoms here would
+        delete the paragraph spacing outright: measured 321px too short, a
+        different defect rather than a fix. So the top goes instead.
+        Only seven pairs doubled, all of them an element that carries both
+        margins meeting one that carries a bottom: an h3 (32 top) after a
+        standfirst (24 bottom), the onward nav (48) after a paragraph, and the
+        note-frame's h4s (20) after 10.5px paragraphs. */
+  .page > *,
+  .page > article > *,
+  .page > article > nav > * { margin-block-start: 0; }
+
+  /* ⚠️ ONE PUT BACK IN FULL, because the rule above takes too much from it.
+     `hr.div` separates the two articles, and an article carries no bottom
+     margin at all — its spacing is padding. So the divider's own 64px top was
+     the entire gap, and zeroing it collapsed the memoir onto the index. Giving
+     it back whole reproduces the original exactly rather than approximately. */
+  .page > hr.div { margin-block-start: var(--s10); }
+
+  /* ⛔ AND ONE THAT ESCAPED THE CORRECTION ENTIRELY, WHICH IS THE PART WORTH
+     READING. `.page > *` is specificity (0,1,0); `.note-frame h4` is (0,2,0)
+     and therefore beat it, so three headings kept their full 20px top and went
+     on summing with the 10.5px paragraph above them. The page still measured
+     12px TALLER than before the grid while the correction block looked
+     complete — a fix that reads as total and is not.
+     ⭐ Source order settles a tie; it does nothing about a more specific
+     selector. ⛔ So do not trust a blanket `.page > *` to have reached
+     everything: measure the remaining facing-margin pairs afterwards and fix
+     what is left BY NAME. Residual before this line: exactly 31.5px, all three
+     instances of the same pair.
+     8px rather than 0 because the old gap was 20 and the paragraph above gives
+     10.5; 10.5 + 8 = 18.5, one and a half pixels under the original instead of
+     nine and a half under it. */
+  .note-frame h4 { margin-block-start: var(--s2); }
 </style>
 
 <!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
@@ -346,7 +426,7 @@
 </div>
 
 <header class="site-header">
-  <div class="wrap wrap--bar site-header__in">
+  <div class="wrap wrap--wide site-header__in">
     <a class="site-name" href="#">cats of Kochi</a>
     <nav class="site-nav"><a href="#">Places</a><a href="#">What's on</a><a href="#">Writing</a></nav>
   </div>

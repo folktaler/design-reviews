@@ -217,6 +217,43 @@
   .swatch div { flex:1 1 8rem; font-size:var(--micro); color:var(--quiet); }
   .swatch b { display:block; font-size:1.25rem; color:var(--ink);
               font-variant-numeric:tabular-nums; }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     ⛔⛔ GRID CORRECTION — LAST IN THE FILE ON PURPOSE.
+     ⚠️ It shares specificity with the rules it corrects and wins on source
+     order alone. Move it up and it silently stops working.
+     ══════════════════════════════════════════════════════════════════════════
+
+     ⛔⛔ GRID ITEMS DO NOT COLLAPSE MARGINS, AND THAT IS PHONE REFLOW, not a
+     desktop nicety. Between two blocks the gap is the LARGER of their two
+     margins; between two grid items it is the SUM. Measured at 375px against
+     the pre-grid geometry reconstructed in the browser — same block flow, same
+     335px column, so margins were the only variable:
+
+         before  6178px      after the grid  6494px      +316px
+
+     ⭐ Worse here than the number suggests, because a page arguing that the new
+     setting is "tighter and shorter — same words, less scrolling" had just
+     silently added a third of a screen of scrolling to itself.
+
+     ⭐ ONE LINE WORKS BECAUSE OF WHICH SIDE THIS STYLESHEET WRITES ON. Every
+     rule above is `margin-block: TOP BOTTOM` with the intent in the TOP — an h2
+     asks for 64 above and 12 below. Dropping the BOTTOM leaves each gap equal
+     to the next block's top margin, which is the value that won the collapse
+     anyway. Measured after: 6122px, 56px under the original over 6178 — under
+     one percent, and tighter rather than looser.
+     ⛔ Do not copy this to a kit that writes `margin: 0 0 X`; there the intent
+     is in the BOTTOM and this deletes the rhythm. ui_kits/index_browse is that
+     kit and takes the mirror-image correction. */
+  .page > * { margin-block-end: 0; }
+
+  /* ⚠️ AND THE PAIR HAD TO BE GIVEN BACK WHAT ITS CARDS USED TO CARRY. The two
+     specimen cards each had `margin-block: 16`, which is where the air above
+     the first one came from; wrapping them in `.pair` and zeroing their margins
+     to control the grid gap removed it, leaving the first card hard against the
+     paragraph above. Restored on the wrapper, top only, so it obeys the rule
+     directly above rather than fighting it. */
+  .pair { margin-block: var(--s4) 0; }
 </style>
 
 <!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.

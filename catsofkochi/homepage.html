@@ -479,6 +479,57 @@
   .st li, .lead p, .tier2 p, .tier3 p { max-width:var(--measure-small,29rem); }
   .trip .btn { border-color:var(--ink); background:transparent; }
 
+  /* ══════════════════════════════════════════════════════════════════════════
+     ⛔⛔ GRID ITEMS DO NOT COLLAPSE MARGINS, AND ON THIS KIT THAT COST THE PHONE
+     324px. THIS BLOCK SITS LAST ON PURPOSE — it corrects rules above it and
+     wins on order as well as on specificity. ═════════════════════════════════
+
+     While `main` was a block container the gap between two sections was the
+     LARGER of their two margins. The moment it became a grid, every gap became
+     the SUM. This kit's rhythm is symmetric — five bands at `margin-block:40px`
+     in a row — so it doubled, and MEASURED at 375px the page grew from 7,554px
+     to 7,878px: eight pairs, 276px inside the grid, plus 48px more where the
+     signup block's bottom margin used to collapse straight through the bottom
+     of `main` and merge with the footer's own top margin.
+     ⛔ This is PHONE reflow, on the primary case, introduced by a change made
+     for desktop. It is not a desktop nicety.
+
+     ⭐ THE RULE: the block ABOVE owns the whole gap. Every item's
+     margin-block-start goes to zero, and where the page deliberately wanted
+     more air than the block above supplies, the difference is added back with
+     the arithmetic written down rather than a number typed in.
+
+       pair                     wanted   above gives   this block adds
+       today   → orient           32         32              —
+       orient  → band             40         24         raise orient to 40
+       band    → band  (×4)       40         40              —
+       band    → trip             48         40         trip takes the 8px gap
+       trip    → signup           48         32         raise trip to 48
+       signup  → footer           48          0         the footer's own 48
+
+     ⚠️ The last row is the one a grid-container scan does not report, because
+     the footer is not a grid item — it is `main`'s sibling. Zeroing the signup
+     block's bottom margin hands that gap back to the footer, which already
+     carries 48.
+     ⭐ RE-MEASURED after the fix: the page is 7,554px at 375px again, and every
+     gap reads 32 / 40 / 40 / 40 / 40 / 40 / 48 / 48 / 48 — the block-flow
+     values, one for one. */
+  main.page > .orient { margin-block-start:0; margin-block-end:var(--s8); }
+  main.page > .band   { margin-block-start:0; }
+  /* 40 from the band above + 8 = the 48 this section always had. */
+  main.page > .trip   { margin-block-start:calc(var(--s9) - var(--s8));
+                        margin-block-end:var(--s9); }
+  main.page > .signup { margin-block-start:0; margin-block-end:0; }
+
+  /* ⚠️ CHECKED AND NOT NEEDED HERE, recorded so nobody re-checks: the `hr`-in-a-
+     grid defect (the browser's own `margin-inline:auto` makes a grid item absorb
+     the free space instead of stretching, and a rule has no content, so it
+     renders zero pixels wide) cannot bite this kit — it has no `hr` at all. Its
+     separators are `border-block-start` on the band labels. The sibling kit has
+     seven dividers and carries the real rule. If this ever wants a uniform
+     guard it belongs in the shared pattern, not copied into kits that have
+     nothing to guard. */
+
   /* ⛔ MOCKUP SCAFFOLDING. Not part of the page. */
   .demo { background:#1c1a17; color:#fdfcf9; font-family:var(--sans);
           font-size:var(--micro); padding:var(--s3) var(--s5);

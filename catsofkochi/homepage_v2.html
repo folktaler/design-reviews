@@ -681,6 +681,34 @@
                 max-inline-size: var(--measure-small, 21rem);
                 line-height: var(--leading-tight, 1.375); color: var(--text-secondary, #5a544c); }
 
+  /* ══════════════════════════════════════════════════════════════════════════
+     ⛔ GRID ITEMS DO NOT COLLAPSE MARGINS. THIS BLOCK SITS LAST ON PURPOSE —
+     it corrects rules above it and wins on order as well as specificity. ══════
+
+     While a section was a block container the gap between two children was the
+     LARGER of their two margins; as a subgrid it became the SUM. Measured at
+     375px across this whole page, exactly ONE pair loses: a section heading's
+     16px bottom against the signup paragraph's 8px top, which rendered 24
+     instead of 16. Eight pixels, one place — this kit's rhythm is one-sided
+     almost everywhere, which is why it escaped. ⚠️ Its sibling kit was not so
+     lucky: five sections at a symmetric `margin-block` doubled and cost that
+     page 324px of phone. Worth checking, never worth assuming.
+
+     ⭐ THE RULE: the block above owns the whole gap. The lower block's
+     margin-block-start goes to zero; 16 is what it was and 16 is what it is. */
+  .page > section > .h-signup__desc { margin-block-start: 0; }
+
+  /* ⛔ AND A REAL ONE, NOT A GUARD — THIS KIT HAS SEVEN DIVIDERS. The browser's
+     own stylesheet gives `hr` `margin-inline: auto`, and an auto inline margin
+     on a grid item absorbs the free space INSTEAD of letting the item stretch.
+     A rule has no content, so it sizes to nothing and renders zero pixels wide:
+     the separator system disappears and the page still passes every overflow
+     and type check. Both dividers here happen to write an explicit `0` in their
+     shorthand, and both were measured rendering at full track width — but that
+     is luck, not a decision, and the next divider written as `margin-block:`
+     alone would vanish. */
+  .page > hr { margin-inline: 0; }
+
   /* ── mockup scaffolding. ⛔ NOT PART OF THE PAGE. ────────────────────── */
   .demo { background: #1c1a17; color: #fdfcf9; font-family: var(--font-ui, sans-serif);
           font-size: var(--type-micro, 14px); padding: var(--space-3, 12px) var(--space-5, 20px);
