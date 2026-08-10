@@ -330,6 +330,22 @@
         rhythm — measured 321px too short on ui_kits/index_browse, which needs
         the mirror-image correction. Read the stylesheet before choosing. */
   .page > * { margin-block-end: 0; }
+
+  /* ⛔ AND ONE PAIR THE RULE ABOVE CANNOT REACH, WHICH IS THE PART WORTH
+     READING. The divider near the foot of this page is an INLINE-STYLED `<hr>`
+     carrying `margin-block: var(--s9)`, and an inline style beats any
+     stylesheet rule regardless of specificity — so its 48px bottom survived the
+     correction, met the following paragraph's 16px top, and rendered 64 where
+     the collapsed gap had been 48. Measured residual: exactly +16px, the only
+     pair left on the page.
+     ⭐ Fixed from the OTHER side rather than by editing the inline style, and
+     that is deliberate: zeroing the top of whatever follows the divider keeps
+     the hr's own 48 on both faces, so the gap is 48 above and 48 below —
+     exactly what collapsing produced, not an approximation of it.
+     ⚠️ The general lesson: a blanket `.page > *` is beaten by a more specific
+     selector AND by any inline style. After writing one, measure the facing
+     pairs that are left instead of assuming it swept the page. */
+  .page > hr + * { margin-block-start: 0; }
 </style>
 
 <!-- ⛔ SCAFFOLDING — NOT PART OF THE PAGE.
