@@ -59,8 +59,8 @@
           margin-inline:auto; padding-inline:var(--gutter); }
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, every page, after he opened a
-     560px strip in a 2000px window. The same three-track grid as ui_kits/venue
-     and ui_kits/system; venue's block carries the full reasoning and the
+     560px strip in a 2000px window. The same three-track grid as ui_kits/place
+     and ui_kits/system; place's block carries the full reasoning and the
      measured width table, so read that rather than duplicating it here.
      ═════════════════════════════════════════════════════════════════════════
 
@@ -75,10 +75,10 @@
      extra and the whole thing can be verified by constraining a box.
 
      ⭐ THE TEXT TRACK STARTS WHERE THE WIDE TRACK STARTS. Centring text inside
-     wide was tried on venue and rendering killed it: two left edges 320px
+     wide was tried on place and rendering killed it: two left edges 320px
      apart, alternating down the page. All the surplus goes right.
 
-     ⚠️ THIS KIT'S GUTTER IS 20px, NOT the 24px venue and system use, so its
+     ⚠️ THIS KIT'S GUTTER IS 20px, NOT the 24px place and system use, so its
      phone arithmetic is `text === min(container, 552) − 40`. Left alone
      deliberately: changing the gutter reflows the phone to buy nothing, and it
      is a token decision rather than a page one. */
@@ -199,7 +199,7 @@
            font-size:var(--micro); line-height:1; }
   /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
      of a legal disclaimer on the site's verification stamp. Sentence case,
-     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
+     weight 500, matching `.p-checked` in ui_kits/place. Amber fill stays. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
                  font-weight:500; }
   .stamp__date { color:var(--quiet); }
@@ -212,7 +212,7 @@
      colour token — which is why a colour-based sweep missed it and a
      shape-based one caught it. One line of text does not need a painted box.
      ⭐ ASIDE FORM: a leading rule and NO fill — copied from the pull-quote in
-     ui_kits/venue (line ~438), which is the post-pivot reference. The system
+     ui_kits/place (line ~438), which is the post-pivot reference. The system
      now has exactly two container forms: a hairline CARD for facts, and a
      leading RULE with no fill for an aside or a nudge. */
   .jump { display:flex; align-items:center; flex-wrap:wrap; gap:var(--s2) var(--s3);
@@ -280,7 +280,7 @@
      ⛔ WHAT CHANGED, AND WHY IT HAD TO: the list now sits in the wide track, so
      the body column was free to run the whole 1152px and the Map link would
      have landed about a thousand pixels from the place name it belongs to —
-     the same stranding the label-track percentage caused on venue, arriving
+     the same stranding the label-track percentage caused on place, arriving
      from the other side. Capping the body at the reading measure puts the
      row's CONTENT in the left ~670px while its hairline still runs the full
      width. ⚠️ Inert below 30rem: the phone keeps the stacked form above. */
@@ -459,7 +459,7 @@
      ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
      that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
 <div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
-  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the place page, Paradesi Synagogue.
 </div>
 
 <div class="demo">

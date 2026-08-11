@@ -121,7 +121,7 @@
   .wrap--wide { max-width: calc(var(--measure-wide) + var(--gutter) * 2); }
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive".
-     Same pattern as ui_kits/venue, which carries the full rationale. Short form:
+     Same pattern as ui_kits/place, which carries the full rationale. Short form:
      the 512px prose cap is correct typography and stays; what was missing is a
      way for SPECIMENS, GRIDS AND SWATCHES to use the width prose refuses.
      ⭐ Three tracks, opt in with `data-span`, and ZERO media queries — min() and
@@ -129,7 +129,7 @@
      result can be verified without a device.
      ⭐ NO SUBGRID HERE, and that is a property of this page rather than a
      simplification: system.html has no <section> at all — every specimen is a
-     direct child of main — so the base rules reach everything. venue needs
+     direct child of main — so the base rules reach everything. place needs
      subgrid because its lists sit inside sections.
      ⛔ --measure-wide is the SYSTEM's token (tokens/spacing.css), not a number
      invented here — 72rem since 10 Aug 2026, raised from 62rem in one act across
@@ -215,15 +215,15 @@
        value       118   173   464   643   767
 
      1. ⛔ NO STACK ON A PHONE. A 118px value column at 320 and 173px at 375.
-        ui_kits/venue fixed exactly this and its comment records why: at 375 an
+        ui_kits/place fixed exactly this and its comment records why: at 375 an
         unconditional two-column row leaves ~207px, about 22 characters at 17px,
         which tears an hours string across lines. This sheet was still showing
-        the version venue had already rejected.
+        the version place had already rejected.
      2. ⛔ A PERCENTAGE THAT BLEW OUT WITH THE WIDE TRACK. 30% was fine while
         this row could never exceed 512px; once `.facts` claimed the wide track
         it became 335px of empty column beside a four-letter label.
 
-     ⭐ Now identical to `.v-row` in ui_kits/venue: stacked below --bp-wide
+     ⭐ Now identical to `.p-row` in ui_kits/place: stacked below --bp-wide
      (40rem, tokens/breakpoints.css), label capped in rem above it. A specimen
      sheet that demonstrates the bug the real kit already fixed is worse than no
      specimen — it teaches it. ⚠️ The checker passed this kit throughout: a
@@ -237,9 +237,9 @@
   .row__label { margin:0; font-size:var(--type-ui);
                 font-weight:var(--weight-medium); line-height:var(--leading-ui); }
   /* ⛔ AND THE VALUE KEEPS THE READING MEASURE, matching `.v-row__value` in
-     ui_kits/venue. Without it the value ran 942px at 1440 — fine for this
+     ui_kits/place. Without it the value ran 942px at 1440 — fine for this
      sheet's four-word specimens, and wrong for the sheet a builder copies:
-     venue's real refusal sentences hit 103 characters that way. The row goes
+     place's real refusal sentences hit 103 characters that way. The row goes
      wide; the sentence inside it does not. */
   .row__value { margin:0; max-inline-size:var(--measure); font-size:var(--type-ui);
                 line-height:var(--leading-tight); }
@@ -596,7 +596,7 @@
     Shown here in the flow of the page rather than pinned, because a bar fixed to
     the bottom of a specimen sheet covers the specimen. Airbnb&rsquo;s is a hundred
     and twenty-seven pixels tall and permanent, which is fifteen per cent of a
-    phone screen given up on every page they publish. Ours is allowed on a venue
+    phone screen given up on every page they publish. Ours is allowed on a place
     page and on the itinerary and nowhere else, because a told place has nothing to
     pin and a hundred and ninety of our pages are told places.
   </p>

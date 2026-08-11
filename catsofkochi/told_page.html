@@ -58,7 +58,7 @@
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. Same pattern as
-     ui_kits/venue, which carries the full rationale; ui_kits/system carries the
+     ui_kits/place, which carries the full rationale; ui_kits/system carries the
      flat variant. This kit is the flat variant.
 
      ⛔⛔ AND THIS IS THE PAGE WHERE RESPONSIVE MUST NOT MEAN WIDER TEXT. A told
@@ -97,7 +97,7 @@
   /* ⭐ THE CHROME TRACKS THE WIDE COLUMN, so the page has ONE left edge at every
      width. Without this the header rule and the footer keep the 552px reading
      wrapper while the article runs to 1152, and the logo sits 320px right of the
-     headline under it. The mechanism is the one venue already ships for its
+     headline under it. The mechanism is the one place already ships for its
      sticky bar — the band spans the window, its contents do not. */
   .wrap--wide { max-width:calc(var(--measure-wide) + var(--gutter)*2); }
 
@@ -263,7 +263,7 @@
      2026). Hours and fares are ordinary content; amber "never decorates"
      (README.md:186). A wash behind the whole strip also flattens the one row
      that should stand out — the observed-contradicts-official case. Hairline
-     card, hairline rows, as TrustCard does in ui_kits/venue. */
+     card, hairline rows, as TrustCard does in ui_kits/place. */
   .facts { margin-block:var(--s6); padding:var(--s4) var(--s5);
            background:var(--paper); border:1px solid var(--rule);
            font-family:var(--sans); }
@@ -278,17 +278,17 @@
      every screen between 480 and 640px for no reader benefit. Flagged, not fixed.
      ⭐ The label track is capped in rem, not in a percentage: a percentage inside
      a container that just learned to grow is a defect waiting for the first wide
-     screen — venue measured a 30% label track land on 345px at 1440. */
+     screen — place measured a 30% label track land on 345px at 1440. */
   @media (min-width:30rem){ .facts__row { grid-template-columns:7.5rem 1fr; } }
   .facts dt { margin:0; color:var(--quiet); font-size:var(--small); line-height:1.45; }
   /* ⛔ A VALUE IS PROSE AND KEEPS THE READING MEASURE. The card goes wide; the
-     sentence inside it does not. Same rule as `.v-row__value` in ui_kits/venue. */
+     sentence inside it does not. Same rule as `.p-row__value` in ui_kits/place. */
   .facts dd { margin:0; line-height:1.45; max-inline-size:var(--measure); }
   .stamp { display:flex; align-items:center; gap:var(--s2); margin:0;
            font-size:var(--micro); line-height:1; }
   /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
      of a legal disclaimer on the site's verification stamp. Sentence case,
-     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
+     weight 500, matching `.p-checked` in ui_kits/place. Amber fill stays. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
                  font-weight:500; }
   .stamp__date { color:var(--quiet); }
@@ -366,7 +366,7 @@
      ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
      that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
 <div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
-  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the place page, Paradesi Synagogue.
 </div>
 
 <header class="site-header">
@@ -412,7 +412,7 @@
            A caption is read as a statement of fact about what is above it, so a
            caption that describes a photograph the reader is not looking at is
            the same defect as a wrong opening time, in a place nobody checks.
-           ⭐ Caption below is the venue kit's own alt text for this same file —
+           ⭐ Caption below is the place kit's own alt text for this same file —
            true of the picture AND orienting for a walking route.
            ⚠️ TO SHOOT: Bazaar Road, early, before the shutters go up. When that
            file exists, this figure takes it and the old caption comes back. -->
@@ -476,7 +476,7 @@
         <!-- ⚠️ THE LABEL STAYS "Closed" HERE, and the reason matters if anyone
              extends this kit. The 10 Aug ruling makes the formatter print "Closed"
              as an hours VALUE, which doubles the word wherever a "Closed" label
-             sits under an Hours row — that is ui_kits/venue, and its label is now
+             sits under an Hours row — that is ui_kits/place, and its label is now
              "Closed days". This kit has no Hours row (its rows are Best time /
              Cost / Closed), so nothing doubles. And "Closed days" would be wrong
              here anyway: the value carries a time window, not only a day.

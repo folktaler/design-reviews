@@ -67,7 +67,7 @@
      edge — 320px in from the page's own at 2000px — and the whole point of this
      pass is that there is exactly one left edge on the page.
      ⚠️ It also stops the nav flying to the far side of a 2000px window, which is
-     the fault ui_kits/venue's action bar hit and fixed the same way.
+     the fault ui_kits/place's action bar hit and fixed the same way.
      ⚠️ It uses `--gutter`, so it is correct whether a kit is on 20px or 24px.
      ⛔ Never hardcode the number: two gutter values are live across the kits.
      ⚠️ Named `--wide` to match the rest of the corpus. It was briefly `--bar`
@@ -76,7 +76,7 @@
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. Pattern copied from
-     ui_kits/venue, which carries the full rationale.
+     ui_kits/place, which carries the full rationale.
 
      ⛔ THE CAP ON PROSE IS NOT THE BUG. 512px of text is real typography and the
      memoir keeps it. What was missing is that the LISTS had no way to use the
@@ -95,7 +95,7 @@
      passes the page's tracks through to its own children, and the onward nav
      inside one article passes them through again.
 
-     ⭐ MEASURED at six widths. ⚠️ THIS KIT'S GUTTER IS 20px, not the 24px venue
+     ⭐ MEASURED at six widths. ⚠️ THIS KIT'S GUTTER IS 20px, not the 24px place
      and system use, so the phone equality here is text === min(container, 552)
      − 40 and not the − 48 those two assert:
        container  320  375  768  1024  1440  2000
@@ -208,7 +208,7 @@
   /* ⛔ `1fr` FOR THE BODY TRACK WAS SAFE AT 512px AND IS NOT SAFE ON THE WIDE
      TRACK. A fraction has no ceiling: at 1440 it drew a 990px body column and
      pinned "Map" a thousand pixels from the place it belongs to, which is the
-     same fault ui_kits/venue's action bar hit — the bar may span the window,
+     same fault ui_kits/place's action bar hit — the bar may span the window,
      its contents may not. `minmax(0, --measure)` gives the body the reading
      column and no more, and the 0 floor lets it shrink so a 592px wide track
      still fits without overflowing.
@@ -295,7 +295,7 @@
   /* ⛔ WAS 14px, AND IT IS THE MOST ACTIONABLE LINE IN THE BLOCK. It reads
      "Opening hours, the ticket, and everything else we have written about it —
      checked 3 Aug 2026": the sentence that tells a reader standing outside the
-     church that the venue page holds the opening time. The whole onward block
+     church that the place page holds the opening time. The whole onward block
      exists to carry them to it, and it was set two steps below body, in grey,
      under a 20px name — the payload styled as the footnote.
      ⚠️ NOT A LINE-LENGTH FIX. Measured at 61 characters before the change, well
@@ -435,7 +435,7 @@
        bar itself stays edge to edge; only its sentence lines up. Literal,
        because this block deliberately uses no var(). -->
   <span style="display:block;max-width:1192px;margin-inline:auto;padding-inline:20px">
-  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the place page, Paradesi Synagogue.
   </span>
 </div>
 
@@ -605,7 +605,7 @@
   <ol>
     <li><strong>The place itself.</strong> One link, amber, above everything —
     because it is where the hours live. The memoir tells you why the church
-    matters; the venue page tells you whether you can get in. <strong>The page
+    matters; the place page tells you whether you can get in. <strong>The page
     knows because the piece is tagged to a venue</strong>, not to a subject.</li>
     <li><strong>What else is a few minutes' walk away.</strong> Geographic, not
     topical. ⭐ Someone who just read about Santa Cruz is far better served by
@@ -622,7 +622,7 @@
   <h4>The place index is the browse surface, and it earns its keep twice</h4>
 
   <p>⭐ <strong>One lassi shop appears in nine files with five different
-  descriptions.</strong> The place index is where that stops: <em>the venue page
+  descriptions.</strong> The place index is where that stops: <em>the place page
   is where the fact lives, and the index is how anyone reaches it.</em> Note the
   row reading <strong>"appears in 9 pieces"</strong> — that count is not a
   vanity metric, it is the argument.</p>

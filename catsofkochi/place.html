@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cats of Kochi — the venue page</title>
+<title>Cats of Kochi — the place page</title>
 <link rel="stylesheet" href="faces-figtree.css">
 <style>
   /* ══ SYSTEM FACES — copied verbatim from design-system/fonts.css.
@@ -25,8 +25,8 @@
      FIGTREE — see --font-ui below. Pasting it adds ~81 KB of a family nothing
      here asks for and changes nothing about what renders. There has never been
      a Figtree equivalent of that file and one is not needed:
-         python3 scripts/inline_faces.py --check venue    # report
-         python3 scripts/inline_faces.py venue            # splice, in place
+         python3 scripts/inline_faces.py --check place    # report
+         python3 scripts/inline_faces.py place            # splice, in place
      reads the two URLs below, encodes public/fonts/ directly, and exits
      non-zero if a face cannot be resolved. ══ */
   
@@ -101,7 +101,7 @@
     --measure-wide: 72rem;
     /* ⭐⭐ 43rem = 688px — THE ROW WIDTH. NOT a rival to --measure-wide: that
        token is a CARD GRID measure, derived in tokens/spacing.css from three
-       376px Airbnb listing cards, and a venue page has no card grid. Every wide
+       376px Airbnb listing cards, and a place page has no card grid. Every wide
        item here is a label-and-value row whose value is correctly capped at
        --measure, so the widest real content this page can produce is:
            label track (10rem) + column gap (--space-4) + --measure (32rem)
@@ -193,8 +193,8 @@
      ON TOP of it. Capping .wrap at --measure would render a column two gutters
      NARROWER than the token claims. Ship the calc with the token, always.
      ⭐ .wrap centres the note frame. The page body uses .page below, and the
-     site chrome uses .v-hd__box below that — three boxes, on purpose, and the
-     comment on .v-hd__box is where the reason lives. */
+     site chrome uses .p-hd__box below that — three boxes, on purpose, and the
+     comment on .p-hd__box is where the reason lives. */
   .wrap {
     max-width: calc(var(--measure, 32rem) + var(--gutter, 24px) * 2);
     margin-inline: auto;
@@ -241,9 +241,9 @@
      (logo 88px in at 2000, 288 at 2400) while their SEARCH page never caps.
      We took the uncapped one. Above 1920 a capped header starts growing its
      margins again, which is the exact complaint this change answers. */
-  .v-hd__box { padding-inline: var(--gutter, 24px); }
+  .p-hd__box { padding-inline: var(--gutter, 24px); }
   @media (min-width: 1248px) {
-    .v-hd__box { padding-inline: 48px; }
+    .p-hd__box { padding-inline: 48px; }
   }
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
@@ -355,17 +355,17 @@
      value pair or a sentence, so each caps at the widest row this page can
      produce and its border stops with it. Taking the wide track lets them start
      on the page's left edge; this stops them ending in empty paper.
-     ⛔ `.v-nn__row` IS DELIBERATELY NOT IN THIS LIST. It paints no rule and it
+     ⛔ `.p-nn__row` IS DELIBERATELY NOT IN THIS LIST. It paints no rule and it
      already caps at --measure; adding it here would widen it to 688 and put its
      longest line back from 61 characters to 83, which is the defect its own
      comment records fixing. Verified after this change: 44 characters at 1440,
      unchanged from before it.
      ⚠️ A component added to the wide track later must either fill 1152 or join
      this list. There is no third option that leaves the page looking edited. */
-  .v-row,
-  .v-ttk__row,
-  .v-rn__row,
-  .v-div { max-inline-size: var(--measure-row); }
+  .p-row,
+  .p-ttk__row,
+  .p-rn__row,
+  .p-div { max-inline-size: var(--measure-row); }
 
   /* ⭐ A SECTION IS A SUBGRID, and this is the part that is easy to get wrong.
      The grid's children are the SECTIONS, not the lists inside them — so a
@@ -406,16 +406,16 @@
      ⭐ RE-ARGUE THIS THE DAY THE SEARCH FIELDS WORK. A control worth scrolling
      back up for is worth pinning; an inert one is not. And the honest pinned
      version is a COMPACT bar — wordmark plus search — never this whole stack. */
-  .v-hd {
+  .p-hd {
     border-block-end: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
     background: var(--surface-page, #fdfcf9);
   }
-  /* ⭐ EACH ROW IS ITS OWN .v-hd__box, so all three chrome rows share one left
+  /* ⭐ EACH ROW IS ITS OWN .p-hd__box, so all three chrome rows share one left
      edge. One box around all three would also have worked; three let a row
      change its vertical rhythm without moving anybody's left edge.
      ⚠️ That edge is the CHROME's, not the page's — below 1248px they are the
      same 24px and above it the chrome holds at 48 while the page centres. The
-     reason is on .v-hd__box above; do not "restore" these to .wrap. */
+     reason is on .p-hd__box above; do not "restore" these to .wrap. */
   /* ⭐ `flex-wrap` + `margin-inline-start:auto` ON THE TOOLS, not
      `justify-content: space-between`, and that pairing is the whole safety net.
      ⛔ THE DEFECT IT ANSWERS, measured at 320px before it went in: the row's
@@ -430,19 +430,19 @@
      ⭐ So the row is sized to fit at 320 (measured below), and wrapping is what
      happens if anything ever outgrows it — a longer wordmark, a translated
      label — instead of the gutter quietly absorbing it. */
-  .v-hd__row {
+  .p-hd__row {
     display: flex; flex-wrap: wrap; align-items: center;
     gap: var(--space-2, 8px);
     padding-block: var(--space-1, 4px);
   }
   /* buttons and <summary> in the chrome: strip the UA look, keep the family */
-  .v-hd__tool, .v-search__field, .v-search__go {
+  .p-hd__tool, .p-search__field, .p-search__go {
     font-family: inherit; letter-spacing: inherit;
     border: 0; background: none; appearance: none;
   }
 
   /* ── the wordmark, and the space held for a mark that does not exist ─── */
-  .v-hd__brand {
+  .p-hd__brand {
     display: inline-flex; align-items: center; gap: var(--space-2, 8px);
     min-height: var(--tap-comfortable, 52px);
     color: var(--text-primary, #1c1a17);
@@ -455,17 +455,17 @@
      than a little space.
      ⛔ CONSEQUENCE FOR THE ONE-LEFT-EDGE CHECK, and it has to be written down
      or the next check gets it wrong: the element sitting on the page's left
-     edge is `.v-hd__brand`, not the wordmark. The wordmark starts 32px in
+     edge is `.p-hd__brand`, not the wordmark. The wordmark starts 32px in
      (24 + the 8px gap), today and after the artwork lands. Assert the LINK's
      box, not the text. */
-  .v-hd__mark { inline-size: 24px; block-size: 24px; flex: 0 0 auto; }
+  .p-hd__mark { inline-size: 24px; block-size: 24px; flex: 0 0 auto; }
   /* ⚠️ 16px AT 320 IS NOT A STYLE PREFERENCE, IT IS THE FIT. At 320 the content
      column is 272px and the row's three items measured 290.8 with an 18px
      wordmark and a 28px slot. At 16px with a 24px slot the row measures 269.9 —
      2.1px of headroom, which is thin and is why `flex-wrap` is under it. 49.4px
      of headroom at 375. Still larger than the 17px flat size this header
      carried before, at every width above 320. */
-  .v-hd__name {
+  .p-hd__name {
     font-size: clamp(1rem, 0.55rem + 2.4vw, 1.375rem);   /* 16 → 22px */
     font-weight: var(--weight-bold, 700);
     letter-spacing: var(--tracking-display, -0.01em);
@@ -476,12 +476,12 @@
   /* ⛔ NOTHING SITS BETWEEN THE WORDMARK AND THESE TWO. Airbnb's "Become a
      host" text link has no equivalent here, and the owner chose to leave the
      space empty rather than fill it with a sale. */
-  .v-hd__tools {
+  .p-hd__tools {
     position: relative; display: flex; align-items: center;
     gap: var(--space-1, 4px);
     margin-inline-start: auto;   /* right-aligned on whichever row it lands on */
   }
-  .v-hd__tool {
+  .p-hd__tool {
     display: inline-flex; align-items: center; justify-content: center;
     gap: var(--space-1, 4px);
     min-height: var(--tap-comfortable, 52px);
@@ -494,8 +494,8 @@
     cursor: pointer;
     list-style: none;          /* it is a <summary>: kill the disclosure marker */
   }
-  .v-hd__tool::-webkit-details-marker { display: none; }
-  .v-hd__ico {
+  .p-hd__tool::-webkit-details-marker { display: none; }
+  .p-hd__ico {
     inline-size: 20px; block-size: 20px; flex: 0 0 auto;
     fill: none; stroke: currentColor; stroke-width: 2;
     stroke-linecap: round; stroke-linejoin: round;
@@ -507,9 +507,9 @@
      reported a real 272px rect hanging 13px off the left of a 320px screen
      while being painted nowhere. An overflow walk cannot tell that phantom
      from a genuine spill. `display: none` on the element itself collapses the
-     box outright, and when open the containing block is `.v-hd__tools` again,
+     box outright, and when open the containing block is `.p-hd__tools` again,
      which is where it belongs. */
-  .v-hd__pop:not([open]) .v-hd__panel { display: none; }
+  .p-hd__pop:not([open]) .p-hd__panel { display: none; }
   /* ⭐ ANCHORED TO THE TOOLS GROUP, NOT TO ITS OWN <details>. The group's right
      edge IS the page's right gutter, so a panel pinned to it can never reach
      past the page. Pinned to the globe's own box instead, the 304px panel hung
@@ -517,7 +517,7 @@
      exists while the panel is open, so a closed-state overflow walk cannot see
      it. ⭐ The width cap is the gutter arithmetic rather than a round number,
      so at 320px it lands exactly on the page's left edge. */
-  .v-hd__panel {
+  .p-hd__panel {
     position: absolute; z-index: 20;
     inset-block-start: calc(100% + var(--space-1, 4px));
     inset-inline-end: 0;
@@ -528,19 +528,19 @@
     border-radius: var(--radius-control, 12px);
     text-align: start;
   }
-  .v-hd__panel p { margin: 0; }
-  .v-hd__panel-h {
+  .p-hd__panel p { margin: 0; }
+  .p-hd__panel-h {
     padding: var(--space-2, 8px);
     font-size: var(--type-micro, 14px);
     font-weight: var(--weight-semibold, 600);
     color: var(--text-secondary, #5a544c);
   }
-  .v-hd__panel-p {
+  .p-hd__panel-p {
     padding: 0 var(--space-2, 8px) var(--space-2, 8px);
     font-size: var(--type-small, 16px);
     line-height: var(--leading-tight, 1.375);
   }
-  .v-hd__mi {
+  .p-hd__mi {
     display: flex; flex-direction: column; justify-content: center;
     gap: var(--space-1, 4px);
     min-height: var(--tap-comfortable, 52px);
@@ -555,7 +555,7 @@
      disagree with a posted board, and it has never been written. It is NOT a
      link — a link to a 404 is the worst of the three options. It is not
      deleted either, because then the menu is quietly short of the one thing
-     every venue page is supposed to point at. So it says so, and it carries
+     every place page is supposed to point at. So it says so, and it carries
      the sentence that page would open with, which is most of the value anyway.
      ⭐ `data-page-missing` is greppable: the day the page lands, this row
      becomes an <a href> and the attribute goes with the note. */
@@ -565,12 +565,12 @@
      reader that this menu ignores taps. `--surface-quiet` is this system's
      ground for voice and asides, which is exactly what this row is: a note
      about a missing thing, not an action. */
-  .v-hd__mi--todo {
+  .p-hd__mi--todo {
     color: var(--text-secondary, #5a544c); cursor: default;
     background: var(--surface-quiet, #f4f1ea);
   }
-  .v-hd__mi--todo > span:first-child { color: var(--text-primary, #1c1a17); }
-  .v-hd__mi-note { font-size: var(--type-micro, 14px); line-height: var(--leading-tight, 1.375); }
+  .p-hd__mi--todo > span:first-child { color: var(--text-primary, #1c1a17); }
+  .p-hd__mi-note { font-size: var(--type-micro, 14px); line-height: var(--leading-tight, 1.375); }
 
   /* ── the search pill — one field and the round button ────────────────── */
   /* ⛔ WHAT IS NOT HERE, and all three absences are decisions. Airbnb's WHERE is
@@ -585,7 +585,7 @@
      "check in" and "check out" are on COMMERCE-TERMS.md's banned list: they
      read as friendly and they make this business a travel agent. The field asks
      when the reader is here for that reason, not for tone. */
-  .v-search {
+  .p-search {
     display: flex; align-items: center; gap: var(--space-1, 4px);
     margin-block: var(--space-2, 8px) var(--space-3, 12px);
     padding: var(--space-1, 4px);
@@ -625,7 +625,7 @@
      "What kind" across two lines — a two-word control reading as two controls,
      on the site's reference width. Measured: with this, "What kind" is one line
      at every width from 320 up. */
-  .v-search__field {
+  .p-search__field {
     flex: 1 0 auto; min-inline-size: 0;
     display: inline-flex; align-items: center;
     min-height: var(--tap-comfortable, 52px);
@@ -643,15 +643,15 @@
      lines at 1.375 are 44px inside a 52px floor, so the pill is 62px tall at
      320 and at 2000 alike. Two lines of a question is not a defect; 14px type
      in Kerala sun would have been. */
-  .v-search__field--wide { flex: 1 1 auto; }
-  .v-search__div {
+  .p-search__field--wide { flex: 1 1 auto; }
+  .p-search__div {
     flex: 0 0 auto; inline-size: 1px; block-size: 1.5rem;
     background: var(--border-hairline, #ddd7cb);
   }
   /* ⭐ INK, NOT AMBER. Amber marks the one thing the reader came for and it has
      a single job on this site; a search button is not it. Round, because in
      this system controls are round and photographs are square. */
-  .v-search__go {
+  .p-search__go {
     flex: 0 0 auto;
     display: inline-flex; align-items: center; justify-content: center;
     inline-size: 48px; block-size: 48px;
@@ -667,13 +667,13 @@
      a generic word is noise that costs bytes and height and explains nothing.
      ⛔ AND THESE ARE NOT THE COUNTED CHIPS from the browse page: a chip filters
      one page, a tab moves between sections of a whole site. */
-  .v-hd__tabs { display: flex; gap: var(--space-5, 20px); }
+  .p-hd__tabs { display: flex; gap: var(--space-5, 20px); }
   /* ⭐ LEFT-ALIGNED, NOT CENTRED, AND THAT ONE WORD IS A LEFT EDGE. The tap
      floor is 52px wide; "Places" sets about 40px, so centring it inside the
      floor would start the first glyph ~6px right of every other left edge on
      the page — a defect a majority-value check would never see, because it is
      one element. The surplus hit area goes to the right, into the gap. */
-  .v-hd__tab {
+  .p-hd__tab {
     display: inline-flex; align-items: center; justify-content: flex-start;
     min-height: var(--tap-comfortable, 52px);
     min-inline-size: var(--tap-comfortable, 52px);
@@ -687,9 +687,9 @@
      mark ~16px below the label, where it reads as a stray rule rather than as
      a tab. 16px, not 14px, because these three words are the doors to the
      whole site and they are read in bright sun. */
-  .v-hd__tab-label { position: relative; }
-  .v-hd__tab[aria-current="page"] { font-weight: var(--weight-semibold, 600); }
-  .v-hd__tab[aria-current="page"] .v-hd__tab-label::after {
+  .p-hd__tab-label { position: relative; }
+  .p-hd__tab[aria-current="page"] { font-weight: var(--weight-semibold, 600); }
+  .p-hd__tab[aria-current="page"] .p-hd__tab-label::after {
     content: ""; position: absolute; inset-inline: 0; inset-block-end: -6px;
     block-size: 2px; background: var(--text-primary, #1c1a17);
   }
@@ -703,8 +703,8 @@
      stopped at 560px. Under the grid the photograph claims the `full` track
      instead — same result on a phone, and it actually reaches the edge of a
      1440px window instead of the edge of a 560px strip. */
-  .v-photo { margin: 0; }
-  .v-photo img {
+  .p-photo { margin: 0; }
+  .p-photo img {
     display: block; inline-size: 100%; block-size: auto;
     aspect-ratio: 16 / 9;
     /* ⚠️ A CAP THE PHONE NEVER MEETS. 16/9 full-bleed is 211px on a 375px phone
@@ -720,23 +720,23 @@
   }
 
   /* ── the name, and what kind of thing it is ─────────────────────────── */
-  .v-h1 {
+  .p-h1 {
     margin: var(--space-6, 24px) 0 var(--space-2, 8px);
     font-size: var(--type-display, 31px);
     line-height: var(--leading-display, 1.15);
     font-weight: var(--weight-semibold, 600);
     letter-spacing: var(--tracking-display, -0.01em);
   }
-  .v-what {
+  .p-what {
     display: inline-flex; align-items: center; gap: var(--space-2, 8px);
     margin: 0 0 var(--space-6, 24px);
     font-size: var(--type-small, 16px);
     line-height: var(--leading-tight, 1.375);
     color: var(--text-secondary, #5a544c);
   }
-  .v-icon { inline-size: 1.25rem; block-size: 1.25rem; fill: currentColor; flex: 0 0 auto; }
+  .p-icon { inline-size: 1.25rem; block-size: 1.25rem; fill: currentColor; flex: 0 0 auto; }
 
-  .v-h2 {
+  .p-h2 {
     margin: 0 0 var(--space-4, 16px);
     font-size: var(--type-heading, 25px);
     line-height: var(--leading-heading, 1.2);
@@ -746,14 +746,14 @@
   /* ⭐ 33px from a rule to the heading after it — Airbnb's measured local
      rhythm, and the thing that makes a page read as edited. Set on the rule so
      a section cannot forget it. */
-  .v-div {
+  .p-div {
     border: 0; block-size: var(--rule-hairline, 1px);
     background: var(--border-hairline, #ddd7cb);
     margin: var(--space-8, 40px) 0 var(--pitch-rule-heading, 33px);
   }
 
   /* ── the facts strip ────────────────────────────────────────────────── */
-  .v-dl { margin: 0; }
+  .p-dl { margin: 0; }
   /* ⭐ STACKED ON A PHONE, side by side only when there is room for both.
      FactsRow.astro's two-column grid is unconditional, and on a 375px screen
      it leaves the VALUE column 207px wide — about 22 characters at 17px, which
@@ -764,13 +764,13 @@
      is the thing the
      reader walked over for. Airbnb stacks the same pair (label over value) in
      ThingsToKnow and Menu at every width. The component needs this too. */
-  .v-row {
+  .p-row {
     display: grid;
     gap: var(--space-1, 4px);
     padding-block: var(--space-3, 12px);
     border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
   }
-  .v-row:first-child { border-block-start: 0; }
+  .p-row:first-child { border-block-start: 0; }
   /* ⛔ THE LABEL TRACK IS CAPPED IN rem, NOT IN %. It was `minmax(6.5rem, 30%)`,
      tuned when the widest this row could ever be was 512px — 30% of that is
      154px, which is right. Once the strip claims the wide track the same 30%
@@ -781,13 +781,13 @@
      different design. ⚠️ The lesson generalises: a percentage inside a container
      that just learned to grow is a defect waiting for the first wide screen. */
   @media (min-width: 40rem) {
-    .v-row {
+    .p-row {
       grid-template-columns: minmax(6.5rem, 10rem) 1fr;
       gap: var(--space-2, 8px) var(--space-4, 16px);
       align-items: baseline;
     }
   }
-  .v-row__label {
+  .p-row__label {
     margin: 0;
     font-size: var(--type-ui, 17px);
     font-weight: var(--weight-medium, 500);
@@ -798,7 +798,7 @@
      the system's own 65 ceiling. The row goes wide; the sentence inside it does
      not. ⚠️ See the note at the foot: --measure yields 66–74 characters rather
      than 65, so this caps the damage without closing that gap. */
-  .v-row__value {
+  .p-row__value {
     margin: 0;
     max-inline-size: var(--measure, 32rem);
     font-size: var(--type-ui, 17px);
@@ -809,13 +809,13 @@
      PROPORTIONAL — "21:00" sets 14.5px narrower than "11:00" at 100px — so a
      column of times drifts sideways as a reader goes down it. Only on the rows
      that carry numbers: forcing it into a sentence opens gaps around a "1". */
-  .v-row__value--aligned { font-variant-numeric: var(--figures-aligned, tabular-nums); }
+  .p-row__value--aligned { font-variant-numeric: var(--figures-aligned, tabular-nums); }
   /* The posted claim is one step back in ink, NEVER smaller. A reader has to be
      able to see what the sign says. */
-  .v-posted { color: var(--text-secondary, #5a544c); }
+  .p-posted { color: var(--text-secondary, #5a544c); }
   /* ⛔ PRIMARY INK, ROW SIZE, UPRIGHT. Not grey, not small, not italic. The
      honesty surface is not a caption — it was set in 14px caption grey twice. */
-  .v-missing { color: var(--text-primary, #1c1a17); }
+  .p-missing { color: var(--text-primary, #1c1a17); }
 
   /* ⛔ WAS A FILLED AMBER PILL, and it was the loudest thing on the page —
      louder than the hours and the closure dates it exists to support. Owner,
@@ -847,7 +847,7 @@
      ⛔ Renaming the attribute does not remove it from the gate — only moving it
      out of the row would, and that would break the reading order. Do not delete
      this declaration on the theory that the rename made it unnecessary. */
-  .v-checked {
+  .p-checked {
     display: block;
     max-inline-size: 100%;
     margin-block-start: var(--space-1, 4px);
@@ -859,9 +859,9 @@
   }
 
   /* ── the trust card — DELETED 10 Aug 2026 ───────────────────────────────
-     `.v-trust`, `.v-trust__cell`, `.v-trust__value` and `.v-trust__label`
+     `.p-trust`, `.p-trust__cell`, `.p-trust__value` and `.p-trust__label`
      lived here and are gone with the markup they styled. The rules were fine;
-     the three cells they painted were untrue about this venue. The rebuilt
+     the three cells they painted were untrue about this place. The rebuilt
      Airbnb measurement (18px/500 value over a 12px/500 label, three cells,
      1px vertical rules, no colour) is preserved in docs/research/airbnb-study.md
      §4 and in the note at the foot of this page, so nothing was lost by
@@ -869,7 +869,7 @@
      without a real observation to put in it. */
 
   /* ── highlights — DELETED 10 Aug 2026 ───────────────────────────────────
-     `.v-hl__list`, `.v-hl__row`, `.v-hl__claim` and `.v-hl__ev` are gone with
+     `.p-hl__list`, `.p-hl__row`, `.p-hl__claim` and `.p-hl__ev` are gone with
      the "What we only know because we went" section. The component itself is
      sound and its WRONG-sentence still stands — a highlight is wrong if its
      claim would still be printable by somebody who had never been there — but
@@ -881,9 +881,9 @@
      ThingsToKnow is a label over a value with no glyph. Icons belonged to
      Highlights, which this page no longer carries — so the only glyph left is
      the one in the what-and-where line, against Airbnb's ~15 a page. */
-  .v-ttk { margin: 0; }
-  .v-ttk__row { padding-block: var(--space-3, 12px); }
-  .v-ttk__row + .v-ttk__row {
+  .p-ttk { margin: 0; }
+  .p-ttk__row { padding-block: var(--space-3, 12px); }
+  .p-ttk__row + .p-ttk__row {
     border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
   }
   /* ⭐ TWO LABEL/VALUE LISTS ON ONE PAGE MUST NOT USE TWO LAYOUTS. The facts
@@ -891,15 +891,15 @@
      the page carried the same shape drawn two different ways, one above the
      other. Same query, same label track. */
   @media (min-width: 40rem) {
-    .v-ttk__row {
+    .p-ttk__row {
       display: grid;
       grid-template-columns: minmax(6.5rem, 10rem) 1fr;
       gap: var(--space-2, 8px) var(--space-4, 16px);
       align-items: baseline;
     }
-    .v-ttk__label { margin-block-end: 0; }
+    .p-ttk__label { margin-block-end: 0; }
   }
-  .v-ttk__label {
+  .p-ttk__label {
     margin: 0 0 var(--space-1, 4px);
     font-size: var(--type-ui, 17px);
     font-weight: var(--weight-medium, 500);
@@ -917,7 +917,7 @@
      ⭐ And it is not only a measure fix. The copy here is an instruction a
      traveller acts on — shoes off before the prayer hall — and it was set at the
      system's caption size, under the 17px Kerala-sun floor. */
-  .v-ttk__value {
+  .p-ttk__value {
     margin: 0;
     max-inline-size: var(--measure, 32rem);
     font-size: var(--type-ui, 17px);
@@ -926,26 +926,26 @@
   }
 
   /* ── not now, and where to go instead ───────────────────────────────── */
-  .v-nn__list { list-style: none; margin: 0; padding: 0; }
+  .p-nn__list { list-style: none; margin: 0; padding: 0; }
   /* ⛔ NOT display:flex. Flex turns the text node after the link into its own
      item, so the space before the em dash disappears and a long name breaks
      into a second column. Padding to the floor, normal flow inside. */
   /* ⛔⛔ 17px, NOT 16px, AND A MEASURE CAP — the whole component, not just the
-     redirect. Two findings landed on `.v-nn__instead` in one day: an 83-character
+     redirect. Two findings landed on `.p-nn__instead` in one day: an 83-character
      line on one line, and a 19px tap target. A third was underneath them and is
-     the cause of the first: `.v-nn__row` set --type-small for EVERYTHING in it,
+     the cause of the first: `.p-nn__row` set --type-small for EVERYTHING in it,
      so the component whose entire job is stopping somebody walking to a locked
      door was rendered at the system's caption size, under the 17px Kerala-sun
      floor.
      ⭐ Same shape as the things-to-know cell fixed earlier today, and
      tokens/spacing.css already states the rule: reach for the TYPE first — small
      type is for short text. The 83-character line was a symptom.
-     ⛔ AND THE ROW HAD NO CAP. Once `.v-nn__list` claimed the wide track the row
+     ⛔ AND THE ROW HAD NO CAP. Once `.p-nn__list` claimed the wide track the row
      ran the full 1152px, which is why an 83-character sentence fitted on one
      line at all. It wraps at the reading measure now, like every other value on
      this page.
      ⭐ MEASURED after: longest line 83 → 61 at desktop, 42 on a phone. */
-  .v-nn__row {
+  .p-nn__row {
     position: relative;
     padding-block: var(--space-3, 12px);
     min-height: var(--tap-comfortable, 52px);
@@ -953,12 +953,12 @@
     font-size: var(--type-ui, 17px);
     line-height: var(--leading-tight, 1.375);
   }
-  .v-nn__name { color: var(--text-primary, #1c1a17); font-weight: var(--weight-medium, 500);
+  .p-nn__name { color: var(--text-primary, #1c1a17); font-weight: var(--weight-medium, 500);
                  text-decoration: underline; text-decoration-color: var(--border-hairline, #ddd7cb); }
   /* ⛔ Only the PLACE gets the row overlay. Two ::after overlays on one row and
      the LATER one wins — a tap on the place would open the alternative. */
-  .v-nn__name::after { content: ''; position: absolute; inset: 0; }
-  .v-nn__dist, .v-nn__state { color: var(--text-secondary, #5a544c); }
+  .p-nn__name::after { content: ''; position: absolute; inset: 0; }
+  .p-nn__dist, .p-nn__state { color: var(--text-secondary, #5a544c); }
   /* ⛔⛔ THE DESTINATION IS OUT OF THE SENTENCE — restructured 10 Aug 2026, and
      this is a SHAPE change, not styling. It was one running sentence: "Open now:
      Mattancherry Palace, five minutes further down the same lane, until five."
@@ -974,9 +974,9 @@
      a locked gate, so a thumb aims for it. The exemption is true and irrelevant.
      ⭐ The grammar is the site's own, not a new invention: a quiet kicker, the
      thing you act on, then the detail — same three-part shape as `.cat-tip`. */
-  .v-nn__instead { display: block; margin-block-start: var(--space-3, 12px);
+  .p-nn__instead { display: block; margin-block-start: var(--space-3, 12px);
                    color: var(--text-primary, #1c1a17); }
-  .v-nn__instead-k {
+  .p-nn__instead-k {
     display: block;
     font-size: var(--type-micro, 14px);
     font-weight: var(--weight-medium, 500);
@@ -984,7 +984,7 @@
     color: var(--text-secondary, #5a544c);
   }
   /* ⛔ `position:relative; z-index:1` IS LOAD-BEARING and must survive any edit
-     here: `.v-nn__name::after` covers the whole row, and without the lift the
+     here: `.p-nn__name::after` covers the whole row, and without the lift the
      overlay swallows this control entirely — a tap on the alternative would open
      the place it is redirecting away from.
      ⛔ And the colour is load-bearing too. This rule once carried only the
@@ -993,7 +993,7 @@
      every other link in the component was ink.
      ⚠️ UNDERLINE THE TEXT, NOT THE BOX. `text-decoration` tracks the words; a
      border on a 52px inline-flex would float a rule ~18px beneath them. */
-  .v-nn__instead-go {
+  .p-nn__instead-go {
     position: relative; z-index: 1;
     display: inline-flex; align-items: center;
     min-block-size: var(--tap-comfortable, 52px);
@@ -1006,7 +1006,7 @@
     text-decoration-color: var(--cok-amber, #ffa700);
     text-decoration-thickness: 2px; text-underline-offset: 3px;
   }
-  .v-nn__instead-d {
+  .p-nn__instead-d {
     display: block;
     font-size: var(--type-small, 16px);
     line-height: var(--leading-tight, 1.375);
@@ -1014,13 +1014,13 @@
   }
 
   /* ── the writing ────────────────────────────────────────────────────── */
-  .v-prose p { margin: 0 0 var(--paragraph-gap, 0.75em); }
-  .v-prose a { color: var(--text-primary, #1c1a17); text-decoration: underline;
+  .p-prose p { margin: 0 0 var(--paragraph-gap, 0.75em); }
+  .p-prose a { color: var(--text-primary, #1c1a17); text-decoration: underline;
                text-decoration-color: var(--cok-amber, #ffa700);
                text-decoration-thickness: 2px; text-underline-offset: 3px; }
   /* ⭐ A cat is a BYLINE, never a narrator, and never touches a fact. Amber
      never touches a cat line either — --surface-quiet carries voice instead. */
-  .v-cat {
+  .p-cat {
     margin: 0 0 var(--space-6, 24px);
     padding: var(--space-4, 16px);
     background: var(--surface-quiet, #f4f1ea);
@@ -1032,16 +1032,16 @@
      invisible to some readers — so it may never be the only thing saying that
      what follows is different. This one is ink-quiet at 7.38:1, and the words
      "Shemeer's verdict" say it as well. */
-  .v-verdict {
+  .p-verdict {
     margin-block-start: var(--space-6, 24px);
     padding-inline-start: var(--space-4, 16px);
     border-inline-start: var(--rule-leading, 4px) solid var(--text-secondary, #5a544c);
   }
-  .v-byline { font-size: var(--type-micro, 14px); color: var(--text-secondary, #5a544c); }
+  .p-byline { font-size: var(--type-micro, 14px); color: var(--text-secondary, #5a544c); }
 
   /* ── read next ──────────────────────────────────────────────────────── */
-  .v-rn__list { list-style: none; margin: 0; padding: 0; }
-  .v-rn__row {
+  .p-rn__list { list-style: none; margin: 0; padding: 0; }
+  .p-rn__row {
     position: relative;
     padding-block: var(--space-3, 12px);
     min-height: var(--tap-comfortable, 52px);
@@ -1050,8 +1050,8 @@
   /* ⭐ THE ROW is the target, not the words. `min-height` does nothing to an
      inline <a>: three page types shipped 17–22px headlines that measured fine
      in source review and were unusable in a viewport. */
-  .v-rn__row > .v-rn__name::after { content: ''; position: absolute; inset: 0; }
-  .v-rn__name {
+  .p-rn__row > .p-rn__name::after { content: ''; position: absolute; inset: 0; }
+  .p-rn__name {
     display: block;
     color: var(--text-primary, #1c1a17);
     font-size: var(--type-ui, 17px);
@@ -1065,7 +1065,7 @@
     text-decoration-thickness: 2px;
     text-underline-offset: 3px;
   }
-  .v-rn__kicker {
+  .p-rn__kicker {
     display: block; margin-block-start: var(--space-1, 4px);
     font-size: var(--type-micro, 14px);
     color: var(--text-secondary, #5a544c);
@@ -1079,7 +1079,7 @@
      same wide track as the page and centred, so the button sits under the page
      it belongs to. ⭐ Inert on a phone: min() picks the 100%−48px branch below
      1200px, which is what it already did. */
-  .v-bar {
+  .p-bar {
     position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 10;
     display: flex; flex-direction: column; gap: var(--space-2, 8px);
     padding: var(--space-3, 12px) var(--gutter, 24px);
@@ -1093,16 +1093,16 @@
      rest of the page rather than --measure-row so that whoever restores the bar
      gets its contents on the page's left edge instead of re-creating the
      two-left-edges defect. It renders nothing today either way. */
-  .v-bar > * {
+  .p-bar > * {
     inline-size: 100%;
     max-inline-size: var(--measure-wide);
     margin-inline: auto;
   }
-  .v-bar__context {
+  .p-bar__context {
     /* ⛔ WAS `margin: 0`, and the shorthand wiped the auto inline margins that
        centre this on the page's own left edge. At 1440 the caption sat at x=24
        while its button sat at x=376 — 120px apart, two left edges, permanently
-       on screen. Fixed in ui_kits/venue and never synced here until 10 Aug 2026.
+       on screen. Fixed in ui_kits/place and never synced here until 10 Aug 2026.
        margin-block, not margin: only the block axis is being zeroed. */
     margin-block: 0;
     font-size: var(--type-micro, 14px);
@@ -1114,7 +1114,7 @@
   /* ⭐ RANK IS SHAPE. The pill is the primary rank and the only pill in the
      system; a 12px corner is everything else. A corner survives colour
      blindness, glare, and a screenshot in a WhatsApp thread. */
-  .v-bar__button {
+  .p-bar__button {
     display: flex; align-items: center; justify-content: center;
     min-block-size: var(--button-height, 52px);
     min-inline-size: var(--tap-comfortable, 52px);
@@ -1144,20 +1144,20 @@
   .note-frame p, .note-frame li { font-size: var(--type-small, 16px); line-height: var(--leading-tight, 1.375); }
   .note-frame li { margin-block-end: var(--space-3, 12px); }
 </style>
-<body data-page-kind="venue">
+<body data-page-kind="place">
 
-<header class="v-hd">
+<header class="p-hd">
 
-  <div class="v-hd__box v-hd__row">
-    <a class="v-hd__brand" href="#top">
+  <div class="p-hd__box p-hd__row">
+    <a class="p-hd__brand" href="#top">
       <!-- ⭐ Held for the cropped cat mark, which does not exist yet. Empty on
            purpose; the CSS says why, and why the left-edge check must assert
            this link rather than the wordmark inside it. -->
-      <span class="v-hd__mark" aria-hidden="true"></span>
-      <span class="v-hd__name">cats of Kochi</span>
+      <span class="p-hd__mark" aria-hidden="true"></span>
+      <span class="p-hd__name">cats of Kochi</span>
     </a>
 
-    <div class="v-hd__tools">
+    <div class="p-hd__tools">
       <!-- ⚠️ ONE LANGUAGE BEHIND A GLOBE. The owner was told plainly that a
            globe with a single language behind it reads as broken to whoever
            taps it, and chose it anyway — so the job is to make the tap honest,
@@ -1169,18 +1169,18 @@
            owner's own ruling, so any date here would be invented, and a
            promise with no date is what makes a reader stop believing the rest
            of the page. The sentence makes no time claim at all. -->
-      <details class="v-hd__pop" name="v-hd-pop">
-        <summary class="v-hd__tool" aria-label="Language: English">
-          <svg class="v-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <details class="p-hd__pop" name="p-hd-pop">
+        <summary class="p-hd__tool" aria-label="Language: English">
+          <svg class="p-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <circle cx="12" cy="12" r="10"/>
             <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
             <path d="M2 12h20"/>
           </svg>
           <span>English</span>
         </summary>
-        <div class="v-hd__panel">
-          <p class="v-hd__panel-h">Language</p>
-          <p class="v-hd__panel-p">
+        <div class="p-hd__panel">
+          <p class="p-hd__panel-h">Language</p>
+          <p class="p-hd__panel-p">
             English is the only language this site is written in. More will
             appear in this list as they are finished, so there is nothing else
             to choose today.
@@ -1194,15 +1194,15 @@
            So the word goes where it is load-bearing and not where it is
            decoration. Measured reason as well: at 320px the row cannot carry
            both words and the wordmark without overflowing. -->
-      <details class="v-hd__pop" name="v-hd-pop">
-        <summary class="v-hd__tool" aria-label="Menu">
-          <svg class="v-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <details class="p-hd__pop" name="p-hd-pop">
+        <summary class="p-hd__tool" aria-label="Menu">
+          <svg class="p-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
           </svg>
         </summary>
-        <div class="v-hd__panel">
-          <a class="v-hd__mi" href="#top">About</a>          <a class="v-hd__mi" href="#top">The monthly email</a>
-          <a class="v-hd__mi" href="#top">Contact</a>
+        <div class="p-hd__panel">
+          <a class="p-hd__mi" href="#top">About</a>          <a class="p-hd__mi" href="#top">The monthly email</a>
+          <a class="p-hd__mi" href="#top">Contact</a>
         </div>
       </details>
     </div>
@@ -1214,21 +1214,21 @@
        buttons with no handler rather than `disabled` ones, because a disabled
        control is greyed and skipped by the keyboard, which is not what this
        will be. `data-inert` marks every one of them for whoever wires it. -->
-  <div class="v-hd__box">
-    <div class="v-search" role="search">
-      <button class="v-search__field v-search__field--wide" type="button" data-inert="front-door-undecided">When are you here?</button>
-      <button class="v-search__go" type="button" aria-label="Search" data-inert="front-door-undecided">
-        <svg class="v-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  <div class="p-hd__box">
+    <div class="p-search" role="search">
+      <button class="p-search__field p-search__field--wide" type="button" data-inert="front-door-undecided">When are you here?</button>
+      <button class="p-search__go" type="button" aria-label="Search" data-inert="front-door-undecided">
+        <svg class="p-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
         </svg>
       </button>
     </div>
   </div>
 
-  <nav class="v-hd__box v-hd__tabs" aria-label="Sections">
-    <a class="v-hd__tab" href="#top" aria-current="page"><span class="v-hd__tab-label">Places</span></a>
-    <a class="v-hd__tab" href="#top"><span class="v-hd__tab-label">Getting around</span></a>
-    <a class="v-hd__tab" href="#top"><span class="v-hd__tab-label">Writing</span></a>
+  <nav class="p-hd__box p-hd__tabs" aria-label="Sections">
+    <a class="p-hd__tab" href="#top" aria-current="page"><span class="p-hd__tab-label">Places</span></a>
+    <a class="p-hd__tab" href="#top"><span class="p-hd__tab-label">Getting around</span></a>
+    <a class="p-hd__tab" href="#top"><span class="p-hd__tab-label">Writing</span></a>
   </nav>
 
 </header>
@@ -1249,7 +1249,7 @@
        the same document. The builder sets the true dimensions from the file.
        (The live site's header <img> has no width, no height and no srcset at
        all, which is why the logo shifts the page as it loads.) -->
-  <figure class="v-photo" data-photograph="bleed" data-span="full">
+  <figure class="p-photo" data-photograph="bleed" data-span="full">
     <img
       src="water-metro-jetty.jpg"
       alt="The water metro boat at the Fort Kochi jetty, where most visitors land before the walk through to Jew Town"
@@ -1260,32 +1260,32 @@
        put "Room in Kochi, India" above a demoted proper noun. 73% of the search
        demand reaching this site is a bare name. The page is the name-shaped
        answer; what-kind-of-thing-and-where is the second line, not the first. -->
-  <h1 class="v-h1">Paradesi Synagogue</h1>
-  <p class="v-what" data-venue-what>
-    <svg class="v-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M48-144v-504q0-50 35-85t85-35q51 0 85.5 36.75T288-642l192-174 192 174q0-52.5 34.5-89.25t85-36.75q50.5 0 85.5 35t35 85v504H528v-144q-1-20-14.52-34t-33.5-14q-19.98 0-33.48 14-13.5 14-14.5 34v144H48Zm696-456h96v-47.72Q840-668 826.2-682T792-696q-20.4 0-34.2 13.8Q744-668.4 744-648v48Zm-624 0h96v-47.72Q216-668 202.2-682T168-696q-20.4 0-34.2 13.8Q120-668.4 120-648v48Zm0 384h96v-312h-96v312Zm168 0h72v-72q2-50 36.38-85t83.5-35Q529-408 563-373q34 35 37 85v72h72v-328L480-719 288-544v328Zm456 0h96v-312h-96v312ZM479.5-504q-23.5 0-41.5-18.5T420-564q0-23 18-41.5t41.5-18.5q23.5 0 42 18.5T540-564q0 23-18.5 41.5t-42 18.5Z"/></svg>
+  <h1 class="p-h1">Paradesi Synagogue</h1>
+  <p class="p-what" data-place-what>
+    <svg class="p-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path d="M48-144v-504q0-50 35-85t85-35q51 0 85.5 36.75T288-642l192-174 192 174q0-52.5 34.5-89.25t85-36.75q50.5 0 85.5 35t35 85v504H528v-144q-1-20-14.52-34t-33.5-14q-19.98 0-33.48 14-13.5 14-14.5 34v144H48Zm696-456h96v-47.72Q840-668 826.2-682T792-696q-20.4 0-34.2 13.8Q744-668.4 744-648v48Zm-624 0h96v-47.72Q216-668 202.2-682T168-696q-20.4 0-34.2 13.8Q120-668.4 120-648v48Zm0 384h96v-312h-96v312Zm168 0h72v-72q2-50 36.38-85t83.5-35Q529-408 563-373q34 35 37 85v72h72v-328L480-719 288-544v328Zm456 0h96v-312h-96v312ZM479.5-504q-23.5 0-41.5-18.5T420-564q0-23 18-41.5t41.5-18.5q23.5 0 42 18.5T540-564q0 23-18.5 41.5t-42 18.5Z"/></svg>
     Synagogue · Jew Town, Mattancherry
   </p>
 
   <!-- ── the facts strip ─────────────────────────────────────────────── -->
   <section aria-labelledby="h-facts">
-    <h2 class="v-h2" id="h-facts">Before you walk over</h2>
+    <h2 class="p-h2" id="h-facts">Before you walk over</h2>
     <!-- ⭐ WIDE. The facts strip is the reason this job exists: label-and-value
          rows stack on a phone because there is no room, and on a laptop they sat
          in a 512px column with 900px of empty page beside them. -->
-    <dl class="v-dl" data-span="wide">
+    <dl class="p-dl" data-span="wide">
 
       <!-- ⛔⛔ THIS ROW WAS `contradicts` AND THE CONTRADICTION WAS NOT REAL.
            It showed "Posted: 10:00–17:00 / Actually 10:00–13:00, then
            15:00–17:00" under a stamp saying we went and checked. Every one of
            those numbers came from `fixtures/registry-mini/paradesi-synagogue.yaml`,
            whose first line reads "FIXTURE — engine test data, NOT population."
-           The venue's own site (paradesisynagogue.com, read 7 Aug 2026) says
+           The place's own site (paradesisynagogue.com, read 7 Aug 2026) says
            Sun-Thu 10-6, Fri 10-2, closed Saturday. There is no mid-day break and
            there is nothing to contradict.
 
            ⚠️ SO THIS KIT NO LONGER DEMONSTRATES THE `contradicts` STATE. That is
            the honest outcome, not a gap to paper over: we do not currently hold a
-           dated observation that disagrees with an official source for this venue.
+           dated observation that disagrees with an official source for this place.
            Kerala Tourism publishes different hours and has propagated them into
            OpenStreetMap, which is a real divergence — but nobody has quoted its
            exact wording, and a contradiction whose other half you cannot state is
@@ -1295,15 +1295,15 @@
            ⭐ AND THE STAMP NOW SAYS WHAT WE ACTUALLY DID. "We went and checked"
            and "we read their website" are different strengths of evidence and the
            component must not flatten them. Nobody has been. -->
-      <div class="v-row" data-facts-row="hours" data-fact="known">
-        <dt class="v-row__label">Hours</dt>
-        <dd class="v-row__value v-row__value--aligned">
+      <div class="p-row" data-facts-row="hours" data-fact="known">
+        <dt class="p-row__label">Hours</dt>
+        <dd class="p-row__value p-row__value--aligned">
           <!-- ⭐ CLOCK FORMAT, owner's decision 10 Aug 2026: "10am – 1pm, 2 – 4.30pm".
                Lowercase, no space before the meridiem, no minutes on a round hour,
                a full stop rather than a colon. The record still stores
                `Su-Th 10:00-18:00; Fr 10:00-14:00; Sa off` — display only. -->
           <span data-fact-value>Sunday to Thursday, 10am – 6pm. Friday, 10am – 2pm.</span>
-          <span class="v-checked" data-source-checked="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
+          <span class="p-checked" data-source-checked="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
         </dd>
       </div>
 
@@ -1313,14 +1313,14 @@
            a reader can walk twenty minutes in the sun to a locked gate on a
            Tuesday in May. They are published by the community itself, so they
            belong here with the weekly closure rather than in a footnote. -->
-      <div class="v-row" data-facts-row="closed" data-fact="known">
+      <div class="p-row" data-facts-row="closed" data-fact="known">
         <!-- ⭐ "Closed days", not "Closed" — owner ruling 10 Aug 2026 makes the
              formatter print "Closed" as an HOURS VALUE for a shut day. This page
              carries an Hours row directly above, so on a Saturday the pair would
              have read "Hours: Closed / Closed: Every Saturday…". The label names
              the days, the value lists them, and the two rows stop competing. -->
-        <dt class="v-row__label">Closed days</dt>
-        <dd class="v-row__value v-row__value--aligned">
+        <dt class="p-row__label">Closed days</dt>
+        <dd class="p-row__value p-row__value--aligned">
           <!-- ⛔ THE COUNT IS GONE. This read "Also on seven Jewish holidays in
                2026:" followed by seven date groups, and a reader maps those 1:1.
                They do not match: "2–3 and 8–9 April" is ONE holiday (Passover)
@@ -1330,7 +1330,7 @@
                applies: never write a count into a line whose list is right there.
                Print the dates and let the reader count if they care. -->
           <span data-fact-value>Every Saturday, and on Jewish holidays — in 2026 those are 2–3 and 8–9 April, 22 May, 23 July, 12–13 September, 20–21 September, 27 September, and 3–4 October.</span>
-          <span class="v-checked" data-source-checked="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
+          <span class="p-checked" data-source-checked="7 Aug 2026">Read from the synagogue's own site, 7 Aug 2026</span>
         </dd>
       </div>
 
@@ -1345,9 +1345,9 @@
            ⚠️ Three times mattered. A number repeated in the row, in the "shut
            right now" line and in the sticky bar reads as three confirmations
            of itself. Change all three or none. -->
-      <div class="v-row" data-facts-row="getting there" data-fact="known">
-        <dt class="v-row__label">Getting there</dt>
-        <dd class="v-row__value v-row__value--aligned">
+      <div class="p-row" data-facts-row="getting there" data-fact="known">
+        <dt class="p-row__label">Getting there</dt>
+        <dd class="p-row__value p-row__value--aligned">
           <span data-fact-value>4 minutes on foot from Mattancherry Water Metro Station.</span>
         </dd>
       </div>
@@ -1360,10 +1360,10 @@
            four numbers. A wrong price is worse than no price: it is small enough
            that a reader will not check it, and it is the number they arrive
            holding in their hand. -->
-      <div class="v-row" data-facts-row="entry" data-fact="missing">
-        <dt class="v-row__label">Entry</dt>
-        <dd class="v-row__value">
-          <span class="v-missing" data-fact-missing>Not published. The synagogue's own site says to ask their staff, and the prices quoted elsewhere disagree with each other. We have not been able to confirm any of them, so carry cash and expect to be told at the gate.</span>
+      <div class="p-row" data-facts-row="entry" data-fact="missing">
+        <dt class="p-row__label">Entry</dt>
+        <dd class="p-row__value">
+          <span class="p-missing" data-fact-missing>Not published. The synagogue's own site says to ask their staff, and the prices quoted elsewhere disagree with each other. We have not been able to confirm any of them, so carry cash and expect to be told at the gate.</span>
         </dd>
       </div>
 
@@ -1373,17 +1373,17 @@
            ⛔ And this row is kept rather than dropped, because its absence
            would be read as an answer: "nothing to bring" and "no accessibility
            information" are different kinds of empty. -->
-      <div class="v-row" data-facts-row="step-free entry" data-fact="missing">
-        <dt class="v-row__label">Step-free entry</dt>
-        <dd class="v-row__value">
-          <span class="v-missing" data-fact-missing>We have not measured the step at the street gate or the threshold at the door, and nobody here has walked it with a wheelchair.</span>
+      <div class="p-row" data-facts-row="step-free entry" data-fact="missing">
+        <dt class="p-row__label">Step-free entry</dt>
+        <dd class="p-row__value">
+          <span class="p-missing" data-fact-missing>We have not measured the step at the street gate or the threshold at the door, and nobody here has walked it with a wheelchair.</span>
         </dd>
       </div>
     </dl>
 
     <!-- ⛔⛔ THE TRUST CARD IS GONE. Owner's decision, 10 Aug 2026, and it was
          not a layout call — every one of its three cells stated something
-         untrue about this venue.
+         untrue about this place.
            "3 Aug 2026 / last checked"      → the record says 2026-08-07, and
                                               the Hours row two lines above
                                               already prints 7 Aug. The card
@@ -1403,13 +1403,13 @@
          website" is a weaker claim wearing a trust card's shelf, and the shelf
          is what does the persuading. The provenance already lives where it
          belongs: one quiet grey line inside the row it applies to. See
-         `.v-checked` in the Hours and Closed rows above.
+         `.p-checked` in the Hours and Closed rows above.
          ⚠️ Airbnb's three-cell shelf is still the right SHAPE for a real
          moat record — keep the measurement in ui_kits and the note at the foot
-         of this page. It has no honest content on this venue. -->
+         of this page. It has no honest content on this place. -->
   </section>
 
-  <hr class="v-div" data-divider="hairline" data-span="wide">
+  <hr class="p-div" data-divider="hairline" data-span="wide">
 
   <!-- ⛔⛔ "WHAT WE ONLY KNOW BECAUSE WE WENT" IS GONE — 10 Aug 2026, and the
        heading is the reason. Nobody has been to this synagogue. The record says
@@ -1419,7 +1419,7 @@
 
        Both survivors came off paradesisynagogue.com at a desk:
          · "The holidays close it, and the listings do not say so" — the dates
-           are read from the venue's own site, and the claim's second half is
+           are read from the place's own site, and the claim's second half is
            wrong anyway: Kerala Tourism's listing does say "except Fridays,
            Saturdays and Jewish holidays". It omits the DATES, not the fact.
          · "Friday is a short day, not a closed one" — also read off that site,
@@ -1433,7 +1433,7 @@
        its WRONG-sentence — a highlight is wrong if its claim would still be
        printable by somebody who had never been there — are exactly right, and
        Bastion Bungalow is the one record in the registry that can fill it. This
-       venue cannot, and that is the honest outcome rather than a gap to paper
+       place cannot, and that is the honest outcome rather than a gap to paper
        over. The parked fieldwork (time the walk from the water metro station,
        price one auto from Fort Kochi) is still written up in
        src/content/venues/README.md and comes back the day somebody does it. -->
@@ -1446,11 +1446,11 @@
        level, What to bring, Accessibility, Cancellation policy — and the rule
        for keeping one is stated at the strip above. -->
   <section data-things-to-know aria-labelledby="h-ttk">
-    <h2 class="v-h2" id="h-ttk">What a photograph will not tell you</h2>
-    <dl class="v-ttk" data-span="wide">
-      <div class="v-ttk__row" data-thing="shoes">
-        <dt class="v-ttk__label">Shoes</dt>
-        <dd class="v-ttk__value" data-thing-value>They come off before the prayer hall. There is a rack inside the gate and the floor is tiled, not sand.</dd>
+    <h2 class="p-h2" id="h-ttk">What a photograph will not tell you</h2>
+    <dl class="p-ttk" data-span="wide">
+      <div class="p-ttk__row" data-thing="shoes">
+        <dt class="p-ttk__label">Shoes</dt>
+        <dd class="p-ttk__value" data-thing-value>They come off before the prayer hall. There is a rack inside the gate and the floor is tiled, not sand.</dd>
       </div>
       <!-- ⛔⛔ TWO ROWS DELETED 10 Aug 2026 — "Photographs: not allowed inside"
            and "Dress: shoulders and knees covered, nothing is lent at the door".
@@ -1461,25 +1461,25 @@
            this component's WRONG-sentence exists to catch, wearing the clothes
            of house-rules boilerplate. "Nothing is lent at the door" is the tell:
            that is a fact about a specific doorway on a specific day.
-           ⭐ The two that stay are sourced. Shoes: the venue's own site says
+           ⭐ The two that stay are sourced. Shoes: the place's own site says
            "Visitors are required to remove footwear before entering the inner
            hall." Cash: the same site declines to publish a price and says to ask
            staff, and our own 450-years article prints "There's a small entry fee
            per person. Please carry cash." Two rows that are true beat four that
            look complete. -->
-      <div class="v-ttk__row" data-thing="paying">
-        <dt class="v-ttk__label">Paying</dt>
+      <div class="p-ttk__row" data-thing="paying">
+        <dt class="p-ttk__label">Paying</dt>
         <!-- ⛔ This said "no card machine and no counter change for a large note",
              which is a specific on-the-ground observation nobody made — and it sat
              one screen below a facts row that now admits we do not know the price
              at all. A page cannot claim to know the change in the till while
              saying it does not know the fare. -->
-        <dd class="v-ttk__value" data-thing-value>Bring cash. The price is not published anywhere and you will be told it at the gate.</dd>
+        <dd class="p-ttk__value" data-thing-value>Bring cash. The price is not published anywhere and you will be told it at the gate.</dd>
       </div>
     </dl>
   </section>
 
-  <hr class="v-div" data-divider="hairline" data-span="wide">
+  <hr class="p-div" data-divider="hairline" data-span="wide">
 
   <!-- ── not now ─────────────────────────────────────────────────────── -->
   <!-- ⛔ AN ALTERNATIVE IS A FACT WITH HOURS, NOT A PIECE OF COPY. The first
@@ -1491,7 +1491,7 @@
        "shut all day — it is a Saturday" is a posted fact. "in 43 minutes" is
        never written into HTML — a countdown frozen into markup is a lie within
        the hour.
-       ⭐ Note this venue has NO re-opening time to count down to on the day it
+       ⭐ Note this place has NO re-opening time to count down to on the day it
        is shut, which is the harder case: a component that can only say "opens in
        N minutes" has nothing to offer here, and the alternative below is doing
        all the work. -->
@@ -1502,14 +1502,14 @@
          not have English as a first language. ⛔ Prose keeps "shut" — the owner's
          verdict and any cat line may use it freely. Voice is not a fact, and the
          ruling is scoped to strings a reader acts on. -->
-    <h2 class="v-h2" id="h-nn">It is closed right now</h2>
-    <ul class="v-nn__list" data-span="wide">
-      <li class="v-nn__row" data-not-now>
+    <h2 class="p-h2" id="h-nn">It is closed right now</h2>
+    <ul class="p-nn__list" data-span="wide">
+      <li class="p-nn__row" data-not-now>
         <!-- ⛔ WAS `data-from="15"` / "shut until three" — the mid-day break from
              the test fixture, which does not exist. Sunday to Thursday it runs
              10-6 straight through, so the real NotNow case here is a Saturday (or
              one of the thirteen dated holiday closures), when it is shut all day. -->
-        <a class="v-nn__name" href="#top">Paradesi Synagogue</a><span class="v-nn__dist"> · 4 minutes on foot</span><span class="v-nn__state"> — <span class="v-nn__clock" data-closed-today>closed all day — it is a Saturday</span>.</span>
+        <a class="p-nn__name" href="#top">Paradesi Synagogue</a><span class="p-nn__dist"> · 4 minutes on foot</span><span class="p-nn__state"> — <span class="p-nn__clock" data-closed-today>closed all day — it is a Saturday</span>.</span>
         <!-- ⭐ THREE PARTS, NOT ONE SENTENCE. The destination is a control on its
              own line so it can carry a real tap target; the kicker says why it is
              worth reading and the detail carries the alternative's OWN closing
@@ -1517,16 +1517,16 @@
              to a second locked door.
              ⛔ `data-not-now-instead` and `data-until` stay on the WRAPPER — the
              script reads them there to decide whether to show the line at all. -->
-        <span class="v-nn__instead" data-not-now-instead data-until="17"><span class="v-nn__instead-k">Open now</span><a class="v-nn__instead-go" href="#top">Mattancherry Palace</a><span class="v-nn__instead-d">Five minutes down the same lane, until five.</span></span>
+        <span class="p-nn__instead" data-not-now-instead data-until="17"><span class="p-nn__instead-k">Open now</span><a class="p-nn__instead-go" href="#top">Mattancherry Palace</a><span class="p-nn__instead-d">Five minutes down the same lane, until five.</span></span>
       </li>
     </ul>
   </section>
 
-  <hr class="v-div" data-divider="hairline" data-span="wide">
+  <hr class="p-div" data-divider="hairline" data-span="wide">
 
   <!-- ── the writing ─────────────────────────────────────────────────── -->
-  <section class="v-prose" aria-labelledby="h-prose">
-    <h2 class="v-h2" id="h-prose">Why the building looks like that</h2>
+  <section class="p-prose" aria-labelledby="h-prose">
+    <h2 class="p-h2" id="h-prose">Why the building looks like that</h2>
 
     <!-- ⭐ A cat is a BYLINE, never the narrator, and never carries a fact.
          ⚠️ It opens the WRITING here, not the page — see the note at the foot.
@@ -1538,7 +1538,7 @@
          near-identical invented sentence ("18th-century hand-painted Cantonese
          tiles") is the incident that made a test fixture read as a fact here.
          The replacement carries no claim anyone would have to check. -->
-    <p class="v-cat"><b>Ginger here.</b> Look down before you look up. Everybody comes for the ceiling and walks out over the floor.</p>
+    <p class="p-cat"><b>Ginger here.</b> Look down before you look up. Everybody comes for the ceiling and walks out over the floor.</p>
 
     <!-- ⭐ THE TWO SPANS ARE MARKED DISTINCTLY. The description is what DSPy
          drafts; the verdict stays Shemeer's and no program writes it. A scorer
@@ -1575,27 +1575,27 @@
       </p>
     </div>
 
-    <p class="v-verdict" data-prose="verdict">
+    <p class="p-verdict" data-prose="verdict">
       <b>Shemeer's verdict.</b> Go in the morning, before the tour groups come through from
       the palace, and give it longer than it looks like it needs. If the door is shut when
       you get there, the walk back through the lane is not wasted time.
-      <span class="v-byline">— written by Shemeer, not drafted</span>
+      <span class="p-byline">— written by Shemeer, not drafted</span>
     </p>
   </section>
 
-  <hr class="v-div" data-divider="hairline" data-span="wide">
+  <hr class="p-div" data-divider="hairline" data-span="wide">
 
   <!-- ── read next ───────────────────────────────────────────────────── -->
-  <nav class="v-rn" aria-labelledby="h-rn">
-    <h2 class="v-h2" id="h-rn">The long version</h2>
-    <ul class="v-rn__list" data-span="wide">
-      <li class="v-rn__row">
-        <a class="v-rn__name" href="#top">450 years of spice, prayer and hand-painted tiles</a>
-        <span class="v-rn__kicker">Told page · Ginger · about 1,100 words</span>
+  <nav class="p-rn" aria-labelledby="h-rn">
+    <h2 class="p-h2" id="h-rn">The long version</h2>
+    <ul class="p-rn__list" data-span="wide">
+      <li class="p-rn__row">
+        <a class="p-rn__name" href="#top">450 years of spice, prayer and hand-painted tiles</a>
+        <span class="p-rn__kicker">Told page · Ginger · about 1,100 words</span>
       </li>
-      <li class="v-rn__row">
-        <a class="v-rn__name" href="#top">Alleppey's pilgrimage: a day at the Paradesi Synagogue</a>
-        <span class="v-rn__kicker">Told page · Alleppey</span>
+      <li class="p-rn__row">
+        <a class="p-rn__name" href="#top">Alleppey's pilgrimage: a day at the Paradesi Synagogue</a>
+        <span class="p-rn__kicker">Told page · Alleppey</span>
       </li>
     </ul>
   </nav>
@@ -1769,7 +1769,7 @@
       </li>
       <li>
         <b>The entry price really is unknown</b>, and the refusal on the page is the
-        record. The venue's own site says to ask staff; aggregators variously claim free,
+        record. The place's own site says to ask staff; aggregators variously claim free,
         ₹5, ₹10 and ₹50; our own two articles say ₹10 and ₹100. <code>entry_price</code>
         is null and the row shows the <code>missing</code> state rather than picking one.
       </li>
@@ -1781,7 +1781,7 @@
         neither.
       </li>
       <li>
-        <b>The building's dates come from the venue's own site.</b> 1568, destroyed 1662,
+        <b>The building's dates come from the place's own site.</b> 1568, destroyed 1662,
         rebuilt "two years later" — the site never names the rebuild year and neither does
         the page.
       </li>
@@ -1794,9 +1794,9 @@
     <h4>Stand-ins — replace before this shape ships</h4>
     <ul>
       <li>
-        <b>The verdict.</b> Shemeer's own words go here. The venue-verdict sheet has lines
+        <b>The verdict.</b> Shemeer's own words go here. The place-verdict sheet has lines
         for David Hall, Pepper House, 111 Markaz, Bastion Bungalow and Aspinwall House,
-        and none for this venue.
+        and none for this place.
       </li>
       <li>
         <b>The hero photograph.</b> The design system holds exactly one real photograph
@@ -1823,7 +1823,7 @@
       </li>
       <li>
         <b>"What we only know because we went."</b> Both remaining rows came off the
-        venue's website at a desk, and both facts were already in the facts strip. One of
+        place's website at a desk, and both facts were already in the facts strip. One of
         them was also wrong: Kerala Tourism's listing does mention Jewish holidays — it
         omits the dates.
       </li>
@@ -1842,7 +1842,7 @@
     <ul>
       <li>
         <b>The content sheet does NOT rise over the photograph.</b> The spacing tokens
-        deferred this to "Phase 2's venue page and nothing else". Airbnb's sheet overlaps
+        deferred this to "Phase 2's place page and nothing else". Airbnb's sheet overlaps
         their hero by 23.5px with a 24px corner, and that one detail is most of why their
         page reads as an app. Refused, for two reasons: a guide is a document and not an
         app, and the overlap puts a text box on top of an image, where contrast cannot be
@@ -1858,7 +1858,7 @@
       <li>
         <b>The cat line opens the writing, not the page.</b> The locked page shape is
         H1 → cat → body → cat, and it was written for told pages, where the body is the
-        point. On a venue page the reader came for an opening time, and twenty words of
+        point. On a place page the reader came for an opening time, and twenty words of
         cat between the name and the hours costs them the answer. The closing cat line is
         dropped as well, because this section ends in the owner's verdict and a cat after
         it takes the last word away from the person whose judgement it is.

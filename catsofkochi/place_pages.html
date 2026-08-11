@@ -1,7 +1,7 @@
 <!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
-<title>Venue pages — three shapes</title>
+<title>Place pages — three shapes</title>
 
 <link rel="stylesheet" href="faces-figtree.css">
 <style>
@@ -68,7 +68,7 @@
      right. Centring text inside wide gives two left edges alternating down the
      page. Alignment beats balance.
 
-     ⛔ NO SUBGRID IN THIS KIT, unlike ui_kits/venue — checked rather than
+     ⛔ NO SUBGRID IN THIS KIT, unlike ui_kits/place — checked rather than
      assumed. Both `<section>`s here are bordered CARDS (`.facts`, `.season`),
      and a subgrid child spans `full`, which would dissolve the card into a
      full-bleed band. They claim `wide` as single items instead, which is what
@@ -160,7 +160,7 @@
      2026). Hours and fares are ordinary content; amber "never decorates"
      (README.md:186). A wash behind the whole strip also flattens `.facts__obs`
      — the observed-contradicts-official row that is the moat — into the same
-     surface as the fare. Hairline card, as TrustCard does in ui_kits/venue. */
+     surface as the fare. Hairline card, as TrustCard does in ui_kits/place. */
   .facts { margin-block:var(--s6); padding:var(--s4) var(--s5);
            background:var(--paper); border:1px solid var(--rule);
            font-family:var(--sans); }
@@ -171,7 +171,7 @@
   .facts__row:last-child { border-block-end:0; padding-block-end:0; }
   /* ⛔ WAS 30rem, RAISED TO 40rem (--bp-wide) — the one media query this kit is
      allowed, at the width the system's own token records. At 480px the two
-     columns left the VALUE 276px, and ui_kits/venue measured the same layout at
+     columns left the VALUE 276px, and ui_kits/place measured the same layout at
      207px on a 375px screen and rejected it: a label is two words, a value is
      the thing the reader walked over for. Stacked below the breakpoint, side by
      side only when there is room for both.
@@ -195,7 +195,7 @@
            font-size:var(--micro); line-height:1; }
   /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
      of a legal disclaimer on the site's verification stamp. Sentence case,
-     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
+     weight 500, matching `.p-checked` in ui_kits/place. Amber fill stays. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
                  font-weight:500; }
   .stamp__date { color:var(--quiet); }
@@ -329,7 +329,7 @@
      ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
      that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
 <div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
-  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the place page, Paradesi Synagogue.
 </div>
 
 <header class="site-header">
@@ -414,7 +414,7 @@
 
     <p>Aspinwall was a coir, pepper and timber business, and the compound is the
     largest surviving piece of that trade in Fort Kochi. It is the main Biennale
-    venue and the reason most people have heard of it.</p>
+    place and the reason most people have heard of it.</p>
 
     <section class="facts" data-span="wide" aria-label="Aspinwall House — the practical facts">
       <dl>
@@ -480,7 +480,7 @@
     <strong>standing outside the building deciding whether to walk in now.</strong>
     Nobody has ever been stranded by a restaurant review.</li>
     <li><strong>Their facts need no date because the review IS dated.</strong> It
-    is published on a day and read as a snapshot of that night. A venue page is
+    is published on a day and read as a snapshot of that night. A place page is
     evergreen and gets read for years, so the same sentence would quietly become
     a lie.</li>
   </ol>

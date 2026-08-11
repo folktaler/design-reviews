@@ -125,7 +125,7 @@
   /* ══ END SYSTEM TOKENS ══ */
 
   /* ⚠️ NO ActionBar ON THIS PAGE, so no `--action-bar-height` and no matching
-     body padding. venue.html reserves that space because it ships a sticky bar;
+     body padding. place.html reserves that space because it ships a sticky bar;
      copying the padding without the bar would leave 128px of dead air at the
      foot and look like a layout bug. A token is copied because it is used. */
 
@@ -168,7 +168,7 @@
      other kits needed.
 
      This is a SPECIMEN SHEET. Its content is running prose plus two framed
-     fragments of a venue page, and neither wants a wider column:
+     fragments of a place page, and neither wants a wider column:
        · The prose is prose. A longer line does not become easier to read
          because the window got bigger — the system says so in breakpoints.css.
        · ⭐ THE SPECIMENS DEPICT A PAGE READ ON A PHONE IN FORT KOCHI. Stretching
@@ -216,7 +216,7 @@
 
   /* ── header ─────────────────────────────────────────────────────────── */
   /* ⚠️ TWO LINKS, ONE ROW. Measured at 375px, 9 Aug 2026: a three-link header
-     wraps to a second row and pushes the H1 down by 130px. venue_page_v2's
+     wraps to a second row and pushes the H1 down by 130px. place_page_v2's
      two-link header is the one to copy and this is a copy of it. */
   .v-hd { border-block-end: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb); }
   .v-hd__in { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2, 8px); }
@@ -266,7 +266,7 @@
   }
 
   .fs-section { padding-block: var(--space-4, 16px) var(--space-7, 32px); }
-  /* The same ink pill venue_pages.html uses to label each shape. */
+  /* The same ink pill place_pages.html uses to label each shape. */
   .fs-tag {
     display: inline-block;
     margin: 0 0 var(--space-4, 16px);
@@ -286,7 +286,7 @@
   }
   .fs-section > p { margin: 0 0 var(--paragraph-gap, 0.75em); }
 
-  /* A specimen is a fragment of a venue page, framed so nobody mistakes it for
+  /* A specimen is a fragment of a place page, framed so nobody mistakes it for
      the whole page. Hairline card, the form the facts surface takes. */
   .fs-spec {
     margin-block: var(--space-6, 24px);
@@ -527,7 +527,7 @@
   .page > section > p + .fs-decided { margin-block-start: calc(var(--space-5, 20px) - var(--paragraph-gap, 0.75em)); }
   .page > section > p + .fs-spec    { margin-block-start: calc(var(--space-6, 24px) - var(--paragraph-gap, 0.75em)); }
 </style>
-<body data-page-kind="venue">
+<body data-page-kind="place">
 
 <header class="v-hd">
   <div class="wrap wrap--wide v-hd__in">
@@ -671,7 +671,7 @@
       they were the design is the proxy error this system exists to prevent.</p>
     <p>The two footer links are furniture, drawn to show the link’s <em>weight</em>
       among its neighbours. They are not a proposed site map, and the footer a real
-      venue page ships will carry more than two.</p>
+      place page ships will carry more than two.</p>
 
     <h2>⭐ Why the specimens stay narrow on a wide screen — this is a decision, not
       an unfinished edge</h2>
@@ -681,7 +681,7 @@
       framed specimens deliberately do not.</b> They hold the reading column at every
       screen size.</p>
     <p><b>A specimen has a natural size, the way a photograph does.</b> These frames
-      depict a venue page as it is read: on a phone, outside, in Fort Kochi. Stretching
+      depict a place page as it is read: on a phone, outside, in Fort Kochi. Stretching
       one to 1152px would show a reviewer an hours block over a thousand pixels wide —
       a layout no traveller will ever see — and he would be forming a judgement about
       the wrong artefact. Widening them would look like progress and would make the page
@@ -734,9 +734,9 @@
 
     <h2>⛔ What this removes from the built components</h2>
     <p>For whoever implements it — this is a list of things that now have no rendered
-      home on a venue page, not a request to delete them from the registry:</p>
+      home on a place page, not a request to delete them from the registry:</p>
     <ul>
-      <li><code>CheckedStamp</code> and <code>TrustCard</code> have no place on a venue
+      <li><code>CheckedStamp</code> and <code>TrustCard</code> have no place on a place
         page any more. The trust card was already a poor fit at 375px — three cells in
         a 327px column leave about 109px each, and 14px labels wrap.</li>
       <li><code>data-fact-posted</code>, <code>data-fact-actual</code>,

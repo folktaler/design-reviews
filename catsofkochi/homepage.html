@@ -66,7 +66,7 @@
           margin-inline:auto; padding-inline:var(--gutter); }
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive".
-     Same three-track grid as ui_kits/venue and ui_kits/system, which carry the
+     Same three-track grid as ui_kits/place and ui_kits/system, which carry the
      full rationale. A child opts into a wider track with `data-span`;
      everything else lands in `text`. No media query is added — min() and
      minmax() key off the CONTAINER, so the phone evaluates nothing extra.
@@ -173,7 +173,7 @@
      reflows no text and changes no tap target.
      ⛔ AND IT NEEDS A HEIGHT CAP, WHICH THE PHONE NEVER MEETS. `.ph` is 5:4, so
      at the 1152px wide track it would be 922px tall and push the headline off
-     a laptop screen entirely — venue's hero learned this at 16/9. 480px binds
+     a laptop screen entirely — place's hero learned this at 16/9. 480px binds
      only above a ~620px container; at 375 the box is 268px and the cap is
      inert. Measured 224 / 268 / 480 / 480 / 480 / 480 at the six widths.
      The second-tier card takes the width on the same terms, and needs the same
@@ -275,7 +275,7 @@
      README.md:190-199 forbids twice over — amber "never decorates" and is
      "never the only carrier of a meaning". It is also not how Airbnb builds a
      block: near-white surface, one hairline, colour spent almost nowhere.
-     The hairline card is the shape TrustCard already uses (ui_kits/venue,
+     The hairline card is the shape TrustCard already uses (ui_kits/place,
      .v-trust) and it is structure, not colour, doing the separating. */
   .practical { background:var(--paper); border:1px solid var(--rule);
                padding:var(--s4) var(--s5); font-family:var(--sans); }
@@ -370,7 +370,7 @@
      this and .practical fixed, the amber FILLS left on this screen are the
      checked stamp and the signup button — two, which is the cap. Amber
      underlines on links are not counted against it; they are the system's link
-     mechanism, the same way ui_kits/venue underlines .v-prose a in amber while
+     mechanism, the same way ui_kits/place underlines .p-prose a in amber while
      still calling its stamp "the one amber on this page". */
   .today { background:var(--paper); border:1px solid var(--rule);
            padding:var(--s4) var(--s5); font-family:var(--sans);
@@ -431,7 +431,7 @@
   /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026). Small tracked
      uppercase is the visual grammar of a legal disclaimer, and this is the
      opposite — the verification stamp, the one component Airbnb has no
-     counterpart for. Sentence case at weight 500 is the form ui_kits/venue
+     counterpart for. Sentence case at weight 500 is the form ui_kits/place
      already ships as `.v-checked`. The amber FILL stays: tokens/theme.css
      defines --surface-stamp as the brand amber, ink on it is 8.91:1, and
      README.md:196 names fill-behind-dark-content as the one legitimate amber.
@@ -585,7 +585,7 @@
      ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
      that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
 <div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
-  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the place page, Paradesi Synagogue.
 </div>
 
 <div class="demo">

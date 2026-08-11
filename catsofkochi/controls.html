@@ -84,7 +84,7 @@
          overflow-wrap:break-word; }
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. The pattern is copied from
-     ui_kits/venue, which carries the full rationale; ui_kits/system is the flat
+     ui_kits/place, which carries the full rationale; ui_kits/system is the flat
      specimen-sheet version and is the closer model for this page.
 
      ⛔ THE CAP ON PROSE IS NOT THE BUG. Nine tenths of this page is running
@@ -102,10 +102,10 @@
      minmax() key off the CONTAINER, so the phone evaluates nothing extra and the
      result can be verified without a device.
      ⭐ NO SUBGRID, and that is a property of this page: every block is a direct
-     child of the grid. venue needs subgrid because its lists sit inside sections.
+     child of the grid. place needs subgrid because its lists sit inside sections.
 
      ⭐ MEASURED at six widths, phone equality asserted. ⚠️ THIS KIT'S GUTTER IS
-     20px, not the 24px venue and system use, so the equality here is
+     20px, not the 24px place and system use, so the equality here is
      text === min(container, 552) − 40 and not the − 48 those two assert:
        container  320  375  768  1024  1440  2000
        text       280  335  512   512   512   512
@@ -363,7 +363,7 @@
      ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
      that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
 <div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
-  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the place page, Paradesi Synagogue.
 </div>
 
 <!-- ⭐ `page`, not `wrap`. The grid supplies its own gutters through its outer

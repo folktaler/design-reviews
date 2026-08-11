@@ -1,7 +1,7 @@
 <!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
-<title>Venue page — Cats of Kochi UI kit</title>
+<title>Place page — Cats of Kochi UI kit</title>
 
 <link rel="stylesheet" href="faces-figtree.css">
 <style>
@@ -19,8 +19,8 @@
     /* ⚠️ THIS KIT PREDATES THE SERIF INVERSION and was left behind by it. It
        carried the old Iowan/Palatino display stack, a SANS body, and no mention
        of Noticia — because it was built before the body became a serif.
-       Superseded by ui_kits/venue_pages/ (plural), which is the page-type-4
-       deliverable. Kept because it is the one full assembled venue page; the
+       Superseded by ui_kits/place_pages/ (plural), which is the page-type-4
+       deliverable. Kept because it is the one full assembled place page; the
        tokens are now brought into line so it stops disagreeing with the system. */
     --font-display: 'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
     --font-body: var(--font-display);
@@ -95,7 +95,7 @@
      right. Centring text inside wide is the obvious version and it gives two
      left edges alternating down the page. Alignment beats balance.
 
-     ⛔ NO SUBGRID IN THIS KIT AT ALL, unlike ui_kits/venue — checked per kit
+     ⛔ NO SUBGRID IN THIS KIT AT ALL, unlike ui_kits/place — checked per kit
      rather than assumed, which is what that kit's own note asks for. Both
      candidates carry a BORDER, and a subgrid child spans `full`:
        · `.facts` is a bordered card. A full-bleed subgrid dissolves the card.
@@ -203,7 +203,7 @@
      ⚠️ This instance uses the --cok- prefix, so the first sweep for
      `var(--amber-wash)` did not see it — nine kits were found, eleven existed.
      Hours and fares are ordinary content; amber "never decorates"
-     (README.md:186). Hairline card, as TrustCard does in ui_kits/venue. */
+     (README.md:186). Hairline card, as TrustCard does in ui_kits/place. */
   .facts { margin-block: var(--space-6); padding: var(--space-4) var(--space-5);
            background: var(--cok-paper); border: 1px solid var(--cok-rule); }
   .facts dl { margin: 0 0 var(--space-4); }
@@ -213,7 +213,7 @@
   .facts__row:last-child { border-block-end: 0; padding-block-end: 0; }
   /* ⛔ WAS 30rem, RAISED TO 40rem (--bp-wide) — the one media query this kit is
      allowed, at the width the system's own token records. At 480px the two
-     columns left the VALUE 264px, and ui_kits/venue measured the same layout at
+     columns left the VALUE 264px, and ui_kits/place measured the same layout at
      207px on a 375px screen and rejected it: a label is two words, a value is
      the thing the reader walked over for. Stacked below the breakpoint, side by
      side only when there is room for both.
@@ -238,7 +238,7 @@
            font-family: var(--font-text); font-size: .8rem; line-height: 1; }
   /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
      of a legal disclaimer on the site's verification stamp. Sentence case,
-     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
+     weight 500, matching `.p-checked` in ui_kits/place. Amber fill stays. */
   .stamp__chip { background: var(--cok-amber); color: var(--cok-ink);
                  font-family: var(--font-text);
                  padding: var(--space-1) var(--space-2); font-weight: 500; }
@@ -311,7 +311,7 @@
      ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
      that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
 <div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
-  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the place page, Paradesi Synagogue.
 </div>
 
 <header class="site-header">
@@ -334,7 +334,7 @@
 
     <h1>Pepper House</h1>
 
-    <!-- On a venue page the cat opener IS the verdict. No closing line. -->
+    <!-- On a place page the cat opener IS the verdict. No closing line. -->
     <div class="catline">
       <div class="catline__portrait"></div>
       <div>
@@ -396,7 +396,7 @@
            ⚠️ The shape is kept because the posted-versus-observed row IS the moat
            and this kit is where it was first drawn. What is added is the sentence
            that stops a reader taking the numbers as ours. The real fix is that
-           `ui_kits/venue/` supersedes this kit and carries sourced facts. -->
+           `ui_kits/place/` supersedes this kit and carries sourced facts. -->
       <div class="facts__unchecked">
         <p class="unchecked"><strong>The hours on this card are illustrative.</strong>
         They show what a posted-versus-observed fact looks like; nobody has stood
@@ -433,12 +433,12 @@
          writer to add an unmarked second — the note has to cover the shape, because
          every entry that ever lands here is the same class of claim.
          ⭐ And the honest framing is forward-looking, not apologetic: an event
-         registry is being scoped — events point at a venue, carry a start and an
+         registry is being scoped — events point at a place, carry a start and an
          end, and EXPIRE rather than decay. So this is not "fake content", it is
          what the list will look like once events are recorded. -->
     <p class="unchecked"><strong>Times here are illustrative.</strong> This is the
     shape of the what's-on list, not a researched programme — events are not
-    recorded yet. Check with the venue before you go.</p>
+    recorded yet. Check with the place before you go.</p>
     <ul class="stack" data-span="wide">
       <li>
         <h3><a href="#">Mattanchère: Summer Art Salon</a></h3>
@@ -473,7 +473,7 @@
   carries the date it was checked</div>
 </footer>
 
-<p class="note-frame">A venue page assembled entirely from the system: cat
+<p class="note-frame">A place page assembled entirely from the system: cat
 opener carrying the verdict, told body, facts strip with a contradiction and a
 refusal, the two lists, read next. No web fonts, no JavaScript, one accent
 colour used once, and no cat marks anywhere — the brand is carried by the type,

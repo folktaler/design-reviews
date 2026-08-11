@@ -36,7 +36,7 @@
     superseded page. Its one deliberately fictional specimen ("we went and the board
     was right") is gone — under full hide it would have rendered identically to the
     real ones, so there was nothing left to invent.</li>
-  <li>⚠️ <b>Full hide creates a page that does not exist yet.</b> Every venue page now
+  <li>⚠️ <b>Full hide creates a page that does not exist yet.</b> Every place page now
     carries one footer link, <em>How we check our facts</em>, and that is the only
     surface left where the site can explain why its hours differ from a posted board.
     Nothing is written behind it. Until it is, the link goes nowhere and the
@@ -92,7 +92,7 @@
         it underneath in ordinary grey. Two hairlines, top and bottom, which is
         Airbnb's one measured separator and the same shape as the pull quote. No paw,
         no tracking, no inset.</li>
-      <li style="padding:.35rem 0"><b><code>venue.html</code>: four invented things
+      <li style="padding:.35rem 0"><b><code>place.html</code>: four invented things
         removed.</b> The owner asked for the trust block to go; checking the registry
         found three more of the same kind. Gone: the trust card ("We went and looked
         ourselves / 1 of 5 posted facts were wrong / 3 Aug 2026" — nobody has visited
@@ -200,7 +200,7 @@
         auto-correction — that is a data rule, and <code>docs/FRESHNESS-SPEC.md</code>
         and <code>CLAUDE.md</code> are untouched.</li>
       <li style="padding:.35rem 0">⛔ <b>What it leaves without a home:</b>
-        <code>CheckedStamp</code> and <code>TrustCard</code> on a venue page, and the
+        <code>CheckedStamp</code> and <code>TrustCard</code> on a place page, and the
         <code>data-fact-posted</code> / <code>data-fact-actual</code> /
         <code>data-checked-on</code> / <code>data-source-checked</code> landmarks.
         <code>data-fact="contradicts"</code> and <code>="known"</code> now render the
@@ -222,7 +222,7 @@
     checked it, when, and whether the posted board disagrees. Three shapes, drawn on
     the two real records that carry hours — Bastion Bungalow
     (<code>observed_contradicts_official</code>, the site's only instance of the
-    moat) and Paradesi Synagogue (<code>official_only</code>, read from the venue's
+    moat) and Paradesi Synagogue (<code>official_only</code>, read from the place's
     own site). Built on the Airbnb trust-card <i>grammar</i> and explicitly not its
     machinery: no stars, no review counts, no "Guest favourite", because there is no
     crowd here to average.
@@ -230,8 +230,8 @@
       <li style="padding:.35rem 0"><b>The two verbs are ranked, and only one is
         amber.</b> "We went and looked" is a stamp — two or three words, a date, an
         amber fill, once per place. "We read their own site" is a citation — 14px,
-        secondary grey, no fill, the same <code>.v-checked</code> register
-        <code>venue.html</code> already ships. This follows the owner's own 9 Aug
+        secondary grey, no fill, the same <code>.p-checked</code> register
+        <code>place.html</code> already ships. This follows the owner's own 9 Aug
         correction that provenance was "too loud"; the weaker claim does not get the
         stronger one's clothes.</li>
       <li style="padding:.35rem 0"><b>The refusal is designed for first, not last.</b>
@@ -375,29 +375,29 @@
   </li>
 </ul>
 
-<h2>Venue pages</h2>
+<h2>Place pages</h2>
 <ul>
   <li>
-    <a href="venue.html"><b>Venue page</b></a>
-    <small>Paradesi Synagogue — the Airbnb-faithful venue page. ⛔ <b>This listing
+    <a href="place.html"><b>Place page</b></a>
+    <small>Paradesi Synagogue — the Airbnb-faithful place page. ⛔ <b>This listing
       used to say "the posted-vs-observed hours moat", and that was never true of
-      this venue.</b> Nobody has visited the synagogue; its record is
-      <code>official_only</code>, read off the venue's own website. The site's only
+      this place.</b> Nobody has visited the synagogue; its record is
+      <code>official_only</code>, read off the place's own website. The site's only
       posted-versus-observed fact is Bastion Bungalow. Rebuilt 10 Aug 2026 with the
       trust card, the "what we only know because we went" section and two unsourced
       claims removed — the page's own note at the foot lists what is real, what is a
       stand-in, and what was taken out.</small>
   </li>
   <li>
-    <a href="venue_page.html"><b>Venue page (UI kit)</b></a>
-    <small>The component-level venue kit.</small>
+    <a href="place_page.html"><b>Place page (UI kit)</b></a>
+    <small>The component-level place kit.</small>
   </li>
   <li>
-    <a href="venue_pages.html"><b>Venue pages — three shapes</b></a>
+    <a href="place_pages.html"><b>Place pages — three shapes</b></a>
     <small>Known/missing/contradicted-hours states, side by side.</small>
   </li>
   <li>
-    <a href="facts_strip.html"><b>Hours on a venue page</b></a>
+    <a href="facts_strip.html"><b>Hours on a place page</b></a>
     <small>What a traveller sees when we know the hours, and when nobody does —
       drawn on two real records. <b>Decided 9 Aug 2026: full hide.</b> Our times,
       plainly, with no date stamp, no source and no mention of the posted board;

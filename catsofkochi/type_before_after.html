@@ -73,7 +73,7 @@
          overflow-wrap:break-word; }
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. Pattern copied from
-     ui_kits/venue (full rationale there); ui_kits/system is the flat sheet
+     ui_kits/place (full rationale there); ui_kits/system is the flat sheet
      version and the closer model for this page.
 
      ⛔ THE CAP ON PROSE IS NOT THE BUG, and on this page of all pages: it is an
@@ -94,7 +94,7 @@
      ⭐ No subgrid: every block is a direct child of the grid, except the two
      specimen cards, which is what `.pair` below is for.
 
-     ⭐ MEASURED at six widths. ⚠️ THIS KIT'S GUTTER IS 20px, not the 24px venue
+     ⭐ MEASURED at six widths. ⚠️ THIS KIT'S GUTTER IS 20px, not the 24px place
      and system use, so the phone equality here is text === min(container, 552)
      − 40, not the − 48 those two assert:
        container  320  375  768  1024  1440  2000
@@ -265,7 +265,7 @@
      ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
      that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
 <div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
-  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the place page, Paradesi Synagogue.
 </div>
 
 <!-- ⭐ `page`, not `wrap`. The grid supplies its own gutters through its outer

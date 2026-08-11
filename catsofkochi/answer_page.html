@@ -53,7 +53,7 @@
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. Same pattern as
-     ui_kits/venue, which carries the full rationale; ui_kits/system carries the
+     ui_kits/place, which carries the full rationale; ui_kits/system carries the
      flat variant. This kit is the flat variant.
 
      ⛔ THE CAP ON PROSE IS NOT THE BUG and does not move. This is a writing page:
@@ -69,7 +69,7 @@
      — which a media query cannot.
      ⭐ NO SUBGRID FOR SECTIONS, and that is a property of this page: its section
      and its nav are BORDERED CONTAINERS, not transparent groupings, so each one
-     takes a track whole. venue needs subgrid because its lists sit inside
+     takes a track whole. place needs subgrid because its lists sit inside
      transparent sections. The one subgrid here is the full-bleed figure, so the
      caption can drop back into the text column.
 
@@ -91,7 +91,7 @@
   /* ⭐ THE CHROME TRACKS THE WIDE COLUMN, so the page has ONE left edge at every
      width. Without this the header rule and the footer keep the 552px reading
      wrapper while the article runs to 1152, and the logo sits 320px right of the
-     headline under it. The mechanism is the one venue already ships for its
+     headline under it. The mechanism is the one place already ships for its
      sticky bar — the band spans the window, its contents do not. */
   .wrap--wide { max-width:calc(var(--measure-wide) + var(--gutter)*2); }
 
@@ -161,7 +161,7 @@
      marking on this page is the checked stamp and `.facts__obs`, the observed-
      contradicts-official row that is the moat; a wash behind everything makes
      those indistinguishable from the fare. Hairline card, hairline rows —
-     the shape TrustCard already uses in ui_kits/venue. */
+     the shape TrustCard already uses in ui_kits/place. */
   .facts { margin-block:var(--s6); padding:var(--s4) var(--s5);
            background:var(--paper); border:1px solid var(--rule);
            font-family:var(--sans); }
@@ -196,7 +196,7 @@
   }
   .facts dt { margin:0; color:var(--quiet); font-size:var(--small); line-height:1.45; }
   /* ⛔ A VALUE IS PROSE AND KEEPS THE READING MEASURE. The card goes wide; the
-     sentence inside it does not. Same rule as `.v-row__value` in ui_kits/venue. */
+     sentence inside it does not. Same rule as `.p-row__value` in ui_kits/place. */
   .facts dd { margin:0; line-height:1.45; max-inline-size:var(--measure); }
   /* ⚠️ .facts__obs is RESERVED for "they post X, it opens at Y" — the
      observed-contradicts-official case, which is the moat. Medium weight is
@@ -214,7 +214,7 @@
            font-size:var(--micro); line-height:1; flex-wrap:wrap; }
   /* ⛔ Was uppercase + letter-spaced (owner review, 9 Aug 2026) — the grammar
      of a legal disclaimer on the site's verification stamp. Sentence case,
-     weight 500, matching `.v-checked` in ui_kits/venue. Amber fill stays. */
+     weight 500, matching `.p-checked` in ui_kits/place. Amber fill stays. */
   .stamp__chip { background:var(--amber); color:var(--ink); padding:var(--s1) var(--s2);
                  font-weight:500; }
   .stamp__date { color:var(--quiet); }
@@ -380,7 +380,7 @@
      ⚠️ Literal values, no var(): every kit defines its own tokens, and a var()
      that resolves to nothing fails silently. Paper on ink is 16.9:1. -->
 <div style="background:#1c1a17;color:#fdfcf9;font:400 14px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;padding:12px 20px">
-  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the venue page, Paradesi Synagogue.
+  <strong style="font-weight:700">The older look.</strong> Here for comparison, not for approval — the new look is the place page, Paradesi Synagogue.
 </div>
 
 <header class="site-header">
