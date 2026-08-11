@@ -65,13 +65,10 @@
 
   <aside class="entrygrid__side" aria-labelledby="host-h">
     <div class="hostcard">
-      <div class="hostcard__id">
-        <img class="hostcard__face" width="570" height="570" loading="lazy"
-          alt="The Olimalar Foundation's mark — a figure with raised arms inside a leaf and a flame."
-          src="https://aikyam.space/content/images/2026/04/SCR-20260422-rfyw.png">
-        <h2 id="host-h">Olimalar Foundation</h2>
-        <p class="hostcard__role">Ran this session</p>
-      </div>
+      <img class="hostcard__face" width="570" height="570" loading="lazy"
+        alt="The Olimalar Foundation's mark — a figure with raised arms inside a leaf and a flame."
+        src="https://aikyam.space/content/images/2026/04/SCR-20260422-rfyw.png">
+      <h2 id="host-h">Olimalar Foundation</h2>
       <p>Works with children and communities in Fort Kochi and Mattancherry to build confidence,
         emotional well-being and life skills.</p>
       <p style="margin:0"><a class="hostcard__more" href="../who-we-are/">More about them</a></p>
@@ -395,13 +392,31 @@
       <p>⛔⛔ <b>And every piece of prose is left-aligned AND lives outside the card entirely</b> —
         “Speaks English and Hindi”, “My work: …”, “Response rate: 100%”, “Responds within an
         hour”, all <code>text-align:start</code>, all outside the 395×265 box.</p>
-      <p>⭐ <b>So the rule that transfers is narrow: the identity unit — face, name, role —
-        centres, and anything you READ stays left.</b> Our description is three lines; centring it
-        would be a real legibility loss, and it would contradict Airbnb's own card, which
-        <b>mixes alignment inside one box on purpose.</b></p>
-      <p>⚠️ <b>One divergence, stated:</b> we keep the description <b>inside</b> the card where
-        Airbnb puts it outside. A 344px sidebar has nowhere else for it. <b>The alignment rule is
-        honoured; the placement is not.</b></p>
+      <p>⭐ <b>So the rule on Airbnb's page is narrow: the identity unit — face, name, badge —
+        centres, and anything you READ stays left.</b> That is what the measurement says, and it
+        stands as a fact about their card.</p>
+      <p>⛔⛔ <b>OWNER OVERRULED IT THE SAME EVENING, and the card now centres as one column.</b>
+        Five changes marked directly on it: <b>avatar centred · name centred AND stepped down to
+        the link's size · “Ran this session” struck out entirely · description centred · link
+        centred.</b> <b>Built as marked.</b></p>
+      <p>⭐ <b>And it is a defensible departure rather than a mistake, for a reason the
+        measurement itself supplies:</b> Airbnb's card is a <b>booking-adjacent block with a stats
+        column</b>, and that second column is what makes their left-aligned identity unit sit off
+        to one side. <b>Ours has no stats column</b> — the count was dropped this morning — so
+        <b>a single centred stack is the honest shape for what is actually left in the box.</b>
+        A two-column rule copied onto a one-column card would be cargo.
+        ⚠️ <b>We also keep the description inside the card where Airbnb puts it outside</b>, because
+        a 344px sidebar has nowhere else for it.</p>
+      <p>⚠️ <b>The cost, stated once and not relitigated:</b> <b>centred prose is harder to read
+        than left-aligned</b> — both edges rag, so the eye loses the line start on every return
+        sweep, and the description runs three to four lines at 41–49 characters. <b>Raised before
+        the ruling, overruled, built as marked.</b></p>
+      <p>⛔ <b><code>.hostcard__id</code> and <code>.hostcard__role</code> are deleted, not
+        disabled.</b> The wrapper's only job was to centre part of a card that now centres whole;
+        the role line is struck from the design. ⚠️ <b>That also retires the specificity fix made
+        to <code>.hostcard__role</code> an hour earlier</b> — it is recorded rather than quietly
+        dropped, because <b>the same collision will bite the next single-class rule added to this
+        card.</b></p>
       <p>⛔ <b>A specificity bug found in the same pass, in my own component:</b>
         <code>.hostcard__role</code> was a bare class at (0,1,0) and lost to <code>.hostcard p</code>
         at (0,1,1) declared below it, so the <b>8px gap it asks for was rendering as 12px</b>.

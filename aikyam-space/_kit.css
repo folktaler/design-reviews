@@ -518,8 +518,22 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
    and ⚠️ NOT in caps, `text-transform:none`, which the brief had wrong. We have no verified
    counts for any partner, and "keep the page, drop the count" already forbids a session tally.
    An empty stat row is the no-slot-without-a-filler rule broken in public. */
+/* ⛔⛔ OWNER OVERRIDE 11 Aug — THE WHOLE CARD CENTRES AS ONE COLUMN, and this deliberately goes
+   past the reference. Five changes marked on the card: avatar centred · name centred AND stepped
+   down to the link's size · "Ran this session" struck out entirely · description centred · link
+   centred.
+   ⚠️ THE DIVERGENCE, NAMED: on Airbnb the host's NAME is a prominent heading, and every piece of
+   prose is LEFT-aligned and lives OUTSIDE the card (measured below — that finding stands as a
+   fact about their page). Ours is now a quiet, fully centred widget instead.
+   ⭐ It is a legitimate call rather than a mistake: their card is a booking-adjacent block with a
+   STATS COLUMN, and ours has no stats column since the count was dropped this morning — so a
+   single centred stack is the honest shape for what is actually left in the box. A two-column
+   rule copied onto a one-column card would be cargo.
+   ⚠️ THE COST, STATED ONCE AND NOT RELITIGATED: centred prose is harder to read than
+   left-aligned — both edges rag, so the eye loses the line start on every return sweep. The
+   description is three to four lines at 41–49 characters. Raised before the ruling; his call. */
 .hostcard{border:var(--rule-hairline) solid var(--border-hairline);
-  border-radius:var(--radius-card);padding:var(--space-5)}
+  border-radius:var(--radius-card);padding:var(--space-5);text-align:center}
 /* ⭐ Circular, and it IS Airbnb-faithful: their radius ladder is role-based — a full-bleed photo
    0, a photo inside a card takes the card's corner, an avatar 50%. Theirs is 104px; 88 matches
    `.person__face` on `/team/` so one face size serves the whole system.
@@ -546,14 +560,21 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
    contradict their own card, which mixes alignment inside one box on purpose.
    ⚠️ We keep the description INSIDE the card where Airbnb puts it outside — a 344px sidebar has
    nowhere else for it — so the alignment rule is honoured and the placement is not. */
-.hostcard__id{text-align:center}
-.hostcard h2{font-size:var(--type-subheading);margin:0}
-/* ⛔ `.hostcard .hostcard__role` is (0,2,0) ON PURPOSE. As a bare class it was (0,1,0) and lost
-   to `.hostcard p` at (0,1,1) declared below it, so the 8px gap it asks for was silently
-   rendering as 12px — the FOURTH single-class override in this file to be beaten by a
-   descendant selector. Found by reading the file after being burned three times, not by looking. */
-.hostcard .hostcard__role{margin:var(--space-2) 0 0;font-size:var(--type-small);
-  color:var(--text-secondary);line-height:var(--leading-tight)}
+/* ⛔ `.hostcard__id` (the centred-identity wrapper) and `.hostcard__role` (the "Ran this session"
+   line) are BOTH DELETED, not disabled. The card centres as a whole now, so a wrapper whose only
+   job was to centre part of it has nothing left to do; and the role line is struck from the
+   design, so the rule that styled it has nothing to style. Dead CSS kept "in case" is how this
+   system accumulates rules nobody can explain — both are in the history.
+   ⚠️ Losing `.hostcard__role` also retires the specificity fix that had just been made to it
+   (bare `.hostcard__role` at (0,1,0) was losing to `.hostcard p` at (0,1,1), rendering 12px where
+   it asked for 8px). ⭐ The bug was real and is now moot — worth recording rather than quietly
+   dropping, because the same collision will bite the next single-class rule added to this card. */
+/* ⛔ NAME STEPPED DOWN to `--type-small`, matching `.hostcard__more` — owner, marked with a
+   ruler. It keeps `--weight-semibold` from the base `h1,h2,h3` rule, so at one size the weight is
+   the only thing separating the card's title from its link. ⚠️ That is the whole hierarchy of
+   this card now: one size, two weights, two colours — which is the Airbnb card grammar even
+   though the alignment is not. */
+.hostcard h2{font-size:var(--type-small);margin:0}
 .hostcard p{margin:var(--space-3) 0 0;font-size:var(--type-small);
   color:var(--text-secondary);line-height:var(--leading-tight)}
 /* ⛔ INK, and it was found by looking. The link sits inside `.hostcard p`, so `a{color:inherit}`
