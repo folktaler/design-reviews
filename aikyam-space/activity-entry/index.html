@@ -16,10 +16,15 @@
 
 <div class="kitbar">
   <b>MOCKUP — not the live site.</b> Proposed <code>/activities/{slug}/</code> — the page a
-  shared link lands on. Body, photograph and date are <b>real</b>, from
-  <a href="https://aikyam.space/the-ultimate-guide-to-aikyam-space-for-august-2026/">the August 2026 guide</a>.
-  ⚠️ The headline is mine.
-  ⭐ <b>This is the arrival case and it is the bigger one: 60.8% of this site's traffic is
+  shared link lands on. <b>The entry is a real published post</b>, read from
+  <a href="https://aikyam.space/children-began-using-the-new-reading-corner/">aikyam.space/children-began-using-the-new-reading-corner</a>
+  on <b>11 Aug 2026</b> — headline, date, body, photograph and host tag are the live values,
+  nothing rewritten.
+  <br>⛔⛔ <b>ONE THING ON THIS PAGE IS NOT VERIFIED: the quotation.</b> It was relayed to me
+  from Ghost's Admin API, which I cannot reach. <b>It is not published</b> — its slug 404s and
+  it appears in none of the three sitemaps. <b>Read the words as unconfirmed</b>; the component
+  around them is what is being shown.
+  <br>⭐ <b>This is the arrival case and it is the bigger one: 60.8% of this site's traffic is
   direct.</b>
 </div>
 
@@ -44,23 +49,80 @@
 
 <main class="wrap wrap--wide">
   <article>
-    <h1>The cats have moved into the garden</h1>
-    <p class="entry__meta">Friday 7 August 2026 · Fort Kochi</p>
-    <img class="entry__shot" width="960" height="1280" loading="eager" fetchpriority="high"
-      alt="A ginger cat stretched out on a mat in the garden"
-      src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-15.42.47.jpeg">
-    <p class="entry__body">Our little cat friends continue to make themselves at home at aikyam
-      space. As a pet-friendly space, we are exploring small ways to make the environment even
-      more welcoming for animals — creating a place where both people and pets can feel
-      comfortable.</p>
+    <h1>Children began using the new Reading Corner</h1>
+    <p class="entry__meta">Saturday 4 July 2026 · Fort Kochi</p>
+    <p class="entry__host">With the <a href="../who-we-are/">Olimalar Foundation</a></p>
+    <img class="entry__shot" width="1143" height="827" loading="eager" fetchpriority="high"
+      alt="About twenty children sit cross-legged on the floor of the hall facing a small screen on a stand that reads Science Club. A man and a woman stand at the front; framed photographs of dancers cover the wall behind them."
+      src="https://aikyam.space/content/images/2026/07/WhatsApp-Image-2026-07-06-at-10.14.24-1.jpeg">
+    <p class="entry__body">The science class continued with hands-on learning, while children
+      also began using the new Reading Corner. The reading programme follows a research-based
+      approach adapted from proven models such as ASER and Teaching at the Right Level (TaRL),
+      helping children build a regular reading habit based on their current reading ability
+      rather than their age or grade. The goal is not just to provide books, but to help
+      children enjoy reading and build confidence over time.</p>
 
-    <p class="kitnote">⭐⭐ <b>Same inversion, different scale: the headline is what happened and
-      the date is quiet metadata beneath it.</b> ⛔ Not <i>“7 August 2026”</i> as a title — that
-      is what the current guide does thirty times a month, and it is why nobody reads it.
-      <br><br>⭐ <b>The photograph comes first here and the headline second</b>, which is the
-      one place this page differs from the feed. In a feed the reader is scanning headlines; on
-      an arrival page <b>the photograph is what the link promised</b> — they have already seen it
-      in the preview card, so the page has to open with it or it feels like a different page.</p>
+    <blockquote class="says entry__says">
+      <p>I realised how much I would have benefited from these lessons growing up.</p>
+      <cite>Aarthi Veerupillai, founder of the Olimalar Foundation</cite>
+    </blockquote>
+
+    <p class="kitnote">⭐⭐ <b>THE CREDIT IS A SENTENCE, NOT A CATEGORY.</b> The live entry
+      already carries <b>“OLIMALAR FOUNDATION” as an uppercase kicker above the headline</b> —
+      the Ghost tag rendered as a label. ⛔ <b>A label says which section this post belongs to;
+      a credit says who ran the afternoon.</b> A neighbour does not need our taxonomy, they need
+      to know who they would meet.
+      <br><br>⛔ <b>Position, and it departs from <code>/clubs/</code> on purpose.</b> Measured
+      11 Aug: <code>/clubs/</code> carries this as the second of three facts <b>below</b> the
+      body — <i>“Fee Free · With the Olimalar Foundation · In Malayalam”</i> at 14px. Here it is
+      <b>its own line above the photograph at 17px</b>. On <code>/clubs/</code> the reader is
+      comparing four clubs, so the facilitator is one axis among three; <b>on an entry there is
+      nothing to compare</b> and “who ran this” is the second fact after what happened.
+      ⭐ <b>The wording is <code>/clubs/</code>'s verbatim</b>, article outside the link — the
+      two pages say the same sentence in different furniture.
+      <br><br>⛔⛔ <b>NO PERSON IS NAMED, BECAUSE THE SOURCE NAMES NONE.</b> The settled pattern
+      is <i>“With [Person], [Organisation]”</i> where a person is known. This entry's tag gives
+      only the organisation, and <b>inventing a facilitator to fill the shape would be the first
+      invented fact on this page.</b> ⭐ The shape survives the gap: “With the Olimalar
+      Foundation” is a complete sentence, not a form with a blank in it.
+      <br><br>⭐ <b>The organisation is the link and the person never is.</b> An organisation is
+      the durable thing to point at; the person who ran a session in July may not be there in
+      December. ⚠️ It links to <b>Who we are</b>, not to the tag archive — see the note below on
+      what the tag archive currently holds.</p>
+
+    <p class="kitnote">⛔⛔ <b>THIS QUOTATION IS NOT PUBLISHED AND I DID NOT VERIFY ITS
+      WORDING.</b> Checked 11 Aug against the live site: <b>the slug 404s</b>, and it appears in
+      <b>none of the three sitemaps</b> — 46 posts, 22 pages, 22 tags, zero matches on
+      <i>founder</i>, <i>realis</i>, <i>benefit</i> or <i>growing-up</i>. It is a draft in Ghost,
+      relayed to me from the Admin API, which I have no way to reach. <b>The words above are as
+      relayed.</b>
+      <br><br>⭐ <b>How the connection is made in the real build:</b> the entry and the
+      quotation <b>carry the same host tag</b>, and the entry asks for quotations sharing it. A
+      body link overrides that where a specific day is being paired. ⛔ <b>Nothing here is
+      hardcoded, and nothing here should be read as a hand-picked pairing.</b>
+      <br><br>⛔⛔ <b>AND THE JOIN HAS ALMOST NO COVERAGE TODAY.</b>
+      <code>/tag/olimalar-foundation/</code> holds <b>exactly one published post — this
+      entry.</b> Four host tags exist (Olimalar, Make A Difference, Rise Up Home, Mind
+      Empowered); the other three hold <b>two posts each</b>. <b>On today's corpus this
+      component would render on almost nothing</b> — it is a design that is ahead of its data,
+      and that is a content decision, not a build one.
+      <br><br>⚠️ <b>A reading trap, named because I nearly fell into it:</b> every tag archive
+      repeats <b>three items — the August guide, the July guide and this entry</b> — as the
+      theme's recent-posts strip, <b>not</b> as members of the tag. <b>Counting
+      <code>&lt;article&gt;</code> elements on a tag page overstates every tag by three</b>, and
+      the overstatement is invisible because the numbers look plausible.
+      <br><br>⛔⛔ <b>THE HARDER PROBLEM IS EDITORIAL, NOT TECHNICAL: the host is quoted praising
+      the host's own work.</b> Aarthi Veerupillai is <b>Olimalar's founder</b>, and Olimalar ran
+      this session. <code>/clubs/</code>'s two quotations are <b>students</b>;
+      <code>/who-we-are/</code>'s four are <b>visiting groups</b>. This is a <b>third kind — the
+      partner reflecting on their own programme — and it is the weakest of the three as
+      evidence.</b>
+      <br><br>⭐ <b>It is kept, and the attribution carries the role</b> — “founder of the
+      Olimalar Foundation” — <b>so a reader can weigh it.</b> ⛔ <b>What would be wrong is
+      running it as a bare name</b>, where it reads as somebody who came along. ⭐ <b>The
+      strongest version of this component pairs an entry with a line from somebody who
+      attended</b>, and those exist: the stitching and dance lines on <code>/clubs/</code> are
+      both from students.</p>
   </article>
 
   <hr class="band">
@@ -79,9 +141,10 @@
       read.</b> <code>/about/</code> asserts that this is a room where things happen; <b>this
       page IS the thing that happened</b>, and the sentence lands differently one screen after
       a photograph of it.
-      <br><br>⭐ <b>One way out, not a menu.</b> A reader who just read about cats does not want
-      six links; they want to know whether they could come. <b>The schedule is the answer to
-      that question</b> — so the button goes to the week, not to the homepage.</p>
+      <br><br>⭐ <b>One way out, not a menu.</b> A reader who has just read about a reading
+      corner does not want six links; they want to know whether their own child could come.
+      <b>The schedule is the answer to that question</b> — so the button goes to the week, not
+      to the homepage.</p>
   </section>
 
   <hr class="band">
@@ -92,15 +155,15 @@
 
     <div class="preview">
       <img width="1200" height="628" alt="Preview image"
-        src="https://aikyam.space/content/images/2026/08/WhatsApp-Image-2026-08-08-at-15.42.47.jpeg">
-      <p class="preview__t">The cats have moved into the garden — aikyam space</p>
+        src="https://aikyam.space/content/images/2026/07/WhatsApp-Image-2026-07-06-at-10.14.24-1.jpeg">
+      <p class="preview__t">Children began using the new Reading Corner — aikyam space</p>
       <!-- ⚠️ The site name stays IN the title string here, and this is not the removed label
            returning. In a WhatsApp thread the title is the only line most people read and
            there is nothing above it to carry context — so the page and the card need the
            completeness solved separately. -->
 
-      <p class="preview__d">Our little cat friends continue to make themselves at home. aikyam
-        space is a free community room in Fort Kochi.</p>
+      <p class="preview__d">The science class carried on, and children started using the new
+        Reading Corner. aikyam space is a free community room in Fort Kochi.</p>
       <p class="preview__u">aikyam.space</p>
     </div>
 
@@ -116,12 +179,23 @@
       entry says <b>and one line of what aikyam space is</b>, because the reader has no context
       at all. ⛔ On the page that would be redundant; in a WhatsApp thread it is the only
       framing there is.
-      <br><br>✅ <b>Ghost's fallback is adequate and is the FLOOR.</b> Every post already has
-      <code>og_image</code>, <code>og_title</code>, <code>og_description</code>,
-      <code>meta_*</code> and <code>canonical_url</code> — <b>all currently empty</b>, so Ghost
-      falls back to the title and feature image. ⛔ <b>Nobody is blocked on hand-writing 360
+      <br><br>✅ <b>Ghost's fallback is adequate and is the FLOOR.</b> <code>og_image</code>,
+      <code>og_title</code> and <code>og_description</code> fall back to the title and feature
+      image, and they are correct on the live entry. ⛔ <b>Nobody is blocked on hand-writing 360
       descriptions.</b> A hand-written one earns its keep only where the headline alone would
       mislead — and the second sentence above is the pattern worth automating.
+      <br><br>⛔⛔ <b>CORRECTION, MEASURED 11 Aug: <code>canonical_url</code> is NOT empty on
+      this entry, and what it holds is wrong.</b> The live page declares
+      <code>&lt;link rel="canonical"&gt;</code> <b>and</b> <code>og:url</code> as
+      <code>/the-ultimate-guide-to-aikyam-space-for-july-2026/</code> — <b>the monthly guide,
+      not itself.</b> This note previously said every SEO field was empty; that was read from a
+      different post and generalised.
+      <br><br>⛔ <b>What that costs, in two places at once.</b> Search: the entry tells Google it
+      is a duplicate of the guide, so <b>it can never rank and never be the result</b> — every
+      split-out entry hands its credit back to the 12,000-pixel page the split was meant to
+      escape. Sharing: <code>og:url</code> is what a scraper treats as the card's destination, so
+      <b>a shared entry can resolve to the guide</b>. ⭐ <b>This is the one finding on this page
+      that costs money today</b>, and it is an importer setting, not a design decision.
       <br><br>⛔⛔ <b>The failure that is invisible until somebody shares a link:</b>
       <code>og:image</code> and JSON-LD on the live site are <b>absolute to
       <code>aikyam.space</code></b>. <b>After the move to <code>cms.aikyam.space</code>, a
@@ -168,6 +242,30 @@
 
   <section style="margin-block-start:var(--pitch-rule-heading)" aria-labelledby="gaps-h">
     <h2 id="gaps-h">⚠️ Reviewer notes — not page copy</h2>
+
+    <div class="empty">
+      <h3>⛔⛔ NEW, 11 Aug — the headline says Reading Corner and the photograph shows the
+        science class</h3>
+      <p><b>Look at the screen in the picture. It reads “SCIENCE CLUB”.</b> There are no books
+        and no reading corner in the frame. The body says <i>“The science class continued with
+        hands-on learning, while children <b>also</b> began using the new Reading Corner”</i> —
+        <b>the headline takes the second clause and the only photograph documents the
+        first.</b></p>
+      <p>⭐⭐ <b>This is the exact failure this kit already predicted, and it has already
+        shipped.</b> Note 1 below says <i>“a generated headline can be accurate and still pick
+        the wrong one of the day's two events.”</i> <b>It did.</b> Every word of the headline is
+        supported by the body, so the guardrail “nothing in a headline that is not in the body”
+        <b>passes on this entry.</b></p>
+      <p>⛔ <b>So the guardrail is not enough, and the fix is one more sentence in the brief:
+        where a day carries two events, the headline takes the one the photograph shows</b> —
+        because on this page the photograph is the largest thing on the screen and it is read
+        before the words. ⚠️ <b>Nothing automated can check this</b>; it needs the human
+        spot-check that is already planned, told what to look for.</p>
+      <p>⚠️ <b>Second-order, and it dates the picture:</b> Science Club was <b>renamed Curiosity
+        Club on 10 Aug</b>. The photograph now shows a screen carrying a retired name.
+        ⛔ <b>Leave it.</b> It is a record of 4 July and it was called Science Club on 4 July —
+        <b>a record that is edited to match today's vocabulary stops being a record.</b></p>
+    </div>
 
     <div class="empty">
       <h3>⛔⛔ 0. AUDITED 10 Aug — this page opened on a blurry cat and no words</h3>
