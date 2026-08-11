@@ -300,11 +300,24 @@ code,kbd,samp{overflow-wrap:break-word;word-break:break-word}
    consent to appear is NOT consent to be named. A card with an author slot would sit there
    empty and invite someone to fill it; this component simply has no slot when there is no name.
    ⛔ Never attach a photograph to an unattributed quotation. */
-.says{margin:var(--space-6) 0 0;max-width:var(--measure-small)}
+/* ⛔⛔ MEASURE CORRECTED 11 Aug 2026, AND IT WAS A PIXEL WIDTH COPIED ACROSS A TYPE-SIZE
+   CHANGE. This capped at `--measure-small` (22rem) because Airbnb's review column measures
+   450px. But Airbnb's review text is 16px and ours is 20px — ⭐ the invariant is the CHARACTER
+   COUNT, not the pixel width. Theirs is ~56 characters; ours, COUNTED with a Range on the
+   rendered page, was 36 on the entry and 38–41 on `/clubs/` — under the ~35 confetti floor this
+   system already scarred itself on, on the two strongest sentences anybody has written about
+   this room. At `--measure` the same three quotations count 53, 61 and 62. Zero overflow at
+   390 and 1280, checked on both pages.
+   ⚠️ `--measure-small` is this system's 16px column (~57 chars) and is correct where it is
+   used for 16px — `.session__body`, `.foot-note`. Using it for 20px text was the mismatch.
+   ⚠️ Consequence on `/clubs/`, looked at and accepted: the quotation (544px, 20px) is now wider
+   than the club's own description (352px, 16px). That is the right way round — the description
+   is secondary metadata and the quotation is evidence. See [[a-number-copied-from-another-project]]. */
+.says{margin:var(--space-6) 0 0;max-width:var(--measure)}
 .says p{margin:0;font-size:var(--type-body);line-height:var(--leading-body)}
 .says cite{display:block;margin-block-start:var(--space-3);font-style:normal;
   font-size:var(--type-small);color:var(--text-secondary)}
-.wrap--wide .says{max-width:var(--measure-small)}
+.wrap--wide .says{max-width:var(--measure)}
 /* ⛔⛔ A STACK OF QUOTATIONS RUNS TOGETHER, and only the rendered page showed it. Four in a
    column, each the same width with a grey name between them, and the name reads ambiguously —
    is it the end of the quote above or the start of the one below? Every measurement was clean.
