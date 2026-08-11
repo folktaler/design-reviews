@@ -460,39 +460,100 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
 .entry__meta{font-size:var(--type-small);color:var(--text-secondary);margin:var(--space-3) 0 0;
   font-variant-numeric:var(--figures-aligned)}
 .entry__body{margin:var(--space-5) 0 0;font-size:var(--type-body)}
-/* ⭐⭐ THE HOST CREDIT — its own line above the photograph, and that is a deliberate departure
-   from `/clubs/`. Measured 11 Aug 2026: `/clubs/` carries the credit as the second of three
-   items in `.session__facts` — "Fee Free · With the Olimalar Foundation · In Malayalam" — at
-   `--type-micro`, BELOW the body. That position is right there and wrong here. On `/clubs/` the
-   reader is COMPARING four clubs, so the facilitator is one comparison axis among three. On an
-   entry there is nothing to compare: "who ran this" is the second fact after what happened, and
-   it belongs with the date, where somebody is still deciding whether this is about them.
-   ⛔ The WORDING is `/clubs/` verbatim — "With the Olimalar Foundation", the article outside the
-   link — so the two pages say the same sentence in different furniture.
-   ⛔ THE ORGANISATION IS THE LINK AND THE PERSON NEVER IS. An organisation is the durable thing
-   to point at; the person who ran a session in July may not be there in December, and a link
-   should not rot. ⛔ No person is invented where the source names none. */
-.entry__host{margin:var(--space-2) 0 0;font-size:var(--type-ui);color:var(--text-primary)}
-/* ⛔ 44px BY PADDING — the `.session__name a` idiom already proven in this file. An inline link
-   in a meta line is a ~26px target, which is the defect this system has now been bitten by
-   three times. ⭐ The underline stays ON THE TEXT and the box grows around it, so this does not
-   float a rule 20px beneath the word — the failure mode of putting a tap floor on a bordered
-   box rather than on a padded inline one. */
-.entry__host a{display:inline-block;text-decoration:underline;
+/* ⛔⛔ `.entry__host` (the inline "With the Olimalar Foundation" line) IS DELETED, not commented
+   out — owner, 11 Aug 2026: the credit takes the host-CARD treatment in a side column, "not the
+   inline sentence". Keeping both would say the same thing twice on one page, and dead CSS kept
+   "in case" is how this system accumulates rules nobody can explain. It is in the history.
+
+   ══ THE ENTRY'S SIDE COLUMN ═══════════════════════════════════════════════════════════════
+   ⛔⛔ MEASURED ON A REAL AIRBNB LISTING FIRST (rooms/23572181, 1280px, 11 Aug 2026) AND THE
+   BRIEF'S PREMISE DOES NOT HOLD. Every `[data-section-id]` box, in page order:
+     content column x=80 w=653 · right rail x=827 w=372
+     the rail holds `BOOK_IT_SIDEBAR` (h=272) and a `REPORT_TO_AIRBNB` link. NOTHING ELSE.
+     `HOST_OVERVIEW_DEFAULT`  x=80  w=653  y=763   — inline in the BODY column, NO avatar at all
+     `REVIEWS_DEFAULT`        x=80  w=1120 y=3352  — FULL WIDTH
+     `MEET_YOUR_HOST`         x=80  w=1120 y=5694  — FULL WIDTH, 2,342px BELOW the reviews
+   ⭐ So Airbnb has TWO host blocks and neither is in a rail: a text-only "Hosted by Gigi ·
+   Superhost · 13 years hosting" row inline in the body, and a full-width "Meet your host"
+   section at the very bottom holding a 395x265 card. **The right rail is the booking form.**
+   ⭐⭐ WE BUILD THE SIDE COLUMN ANYWAY, and the reason is that the divergence is in our favour:
+   Airbnb's rail is occupied because they have something to sell. **We have no reserve form, so
+   our rail is free** — the owner's layout is available to us precisely because we do not have
+   Airbnb's constraint. ⛔ It is NOT "Airbnb-faithful" and must not be described as such.
+
+   ⛔ INTRINSIC, NOT A BREAKPOINT. `flex-wrap` + a `min(…,100%)` basis: at 992px the two sit side
+   by side (main 640 / side 320); when 34rem + 18rem + the gap no longer fit, the side wraps
+   under the body and grows to the full line. No `@media`, so the file still carries exactly one. */
+.entrygrid{display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-7);align-items:flex-start}
+.entrygrid__main{flex:3 1 min(34rem,100%);min-width:0}
+/* ⛔ 20rem, not 18. At an 18rem basis the side rendered 320px and the quotation inside it
+   counted 32 CHARACTERS A LINE — under the ~35 confetti floor, the same defect I had just
+   fixed on the wide column, reintroduced by putting the component somewhere narrower.
+   ⭐ At 20rem the side is 344 and the card's own text 302: 41 and 42 characters. Narrow, and
+   above the floor. A secondary column cannot reach 45–75 without taking width from the story. */
+.entrygrid__side{flex:1 1 min(20rem,100%);min-width:0}
+/* ⛔⛔ AND THE QUOTATION STEPS DOWN TO 16px IN THIS COLUMN, which is not a demotion. At
+   `--type-body` (20px) in a 344px column it counted 32; at 16px it counts 42. ⭐ The side column
+   is a 16px zone — the host card's own description is 16px — so the quotation matches its
+   NEIGHBOURS rather than shrinking below them. ⚠️ Watch this if the column ever widens: the
+   payload must never end up set as the footnote. */
+.entrygrid__side .says p{font-size:var(--type-small)}
+
+/* ⭐ THE HOST CARD. Airbnb's own is 395x265, `radius:24px`, white, BOX-SHADOW, no border — and
+   the shadow is not imported. This system has no shadow anywhere, and `.orgs li` already solves
+   "an organisation in a box" with a hairline + `--radius-card`. ⭐ Reuse beats a new primitive.
+   ⛔ NO STAT ROW, and that is the ruling plus the data agreeing for once. Airbnb stacks
+   `315 / Reviews`, `4.87 / Rating`, `13 / Years hosting` at 22px/600 over 10px/500 — measured,
+   and ⚠️ NOT in caps, `text-transform:none`, which the brief had wrong. We have no verified
+   counts for any partner, and "keep the page, drop the count" already forbids a session tally.
+   An empty stat row is the no-slot-without-a-filler rule broken in public. */
+.hostcard{border:var(--rule-hairline) solid var(--border-hairline);
+  border-radius:var(--radius-card);padding:var(--space-5)}
+/* ⭐ Circular, and it IS Airbnb-faithful: their radius ladder is role-based — a full-bleed photo
+   0, a photo inside a card takes the card's corner, an avatar 50%. Theirs is 104px; 88 matches
+   `.person__face` on `/team/` so one face size serves the whole system.
+   ⛔ A HAIRLINE ON THE DISC, because this asset is a LOGO on a white ground, not a portrait —
+   without an edge the circle is invisible against paper and the mark appears to float. */
+.hostcard__face{width:88px;height:88px;border-radius:var(--radius-round);object-fit:cover;
+  display:block;margin:0 0 var(--space-4);background:var(--surface-page);
+  border:var(--rule-hairline) solid var(--border-hairline)}
+.hostcard h2{font-size:var(--type-subheading);margin:0}
+.hostcard__role{margin:var(--space-2) 0 0;font-size:var(--type-small);
+  color:var(--text-secondary);line-height:var(--leading-tight)}
+.hostcard p{margin:var(--space-3) 0 0;font-size:var(--type-small);
+  color:var(--text-secondary);line-height:var(--leading-tight)}
+/* ⛔ INK, and it was found by looking. The link sits inside `.hostcard p`, so `a{color:inherit}`
+   handed it `--text-secondary` and the one actionable line in the card rendered the same grey as
+   the description around it. ⭐ The card's darkest text should be the thing you can do. */
+.hostcard__more{display:inline-block;margin-block-start:var(--space-3);
+  color:var(--text-primary);
+  font-size:var(--type-small);font-weight:var(--weight-medium);text-decoration:underline;
   text-decoration-color:var(--border-hairline);text-decoration-thickness:1px;
   text-underline-offset:3px;min-height:var(--tap-min,44px);
   padding-block:calc((var(--tap-min,44px) - 1lh) / 2);
   padding-inline:var(--space-2);margin-inline:calc(var(--space-2) * -1)}
-/* ⭐⭐ A QUOTATION ON AN ENTRY — `.says` unchanged, plus the separator `.session .says` already
-   uses inside a club. ⛔ NOT a section with a heading: "What people say" would turn evidence
-   about one afternoon into a page about praise, which `/clubs/` refused for exactly this reason.
-   The hairline does one job — after a body paragraph an unheaded quotation reads as the next
-   sentence of the body, and only the rendered page shows that.
-   ⛔ `.says.entry__says` is (0,2,0) ON PURPOSE. `.wrap--wide .says` is also (0,2,0), so a bare
-   `.entry__says` at (0,1,0) would have lost — the THIRD single-class override in this file that
-   would silently have resolved to something else. */
-.says.entry__says{margin-block-start:var(--space-6);padding-block-start:var(--space-5);
-  border-block-start:var(--rule-hairline) solid var(--border-hairline)}
+
+/* ⭐⭐ IDENTITY BEFORE THE TEXT — and this was VERIFIED, not accepted. Airbnb's review card,
+   measured: avatar 48px 50% → name 16/20/500 → subline 14/18/400 → stars+date → body 16/24/400.
+   The name is ABOVE the words. This file's own `.says` note quoted their body treatment and
+   silently inverted their ORDER.
+   ⛔⛔ IT APPLIES ONLY WHERE THERE IS AN IDENTITY. `/clubs/`'s quotations are unattributed by
+   design ("one of the students") — consent to appear is not consent to be named — so there is
+   nothing to lead with and the quotation simply starts. That is the same rule with an absent
+   field, not an inconsistency, and it is why this is a MODIFIER rather than a change to `.says`.
+   ⛔ `.says.says--named` is (0,2,0) to beat `.says cite` at (0,1,1) on the margin flip. */
+/* ⭐ INK AND MEDIUM, not grey — Airbnb's reviewer NAME is 16/20/500 in ink; the grey 14/400 line
+   under it is the tenure subline, a different field. Our `.says cite` is grey because on
+   `/clubs/` it carries a DESCRIPTION ("one of the students"), not a name. ⭐ So the modifier
+   flips the colour with the order: a name is ink, a description stays grey. */
+.says.says--named cite{margin-block:0 var(--space-3);
+  color:var(--text-primary);font-weight:var(--weight-medium)}
+/* ⭐ A STACK IN A NARROW COLUMN. The gap BETWEEN quotations must stay visibly larger than the gap
+   inside one, or a column of them runs together — the defect `/who-we-are/` was built on and only
+   a screenshot found. 32px between, 12px from a name to its own words. */
+.saysstack{list-style:none;margin:var(--space-6) 0 0;padding:0;display:grid;gap:var(--space-7)}
+.saysstack>li{margin:0}
+.saysstack .says{margin:0;max-width:none}
 /* ⛔ The no-photo entry (the rain closure) must not look broken, and a lone entry has no feed
    around it to carry the rhythm. It gets no image well at all — same rule as the feed — and the
    headline simply starts the page. NO SLOT WITHOUT A GUARANTEED FILLER. */
