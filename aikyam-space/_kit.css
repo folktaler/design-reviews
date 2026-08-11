@@ -484,7 +484,18 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
    ⛔ INTRINSIC, NOT A BREAKPOINT. `flex-wrap` + a `min(…,100%)` basis: at 992px the two sit side
    by side (main 640 / side 320); when 34rem + 18rem + the gap no longer fit, the side wraps
    under the body and grows to the full line. No `@media`, so the file still carries exactly one. */
-.entrygrid{display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-7);align-items:flex-start}
+/* ⛔⛔ `padding-block-start` ADDED 11 Aug — owner: "no padding between the nav menu and the
+   content". Measured against the nav's bottom edge: this page's h1 ink began at **-1px** and the
+   host card's top BORDER at **exactly 0**, drawing a line hard against the nav's own border.
+   ⭐ PRE-EXISTING, not caused by the side column — every other page opens with `.lede`, whose
+   `padding-block: var(--space-8)` puts its first ink at **69px**; this page has no `.lede` and
+   never had the gap. The side column only made it visible, because a bordered box in the gap
+   reads as broken where bare text read as merely tight.
+   ⚠️ The durable fix is a page-level rule rather than one on this component — the other four
+   pages get their 40px by accident of carrying a `.lede`, which is spacing riding on a semantic
+   class. Scoped here because widening it would re-space four reviewed pages. */
+.entrygrid{display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-7);align-items:flex-start;
+  padding-block-start:var(--space-8)}
 .entrygrid__main{flex:3 1 min(34rem,100%);min-width:0}
 /* ⛔ 20rem, not 18. At an 18rem basis the side rendered 320px and the quotation inside it
    counted 32 CHARACTERS A LINE — under the ~35 confetti floor, the same defect I had just
@@ -551,9 +562,39 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
 /* ⭐ A STACK IN A NARROW COLUMN. The gap BETWEEN quotations must stay visibly larger than the gap
    inside one, or a column of them runs together — the defect `/who-we-are/` was built on and only
    a screenshot found. 32px between, 12px from a name to its own words. */
-.saysstack{list-style:none;margin:var(--space-6) 0 0;padding:0;display:grid;gap:var(--space-7)}
+/* ⛔⛔ "SHOULD WE CARD THEM?" — MEASURED ON THE REAL PAGE, AND THE ANSWER IS NO. Owner asked
+   11 Aug. Airbnb listing 23572181, all four visible review roots: **457×72, `radius:0`,
+   `border:0`, `background:transparent`, `padding:0`, NO shadow.** Not one of them is a box.
+   ⭐⭐ AND THE SEPARATION IS PURE WHITESPACE — row pitch **226px** for a 72px clamped body, with
+   no rule between reviews at all. The only 1px hairline in the section is a **1120px `#DDDDDD`
+   SECTION divider**, not a between-reviews line.
+   ⛔ So a bordered box here would reverse the finding that produced this component, and the same
+   finding that got Ghost's bookmark-card embed rejected. **The box is what a review is NOT.**
+   ⭐⭐ THE HIERARCHY HE IS ASKING FOR IS REAL AND IS ALREADY MOSTLY HERE — it comes from three
+   things, none of them a container: an IDENTITY BLOCK above the words, LOOSER LEADING than the
+   text around it (theirs 16/24 against a 16/20 page; ours 16×1.55=24.8 against the host card's
+   16×1.375=22 — the same relationship), and AIR. ⭐ Air was the one we were short of, so the
+   stack now clears the host card by 40px instead of 24. */
+.saysstack{list-style:none;margin:var(--space-8) 0 0;padding:0;display:grid;gap:var(--space-7)}
 .saysstack>li{margin:0}
 .saysstack .says{margin:0;max-width:none}
+/* ⭐ LENGTH — owner: "since testimonials are posts, if they are long, they can have the show
+   more". Measured on Airbnb: the clamp is **`-webkit-line-clamp:3`**, clamped height **72px**
+   against a **144px** scrollHeight, and the control reads `Show more` at **16px/500, underlined**.
+   ⭐ His framing is the load-bearing part and is worth keeping: a testimonial is a real Ghost
+   POST, so its length is known at build time and can carry a `custom_excerpt`. A plain text blob
+   in a card could not be cut this cleanly.
+   ⛔⛔ ONE THING NOT TO COPY: Airbnb's `Show more` is a SIBLING of the clamp box and renders
+   UNCONDITIONALLY — a review reading only "Great stay." still shows it, because nothing compares
+   scrollHeight to clientHeight. **The control is emitted only when the source actually exceeds
+   three lines**, which the build knows and the browser would have to be asked. */
+.says--clamped p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;
+  overflow:hidden}
+.says__more{display:inline-block;margin-block-start:var(--space-2);
+  font-size:var(--type-small);font-weight:var(--weight-medium);color:var(--text-primary);
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;
+  min-height:var(--tap-min,44px);padding-block:calc((var(--tap-min,44px) - 1lh) / 2);
+  padding-inline:var(--space-2);margin-inline:calc(var(--space-2) * -1)}
 /* ⛔ The no-photo entry (the rain closure) must not look broken, and a lone entry has no feed
    around it to carry the rhythm. It gets no image well at all — same rule as the feed — and the
    headline simply starts the page. NO SLOT WITHOUT A GUARANTEED FILLER. */

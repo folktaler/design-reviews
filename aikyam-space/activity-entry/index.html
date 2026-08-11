@@ -307,8 +307,96 @@
       — a decision was made and announced — while an off day is genuinely nothing.</b></p>
   </section>
 
+  <hr class="band">
+
+  <section aria-labelledby="len-h" style="margin-block-start:var(--pitch-rule-heading)">
+    <h2 id="len-h">⚠️ Component specimen — a long testimonial and a short one</h2>
+    <p style="margin-block-start:var(--space-3)">Both are real, and <b>neither is about
+      Olimalar</b>. This block exists to show the two length states of the component, not to
+      claim either person said anything about the reading corner.</p>
+
+    <ul class="saysstack" style="max-width:20rem">
+      <li>
+        <blockquote class="says says--named says--clamped">
+          <cite>Sudina S</cite>
+          <p>The home-like feeling. Jasentha Chechi who cooked us breakfast at short notice. The
+            plants in the front yard. The spacious and group-friendly furniture. These are the
+            things that made the space special for us.</p>
+          <a class="says__more" href="#">Show more</a>
+        </blockquote>
+      </li>
+      <li>
+        <blockquote class="says says--named">
+          <cite>Leelamma</cite>
+          <p>It was a wonderful experience to conduct our meeting here.</p>
+        </blockquote>
+      </li>
+    </ul>
+
+    <p class="kitnote">⛔⛔ <b>“SHOULD WE CARD THEM?” — I MEASURED THE REAL PAGE, AND THE ANSWER
+      IS NO.</b> Airbnb listing <code>rooms/23572181</code>, all four visible review roots:
+      <b>457×72, <code>radius:0</code>, <code>border:0</code>, <code>background:transparent</code>,
+      <code>padding:0</code>, no shadow.</b> <b>Not one of them is a box.</b>
+      <br><br>⭐⭐ <b>And the separation is pure whitespace</b> — row pitch <b>226px</b> for a 72px
+      body, <b>with no rule between reviews at all</b>. The only 1px hairline in the whole section
+      is a <b>1120px <code>#DDDDDD</code> SECTION divider</b>. ⛔ <b>So there is no lighter-weight
+      version of the box to reach for either.</b>
+      <br><br>⛔ <b>A bordered box here would reverse the finding that produced this component</b>
+      — and it is the same finding that got Ghost's bookmark-card embed rejected this morning as
+      “the opposite of the review treatment”. <b>The box is precisely what a review is not.</b>
+      <br><br>⭐⭐ <b>But the ask underneath it is right, and it has a measured answer.</b> Airbnb's
+      reviews DO stand out, from three things and none of them is a container: an <b>identity
+      block above the words</b>; <b>looser leading than the text around them</b> — theirs is
+      <b>16/24 on a page whose body is 16/20</b>, and ours is <b>16×1.55 = 24.8 against the host
+      card's 16×1.375 = 22</b>, the same relationship; and <b>air</b>.
+      <br><br>⭐ <b>Air was the one we were short of</b>, so the stack now clears the host card by
+      <b>40px instead of 24</b>. ⚠️ <b>The typography was already doing its job</b> — it was built
+      from these measurements — <b>which is why the fix is smaller than the question sounded.</b>
+      <br><br>⚠️ <b>The honest reason it looked weak, and it is a layout fact rather than a
+      typographic one:</b> the quotation sits <b>directly beneath a bordered card</b>, so it was
+      being read against a box rather than against the page. ⭐ <b>Airbnb has this same asymmetry
+      and keeps it</b> — their host card is boxed (radius 24, shadow) and their reviews are not.
+      <b>If the column still reads wrong after this, the thing to reconsider is the card's
+      border, not the quotation's lack of one.</b></p>
+
+    <p class="kitnote">⭐ <b>LENGTH.</b> Measured: the clamp is <code>-webkit-line-clamp: 3</code>,
+      <b>72px clamped against a 144px scrollHeight</b>, and the control reads <b>“Show more” at
+      16px/500, underlined</b>. Both reproduced above.
+      <br><br>⭐⭐ <b>The owner's framing is the load-bearing part and is kept:</b> a testimonial is
+      <b>a real Ghost post</b>, so its length is known at build time and it can carry a
+      <code>custom_excerpt</code>. <b>A plain text blob in a card could not be cut this
+      cleanly</b>, and that is a genuine argument for the posts-as-testimonials shape.
+      <br><br>⛔⛔ <b>One thing from Airbnb deliberately NOT copied:</b> their <code>Show more</code>
+      is a <b>sibling of the clamp box and renders unconditionally</b> — a review reading only
+      <i>“Great stay.”</i> still shows it, because nothing compares <code>scrollHeight</code> to
+      <code>clientHeight</code>. <b>Ours is emitted only when the source really exceeds three
+      lines</b> — which the build knows and a browser would have to be asked. <b>The short
+      example above has no control, and that is the point of showing two.</b></p>
+  </section>
+
   <section style="margin-block-start:var(--pitch-rule-heading)" aria-labelledby="gaps-h">
     <h2 id="gaps-h">⚠️ Reviewer notes — not page copy</h2>
+
+    <div class="empty">
+      <h3>⛔ NEW, 11 Aug — the nav gap was pre-existing, and the sidebar only exposed it</h3>
+      <p><b>Owner: “no padding between the nav menu and the content.”</b> Measured against the
+        nav's bottom edge on the live page: <b>this page's h1 ink began at −1px</b>, and the host
+        card's <b>top border at exactly 0</b> — a line drawn hard against the nav's own border.</p>
+      <p>⭐ <b>But it did not start with the side column.</b> Every other page opens with
+        <code>.lede</code>, which carries <code>padding-block: var(--space-8)</code> and puts its
+        first ink at <b>69px</b>. <code>/clubs/</code> and <code>/who-we-are/</code> both measure
+        69. <b>This page has no <code>.lede</code> and never had the gap</b> — the entry opened
+        straight onto its headline from the day it was built, and four reviews did not catch it.</p>
+      <p>⭐⭐ <b>What the sidebar changed was visibility, not the defect.</b> Bare text at −1px
+        reads as tight; <b>a bordered box at 0 reads as broken.</b> ⚠️ Worth keeping as a
+        pattern: <b>adding a bordered element is a cheap way to discover the spacing bugs a page
+        already had</b>, because a border makes a boundary that text only implies.</p>
+      <p>⚠️ <b>Fixed on <code>.entrygrid</code>, not page-wide, and the scope is deliberate:</b>
+        the other four pages get their 40px <b>by accident of carrying a <code>.lede</code></b> —
+        spacing riding on a semantic class. <b>The durable fix is a rule that says content does
+        not start flush against the nav</b>, which would re-space four already-reviewed pages and
+        is not this brief.</p>
+    </div>
 
     <div class="empty">
       <h3>⛔⛔ NEW, 11 Aug — the headline says Reading Corner and the photograph shows the
