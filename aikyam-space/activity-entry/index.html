@@ -48,10 +48,13 @@
 </nav>
 
 <main class="wrap wrap--wide">
-  <div class="entrygrid">
-  <article class="entrygrid__main">
+  <div class="entryhead">
     <h1>Children began using the new Reading Corner</h1>
     <p class="entry__meta">Saturday 4 July 2026 · Fort Kochi</p>
+  </div>
+
+  <div class="entrygrid">
+  <article class="entrygrid__main">
     <img class="entry__shot" width="1143" height="827" loading="eager" fetchpriority="high"
       alt="About twenty children sit cross-legged on the floor of the hall facing a small screen on a stand that reads Science Club. A man and a woman stand at the front; framed photographs of dancers cover the wall behind them."
       src="https://aikyam.space/content/images/2026/07/WhatsApp-Image-2026-07-06-at-10.14.24-1.jpeg">
@@ -416,6 +419,36 @@
 
   <section style="margin-block-start:var(--pitch-rule-heading)" aria-labelledby="gaps-h">
     <h2 id="gaps-h">⚠️ Reviewer notes — not page copy</h2>
+
+    <div class="empty">
+      <h3>✅ NEW, 11 Aug — the empty space below the side column is not a bug</h3>
+      <p><b>Measured on the live page at 1280, and it is exactly what it looks like:</b> the story
+        column is <b>893px</b> tall, the side column is <b>441px</b>, and the empty space below
+        the side column is <b>452px</b> — <b>precisely the difference between them.</b></p>
+      <p>⭐ <b>In plain terms: it is two columns holding different amounts of writing.</b> The
+        story runs several paragraphs. The host card and one quotation run out after about half
+        of it. <b>Below that point there is simply nothing left to put beside the story</b> — the
+        same way one newspaper column finishes before the column next to it.</p>
+      <p>⛔ <b>Checked for the things that would have made it a defect, and none of them is
+        present:</b> the side column is <code>position:static</code> (nothing pinning it),
+        <code>min-height:auto</code> (nothing holding the box open), <code>margin-bottom:0</code>
+        (no stray spacing), and no <code>align-self</code> stretching it. <b>Nothing is creating
+        the space; the space is what is left when the content stops.</b></p>
+      <p>⚠️ <b>The real option, and I recommend against it.</b> The card could be made
+        <b>sticky</b> so it follows the reader down the story. ⭐ <b>Airbnb does exactly this</b> —
+        measured on the live listing: <code>position:sticky; top:80px</code>, and scrolling to
+        y=1400 moved the rail's viewport position from 580 to <b>112</b>, so it holds near the top
+        instead of scrolling away.
+        <br><br>⛔ <b>But their rail is a BOOKING FORM — a control you act on at any point while
+        reading.</b> Ours is a <b>credit</b>: one fact you read once. <b>Following the reader for
+        452px to keep saying “Olimalar Foundation ran this” is noise, not utility.</b>
+        ⚠️ It would also do nothing on a phone, where the column is stacked under the story
+        anyway — so it is a desktop-only affordance, on a site that is 62% desktop, buying
+        repetition rather than access.</p>
+      <p>⭐ <b>The honest fix for the feeling, if the gap still bothers him, is more to say —
+        the other two testimonials.</b> The column is short because it holds one quotation. It
+        was built to stack any number.</p>
+    </div>
 
     <div class="empty">
       <h3>⭐⭐ NEW, 11 Aug — the identity unit centres, the prose does not</h3>

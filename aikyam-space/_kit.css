@@ -494,8 +494,26 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
    ⚠️ The durable fix is a page-level rule rather than one on this component — the other four
    pages get their 40px by accident of carrying a `.lede`, which is spacing riding on a semantic
    class. Scoped here because widening it would re-space four reviewed pages. */
+/* ⭐⭐ THE HEADLINE AND DATE MOVED OUT OF THE COLUMN — owner 11 Aug: the host card's top edge
+   should line up with the PHOTOGRAPH's top edge, not the page's.
+   ⛔ NOT done with a magic margin. Pushing the card down by a fixed number would be wrong the
+   moment the headline wraps to one line or three — and it wraps to two at 1280 and three at 390
+   on this very entry. ⭐ Instead the headline and date sit ABOVE the two columns, so the grid's
+   first row is photo-left / card-right and they start together BY CONSTRUCTION, at any headline
+   length and any width.
+   ⭐ It is also what Airbnb does: measured, `TITLE_DEFAULT` is x=80 w=1120 — full width above the
+   gallery — and the reading measure still caps the headline at 34rem, so it does not run wild.
+   ⚠️ The nav-gap fix moved WITH it. `--space-8` now sits on `.entryhead`, which is the new first
+   thing on the page; `.entrygrid` keeps a smaller `--space-5` as the gap between the date line
+   and the photo. Checked: first ink still lands 40px below the nav. */
+.entryhead{padding-block-start:var(--space-8)}
 .entrygrid{display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-7);align-items:flex-start;
-  padding-block-start:var(--space-8)}
+  padding-block-start:var(--space-5)}
+/* ⛔ The photograph's own top margin is zeroed INSIDE the grid, because it is now the first thing
+   in its column. Left in place it would push the photo 20px below the card and defeat the whole
+   alignment. ⚠️ Scoped to `.entrygrid` so the no-photo exemplar further down the page, which
+   still uses `.entry__shot` in normal flow, keeps its spacing. */
+.entrygrid .entry__shot{margin-block-start:0}
 .entrygrid__main{flex:3 1 min(34rem,100%);min-width:0}
 /* ⛔ 20rem, not 18. At an 18rem basis the side rendered 320px and the quotation inside it
    counted 32 CHARACTERS A LINE — under the ~35 confetti floor, the same defect I had just
