@@ -117,8 +117,12 @@
        page and the chrome take --measure-wide again; the rows that paint a
        hairline are capped HERE, one rule, near the components that draw them.
        Measured after: every rule 688px wide with its overhang past the last
-       glyph unchanged to the pixel from the accepted 10 Aug state
-       (17 / 66 / 32 / 9 / 1 / 314 / 266), at 768, 1024, 1440 and 2000 alike. */
+       glyph unchanged TO THE PIXEL from the accepted 10 Aug state, at 768, 1024,
+       1440 and 2000 alike. ⚠️ Two figures exist for the same rows because two
+       methods do — walking text nodes only gives 93 / 17 / 66 / 32 / 9 on the
+       facts rows; counting `img`/`svg` rects as content too drops the first to
+       17. Both are unchanged by this edit; the EQUALITY is the claim, not the
+       level, so state which method you used before comparing. */
     --measure-row: calc(10rem + var(--space-4) + var(--measure));
     --radius-none: 0;
     --radius-card: 0.5rem;                    /* 8px */
@@ -188,29 +192,59 @@
   /* ⚠️ --measure IS THE TEXT COLUMN and .wrap is border-box, so the gutters go
      ON TOP of it. Capping .wrap at --measure would render a column two gutters
      NARROWER than the token claims. Ship the calc with the token, always.
-     ⭐ .wrap still centres the HEADER and the note frame. The page body uses
-     .page below. */
+     ⭐ .wrap centres the note frame. The page body uses .page below, and the
+     site chrome uses .v-hd__box below that — three boxes, on purpose, and the
+     comment on .v-hd__box is where the reason lives. */
   .wrap {
     max-width: calc(var(--measure, 32rem) + var(--gutter, 24px) * 2);
     margin-inline: auto;
     padding-inline: var(--gutter, 24px);
   }
 
-  /* The same box, capped at the wide track instead of the reading column. Page
-     chrome takes it so the wordmark starts on the same left edge as the H1.
-     ⛔ Added 10 Aug 2026: the responsive pass moved the BODY onto the three-track
-     grid and left the header and footer on .wrap at 560px. The two boxes coincide
-     only below 560px — at 1440 the wordmark sat 320px right of the H1. That is the
-     two-left-edges defect the grid comment above says it killed; it killed it for
-     the content and nobody measured the chrome. It passed zero-overflow and every
-     type gate. Uses --gutter so it is correct on 20px and 24px kits alike.
-     ⭐ 11 Aug 2026: this tracks --measure-wide, the same token the page grid's
-     wide track uses. Whatever the page's wide track is, the chrome is the same
-     box — that equality is the whole point of the class and it is what keeps the
-     wordmark on the H1's left edge. ⛔ Do not give the chrome its own width: the
-     alternative was rendered and looked exactly like the defect above, with the
-     wordmark at 144 and the H1 at 376 on a 1440px window. */
-  .wrap--wide { max-width: calc(var(--measure-wide) + var(--gutter) * 2); }
+  /* ── THE CHROME'S OWN BOX — Airbnb's DESKTOP rule, measured 11 Aug 2026 ────
+     ⛔⛔ THE CHROME IS NOT THE PAGE, AND EVERY EARLIER FIX HERE ASSUMED IT WAS.
+     The three header rows used to be `.wrap--wide`: the PAGE's box — centred,
+     capped at --measure-wide + two gutters = 1200px. That is why the wordmark
+     walked away from the window as the window grew: 24px in at 1024, then 144
+     at 1440, 279 at 1710, 424 at 2000, 624 at 2400, with a matching strip of
+     blank paper on the right. The owner said "big empty space on both sides"
+     twice in one day — once about the search pill, once about this — and both
+     times the answer was improvised from an internal consistency rule ("one
+     left edge", "match the H1"), because docs/research/airbnb-study.md was
+     phone-only and this repo had NEVER measured a desktop header.
+
+     ⭐ IT HAS NOW. Airbnb, measured 11 Aug 2026 in real layout viewports:
+       width        1024  1440  1710  2000  2400
+       logo, left     32    48    48    48    48   (/s/…/homes, max-width none)
+     Their header block is full-bleed with a fixed gutter, while the listing
+     content underneath sits in a centred 1120px column — 295px of margin at
+     1710, 640px at 2400. Their logo is nowhere near their content's left edge.
+
+     ⭐ SO THE RULE IS: THE CHROME HUGS THE WINDOW, THE PAGE KEEPS ITS COLUMN.
+     ⛔ WITH THE ONE CONSTRAINT THIS PROJECT HAS ALREADY PAID FOR: the chrome may
+     sit OUTSIDE the body's left edge, never INSIDE it. A header inset further
+     than the H1 is the two-left-edges defect fixed on 10 Aug — it reads as a
+     mistake. A header outside it is a frame, which is what Airbnb draws.
+
+     ⭐ 1248px IS DERIVED, NOT CHOSEN: --measure-wide (1152) + 2 × 48. Below it
+     the page grid's outer track is still sitting on its 24px floor, so the
+     chrome takes 24px too and the two left edges are IDENTICAL. At exactly 1248
+     the page's own gutter reaches 48 and the chrome stops there while the page
+     carries on centring — the split is seamless at the pixel where it happens.
+
+     ⚠️ Airbnb steps to 32px between 744 and 1127 and we deliberately do not.
+     Theirs would put our wordmark 8px INSIDE our 24px body edge, which the
+     constraint above forbids. Faithful to the behaviour, not to a number that
+     fits their gutter and not ours.
+     ⚠️ AND THE OTHER HALF OF THEIR MEASUREMENT, recorded so nobody re-derives
+     it: Airbnb's LISTING page caps its header at 1824px above a 1920px window
+     (logo 88px in at 2000, 288 at 2400) while their SEARCH page never caps.
+     We took the uncapped one. Above 1920 a capped header starts growing its
+     margins again, which is the exact complaint this change answers. */
+  .v-hd__box { padding-inline: var(--gutter, 24px); }
+  @media (min-width: 1248px) {
+    .v-hd__box { padding-inline: 48px; }
+  }
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. ═══════════════════════
@@ -279,10 +313,14 @@
        photo       320  375  768  1024  1440  2000  (height 180 211 432 480 480 480)
      Zero horizontal overflow at every one; one left edge at every one.
      ⭐ Rule overhang past the last glyph, per rule-bearing element: identical to
-     the accepted 10 Aug rendering at every width — 17 / 66 / 32 / 9 on the facts
-     rows, 1 on things-to-know, 314 / 266 on read-next. ⛔ That equality is the
-     proof, not a threshold: the cap reproduces the state the owner accepted
-     rather than clearing a number somebody chose.
+     the accepted 10 Aug rendering at 768, 1024, 1440 and 2000 — facts rows
+     93 / 17 / 66 / 32 / 9 walking text nodes only, 1 on things-to-know,
+     314 / 266 on read-next. ⚠️ Name the method: counting `img`/`svg` rects as
+     content too drops the first row to 17. ⛔ The EQUALITY is the proof, not the
+     level — the cap reproduces the state the owner accepted rather than clearing
+     a number somebody chose. ⚠️ Read-next's 314 / 266 is PRE-EXISTING and
+     untouched; tightening it to its own text would give this page four rule
+     lengths instead of one, which is a look, not a bug fix. Owner's call.
      On a phone `wide` and `text` are the same number, so marking something wide
      reflows nothing and costs nothing.
 
@@ -372,10 +410,12 @@
     border-block-end: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
     background: var(--surface-page, #fdfcf9);
   }
-  /* ⭐ EACH ROW IS ITS OWN .wrap.wrap--wide, so all three start on the page's
-     left edge — the same edge as the H1, the facts rows and the sticky bar's
-     contents. One box around all three would also have worked; three let a row
-     change its vertical rhythm without moving anybody's left edge. */
+  /* ⭐ EACH ROW IS ITS OWN .v-hd__box, so all three chrome rows share one left
+     edge. One box around all three would also have worked; three let a row
+     change its vertical rhythm without moving anybody's left edge.
+     ⚠️ That edge is the CHROME's, not the page's — below 1248px they are the
+     same 24px and above it the chrome holds at 48 while the page centres. The
+     reason is on .v-hd__box above; do not "restore" these to .wrap. */
   /* ⭐ `flex-wrap` + `margin-inline-start:auto` ON THE TOOLS, not
      `justify-content: space-between`, and that pairing is the whole safety net.
      ⛔ THE DEFECT IT ANSWERS, measured at 320px before it went in: the row's
@@ -1108,7 +1148,7 @@
 
 <header class="v-hd">
 
-  <div class="wrap wrap--wide v-hd__row">
+  <div class="v-hd__box v-hd__row">
     <a class="v-hd__brand" href="#top">
       <!-- ⭐ Held for the cropped cat mark, which does not exist yet. Empty on
            purpose; the CSS says why, and why the left-edge check must assert
@@ -1174,7 +1214,7 @@
        buttons with no handler rather than `disabled` ones, because a disabled
        control is greyed and skipped by the keyboard, which is not what this
        will be. `data-inert` marks every one of them for whoever wires it. -->
-  <div class="wrap wrap--wide">
+  <div class="v-hd__box">
     <div class="v-search" role="search">
       <button class="v-search__field v-search__field--wide" type="button" data-inert="front-door-undecided">When are you here?</button>
       <button class="v-search__go" type="button" aria-label="Search" data-inert="front-door-undecided">
@@ -1185,7 +1225,7 @@
     </div>
   </div>
 
-  <nav class="wrap wrap--wide v-hd__tabs" aria-label="Sections">
+  <nav class="v-hd__box v-hd__tabs" aria-label="Sections">
     <a class="v-hd__tab" href="#top" aria-current="page"><span class="v-hd__tab-label">Places</span></a>
     <a class="v-hd__tab" href="#top"><span class="v-hd__tab-label">Getting around</span></a>
     <a class="v-hd__tab" href="#top"><span class="v-hd__tab-label">Writing</span></a>
@@ -1664,8 +1704,8 @@
       on the four components that paint one, and the page and the header go back to the
       full 1152px column. The rules are the same width they were, to the pixel, at every
       screen size — that equality is the proof, not a threshold somebody picked.
-      At 1440 the wordmark now sits at 144 and the menu at 1296, and the H1 still starts
-      on the wordmark's left edge.
+      That moved the wordmark to 144 at 1440, on the H1's left edge — which was still the
+      wrong place, for the reason the third fix below sets out.
     </p>
     <p>
       <b>And the search pill was a stripe.</b>
@@ -1679,6 +1719,29 @@
       384px. <b>The cap cannot reach a phone:</b> it starts binding above a 432px window,
       and at 320 / 375 / 390 / 430 the pill is still exactly the content column
       (272 / 327 / 342 / 382) and 62px tall, as it was before.
+    </p>
+    <h4>⛔ Fixed 11 August 2026, third time — the header was measured against nothing</h4>
+    <p>
+      The two fixes above both left the wordmark <b>drifting away from the window as the
+      window grows</b> — 144px in at 1440, 279 at 1710, 624 at 2400, with the same empty
+      strip on the right. That is the owner's "big empty space on both sides", for the
+      third time in a day. The cause underneath all three is the same: <b>this repo had
+      never measured Airbnb's desktop header.</b> The research file is phone-only, at
+      390px, so every desktop decision was improvised from an internal rule — "one left
+      edge", "match the H1" — that Airbnb does not follow.
+    </p>
+    <p>
+      <b>Airbnb, measured on 11 August 2026 in real layout viewports at five widths:</b>
+      their header is full-bleed with a fixed gutter — the logo sits <b>32px</b> from the
+      window edge at 1024 and <b>48px</b> at 1440, 1710, 2000 and 2400 alike, with the
+      header block's max-width reading <code>none</code>. The listing content underneath
+      is a centred 1120px column with 295px of margin at 1710 and 640px at 2400.
+      <b>Their logo is nowhere near their content's left edge, and never has been.</b>
+      The chrome hugs the window; the page keeps its column. Ours now does the same:
+      24px below 1248 (where the page's own gutter is still 24, so the two edges are
+      identical) and 48px above it. The one rule the split obeys is that the chrome may
+      sit <b>outside</b> the body's left edge and never inside it — inside is the
+      two-left-edges defect; outside is a frame.
     </p>
 
     <h2>⛔ What on this page is real, and what is not</h2>
