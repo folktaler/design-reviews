@@ -99,11 +99,26 @@
        then raised deliberately across the token file and all four kits that use
        it. The order matters — token first, kits follow. */
     --measure-wide: 72rem;
-    /* ⭐ The widest real ROW on this page — a 10rem label track, one gap, and the
-       reading column. Added 10 Aug 2026 because the wide track at 72rem/1152px
-       ran every hairline 465px past the last glyph: the value was capped for
-       reading, correct, and nobody asked what the rule around it should then do.
-       Synced from ui_kits/venue, where it was measured. Overhang after: 1px. */
+    /* ⭐⭐ 43rem = 688px — THE ROW WIDTH. NOT a rival to --measure-wide: that
+       token is a CARD GRID measure, derived in tokens/spacing.css from three
+       376px Airbnb listing cards, and a venue page has no card grid. Every wide
+       item here is a label-and-value row whose value is correctly capped at
+       --measure, so the widest real content this page can produce is:
+           label track (10rem) + column gap (--space-4) + --measure (32rem)
+       Owner, 10 Aug 2026, on a 1710px window: the rendering is wrong. Measured —
+       every rule ended at 1431 while the last glyph on the page ended at 966, so
+       each hairline ran 465px into empty space and the page read as a table with
+       an empty third column. ⛔ The rules were not the defect; the TRACK was.
+       ⛔⛔ AND THE FIX FOR THAT WAS APPLIED IN THE WRONG PLACE — corrected
+       11 Aug 2026. This token was made the PAGE's wide track, which capped the
+       site header at 736px along with the rows: at 2000 the wordmark sat 656px
+       in with 632px of blank paper on either side, and the owner said twice that
+       the header was still not responsive. ⭐ A row cap is a ROW's business. The
+       page and the chrome take --measure-wide again; the rows that paint a
+       hairline are capped HERE, one rule, near the components that draw them.
+       Measured after: every rule 688px wide with its overhang past the last
+       glyph unchanged to the pixel from the accepted 10 Aug state
+       (17 / 66 / 32 / 9 / 1 / 314 / 266), at 768, 1024, 1440 and 2000 alike. */
     --measure-row: calc(10rem + var(--space-4) + var(--measure));
     --radius-none: 0;
     --radius-card: 0.5rem;                    /* 8px */
@@ -188,8 +203,14 @@
      only below 560px — at 1440 the wordmark sat 320px right of the H1. That is the
      two-left-edges defect the grid comment above says it killed; it killed it for
      the content and nobody measured the chrome. It passed zero-overflow and every
-     type gate. Uses --gutter so it is correct on 20px and 24px kits alike. */
-  .wrap--wide { max-width: calc(var(--measure-row) + var(--gutter) * 2); }
+     type gate. Uses --gutter so it is correct on 20px and 24px kits alike.
+     ⭐ 11 Aug 2026: this tracks --measure-wide, the same token the page grid's
+     wide track uses. Whatever the page's wide track is, the chrome is the same
+     box — that equality is the whole point of the class and it is what keeps the
+     wordmark on the H1's left edge. ⛔ Do not give the chrome its own width: the
+     alternative was rendered and looked exactly like the defect above, with the
+     wordmark at 144 and the H1 at 376 on a 1440px window. */
+  .wrap--wide { max-width: calc(var(--measure-wide) + var(--gutter) * 2); }
 
   /* ══ RESPONSIVE — owner ruling 10 Aug 2026, "every page should be responsive",
      after he opened a 560px strip in a 2000px window. ═══════════════════════
@@ -213,16 +234,55 @@
      to it. Choosing the mechanism you can prove over the one that is merely
      conventional is the point.
 
+     ⛔⛔ TWO WRONG TURNS BEFORE THIS BLOCK WAS RIGHT, and both are worth keeping
+     because each looked like a fix. FIRST, 10 Aug 2026 at 1710: every rule and
+     row border ended at 1431 while the last glyph anywhere on the page ended at
+     966, so 465px of hairline ran into empty space and the page read as a table
+     with an empty third column. Walk what is on `wide` here — the facts strip,
+     things-to-know, the nearest list, read-next, four dividers — and EVERY ONE
+     caps its own content at --measure, because every one is prose or a
+     label-and-value pair. The track had no occupant that could fill it, so
+     stretching their containers only stretched their borders.
+
+     ⛔⛔ SECOND, and the more instructive one: that was fixed by shrinking the
+     PAGE to the width of a row. `wide` became --measure-row (688px), which is a
+     correct number for a row and a wrong one for a page — and `.wrap--wide`
+     reads the same token, so it capped the site header too. At 2000 the wordmark
+     sat 656px in with 632px of blank paper on each side; the owner said the
+     header was still not responsive, twice, and he was right both times.
+     ⭐ EVERY CHECK STAYED GREEN THROUGH BOTH STATES, including the one-left-edge
+     check — because everything moved together.
+
+     ⭐⭐ THE RULE THAT SURVIVES BOTH:
+         A CONTAINER MAY TAKE THE WIDE TRACK ONLY IF SOMETHING INSIDE IT
+         ACTUALLY FILLS THAT WIDTH. A RULE ENDS WHERE ITS CONTENT ENDS —
+         AND YOU ENFORCE THAT ON THE RULE, NOT ON THE PAGE.
+     So the page and the chrome take --measure-wide (72rem), and the four
+     components that paint a hairline are capped at --measure-row below.
+
+     ⚠️ HONEST COST, stated rather than buried: the reading column does not get
+     wider, so at 1440 the content occupies 144–832 and about 600px of paper to
+     its right is empty. The page is left-aligned inside a frame the header
+     defines, not centred in one — this block's own rule, all the surplus goes
+     right, showing at full strength for the first time. The thing that would
+     earn the right-hand half is Airbnb's multi-column Things-to-know: a design
+     proposal for the owner, not a width fix.
+
      ⭐ MEASURED, and the phone equality was ASSERTED, not eyeballed — the text
      column equals min(container,560)−48 at every phone width, which is exactly
-     what it was before this change. ⚠️ This table has been re-measured TWICE as
-     --measure-wide moved 72 → 62 → 72; it is current for the token's settled
-     value of 72rem (tokens/spacing.css, 10 Aug 2026):
-       container  320  375  768  1024  1440  2000
-       text       272  327  512   512   512   512
-       wide       272  327  720   976  1152  1152
-       photo      320  375  768  1024  1440  2000  (height 180 211 432 480 480 480)
+     what it was before this change:
+       container   320  375  768  1024  1440  2000
+       text        272  327  512   512   512   512
+       wide        272  327  720   976  1152  1152
+       rows/rules  272  327  688   688   688   688
+       left edge    24   24   24    24   144   424
+       photo       320  375  768  1024  1440  2000  (height 180 211 432 480 480 480)
      Zero horizontal overflow at every one; one left edge at every one.
+     ⭐ Rule overhang past the last glyph, per rule-bearing element: identical to
+     the accepted 10 Aug rendering at every width — 17 / 66 / 32 / 9 on the facts
+     rows, 1 on things-to-know, 314 / 266 on read-next. ⛔ That equality is the
+     proof, not a threshold: the cap reproduces the state the owner accepted
+     rather than clearing a number somebody chose.
      On a phone `wide` and `text` are the same number, so marking something wide
      reflows nothing and costs nothing.
 
@@ -243,13 +303,31 @@
     grid-template-columns:
       [full-start] minmax(var(--gutter, 24px), 1fr)
       [wide-start text-start] min(100% - var(--gutter, 24px) * 2, var(--measure, 32rem))
-      [text-end]   minmax(0, calc(var(--measure-row) - var(--measure, 32rem)))
+      [text-end]   minmax(0, calc(var(--measure-wide) - var(--measure, 32rem)))
       [wide-end]   minmax(var(--gutter, 24px), 1fr)
       [full-end];
   }
   .page > *                    { grid-column: text; }
   .page > [data-span="wide"]   { grid-column: wide; }
   .page > [data-span="full"]   { grid-column: full; }
+
+  /* ⭐⭐ THE RULE CAP — the other half of the wide track, and the half that has
+     twice been enforced in the wrong place. These four are every element on this
+     page that paints a horizontal hairline. Each one's CONTENT is a label-and-
+     value pair or a sentence, so each caps at the widest row this page can
+     produce and its border stops with it. Taking the wide track lets them start
+     on the page's left edge; this stops them ending in empty paper.
+     ⛔ `.v-nn__row` IS DELIBERATELY NOT IN THIS LIST. It paints no rule and it
+     already caps at --measure; adding it here would widen it to 688 and put its
+     longest line back from 61 characters to 83, which is the defect its own
+     comment records fixing. Verified after this change: 44 characters at 1440,
+     unchanged from before it.
+     ⚠️ A component added to the wide track later must either fill 1152 or join
+     this list. There is no third option that leaves the page looking edited. */
+  .v-row,
+  .v-ttk__row,
+  .v-rn__row,
+  .v-div { max-inline-size: var(--measure-row); }
 
   /* ⭐ A SECTION IS A SUBGRID, and this is the part that is easy to get wrong.
      The grid's children are the SECTIONS, not the lists inside them — so a
@@ -454,16 +532,19 @@
   .v-hd__mi--todo > span:first-child { color: var(--text-primary, #1c1a17); }
   .v-hd__mi-note { font-size: var(--type-micro, 14px); line-height: var(--leading-tight, 1.375); }
 
-  /* ── the search pill — two fields and the round button ───────────────── */
-  /* ⛔ WHAT IS NOT HERE, and both absences are decisions. Airbnb's WHERE is
+  /* ── the search pill — one field and the round button ────────────────── */
+  /* ⛔ WHAT IS NOT HERE, and all three absences are decisions. Airbnb's WHERE is
      dropped because the whole site IS Fort Kochi and Mattancherry. Airbnb's
      WHO is dropped because across the registry the twelve fields such a filter
      would read hold ONE filled value in total — a control that promises a
-     filter the data cannot compute is a lie the interface tells by itself.
+     filter the data cannot compute is a lie the interface tells by itself. The
+     kind-of-place field was dropped by the owner on 10 Aug 2026, which is why
+     the rules below still guard against a two-field row: they are what kept the
+     one that survived readable at 320.
      ⚠️ AND THE WORDS ARE LEGALLY LOAD-BEARING. "available", "book", "reserve",
      "check in" and "check out" are on COMMERCE-TERMS.md's banned list: they
-     read as friendly and they make this business a travel agent. The second
-     field asks "When are you here?" for that reason, not for tone. */
+     read as friendly and they make this business a travel agent. The field asks
+     when the reader is here for that reason, not for tone. */
   .v-search {
     display: flex; align-items: center; gap: var(--space-1, 4px);
     margin-block: var(--space-2, 8px) var(--space-3, 12px);
@@ -471,6 +552,24 @@
     background: var(--surface-page, #fdfcf9);
     border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
     border-radius: var(--radius-pill, 999px);
+    /* ⛔ A CAP, BECAUSE ONE FIELD CANNOT FILL A DESKTOP ROW — and this was the
+       whole of "the header is still not responsive", found 11 Aug 2026 by
+       looking at the published page rather than measuring it. Uncapped, the
+       pill is a block child of the header row, so it took the entire wide
+       track: measured 688 × 62px at 768, 1024, 1440 AND 2000, holding 221px of
+       content. Two thirds of a bordered pill was empty and the round button sat
+       ~460px away from the prompt it belongs to — a stripe, not a control. It
+       is the one element on the page that visibly stretched, which is why the
+       page reads as unresponsive on a desktop while every number was clean:
+       zero overflow, one left edge, 195px header, unchanged tap targets.
+       ⭐ It was never a phone defect and the cap must not become one. 24rem
+       binds only above a 432px viewport, so the LARGEST phone in the tested
+       range clears it — the pill is still exactly the content column at 320 /
+       375 / 390 / 430 (272 / 327 / 342 / 382) and 62px tall at every width,
+       capped or not. 22rem would have caught a 430px phone 30px short.
+       ⚠️ Re-derive this the day a second field comes back: the cap is content
+       plus slack for ONE prompt, not a house number. */
+    max-inline-size: 24rem;
   }
   /* ⛔ NO `white-space: nowrap`, AND THAT ABSENCE IS THE FIX. With it, at 320px
      the two prompts needed 192px of text in a 157px space and simply painted
@@ -949,9 +1048,14 @@
     /* ⭐ A hairline, not a shadow. This system ships no shadow tokens at all. */
     border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
   }
+  /* ⚠️ THIS COMPONENT IS NOT ON THE PAGE — the action bar was removed on
+     10 Aug 2026 and the CSS was left behind. It tracks --measure-wide with the
+     rest of the page rather than --measure-row so that whoever restores the bar
+     gets its contents on the page's left edge instead of re-creating the
+     two-left-edges defect. It renders nothing today either way. */
   .v-bar > * {
     inline-size: 100%;
-    max-inline-size: var(--measure-row);
+    max-inline-size: var(--measure-wide);
     margin-inline: auto;
   }
   .v-bar__context {
@@ -1480,13 +1584,13 @@
     <p>
       Built 10 August 2026 to the six decisions the owner made one at a time. Wordmark
       only, with the space to its left held for the cropped cat mark. Three section tabs
-      with the current one underlined. A search pill with two fields and a round button.
+      with the current one underlined. A search pill with one field and a round button.
       Nothing in the right-hand text-link slot. A language globe. A menu at every width.
     </p>
     <h4>⚠️ What is inert</h4>
     <ul>
       <li>
-        <b>Both search fields and the search button do nothing.</b> The front door has not
+        <b>The search field and the search button do nothing.</b> The front door has not
         been designed, and this page settles the control, not the panel behind it. They
         are ordinary buttons with no handler — not <code>disabled</code> ones, because a
         disabled control is greyed out and skipped by the keyboard, which is not what this
@@ -1538,8 +1642,43 @@
       measurement — that on a 375&nbsp;×&nbsp;667 phone the first opening-hours row sits
       behind the action bar — and was offered the two-row version that puts it back at 484.
       He chose the full header anyway. ⛔ <b>So this is a decision, not an oversight, and it
-      must not be quietly “fixed” by a later pass.</b> The pill stays even while its two
-      fields are inert. Re-argue it only with him, and only with a number.
+      must not be quietly “fixed” by a later pass.</b> The pill stays even while its field
+      is inert. Re-argue it only with him, and only with a number.
+    </p>
+    <p>
+      ⚠️ <b>Two things above are the record of a decision, not a description of this
+      page.</b> The action bar was removed later the same day, so nothing now covers the
+      bottom of the screen and the first fact row is in plain sight on a 667px phone — the
+      563px figure is kept because it is what the owner was shown when he ruled. The
+      kind-of-place field went at the same time, which is why the pill holds one question.
+    </p>
+    <h4>⛔ Fixed 11 August 2026 — two defects, one complaint</h4>
+    <p>
+      <b>The header stopped growing at 736px.</b> Above that it floated in the middle of
+      the window: at 2000px the wordmark sat 656px in with 632px of blank paper on each
+      side. The cause was a fix applied one level too high. On 10 August the page's wide
+      track was narrowed to the width of a single fact row, to stop each hairline rule
+      running up to 530px past the last word on its line — a real defect, correctly
+      diagnosed. But the header reads the same width as the page, so narrowing the page
+      narrowed the header with it. <b>The rules are now capped where they are drawn</b>,
+      on the four components that paint one, and the page and the header go back to the
+      full 1152px column. The rules are the same width they were, to the pixel, at every
+      screen size — that equality is the proof, not a threshold somebody picked.
+      At 1440 the wordmark now sits at 144 and the menu at 1296, and the H1 still starts
+      on the wordmark's left edge.
+    </p>
+    <p>
+      <b>And the search pill was a stripe.</b>
+      With one field left in it the pill still stretched to the full width of the row:
+      <b>688px wide holding 221px of content</b>, identically at 768, 1024, 1440 and 2000,
+      so two thirds of a bordered pill was empty and the round button sat about 460px from
+      the question it belongs to. It was <b>the only element on the page that stretched</b>
+      — everything else is a column that stops — which is why it read as a page that had
+      not been designed for a desktop while every number came back clean: zero overflow,
+      one left edge, a 195px header, tap targets untouched. The pill is now capped at
+      384px. <b>The cap cannot reach a phone:</b> it starts binding above a 432px window,
+      and at 320 / 375 / 390 / 430 the pill is still exactly the content column
+      (272 / 327 / 342 / 382) and 62px tall, as it was before.
     </p>
 
     <h2>⛔ What on this page is real, and what is not</h2>
