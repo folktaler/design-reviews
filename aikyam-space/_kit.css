@@ -526,10 +526,33 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
    ⛔ A HAIRLINE ON THE DISC, because this asset is a LOGO on a white ground, not a portrait —
    without an edge the circle is invisible against paper and the mark appears to float. */
 .hostcard__face{width:88px;height:88px;border-radius:var(--radius-round);object-fit:cover;
-  display:block;margin:0 0 var(--space-4);background:var(--surface-page);
+  display:block;margin:0 auto var(--space-4);background:var(--surface-page);
   border:var(--rule-hairline) solid var(--border-hairline)}
+/* ⭐⭐ THE IDENTITY UNIT CENTRES AND THE PROSE DOES NOT — measured 11 Aug on the real card, and
+   it is sharper than "the card is centred". Owner said the avatar and name are centred and ours
+   were left-aligned; he is right, but centring the whole card would have been wrong.
+   Airbnb's 395x265 card (`padding:32px 24px`) is TWO COLUMNS:
+     • left column **227x201, `display:flex`, `align-items:center`, `justify-content:center`** —
+       avatar 104x104 sits at x=86 with 62px of column to its left and 61px to its right, so it
+       is **centred in ITS COLUMN, not in the card** (206px of card sits to its right).
+       The "Superhost" badge under it computes **`text-align:center`**.
+     • right column at x=275 — the stats, and they compute **`text-align:start`. LEFT, not
+       centred.**
+   ⛔⛔ AND EVERY PIECE OF PROSE IS LEFT-ALIGNED AND LIVES OUTSIDE THE CARD ENTIRELY —
+   "Speaks English and Hindi", "My work: …", "Response rate: 100%", "Responds within an hour",
+   all `text-align:start`, all outside the 395x265 box.
+   ⭐ So the rule that transfers is: **the identity unit (face, name, role) centres; anything you
+   READ stays left.** Centring our three-line description would be a legibility loss and would
+   contradict their own card, which mixes alignment inside one box on purpose.
+   ⚠️ We keep the description INSIDE the card where Airbnb puts it outside — a 344px sidebar has
+   nowhere else for it — so the alignment rule is honoured and the placement is not. */
+.hostcard__id{text-align:center}
 .hostcard h2{font-size:var(--type-subheading);margin:0}
-.hostcard__role{margin:var(--space-2) 0 0;font-size:var(--type-small);
+/* ⛔ `.hostcard .hostcard__role` is (0,2,0) ON PURPOSE. As a bare class it was (0,1,0) and lost
+   to `.hostcard p` at (0,1,1) declared below it, so the 8px gap it asks for was silently
+   rendering as 12px — the FOURTH single-class override in this file to be beaten by a
+   descendant selector. Found by reading the file after being burned three times, not by looking. */
+.hostcard .hostcard__role{margin:var(--space-2) 0 0;font-size:var(--type-small);
   color:var(--text-secondary);line-height:var(--leading-tight)}
 .hostcard p{margin:var(--space-3) 0 0;font-size:var(--type-small);
   color:var(--text-secondary);line-height:var(--leading-tight)}

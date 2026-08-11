@@ -65,11 +65,13 @@
 
   <aside class="entrygrid__side" aria-labelledby="host-h">
     <div class="hostcard">
-      <img class="hostcard__face" width="570" height="570" loading="lazy"
-        alt="The Olimalar Foundation's mark — a figure with raised arms inside a leaf and a flame."
-        src="https://aikyam.space/content/images/2026/04/SCR-20260422-rfyw.png">
-      <h2 id="host-h">Olimalar Foundation</h2>
-      <p class="hostcard__role">Ran this session</p>
+      <div class="hostcard__id">
+        <img class="hostcard__face" width="570" height="570" loading="lazy"
+          alt="The Olimalar Foundation's mark — a figure with raised arms inside a leaf and a flame."
+          src="https://aikyam.space/content/images/2026/04/SCR-20260422-rfyw.png">
+        <h2 id="host-h">Olimalar Foundation</h2>
+        <p class="hostcard__role">Ran this session</p>
+      </div>
       <p>Works with children and communities in Fort Kochi and Mattancherry to build confidence,
         emotional well-being and life skills.</p>
       <p style="margin:0"><a class="hostcard__more" href="../who-we-are/">More about them</a></p>
@@ -376,6 +378,37 @@
 
   <section style="margin-block-start:var(--pitch-rule-heading)" aria-labelledby="gaps-h">
     <h2 id="gaps-h">⚠️ Reviewer notes — not page copy</h2>
+
+    <div class="empty">
+      <h3>⭐⭐ NEW, 11 Aug — the identity unit centres, the prose does not</h3>
+      <p><b>Owner: the avatar and name are centred on the real card and ours were left-aligned.
+        He is right</b> — and <b>centring the whole card would have been the wrong fix.</b>
+        Measured on Airbnb's 395×265 card (<code>padding: 32px 24px</code>), it is <b>two
+        columns</b>:</p>
+      <p>• <b>Left column 227×201</b>, <code>display:flex</code>,
+        <code>align-items:center</code>, <code>justify-content:center</code>. The 104×104 avatar
+        sits at x=86 with <b>62px of column to its left and 61px to its right</b> — <b>centred in
+        ITS COLUMN, not in the card</b>, which still has 206px to its right. The “Superhost”
+        badge under it computes <code>text-align:center</code>.</p>
+      <p>• <b>Right column at x=275</b> — the stats — and they compute
+        <code>text-align:start</code>. <b>Left, not centred.</b></p>
+      <p>⛔⛔ <b>And every piece of prose is left-aligned AND lives outside the card entirely</b> —
+        “Speaks English and Hindi”, “My work: …”, “Response rate: 100%”, “Responds within an
+        hour”, all <code>text-align:start</code>, all outside the 395×265 box.</p>
+      <p>⭐ <b>So the rule that transfers is narrow: the identity unit — face, name, role —
+        centres, and anything you READ stays left.</b> Our description is three lines; centring it
+        would be a real legibility loss, and it would contradict Airbnb's own card, which
+        <b>mixes alignment inside one box on purpose.</b></p>
+      <p>⚠️ <b>One divergence, stated:</b> we keep the description <b>inside</b> the card where
+        Airbnb puts it outside. A 344px sidebar has nowhere else for it. <b>The alignment rule is
+        honoured; the placement is not.</b></p>
+      <p>⛔ <b>A specificity bug found in the same pass, in my own component:</b>
+        <code>.hostcard__role</code> was a bare class at (0,1,0) and lost to <code>.hostcard p</code>
+        at (0,1,1) declared below it, so the <b>8px gap it asks for was rendering as 12px</b>.
+        <b>Fourth</b> single-class override in this stylesheet beaten by a descendant selector —
+        found by reading the file <i>because</i> it had happened three times, not by looking at
+        the page.</p>
+    </div>
 
     <div class="empty">
       <h3>⛔ NEW, 11 Aug — the nav gap was pre-existing, and the sidebar only exposed it</h3>
