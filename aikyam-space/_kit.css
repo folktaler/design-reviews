@@ -580,9 +580,17 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
 /* ⛔ INK, and it was found by looking. The link sits inside `.hostcard p`, so `a{color:inherit}`
    handed it `--text-secondary` and the one actionable line in the card rendered the same grey as
    the description around it. ⭐ The card's darkest text should be the thing you can do. */
-.hostcard__more{display:inline-block;margin-block-start:var(--space-3);
-  color:var(--text-primary);
-  font-size:var(--type-small);font-weight:var(--weight-medium);text-decoration:underline;
+/* ⛔ `.hostcard__more` IS DELETED — owner 11 Aug: drop "More about them", the NAME becomes the
+   link. ⭐ One less line for the same destination, and it is the better shape: the card's title
+   and its only action were two separate things saying the same thing, which is the "read more"
+   objection from `/activities/` arriving in a different costume.
+   ⚠️ THE TAP TARGET IS THE THING TO WATCH, because the name is now the SMALLEST text on the card
+   (stepped to `--type-small` last round). At 16px with `--leading-heading` 1.2 the line box is
+   ~19px, so the padding does the rest: (44 − 1lh) / 2 each side reaches 44. ⭐ The negative
+   inline margin is symmetric, so it survives the card's centring without shifting off-axis.
+   ⛔ Keeps `--weight-semibold` from the base `h1,h2,h3` rule, so the name still reads as the
+   card's title and not as a stray link. */
+.hostcard h2 a{display:inline-block;color:var(--text-primary);text-decoration:underline;
   text-decoration-color:var(--border-hairline);text-decoration-thickness:1px;
   text-underline-offset:3px;min-height:var(--tap-min,44px);
   padding-block:calc((var(--tap-min,44px) - 1lh) / 2);
@@ -634,16 +642,12 @@ a.act__shotlink{display:block;border-radius:var(--radius-card);overflow:hidden;
    three lines**, which the build knows and the browser would have to be asked. */
 .says--clamped p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;
   overflow:hidden}
-/* ⚠️⚠️ SPECIMEN-ONLY, AWAITING A RULING — delete or promote, do not let it sit here.
-   Added 11 Aug so the "no profile pic of course" question can be DECIDED BY LOOKING rather than
-   asked back. Three readings are rendered side by side on the entry kit; my recommendation is
-   the one with no face at all, for a reason measured rather than preferred — see the kit note.
-   ⛔ If the ruling is "no avatar", DELETE these two rules. They have no other caller. */
-.says--face{display:grid;grid-template-columns:48px 1fr;gap:var(--space-3);align-items:start}
-.says__face{width:48px;height:48px;border-radius:var(--radius-round);
-  background:var(--surface-quiet);border:var(--rule-hairline) solid var(--border-hairline);
-  display:flex;align-items:center;justify-content:center;
-  font-size:var(--type-small);font-weight:var(--weight-semibold);color:var(--text-primary)}
+/* ⭐ `.says--face` / `.says__face` ARE DELETED — owner ruled "no pic needed" 11 Aug, so the
+   specimen that existed to settle the question has done its job and gone with it. They were
+   marked SPECIMEN-ONLY with "delete if the ruling is no avatar" written on them, and this is
+   that deletion. ⛔ A comparison of a settled question is clutter, and a kit that keeps every
+   rejected option becomes a museum. The reasoning survives as a reviewer note; the rendered
+   alternatives do not. */
 .says__more{display:inline-block;margin-block-start:var(--space-2);
   font-size:var(--type-small);font-weight:var(--weight-medium);color:var(--text-primary);
   text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;
