@@ -21,292 +21,19 @@
 <h1>Cats of Kochi — the Airbnb-faithful system</h1>
 <p>Labelled <code>catsofkochi-airbnb-design-system-2026-08-09</code> — a different
   system from the earlier Guardian-era one (<code>guardian-design-system-v1</code>),
-  stated here so nobody reviews the wrong one by name. 14 pages, one shared
-  faces file per font family, no build step and almost no JavaScript.
-  <b>13 of the 14 kits now show the current typeface, Figtree.</b> One does
-  not, deliberately — read the gap below before judging its type.</p>
+  stated here so nobody reviews the wrong one by name. 13 pages, one shared
+  faces file per font family, no build step and almost no JavaScript. Every kit
+  shows the current typeface, Figtree.</p>
 
-<h2>Known gaps — read this before reviewing</h2>
-<ul class="gaps">
-  <li>⭐ <b><code>facts_strip</code> is now a decision, not a comparison.</b> It used
-    to show three competing proposals (A the shelf, B the correction, C the dateline).
-    The owner resolved it on <b>9 August 2026: none of them — full hide.</b> The page
-    shows our hours plainly and says nothing about method, dates or the posted board.
-    ⚠️ Anyone reviewing it against an older note about "A, B and C" is reading a
-    superseded page. Its one deliberately fictional specimen ("we went and the board
-    was right") is gone — under full hide it would have rendered identically to the
-    real ones, so there was nothing left to invent.</li>
-  <li>⚠️ <b>Full hide creates a page that does not exist yet.</b> Every place page now
-    carries one footer link, <em>How we check our facts</em>, and that is the only
-    surface left where the site can explain why its hours differ from a posted board.
-    Nothing is written behind it. Until it is, the link goes nowhere and the
-    explanation lives nowhere.</li>
-  <li>⭐ <b><code>type_before_after</code> still shows Noticia Text, and stays
-    that way on purpose.</b> The owner decided, 9 August 2026: Cats of Kochi
-    is Figtree, all-sans — no second family (the other twelve kits carry that
-    decision as of today; they were rebuilt from the Guardian-era serif this
-    same day). This one kit is different in kind, not just behind: it is a
-    dated 5 August essay <em>arguing for</em> Noticia Text — file-size
-    measurements against eight fonts, a check for the ₹ glyph, a
-    Guardian-line-spacing table — not a live specimen. Repointing its face
-    without rewriting that whole argument would make the essay describe a
-    font it no longer shows, which is worse than leaving it as history. Its
-    listing below says so.</li>
-  <li><b>The Android fallback arm is unverified by rendering.</b> Fallback metrics
-    for Noto Serif and Roboto are derived from <code>@capsizecss</code>'s published
-    metrics, not measured on an Android device — nobody here has one to measure
-    against. Measured on macOS 10 August 2026: the Helvetica Neue and Arial arms
-    resolve; the Roboto arm reports <code>error</code>, which is the expected
-    reading and not a defect — every fallback face is declared <code>src:
-    local(...)</code>, and macOS does not ship Roboto. Android is the platform
-    where that arm is supposed to resolve, and it is the one neither reviewer can
-    see from here. ⭐ If that face ever read <code>loaded</code> on a Mac, THAT
-    would be the finding: it would mean <code>local('Roboto')</code> had matched
-    something that is not Roboto.</li>
-  <li><b>This site renders in standards mode; the Claude Design preview does not.</b>
-    Every kit published there reports <code>document.compatMode: "BackCompat"</code>
-    (quirks) because that host's serve wrapper injects markup ahead of the
-    doctype — not our markup, not fixable there. Where the two differ, trust
-    this one.</li>
-</ul>
+<p><b>The Android fallback arm is unverified by rendering.</b> Fallback metrics
+  for Noto Serif and Roboto are derived from <code>@capsizecss</code>'s published
+  metrics, not measured on an Android device.</p>
 
-<h2>Changelog</h2>
-<ul class="gaps">
-  <li>⭐ <b>10 Aug 2026 (latest) — three owner decisions, applied.</b>
-    <ul style="margin-top:.5rem">
-      <li style="padding:.35rem 0"><b>The cat tip block is rebuilt</b> —
-        <code>answer_page</code>, <code>told_page</code>,
-        <code>told_page_listing</code>. The owner flagged it on all three pages and
-        said only "not airbnb faithful", so the diagnosis was ours to make. Four
-        faults, and the fourth is the one that mattered: <b>the cat outranked the
-        fact.</b> "TIP FROM GINGER" was the header — a paw glyph, uppercase, letter
-        spacing, a link — and the useful sentence sat underneath as body text. That is
-        the narrator position, and the house rule is that cats are a byline, never the
-        narrator. The other three: a paw glyph at all (banned outright, 5 Aug); a 13px
-        uppercase label with 0.78px tracking (measured — Airbnb has none of this
-        across 463 text elements, and the identical treatment was killed on the
-        Checked chip on 9 Aug and never fixed here); and a 4px leading rule with a
-        20px inset, which set the tip's text at 488px against a 512px paragraph — 24px
-        narrower than the column it sat in.
-        <br><b>Now:</b> the fact leads at body size in medium weight, and the cat signs
-        it underneath in ordinary grey. Two hairlines, top and bottom, which is
-        Airbnb's one measured separator and the same shape as the pull quote. No paw,
-        no tracking, no inset.</li>
-      <li style="padding:.35rem 0"><b><code>place.html</code>: four invented things
-        removed.</b> The owner asked for the trust block to go; checking the registry
-        found three more of the same kind. Gone: the trust card ("We went and looked
-        ourselves / 1 of 5 posted facts were wrong / 3 Aug 2026" — nobody has visited
-        this synagogue, its record is <code>official_only</code>, this site holds
-        exactly one posted-versus-observed fact and it is Bastion Bungalow, and the
-        record's date is 7 Aug); the section headed "What we only know because we
-        went"; a sentence about tiles carried from Canton in the eighteenth century;
-        and two "things to know" rows (a photography ban and a dress code) that no
-        source states. The walk time was wrong three times over — "12 minutes from
-        Mattancherry Jetty" against a registry record of 4 minutes from Mattancherry
-        Water Metro Station, routed 7 Aug.
-        <br>⭐ <b>And the page's own disclaimer band was inverted.</b> It apologised
-        for the hours, closing days, entry price and walk time as "plausible and
-        unverified" — three of which are real sourced records — while saying nothing
-        about any of the four inventions above. It is rewritten to describe what is
-        actually not real.</li>
-      <li style="padding:.35rem 0"><b>The clock format is the owner's:</b>
-        <code>10am – 1pm, 2 – 4.30pm</code>. Lowercase, no space before the meridiem,
-        no minutes on a round hour, a full stop rather than a colon, and the meridiem
-        dropped from the first half of a range when both halves share it. Applied to
-        every kit that prints an opening time, and to the live-clock formatter in
-        <code>today</code>, which used to print "9.00 am".
-        <br>⚠️ <b>It costs the alignment argument, so it is written down rather than
-        discovered later.</b> "10am – 1pm" and "2 – 4.30pm" are not the same width, so
-        a stack of opening hours down a listing page no longer forms the clean column
-        a stack of "10:00–13:00" did. Tabular figures stay on — they still stop the
-        numerals jittering, and the fares still need them — but they can no longer
-        square an hours column. The specimen in <code>system</code> now says so.</li>
-    </ul>
-    Measured in real Chrome on the published page before and after, 10 Aug 2026:
-    Figtree confirmed against a negative control (1833.15px on the test string, against
-    1655.52 for a family nothing declares and 1825.79 for the metric-matched fallback),
-    <code>document.compatMode === "CSS1Compat"</code>, zero horizontal overflow with the
-    column constrained to a 375px phone. The rebuilt tip: fact 19px/500 ink at 16.92:1,
-    byline 14px/400 grey at 7.29:1, zero paw glyphs, and a text column identical to the
-    paragraph above it (44 characters against the body's 42, so it reads as part of the
-    column rather than an inset panel). ⛔ <b>Not verified:</b> nobody has read any of
-    this on a phone in Kerala sun, and the homepage kits still print "11 am" / "1.15 pm"
-    — they were being edited by another session at the same time and were left alone
-    deliberately rather than risk clobbering that work.</li>
-  <li>⭐ <b>9 Aug 2026 — a new page, <code>reviews-workflow</code>: visitor
-    reviews, proposed.</b> A feature that does not exist — no code, no ticket, nothing
-    built. Three screens drawn against two owner decisions taken the same day: anyone
-    with an account may review any place (no proof of visit, unlike Airbnb), and a
-    person reads every submission before it appears.
-    <ul style="margin-top:.5rem">
-      <li style="padding:.35rem 0"><b>The threshold is four reviews within two years,
-        not Airbnb's three.</b> Their three is bought — only a completed paid stay
-        unlocks a review, so faking one costs a booking. A free account is cheaper, so
-        the bar should be stricter, not looser. Four is also where one outlier stops
-        deciding the number (a maximum swing of 1.00 stars against 1.33 at three), and
-        five would mean the score never appears on a site with 26 places. Below the
-        threshold the reviews print in full and the average is withheld, with the number
-        that would make one appear named on the page — Airbnb's own answer to a low
-        count, and the single most transferable thing in the reviews study.</li>
-      <li style="padding:.35rem 0"><b>No amber anywhere near a review.</b> Amber means
-        "we checked this" and a review is the one thing on the page nobody here checked.
-        Exactly one amber underline exists on the whole page, in the moderation queue,
-        pointing away from a review at the hours record it supports. Six Airbnb category
-        ratings cut to two, the histogram cut, and the sort control cut with a warning
-        attached: their default ordering is personalised to the reader, which is the one
-        thing a facts registry could copy by accident.</li>
-      <li style="padding:.35rem 0">⚠️ <b>Four defects were found only by rendering it</b>
-        — a stray hairline through every question on the form (a <code>legend</code> is
-        laid out inside its <code>fieldset</code>'s border), star rows indented 11px
-        against the column, three queue tabs needing 298px inside a 285px card, and a
-        breakdown bar chart whose 4px ink fill collided with
-        <code>--rule-leading</code> and read as furniture. All four are invisible in the
-        source.</li>
-    </ul>
-    Verified in real Chrome at 375px before publishing:
-    <code>document.compatMode === "CSS1Compat"</code>, zero horizontal overflow at page
-    <i>and</i> container level, all 46 controls at least 44px on <i>both</i> axes,
-    <code>--tap</code> and <code>--measure</code> resolving from their definitions rather
-    than their fallbacks, line length median 42 and maximum 62 characters, and the type
-    confirmed as real Figtree by bitmap comparison against both a metric-matched fallback
-    and a family nothing declares. ⛔ Not verified: nobody has read it on a phone in
-    Kerala sun, and no traveller has been asked whether they would review a place they
-    did not pay to enter — which is the assumption the whole feature rests on.
-    <b>Pending owner reaction. Not approved, not built.</b></li>
-  <li>⭐ <b>9 Aug 2026 — the checked-on stamp is settled: full hide.</b> The
-    owner's decision, and it removes rather than adds: <em>"the end user need not see
-    anything about how the facts are there. except maybe a small link on the general
-    process we use. thats all. google maps does not do that. why should we?"</em>
-    <code>facts_strip</code> has been rebuilt as one finished design and no longer
-    offers a choice.
-    <ul style="margin-top:.5rem">
-      <li style="padding:.35rem 0"><b>What a traveller sees.</b> The hours, at the
-        largest size in the facts block, with the day range above them and the shut
-        days below in ink. <b>No stamp, no chip, no "checked on", no "the board says",
-        no source line, no amber anywhere on the page.</b> Where nobody knows the
-        hours — 23 of the 26 records — the page says <em>"We don't know when this
-        opens"</em> at body size in primary ink, then what to do instead.</li>
-      <li style="padding:.35rem 0"><b>One link, in the footer, once per page.</b>
-        <em>How we check our facts</em> — site-wide, not per venue and not per fact.
-        It takes the ordinary link tier (ink, 1px grey underline), not the 2px amber
-        decision tier: it advances no decision the reader came for, and amber on it
-        would re-announce the provenance the page just stopped announcing.</li>
-      <li style="padding:.35rem 0">⚠️ <b>The cost, stated plainly.</b> A reader can no
-        longer tell a time somebody stood outside and measured from a time read off a
-        website — three registry states now render identically. The differentiator
-        does not vanish, it moves: it is delivered as accuracy instead of announced as
-        a badge. ⛔ <b>This changes nothing in the registry.</b>
-        <code>observed_contradicts_official</code> is still immune from
-        auto-correction — that is a data rule, and <code>docs/FRESHNESS-SPEC.md</code>
-        and <code>CLAUDE.md</code> are untouched.</li>
-      <li style="padding:.35rem 0">⛔ <b>What it leaves without a home:</b>
-        <code>CheckedStamp</code> and <code>TrustCard</code> on a place page, and the
-        <code>data-fact-posted</code> / <code>data-fact-actual</code> /
-        <code>data-checked-on</code> / <code>data-source-checked</code> landmarks.
-        <code>data-fact="contradicts"</code> and <code>="known"</code> now render the
-        same, so a scorer looking for a rendered contradiction will find none.</li>
-    </ul>
-    Verified in real Chrome at 375px and 320px: <code>document.compatMode ===
-    "CSS1Compat"</code>, zero horizontal overflow at both widths, all 7 links at least
-    44px on <i>both</i> axes (52 × 52 minimum), tokens resolving from their
-    definitions rather than their fallbacks, hours 16.92:1 and the refusal 16.92:1 on
-    paper, the footer link 15.39:1 on its quiet ground, zero elements rendering amber,
-    and the type confirmed as real Figtree (1143.92px on the standard string, against
-    1140.27 for the metric-matched fallback and 1027.83 for a family nothing declares).
-    Both time ranges hold together on one line at 375px and break at the comma — never
-    mid-range — at 320px. ⛔ Not verified: nobody has read it on a phone in Kerala
-    sun.</li>
-  <li>⚰️ <b>9 Aug 2026 (superseded by the entry above) — <code>facts_strip</code> as
-    three shapes awaiting a decision.</b> Kept as history; the page no longer looks
-    like this. The trust signal the site does not have yet: how a fact says who
-    checked it, when, and whether the posted board disagrees. Three shapes, drawn on
-    the two real records that carry hours — Bastion Bungalow
-    (<code>observed_contradicts_official</code>, the site's only instance of the
-    moat) and Paradesi Synagogue (<code>official_only</code>, read from the place's
-    own site). Built on the Airbnb trust-card <i>grammar</i> and explicitly not its
-    machinery: no stars, no review counts, no "Guest favourite", because there is no
-    crowd here to average.
-    <ul style="margin-top:.5rem">
-      <li style="padding:.35rem 0"><b>The two verbs are ranked, and only one is
-        amber.</b> "We went and looked" is a stamp — two or three words, a date, an
-        amber fill, once per place. "We read their own site" is a citation — 14px,
-        secondary grey, no fill, the same <code>.p-checked</code> register
-        <code>place.html</code> already ships. This follows the owner's own 9 Aug
-        correction that provenance was "too loud"; the weaker claim does not get the
-        stronger one's clothes.</li>
-      <li style="padding:.35rem 0"><b>The refusal is designed for first, not last.</b>
-        23 of the 26 place records have no hours, so the page shows all four states
-        and sets the refusal at body size in primary ink — the same weight as the
-        facts around it.</li>
-      <li style="padding:.35rem 0">⚠️ <b>A measurement that counts against variant A:</b>
-        three trust-card cells leave about 109px each in a 327px column, so the cell
-        labels and the date wrap to two lines. Airbnb carry the same component at
-        10–12px labels; this system's floor is 14px.</li>
-    </ul>
-    Verified in real Chrome at 375px before publishing:
-    <code>document.compatMode === "CSS1Compat"</code>, zero horizontal overflow, all
-    7 links at least 44px on <i>both</i> axes, tokens resolving from their
-    definitions rather than their fallbacks, and the type confirmed as real Figtree
-    against a negative control (1143.92px vs 1027.83px for a family nothing
-    declares). ⛔ Not verified: nobody has read it on a phone in Kerala sun.</li>
-  <li>⭐ <b>9 Aug 2026 (later) — the colour-usage review, part two: links,
-    the payment button, red, and the checked stamp.</b> Five more findings
-    from the same owner review, fixed across every kit, the shared
-    components and <code>tokens/theme.css</code>, then reconciled onto the
-    live site (<code>src/styles/global.css</code>):
-    <ul style="margin-top:.5rem">
-      <li style="padding:.35rem 0">Amber removed from every ordinary link — nine
-        kits had <code>a { color: var(--amber-ink) }</code>, which painted
-        every link amber and stopped the colour meaning anything. Now a
-        two-tier ladder ranked by underline <i>weight</i>, not hue: ordinary
-        links get a 1px grey underline; the one link per screen that
-        genuinely advances a decision gets a 2px amber one, capped at two.
-        The live site's <code>global.css</code> had the same one-tier bug on
-        its own <code>a{}</code> rule and now carries the identical contract,
-        plus a <code>.link--decision</code> class for the amber tier (unused
-        today — no correction/"report a change" link is built on the live
-        site yet).</li>
-      <li style="padding:.35rem 0"><code>Pay ₹0,000</code> in the itinerary kit was
-        amber-filled — the newsletter signup's colour, on the highest-stakes
-        click on the site. Now ink, matching
-        <code>--action-primary-bg</code>; rank stays legible without colour
-        because both buttons are the same 52px pill height.</li>
-      <li style="padding:.35rem 0">Red removed from non-error states, including an
-        honest refusal — red is the grammar of an error, and "we don't know"
-        or "shuts in 40 minutes" are not errors.</li>
-      <li style="padding:.35rem 0">The "Checked" stamp and a provenance/source-citation
-        line no longer share one amber fill — they were competing for the
-        same signal. The citation now supports the stamp (ink text,
-        underline) instead of duplicating it.</li>
-      <li style="padding:.35rem 0">A landmark split: <code>data-source-checked</code> now
-        marks a source-citation sentence separately from
-        <code>data-checked-on</code>, which marks only a short, columnar
-        date stamp — so an accessibility scorer checking tabular figures
-        doesn't conflate "when we visited" with "when we read a citation."</li>
-      <li style="padding:.35rem 0"><b>Homepage's "Getting around" and "today" link-rows</b>
-        were showing a persistent underline under the link text stacked a
-        few px above the row's own divider line — two grey lines read as
-        clutter on every row. The divider already carries the separation;
-        the underline now shows on hover only.</li>
-    </ul>
-    Verified: <code>npm run build</code> and <code>node
-    scripts/check-kits.mjs</code> — 177 passed, 0 failed, 31 documented
-    skips.</li>
-  <li>⭐ <b>9 Aug 2026 — a decorative amber wash, removed from every kit.</b>
-    The owner caught it live on this site: a facts block sitting in a solid
-    amber-fill panel with a 4px amber border, next to a specimen arguing for
-    Airbnb's actual style — near-white cards, thin grey hairlines, colour
-    spent almost nowhere. It was real and repo-wide, not one kit's mistake:
-    12 instances across every page here, plus the live site's own
-    <code>.cat-line</code> byline and call-to-action card, which carried the
-    same fill (a milder, borderless form, but shipping). All now render
-    <code>background:var(--paper); border:1px solid var(--rule)</code> — no
-    wash, no accent border. The one deliberate amber fill that stays is the
-    "Checked" stamp — a real verification signal, the one case
-    <code>theme.css</code>'s own rules call out as legitimate, and it reads
-    clearly on the new near-white background where it nearly vanished on the
-    old tinted one.</li>
-</ul>
+<p><b>This site renders in standards mode; the Claude Design preview does not.</b>
+  Every kit published there reports <code>document.compatMode: "BackCompat"</code>
+  (quirks) because that host's serve wrapper injects markup ahead of the
+  doctype — not our markup, not fixable there. Where the two differ, trust
+  this one.</p>
 
 <h2>Proposals — drawn, not built</h2>
 <ul>
@@ -327,12 +54,6 @@
     <small>Every token, face and component in one specimen sheet — start here.</small>
   </li>
   <li>
-    <a href="type_before_after.html"><b>Type change, before and after</b></a>
-    <small>The 5 Aug argument for Noticia Text, over the earlier system serif —
-      dated history now, since Figtree superseded Noticia the next day. See the
-      known gap above.</small>
-  </li>
-  <li>
     <a href="controls.html"><b>Controls &amp; furniture</b></a>
     <small>Buttons, links, form controls and chrome, isolated from any one page.</small>
   </li>
@@ -341,25 +62,16 @@
 <h2>Listing pages</h2>
 <ul>
   <li>
-    <a href="homepage_v2.html"><b>Homepage — v2, with photographs</b></a>
-    <small>⭐ The current one. First kit carrying real photographs — five, from the
-      site's own library, checked pixel-by-pixel rather than trusted from a filename.
-      ⚠️ Known and unfixed: it weighs 1.3 MB over the wire, 1.19 MB of that being
-      2000px originals painted into a 327px column. Disqualifying on Kerala mobile
-      data; it needs the responsive image component. Said again inside the page.</small>
-  </li>
-  <li>
     <a href="homepage_registry.html"><b>Homepage — the registry front door</b></a>
-    <small>⭐ Published for the first time 10 Aug 2026 — until today it existed only
-      as a kit, so nobody had ever opened it on a phone. A different proposition
-      from the two above: it sells the registry rather than the writing. Named for
-      what it sells, not a version number — it was called <code>homepage_v2</code>
-      until this morning, when it turned out two unrelated kits shared that name.</small>
+    <small>Sells the registry rather than the writing. Carries real photographs,
+      checked pixel-by-pixel rather than trusted from a filename. Known and
+      unfixed: it weighs 1.3 MB over the wire, 1.19 MB of that being 2000px
+      originals painted into a 327px column — disqualifying on Kerala mobile
+      data; it needs the responsive image component.</small>
   </li>
   <li>
-    <a href="homepage.html"><b>Homepage — v1, no photographs</b></a>
-    <small>Superseded by v2 above. Kept for comparison. Six slots contain the
-      literal word "photo".</small>
+    <a href="homepage.html"><b>Homepage — no photographs</b></a>
+    <small>Six slots contain the literal word "photo".</small>
   </li>
   <li>
     <a href="index_browse.html"><b>Index &amp; browse</b></a>
@@ -379,14 +91,10 @@
 <ul>
   <li>
     <a href="place.html"><b>Place page</b></a>
-    <small>Paradesi Synagogue — the Airbnb-faithful place page. ⛔ <b>This listing
-      used to say "the posted-vs-observed hours moat", and that was never true of
-      this place.</b> Nobody has visited the synagogue; its record is
-      <code>official_only</code>, read off the place's own website. The site's only
-      posted-versus-observed fact is Bastion Bungalow. Rebuilt 10 Aug 2026 with the
-      trust card, the "what we only know because we went" section and two unsourced
-      claims removed — the page's own note at the foot lists what is real, what is a
-      stand-in, and what was taken out.</small>
+    <small>Paradesi Synagogue — the Airbnb-faithful place page. Nobody has visited
+      the synagogue; its record is <code>official_only</code>, read off the
+      place's own website. The site's only posted-versus-observed fact is
+      Bastion Bungalow.</small>
   </li>
   <li>
     <a href="place_page.html"><b>Place page (UI kit)</b></a>
@@ -399,12 +107,10 @@
   <li>
     <a href="facts_strip.html"><b>Hours on a place page</b></a>
     <small>What a traveller sees when we know the hours, and when nobody does —
-      drawn on two real records. <b>Decided 9 Aug 2026: full hide.</b> Our times,
-      plainly, with no date stamp, no source and no mention of the posted board;
-      one quiet footer link, <em>How we check our facts</em>, for the whole
-      site. ⭐ <b>This is where the clock format was flagged</b> — it now reads
-      <code>10am – 1pm, 2 – 4.30pm</code>, the owner's own wording, set 10 Aug
-      2026.</small>
+      drawn on two real records. Our times, plainly, with no date stamp, no
+      source and no mention of the posted board; one quiet footer link,
+      <em>How we check our facts</em>, for the whole site. The clock format
+      reads <code>10am – 1pm, 2 – 4.30pm</code>, the owner's own wording.</small>
   </li>
 </ul>
 
