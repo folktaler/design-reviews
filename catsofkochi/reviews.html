@@ -1,0 +1,1445 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cats of Kochi — visitor reviews</title>
+<link rel="stylesheet" href="faces-figtree.css">
+<style>
+  /* ══ SYSTEM FACES — copied verbatim from design-system/fonts.css.
+     ⛔ Do not edit here. Edit fonts.css, then re-copy this whole block.
+     A kit that disagrees with fonts.css lies to whoever reviews it.
+
+     ⚠️ The real Figtree faces arrive from faces-figtree.css, vendored beside
+     this file on design.folktaler.com. The repo copy at
+     design-system/ui_kits/reviews/index.html declares them by /fonts/ URL
+     instead, because check-kits.mjs serves public/fonts/ there. The fallback
+     stack below is what renders if neither resolves. ══ */
+  @font-face { font-family:'Figtree Fallback: Helvetica Neue';
+    src:local('Helvetica Neue'),local('HelveticaNeue');
+    ascent-override:95.2116%; descent-override:25.0557%; line-gap-override:0%; size-adjust:99.7778%; }
+  @font-face { font-family:'Figtree Fallback: Roboto';
+    src:local('Roboto Regular'),local('Roboto-Regular');
+    ascent-override:94.1165%; descent-override:24.7675%; size-adjust:100.9387%; }
+  @font-face { font-family:'Figtree Fallback: Arial';
+    src:local('Arial'),local('ArialMT');
+    ascent-override:94.3231%; descent-override:24.8219%; line-gap-override:0%; size-adjust:100.7176%; }
+  /* ══ END SYSTEM FACES ══ */
+
+  /* ══ SYSTEM TOKENS — copied verbatim from design-system/tokens/*.css.
+     ⛔ Copy, never retype. Every value below is traceable to a token file. ══ */
+  :root {
+    color-scheme: light;
+
+    --font-ui: 'Figtree', 'Figtree Fallback: Helvetica Neue', 'Figtree Fallback: Roboto', 'Figtree Fallback: Arial', 'Helvetica Neue', Roboto, Arial, sans-serif;
+    --figures-aligned: tabular-nums;
+
+    --type-body: clamp(1.1875rem, 1.156rem + 0.17vw, 1.25rem);   /* 19 → 20px */
+    --leading-body: 1.5;
+    --type-display: clamp(1.875rem, 1.55rem + 1.65vw, 2.5rem);   /* 30 → 40px */
+    --type-heading: clamp(1.5625rem, 1.47rem + 0.5vw, 1.75rem);  /* 25 → 28px */
+    --type-subheading: clamp(1.3125rem, 1.26rem + 0.3vw, 1.4375rem);
+    --leading-display: 1.15;
+    --leading-heading: 1.2;
+    --type-ui: 1.0625rem;    /* 17px */
+    --type-small: 1rem;      /* 16px */
+    --type-micro: 0.875rem;  /* 14px — the floor of this system */
+    --leading-ui: 1.3;
+    --leading-tight: 1.375;
+    --paragraph-gap: 0.75em;
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+    --tracking-display: -0.01em;
+
+    --space-1: 0.25rem;  --space-2: 0.5rem;  --space-3: 0.75rem;
+    --space-4: 1rem;     --space-5: 1.25rem; --space-6: 1.5rem;
+    --space-7: 2rem;     --space-8: 2.5rem;  --space-9: 3rem; --space-10: 4rem;
+    --gutter: var(--space-6);                 /* 24px — Airbnb's measured gutter */
+    --pitch-rule-heading: 2.0625rem;          /* 33px, divider → heading */
+    --pitch-row: 1.25rem;                     /* 20px, row → row */
+    --measure: 32rem;                         /* 512px of TEXT, not of wrapper */
+    --measure-wide: 72rem;                    /* 1152px — lists, grids, chrome */
+    --measure-small: 22rem;                   /* short 14–16px blocks only */
+    --measure-row: calc(10rem + var(--space-4) + var(--measure));  /* 688px */
+    --radius-none: 0;
+    --radius-card: 0.5rem;                    /* 8px */
+    --radius-control: 0.75rem;                /* 12px */
+    /* ⭐⭐ THE FIELD CORNER, ONE TOKEN FOR THE WHOLE SYSTEM. Measured on
+       airbnb.co.in/login, 14 Aug 2026: the data-entry field renders 432 × 60
+       at border-radius 12px with a 1px inset box-shadow standing in for a
+       border; the <input> itself is square and borderless and the visible
+       field is its wrapper. Their search field, on /help, is a 100px pill.
+       Neither is square. And it agrees with this system's own grammar — rank
+       is shape, 0 is the corner of a photograph and the page chrome, and a
+       field is a control a thumb presses. tokens/spacing.css holds the note.
+       ⛔ Never write a literal radius on a field. */
+    --radius-field: var(--radius-control);    /* 12px — every field */
+    --radius-pill: 999px;
+    --rule-hairline: 1px;
+    --rule-band: 8px;
+    --rule-leading: 4px;                      /* the leading edge of a note */
+    --tap: 44px;                              /* what a check asserts */
+    --tap-comfortable: 52px;                  /* what CSS sets, BOTH axes */
+    --button-height: 3.25rem;                 /* 52px */
+    --button-pad: 0 var(--space-6);
+
+    --cok-amber: #ffa700;
+    --cok-amber-ink: #946100;
+    --cok-amber-wash: #fdf2db;
+    --cok-paper: #fdfcf9;
+    --cok-paper-sunk: #f4f1ea;
+    --cok-ink: #1c1a17;
+    --cok-ink-quiet: #5a544c;
+    --cok-rule: #ddd7cb;
+    --cok-focus: #0b60c4;
+
+    --surface-page: var(--cok-paper);
+    --surface-quiet: var(--cok-paper-sunk);
+    --surface-stamp: var(--cok-amber);
+    --text-primary: var(--cok-ink);         /* 16.90:1 on paper */
+    --text-secondary: var(--cok-ink-quiet); /* 7.38:1 on paper, 6.64 on quiet */
+    --text-on-stamp: var(--cok-ink);        /* 8.91:1 on amber */
+    --action-primary-bg: var(--cok-ink);
+    --action-primary-text: var(--cok-paper);
+    --action-secondary-bg: var(--cok-paper-sunk);
+    --border-hairline: var(--cok-rule);
+    --focus-ring: var(--cok-focus);
+    --focus-ring-width: 5px;
+    --focus-ring-offset: 3px;
+
+    --motion-quick: 120ms;
+    --motion-ease: cubic-bezier(0.2, 0, 0.38, 0.9);
+  }
+  /* ══ END SYSTEM TOKENS ══ */
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--surface-page, #fdfcf9);
+    color: var(--text-primary, #1c1a17);
+    font-family: var(--font-ui, sans-serif);
+    font-size: var(--type-body, 19px);
+    line-height: var(--leading-body, 1.5);
+    overflow-wrap: break-word;
+  }
+
+  .wrap {
+    max-width: calc(var(--measure, 32rem) + var(--gutter, 24px) * 2);
+    margin-inline: auto;
+    padding-inline: var(--gutter, 24px);
+  }
+
+  /* ⭐ ONE GRID, THREE TRACKS, ZERO MEDIA QUERIES — ui_kits/place's pattern,
+     copied rather than re-derived. Prose keeps its 512px column; the queue,
+     the breakdown and the wide bands take the width. */
+  .page {
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(var(--gutter, 24px), 1fr)
+      [wide-start text-start] min(100% - var(--gutter, 24px) * 2, var(--measure, 32rem))
+      [text-end]   minmax(0, calc(var(--measure-wide, 72rem) - var(--measure, 32rem)))
+      [wide-end]   minmax(var(--gutter, 24px), 1fr)
+      [full-end];
+  }
+  .page > *                  { grid-column: text; }
+  .page > [data-span="wide"] { grid-column: wide; }
+  .page > section, .page > nav {
+    display: grid; grid-template-columns: subgrid; grid-column: full;
+  }
+  .page > section > *                  { grid-column: text; }
+  .page > section > [data-span="wide"] { grid-column: wide; }
+
+  :focus-visible {
+    outline: var(--focus-ring-width, 5px) solid var(--focus-ring, #0b60c4);
+    outline-offset: var(--focus-ring-offset, 3px);
+  }
+
+  .sr-only {
+    position: absolute; inline-size: 1px; block-size: 1px;
+    padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+
+  /* ══ THE SITE CHROME — copied from ui_kits/place; that kit's comments hold
+     every reason and every measurement. The account row inside the menu is
+     ui_kits/account's, and its argument lives there. ═══════════════════════ */
+  .p-hd__box { padding-inline: var(--gutter, 24px); }
+  @media (min-width: 1248px) { .p-hd__box { padding-inline: 48px; } }
+  .p-hd {
+    border-block-end: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    background: var(--surface-page, #fdfcf9);
+  }
+  .p-hd__row {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: var(--space-2, 8px); padding-block: var(--space-1, 4px);
+  }
+  .p-hd__tool { font-family: inherit; letter-spacing: inherit; border: 0; background: none; appearance: none; }
+  .p-hd__brand {
+    display: inline-flex; align-items: center; gap: var(--space-2, 8px);
+    min-height: var(--tap-comfortable, 52px);
+    color: var(--text-primary, #1c1a17); text-decoration: none;
+  }
+  .p-hd__mark { inline-size: 24px; block-size: 24px; flex: 0 0 auto; }
+  .p-hd__name {
+    font-size: clamp(1rem, 0.55rem + 2.4vw, 1.375rem);
+    font-weight: var(--weight-bold, 700);
+    letter-spacing: var(--tracking-display, -0.01em);
+    white-space: nowrap;
+  }
+  .p-hd__tools {
+    position: relative; display: flex; align-items: center;
+    gap: var(--space-1, 4px); margin-inline-start: auto;
+  }
+  .p-hd__tool {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: var(--space-1, 4px);
+    min-height: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    padding-inline: var(--space-1, 4px);
+    border-radius: var(--radius-pill, 999px);
+    color: var(--text-primary, #1c1a17);
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    cursor: pointer; list-style: none;
+  }
+  .p-hd__tool::-webkit-details-marker { display: none; }
+  .p-hd__ico {
+    inline-size: 20px; block-size: 20px; flex: 0 0 auto;
+    fill: none; stroke: currentColor; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  .p-hd__pop:not([open]) .p-hd__panel { display: none; }
+  .p-hd__panel {
+    position: absolute; z-index: 20;
+    inset-block-start: calc(100% + var(--space-1, 4px));
+    inset-inline-end: 0;
+    inline-size: min(19rem, calc(100vw - var(--gutter, 24px) * 2));
+    padding: var(--space-2, 8px);
+    background: var(--surface-page, #fdfcf9);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-control, 12px);
+    text-align: start;
+  }
+  .p-hd__mi {
+    display: flex; flex-direction: column; justify-content: center;
+    gap: var(--space-1, 4px);
+    min-height: var(--tap-comfortable, 52px);
+    padding: var(--space-2, 8px);
+    border-radius: var(--radius-card, 8px);
+    color: var(--text-primary, #1c1a17);
+    font-size: var(--type-small, 16px);
+    text-decoration: none;
+  }
+  .p-hd__acct-who { display: block; font-size: var(--type-small, 16px);
+                    font-weight: var(--weight-semibold, 600); line-height: var(--leading-ui, 1.3); }
+  .p-hd__acct-note { display: block; margin-block-start: var(--space-1, 4px);
+                     font-size: var(--type-micro, 14px); line-height: var(--leading-tight, 1.375);
+                     color: var(--text-secondary, #5a544c); }
+  .p-hd__panel-sep { block-size: var(--rule-hairline, 1px); border: 0;
+                     margin: var(--space-2, 8px) 0; background: var(--border-hairline, #ddd7cb); }
+  .p-hd__tabs { display: flex; gap: var(--space-5, 20px); }
+  .p-hd__tab {
+    display: inline-flex; align-items: center; justify-content: flex-start;
+    min-height: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    color: var(--text-primary, #1c1a17);
+    font-size: var(--type-small, 16px);
+    font-weight: var(--weight-medium, 500);
+    text-decoration: none;
+  }
+  .p-hd__tab-label { position: relative; }
+  .p-hd__tab[aria-current="page"] { font-weight: var(--weight-semibold, 600); }
+  .p-hd__tab[aria-current="page"] .p-hd__tab-label::after {
+    content: ""; position: absolute; inset-inline: 0; inset-block-end: -6px;
+    block-size: 2px; background: var(--text-primary, #1c1a17);
+  }
+
+  /* ══ the kit's own furniture ═══════════════════════════════════════════ */
+  .rv-h1 {
+    margin: var(--space-7, 32px) 0 var(--space-2, 8px);
+    font-size: var(--type-display, 31px);
+    line-height: var(--leading-display, 1.15);
+    font-weight: var(--weight-semibold, 600);
+    letter-spacing: var(--tracking-display, -0.01em);
+  }
+  .rv-lede { margin: 0 0 var(--space-6, 24px); color: var(--text-secondary, #5a544c);
+             font-size: var(--type-small, 16px); line-height: var(--leading-tight, 1.375);
+             max-inline-size: 27rem; }
+
+  /* ⭐ The 8px full-bleed band is this system's "a different kind of thing
+     starts here" separator. The 1px hairline is the "same kind of thing, next
+     one" separator. Screens are different kinds of things. */
+  .rv-band {
+    border: 0; block-size: var(--rule-band, 8px);
+    background: var(--border-hairline, #ddd7cb);
+    margin: var(--space-9, 48px) 0 var(--space-7, 32px);
+  }
+  .rv-screen-h {
+    margin: 0 0 var(--space-2, 8px);
+    font-size: var(--type-heading, 25px);
+    line-height: var(--leading-heading, 1.2);
+    font-weight: var(--weight-semibold, 600);
+  }
+  .rv-screen-note {
+    margin: 0 0 var(--space-7, 32px);
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+    max-inline-size: 27rem;
+  }
+  /* A label for each STATE inside a screen. ⛔ Sentence case, 14px, secondary —
+     not 12px uppercase grey, which is the visual grammar of a legal disclaimer
+     and once hid the most useful line on 144 live pages. */
+  .rv-state {
+    margin: var(--space-8, 40px) 0 var(--space-4, 16px);
+    padding-block-start: var(--space-3, 12px);
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    font-size: var(--type-micro, 14px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+    max-inline-size: 23rem;
+  }
+  .rv-state b { color: var(--text-primary, #1c1a17); font-weight: var(--weight-semibold, 600); }
+
+  .rv-mock {
+    padding: var(--space-5, 20px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-card, 8px);
+    background: var(--surface-page, #fdfcf9);
+  }
+  .rv-mock + .rv-mock { margin-block-start: var(--space-4, 16px); }
+
+  /* ══ the reviews section, as it sits on a place page ═══════════════════ */
+  .rv-sec-h {
+    margin: 0 0 var(--space-2, 8px);
+    font-size: var(--type-heading, 25px);
+    line-height: var(--leading-heading, 1.2);
+    font-weight: var(--weight-semibold, 600);
+  }
+  /* ⛔⛔ THE LOAD-BEARING SENTENCE ON THIS WHOLE FEATURE, and it is set at body
+     size in primary ink because it is not a disclaimer — it is the thing that
+     stops a crowd average from being mistaken for a checked fact. This site's
+     entire moat is one accountable party writing down what they saw. An average
+     is the opposite instrument: it dissolves disagreement. The two can share a
+     page only if the page says which is which, in words a tired reader reads. */
+  .rv-sep {
+    margin: 0 0 var(--space-6, 24px);
+    font-size: var(--type-ui, 17px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-primary, #1c1a17);
+    max-inline-size: 23rem;
+  }
+
+  /* The headline number. ⛔ NOT Airbnb's 100px centred numeral with laurels.
+     Their fold ends in a price and the score is what sells it; ours ends in an
+     opening time and the score is the least reliable thing on the page.
+     This is their EXPERIENCE template — a number, inline, at heading size. */
+  .rv-score {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2, 8px);
+    margin: 0 0 var(--space-1, 4px);
+  }
+  .rv-score__num {
+    font-size: var(--type-subheading, 21px);
+    line-height: var(--leading-heading, 1.2);
+    font-weight: var(--weight-semibold, 600);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .rv-score__of { color: var(--text-secondary, #5a544c); font-size: var(--type-small, 16px);
+                  font-variant-numeric: var(--figures-aligned, tabular-nums); }
+  .rv-score__what { margin: 0 0 var(--space-5, 20px); font-size: var(--type-small, 16px);
+                    line-height: var(--leading-tight, 1.375); color: var(--text-secondary, #5a544c); }
+
+  /* ⭐ "No average yet" is a SENTENCE, not a badge — Airbnb's own answer, and
+     the right one. No pill, no fill, no border. */
+  .rv-none {
+    margin: 0 0 var(--space-2, 8px);
+    font-size: var(--type-subheading, 21px);
+    line-height: var(--leading-heading, 1.2);
+    font-weight: var(--weight-semibold, 600);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .rv-threshold {
+    margin: 0 0 var(--space-5, 20px);
+    font-size: var(--type-small, 16px);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-primary, #1c1a17);
+    max-inline-size: 23rem;
+  }
+
+  /* ══ the breakdown ═════════════════════════════════════════════════════
+     ⛔ NOT Airbnb's 7-cell 1120px grid with vertical rules. Measured on this
+     project: three cells in a 327px column leave 109px each, and a 14px label
+     wraps at that width — our floor is 14px and theirs is 10–12px. So the
+     breakdown STACKS: label, then value.
+     ⛔ AND THE BARS WERE DRAWN AND THEN CUT. Airbnb's histogram is a 4px ink
+     fill on a 4px track. In THIS system 4px is already spoken for —
+     --rule-leading is the leading edge of a note — and a row reading "2 of 2"
+     fills its track completely, so what renders is a solid 4px ink rule the
+     full width of the column, indistinguishable from furniture. */
+  .rv-bd { margin: 0 0 var(--space-6, 24px); max-inline-size: var(--measure-row, 688px); }
+  .rv-bd__row {
+    padding-block: var(--space-3, 12px);
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  .rv-bd__row:first-child { border-block-start: 0; }
+  .rv-bd__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3, 12px); }
+  .rv-bd__label { margin: 0; font-size: var(--type-ui, 17px); font-weight: var(--weight-medium, 500);
+                  line-height: var(--leading-ui, 1.3); }
+  .rv-bd__value { margin: 0; font-size: var(--type-ui, 17px); line-height: var(--leading-ui, 1.3);
+                  font-variant-numeric: var(--figures-aligned, tabular-nums); }
+  .rv-bd__sub { margin: var(--space-1, 4px) 0 0; font-size: var(--type-micro, 14px);
+                line-height: var(--leading-tight, 1.375); color: var(--text-secondary, #5a544c);
+                max-inline-size: 23rem; }
+
+  /* ══ one review ═══════════════════════════════════════════════════════
+     ⛔ Not a card. Airbnb's is 457×186 with radius 0, no border, no background,
+     no padding — a text block on a page. Copied, because a review is writing. */
+  .rv-list { list-style: none; margin: 0; padding: 0; }
+  .rv-item {
+    padding-block: var(--space-5, 20px);
+    max-inline-size: var(--measure-row, 688px);
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  .rv-item:first-child { border-block-start: 0; }
+  .rv-item__who { margin: 0; font-size: var(--type-ui, 17px); font-weight: var(--weight-medium, 500);
+                  line-height: var(--leading-ui, 1.3); }
+  .rv-item__from { margin: 0; font-size: var(--type-micro, 14px); line-height: var(--leading-tight, 1.375);
+                   color: var(--text-secondary, #5a544c); }
+  .rv-item__meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2, 8px);
+    margin-block: var(--space-2, 8px);
+    font-size: var(--type-micro, 14px); line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+  }
+  .rv-item__body {
+    margin: 0; font-size: var(--type-small, 16px); line-height: var(--leading-body, 1.5);
+    max-inline-size: 27rem;
+  }
+  .rv-clamp { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  /* ⛔ Airbnb's Show more is a SIBLING of the clamp box and renders whether or
+     not anything is clamped — a review reading only "Great stay." gets one. A
+     disclosure control that discloses nothing teaches people to stop trusting
+     it. Here the control starts hidden and a script reveals it only when the
+     text really overflows. Fixed, not copied. */
+  .rv-more {
+    display: none;
+    margin-block-start: var(--space-2, 8px);
+    min-height: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    align-items: center;
+    padding: 0; border: 0; background: none;
+    font: inherit; font-size: var(--type-small, 16px); font-weight: var(--weight-medium, 500);
+    color: var(--text-primary, #1c1a17);
+    text-decoration: underline; text-decoration-color: var(--border-hairline, #ddd7cb);
+    text-underline-offset: 3px; cursor: pointer;
+  }
+  .rv-more[data-overflows] { display: inline-flex; }
+
+  /* ⭐⭐ THE DISCLOSURE LINE — the one genuinely new element on this page, and
+     the answer to "what stops a café owner reviewing their own café".
+     Detection is unwinnable; disclosure is not. A review from someone
+     connected to the place is PUBLISHED with this line above it rather than
+     binned, which is Airbnb's own move — they label a host's reply, they do
+     not hide it. The moderator ticks one box in the queue and this appears.
+     ⛔ It is an ASIDE, not a card and not a badge: a leading rule, no fill.
+     The system's own two-container rule — a card is a thing you act on, a
+     leading rule is the same page in a different voice — and this is the page
+     speaking about the review rather than part of it.
+     ⛔ NOT AMBER. Amber means "we checked this" and a disclosure is the
+     opposite claim. Ink-quiet at 7.38:1, and the words say it too. */
+  .rv-disclose {
+    margin: 0 0 var(--space-2, 8px);
+    padding-inline-start: var(--space-4, 16px);
+    border-inline-start: var(--rule-leading, 4px) solid var(--text-secondary, #5a544c);
+    font-size: var(--type-small, 16px);
+    font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    color: var(--text-primary, #1c1a17);
+    max-inline-size: 27rem;
+  }
+
+  /* ══ stars ════════════════════════════════════════════════════════════
+     ⭐⭐ INK, NEVER GOLD. Measured on Airbnb: filled rgb(34,34,34), empty
+     rgb(221,221,221) — there is no yellow anywhere in their review interface.
+     Nothing is coloured to sell a judgement, and here amber is spoken for. */
+  .rv-stars { display: inline-flex; gap: 2px; vertical-align: -2px; }
+  .rv-star { inline-size: 18px; block-size: 18px; fill: var(--text-primary, #1c1a17); flex: 0 0 auto; }
+  /* ⚠️ The empty star is the hairline at 1.41:1 — near-invisible in glare. It is
+     allowed here ONLY because the number and the review count are printed as
+     text beside it and the group carries an aria-label, so shape is never the
+     sole carrier. In the INPUT control below it is not allowed, and is not used. */
+  .rv-star--off { fill: var(--border-hairline, #ddd7cb); }
+
+  /* ══ the form ═════════════════════════════════════════════════════════
+     ⛔ THESE WERE fieldset + legend AND THE RULE DREW THROUGH THE QUESTION.
+     A legend is laid out INSIDE the fieldset's block-start border, so what
+     renders is a stray hairline starting mid-question and running to the right
+     edge. Invisible in the source, obvious in a screenshot. The group is now a
+     div carrying role="group" and aria-labelledby, which is what a
+     fieldset/legend pair maps to in the accessibility tree anyway. */
+  .rv-form { margin: 0; }
+  .rv-field {
+    padding-block: var(--space-5, 20px);
+    border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+  }
+  .rv-field:first-of-type { border-block-start: 0; padding-block-start: 0; }
+  .rv-q {
+    padding: 0; margin: 0 0 var(--space-1, 4px);
+    font-size: var(--type-ui, 17px); font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-ui, 1.3);
+  }
+  .rv-help {
+    margin: 0 0 var(--space-3, 12px);
+    font-size: var(--type-micro, 14px); line-height: var(--leading-tight, 1.375);
+    color: var(--text-secondary, #5a544c); max-inline-size: 23rem;
+  }
+  /* ⭐ MARK THE OPTIONAL ONES, NOT THE REQUIRED ONES. Nothing on this form
+     carries a required marking, and there is no asterisk anywhere. */
+  .rv-optional { color: var(--text-secondary, #5a544c); font-weight: var(--weight-regular, 400); }
+
+  /* The star input. DOM order is 5→1 and the row is reversed, so
+     `input:checked ~ label` reaches every star to the visual LEFT of the one
+     chosen — a pure-CSS fill with no script.
+     ⚠️ The negative start margin is optical alignment, not a hack. Each star
+     sits centred in a 52px tap box, so a 30px glyph starts 11px inside it and
+     the whole row renders indented against every other element in the column. */
+  .rv-rate { display: flex; flex-direction: row-reverse; justify-content: flex-end;
+             margin-inline-start: -11px; }
+  .rv-rate input { position: absolute; opacity: 0; inline-size: 1px; block-size: 1px; }
+  .rv-rate label {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-inline-size: var(--tap-comfortable, 52px);
+    min-block-size: var(--tap-comfortable, 52px);
+    cursor: pointer;
+  }
+  /* ⛔ An unchosen star may NOT be the hairline. This is a control: if a reader
+     cannot see it, they cannot tap it. Outlined in secondary ink, 7.38:1. */
+  .rv-rate label svg {
+    inline-size: 30px; block-size: 30px;
+    fill: none; stroke: var(--text-secondary, #5a544c); stroke-width: 1.5px;
+  }
+  .rv-rate input:checked ~ label svg { fill: var(--text-primary, #1c1a17); stroke: var(--text-primary, #1c1a17); }
+  .rv-rate input:focus-visible + label {
+    outline: var(--focus-ring-width, 5px) solid var(--focus-ring, #0b60c4);
+    outline-offset: var(--focus-ring-offset, 3px);
+  }
+  .rv-rate__read {
+    margin: var(--space-1, 4px) 0 0; font-size: var(--type-micro, 14px);
+    color: var(--text-secondary, #5a544c); line-height: var(--leading-tight, 1.375);
+  }
+
+  /* Choice chips. Rank is shape in this system, so these take the 12px control
+     corner and never the pill — the pill is reserved for the primary action. */
+  .rv-choices { display: flex; flex-wrap: wrap; gap: var(--space-2, 8px); }
+  .rv-choice { position: relative; }
+  .rv-choice input { position: absolute; opacity: 0; inline-size: 1px; block-size: 1px; }
+  .rv-choice label {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-block-size: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    padding-inline: var(--space-4, 16px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-control, 12px);
+    font-size: var(--type-small, 16px); font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-tight, 1.375);
+    cursor: pointer;
+  }
+  .rv-choice input:checked + label {
+    border-color: var(--text-primary, #1c1a17);
+    border-width: 2px;
+    background: var(--surface-quiet, #f4f1ea);
+  }
+  .rv-choice input:focus-visible + label {
+    outline: var(--focus-ring-width, 5px) solid var(--focus-ring, #0b60c4);
+    outline-offset: var(--focus-ring-offset, 3px);
+  }
+
+  /* ⭐ THE FIELD CORNER IS --radius-field. One token, whole system. */
+  .rv-input, .rv-textarea {
+    inline-size: 100%; max-inline-size: 100%;
+    min-block-size: var(--tap-comfortable, 52px);
+    padding: var(--space-3, 12px) var(--space-4, 16px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-field, 0.75rem);
+    background: var(--surface-page, #fdfcf9);
+    color: var(--text-primary, #1c1a17);
+    font: inherit; font-size: var(--type-ui, 17px); line-height: var(--leading-tight, 1.375);
+  }
+  .rv-textarea { min-block-size: 8rem; resize: vertical; }
+  .rv-count { margin: var(--space-2, 8px) 0 0; font-size: var(--type-micro, 14px);
+              color: var(--text-secondary, #5a544c); font-variant-numeric: var(--figures-aligned, tabular-nums); }
+
+  /* ══ buttons ══════════════════════════════════════════════════════════
+     ⭐ RANK IS SHAPE, not colour. The pill is the primary and the only pill in
+     the system; a 12px corner is everything else. A corner survives colour
+     blindness, glare, and a screenshot in a WhatsApp thread.
+     ⛔ The primary is INK-filled, never amber. Amber's one job on this site is
+     "we checked this", and it may not appear anywhere in a review surface. */
+  .rv-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: var(--space-2, 8px);
+    min-block-size: var(--button-height, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    padding: var(--button-pad, 0 24px);
+    border: var(--rule-hairline, 1px) solid transparent;
+    border-radius: var(--radius-pill, 999px);
+    background: var(--action-primary-bg, #1c1a17);
+    color: var(--action-primary-text, #fdfcf9);
+    font: inherit; font-size: var(--type-ui, 17px); font-weight: var(--weight-medium, 500);
+    line-height: var(--leading-ui, 1.3);
+    text-decoration: none; cursor: pointer;
+    transition: background-color var(--motion-quick, 120ms) var(--motion-ease, ease);
+  }
+  .rv-btn--wide { inline-size: 100%; }
+  .rv-btn--quiet {
+    border-radius: var(--radius-control, 12px);
+    background: var(--action-secondary-bg, #f4f1ea);
+    color: var(--text-primary, #1c1a17);
+    border-color: transparent;
+  }
+  .rv-btn-row { display: flex; gap: var(--space-3, 12px); }
+  .rv-btn-row .rv-btn { flex: 1 1 0; }
+  /* ⚠️ The same waiting treatment as the account kit, because sending a review
+     over mobile data waits exactly as long as signing in does. Words, a
+     locked control, and one 2px bar that prefers-reduced-motion removes. */
+  .rv-btn[aria-busy="true"] { cursor: progress; background: var(--text-secondary, #5a544c); }
+  .rv-wait {
+    position: relative; display: block;
+    inline-size: 6rem; block-size: 2px; margin-block-start: var(--space-2, 8px);
+    overflow: hidden; border-radius: var(--radius-pill, 999px);
+    background: rgba(253, 252, 249, 0.35);
+  }
+  .rv-wait::after {
+    content: ""; position: absolute; inset-block: 0; inline-size: 40%;
+    background: var(--action-primary-text, #fdfcf9);
+    animation: rv-slide 1100ms linear infinite;
+  }
+  @keyframes rv-slide { from { inset-inline-start: -40%; } to { inset-inline-start: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .rv-wait { display: none; } }
+
+  /* An ordinary link: 1px grey underline. The 2px amber underline is the
+     decision tier and is capped at two per screen — there is exactly one on
+     this whole page, in the queue, and none anywhere near a review. */
+  .rv-link {
+    display: inline-flex; align-items: center;
+    min-block-size: var(--tap-comfortable, 52px);
+    color: var(--text-primary, #1c1a17);
+    font-size: var(--type-small, 16px);
+    text-decoration: underline; text-decoration-color: var(--border-hairline, #ddd7cb);
+    text-underline-offset: 3px;
+  }
+  .rv-link--decision {
+    text-decoration-color: var(--cok-amber, #ffa700);
+    text-decoration-thickness: 2px;
+  }
+
+  /* ══ the sign-in gate ═════════════════════════════════════════════════
+     ⛔ NO AMBER WASH. A tinted panel with an accent border was found repo-wide
+     on 9 Aug 2026 and removed from twelve kits: paper, one hairline, nothing
+     else. The gate is not an event. */
+  .rv-gate {
+    margin-block-start: var(--space-5, 20px);
+    padding: var(--space-5, 20px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-card, 8px);
+  }
+  .rv-gate p { margin: 0 0 var(--space-4, 16px); font-size: var(--type-small, 16px);
+               line-height: var(--leading-tight, 1.375); max-inline-size: 27rem; }
+  .rv-gate p:last-of-type { margin-block-end: 0; }
+
+  /* ══ what the writer sees afterwards ══════════════════════════════════ */
+  .rv-body { margin: 0 0 var(--space-4, 16px); font-size: var(--type-small, 16px);
+             line-height: var(--leading-body, 1.5); max-inline-size: 27rem; }
+  /* ⭐ THE READER'S OWN REVIEW WHILE IT WAITS. It is shown back to them,
+     because a person who wrote something and can no longer see it anywhere
+     concludes it was binned. It sits behind the same leading rule as the
+     disclosure line — the page speaking about a review rather than the review
+     itself — and it is the ONLY place on the site a not-yet-published review
+     is visible. ⛔ It is never in the count and never in the average. */
+  .rv-mine {
+    padding-inline-start: var(--space-4, 16px);
+    border-inline-start: var(--rule-leading, 4px) solid var(--text-secondary, #5a544c);
+    max-inline-size: 27rem;
+  }
+  .rv-mine__k { margin: 0 0 var(--space-2, 8px); font-size: var(--type-ui, 17px);
+                font-weight: var(--weight-medium, 500); line-height: var(--leading-ui, 1.3); }
+  .rv-mine__t { margin: 0; font-size: var(--type-small, 16px); line-height: var(--leading-body, 1.5); }
+
+  /* ══ the queue ════════════════════════════════════════════════════════ */
+  .rv-adm-h { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3, 12px);
+              margin: 0 0 var(--space-4, 16px); }
+  .rv-adm-h h3 { margin: 0; font-size: var(--type-heading, 25px); line-height: var(--leading-heading, 1.2);
+                 font-weight: var(--weight-semibold, 600); font-variant-numeric: var(--figures-aligned, tabular-nums); }
+  /* ⛔ flex-wrap IS LOAD-BEARING. Three tabs at 14px need 298px and the card
+     gives them 285 — measured at 375px, where the third one silently ran into
+     the card's own padding. Wrapping is the fix rather than a scroll rail,
+     because a rail hides the third option and the third option is where a
+     turned-down review is looked at again. */
+  .rv-tabs { display: flex; flex-wrap: wrap; gap: var(--space-2, 8px);
+             margin: 0 0 var(--space-5, 20px); padding: 0; list-style: none; }
+  .rv-tab {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-block-size: var(--tap-comfortable, 52px);
+    min-inline-size: var(--tap-comfortable, 52px);
+    padding-inline: var(--space-3, 12px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-control, 12px);
+    color: var(--text-primary, #1c1a17); text-decoration: none;
+    font-size: var(--type-micro, 14px); font-weight: var(--weight-medium, 500);
+    font-variant-numeric: var(--figures-aligned, tabular-nums);
+    white-space: nowrap;
+  }
+  .rv-tab[aria-current="true"] { border-width: 2px; border-color: var(--text-primary, #1c1a17);
+                                 background: var(--surface-quiet, #f4f1ea); }
+
+  .rv-sub {
+    padding: var(--space-5, 20px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-card, 8px);
+    max-inline-size: var(--measure-row, 688px);
+  }
+  .rv-sub + .rv-sub { margin-block-start: var(--space-4, 16px); }
+  .rv-sub__place { margin: 0; font-size: var(--type-ui, 17px); font-weight: var(--weight-semibold, 600);
+                   line-height: var(--leading-ui, 1.3); }
+  /* ⭐ THE AGE OF THE OLDEST ITEM IS THE ONE NUMBER THIS SCREEN OWES ITS OWNER.
+     A queue with no clock lets a real person's writing sit for three weeks while
+     they conclude we binned it. Primary ink, row size, tabular. */
+  .rv-sub__age { margin: var(--space-1, 4px) 0 var(--space-4, 16px);
+                 font-size: var(--type-micro, 14px); line-height: var(--leading-tight, 1.375);
+                 color: var(--text-primary, #1c1a17);
+                 font-variant-numeric: var(--figures-aligned, tabular-nums); }
+  .rv-sub__dl { margin: 0 0 var(--space-4, 16px); }
+  .rv-sub__row { padding-block: var(--space-2, 8px);
+                 border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb); }
+  .rv-sub__row:first-child { border-block-start: 0; }
+  .rv-sub__k { margin: 0; font-size: var(--type-micro, 14px); color: var(--text-secondary, #5a544c);
+               line-height: var(--leading-tight, 1.375); }
+  .rv-sub__v { margin: 0; font-size: var(--type-small, 16px); line-height: var(--leading-tight, 1.375);
+               font-variant-numeric: var(--figures-aligned, tabular-nums); max-inline-size: 27rem; }
+  .rv-sub__text { margin: 0 0 var(--space-4, 16px); font-size: var(--type-small, 16px);
+                  line-height: var(--leading-body, 1.5); max-inline-size: 27rem; }
+  /* The flag is a leading edge, not a band and not a fill. The hairline is
+     1.41:1 and may never be the only thing saying "this one is different", so
+     the edge is ink-quiet at 7.38:1 and the words say it too. */
+  .rv-flag {
+    margin: 0 0 var(--space-4, 16px);
+    padding-inline-start: var(--space-4, 16px);
+    border-inline-start: var(--rule-leading, 4px) solid var(--text-secondary, #5a544c);
+    font-size: var(--type-small, 16px); line-height: var(--leading-tight, 1.375);
+    max-inline-size: 27rem;
+  }
+  /* ⭐ THE ONE TICK IN THE QUEUE, and the whole answer to the café-owner
+     problem sits behind it. It is a judgement a person makes, not a detector:
+     ticking it does not bin the review, it publishes it with a line saying
+     who wrote it. ⛔ It must be a 52px row, not a bare 16px checkbox, because
+     this queue is read on a phone on a bus. */
+  .rv-tick {
+    display: flex; align-items: center; gap: var(--space-3, 12px);
+    min-block-size: var(--tap-comfortable, 52px);
+    margin: 0 0 var(--space-4, 16px);
+    padding: var(--space-2, 8px) var(--space-3, 12px);
+    border: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb);
+    border-radius: var(--radius-control, 12px);
+    font-size: var(--type-small, 16px); line-height: var(--leading-tight, 1.375);
+    cursor: pointer;
+  }
+  .rv-tick input { inline-size: 22px; block-size: 22px; flex: 0 0 auto; accent-color: var(--text-primary, #1c1a17); }
+  .rv-tick input:checked ~ span { font-weight: var(--weight-medium, 500); }
+
+  .rv-reasons { margin: var(--space-4, 16px) 0 0; padding: 0; list-style: none; }
+  .rv-reasons li { padding-block: var(--space-3, 12px);
+                   border-block-start: var(--rule-hairline, 1px) solid var(--border-hairline, #ddd7cb); }
+  .rv-reasons b { display: block; font-size: var(--type-ui, 17px); font-weight: var(--weight-medium, 500);
+                  line-height: var(--leading-ui, 1.3); }
+  .rv-reasons span { display: block; margin-block-start: var(--space-1, 4px);
+                     font-size: var(--type-small, 16px); line-height: var(--leading-tight, 1.375);
+                     color: var(--text-secondary, #5a544c); max-inline-size: 27rem; }
+</style>
+<body data-page-kind="reviews">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="star" viewBox="0 0 24 24">
+    <path d="M12 2.6l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.62l-5.88 3.09 1.12-6.55L2.48 9.52l6.58-.96L12 2.6z"/>
+  </symbol>
+</svg>
+
+<header class="p-hd">
+  <div class="p-hd__box p-hd__row">
+    <a class="p-hd__brand" href="#top">
+      <span class="p-hd__mark" aria-hidden="true"></span>
+      <span class="p-hd__name">cats of Kochi</span>
+    </a>
+    <div class="p-hd__tools">
+      <details class="p-hd__pop" name="p-hd-pop">
+        <summary class="p-hd__tool" aria-label="Language: English">
+          <svg class="p-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+            <path d="M2 12h20"/>
+          </svg>
+          <span>English</span>
+        </summary>
+        <div class="p-hd__panel">
+          <p class="p-hd__mi" style="cursor:default">
+            <span class="p-hd__acct-who">Language</span>
+            <span class="p-hd__acct-note">English is the only language this site is written
+              in. More will appear in this list as they are finished, so there is nothing
+              else to choose today.</span>
+          </p>
+        </div>
+      </details>
+      <details class="p-hd__pop" name="p-hd-pop">
+        <summary class="p-hd__tool" aria-label="Menu">
+          <svg class="p-hd__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+          </svg>
+        </summary>
+        <!-- ⭐ Signed in, so the account rows come first. account.html holds
+             the measurement behind putting them inside this menu at all. -->
+        <div class="p-hd__panel" data-account-slot="signed-in">
+          <a class="p-hd__mi" href="#top" data-account-action="account">
+            <span class="p-hd__acct-who">Priya M.</span>
+            <span class="p-hd__acct-note">Your name, and how you appear on a review</span>
+          </a>
+          <a class="p-hd__mi" href="#s-mine" data-account-action="reviews">Your reviews</a>
+          <a class="p-hd__mi" href="#top" data-account-action="sign-out">Sign out</a>
+          <hr class="p-hd__panel-sep">
+          <a class="p-hd__mi" href="#top">About</a>
+          <a class="p-hd__mi" href="#top">The monthly email</a>
+          <a class="p-hd__mi" href="#top">Contact</a>
+        </div>
+      </details>
+    </div>
+  </div>
+  <nav class="p-hd__box p-hd__tabs" aria-label="Sections">
+    <a class="p-hd__tab" href="#top" aria-current="page"><span class="p-hd__tab-label">Places</span></a>
+    <a class="p-hd__tab" href="#top"><span class="p-hd__tab-label">Getting around</span></a>
+    <a class="p-hd__tab" href="#top"><span class="p-hd__tab-label">Writing</span></a>
+  </nav>
+</header>
+
+<main class="page" id="top">
+
+  <h1 class="rv-h1">Visitor reviews</h1>
+  <p class="rv-lede">
+    Anyone with an account can review any place; a person reads every review before it
+    appears. Drawn on Bastion Bungalow, the one place in the registry where somebody
+    stood outside and found the posted board wrong.
+  </p>
+
+  <hr class="rv-band" data-span="wide">
+
+  <!-- ══════════════════ SCREEN 1 — leaving a review ══════════════════ -->
+  <section aria-labelledby="h-s1" id="s-write">
+    <h2 class="rv-screen-h" id="h-s1">Screen 1 — leaving a review</h2>
+    <p class="rv-screen-note">
+      What a visitor sees at the foot of a place page, before and after they sign in,
+      and what they see once they have sent it.
+    </p>
+
+    <p class="rv-state"><b>State A.</b> Nobody has reviewed this place, and the reader is
+      not signed in. This is the state 26 of 26 places are in today.</p>
+
+    <div class="rv-mock" data-review-section data-review-average="withheld" data-review-count="0">
+      <h3 class="rv-sec-h">Visitor reviews</h3>
+      <!-- ⭐ The separation sentence comes FIRST, before any review exists, so the
+           reader learns the rule before they learn any opinion. -->
+      <p class="rv-sep" data-review-separation>
+        These are opinions from people who went. The opening times above are ours, and
+        we check those ourselves.
+      </p>
+
+      <!-- ⭐ "No reviews yet" is a word at heading weight, not a badge — Airbnb's
+           `New · 2 reviews` treatment, and the right one. Zero state is written. -->
+      <p class="rv-none">No reviews yet</p>
+      <p class="rv-threshold" data-review-threshold="4">Been here? Yours would be the first.</p>
+
+      <div class="rv-gate" data-review-gate>
+        <p>You need an account to leave a review. It is free, and your email is never shown.</p>
+        <p><a class="rv-btn rv-btn--wide" href="account.html">Sign in to write a review</a></p>
+        <p><a class="rv-link" href="account.html#s-signup">Or make an account — it takes about a minute</a></p>
+      </div>
+
+      <!-- ⭐ The explainer survives the empty state. When there is least to show,
+           the method is still one tap away. Airbnb keep `How reviews work` on a
+           listing with two reviews and no average. -->
+      <p><a class="rv-link" href="#top">How we handle reviews</a></p>
+    </div>
+
+    <p class="rv-state"><b>State B.</b> Signed in, writing. Two questions are required;
+      everything else can be skipped.</p>
+
+    <div class="rv-mock">
+      <h3 class="rv-sec-h">Your review of Bastion Bungalow</h3>
+      <p class="rv-screen-note">Signed in as Priya M.</p>
+
+      <form class="rv-form" action="#top" method="post" data-review-form data-form-state="ready">
+
+        <div class="rv-field">
+          <p class="rv-q" id="q-when">When did you go?</p>
+          <p class="rv-help">A review with no date is not much use on a site where
+            everything carries the day it was checked.</p>
+          <label class="sr-only" for="f-when">Month you visited</label>
+          <input class="rv-input" id="f-when" name="when" type="month" value="2026-08">
+        </div>
+
+        <div class="rv-field" role="group" aria-labelledby="q-open">
+          <p class="rv-q" id="q-open">Was it open when you arrived?</p>
+          <p class="rv-help">One tap. This is the answer that helps the next person most.</p>
+          <div class="rv-choices">
+            <span class="rv-choice"><input type="radio" id="op-y" name="open" checked><label for="op-y">Yes</label></span>
+            <span class="rv-choice"><input type="radio" id="op-n" name="open"><label for="op-n">No</label></span>
+            <span class="rv-choice"><input type="radio" id="op-u" name="open"><label for="op-u">Not sure</label></span>
+          </div>
+        </div>
+
+        <div class="rv-field" role="group" aria-labelledby="q-worth">
+          <p class="rv-q" id="q-worth">Worth the walk?</p>
+          <div class="rv-rate">
+            <input type="radio" id="w5" name="worth" value="5"><label for="w5"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">5 out of 5</span></label>
+            <input type="radio" id="w4" name="worth" value="4" checked><label for="w4"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">4 out of 5</span></label>
+            <input type="radio" id="w3" name="worth" value="3"><label for="w3"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">3 out of 5</span></label>
+            <input type="radio" id="w2" name="worth" value="2"><label for="w2"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">2 out of 5</span></label>
+            <input type="radio" id="w1" name="worth" value="1"><label for="w1"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">1 out of 5</span></label>
+          </div>
+          <p class="rv-rate__read">4 out of 5 — glad I went</p>
+        </div>
+
+        <div class="rv-field" role="group" aria-labelledby="q-find">
+          <p class="rv-q" id="q-find">Easy to find? <span class="rv-optional">— skip if you took a rickshaw</span></p>
+          <div class="rv-rate">
+            <input type="radio" id="e5" name="find" value="5"><label for="e5"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">5 out of 5</span></label>
+            <input type="radio" id="e4" name="find" value="4"><label for="e4"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">4 out of 5</span></label>
+            <input type="radio" id="e3" name="find" value="3" checked><label for="e3"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">3 out of 5</span></label>
+            <input type="radio" id="e2" name="find" value="2"><label for="e2"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">2 out of 5</span></label>
+            <input type="radio" id="e1" name="find" value="1"><label for="e1"><svg aria-hidden="true" focusable="false"><use href="#star"></use></svg><span class="sr-only">1 out of 5</span></label>
+          </div>
+        </div>
+
+        <div class="rv-field" role="group" aria-labelledby="q-stay">
+          <p class="rv-q" id="q-stay">How long did you stay? <span class="rv-optional">— optional</span></p>
+          <div class="rv-choices">
+            <span class="rv-choice"><input type="radio" id="t1" name="stay"><label for="t1">Under 30 min</label></span>
+            <span class="rv-choice"><input type="radio" id="t2" name="stay" checked><label for="t2">30 to 60 min</label></span>
+            <span class="rv-choice"><input type="radio" id="t3" name="stay"><label for="t3">Over an hour</label></span>
+          </div>
+        </div>
+
+        <div class="rv-field">
+          <p class="rv-q" id="q-text">What should someone know before they walk over?</p>
+          <p class="rv-help">A sentence or two is plenty. Please do not name members of
+            staff — we cannot put those up.</p>
+          <label class="sr-only" for="f-text">Your review</label>
+          <textarea class="rv-textarea" id="f-text" name="text" rows="5">Turned up at 9.20 on a Tuesday because the board on the gate says 9. It was shut. Came back at 10 and walked straight in. Your page had 10 and it was right — trust it over the sign.</textarea>
+          <p class="rv-count">193 characters</p>
+        </div>
+
+        <!-- ⭐⭐ THE QUESTION THAT PAYS FOR THIS WHOLE FEATURE, and it is never
+             published. Every other site collects reviews to rank venues. This one
+             can collect them to audit itself: a stranger standing at the door is
+             the only cheap way to learn that a fact we printed has gone stale. -->
+        <div class="rv-field" role="group" aria-labelledby="q-match">
+          <p class="rv-q" id="q-match">Did our page match what you found? <span class="rv-optional">— optional</span></p>
+          <p class="rv-help">This one goes to us, not on the site.</p>
+          <div class="rv-choices">
+            <span class="rv-choice"><input type="radio" id="m-y" name="match" checked><label for="m-y">Yes</label></span>
+            <span class="rv-choice"><input type="radio" id="m-n" name="match"><label for="m-n">No</label></span>
+          </div>
+        </div>
+
+        <!-- ⭐⭐ THE CONNECTION QUESTION — asked of the writer, in the writer's
+             own words, before the moderator ever sees it. It is not a trap and
+             it is not a detector: answering yes does not stop a review going
+             up, it puts a line above it saying so. Asking plainly is what makes
+             the queue's tick fair, because somebody who answered honestly and
+             somebody who was caught get the same treatment.
+             ⚠️ THE WORDING IS THE OWNER'S. Drawn as the shape the form needs. -->
+        <div class="rv-field" role="group" aria-labelledby="q-conn">
+          <p class="rv-q" id="q-conn">Are you connected to this place?</p>
+          <p class="rv-help">Working there, owning it, family. Saying yes does not stop
+            your review going up — it puts a line above it saying so.</p>
+          <div class="rv-choices">
+            <span class="rv-choice"><input type="radio" id="c-n" name="conn" checked><label for="c-n">No</label></span>
+            <span class="rv-choice"><input type="radio" id="c-y" name="conn"><label for="c-y">Yes</label></span>
+          </div>
+        </div>
+
+        <div class="rv-field">
+          <p class="rv-q" id="q-name">Shown as</p>
+          <p class="rv-help">Your email is never shown. You can change this later, and
+            deleting your account takes your reviews with it.</p>
+          <label class="sr-only" for="f-name">Display name</label>
+          <input class="rv-input" id="f-name" name="name" type="text" value="Priya M. · Bengaluru">
+        </div>
+
+        <p style="margin: var(--space-6, 24px) 0 var(--space-3, 12px)">
+          <button class="rv-btn rv-btn--wide" type="button">Send review</button>
+        </p>
+        <!-- ⛔ NO TIME PROMISE. A response-time promise is a real commitment and
+             this one would be made by one person who also travels. Say the rule,
+             not the clock. -->
+        <p class="rv-help" style="max-inline-size: 27rem">
+          We read every review before it goes on the site. Nothing appears until
+          somebody here has read it.
+        </p>
+      </form>
+    </div>
+
+    <p class="rv-state"><b>State C.</b> Sending. The same waiting treatment as signing
+      in, because it waits exactly as long.</p>
+
+    <div class="rv-mock">
+      <h3 class="rv-sec-h">Your review of Bastion Bungalow</h3>
+      <p class="rv-body">…</p>
+      <p style="margin: 0 0 var(--space-3, 12px)">
+        <button class="rv-btn rv-btn--wide" type="button" aria-busy="true" disabled data-waiting>
+          <span>Sending your review
+            <span class="rv-wait" aria-hidden="true"></span>
+          </span>
+        </button>
+      </p>
+      <p class="rv-body" role="status">
+        This can take a moment on a slow connection. You do not need to tap again.
+      </p>
+    </div>
+
+    <p class="rv-state"><b>State D.</b> Sent. The screen has to be honest that nothing
+      has been published, without making it feel like a rejection.</p>
+
+    <div class="rv-mock">
+      <h3 class="rv-sec-h">Sent</h3>
+      <p class="rv-sep">Thank you — that is a genuinely useful one.</p>
+      <p class="rv-body">
+        Somebody here reads every review before it appears. We will email you when
+        yours is up. If we cannot use it, we will email you and say why.
+      </p>
+      <p><a class="rv-link" href="#top">Back to Bastion Bungalow</a></p>
+    </div>
+  </section>
+
+  <hr class="rv-band" data-span="wide">
+
+  <!-- ══════════════════ SCREEN 2 — the writer's own copy ══════════════════ -->
+  <section aria-labelledby="h-s2" id="s-mine">
+    <h2 class="rv-screen-h" id="h-s2">Screen 2 — what the writer sees while it waits</h2>
+    <p class="rv-screen-note">
+      A person who wrote something and can no longer see it anywhere concludes it was
+      binned. These two screens are the only places on the site an unpublished review
+      exists.
+    </p>
+
+    <p class="rv-state"><b>State A.</b> Waiting. Behind the same leading rule as every
+      other line where the page speaks about a review rather than publishing one.</p>
+
+    <div class="rv-mock">
+      <h3 class="rv-sec-h">Your reviews</h3>
+      <div class="rv-mine" data-review data-review-state="waiting">
+        <p class="rv-mine__k">Bastion Bungalow — waiting to be read</p>
+        <p class="rv-mine__t">
+          "Turned up at 9.20 on a Tuesday because the board on the gate says 9. It was
+          shut. Came back at 10 and walked straight in."
+        </p>
+      </div>
+      <p class="rv-body" style="margin-block-start: var(--space-4, 16px)">
+        Nobody else can see this yet. We will email you when it is up, and if we cannot
+        use it we will email you and say why.
+      </p>
+    </div>
+
+    <p class="rv-state"><b>State B.</b> Turned down. ⭐ The sentence the writer receives
+      is the design, not the category behind it — this is the screen the reason lands on
+      as well as the email.</p>
+
+    <div class="rv-mock">
+      <h3 class="rv-sec-h">Your reviews</h3>
+      <div class="rv-mine" data-review data-review-state="turned-down">
+        <p class="rv-mine__k">Kashi Art Café — not put up</p>
+        <p class="rv-mine__t" data-turndown-message>
+          "Thanks for writing. We have left this one off because it names someone who
+          works there. Send it again without the name and we will put it up."
+        </p>
+      </div>
+      <!-- ⭐ A refusal with a way forward is a screen, not an error — the system
+           already says so about NotNow. Where the reason has a fix, the control
+           that performs the fix is on the same screen. ⛔ No apology tone and no
+           red: nothing here has gone wrong with the site. -->
+      <p style="margin-block-start: var(--space-4, 16px)">
+        <button class="rv-btn" type="button">Write it again</button>
+      </p>
+    </div>
+  </section>
+
+  <hr class="rv-band" data-span="wide">
+
+  <!-- ══════════════════ SCREEN 3 — on the place page ══════════════════ -->
+  <section aria-labelledby="h-s3" id="s-place">
+    <h2 class="rv-screen-h" id="h-s3">Screen 3 — reviews on a place page</h2>
+    <p class="rv-screen-note">
+      Below the facts, below an 8px band, and below one sentence saying which is which.
+      Two states: not enough reviews for an average, and enough.
+    </p>
+
+    <p class="rv-state"><b>State A.</b> Two reviews. The observations are published in
+      full; the average is withheld and the page says exactly when one will appear.</p>
+
+    <div class="rv-mock" data-span="wide" data-review-section
+         data-review-average="withheld" data-review-count="2">
+      <h3 class="rv-sec-h">Visitor reviews</h3>
+      <p class="rv-sep" data-review-separation>
+        These are opinions from people who went. The opening times above are ours, and
+        we check those ourselves.
+      </p>
+
+      <p class="rv-none">2 reviews</p>
+      <p class="rv-threshold" data-review-threshold="4">A score appears once four people have been.</p>
+
+      <!-- ⭐ A behavioural fact needs no crowd and no threshold, so it is printed
+           at n=2 while the average is not. "Both said it was open" is a count of
+           what happened; 4.5 stars would be an average of what people felt. -->
+      <div class="rv-bd">
+        <div class="rv-bd__row" data-review-observed="open when they arrived">
+          <div class="rv-bd__head">
+            <p class="rv-bd__label">Open when they arrived</p>
+            <p class="rv-bd__value">2 of 2</p>
+          </div>
+          <p class="rv-bd__sub">A count of what happened, not an opinion — so it does
+            not wait for a threshold.</p>
+        </div>
+      </div>
+
+      <ul class="rv-list">
+        <li class="rv-item" data-review data-review-state="published">
+          <p class="rv-item__who">Priya M.</p>
+          <p class="rv-item__from">Bengaluru</p>
+          <p class="rv-item__meta">
+            <span class="rv-stars" role="img" aria-label="Rated 4 out of 5">
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star rv-star--off" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+            </span>
+            <span data-review-when="2026-08">Went in August 2026</span>
+          </p>
+          <p class="rv-item__body rv-clamp" data-clamped>
+            Turned up at 9.20 on a Tuesday because the board on the gate says 9. It was
+            shut. Came back at 10 and walked straight in. Your page had 10 and it was
+            right — trust it over the sign. Small museum, worth half an hour, and the
+            upstairs room is the good bit.
+          </p>
+          <button class="rv-more" type="button">Show more</button>
+        </li>
+        <li class="rv-item" data-review data-review-state="published">
+          <p class="rv-item__who">Tom H.</p>
+          <p class="rv-item__from">Bristol</p>
+          <p class="rv-item__meta">
+            <span class="rv-stars" role="img" aria-label="Rated 5 out of 5">
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+            </span>
+            <span data-review-when="2026-07">Went in July 2026</span>
+          </p>
+          <!-- ⭐ Short review, no disclosure control. The button below is hidden
+               until a script proves the text actually overflows its clamp. -->
+          <p class="rv-item__body rv-clamp" data-clamped>Quiet, cool, and nearly empty at noon.</p>
+          <button class="rv-more" type="button">Show more</button>
+        </li>
+      </ul>
+
+      <p><a class="rv-link" href="#top">How we handle reviews</a></p>
+    </div>
+
+    <p class="rv-state"><b>State B.</b> Nine reviews — past the threshold. The score
+      appears, still inline and still at heading size. One of the nine is disclosed.</p>
+
+    <div class="rv-mock" data-span="wide" data-review-section
+         data-review-average="shown" data-review-count="9">
+      <h3 class="rv-sec-h">Visitor reviews</h3>
+      <p class="rv-sep" data-review-separation>
+        These are opinions from people who went. The opening times above are ours, and
+        we check those ourselves.
+      </p>
+
+      <p class="rv-score">
+        <span class="rv-stars" role="img" aria-label="Rated 4.3 out of 5 from 9 reviews">
+          <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+          <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+          <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+          <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+          <svg class="rv-star rv-star--off" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+        </span>
+        <span class="rv-score__num">4.3</span>
+        <span class="rv-score__of">from 9 reviews</span>
+      </p>
+      <p class="rv-score__what">Worth the walk, as rated by people who went in the last two years.</p>
+
+      <div class="rv-bd">
+        <div class="rv-bd__row">
+          <div class="rv-bd__head">
+            <p class="rv-bd__label">Easy to find</p>
+            <p class="rv-bd__value">3.1</p>
+          </div>
+          <p class="rv-bd__sub">The lowest thing anyone rates here. Three people said the
+            gate is easy to walk past.</p>
+        </div>
+        <div class="rv-bd__row" data-review-observed="open when they arrived">
+          <div class="rv-bd__head">
+            <p class="rv-bd__label">Open when they arrived</p>
+            <p class="rv-bd__value">8 of 9</p>
+          </div>
+          <p class="rv-bd__sub">A count of what happened, not an opinion. The one "no"
+            arrived at 9.20, before it opens.</p>
+        </div>
+        <div class="rv-bd__row" data-review-observed="how long people stayed">
+          <div class="rv-bd__head">
+            <p class="rv-bd__label">How long people stayed</p>
+            <p class="rv-bd__value">30 to 60 min</p>
+          </div>
+          <p class="rv-bd__sub">Most common answer, from 7 people who said.</p>
+        </div>
+      </div>
+
+      <ul class="rv-list">
+        <li class="rv-item" data-review data-review-state="published">
+          <p class="rv-item__who">Priya M.</p>
+          <p class="rv-item__from">Bengaluru</p>
+          <p class="rv-item__meta">
+            <span class="rv-stars" role="img" aria-label="Rated 4 out of 5">
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+              <svg class="rv-star rv-star--off" aria-hidden="true" focusable="false"><use href="#star"></use></svg>
+            </span>
+            <span data-review-when="2026-08">Went in August 2026</span>
+          </p>
+          <p class="rv-item__body rv-clamp" data-clamped>
+            Turned up at 9.20 on a Tuesday because the board on the gate says 9. It was
+            shut. Came back at 10 and walked straight in. Your page had 10 and it was
+            right — trust it over the sign. Small museum, worth half an hour, and the
+            upstairs room is the good bit.
+          </p>
+          <button class="rv-more" type="button">Show more</button>
+        </li>
+        <!-- ⭐⭐ THE DISCLOSED REVIEW. Published, in the list, in ordinary type,
+             with one line above it. Not hidden, not greyed, not moved to the
+             bottom — a reader can weigh it themselves once they are told, and
+             they cannot weigh anything we deleted.
+             ⚠️ IT IS NOT IN THE AVERAGE, and the line says so, because the
+             average is the only thing on the page a connected writer could move
+             without a reader being able to check them. -->
+        <li class="rv-item" data-review data-review-state="published" data-review-connected>
+          <p class="rv-disclose" data-review-disclosure>
+            Written by someone connected to this place. It is not counted in the score.
+          </p>
+          <p class="rv-item__who">Anoop K.</p>
+          <p class="rv-item__from">Fort Kochi · works here</p>
+          <p class="rv-item__meta">
+            <span data-review-when="2026-06">Went in June 2026</span>
+          </p>
+          <p class="rv-item__body rv-clamp" data-clamped>
+            The upstairs room is shut on Fridays for cleaning and the sign outside does
+            not say so. Come any other morning.
+          </p>
+          <button class="rv-more" type="button">Show more</button>
+        </li>
+      </ul>
+
+      <p><a class="rv-link" href="#top">Read all 9 reviews</a></p>
+      <p><a class="rv-link" href="#top">How we handle reviews</a></p>
+    </div>
+  </section>
+
+  <hr class="rv-band" data-span="wide">
+
+  <!-- ══════════════════ SCREEN 4 — the queue ══════════════════ -->
+  <section aria-labelledby="h-s4" id="s-queue">
+    <h2 class="rv-screen-h" id="h-s4">Screen 4 — the moderation queue</h2>
+    <p class="rv-screen-note">
+      Built for a phone first, because it will be read on one — in a queue, on a bus,
+      between other things. One review at a time. There is no "publish all".
+    </p>
+
+    <p class="rv-state"><b>State A.</b> The queue. Oldest first, with its age in days,
+      because the backlog is the thing the owner cannot see any other way.</p>
+
+    <div class="rv-mock" data-span="wide" data-moderation-queue>
+      <!-- ⛔ This heading read "4 waiting" and said the same thing as the tab
+           two rows below it. The tabs carry every count; the heading names the
+           screen. -->
+      <div class="rv-adm-h"><h3>Reviews</h3></div>
+      <ul class="rv-tabs">
+        <li><a class="rv-tab" href="#top" aria-current="true">Waiting 4</a></li>
+        <li><a class="rv-tab" href="#top">Live 31</a></li>
+        <li><a class="rv-tab" href="#top">Turned down 6</a></li>
+      </ul>
+
+      <article class="rv-sub" data-review data-review-state="waiting">
+        <p class="rv-sub__place">Bastion Bungalow</p>
+        <p class="rv-sub__age" data-moderation-age="9">Waiting 9 days · sent 31 July 2026</p>
+
+        <dl class="rv-sub__dl">
+          <div class="rv-sub__row">
+            <dt class="rv-sub__k">From</dt>
+            <dd class="rv-sub__v">Priya M. · Bengaluru · first review · account made 30 July 2026</dd>
+          </div>
+          <div class="rv-sub__row">
+            <dt class="rv-sub__k">Worth the walk</dt>
+            <dd class="rv-sub__v">4 out of 5</dd>
+          </div>
+          <div class="rv-sub__row">
+            <dt class="rv-sub__k">Went</dt>
+            <dd class="rv-sub__v">August 2026 · open when she arrived: no, at 9.20</dd>
+          </div>
+          <div class="rv-sub__row">
+            <dt class="rv-sub__k">Connected to this place</dt>
+            <dd class="rv-sub__v">No, she says</dd>
+          </div>
+        </dl>
+
+        <p class="rv-sub__text">
+          "Turned up at 9.20 on a Tuesday because the board on the gate says 9. It was
+          shut. Came back at 10 and walked straight in. Your page had 10 and it was
+          right — trust it over the sign."
+        </p>
+
+        <!-- ⭐ The one amber underline on this page, and the only place amber is
+             allowed near reviews: it points AWAY from the review, at the checked
+             record the review corroborates. Amber still means "we checked this". -->
+        <p class="rv-flag">
+          She answered <b>yes</b> to "did our page match". This one supports the hours
+          record rather than contradicting it.
+          <a class="rv-link rv-link--decision" href="place.html">Open the hours record</a>
+        </p>
+
+        <label class="rv-tick">
+          <input type="checkbox" name="connected-1">
+          <span>Publish with a line saying the writer is connected to this place</span>
+        </label>
+
+        <div class="rv-btn-row">
+          <button class="rv-btn" type="button">Publish</button>
+          <button class="rv-btn rv-btn--quiet" type="button">Turn down</button>
+        </div>
+      </article>
+
+      <article class="rv-sub" data-review data-review-state="waiting">
+        <p class="rv-sub__place">Kashi Art Café</p>
+        <p class="rv-sub__age" data-moderation-age="2">Waiting 2 days · sent 7 August 2026</p>
+        <dl class="rv-sub__dl">
+          <div class="rv-sub__row">
+            <dt class="rv-sub__k">From</dt>
+            <dd class="rv-sub__v">jk_travels · no place given · 6 reviews in 2 days</dd>
+          </div>
+          <div class="rv-sub__row">
+            <dt class="rv-sub__k">Worth the walk</dt>
+            <dd class="rv-sub__v">5 out of 5</dd>
+          </div>
+          <div class="rv-sub__row">
+            <dt class="rv-sub__k">Connected to this place</dt>
+            <dd class="rv-sub__v">No, he says</dd>
+          </div>
+        </dl>
+        <p class="rv-sub__text">
+          "Best cafe in Kochi!! For taxi and homestay contact 98xxxxxxx best rates in
+          Fort Kochi guaranteed."
+        </p>
+        <p class="rv-flag">
+          Six reviews from this account in two days, all five stars, all with a phone
+          number.
+        </p>
+        <label class="rv-tick">
+          <input type="checkbox" name="connected-2">
+          <span>Publish with a line saying the writer is connected to this place</span>
+        </label>
+        <div class="rv-btn-row">
+          <button class="rv-btn" type="button">Publish</button>
+          <button class="rv-btn rv-btn--quiet" type="button">Turn down</button>
+        </div>
+      </article>
+    </div>
+
+    <p class="rv-state"><b>State B.</b> Turning one down. The reason is not a category —
+      it is the sentence the writer receives, and that makes it design, not admin.</p>
+
+    <div class="rv-mock">
+      <h3 class="rv-sec-h">Why are you turning this down?</h3>
+      <p class="rv-screen-note">Pick one. They get the sentence underneath it.</p>
+      <ul class="rv-reasons">
+        <li data-turndown-reason="advert">
+          <b>It reads like an advert</b>
+          <span data-turndown-message>"Thanks for writing in. We have not put this one up — we do not publish
+            reviews that promote a business or carry a phone number."</span>
+        </li>
+        <li data-turndown-reason="names-staff">
+          <b>It names a member of staff</b>
+          <span data-turndown-message>"Thanks for writing. We have left this one off because it names someone
+            who works there. Send it again without the name and we will put it up."</span>
+        </li>
+        <li data-turndown-reason="which-place">
+          <b>We cannot tell which place it is about</b>
+          <span data-turndown-message>"Thanks for writing. We could not work out which place this was about,
+            so we have not put it up. Send it again and name the place?"</span>
+        </li>
+        <li data-turndown-reason="uncheckable">
+          <b>It is about something we cannot check</b>
+          <span data-turndown-message>"Thanks for writing. We have not put this one up, because it makes a
+            claim about the place we have no way to look into."</span>
+        </li>
+        <li data-turndown-reason="insults">
+          <b>It insults somebody</b>
+          <span data-turndown-message>"Thanks for writing. We have not put this up. We do not publish reviews
+            that insult people."</span>
+        </li>
+      </ul>
+      <p style="margin-block-start: var(--space-5, 20px)">
+        <button class="rv-btn rv-btn--wide" type="button">Turn down and send</button>
+      </p>
+      <p class="rv-help" style="max-inline-size: 27rem">
+        Nothing is deleted. A turned-down review stays in the "Turned down" list with
+        the reason, so a decision can be looked at again.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  /* ⭐ Gate the disclosure control on real overflow. Airbnb's renders
+     unconditionally and a control that discloses nothing teaches people to stop
+     trusting it. Runs after layout so the clamped height is real. */
+  (function () {
+    var gate = function () {
+      var boxes = document.querySelectorAll('[data-clamped]');
+      for (var i = 0; i < boxes.length; i++) {
+        var box = boxes[i];
+        var btn = box.nextElementSibling;
+        if (!btn || !btn.classList.contains('rv-more')) continue;
+        if (box.scrollHeight - box.clientHeight > 1) {
+          btn.setAttribute('data-overflows', '');
+        } else {
+          btn.removeAttribute('data-overflows');
+        }
+      }
+    };
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(gate); }
+    gate();
+    addEventListener('resize', gate);
+
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('.rv-more') : null;
+      if (!btn) return;
+      var box = btn.previousElementSibling;
+      var open = box.classList.toggle('rv-clamp') === false;
+      btn.textContent = open ? 'Show less' : 'Show more';
+    });
+  })();
+</script>
+</html>
