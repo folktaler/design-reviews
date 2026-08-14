@@ -61,6 +61,7 @@
     --focus-ring:var(--cok-focus); --focus-ring-width:5px; --focus-ring-offset:3px;
     /* typography.css */
     --font-ui:'Figtree','Figtree Fallback: Helvetica Neue','Figtree Fallback: Roboto','Figtree Fallback: Arial','Helvetica Neue',Roboto,Arial,sans-serif;
+    --font-text:var(--font-ui); /* alias, same as typography.css — Unchecked.astro reads this name */
     --figures-aligned:tabular-nums;
     --type-body:clamp(1.1875rem,1.156rem + 0.17vw,1.25rem);
     --type-display:clamp(1.875rem,1.55rem + 1.65vw,2.5rem);
@@ -116,7 +117,6 @@
      the token says. Ship the calc with the value, always. */
   .wrap { max-width: calc(var(--measure) + var(--gutter) * 2);
           margin-inline:auto; padding-inline:var(--gutter); }
-
   /* The same box, capped at the wide track instead of the reading column. Page
      chrome takes it so the wordmark starts on the same left edge as the H1.
      ⛔ Added 10 Aug 2026: the responsive pass moved the BODY onto the three-track
@@ -313,6 +313,15 @@
                   line-height:var(--leading-tight); color:var(--text-secondary);
                   font-variant-numeric:var(--figures-aligned); }
 
+  /* ── the refusal — Unchecked.astro's own scoped style, copied verbatim.
+       Primary ink, body size, upright: this is a confession styled as a
+       sentence, not a disclaimer styled as fine print. Renders in place of
+       the whole facts row when a fact — almost always hours — has never been
+       checked at all, not merely not-yet-published. ── */
+  .unchecked { margin-block:var(--space-3) 0; max-inline-size:var(--measure);
+               font-family:var(--font-text); font-size:var(--type-body);
+               line-height:var(--leading-tight); color:var(--text-primary); }
+
   /* ── the trust card ── */
   .trust { display:grid; grid-template-columns:repeat(3,1fr); min-height:5rem;
            border:var(--rule-hairline) solid var(--border-hairline);
@@ -343,6 +352,15 @@
   .photo--bleed { margin-inline:calc(var(--gutter) * -1); }
   .photo--bleed .photo__box { aspect-ratio:1.05/1; border-radius:var(--radius-none); }
   .photo--card  .photo__box { aspect-ratio:4/3;    border-radius:var(--radius-card); }
+
+  /* ── the named absence of a photograph — copied from `.p-nophoto` in
+       src/pages/places/[slug].astro, not from Photograph.astro: the absence
+       sentence is the PAGE's, not a prop the component itself renders. Same
+       ink, same body size as the facts above it — not smaller, not greyer,
+       for the same reason `.unchecked` above is not. ── */
+  .p-nophoto { margin:var(--space-7) 0 0; max-inline-size:var(--measure);
+               font-family:var(--font-ui); font-size:var(--type-ui);
+               line-height:var(--leading-tight); color:var(--text-primary); }
 
   /* ── the place card ── */
   .card { position:relative; display:flex; flex-direction:column; gap:var(--space-2); }
@@ -641,6 +659,19 @@
     </div>
   </dl>
 
+  <h3>The refusal</h3>
+  <p>
+    A named absence in a facts row is for a fact this record does not carry. This
+    is different: it is for a fact this site has never gone and checked at all &mdash;
+    almost always the hours &mdash; and it replaces the whole facts row rather than
+    filling one line of it. Primary ink, body size, one plain sentence. Not grey,
+    not italic, not a warning triangle, because a confession set like a disclaimer
+    reads as a lawyer wrote it, and a confession set like a sentence reads as a
+    person did. It renders on 76 of 151 live place pages today.
+  </p>
+  <p class="unchecked" data-refusal>We have not checked this place&rsquo;s hours, and there is no number to call ahead.</p>
+  <p class="spec__label">the sentence rendered today on 111-markaz &mdash; the Unchecked component, in place of a facts row, not inside one</p>
+
   <h3>The trust card</h3>
   <p>
     Airbnb&rsquo;s version of this holds a star rating, a badge and a review count.
@@ -653,7 +684,8 @@
        Airbnb's three-cell trust card leaves 108px a cell, "How we checked" wraps
        to two lines and the cells equalise at 90.8px tall. Their labels are
        10–12px and our floor is 14px. The card was a desktop component all along
-       and never had a desktop to sit on. -->
+       and never had a desktop to sit on. Re-measured 10 Aug with the width:
+       cell 108x90 at 375px becomes 330x78 at 1440. -->
   <div class="trust" data-trust-card data-span="wide">
     <div class="trust__cell" data-trust-cell="last checked">
       <span class="trust__value">3 Aug</span><span class="trust__label">last checked</span>
@@ -665,6 +697,22 @@
       <span class="trust__value">2 of 5</span><span class="trust__label">posted hours were wrong</span>
     </div>
   </div>
+
+  <h3>The photograph &mdash; and its named absence</h3>
+  <p>
+    A photograph that runs to the edge of the page is square-cornered, no border,
+    full width: the hero, above the name. When there isn&rsquo;t one &mdash; true of
+    every one of the 151 live place records today &mdash; the absence is one
+    sentence at the foot of the fold, set at the same ink and the same body size as
+    the facts above it, not a grey box holding the hero&rsquo;s height. Naming what
+    is missing is the rule; giving it the hero was never the rule.
+  </p>
+  <figure class="photo photo--bleed" data-span="wide" data-photograph="bleed">
+    <div class="photo__box" style="aspect-ratio:16/9"></div>
+    <figcaption class="spec__label">the hero, when there is one &mdash; 16:9, full bleed, no corner</figcaption>
+  </figure>
+  <p class="p-nophoto" data-photo-missing data-span="wide">No photograph of this place yet &mdash; every photograph of it you would find elsewhere was taken by somebody else, and we do not publish those.</p>
+  <p class="spec__label" data-span="wide">the named absence &mdash; rendered today on all 151 live records</p>
 
   <h3>The card</h3>
   <p>
