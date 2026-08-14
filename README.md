@@ -12,11 +12,6 @@ output. Editing them does nothing — each project's source lives elsewhere.
 - **[aikyamfellows/](aikyamfellows/)** — a Guardian-faithful design system for a
   not-for-profit that publishes profiles of people doing social-impact work.
   13 pages, 34 components, no build step and no JavaScript.
-- **[catsofkochi/](catsofkochi/)** — an Airbnb-faithful design system for a travel
-  guide to Fort Kochi and Mattancherry. 13 pages, one shared faces file per
-  font family (`faces-figtree.css`/`faces-noticia-text.css`), no build step and
-  no JavaScript. Labelled `catsofkochi-airbnb-design-system-2026-08-09` — a
-  different system from the earlier Guardian-era `guardian-design-system-v1`.
 - **[opencollective/](opencollective/)** — the design system behind a fork of
   Open Collective, plus pages built on it. Tokens are copied from the platform's
   own `app.css` (Tailwind v4 variables) rather than matched by eye, and the Inter
