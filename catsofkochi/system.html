@@ -83,6 +83,13 @@
        decided it, and the Guardian-era history, live in tokens/spacing.css —
        not repeated here, because a kit is not where a token's rationale lives. */
     --measure:32rem; --measure-wide:72rem; --measure-small:22rem;
+    /* ⭐ THE ROW CAP — derived, not chosen. It is the widest a label-and-value
+       row on this sheet can be: the 10rem label track, the column gap, and the
+       reading measure the value keeps. Same derivation and the same 688px as
+       ui_kits/place, so the two kits draw a rule at one length rather than two.
+       ⛔ Not a second scale. It is arithmetic over tokens already declared
+       above; changing any of the three moves it. */
+    --measure-row: calc(10rem + var(--space-4) + var(--measure));
     --radius-none:0; --radius-card:.5rem; --radius-control:.75rem;
     --radius-pill:999px; --radius-round:50%;
     --rule-hairline:1px; --rule-band:8px; --rule-leading:4px;
@@ -163,11 +170,36 @@
   p { margin:0 0 var(--paragraph-gap); }
   :focus-visible { outline:var(--focus-ring-width) solid var(--focus-ring);
                    outline-offset:var(--focus-ring-offset); }
+  /* ⛔⛔ THE THREE HAIRLINE DIVIDERS RENDERED AT ZERO WIDTH, at 390px and at
+     1710px alike, and no check on this project could see it — there is no gate
+     on a rule's length, and a missing rule takes nothing off the page.
+     ⭐ THE MECHANISM, which is countable by reading two rules and needs no
+     harness: the browser's own stylesheet gives an hr `margin-inline: auto`.
+     An auto inline margin on a GRID ITEM absorbs the free space rather than
+     letting the item stretch, so the item is sized to its content — and an hr
+     with `border: 0` has no content. Setting `margin-block` alone, which reads
+     as the tidier longhand, leaves that auto standing. `.divider--band` was
+     visible only because its own `margin-inline` happened to overwrite it, and
+     ui_kits/place is visible only because it writes the margin as a SHORTHAND
+     whose inline slot is 0. Neither was a decision; both were luck.
+     ⭐ Same property, opposite direction, as place's action-bar defect: there a
+     shorthand wiped an auto that was wanted, here a longhand kept one that was
+     not. Declare the inline margin either way.
+     ⭐ AND THE CAP IS PLACE'S RULE, carried over rather than re-derived: a rule
+     ends where its content ends, and you enforce that on the rule, not on the
+     page. These take the wide track so they start on the page's left edge, and
+     stop at --measure-row so they do not end in empty paper. */
   hr.divider { border:0; background:var(--border-hairline);
-               margin-block:var(--space-8) var(--pitch-rule-heading); }
+               margin-block:var(--space-8) var(--pitch-rule-heading);
+               margin-inline:0; max-inline-size:var(--measure-row); }
   hr.divider--hairline { height:var(--rule-hairline); }
-  hr.divider--band { height:var(--rule-band);
-                     margin-inline:calc(var(--gutter) * -1); }
+  /* ⭐ THE BAND IS FULL-BLEED AT EVERY WIDTH, which is the only thing
+     spacing.css says it is for. It was not: the negative gutter margin bled it
+     out of the 512px text track and no further, so above a phone an 8px rule
+     ran 560px under 1152px of content and stopped, while the same band on a
+     phone already ran the whole screen. `data-span="full"` is how this grid
+     spells full bleed, so the band says it that way now. */
+  hr.divider--band { height:var(--rule-band); max-inline-size:none; }
 
   /* ── header nav. BOTH axes floored, and the underline tracks the TEXT ── */
   header { border-block-end:var(--rule-hairline) solid var(--border-hairline); }
@@ -177,8 +209,22 @@
           padding-inline:var(--space-3); border:0;
           font-size:var(--type-ui); font-weight:var(--weight-medium);
           color:var(--text-primary); text-decoration:none; }
-  nav a[aria-current] { text-decoration:underline;
-          text-decoration-color:var(--cok-amber); text-decoration-thickness:2px;
+  /* ⛔ WAS AN AMBER UNDERLINE, AND IT BROKE TWO OF THIS SYSTEM'S OWN RULES.
+     Amber marks the thing the reader came for, at most twice a screen; which
+     section you are already in is not that. And amber on paper is 1.90:1, so
+     the single mark telling a reader where they are was the least legible thing
+     on the sheet, for the one reader this site is built for. It also spoke the
+     link grammar — ink text, amber underline — so the current section read as
+     the only link in the row.
+     ⭐ ui_kits/place had already settled this for the site's real tabs: weight
+     600 and a 2px mark in ink under the word. Ink is 16.92:1, and the weight
+     carries the state with no colour at all, which is rank-is-shape applied to
+     a state. The underline stays a text-decoration rather than a border so it
+     tracks the word and not the 52px tap box — spacing.css's fourth tap
+     defect, which appears the moment a tap floor is added. */
+  nav a[aria-current] { font-weight:var(--weight-semibold);
+          text-decoration:underline;
+          text-decoration-color:var(--text-primary); text-decoration-thickness:2px;
           text-underline-offset:3px; }
 
   /* ── buttons: RANK IS SHAPE ── */
@@ -204,8 +250,17 @@
      one was on the POST-pivot specimen sheet, the page a builder is most
      likely to copy. The hairline was already here; it is now the whole
      treatment, which is what this sheet's own line 328 says Airbnb does. */
+  /* ⛔⛔ AND THE THIRD INSTANCE OF THE SAME DEFECT, ON THE SAME SHEET. The box
+     took the wide track and painted its border all the way across it: measured
+     at 1710, 1152px of bordered box whose last glyph ended at 867 — 563px of
+     hairline running into empty paper on all four sides of a facts strip. That
+     is the state ui_kits/place hit on 10 Aug, recorded at 464px, and fixed with
+     the rule this cap comes from. Capping the box does not narrow the row: the
+     label track and the value's own --measure are unchanged, so the row keeps
+     the width it already used and the border stops where the words do. */
   .facts { margin:0; border:var(--rule-hairline) solid var(--border-hairline);
-           background:var(--surface-page); padding:var(--space-2) var(--space-4); }
+           background:var(--surface-page); padding:var(--space-2) var(--space-4);
+           max-inline-size:var(--measure-row); }
   /* ⛔⛔ TWO DEFECTS, AND THIS IS THE SHEET A BUILDER COPIES FROM — its own note
      above says so. `grid-template-columns: minmax(6.5rem, 30%) 1fr` was
      UNCONDITIONAL and percentage-based, so it failed at both ends. Measured:
@@ -245,8 +300,16 @@
                 line-height:var(--leading-tight); }
   .row__value--aligned { font-variant-numeric:var(--figures-aligned); }
   .row__posted { color:var(--text-secondary); }
+  /* ⚠️ WEIGHT 400, NOT THE LADDER'S 500 FOR THIS SIZE, and the departure is
+     deliberate and already shipped. typography.css sets micro at 500 for
+     stamps, kickers and counts — short, singular things. This is a provenance
+     SENTENCE that repeats under every known fact, and at 500 it competed with
+     the fact above it. The owner's words on 9 Aug were that provenance is "too
+     loud… look how airbnb does it": their citation register is a small grey
+     caption under the thing it supports. ui_kits/place made the change; this
+     sheet kept teaching 500. Same rule below for the card's line. */
   .row__checked { display:block; margin-block-start:var(--space-1);
-                  font-size:var(--type-micro); font-weight:var(--weight-medium);
+                  font-size:var(--type-micro); font-weight:var(--weight-regular);
                   line-height:var(--leading-tight); color:var(--text-secondary);
                   font-variant-numeric:var(--figures-aligned); }
 
@@ -260,7 +323,7 @@
   .trust__cell + .trust__cell {
                  border-inline-start:var(--rule-hairline) solid var(--border-hairline); }
   .trust__value { font-size:var(--type-subheading); font-weight:var(--weight-medium);
-                  line-height:1.1; font-variant-numeric:var(--figures-aligned); }
+                  line-height:var(--leading-figure); font-variant-numeric:var(--figures-aligned); }
   .trust__label { font-size:var(--type-micro); font-weight:var(--weight-medium);
                   line-height:var(--leading-tight); color:var(--text-secondary); }
 
@@ -293,18 +356,33 @@
   .card__facts { margin:0; font-size:var(--type-small); line-height:var(--leading-tight);
                  color:var(--text-secondary); font-variant-numeric:var(--figures-aligned); }
   .card__dot { color:var(--border-hairline); }
-  .card__checked { margin:0; font-size:var(--type-micro); font-weight:var(--weight-medium);
+  .card__checked { margin:0; font-size:var(--type-micro); font-weight:var(--weight-regular);
                    line-height:var(--leading-tight); color:var(--text-secondary);
                    font-variant-numeric:var(--figures-aligned); }
 
   /* ── the sticky action bar. Shown IN FLOW here, not fixed: a fixed bar in a
        specimen sheet covers the specimen. Its real position is bottom:0. ── */
+  /* ⛔ THE BAR SPANS THE WINDOW; ITS CONTENTS DO NOT. The real component is
+     `position: fixed; inset-inline: 0`, so its hairline runs edge to edge and
+     nothing else does. Here it was bled 24px out of the wide track instead,
+     which is neither: at 1710 the bar started at 255 while every other element
+     on the page started at 279 — a third left edge, on the one component that
+     is never scrolled away — and its hairline stopped 522px short of the window
+     it is supposed to span. `data-span="full"` reproduces the real geometry,
+     and the cap below puts the caption and the button back on the page's left
+     edge. Both taken from `.p-bar` in ui_kits/place, where the two-left-edges
+     version of this was the owner's own complaint. Inert on a phone: the bar is
+     the screen width there either way. */
   .bar { display:flex; flex-direction:column; gap:var(--space-2);
          padding:var(--space-3) var(--gutter);
          background:var(--surface-page);
-         border-block-start:var(--rule-hairline) solid var(--border-hairline);
-         margin-inline:calc(var(--gutter) * -1); }
-  .bar__context { margin:0; font-size:var(--type-micro); font-weight:var(--weight-medium);
+         border-block-start:var(--rule-hairline) solid var(--border-hairline); }
+  /* ⚠️ LONGHAND. A `margin: 0` on either child would wipe this auto and drop
+     that child back to the left edge on its own — the defect place records
+     against its own caption. */
+  .bar > * { inline-size:100%; max-inline-size:var(--measure-wide);
+             margin-inline:auto; }
+  .bar__context { margin-block:0; font-size:var(--type-micro); font-weight:var(--weight-medium);
                   line-height:var(--leading-tight); color:var(--text-secondary);
                   font-variant-numeric:var(--figures-aligned); }
 
@@ -323,8 +401,39 @@
            width:5.5rem; height:5.5rem; background:var(--surface-quiet);
            border:var(--rule-hairline) solid var(--border-hairline);
            font-size:var(--type-micro); text-align:center; }
+  /* Two things side by side, for the comparisons on this sheet. ⚠️ NOT for a
+     list of cards — see .cards below. */
   .grid2 { display:grid; gap:var(--space-6); }
   @media (min-width:40rem){ .grid2 { grid-template-columns:1fr 1fr; } }
+
+  /* ⛔ THE CARD SPECIMEN WAS DRAWN ON .grid2 AND RENDERED THE CARD AT 564px —
+     196px wider than the card this system is specified at. --measure-wide was
+     raised to 72rem for one reason, written in tokens/spacing.css: at 1152 an
+     intrinsic card track gives 368px columns, and Airbnb's measured listing
+     card is 376. A fixed `1fr 1fr` gives back neither, and it does it on the
+     sheet a builder copies a card grid from.
+     ⭐ The declaration is index_browse_v2's, unchanged, because that kit
+     measured it: auto-FILL counts repetitions against the MAX when the max is
+     definite, so 23rem is what produces three 368px columns at 1152 and 24rem
+     produces two of 384 with 360px of dead space. `min(...,100%)` keeps the
+     floor from overflowing a 320px phone. No media query, and the column count
+     falls out of how many readable columns fit. */
+  .cards { display:grid; gap:var(--space-6);
+           grid-template-columns:repeat(auto-fill, minmax(min(20.5rem, 100%), 23rem));
+           justify-content:start; }
+
+  /* ⭐ SPECIMEN PITCH. Measured on this sheet: the facts row, the trust card and
+     the card grid each ended 0px from the h3 that follows them, while a .spec
+     block above already had 24. Headings here carry no top margin by design —
+     h1/h2/h3 are `margin: 0 0 var(--space-4)` — so whatever precedes a heading
+     has to supply the air, and in "The parts", the one section a builder reads
+     component by component, three blocks in a row supplied none. A 14px
+     provenance line finished hard against a 23px semibold heading.
+     ⛔ Scoped to a direct child of the page grid on purpose. This is the
+     SHEET's furniture: a builder copying .facts or .trust must not inherit a
+     specimen sheet's page spacing along with the component. */
+  .page > .facts, .page > .trust, .page > .cards, .page > .grid2 {
+    margin-block-end:var(--space-6); }
 
   .note-frame { margin-block-start:var(--space-10);
                 border-block-start:var(--rule-band) solid var(--border-band);
@@ -360,7 +469,7 @@
     marked where they occur rather than in a footnote.
   </p>
 
-  <hr class="divider divider--hairline" id="type">
+  <hr class="divider divider--hairline" data-divider="hairline" data-span="wide" id="type">
   <h2>Type — one family, seven combinations</h2>
   <p>
     Airbnb renders four hundred and sixty-three text elements in a single family
@@ -400,11 +509,11 @@
   <div class="grid2" data-span="wide">
     <div>
       <p class="spec__label">default figures — the times do not line up</p>
-      <p style="font-size:var(--type-ui);line-height:1.6;margin:0">21:00<br>11:00<br>17:45<br>&#8377;110<br>&#8377;40</p>
+      <p style="font-size:var(--type-ui);line-height:var(--leading-body);margin:0">21:00<br>11:00<br>17:45<br>&#8377;110<br>&#8377;40</p>
     </div>
     <div>
       <p class="spec__label">tabular figures — what the system ships</p>
-      <p style="font-size:var(--type-ui);line-height:1.6;margin:0;font-variant-numeric:var(--figures-aligned)">21:00<br>11:00<br>17:45<br>&#8377;110<br>&#8377;40</p>
+      <p style="font-size:var(--type-ui);line-height:var(--leading-body);margin:0;font-variant-numeric:var(--figures-aligned)">21:00<br>11:00<br>17:45<br>&#8377;110<br>&#8377;40</p>
     </div>
   </div>
   <!-- ⚠️ THE SPECIMEN IS 24-HOUR AND THE PRODUCT IS NOT — say so, because a
@@ -427,7 +536,7 @@
     stay switched on; they can no longer make an hours column square.
   </p>
 
-  <hr class="divider divider--hairline" id="colour">
+  <hr class="divider divider--hairline" data-divider="hairline" data-span="wide" id="colour">
   <h2>Colour — the discipline is how little there is</h2>
   <p>
     On an Airbnb search page showing thirty-six listings with prices, badges and
@@ -455,7 +564,7 @@
     that, it needs fewer words rather than paler ones.
   </p>
 
-  <hr class="divider divider--hairline" id="shape">
+  <hr class="divider divider--hairline" data-divider="hairline" data-span="wide" id="shape">
   <h2>Shape — five values, each with one job</h2>
   <ul class="shapes" data-span="wide">
     <li class="shape" style="border-radius:var(--radius-none)">0<br>full-bleed photo,<br>chrome</li>
@@ -476,16 +585,16 @@
   </p>
   <div class="grid2" data-span="wide">
     <figure class="photo photo--card">
-      <div class="photo__box"><span class="badge badge--on-photo">3 / 7</span></div>
+      <div class="photo__box"><span class="badge badge--on-photo" data-badge="on-photo">3 / 7</span></div>
       <figcaption class="spec__label">inside a card — 8px, and 4:3</figcaption>
     </figure>
     <figure class="photo photo--card">
-      <div class="photo__box" style="border-radius:var(--radius-none);aspect-ratio:1.05/1"><span class="badge badge--on-photo">1 / 12</span></div>
+      <div class="photo__box" style="border-radius:var(--radius-none);aspect-ratio:1.05/1"><span class="badge badge--on-photo" data-badge="on-photo">1 / 12</span></div>
       <figcaption class="spec__label">full bleed — square, and near-square</figcaption>
     </figure>
   </div>
 
-  <hr class="divider divider--band" id="parts">
+  <hr class="divider divider--band" data-divider="band" data-span="full" id="parts">
   <h2>The parts</h2>
 
   <h3>Buttons — rank is carried by shape</h3>
@@ -564,7 +673,7 @@
     is deciding rather than recognising, and this is the row order a travel index
     has needed all along. The live site does the opposite.
   </p>
-  <div class="grid2" data-span="wide">
+  <div class="cards" data-span="wide">
     <article class="card" data-place-card>
       <figure class="photo photo--card"><div class="photo__box"></div></figure>
       <p class="card__kind" data-card-row="kind">Synagogue in Mattancherry</p>
@@ -600,7 +709,7 @@
     page and on the itinerary and nowhere else, because a told place has nothing to
     pin and a hundred and ninety of our pages are told places.
   </p>
-  <div class="bar" data-action-bar="venue" data-span="wide">
+  <div class="bar" data-action-bar="venue" data-span="full">
     <!-- ⚠️ "Closes at", not "Shuts at" — MY EXTENSION of the owner's 10 Aug ruling,
          flagged rather than assumed. He ruled on the state word ("Closed" not
          "Shut") for fact strings. The verb form is the same legibility argument,
@@ -611,7 +720,7 @@
     <a class="btn btn--primary" href="#parts" data-button="primary">Check today's times</a>
   </div>
 
-  <hr class="divider divider--band">
+  <hr class="divider divider--band" data-divider="band" data-span="full">
   <h2>One decision, and it is yours</h2>
   <p>
     Adopting one family for everything retires DM&nbsp;Serif&nbsp;Display, the serif
